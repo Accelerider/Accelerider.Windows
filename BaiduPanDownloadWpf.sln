@@ -1,0 +1,76 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaiduPanDownloadWpf", "BaiduPanDownloadWpf\BaiduPanDownloadWpf.csproj", "{B59E69EA-879E-424B-9422-5539563BCBB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaiduPanDownloadWpf.Infrastructure", "BaiduPanDownloadWpf.Infrastructure\BaiduPanDownloadWpf.Infrastructure.csproj", "{E66FD2A2-7398-471C-8B9F-62B4DD0A55FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaiduPanDownloadWpf.Core", "BaiduPanDownloadWpf.Core\BaiduPanDownloadWpf.Core.csproj", "{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{807026F9-E75B-47D6-98B4-DA2DAA0945D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B59E69EA-879E-424B-9422-5539563BCBB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B59E69EA-879E-424B-9422-5539563BCBB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B59E69EA-879E-424B-9422-5539563BCBB1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B59E69EA-879E-424B-9422-5539563BCBB1}.Debug|x86.Build.0 = Debug|Any CPU
+		{B59E69EA-879E-424B-9422-5539563BCBB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B59E69EA-879E-424B-9422-5539563BCBB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B59E69EA-879E-424B-9422-5539563BCBB1}.Release|x86.ActiveCfg = Release|Any CPU
+		{B59E69EA-879E-424B-9422-5539563BCBB1}.Release|x86.Build.0 = Release|Any CPU
+		{E66FD2A2-7398-471C-8B9F-62B4DD0A55FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E66FD2A2-7398-471C-8B9F-62B4DD0A55FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E66FD2A2-7398-471C-8B9F-62B4DD0A55FB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E66FD2A2-7398-471C-8B9F-62B4DD0A55FB}.Debug|x86.Build.0 = Debug|Any CPU
+		{E66FD2A2-7398-471C-8B9F-62B4DD0A55FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E66FD2A2-7398-471C-8B9F-62B4DD0A55FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E66FD2A2-7398-471C-8B9F-62B4DD0A55FB}.Release|x86.ActiveCfg = Release|Any CPU
+		{E66FD2A2-7398-471C-8B9F-62B4DD0A55FB}.Release|x86.Build.0 = Release|Any CPU
+		{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}.Debug|x86.Build.0 = Debug|Any CPU
+		{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}.Release|x86.ActiveCfg = Release|Any CPU
+		{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}.Release|x86.Build.0 = Release|Any CPU
+		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Debug|x86.Build.0 = Debug|Any CPU
+		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Release|x86.ActiveCfg = Release|Any CPU
+		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://dingpingzhang.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = BaiduPanDownloadWpf\\BaiduPanDownloadWpf.csproj
+		SccProjectName1 = BaiduPanDownloadWpf
+		SccLocalPath1 = BaiduPanDownloadWpf
+		SccProjectUniqueName2 = BaiduPanDownloadWpf.Infrastructure\\BaiduPanDownloadWpf.Infrastructure.csproj
+		SccProjectName2 = BaiduPanDownloadWpf.Infrastructure
+		SccLocalPath2 = BaiduPanDownloadWpf.Infrastructure
+		SccProjectUniqueName3 = BaiduPanDownloadWpf.Core\\BaiduPanDownloadWpf.Core.csproj
+		SccProjectName3 = BaiduPanDownloadWpf.Core
+		SccLocalPath3 = BaiduPanDownloadWpf.Core
+		SccProjectUniqueName4 = Test\\Test.csproj
+		SccProjectName4 = Test
+		SccLocalPath4 = Test
+	EndGlobalSection
+EndGlobal

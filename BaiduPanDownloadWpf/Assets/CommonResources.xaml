@@ -1,0 +1,166 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:converters="clr-namespace:BaiduPanDownloadWpf.Converters">
+
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <converters:LongToDataSizeConverter x:Key="LongToDataSizeConverter"/>
+
+    <Style x:Key="SelectedBackgroundStyle" TargetType="ListBoxItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="0.13" Color="{StaticResource AccentColor}"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsSelected" Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="0.06" Color="{StaticResource AccentColor}"/>
+                    </Setter.Value>
+                </Setter>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="FileImageSelectorStyle" TargetType="Image">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding FileType}" Value="ApkType">
+                <Setter Property="Source" Value="Images/FileTypes/ApkType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="DocType">
+                <Setter Property="Source" Value="Images/FileTypes/DocType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="ExeType">
+                <Setter Property="Source" Value="Images/FileTypes/ExeType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="FolderType">
+                <Setter Property="Source" Value="Images/FileTypes/FolderType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="ImgType">
+                <Setter Property="Source" Value="Images/FileTypes/ImgType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="MixFileType">
+                <Setter Property="Source" Value="Images/FileTypes/MixFileType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="MusicType">
+                <Setter Property="Source" Value="Images/FileTypes/MusicType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="OtherType">
+                <Setter Property="Source" Value="Images/FileTypes/OtherType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="PdfType">
+                <Setter Property="Source" Value="Images/FileTypes/PdfType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="PptType">
+                <Setter Property="Source" Value="Images/FileTypes/PptType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="RarType">
+                <Setter Property="Source" Value="Images/FileTypes/RarType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="TorrentType">
+                <Setter Property="Source" Value="Images/FileTypes/TorrentType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="TxtType">
+                <Setter Property="Source" Value="Images/FileTypes/TxtType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="VideoType">
+                <Setter Property="Source" Value="Images/FileTypes/VideoType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding FileType}" Value="XlsType">
+                <Setter Property="Source" Value="Images/FileTypes/XlsType.png"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Opacity="0.6" Color="White"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="0.6" Color="White"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush" Value="Gray"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource AccentColor}"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="0.1" Color="Gray"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Opacity="0.6" Color="White"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="0.6" Color="White" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush" Value="Gray"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="PasswordBox" BasedOn="{StaticResource {x:Type PasswordBox}}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Opacity="0.6" Color="White"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Opacity="0.6" Color="White" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush" Value="Gray"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type mui:ModernButton}" BasedOn="{StaticResource {x:Type mui:ModernButton}}">
+        <Setter Property="EllipseDiameter" Value="26"/>
+        <Setter Property="EllipseStrokeThickness" Value="0.8"/>
+    </Style>
+</ResourceDictionary>

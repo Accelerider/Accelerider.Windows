@@ -1,0 +1,46 @@
+﻿using System.Diagnostics;
+using System.IO;
+using BaiduPanDownloadWpf.Commands;
+using BaiduPanDownloadWpf.Infrastructure;
+using BaiduPanDownloadWpf.Infrastructure.Interfaces;
+using Microsoft.Practices.Unity;
+using System.Threading.Tasks;
+
+namespace BaiduPanDownloadWpf.ViewModels.Items
+{
+    internal abstract class DownloadTaskItemViewModel : ViewModelBase
+    {
+        private readonly IDiskFile _diskFile;
+        private Command _openFolderCommand;
+
+        protected DownloadTaskItemViewModel(IUnityContainer container, IDiskFile diskFile)
+            : base(container)
+        {
+            _diskFile = diskFile;
+            OpenFolderCommand = new Command(OpenFolderCommandExecuteAsync, () => File.Exists(FilePath.FolderPath));
+        }
+
+        public long FileId => _diskFile.FileId;
+        public FileTypeEnum FileType => _diskFile.FileType;
+        public FileLocation FilePath => _diskFile.FilePath;
+        public DataSize? FileSize => new DataSize(_diskFile.FileSize);
+
+        public Command OpenFolderCommand
+        {
+            get { return _openFolderCommand; }
+            set { SetProperty(ref _openFolderCommand, value); }
+        }
+        private async void OpenFolderCommandExecuteAsync()
+        {
+            if (FileType != FileTypeEnum.FolderType) return;
+            await Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("exeplorer.exe", FilePath.FolderPath);
+                }
+                catch { }
+            });
+        }
+    }
+}

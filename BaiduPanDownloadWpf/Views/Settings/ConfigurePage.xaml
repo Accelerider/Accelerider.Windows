@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="BaiduPanDownloadWpf.Views.Settings.ConfigurePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../../Assets/CommonResources.xaml"/>
+    </UserControl.Resources>
+    <Grid Style="{StaticResource ContentRoot}">
+        <ScrollViewer>
+            <Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"
+                               Text="Download path: "/>
+                    <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding DownloadPath}"/>
+                    <Button Grid.Column="4" Grid.Row="0" Content="Browse" Command="{Binding OpenFolderBrowserCommand}"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"
+                               Text="Speed limit: "/>
+                    <Slider Name="SliderSpeedLimit" Grid.Column="2" Grid.Row="2" 
+                            IsSnapToTickEnabled="True" TickPlacement="Both" 
+                            IsSelectionRangeEnabled="True" SelectionStart="30" SelectionEnd="100" 
+                            Minimum="5" Maximum="120" Value="{Binding DownloadSpeedLimit}" TickFrequency="5"/>
+                    <TextBlock Grid.Column="4" Grid.Row="2" VerticalAlignment="Center"
+                               Text="{Binding Path=Value, ElementName=SliderSpeedLimit, StringFormat='{}{0} Mbps'}"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"
+                               Text="Number of parallel tasks: "/>
+                    <Slider Name="SliderParallelTask" Grid.Column="2" Grid.Row="4" 
+                            IsSnapToTickEnabled="True" TickPlacement="Both" 
+                            Minimum="1" Maximum="5" Value="{Binding ParallelTaskNumber}"/>
+                    <TextBlock Grid.Column="4" Grid.Row="4" VerticalAlignment="Center"
+                               Text="{Binding Path=Value, ElementName=SliderParallelTask, StringFormat='{}{0:###} Tasks'}"/>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

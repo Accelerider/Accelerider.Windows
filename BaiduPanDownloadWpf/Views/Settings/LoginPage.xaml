@@ -1,0 +1,220 @@
+﻿<UserControl x:Class="BaiduPanDownloadWpf.Views.Settings.LoginPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:res="clr-namespace:BaiduPanDownloadWpf.Assets"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="700">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../../Assets/CommonResources.xaml" />
+    </UserControl.Resources>
+    <ScrollViewer>
+        <Grid x:Name="grid" Style="{StaticResource ContentRoot}" IsSharedSizeScope="True" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="64"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="368"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"
+                           Visibility="{Binding IsLoginServiceAccount, Converter={StaticResource BooleanToVisibilityConverter}}"
+                           Text="{Binding NetDiskUsers[0].UserName, StringFormat='Welcome! {0}'}"/>
+                <mui:ModernButton Grid.Row="0" Grid.Column="2" IconWidth="14" IconHeight="14" IconData="F1 M 19.0002,34L 19.0002,42L 43.7502,42L 33.7502,52L 44.2502,52L 58.2502,38L 44.2502,24L 33.7502,24L 43.7502,34L 19.0002,34 Z "
+                                  Visibility="{Binding IsLoginServiceAccount, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                  Command="{Binding SignOutServiceAccountCommand}"
+                                  ToolTip="Sign out"/>
+                <Grid Grid.Row="0" >
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoginServiceAccount}" Value="False">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.RowDefinitions>
+                        <RowDefinition SharedSizeGroup="RowHeight"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition SharedSizeGroup="RowHeight"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="4"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition SharedSizeGroup="RowHeight"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="250" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.LoginPage_User_Name_}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.LoginPage_Password_}"/>
+
+                    <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding LocalDiskUserName}"/>
+                    <PasswordBox Name="PasswordBoxLocalDiskUser" Grid.Row="2" Grid.Column="2" />
+                    <CheckBox Grid.Row="4" Grid.Column="2" Content="Remember the password" IsChecked="{Binding IsRememberPassword}"/>
+                    <CheckBox Grid.Row="6" Grid.Column="2" Content="Automatic login" IsChecked="{Binding IsAutoSignIn}"/>
+                    <Button Grid.Row="8" Grid.Column="2" Command="{Binding LoginServiceAccountCommand}" CommandParameter="{Binding ElementName=PasswordBoxLocalDiskUser}">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                <Setter Property="Content" Value="{x:Static res:UiStringResources.LoginPage_Login}"/>
+                                <Setter Property="Command" Value="{Binding LoginCommand}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSigningIn}" Value="True">
+                                        <Setter Property="Content" Value="{x:Static res:UiStringResources.LoginPage_Cancel}"/>
+                                        <Setter Property="Command" Value="{Binding CancelCommand}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+
+
+                <ComboBox Grid.Row="2" Grid.Column="0" ItemsSource="{Binding NetDiskUsers}" SelectedItem="{Binding NetDiskUsers[0]}"
+                          HorizontalContentAlignment="Stretch" Visibility="{Binding IsLoginServiceAccount, Converter={StaticResource BooleanToVisibilityConverter}}"
+                          ItemContainerStyle="{StaticResource SelectedBackgroundStyle}"
+                          Background="Transparent">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="6">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Grid.RowSpan="3" Width="50" Height="50" Source="../../Assets/Images/DefaultUserHead.jpg"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" FontWeight="Bold">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="User: {0} Nick: {1}">
+                                                <Binding Path="UserName"/>
+                                                <Binding Path="NickName"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <ProgressBar Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Height="12"
+                                                 Value="{Binding UsedSpace, Mode=OneWay}"
+                                                 Maximum="{Binding TotalSpace, Mode=OneWay}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="2" Foreground="#FF333333" FontSize="10"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} / {1}">
+                                                <Binding Path="UsedSpace" Converter="{StaticResource LongToDataSizeConverter}"/>
+                                                <Binding Path="TotalSpace" Converter="{StaticResource LongToDataSizeConverter}"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <!--<mui:ModernToggleButton Grid.Row="2" Grid.Column="4" EllipseDiameter="26" IsChecked="{Binding IsAddingBaiduAccount}" Visibility="{Binding IsLoginServiceAccount, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <mui:ModernToggleButton.Style>
+                        <Style TargetType="{x:Type mui:ModernToggleButton}">
+                            <Setter Property="IconData" Value="F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z "/>
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="IconData" Value="F1 M 26.9166,22.1667L 37.9999,33.25L 49.0832,22.1668L 53.8332,26.9168L 42.7499,38L 53.8332,49.0834L 49.0833,53.8334L 37.9999,42.75L 26.9166,53.8334L 22.1666,49.0833L 33.25,38L 22.1667,26.9167L 26.9166,22.1667 Z "/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </mui:ModernToggleButton.Style>
+                </mui:ModernToggleButton>-->
+
+                <Grid Grid.Row="4">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsAddingBaiduAccount}" Value="True"/>
+                                        <Condition Binding="{Binding IsLoginServiceAccount}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.RowDefinitions>
+                        <RowDefinition SharedSizeGroup="RowHeight"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition SharedSizeGroup="RowHeight"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition SharedSizeGroup="RowHeight"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition SharedSizeGroup="RowHeight"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="250" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.LoginPage_User_Name_}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.LoginPage_Password_}"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.LoginPage_Vweification_code_}"/>
+
+                    <TextBox Grid.Row="0" Grid.Column="2" />
+                    <TextBox Grid.Row="2" Grid.Column="2" />
+                    <Grid Grid.Row="4" Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition SharedSizeGroup="RowHeight"/>
+                        </Grid.RowDefinitions>
+                        <TextBox Grid.Column="0" />
+                        <Image Grid.Column="2" />
+                        <mui:ModernButton Grid.Column="4" IconWidth="16" IconHeight="16" 
+                                          IconData="F1 M 38,20.5833C 42.9908,20.5833 47.4912,22.6825 50.6667,26.046L 50.6667,17.4167L 55.4166,22.1667L 55.4167,34.8333L 42.75,34.8333L 38,30.0833L 46.8512,30.0833C 44.6768,27.6539 41.517,26.125 38,26.125C 31.9785,26.125 27.0037,30.6068 26.2296,36.4167L 20.6543,36.4167C 21.4543,27.5397 28.9148,20.5833 38,20.5833 Z M 38,49.875C 44.0215,49.875 48.9963,45.3932 49.7703,39.5833L 55.3457,39.5833C 54.5457,48.4603 47.0852,55.4167 38,55.4167C 33.0092,55.4167 28.5088,53.3175 25.3333,49.954L 25.3333,58.5833L 20.5833,53.8333L 20.5833,41.1667L 33.25,41.1667L 38,45.9167L 29.1487,45.9167C 31.3231,48.3461 34.483,49.875 38,49.875 Z "/>
+                    </Grid>
+                    <Button Grid.Row="6" Grid.Column="2">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                <Setter Property="Content" Value="{x:Static res:UiStringResources.LoginPage_Login}"/>
+                                <Setter Property="Command" Value="{Binding LoginCommand}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSigningIn}" Value="True">
+                                        <Setter Property="Content" Value="{x:Static res:UiStringResources.LoginPage_Cancel}"/>
+                                        <Setter Property="Command" Value="{Binding CancelCommand}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
