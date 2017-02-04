@@ -7,7 +7,7 @@ using Microsoft.Practices.Unity;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using BaiduPanDownloadWpf.Infrastructure.Events;
 using BaiduPanDownloadWpf.Infrastructure;
-using System;
+using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 
 namespace BaiduPanDownloadWpf.ViewModels
 {
@@ -30,7 +30,6 @@ namespace BaiduPanDownloadWpf.ViewModels
             RefreshFileListCommand = new Command(RefreshFileListCommandExecuteAsync);
             BatchDownloadFileCommand = new Command<IList>(BatchDownloadFileCommandExecute, param => GetSeletedItems(param).Any());
             BatchDeleteFileCommand = new Command<IList>(BatchDeleteFileCommandExecute, param => GetSeletedItems(param).Any());
-            LoadedCommand = new Command(LoadedCommandExecute);
 
             EventAggregator.GetEvent<NetDiskUserSwitchedEvent>().Subscribe(OnNetDiskUserSwitched, Prism.Events.ThreadOption.UIThread);
         }
@@ -52,7 +51,6 @@ namespace BaiduPanDownloadWpf.ViewModels
         private Command _refreshFileListCommand;
         private Command<IList> _batchDownloadFileCommand;
         private Command<IList> _batchDeleteFileCommand;
-        private Command _loadedCommand;
 
         public Command ReturnFolderCommand
         {
@@ -78,11 +76,6 @@ namespace BaiduPanDownloadWpf.ViewModels
         {
             get { return _batchDeleteFileCommand; }
             set { SetProperty(ref _batchDeleteFileCommand, value); }
-        }
-        public Command LoadedCommand
-        {
-            get { return _loadedCommand; }
-            set { SetProperty(ref _loadedCommand, value); }
         }
 
         private async void RefreshFileListCommandExecuteAsync()
@@ -111,17 +104,6 @@ namespace BaiduPanDownloadWpf.ViewModels
             // TODO: Invokes function from model.
 
         }
-        private void LoadedCommandExecute()
-        {
-            if (_localDiskUser != null) return;
-
-            _localDiskUser = _localDiskUserRepository.FirstOrDefault();
-            if (_localDiskUser?.CurrentNetDiskUser != null)
-            {
-                CurrentFile = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<INetDiskFile>(_localDiskUser.CurrentNetDiskUser.RootFile));
-                CurrentFile?.RefreshChildren();
-            }
-        }
 
         private IEnumerable<NetDiskFileNodeViewModel> GetSeletedItems(IList parameter)
         {
@@ -135,6 +117,18 @@ namespace BaiduPanDownloadWpf.ViewModels
             return tempArray;
         }
         #endregion
+
+        protected override void OnLoaded()
+        {
+            if (_localDiskUser != null) return;
+
+            _localDiskUser = _localDiskUserRepository.FirstOrDefault();
+            if (_localDiskUser?.CurrentNetDiskUser != null)
+            {
+                CurrentFile = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<INetDiskFile>(_localDiskUser.CurrentNetDiskUser.RootFile));
+                CurrentFile?.RefreshChildren();
+            }
+        }
 
         public void OnNetDiskUserSwitched(NetDiskUserSwitchedEventArgs e)
         {

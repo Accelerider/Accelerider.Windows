@@ -91,10 +91,18 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Converters\LongToDataSizeConverter.cs" />
+    <Compile Include="ViewModels\Dialogs\ShareFileDialog.vm.cs" />
+    <Compile Include="ViewModels\RecycleBinPage.vm.cs" />
     <Compile Include="ViewModels\Settings\ConfigurePage.vm.cs" />
     <Compile Include="ViewModels\Settings\LoginPage.vm.cs" />
     <Compile Include="ViewModels\SharedPage.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\Dialogs\ShareFileDialog.xaml.cs">
+      <DependentUpon>ShareFileDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecycleBinPage.xaml.cs">
+      <DependentUpon>RecycleBinPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SharedPage.xaml.cs">
       <DependentUpon>SharedPage.xaml</DependentUpon>
     </Compile>
@@ -111,11 +119,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Dialogs\ShareFileDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DownloadedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DownloadingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecycleBinPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -218,6 +234,7 @@
   <ItemGroup>
     <Resource Include="Assets\Images\NewYear.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

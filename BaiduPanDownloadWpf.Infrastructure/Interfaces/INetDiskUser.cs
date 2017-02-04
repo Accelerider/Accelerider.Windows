@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 
 namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
 {
@@ -9,9 +10,9 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
     public interface INetDiskUser
     {
         /// <summary>
-        /// Gets the url of the user's head image.
+        /// Gets the local path of the user's head image file.
         /// </summary>
-        string HeadImageUrl { get; }
+        string HeadImagePath { get; }
 
         /// <summary>
         /// Gets the name of the user.
@@ -48,12 +49,24 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
         /// Gets the uncompleted download tasks.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<IDiskFile> GetUncompletedFiles();
+        IEnumerable<ILocalDiskFile> GetUncompletedFiles();
+
+        /// <summary>
+        /// Gets the completed download tasks.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<ILocalDiskFile> GetCompletedFiles();
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        Task<IList<ISharedFile>> GetSharedFileListAsync();
+        Task<IList<ISharedFile>> GetSharedFilesAsync();
+
+        /// <summary>
+        /// Gets the list of the deleted files.
+        /// </summary>
+        /// <returns></returns>
+        Task<IList<IDeletedFile>> GetDeletedFilesAsync();
     }
 }

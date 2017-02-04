@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
+namespace BaiduPanDownloadWpf.Infrastructure.Interfaces.Files
 {
     /// <summary>
     /// A entity represents net-disk file.
@@ -12,12 +12,12 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
         /// <summary>
         /// Gets the time at which the file was created.
         /// </summary>
-        DateTime CreateTime { get; }
+        DateTime CreatedTime { get; }
 
         /// <summary>
         /// Gets the time at which the file was motified.
         /// </summary>
-        DateTime MotifyTime { get; }
+        DateTime MotifiedTime { get; }
 
         /// <summary>
         /// Gets childern file of current flie by asynchronous.
@@ -25,11 +25,9 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
         /// otherwise, return null. 
         /// </summary>
         /// <returns>The children file of current file. </returns>
-        Task<IEnumerable<INetDiskFile>> GetChildrenFileAsync();
+        Task<IEnumerable<INetDiskFile>> GetChildrenAsync();
 
         Task DownloadAsync();
-
-        Task<bool> ShareAsync(string password = null);
 
         Task<bool> DeleteAsync();
 

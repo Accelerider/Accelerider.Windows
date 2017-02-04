@@ -4,6 +4,7 @@ using BaiduPanDownloadWpf.Infrastructure;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
+using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 
 namespace BaiduPanDownloadWpf.ViewModels.Items
 {
@@ -46,7 +47,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
         public FileTypeEnum FileType => _netDiskFile.FileType;
         public DataSize? FileSize => _netDiskFile == null ? default(DataSize) : new DataSize(_netDiskFile.FileSize);
         public FileLocation FilePath => _netDiskFile.FilePath;
-        public string MotifyTime => _netDiskFile?.MotifyTime.ToString("yyyy-MM-dd HH:mm");
+        public string MotifyTime => _netDiskFile?.MotifiedTime.ToString("yyyy-MM-dd HH:mm");
 
         #region Commands and their logic
         private Command _deleteFileCommand;
@@ -81,7 +82,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
             {
                 //if (!IsDataObsolete) return;
                 var children = new ObservableCollection<NetDiskFileNodeViewModel>();
-                foreach (var item in await _netDiskFile.GetChildrenFileAsync())
+                foreach (var item in await _netDiskFile.GetChildrenAsync())
                 {
                     var child = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<INetDiskFile>(item));
                     //child.IsDataObsolete = true; // Because current node has been refreshed, its children data are obsolete.

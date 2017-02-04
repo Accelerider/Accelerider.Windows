@@ -9,6 +9,7 @@ using BaiduPanDownloadWpf.ViewModels.Items;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
+using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 
 namespace BaiduPanDownloadWpf.ViewModels
 {

@@ -31,37 +31,19 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
         int DownloadThreadNumber { get; set; }
 
         /// <summary>
-        /// An asynchronous method is used for login operations.
+        /// Gets a boolean value to indicate whether the password is remembered.
         /// </summary>
-        /// <param name="signInInfo">The required information by sign in.</param>
-        /// <param name="token">A instance of <see cref="CancellationToken"/>, which is used to cancel the login.</param>
-        /// <returns>A instance of <see cref="INetDiskUser"/>, will return null if login failed</returns>
-        //Task<INetDiskUser> SignInAsync(SignInInfo signInInfo, CancellationToken token);
+        bool IsRememberPassword { get; set; }
+
+        /// <summary>
+        /// Gets a boolean value to indicate whether sign in account automatically.
+        /// </summary>
+        bool IsAutoSignIn { get; set; }
 
         /// <summary>
         /// Gets all net-disk user instances.
         /// </summary>
         /// <returns>A IEnumerable of <see cref="INetDiskUser"/> contains all net-disk user instances.</returns>
         Task<IEnumerable<INetDiskUser>> GetAllNetDiskUsers();
-
-        /// <summary>
-        /// Gets a net-disk user instance by id.
-        /// </summary>
-        /// <param name="userId">The id of user.</param>
-        /// <returns>A instance of <see cref="INetDiskUser"/></returns>
-        //Task<INetDiskUser> GetNetDiskUserById(Guid userId);
-
-        /// <summary>
-        /// Gets all local disk files. (Downloaded records)
-        /// </summary>
-        /// <returns>A IEnumerable of <see cref="IDiskFile"/> contains all local disk files.</returns>
-        IEnumerable<IDiskFile> GetAllLocalDiskFilesAsync();
-
-        /// <summary>
-        /// Gets a local disk file by id.
-        /// </summary>
-        /// <param name="fileId">THe id of file.</param>
-        /// <returns>A instance of <see cref="IDiskFile"/></returns>
-        //IDiskFile GetLocalDiskFileById(long fileId);
     }
 }

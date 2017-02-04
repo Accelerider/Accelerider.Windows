@@ -13,6 +13,7 @@
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="{x:Static res:UiStringResources.MW_home}" Source="/Views/Home.xaml" />
                 <mui:Link DisplayName="{x:Static res:UiStringResources.MW_shared}" Source="/Views/SharedPage.xaml" />
+                <mui:Link DisplayName="{x:Static res:UiStringResources.MW_recycle_bin}" Source="/Views/RecycleBinPage.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         <mui:LinkGroup DisplayName="{x:Static res:UiStringResources.MW_download_list}">

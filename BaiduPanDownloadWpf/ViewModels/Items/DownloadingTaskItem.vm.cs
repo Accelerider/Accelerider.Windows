@@ -6,6 +6,7 @@ using BaiduPanDownloadWpf.Commands;
 using BaiduPanDownloadWpf.Infrastructure;
 using BaiduPanDownloadWpf.Infrastructure.Events;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
+using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 

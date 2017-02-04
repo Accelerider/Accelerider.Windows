@@ -207,4 +207,7 @@
   <data name="MW_shared" xml:space="preserve">
     <value>shared</value>
   </data>
+  <data name="MW_recycle_bin" xml:space="preserve">
+    <value>recycle bin</value>
+  </data>
 </root>

@@ -259,6 +259,15 @@ namespace BaiduPanDownloadWpf.Assets {
         }
         
         /// <summary>
+        ///   查找类似 recycle bin 的本地化字符串。
+        /// </summary>
+        public static string MW_recycle_bin {
+            get {
+                return ResourceManager.GetString("MW_recycle_bin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 settings 的本地化字符串。
         /// </summary>
         public static string MW_settings {

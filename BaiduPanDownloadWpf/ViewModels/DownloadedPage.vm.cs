@@ -20,17 +20,10 @@ namespace BaiduPanDownloadWpf.ViewModels
             : base(container)
         {
             _localDiskUser = localDiskUserRepository.FirstOrDefault();
-            //var temp = _localDiskUser?.GetAllLocalDiskFiles();
-            //if (temp != null)
-            //{
-            //    foreach (var file in temp)
-            //    {
-            //        DownloadTaskList.Add(Container.Resolve<DownloadedTaskItemViewModel>(new DependencyOverride<IDiskFile>(file)));
-            //    }
-            //}
 
             ClearAllRecordCommand = new Command(ClearAllRecordCommandExecute, () => DownloadTaskList?.Any() ?? false);
-            EventAggregator.GetEvent<DownloadStateChangedEvent>().Subscribe(OnDownloadCompleted,
+            EventAggregator.GetEvent<DownloadStateChangedEvent>().Subscribe(
+                OnDownloadCompleted,
                 Prism.Events.ThreadOption.UIThread,
                 keepSubscriberReferenceAlive: false,
                 filter: e => e.NewState == DownloadStateEnum.Completed);
