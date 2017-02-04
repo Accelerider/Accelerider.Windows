@@ -120,7 +120,7 @@ namespace BaiduPanDownloadWpf.ViewModels
 
         protected override void OnLoaded()
         {
-            if (_localDiskUser != null) return;
+            if (_localDiskUser?.CurrentNetDiskUser != null) return;
 
             _localDiskUser = _localDiskUserRepository.FirstOrDefault();
             if (_localDiskUser?.CurrentNetDiskUser != null)

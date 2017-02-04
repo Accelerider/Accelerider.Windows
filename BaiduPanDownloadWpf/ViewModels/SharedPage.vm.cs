@@ -12,5 +12,7 @@ namespace BaiduPanDownloadWpf.ViewModels
         public SharedPageViewModel(IUnityContainer container) : base(container)
         {
         }
+
+        
     }
 }

@@ -19,6 +19,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
         private string _localDiskUserName;
         private bool _isRememberPassword;
         private bool _isAutoSignIn;
+        private bool _isSigningIn;
 
         private Command<PasswordBox> _loginServiceAccountCommand;
         private Command _signOutServiceAccountCommand;
@@ -41,7 +42,11 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
             get { return _isAddingBaiduAccount; }
             set { SetProperty(ref _isAddingBaiduAccount, value); }
         }
-        public bool IsSigningIn { get; set; }
+        public bool IsSigningIn
+        {
+            get { return _isSigningIn; }
+            set { SetProperty(ref _isSigningIn, value); }
+        }
         public string LocalDiskUserName
         {
             get { return _localDiskUserName; }
@@ -60,8 +65,6 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
             get { return _isAutoSignIn; }
             set { if (SetProperty(ref _isAutoSignIn, value) && value) IsRememberPassword = true; }
         }
-
-
         public ObservableCollection<INetDiskUser> NetDiskUsers
         {
             get { return _netDiskUsers; }
@@ -86,10 +89,13 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
 
         private async void LoginServiceAccountCommandExecute(PasswordBox password)
         {
+            IsSigningIn = true;
             var localDiskUserRepository = Container.Resolve<ILocalDiskUserRepository>();
             try
             {
                 var localDiskUser = await localDiskUserRepository.SignInAsync(LocalDiskUserName, password.Password);
+                localDiskUser.IsRememberPassword = IsRememberPassword;
+                localDiskUser.IsAutoSignIn = IsAutoSignIn;
                 var netDiskUsers = await localDiskUser.GetAllNetDiskUsers();
                 NetDiskUsers = new ObservableCollection<INetDiskUser>();
                 foreach (var item in netDiskUsers)
@@ -101,8 +107,8 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
             catch (Exception)
             {
 
-                throw;
             }
+            IsSigningIn = false;
         }
         private void SignOutServiceAccountCommandExecute()
         {

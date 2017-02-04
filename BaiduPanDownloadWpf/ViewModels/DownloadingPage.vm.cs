@@ -15,23 +15,18 @@ namespace BaiduPanDownloadWpf.ViewModels
 {
     internal class DownloadingPageViewModel : ViewModelBase
     {
+        private readonly ILocalDiskUserRepository _localDiskUserRepository;
         private ObservableCollection<DownloadingTaskItemViewModel> _downloadTaskList = new ObservableCollection<DownloadingTaskItemViewModel>();
 
 
         public DownloadingPageViewModel(IUnityContainer container, ILocalDiskUserRepository localDiskUserRepository)
             : base(container)
         {
-            var localDiskUser = localDiskUserRepository.FirstOrDefault();
-            if (localDiskUser?.CurrentNetDiskUser != null)
-            {
-                foreach (var item in localDiskUser.CurrentNetDiskUser.GetUncompletedFiles())
-                {
-                    DownloadTaskList.Add(Container.Resolve<DownloadingTaskItemViewModel>(new DependencyOverride<IDiskFile>(item)));
-                }
-            }
-            PauseAllCommand = new Command(PauseAllCommandExecute, () => (bool) DownloadTaskList?.Any());
-            StartAllCommand = new Command(StartAllCommandExecute, () => DownloadTaskList.Any());
-            CancelAllCommand = new Command(CancelAllCommandExecute, () => (bool) DownloadTaskList?.Any());
+            _localDiskUserRepository = localDiskUserRepository;
+            Func<bool> isAnyElementInDownloadTaskList = () => DownloadTaskList?.Any() ?? false;
+            PauseAllCommand = new Command(PauseAllCommandExecute, isAnyElementInDownloadTaskList);
+            StartAllCommand = new Command(StartAllCommandExecute, isAnyElementInDownloadTaskList);
+            CancelAllCommand = new Command(CancelAllCommandExecute, isAnyElementInDownloadTaskList);
 
             EventAggregator.GetEvent<DownloadProgressChangedEvent>().Subscribe(OnDownloadPregressChanged, ThreadOption.UIThread);
             EventAggregator.GetEvent<DownloadStateChangedEvent>().Subscribe(OnDownloadStateChanged, ThreadOption.UIThread);
@@ -105,6 +100,16 @@ namespace BaiduPanDownloadWpf.ViewModels
             OnPropertyChanged(nameof(IsStartAll));
         }
         #endregion
+
+        protected override void OnLoaded()
+        {
+            var netDiskUser = _localDiskUserRepository?.FirstOrDefault()?.CurrentNetDiskUser;
+            if (netDiskUser == null) return;
+            foreach (var item in netDiskUser.GetUncompletedFiles())
+            {
+                DownloadTaskList.Add(Container.Resolve<DownloadingTaskItemViewModel>(new DependencyOverride<IDiskFile>(item)));
+            }
+        }
 
         private void OnDownloadPregressChanged(DownloadProgressChangedEventArgs e)
         {

@@ -54,5 +54,10 @@ namespace BaiduPanDownloadWpf.Infrastructure
             FileName = matchResult.Groups[2].Value;
             FileExtension = matchResult.Groups[3].Value.ToLower();
         }
+
+        public override string ToString()
+        {
+            return FullPath;
+        }
     }
 }

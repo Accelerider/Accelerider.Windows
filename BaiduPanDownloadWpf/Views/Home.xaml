@@ -57,7 +57,7 @@
                 </mui:ModernButton>
             </Grid>
 
-            <TextBox Grid.Column="2" IsReadOnly="True" Text="{Binding FilePath.FullPath}"/>
+            <TextBox Grid.Column="2" IsReadOnly="True" Text="{Binding CurrentFile.FilePath, Mode=OneWay}" Foreground="Gray"/>
             <Button Grid.Column="4" Content="Download"
                     Command="{Binding BatchDownloadFileCommand}" CommandParameter="{Binding Path=SelectedItems, ElementName=ListboxFileList}"/>
             <Button Grid.Column="6" Content="Delete"

@@ -48,6 +48,9 @@
                                 <DataTrigger Binding="{Binding IsLoginServiceAccount}" Value="False">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding IsSigningIn}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Grid.Style>
@@ -71,23 +74,22 @@
                     <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.LoginPage_Password_}"/>
 
                     <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding LocalDiskUserName}"/>
-                    <PasswordBox Name="PasswordBoxLocalDiskUser" Grid.Row="2" Grid.Column="2" />
+                    <PasswordBox Name="PasswordBoxLocalDiskUser" Grid.Row="2" Grid.Column="2"/>
                     <CheckBox Grid.Row="4" Grid.Column="2" Content="Remember the password" IsChecked="{Binding IsRememberPassword}"/>
                     <CheckBox Grid.Row="6" Grid.Column="2" Content="Automatic login" IsChecked="{Binding IsAutoSignIn}"/>
-                    <Button Grid.Row="8" Grid.Column="2" Command="{Binding LoginServiceAccountCommand}" CommandParameter="{Binding ElementName=PasswordBoxLocalDiskUser}">
+                    <Button Grid.Row="8" Grid.Column="2" Content="{x:Static res:UiStringResources.LoginPage_Login}"
+                            Command="{Binding LoginServiceAccountCommand}" CommandParameter="{Binding ElementName=PasswordBoxLocalDiskUser}">
                         <Button.Style>
                             <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-                                <Setter Property="Content" Value="{x:Static res:UiStringResources.LoginPage_Login}"/>
-                                <Setter Property="Command" Value="{Binding LoginCommand}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsSigningIn}" Value="True">
-                                        <Setter Property="Content" Value="{x:Static res:UiStringResources.LoginPage_Cancel}"/>
-                                        <Setter Property="Command" Value="{Binding CancelCommand}"/>
+                                        <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
                     </Button>
+                    <mui:ModernProgressRing Grid.Row="8" Grid.Column="2" MinHeight="0" Height="25" IsActive="{Binding IsSigningIn}" Style="{StaticResource WaveProgressRingStyle}"/>
                 </Grid>
 
 
@@ -112,9 +114,9 @@
                                     <Image Grid.Column="0" Grid.RowSpan="3" Width="50" Height="50" Source="../../Assets/Images/DefaultUserHead.jpg"/>
                                     <TextBlock Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" FontWeight="Bold">
                                         <TextBlock.Text>
-                                            <MultiBinding StringFormat="User: {0} Nick: {1}">
+                                            <MultiBinding StringFormat="User: {0} ({1})">
                                                 <Binding Path="UserName"/>
-                                                <Binding Path="NickName"/>
+                                                <Binding Path="NickName" TargetNullValue="No nick"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>

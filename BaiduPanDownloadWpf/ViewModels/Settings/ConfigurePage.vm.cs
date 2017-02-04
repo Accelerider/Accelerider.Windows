@@ -8,15 +8,21 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
 {
     internal class ConfigurePageViewModel : ViewModelBase
     {
-        private readonly ILocalDiskUser _localDiskUser;
+        private readonly ILocalDiskUserRepository _localDiskUserRepository;
+        private ILocalDiskUser _localDiskUser;
         private Command _openFolderBrowserCommand;
 
 
         public ConfigurePageViewModel(IUnityContainer container, ILocalDiskUserRepository localDiskUserRepository)
             : base(container)
         {
-            _localDiskUser = localDiskUserRepository.FirstOrDefault();
+            _localDiskUserRepository = localDiskUserRepository;
             OpenFolderBrowserCommand = new Command(OpenFolderBrowserCommandExecute, () => _localDiskUser != null);
+        }
+
+        protected override void OnLoaded()
+        {
+            if (_localDiskUser == null) _localDiskUser = _localDiskUserRepository.FirstOrDefault();
         }
 
         public string DownloadPath
@@ -25,21 +31,18 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
             set
             {
                 if (_localDiskUser == null) return;
-                var temp = _localDiskUser.DownloadDirectory;
-                SetProperty(ref temp, value);
-                _localDiskUser.DownloadDirectory = temp;
+                _localDiskUser.DownloadDirectory = value;
+                OnPropertyChanged(() => DownloadPath);
             }
         }
-
         public int DownloadSpeedLimit
         {
             get { return _localDiskUser?.DownloadThreadNumber ?? 0; }
             set
             {
                 if (_localDiskUser == null) return;
-                var temp = _localDiskUser.DownloadThreadNumber;
-                SetProperty(ref temp, value);
-                _localDiskUser.DownloadThreadNumber = temp;
+                _localDiskUser.DownloadThreadNumber = value;
+                OnPropertyChanged(() => DownloadSpeedLimit);
             }
         }
         public int ParallelTaskNumber
@@ -48,12 +51,10 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
             set
             {
                 if (_localDiskUser == null) return;
-                var temp = _localDiskUser.ParallelTaskNumber;
-                SetProperty(ref temp, value);
-                _localDiskUser.ParallelTaskNumber = temp;
+                _localDiskUser.ParallelTaskNumber = value;
+                OnPropertyChanged(() => ParallelTaskNumber);
             }
         }
-
 
         public Command OpenFolderBrowserCommand
         {

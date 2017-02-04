@@ -4,9 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
         <ResourceDictionary Source="../../Assets/CommonResources.xaml"/>
     </UserControl.Resources>
@@ -32,7 +38,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"
                                Text="Download path: "/>
-                    <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding DownloadPath}"/>
+                    <TextBox Grid.Column="2" Grid.Row="0" IsReadOnly="True" Text="{Binding DownloadPath}" Foreground="Gray"/>
                     <Button Grid.Column="4" Grid.Row="0" Content="Browse" Command="{Binding OpenFolderBrowserCommand}"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"
