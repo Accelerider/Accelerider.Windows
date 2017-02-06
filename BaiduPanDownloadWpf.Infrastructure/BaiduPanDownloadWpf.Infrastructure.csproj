@@ -53,6 +53,10 @@
     <Compile Include="Events\DownloadStateChangedEvent.cs" />
     <Compile Include="Events\EventArgsBase.cs" />
     <Compile Include="Events\NetDiskUserSwitchedEvent.cs" />
+    <Compile Include="Exceptions\InvalidDownloadStateChangeException.cs" />
+    <Compile Include="Exceptions\LoginException.cs" />
+    <Compile Include="Exceptions\RegisterException.cs" />
+    <Compile Include="Exceptions\ServerException.cs" />
     <Compile Include="FileLocation.cs" />
     <Compile Include="Interfaces\Files\IDeletedFile.cs" />
     <Compile Include="Interfaces\Files\IDiskFile.cs" />

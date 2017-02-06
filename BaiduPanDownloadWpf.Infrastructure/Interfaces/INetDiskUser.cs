@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 
@@ -45,7 +46,7 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
         INetDiskFile RootFile { get; }
 
 
-        /// <summary>
+            /// <summary>
         /// Gets the uncompleted download tasks.
         /// </summary>
         /// <returns></returns>
@@ -60,13 +61,21 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="files"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
-        Task<IList<ISharedFile>> GetSharedFilesAsync();
+        Task<Uri> ShareFilesAsync(IEnumerable<INetDiskFile> files, string password = null);
+
+        /// <summary>
+        /// Gets the list of the shared files.
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<ISharedFile>> GetSharedFilesAsync();
 
         /// <summary>
         /// Gets the list of the deleted files.
         /// </summary>
         /// <returns></returns>
-        Task<IList<IDeletedFile>> GetDeletedFilesAsync();
+        Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync();
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace BaiduPanDownloadWpf.Infrastructure
+﻿using System;
+
+namespace BaiduPanDownloadWpf.Infrastructure
 {
     /// <summary>
     /// An enum is used to mark the file type.
@@ -32,37 +34,43 @@
     /// <summary>
     /// An enum is used to indicate the status of the download task.
     /// </summary>
+    [Flags]
     public enum DownloadStateEnum
     {
         /// <summary>
-        /// The task created, waiting to start. Can be converted to <see cref="Downloading"/> or <see cref="Canceled"/>.
+        /// The task has been created. Start state. Can be converted to <see cref="Waiting"/> or <see cref="Downloading"/>.
         /// </summary>
-        Waiting,
+        Created = 0,
+
+        /// <summary>
+        /// The task created, waiting to start. Can be converted to <see cref="Downloading"/> or <see cref="Canceled"/> or <see cref="Paused"/>.
+        /// </summary>
+        Waiting = 1,
 
         /// <summary>
         /// The task is being downloaded. Can be converted to <see cref="Paused"/> or <see cref="Completed"/> or <see cref="Canceled"/> or <see cref="Faulted"/>.
         /// </summary>
-        Downloading,
+        Downloading = 2,
 
         /// <summary>
-        /// The task is Paused. Can be converted to <see cref="Downloading"/> or <see cref="Canceled"/>.
+        /// The task is Paused. Can be converted to <see cref="Downloading"/> or <see cref="Canceled"/> or <see cref="Waiting"/>.
         /// </summary>
-        Paused,
+        Paused = 4,
 
         /// <summary>
         /// The task has been completed. End state.
         /// </summary>
-        Completed,
+        Completed = 8,
 
         /// <summary>
         /// The task has been canceled. End state.
         /// </summary>
-        Canceled,
+        Canceled = 16,
 
         /// <summary>
         /// The task failed. End state.
         /// </summary>
-        Faulted
+        Faulted = 32
     }
 
     /// <summary>

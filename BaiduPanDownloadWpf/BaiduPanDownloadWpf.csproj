@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BaiduPanDownloadWpf.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dlls\BaiduPanDownloadWpf.Core.dll</HintPath>
-    </Reference>
     <Reference Include="FirstFloor.ModernUI, Version=1.0.9.0, Culture=neutral, PublicKeyToken=bc9b0c37bf06c6a9, processorArchitecture=MSIL">
       <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net45\FirstFloor.ModernUI.dll</HintPath>
       <Private>True</Private>
@@ -217,6 +213,10 @@
     <Resource Include="Assets\Images\FileTypes\XlsType.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BaiduPanDownloadWpf.Core\BaiduPanDownloadWpf.Core.csproj">
+      <Project>{51154046-cbd6-4bf7-80ae-356fff2eb1b8}</Project>
+      <Name>BaiduPanDownloadWpf.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BaiduPanDownloadWpf.Infrastructure\BaiduPanDownloadWpf.Infrastructure.csproj">
       <Project>{E66FD2A2-7398-471C-8B9F-62B4DD0A55FB}</Project>
       <Name>BaiduPanDownloadWpf.Infrastructure</Name>
@@ -234,7 +234,9 @@
   <ItemGroup>
     <Resource Include="Assets\Images\NewYear.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\Images\YourName.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
