@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using BaiduPanDownloadWpf.Core.Download;
 using BaiduPanDownloadWpf.Core.NetWork;
 using BaiduPanDownloadWpf.Core.NetWork.Packets;
-using BaiduPanDownloadWpf.Infrastructure;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 using Newtonsoft.Json.Linq;
+using BaiduPanDownloadWpf.Core.Download.DwonloadCore;
+using BaiduPanDownloadWpf.Core.ResultData;
+using Microsoft.Practices.Unity;
+using Newtonsoft.Json;
 
 namespace BaiduPanDownloadWpf.Core
 {
-    public class LocalDiskUser : ILocalDiskUser
+    public class LocalDiskUser : ModelBase, ILocalDiskUser
     {
         #region Public properties
         /// <summary>
@@ -60,8 +64,6 @@ namespace BaiduPanDownloadWpf.Core
             return ret.Contains("0");
         }
 
-        public bool IsAutoSignIn { get; set; }
-
         public async Task<IEnumerable<INetDiskUser>> GetAllNetDiskUsers()
         {
             if (!BoundAccount) throw new NullReferenceException("尚未绑定百度账号");
@@ -75,17 +77,37 @@ namespace BaiduPanDownloadWpf.Core
 
         public IEnumerable<ILocalDiskFile> GetUncompletedFiles()
         {
-            return _uncompletedList.Select(LocalDiskFile.GetLocalDiskFile).ToList();
+            return TaskManager.GetTaskManagerByLocalDiskUser(Container, this).GetUncompletedList();
         }
 
         public IEnumerable<ILocalDiskFile> GetCompletedFiles()
         {
-            return _completedList.Select(LocalDiskFile.GetLocalDiskFile).ToList();
+            return TaskManager.GetTaskManagerByLocalDiskUser(Container, this).GetCompletedList();
         }
 
-        public void AddDownloadTask(string[] urls, string downloadPath, int thrreadNum, Cookies cookies = null)
+        public void DownloadFile(NetDiskFile file, string path)
         {
+            TaskManager.GetTaskManagerByLocalDiskUser(Container, this).CreateTask(file, path);
+        }
 
+        public TaskManager GetTaskManger()
+        {
+            return TaskManager.GetTaskManagerByLocalDiskUser(Container, this);
+        }
+
+        /// <summary>
+        /// 下载文件
+        /// </summary>
+        /// <param name="files"></param>
+        /// <param name="method"></param>
+        public async Task<DownloadResult> DownloadFiles(NetDiskFile[] files, DownloadMethod method)
+        {
+            return JsonConvert.DeserializeObject<DownloadResult>(await DataServer.SendPacketAsync(new DownloadPacket()
+            {
+                Token = Token,
+                Info = files,
+                Method = (int)method
+            }));
         }
 
         public override string ToString()
@@ -104,9 +126,33 @@ namespace BaiduPanDownloadWpf.Core
         }
 
         public INetDiskUser CurrentNetDiskUser { get; set; }
-        public string DownloadDirectory { get; set; } = @"D:\BaiduDownload";
+        public string DownloadDirectory { get; set; } = Directory.GetDirectoryRoot(Directory.GetCurrentDirectory()) + "BaiduDownload";
         public int ParallelTaskNumber { get; set; } = 1;
         public int DownloadThreadNumber { get; set; } = 32;
         public bool IsRememberPassword { get; set; }
+        public bool IsAutoSignIn { get; set; }
+
+        // TODO: Temporary solution.
+        public void PasueDownloadTask(long fileId)
+        {
+            TaskManager.GetTaskManagerByLocalDiskUser(Container, this).PauseTask(fileId);
+        }
+
+        // TODO: Temporary solution.
+        public void RestartDownloadTask(long fileId)
+        {
+            TaskManager.GetTaskManagerByLocalDiskUser(Container, this).ContinueTask(fileId);
+        }
+
+        // TODO: Temporary solution.
+        public void CancelDownloadTask(long fileId)
+        {
+            TaskManager.GetTaskManagerByLocalDiskUser(Container, this).RemoveTask(fileId);
+        }
+
+        public LocalDiskUser(IUnityContainer container) : base(container)
+        {
+
+        }
     }
 }

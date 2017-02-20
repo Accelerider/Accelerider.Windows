@@ -11,23 +11,18 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
 {
     internal class DownloadedTaskItemViewModel : DownloadTaskItemViewModel
     {
-        private string _completedTime = "-";
-
         private Command _openFileCommand;
         private Command _clearRecordCommand;
 
-        public DownloadedTaskItemViewModel(IUnityContainer container, IDiskFile diskFile)
+        public DownloadedTaskItemViewModel(IUnityContainer container, ILocalDiskFile diskFile)
             : base(container, diskFile)
         {
+            CompletedTime = diskFile.CompletedTime.ToString("yyyy-MM-dd HH:mm");
             OpenFileCommand = new Command(OpenFileCommandExecuteAsync, () => File.Exists(FilePath.FullPath));
             ClearRecordCommand = new Command(ClearRecordCommandExecute);
         }
 
-        public string CompletedTime
-        {
-            get { return _completedTime; }
-            set { SetProperty(ref _completedTime, value); }
-        }
+        public string CompletedTime { get; }
 
         public Command OpenFileCommand
         {
@@ -45,13 +40,13 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
             // TODO
             Debug.WriteLine($"{DateTime.Now} : Clear Record Command: {FilePath.FullPath}");
         }
-        private async void OpenFileCommandExecuteAsync()
+        private void OpenFileCommandExecuteAsync()
         {
-            await Task.Run(() =>
+            Task.Run(() =>
             {
                 try
                 {
-                    Process.Start(new ProcessStartInfo() { FileName = FilePath.FileName });
+                    Process.Start(new ProcessStartInfo { FileName = FilePath.FullPath });
                 }
                 catch { }
             });

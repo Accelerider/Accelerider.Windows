@@ -45,5 +45,11 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
         /// </summary>
         /// <returns>A IEnumerable of <see cref="INetDiskUser"/> contains all net-disk user instances.</returns>
         Task<IEnumerable<INetDiskUser>> GetAllNetDiskUsers();
+
+
+        // TODO: Temporary solution.
+        void PasueDownloadTask(long fileId);
+        void RestartDownloadTask(long fileId);
+        void CancelDownloadTask(long fileId);
     }
 }

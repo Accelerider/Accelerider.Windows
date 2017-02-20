@@ -112,6 +112,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
         }
         private void SignOutServiceAccountCommandExecute()
         {
+            
             IsLoginServiceAccount = false;
             IsAddingBaiduAccount = false;
         }

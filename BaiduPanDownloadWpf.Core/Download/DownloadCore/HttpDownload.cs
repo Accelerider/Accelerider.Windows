@@ -4,10 +4,11 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using BaiduPanDownloadWpf.Core.Download.DownloadCore;
 using BaiduPanDownloadWpf.Infrastructure;
 
 
-namespace BaiduPanDownloadWpf.Core.Download
+namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
 {
     /// <summary>
     /// HTTP下载
@@ -34,28 +35,12 @@ namespace BaiduPanDownloadWpf.Core.Download
         /// <summary>
         /// 下载速度
         /// </summary>
-        public long DownloadSpeed
-        {
-            get { return _speed; }
-            private set
-            {
-                _speed = value;
-                DownloadSpeedChangedEvent?.Invoke(value);
-            }
-        }
+        public long DownloadSpeed { get; set; }
 
         /// <summary>
         /// 下载进度
         /// </summary>
-        public float DownloadPercentage
-        {
-            get { return _percentage; }
-            private set
-            {
-                _percentage = value;
-                DownloadPercentageChangedEvent?.Invoke(value);
-            }
-        }
+        public float DownloadPercentage { get; set; }
 
         /// <summary>
         /// 下载状态
@@ -65,8 +50,11 @@ namespace BaiduPanDownloadWpf.Core.Download
             get { return _state; }
             private set
             {
-                DownloadStateChangedEvent?.Invoke(_state, value);
-                _state = value;
+                if (_state != value)
+                {
+                    DownloadStateChangedEvent?.Invoke(this, new StateChangedArgs(_state, value));
+                    _state = value;
+                }
             }
         }
 
@@ -94,9 +82,8 @@ namespace BaiduPanDownloadWpf.Core.Download
         #endregion
 
         #region 事件
-        public delegate void DownloadStateChanged(DownloadStateEnum from, DownloadStateEnum to);
-        public delegate void DownloadPercentageChanged(float percentage);
-        public delegate void DownloadSpeedChanged(long speed);
+        public delegate void DownloadStateChanged(object sender, StateChangedArgs args);
+        public delegate void DownloadPercentageChanged(object sender, PercentageChangedEventArgs args);
         /// <summary>
         /// 下载状态改变事件
         /// </summary>
@@ -105,10 +92,6 @@ namespace BaiduPanDownloadWpf.Core.Download
         /// 下载进度改变事件
         /// </summary>
         public event DownloadPercentageChanged DownloadPercentageChangedEvent;
-        /// <summary>
-        /// 下载速度改变事件
-        /// </summary>
-        public event DownloadSpeedChanged DownloadSpeedChangedEvent;
         #endregion
 
         #region 私有参数
@@ -130,7 +113,7 @@ namespace BaiduPanDownloadWpf.Core.Download
             }
             try
             {
-                ServicePointManager.DefaultConnectionLimit = 99999;
+                
                 if (Info.Completed)
                 {
                     DownloadState = DownloadStateEnum.Completed;
@@ -152,7 +135,7 @@ namespace BaiduPanDownloadWpf.Core.Download
                     stream.Close();
                 }
                 _threads = new DownloadThread[Info.DownloadBlockList.Count];
-                new Thread(a).Start();
+                new Thread(ReportDownloadProgress).Start();
                 var num = 0;
                 for (var i = 0; i < Info.DownloadBlockList.Count; i++)
                 {
@@ -222,7 +205,15 @@ namespace BaiduPanDownloadWpf.Core.Download
                 return info;
             });
         }
-
+        /// <summary>
+        /// 创建数据(带路径)
+        /// </summary>
+        public async Task<DownloadInfo> CreateData(string path)
+        {
+            var info = await CreateData();
+            info.init(path);
+            return info;
+        }
         /// <summary>
         /// 获取下载任务
         /// </summary>
@@ -262,7 +253,7 @@ namespace BaiduPanDownloadWpf.Core.Download
             }.CreateData();
         }
 
-        public void a()
+        private void ReportDownloadProgress()
         {
             var temp = 0L;
             while (DownloadState == DownloadStateEnum.Downloading)
@@ -277,35 +268,45 @@ namespace BaiduPanDownloadWpf.Core.Download
                     if (DownloadState == DownloadStateEnum.Downloading)
                     {
                         DownloadSpeed = Info.CompletedLength - temp;
-                        DownloadPercentage = (((float)Info.CompletedLength / Info.ContentLength) * 100);
+                        DownloadPercentage = Info.CompletedLength;
+                        DownloadPercentageChangedEvent?.Invoke(this,new PercentageChangedEventArgs(DownloadPercentage,DownloadSpeed));
                         temp = Info.CompletedLength;
                     }
-                    //Console.WriteLine("速度: " + Speed / 1024 / 1024+"MB/S\r\n进度: "+((float)Info.CompletedLength/(float)Info.ContentLength)*100);
                 }
             }
         }
         /// <summary>
         /// 保存并结束
         /// </summary>
-        public async Task<DownloadInfo> StopAndSave()
+        public DownloadInfo StopAndSave()
         {
             if (_threads != null)
             {
                 _completedThread = 0;
-                await Task.Run(() =>
+                foreach (var thread in _threads)
                 {
-                    foreach (var thread in _threads)
-                    {
-                        thread.Stop();
-                    }
-                });
-                DownloadState = DownloadStateEnum.Waiting;
+                    thread.Stop();
+                }
+                DownloadState = DownloadStateEnum.Paused;
                 return Info;
             }
             return null;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is HttpDownload))
+            {
+                return false;
+            }
+            var download = (HttpDownload) obj;
+            return download.DownloadPath == DownloadPath;
+        }
 
+        public override int GetHashCode()
+        {
+            return DownloadPath.GetHashCode();
+        }
 
         private HttpWebResponse GetResponse()
         {
@@ -332,6 +333,30 @@ namespace BaiduPanDownloadWpf.Core.Download
                 }
             }
             return null;
+        }
+    }
+
+    public class PercentageChangedEventArgs : EventArgs
+    {
+        public float Progress { get; }
+        public long Speed { get; }
+
+        public PercentageChangedEventArgs(float progress, long speed)
+        {
+            this.Progress = progress;
+            this.Speed = speed;
+        }
+    }
+
+    public class StateChangedArgs : EventArgs
+    {
+        public DownloadStateEnum OldState { get; }
+        public DownloadStateEnum NewState { get; }
+
+        public StateChangedArgs(DownloadStateEnum oldState, DownloadStateEnum newState)
+        {
+            this.OldState = oldState;
+            this.NewState = newState;
         }
     }
 }

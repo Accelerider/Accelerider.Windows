@@ -133,81 +133,126 @@
     <value>DONATE</value>
   </data>
   <data name="DownloadedPage_Clear_all_records" xml:space="preserve">
-    <value>Clear all records</value>
+    <value>清除所有记录</value>
   </data>
   <data name="DownloadedPage_Completed" xml:space="preserve">
-    <value>Completed</value>
+    <value>已下载</value>
   </data>
   <data name="DownloadingPage_Cancel_all" xml:space="preserve">
-    <value>Cancel all</value>
+    <value>全部取消</value>
   </data>
   <data name="DownloadingPage_Pause_all" xml:space="preserve">
-    <value>Pause all</value>
+    <value>全部暂停</value>
   </data>
   <data name="DownloadingPage_Start_all" xml:space="preserve">
-    <value>Start all</value>
+    <value>全部开始</value>
   </data>
   <data name="DownloadingPage_Total_progress_" xml:space="preserve">
-    <value>Total progress:</value>
+    <value>总进度：</value>
   </data>
   <data name="LoginPage_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="LoginPage_Login" xml:space="preserve">
-    <value>Login</value>
+    <value>登入</value>
   </data>
   <data name="LoginPage_Password_" xml:space="preserve">
-    <value>Password: </value>
+    <value>密码：</value>
   </data>
   <data name="LoginPage_User_Name_" xml:space="preserve">
-    <value>User Name: </value>
+    <value>账号： </value>
   </data>
-  <data name="LoginPage_Vweification_code_" xml:space="preserve">
-    <value>Vweification code: </value>
+  <data name="LoginPage_Verification_code_" xml:space="preserve">
+    <value>验证码：</value>
   </data>
   <data name="MWTitile" xml:space="preserve">
-    <value>BaiduPanDownload</value>
+    <value>BaiduPanDownload (v0.0.8.56)</value>
   </data>
   <data name="MW_downloaded" xml:space="preserve">
-    <value>downloaded</value>
+    <value>下载完成</value>
   </data>
   <data name="MW_downloading" xml:space="preserve">
-    <value>downloading</value>
+    <value>正在下载</value>
   </data>
   <data name="MW_download_list" xml:space="preserve">
-    <value>download list</value>
+    <value>任务列表</value>
   </data>
   <data name="MW_file_explorer" xml:space="preserve">
-    <value>file explorer</value>
+    <value>文件浏览</value>
   </data>
   <data name="MW_help" xml:space="preserve">
-    <value>help</value>
+    <value>帮助</value>
   </data>
   <data name="MW_home" xml:space="preserve">
-    <value>home</value>
+    <value>文件页</value>
   </data>
   <data name="MW_settings" xml:space="preserve">
-    <value>settings</value>
+    <value>设置</value>
   </data>
   <data name="MW_software" xml:space="preserve">
-    <value>software</value>
+    <value>软件</value>
   </data>
   <data name="SettingsPage_about" xml:space="preserve">
-    <value>about</value>
+    <value>关于</value>
   </data>
   <data name="SettingsPage_configure" xml:space="preserve">
-    <value>configure</value>
+    <value>配置</value>
   </data>
   <data name="SettingsPage_login" xml:space="preserve">
-    <value>login</value>
+    <value>登入</value>
   </data>
   <data name="SettingsPage_user_swich" xml:space="preserve">
-    <value>user swich</value>
+    <value>用户切换</value>
   </data>
   <data name="MW_shared" xml:space="preserve">
-    <value>shared</value>
+    <value>已分享</value>
   </data>
   <data name="MW_recycle_bin" xml:space="preserve">
-    <value>recycle bin</value>
+    <value>回收站</value>
+  </data>
+  <data name="Please_select_the_download_path" xml:space="preserve">
+    <value>请选择下载路径</value>
+  </data>
+  <data name="ConfigPage_Browse" xml:space="preserve">
+    <value>浏览</value>
+  </data>
+  <data name="ConfigPage_Download_path_" xml:space="preserve">
+    <value>下载路径：</value>
+  </data>
+  <data name="ConfigPage_Number_of_parallel_tasks_" xml:space="preserve">
+    <value>并行任务：</value>
+  </data>
+  <data name="ConfigPage_Speed_limit_" xml:space="preserve">
+    <value>速度限制：</value>
+  </data>
+  <data name="ConfigPage_tasks" xml:space="preserve">
+    <value>个</value>
+  </data>
+  <data name="DownloadedPage_TotalCompleted_" xml:space="preserve">
+    <value>总完成数：</value>
+  </data>
+  <data name="DownloadingPage_Paused" xml:space="preserve">
+    <value>暂停中</value>
+  </data>
+  <data name="DownloadingPage_Waiting_" xml:space="preserve">
+    <value>等待中...</value>
+  </data>
+  <data name="HomePage_delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="HomePage_download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="LoginPage_Automatic_login" xml:space="preserve">
+    <value>自动登入</value>
+  </data>
+  <data name="LoginPage_Remember_the_password" xml:space="preserve">
+    <value>记住密码</value>
+  </data>
+  <data name="LoginPage_Welcome_" xml:space="preserve">
+    <value>欢迎! </value>
+  </data>
+  <data name="MW_issues" xml:space="preserve">
+    <value>反馈</value>
   </data>
 </root>

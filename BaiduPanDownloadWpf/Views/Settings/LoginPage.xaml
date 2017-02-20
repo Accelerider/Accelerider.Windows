@@ -9,9 +9,6 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="700">
-    <UserControl.Resources>
-        <ResourceDictionary Source="../../Assets/CommonResources.xaml" />
-    </UserControl.Resources>
     <ScrollViewer>
         <Grid x:Name="grid" Style="{StaticResource ContentRoot}" IsSharedSizeScope="True" >
             <Grid.ColumnDefinitions>
@@ -35,7 +32,14 @@
 
                 <TextBlock Grid.Row="0" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"
                            Visibility="{Binding IsLoginServiceAccount, Converter={StaticResource BooleanToVisibilityConverter}}"
-                           Text="{Binding NetDiskUsers[0].UserName, StringFormat='Welcome! {0}'}"/>
+                           >
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Source="{x:Static res:UiStringResources.LoginPage_Welcome_}"/>
+                            <Binding Path="NetDiskUsers[0].UserName"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <mui:ModernButton Grid.Row="0" Grid.Column="2" IconWidth="14" IconHeight="14" IconData="F1 M 19.0002,34L 19.0002,42L 43.7502,42L 33.7502,52L 44.2502,52L 58.2502,38L 44.2502,24L 33.7502,24L 43.7502,34L 19.0002,34 Z "
                                   Visibility="{Binding IsLoginServiceAccount, Converter={StaticResource BooleanToVisibilityConverter}}"
                                   Command="{Binding SignOutServiceAccountCommand}"
@@ -75,8 +79,8 @@
 
                     <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding LocalDiskUserName}"/>
                     <PasswordBox Name="PasswordBoxLocalDiskUser" Grid.Row="2" Grid.Column="2"/>
-                    <CheckBox Grid.Row="4" Grid.Column="2" Content="Remember the password" IsChecked="{Binding IsRememberPassword}"/>
-                    <CheckBox Grid.Row="6" Grid.Column="2" Content="Automatic login" IsChecked="{Binding IsAutoSignIn}"/>
+                    <CheckBox Grid.Row="4" Grid.Column="2" Content="{x:Static res:UiStringResources.LoginPage_Remember_the_password}" IsChecked="{Binding IsRememberPassword}"/>
+                    <CheckBox Grid.Row="6" Grid.Column="2" Content="{x:Static res:UiStringResources.LoginPage_Automatic_login}" IsChecked="{Binding IsAutoSignIn}"/>
                     <Button Grid.Row="8" Grid.Column="2" Content="{x:Static res:UiStringResources.LoginPage_Login}"
                             Command="{Binding LoginServiceAccountCommand}" CommandParameter="{Binding ElementName=PasswordBoxLocalDiskUser}">
                         <Button.Style>
@@ -181,7 +185,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.LoginPage_User_Name_}"/>
                     <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.LoginPage_Password_}"/>
-                    <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.LoginPage_Vweification_code_}"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.LoginPage_Verification_code_}"/>
 
                     <TextBox Grid.Row="0" Grid.Column="2" />
                     <TextBox Grid.Row="2" Grid.Column="2" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Remoting;
@@ -19,8 +20,14 @@ namespace BaiduPanDownloadWpf.Core.NetWork
         /// </summary>
         public static Server DefaultServer { get; } = new Server()
         {
-            ServerAddress = "121.199.24.47",
-            Port = 3355
+            ServerAddress = "tool.mrs4s.top",
+            Port = 10162
+        };
+
+        public static Server TestServer { get; }=new Server()
+        {
+            ServerAddress = "localhost",
+            Port=3355
         };
 
         /// <summary>
@@ -41,7 +48,8 @@ namespace BaiduPanDownloadWpf.Core.NetWork
         {
             try
             {
-                var ip = IPAddress.Parse(ServerAddress);
+                var hostinfo = Dns.GetHostByName(ServerAddress);
+                var ip = hostinfo.AddressList[0];
                 var clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 clientSocket.Connect(new IPEndPoint(ip, Port));
                 return clientSocket;

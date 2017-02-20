@@ -37,7 +37,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Source="../../Assets/Images/DingpingZhangHead.jpg"/>
-                            <mui:BBCodeBlock Grid.Column="2" BBCode="[b]WPF UI[/b] by Dingping Zhang&#13;&#10;[b]Mail:[/b]     [url=mailto:DingpingZhang@outlook.com]DingpingZhang@outlook.com[/url]&#13;&#10;[b]Github:[/b] [url=https://github.com/DingpingZhang]github.com/DingpingZhang[/url]"/>
+                            <mui:BBCodeBlock Grid.Column="2" BBCode="[b]WPF UI[/b] by Laplace's Demon&#13;&#10;[b]Mail:[/b]     [url=mailto:DingpingZhang@outlook.com]DingpingZhang@outlook.com[/url]&#13;&#10;[b]Github:[/b] [url=https://github.com/DingpingZhang]github.com/DingpingZhang[/url]"/>
                         </Grid>
                     </Border>
                 </WrapPanel>

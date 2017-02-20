@@ -6,8 +6,9 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BaiduPanDownloadWpf.Core.Download.DwonloadCore;
 
-namespace BaiduPanDownloadWpf.Core.Download
+namespace BaiduPanDownloadWpf.Core.Download.DownloadCore
 {
     /// <summary>
     /// 下载线程
@@ -72,7 +73,7 @@ namespace BaiduPanDownloadWpf.Core.Download
                         _request.CookieContainer.Add(ck);
                     }
                 }
-                _request.Timeout = 10000;
+                _request.Timeout = 8000;
                 _request.AddRange(Block.From, Block.To);
                 _response = _request.GetResponse() as HttpWebResponse;
                 if (!File.Exists(Path))
@@ -81,10 +82,10 @@ namespace BaiduPanDownloadWpf.Core.Download
                 }
                 using (var responseStream = _response.GetResponseStream())
                 {
-                    using (var stream = new FileStream(Path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite, 1024 * 1024 * 5))
+                    using (var stream = new FileStream(Path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite, 1024 * 1024))
                     {
                         stream.Seek(Block.From, SeekOrigin.Begin);
-                        var array = new byte[4096];
+                        var array = new byte[1024];
                         var i = responseStream.Read(array, 0, array.Length);
                         while (true)
                         {

@@ -6,12 +6,16 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:res="clr-namespace:BaiduPanDownloadWpf.Assets"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000">
-    <UserControl.Resources>
-        <ResourceDictionary Source="../Assets/CommonResources.xaml"></ResourceDictionary>
-    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid Style="{StaticResource ContentRoot}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -26,9 +30,9 @@
                 <ColumnDefinition Width="16"/>
                 <ColumnDefinition Width="85"/>
                 <ColumnDefinition Width="16"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="8"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" VerticalAlignment="Center" 
                        Text="{x:Static res:UiStringResources.DownloadingPage_Total_progress_}"/>
@@ -36,21 +40,25 @@
                          Value="{Binding TotalDownloadProgress.ValueBasedOnB, Mode=OneWay}" Maximum="{Binding TotalDownloadQuantity.ValueBasedOnB, Mode=OneWay}"/>
             <TextBlock Grid.Column="4" VerticalAlignment="Center"
                        Text="{Binding TotalDownloadSpeed, Mode=OneWay, StringFormat='{}{0}/s'}"/>
-            <Button Grid.Column="6">
-                <Button.Style>
-                    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+            <mui:ModernButton Grid.Column="6"  IconWidth="12" IconHeight="12">
+                <mui:ModernButton.Style>
+                    <Style BasedOn="{StaticResource {x:Type mui:ModernButton}}" TargetType="{x:Type mui:ModernButton}">
                         <Setter Property="Content" Value="{x:Static res:UiStringResources.DownloadingPage_Pause_all}"/>
+                        <Setter Property="IconData" Value="F1 M 26.9167,23.75L 33.25,23.75L 33.25,52.25L 26.9167,52.25L 26.9167,23.75 Z M 42.75,23.75L 49.0833,23.75L 49.0833,52.25L 42.75,52.25L 42.75,23.75 Z "/>
                         <Setter Property="Command" Value="{Binding PauseAllCommand}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsStartAll}" Value="True">
                                 <Setter Property="Content" Value="{x:Static res:UiStringResources.DownloadingPage_Start_all}"/>
+                                <Setter Property="IconData" Value="F1 M 30.0833,22.1667L 50.6665,37.6043L 50.6665,38.7918L 30.0833,53.8333L 30.0833,22.1667 Z "/>
                                 <Setter Property="Command" Value="{Binding StartAllCommand}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Button.Style>
-            </Button>
-            <Button Grid.Column="8" Content="{x:Static res:UiStringResources.DownloadingPage_Cancel_all}" Command="{Binding CancelAllCommand}"/>
+                </mui:ModernButton.Style>
+            </mui:ModernButton>
+            <mui:ModernButton Grid.Column="8" Content="{x:Static res:UiStringResources.DownloadingPage_Cancel_all}" 
+                              IconWidth="12" IconHeight="12" IconData="F1 M 26.9166,22.1667L 37.9999,33.25L 49.0832,22.1668L 53.8332,26.9168L 42.7499,38L 53.8332,49.0834L 49.0833,53.8334L 37.9999,42.75L 26.9166,53.8334L 22.1666,49.0833L 33.25,38L 22.1667,26.9167L 26.9166,22.1667 Z "
+                              Command="{Binding CancelAllCommand}"/>
         </Grid>
 
         <ListBox Grid.Row="2" x:Name="ListboxTaskList" ItemsSource="{Binding DownloadTaskList}"
@@ -85,7 +93,18 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding FilePath.FileName}" TextTrimming="WordEllipsis"/>
-                                <TextBlock Grid.Column="2" Grid.Row="0" Foreground="Gray" Text="{Binding RemainingTime}"/>
+                                <TextBlock Grid.Column="2" Grid.Row="0" Foreground="Gray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                            <Setter Property="Text" Value="--" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DownloadState}" Value="Downloading">
+                                                    <Setter Property="Text" Value="{Binding RemainingTime, TargetNullValue='∞'}"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                                 <ProgressBar Grid.Column="4" Grid.Row="0" Height="4"
                                              Value="{Binding DownloadProgress.ValueBasedOnB, Mode=OneWay}" Maximum="{Binding FileSize.ValueBasedOnB, Mode=OneWay}"/>
                                 <TextBlock Grid.Column="0" Grid.Row="2" Foreground="Gray">
@@ -96,8 +115,21 @@
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>
-                                <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray"
-                                           Text="{Binding DownloadSpeed, StringFormat='{}{0}/s'}"/>
+                                <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                            <Setter Property="Text" Value="{Binding DownloadSpeed, StringFormat='{}{0}/s'}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DownloadState}" Value="Waiting">
+                                                    <Setter Property="Text" Value="{x:Static res:UiStringResources.DownloadingPage_Waiting_}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding DownloadState}" Value="Paused">
+                                                    <Setter Property="Text" Value="{x:Static res:UiStringResources.DownloadingPage_Paused}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </Grid>
                             <Grid Grid.Column="4">
                                 <Grid.ColumnDefinitions>
@@ -110,12 +142,12 @@
                                 <mui:ModernButton Grid.Column="0" IconWidth="12" IconHeight="12">
                                     <mui:ModernButton.Style>
                                         <Style TargetType="{x:Type mui:ModernButton}" BasedOn="{StaticResource {x:Type mui:ModernButton}}">
-                                            <Setter Property="IconData" Value="F1 M 30.0833,22.1667L 50.6665,37.6043L 50.6665,38.7918L 30.0833,53.8333L 30.0833,22.1667 Z "/>
-                                            <Setter Property="Command" Value="{Binding StartTaskCommand}"/>
+                                            <Setter Property="IconData" Value="F1 M 26.9167,23.75L 33.25,23.75L 33.25,52.25L 26.9167,52.25L 26.9167,23.75 Z M 42.75,23.75L 49.0833,23.75L 49.0833,52.25L 42.75,52.25L 42.75,23.75 Z "/>
+                                            <Setter Property="Command" Value="{Binding PauseTaskCommand}"/>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding DownloadState}" Value="Downloading">
-                                                    <Setter Property="IconData" Value="F1 M 26.9167,23.75L 33.25,23.75L 33.25,52.25L 26.9167,52.25L 26.9167,23.75 Z M 42.75,23.75L 49.0833,23.75L 49.0833,52.25L 42.75,52.25L 42.75,23.75 Z "/>
-                                                    <Setter Property="Command" Value="{Binding PauseTaskCommand}"/>
+                                                <DataTrigger Binding="{Binding DownloadState}" Value="Paused">
+                                                    <Setter Property="IconData" Value="F1 M 30.0833,22.1667L 50.6665,37.6043L 50.6665,38.7918L 30.0833,53.8333L 30.0833,22.1667 Z "/>
+                                                    <Setter Property="Command" Value="{Binding StartTaskCommand}"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>

@@ -72,9 +72,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Download\DownloadInfo.cs" />
-    <Compile Include="Download\DownloadThread.cs" />
-    <Compile Include="Download\HttpDownload.cs" />
+    <Compile Include="DownloadEngine\DownloadTask.cs" />
+    <Compile Include="DownloadEngine\DownloadTaskManager.cs" />
+    <Compile Include="DownloadEngine\DownloadTaskToken.cs" />
+    <Compile Include="DownloadEngine\DownloadTaskTokenSource.cs" />
+    <Compile Include="DownloadEngine\DownloadTaskThread.cs" />
+    <Compile Include="DownloadMethod.cs" />
+    <Compile Include="Download\DownloadCore\DownloadInfo.cs" />
+    <Compile Include="Download\DownloadCore\DownloadThread.cs" />
+    <Compile Include="Download\DownloadCore\HttpDownload.cs" />
+    <Compile Include="Download\TaskDatabase.cs" />
+    <Compile Include="Download\TaskManager.cs" />
     <Compile Include="LocalDiskUserRepository.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="DownloadCoreModule.cs" />
@@ -84,6 +92,7 @@
     <Compile Include="NetDiskUser.cs" />
     <Compile Include="NetWork\Cookies.cs" />
     <Compile Include="NetWork\Packets\BindingCookiesPacket.cs" />
+    <Compile Include="NetWork\Packets\CreateLinkPacket.cs" />
     <Compile Include="NetWork\Packets\DeleteFilePacket.cs" />
     <Compile Include="NetWork\Packets\DownloadPacket.cs" />
     <Compile Include="NetWork\Packets\ListFilePacket.cs" />

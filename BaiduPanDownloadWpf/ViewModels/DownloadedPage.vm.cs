@@ -7,19 +7,21 @@ using BaiduPanDownloadWpf.Infrastructure;
 using Microsoft.Practices.Unity;
 using BaiduPanDownloadWpf.Infrastructure.Events;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
+using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 using BaiduPanDownloadWpf.ViewModels.Items;
 
 namespace BaiduPanDownloadWpf.ViewModels
 {
     internal class DownloadedPageViewModel : ViewModelBase
     {
-        private readonly ILocalDiskUser _localDiskUser;
+        private readonly ILocalDiskUserRepository _localDiskUserRepository;
+        private INetDiskUser _netDiskUser;
         private ObservableCollection<DownloadedTaskItemViewModel> _downloadTaskList = new ObservableCollection<DownloadedTaskItemViewModel>();
 
         public DownloadedPageViewModel(IUnityContainer container, ILocalDiskUserRepository localDiskUserRepository)
             : base(container)
         {
-            _localDiskUser = localDiskUserRepository.FirstOrDefault();
+            _localDiskUserRepository = localDiskUserRepository;
 
             ClearAllRecordCommand = new Command(ClearAllRecordCommandExecute, () => DownloadTaskList?.Any() ?? false);
             EventAggregator.GetEvent<DownloadStateChangedEvent>().Subscribe(
@@ -29,6 +31,20 @@ namespace BaiduPanDownloadWpf.ViewModels
                 filter: e => e.NewState == DownloadStateEnum.Completed);
         }
 
+        protected override void OnLoaded()
+        {
+            if (!SetProperty(ref _netDiskUser, _localDiskUserRepository?.FirstOrDefault()?.CurrentNetDiskUser)) return;
+            if (_netDiskUser == null)
+            {
+                DownloadTaskList.Clear();
+                return;
+            }
+            foreach (var item in _netDiskUser.GetCompletedFiles())
+            {
+                if (DownloadTaskList.Any(element => element.FileId == item.FileId)) continue;
+                DownloadTaskList.Add(Container.Resolve<DownloadedTaskItemViewModel>(new DependencyOverride<ILocalDiskFile>(item)));
+            }
+        }
 
         public ObservableCollection<DownloadedTaskItemViewModel> DownloadTaskList
         {
@@ -57,11 +73,10 @@ namespace BaiduPanDownloadWpf.ViewModels
 
         private void OnDownloadCompleted(DownloadStateChangedEventArgs e)
         {
-            //var temp = _localDiskUser.GetLocalDiskFileById(e.FileId);
-            //if (temp == null) return;
-            //var localFile = Container.Resolve<DownloadedTaskItemViewModel>(new DependencyOverride<IDiskFile>(temp));
-            //localFile.CompletedTime = e.Timestamp.ToString("yyyy-MM-dd HH:mm");
-            //DownloadTaskList.Insert(0, localFile);
+            var temp = _netDiskUser.GetCompletedFiles().FirstOrDefault(element => element.FileId == e.FileId);
+            if (temp == null) return;
+            var localFile = Container.Resolve<DownloadedTaskItemViewModel>(new DependencyOverride<ILocalDiskFile>(temp));
+            DownloadTaskList.Insert(0, localFile);
         }
     }
 }

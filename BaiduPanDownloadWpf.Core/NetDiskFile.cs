@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using BaiduPanDownloadWpf.Infrastructure;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using Newtonsoft.Json;
@@ -81,41 +82,49 @@ namespace BaiduPanDownloadWpf.Core
         /// <summary>
         /// 文件夹是否为空
         /// </summary>
+        [JsonIgnore]
         public bool IsDirEmpty => _dirEmpty == 1;
 
         /// <summary>
         /// 文件在服务器上的创建时间
         /// </summary>
+        [JsonIgnore]
         public long CreateTimeServer => _serverCtime;
 
         /// <summary>
         /// 文件在服务器上的修改时间
         /// </summary>
+        [JsonIgnore]
         public long ModifyTimeServer => _serverMtime;
 
         /// <summary>
         /// 文件本身的创建时间
         /// </summary>
+        [JsonIgnore]
         public long CreateTimeLocal => _localCtime;
 
         /// <summary>
         /// 文件本身的修改时间
         /// </summary>
+        [JsonIgnore]
         public long ModifyTimeLocal => _localMtime;
 
         /// <summary>
         /// 文件md5
         /// </summary>
+        [JsonIgnore]
         public string Md5 => _md5;
 
         /// <summary>
         /// 文件是否为空
         /// </summary>
+        [JsonIgnore]
         public bool Empty => _empty == 1;
 
         /// <summary>
         /// Gets the ID of the file.
         /// </summary>
+        [JsonIgnore]
         public long FileId => _fileId;
 
         /// <summary>
@@ -133,16 +142,19 @@ namespace BaiduPanDownloadWpf.Core
         /// <summary>
         /// Gets a instance of <see cref="FileLocation"/> which contains the file location information.
         /// </summary>
+        [JsonIgnore]
         public FileLocation FilePath => _filePath ?? (_filePath = new FileLocation(_path));
 
         /// <summary>
         /// Gets the type of the file.
         /// </summary>
+        [JsonIgnore]
         public FileTypeEnum FileType => _fileType ?? (_fileType = ParseFileType(FilePath.FileExtension)).Value;
 
         /// <summary>
         /// Gets the size of the file.
         /// </summary>
+        [JsonIgnore]
         public long FileSize => _size;
         #endregion
 
@@ -169,10 +181,13 @@ namespace BaiduPanDownloadWpf.Core
             return diskFiles;
         }
 
-        public Task DownloadAsync()
+        public async Task DownloadAsync()
         {
-            
-            throw new NotImplementedException();
+            var path = await GetDownloadPathAndFile(_netDiskUser.DownloadDirectory);
+            foreach (var item in path)
+            {
+                _netDiskUser.LocalUser.DownloadFile(item.Value, item.Key);
+            }
         }
 
         /// <summary>
@@ -180,19 +195,21 @@ namespace BaiduPanDownloadWpf.Core
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public async Task<Dictionary<string, NetDiskFile[]>> GetDownloadPathAndFile(string path)
+        public async Task<Dictionary<string, NetDiskFile>> GetDownloadPathAndFile(string path)
         {
-            var ret = new Dictionary<string, NetDiskFile[]>();
+            var ret = new Dictionary<string, NetDiskFile>();
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
             if (_isDir != 1)
             {
-                ret.Add(Path.Combine(path, _serverFileName), new[] { this });
+                ret.Add(Path.Combine(path, _serverFileName), this);
                 return ret;
             }
             foreach (var childrenFile in await GetChildrenAsync())
             {
                 foreach (var sub in await ((NetDiskFile)childrenFile).GetDownloadPathAndFile(Path.Combine(path, _serverFileName)))
                 {
-                    ret.Add(sub.Key,sub.Value);
+                    ret.Add(sub.Key, sub.Value);
                 }
             }
             return ret;
@@ -200,7 +217,7 @@ namespace BaiduPanDownloadWpf.Core
 
         public Task<bool> DeleteAsync()
         {
-            return Task.Run(async ()=>
+            return Task.Run(async () =>
             {
                 var json = await _netDiskUser.DataServer.SendPacketAsync(new DeleteFilePacket()
                 {
@@ -209,6 +226,19 @@ namespace BaiduPanDownloadWpf.Core
                 });
                 return (int)JObject.Parse(json)["errno"] == 0;
             });
+            /*
+            return Task.Run(async () =>
+            {
+                var json = await _netDiskUser.DataServer.SendPacketAsync(new CreateLinkPacket()
+                {
+                    Token = _netDiskUser.Token,
+                    Info = this
+                });
+                Console.WriteLine(json);
+                return true;
+                return (int)JObject.Parse(json)["errno"] == 0;
+            });
+            */
         }
 
         public Task<bool> RestoreAsync()

@@ -16,6 +16,7 @@ namespace BaiduPanDownloadWpf.ViewModels
     internal class DownloadingPageViewModel : ViewModelBase
     {
         private readonly ILocalDiskUserRepository _localDiskUserRepository;
+        private INetDiskUser _netDiskUser;
         private ObservableCollection<DownloadingTaskItemViewModel> _downloadTaskList = new ObservableCollection<DownloadingTaskItemViewModel>();
 
 
@@ -103,17 +104,23 @@ namespace BaiduPanDownloadWpf.ViewModels
 
         protected override void OnLoaded()
         {
-            var netDiskUser = _localDiskUserRepository?.FirstOrDefault()?.CurrentNetDiskUser;
-            if (netDiskUser == null) return;
-            foreach (var item in netDiskUser.GetUncompletedFiles())
+            SetProperty(ref _netDiskUser, _localDiskUserRepository?.FirstOrDefault()?.CurrentNetDiskUser);
+            if (_netDiskUser == null)
             {
-                DownloadTaskList.Add(Container.Resolve<DownloadingTaskItemViewModel>(new DependencyOverride<IDiskFile>(item)));
+                DownloadTaskList.Clear();
+                return;
+            }
+            foreach (var item in _netDiskUser.GetUncompletedFiles())
+            {
+                if (DownloadTaskList.Any(element => element.FileId == item.FileId)) continue;
+                DownloadTaskList.Add(Container.Resolve<DownloadingTaskItemViewModel>(new DependencyOverride<ILocalDiskUser>(_localDiskUserRepository.FirstOrDefault()), new DependencyOverride<IDiskFile>(item)));
             }
         }
 
         private void OnDownloadPregressChanged(DownloadProgressChangedEventArgs e)
         {
             OnPropertyChanged(nameof(TotalDownloadProgress));
+            OnPropertyChanged(nameof(TotalDownloadQuantity));
             OnPropertyChanged(nameof(TotalDownloadSpeed));
         }
         private void OnDownloadStateChanged(DownloadStateChangedEventArgs e)
@@ -121,6 +128,17 @@ namespace BaiduPanDownloadWpf.ViewModels
             OnPropertyChanged(nameof(IsStartAll));
             if (e.NewState == DownloadStateEnum.Completed || e.NewState == DownloadStateEnum.Canceled)
                 OnDownloadCompletedOrCanceled(e);
+
+            if (e.NewState == DownloadStateEnum.Downloading)
+            {
+                var temp = DownloadTaskList.FirstOrDefault(item => item.FileId == e.FileId);
+                var indexThis = DownloadTaskList.IndexOf(temp);
+                if(indexThis != 0)
+                {
+                    DownloadTaskList.Insert(0, temp);
+                    DownloadTaskList.Remove(temp);
+                }
+            }
             Debug.WriteLine($"{DateTime.Now}: FileId={e.FileId}, OldState={e.OldState}, NewState={e.NewState}, IsStartAll={IsStartAll}");
         }
         private void OnDownloadCompletedOrCanceled(DownloadStateChangedEventArgs e)

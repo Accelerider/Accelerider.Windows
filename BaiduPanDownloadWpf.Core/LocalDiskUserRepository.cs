@@ -9,16 +9,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using BaiduPanDownloadWpf.Core.NetWork;
 using System;
+using BaiduPanDownloadWpf.Core.Download;
+using Microsoft.Practices.Unity;
+using System.Diagnostics;
 
 namespace BaiduPanDownloadWpf.Core
 {
-    public class LocalDiskUserRepository : ILocalDiskUserRepository
+    public class LocalDiskUserRepository : ModelBase, ILocalDiskUserRepository
     {
         private readonly string _userDataSavePath = Directory.GetCurrentDirectory() + @"\Users\";
-        private readonly List<ILocalDiskUser> _netDiskUserList = new List<ILocalDiskUser>();
+        private static readonly List<ILocalDiskUser> _netDiskUserList = new List<ILocalDiskUser>();
 
-        public LocalDiskUserRepository()
+        public LocalDiskUserRepository(IUnityContainer container) : base(container)
         {
+            if (!Directory.Exists(_userDataSavePath))
+            {
+                Directory.CreateDirectory(_userDataSavePath);
+            }
         }
 
         public ILocalDiskUser FirstOrDefault()
@@ -37,7 +44,7 @@ namespace BaiduPanDownloadWpf.Core
             switch ((int)json["error"])
             {
                 default:
-                    var result = new LocalDiskUser()
+                    var result = new LocalDiskUser(Container)
                     {
                         Token = (string)json["token"],
                         BoundAccount = (bool)json["cookies"],
@@ -45,7 +52,34 @@ namespace BaiduPanDownloadWpf.Core
                         Name=userName,
                         Password=password
                     };
+                    if (!Directory.Exists(Path.Combine(_userDataSavePath, userName)))
+                    {
+                        Directory.CreateDirectory(Path.Combine(_userDataSavePath, userName));
+                    }
+                    try
+                    {
+                        TaskManager.GetTaskManagerByLocalDiskUser(Container, result);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.ToString());
+                    }
                     _netDiskUserList.Add(result);
+                    var userPath = Path.Combine(_userDataSavePath, userName);
+                    if (Directory.Exists(userPath))
+                    {
+                        try
+                        {
+                            var info = JObject.Parse(File.ReadAllText(Path.Combine(userPath, "Account.json")));
+                            result.DownloadDirectory = (string) info["DownloadDirectory"];
+                            result.ParallelTaskNumber = (int) info["ParallelTaskNumber"];
+                            result.DownloadThreadNumber = (int) info["DwonloadTheradNumber"];
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.ToString());
+                        }
+                    }
                     return result;
                 case 1:
                     throw new LoginException("用户不存在", ClientLoginStateEnum.NonUser);
@@ -84,12 +118,18 @@ namespace BaiduPanDownloadWpf.Core
             }
         }
 
+        public static LocalDiskUser GetLoginedUser()
+        {
+            return (LocalDiskUser)_netDiskUserList.FirstOrDefault();
+        }
+
         public void Save(ILocalDiskUser entity)
         {
             var userPath = Path.Combine(_userDataSavePath,((LocalDiskUser)entity).Name);
             if (!Directory.Exists(userPath))
                 Directory.CreateDirectory(userPath);
             File.WriteAllText(Path.Combine(userPath,"Account.json"),entity.ToString());
+            ((LocalDiskUser)entity).GetTaskManger().StopAndSave();
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using static System.Web.Security.FormsAuthentication;
 
-namespace BaiduPanDownloadWpf.Core.Download
+namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
 {
     /// <summary>
     /// 下载数据
@@ -68,17 +68,6 @@ namespace BaiduPanDownloadWpf.Core.Download
         /// </summary>
         public DateTime CompletedTime { get; set; }
 
-        public long Id
-        {
-            get
-            {
-                var str = HashPasswordForStoringInConfigFile(DownloadPath, "MD5");
-                var md5 = new MD5CryptoServiceProvider();
-                var res = md5.ComputeHash(Encoding.UTF8.GetBytes(str), 0, str.Length);
-                return Math.Abs(BitConverter.ToInt64(res, 0));
-            }
-        }
-
         /// <summary>
         /// 初始化分块信息
         /// </summary>
@@ -94,6 +83,7 @@ namespace BaiduPanDownloadWpf.Core.Download
         public void init()
         {
             var temp = 0L;
+            DownloadBlockList.Clear();
             while (temp + BlockLength < ContentLength)
             {
                 DownloadBlockList.Add(new DownloadBlock

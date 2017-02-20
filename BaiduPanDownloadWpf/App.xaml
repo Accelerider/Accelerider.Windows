@@ -5,28 +5,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.xaml" />
-                <!--<ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.Dark.xaml"/>-->
-                <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.Light.xaml"/>
+                <ResourceDictionary Source="/Assets/Themes/ModernUI.YourNameTheme.xaml"/>
+                <ResourceDictionary Source="/Assets/CommonResources.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-            
-            <!--#region New year theme-->
-            <!--<Color x:Key="AccentColor">#C94626</Color>
-            <Rectangle x:Key="WindowBackgroundContent" x:Shared="false">
-                <Rectangle.Fill>
-                    <ImageBrush Opacity="0.15" ImageSource="Assets/Images/NewYear.jpg" Stretch="Fill" />
-                </Rectangle.Fill>
-            </Rectangle>-->
-            <!--#endregion-->
-
-            <!--#region Your Name theme-->
-            <Color x:Key="AccentColor">#aa00ff</Color>
-            <Rectangle x:Key="WindowBackgroundContent" x:Shared="false">
-                <Rectangle.Fill>
-                    <ImageBrush Opacity="0.4" ImageSource="Assets/Images/YourName.jpg" Stretch="UniformToFill" />
-                </Rectangle.Fill>
-            </Rectangle>
-            <!--#endregion-->
-            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

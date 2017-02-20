@@ -50,7 +50,7 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
         /// Gets the uncompleted download tasks.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<ILocalDiskFile> GetUncompletedFiles();
+        IEnumerable<IDiskFile> GetUncompletedFiles();
 
         /// <summary>
         /// Gets the completed download tasks.

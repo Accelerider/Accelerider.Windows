@@ -35,6 +35,8 @@ namespace BaiduPanDownloadWpf.Core
         /// </summary>
         internal string DownloadDirectory => _account.DownloadDirectory;
 
+        internal LocalDiskUser LocalUser => _account;
+
 
 
         public NetDiskUser(LocalDiskUser account)
@@ -82,7 +84,7 @@ namespace BaiduPanDownloadWpf.Core
         #endregion
 
 
-        public IEnumerable<ILocalDiskFile> GetUncompletedFiles()
+        public IEnumerable<IDiskFile> GetUncompletedFiles()
         {
             return _account.GetUncompletedFiles();
         }

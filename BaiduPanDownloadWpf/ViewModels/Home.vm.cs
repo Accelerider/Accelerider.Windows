@@ -5,7 +5,6 @@ using BaiduPanDownloadWpf.Commands;
 using BaiduPanDownloadWpf.ViewModels.Items;
 using Microsoft.Practices.Unity;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
-using BaiduPanDownloadWpf.Infrastructure.Events;
 using BaiduPanDownloadWpf.Infrastructure;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 
@@ -14,7 +13,7 @@ namespace BaiduPanDownloadWpf.ViewModels
     internal class HomeViewModel : ViewModelBase
     {
         private readonly ILocalDiskUserRepository _localDiskUserRepository;
-        private ILocalDiskUser _localDiskUser;
+        private INetDiskUser _netDiskUser;
         private NetDiskFileNodeViewModel _currentFile;
         private bool _isRefreshing;
 
@@ -30,8 +29,6 @@ namespace BaiduPanDownloadWpf.ViewModels
             RefreshFileListCommand = new Command(RefreshFileListCommandExecuteAsync);
             BatchDownloadFileCommand = new Command<IList>(BatchDownloadFileCommandExecute, param => GetSeletedItems(param).Any());
             BatchDeleteFileCommand = new Command<IList>(BatchDeleteFileCommandExecute, param => GetSeletedItems(param).Any());
-
-            EventAggregator.GetEvent<NetDiskUserSwitchedEvent>().Subscribe(OnNetDiskUserSwitched, Prism.Events.ThreadOption.UIThread);
         }
 
         public NetDiskFileNodeViewModel CurrentFile
@@ -98,7 +95,7 @@ namespace BaiduPanDownloadWpf.ViewModels
             // Remove UI elements
             foreach (var item in GetSeletedItems(parameter))
             {
-                if(item.DeleteFileCommand.CanExecute())
+                if (item.DeleteFileCommand.CanExecute())
                     item.DeleteFileCommand.Execute();
             }
             // TODO: Invokes function from model.
@@ -120,20 +117,11 @@ namespace BaiduPanDownloadWpf.ViewModels
 
         protected override void OnLoaded()
         {
-            if (_localDiskUser?.CurrentNetDiskUser != null) return;
-
-            _localDiskUser = _localDiskUserRepository.FirstOrDefault();
-            if (_localDiskUser?.CurrentNetDiskUser != null)
+            if (SetProperty(ref _netDiskUser, _localDiskUserRepository?.FirstOrDefault()?.CurrentNetDiskUser) && _netDiskUser != null)
             {
-                CurrentFile = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<INetDiskFile>(_localDiskUser.CurrentNetDiskUser.RootFile));
+                CurrentFile = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<INetDiskFile>(_netDiskUser.RootFile));
                 CurrentFile?.RefreshChildren();
             }
-        }
-
-        public void OnNetDiskUserSwitched(NetDiskUserSwitchedEventArgs e)
-        {
-            //var currentUser = _localDiskUser.GetNetDiskUserById(e.UserId);
-            //CurrentFile = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<IDiskFile>(currentUser.RootFile));
         }
     }
 }

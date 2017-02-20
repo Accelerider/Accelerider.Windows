@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using BaiduPanDownloadWpf.Core.Download;
 using BaiduPanDownloadWpf.Infrastructure;
-using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
+using BaiduPanDownloadWpf.Core.Download.DwonloadCore;
 
 namespace BaiduPanDownloadWpf.Core
 {
@@ -16,21 +15,14 @@ namespace BaiduPanDownloadWpf.Core
         public long FileSize { get; private set; }
         public DateTime CompletedTime { get; private set; }
 
-        public static LocalDiskFile GetLocalDiskFile(DownloadInfo info)
-        {
-            using(var stream=new FileStream(info.DownloadPath,FileMode.Open))
-            {
-                return new LocalDiskFile()
-                {
-                    FileId = info.Id,
-                    FilePath = new FileLocation(info.DownloadPath),
-                    FileType = NetDiskFile.FileTypeDirectory.Select(v => v.Value.Contains(info.DownloadPath.Split('.').Last()) ? v.Key : FileTypeEnum.OtherType).FirstOrDefault(),
-                    FileSize =stream.Length,
-                    CompletedTime = info.CompletedTime
-                };
-            }
-        }
 
-        
+        public LocalDiskFile(long id, string path, FileTypeEnum type, long size, DateTime time)
+        {
+            FileId = id;
+            FilePath = new FileLocation(path);
+            FileType = type;
+            FileSize = size;
+            CompletedTime = time;
+        }
     }
 }

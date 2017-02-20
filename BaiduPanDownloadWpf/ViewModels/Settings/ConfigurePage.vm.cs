@@ -1,8 +1,11 @@
 ﻿using Microsoft.Practices.Unity;
 using System;
+using System.Collections.Generic;
 using BaiduPanDownloadWpf.Commands;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using System.Windows.Forms;
+using BaiduPanDownloadWpf.Assets;
+using Prism.Unity;
 
 namespace BaiduPanDownloadWpf.ViewModels.Settings
 {
@@ -22,7 +25,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
 
         protected override void OnLoaded()
         {
-            if (_localDiskUser == null) _localDiskUser = _localDiskUserRepository.FirstOrDefault();
+            if (SetProperty(ref _localDiskUser, _localDiskUserRepository?.FirstOrDefault())) UpdataAllProperties();
         }
 
         public string DownloadPath
@@ -64,12 +67,25 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
 
         private void OpenFolderBrowserCommandExecute()
         {
-            var dialog = new FolderBrowserDialog();
-            dialog.Description = "Please select the download path";
+            var dialog = new FolderBrowserDialog { Description = UiStringResources.Please_select_the_download_path };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 DownloadPath = dialog.SelectedPath;
             }
+        }
+
+        private void UpdateAllProperties()
+        {
+            OnPropertyChanged(() => DownloadPath);
+            OnPropertyChanged(() => DownloadSpeedLimit);
+            OnPropertyChanged(() => ParallelTaskNumber);
+        }
+
+        private void UpdataAllProperties()
+        {
+            OnPropertyChanged(() => DownloadPath);
+            OnPropertyChanged(() => DownloadSpeedLimit);
+            OnPropertyChanged(() => ParallelTaskNumber);
         }
     }
 }

@@ -6,7 +6,7 @@
                   Title="{x:Static res:UiStringResources.MWTitile}" IsTitleVisible="True"
                   ContentSource="/Views/Home.xaml"
                   MinWidth="850" MinHeight="520"
-                  Width="1000" Height="620">
+                  Width="1050" Height="650">
 
     <mui:ModernWindow.MenuLinkGroups>
         <mui:LinkGroup DisplayName="{x:Static res:UiStringResources.MW_file_explorer}">
@@ -32,5 +32,6 @@
     <mui:ModernWindow.TitleLinks>
         <mui:Link DisplayName="{x:Static res:UiStringResources.MW_settings}" Source="/Views/SettingsPage.xaml" />
         <mui:Link DisplayName="{x:Static res:UiStringResources.MW_help}" Source="http://www.mrs4s.top/2016/10/06/%E3%80%90c%E5%B0%8F%E5%B7%A5%E5%85%B7%E3%80%91%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E4%B8%8D%E9%99%90%E9%80%9F%E4%B8%8B%E8%BD%BD%E5%B7%A5%E5%85%B7" />
+        <mui:Link DisplayName="{x:Static res:UiStringResources.MW_issues}" Source="https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues"/>
     </mui:ModernWindow.TitleLinks> 
 </mui:ModernWindow>     

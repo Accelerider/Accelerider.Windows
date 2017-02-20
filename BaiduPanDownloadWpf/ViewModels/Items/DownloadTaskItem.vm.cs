@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using BaiduPanDownloadWpf.Commands;
 using BaiduPanDownloadWpf.Infrastructure;
@@ -18,7 +19,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
             : base(container)
         {
             _diskFile = diskFile;
-            OpenFolderCommand = new Command(OpenFolderCommandExecuteAsync, () => File.Exists(FilePath.FolderPath));
+            OpenFolderCommand = new Command(OpenFolderCommandExecuteAsync, () => Directory.Exists(FilePath.FolderPath));
         }
 
         public long FileId => _diskFile.FileId;
@@ -31,14 +32,13 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
             get { return _openFolderCommand; }
             set { SetProperty(ref _openFolderCommand, value); }
         }
-        private async void OpenFolderCommandExecuteAsync()
+        private void OpenFolderCommandExecuteAsync()
         {
-            if (FileType != FileTypeEnum.FolderType) return;
-            await Task.Run(() =>
+            Task.Run(() =>
             {
                 try
                 {
-                    Process.Start("exeplorer.exe", FilePath.FolderPath);
+                    Process.Start("explorer.exe", FilePath.FolderPath);
                 }
                 catch { }
             });
