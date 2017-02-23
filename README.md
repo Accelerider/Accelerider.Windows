@@ -1,18 +1,13 @@
-# Introduction
+# Introduction ![version](https://img.shields.io/badge/BaiduPanDownloadWpf-0.0.10.59-orange.svg) ![build state](https://img.shields.io/badge/build-passing-brightgreen.svg) 
 百度网盘**不限速**下载客户端，此项目源于[BaiduPanDownloadWinform](https://github.com/ResourceHunter/BaiduPanDownloadWinform)，旨在使用[WPF](https://msdn.microsoft.com/en-us/library/mt149842.aspx)技术，为其编写一个更为美观的界面，并且重新设计了软件的架构，使之在应对度娘多变的和谐策略的同时，为UI部分代码的复用提供了可能。此项目基于[MUI](https://github.com/firstfloorsoftware/mui)进行开发，并借助[Prism](https://github.com/PrismLibrary/Prism)框架实现了[界面](https://github.com/ResourceHunter/BaiduPanDownloadWpf/tree/master/BaiduPanDownloadWpf)与[业务逻辑](https://github.com/ResourceHunter/BaiduPanDownloadWpf/tree/master/BaiduPanDownloadWpf.Core)的分离。
 
-![preview](https://github.com/ResourceHunter/BaiduPanDownloadWpf/blob/master/docs/images/preview.png)
-
-# Summary
-![version](https://img.shields.io/badge/BaiduPanDownloadWpf-v0.0.8.56-orange.svg)
-![build state](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![license](https://img.shields.io/badge/license-MIT-blue.svg)
+![preview](/docs/images/preview.png)
 
 # Getting Started
 1. 下载代码，并使用Visual Studio（2015+）打开；
-2. 选中整个解决方案并右键，选择生成解决方案（build）；
+2. 选中整个解决方案并右键，选择生成解决方案（build / rebulid）；
 3. 期间会自动还原NuGet packages，并可能占用一些时间，请耐心等待。
-4. 运行项目后，老用户即可在Settings --> Login页面，用先前在老版本上注册过的账号登入，并回到file explorer/HOME页面浏览/删除文件。
+4. 运行项目后，即可在Settings --> Login页面登入。
 
 ![login illustration](/docs/images/login_page.png)
 

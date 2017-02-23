@@ -46,7 +46,7 @@
                             IsSelectionRangeEnabled="True" SelectionStart="32" SelectionEnd="64" 
                             Minimum="4" Maximum="96" Value="{Binding DownloadSpeedLimit}" TickFrequency="4"/>
                     <TextBlock Grid.Column="4" Grid.Row="2" VerticalAlignment="Center"
-                               Text="{Binding Path=Value, ElementName=SliderSpeedLimit, StringFormat='{}{0} Mbps'}"/>
+                               Text="{Binding Path=Value, ElementName=SliderSpeedLimit, StringFormat='{}{0} 线程'}"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"
                                Text="{x:Static res:UiStringResources.ConfigPage_Number_of_parallel_tasks_}"/>

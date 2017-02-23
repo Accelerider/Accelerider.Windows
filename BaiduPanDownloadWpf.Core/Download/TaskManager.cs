@@ -10,6 +10,7 @@ using BaiduPanDownloadWpf.Infrastructure;
 using BaiduPanDownloadWpf.Infrastructure.Events;
 using Microsoft.Practices.Unity;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace BaiduPanDownloadWpf.Core.Download
 {
@@ -99,8 +100,8 @@ namespace BaiduPanDownloadWpf.Core.Download
                         var data =
                             _database.GetDownloadingTask()
                                 .FirstOrDefault(v => _downloadingTasks.All(v2 => v.DownloadPath != v2.DownloadPath));
-                        AddDownloadingTask(data.Info);
-
+                        if(data!=null)
+                            AddDownloadingTask(data.Info);
                     }
                 }
             }).Start();
@@ -226,6 +227,7 @@ namespace BaiduPanDownloadWpf.Core.Download
                 }
             }
             _database.RemoveTask(id);
+            EventAggregator.GetEvent<DownloadStateChangedEvent>().Publish(new DownloadStateChangedEventArgs(id, DownloadStateEnum.Waiting, DownloadStateEnum.Canceled));
         }
 
         /// <summary>

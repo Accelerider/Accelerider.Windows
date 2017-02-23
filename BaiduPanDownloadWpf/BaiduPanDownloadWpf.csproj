@@ -103,6 +103,9 @@
     <Compile Include="Views\RecycleBinPage.xaml.cs">
       <DependentUpon>RecycleBinPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Settings\OptionPage.xaml.cs">
+      <DependentUpon>OptionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SharedPage.xaml.cs">
       <DependentUpon>SharedPage.xaml</DependentUpon>
     </Compile>
@@ -189,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Settings\ConfigurePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings\OptionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

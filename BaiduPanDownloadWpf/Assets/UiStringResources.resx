@@ -166,7 +166,7 @@
     <value>验证码：</value>
   </data>
   <data name="MWTitile" xml:space="preserve">
-    <value>BaiduPanDownload (v0.0.8.56)</value>
+    <value>BaiduPanDownload（V0.0.10.59 内测版）</value>
   </data>
   <data name="MW_downloaded" xml:space="preserve">
     <value>下载完成</value>
@@ -223,7 +223,7 @@
     <value>并行任务：</value>
   </data>
   <data name="ConfigPage_Speed_limit_" xml:space="preserve">
-    <value>速度限制：</value>
+    <value>线程数量：</value>
   </data>
   <data name="ConfigPage_tasks" xml:space="preserve">
     <value>个</value>

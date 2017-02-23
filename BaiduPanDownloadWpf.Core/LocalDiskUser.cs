@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using BaiduPanDownloadWpf.Core.Download;
 using BaiduPanDownloadWpf.Core.NetWork;
 using BaiduPanDownloadWpf.Core.NetWork.Packets;
@@ -66,8 +67,11 @@ namespace BaiduPanDownloadWpf.Core
 
         public async Task<IEnumerable<INetDiskUser>> GetAllNetDiskUsers()
         {
-            if (!BoundAccount) throw new NullReferenceException("尚未绑定百度账号");
-
+            if (!BoundAccount)
+            {
+                MessageBox.Show("尚未绑定百度账号，请使用工具绑定");
+                throw new NullReferenceException("尚未绑定百度账号");
+            }
             var user = new NetDiskUser(this);
             await user.UpdateUserInfoAsync();
             CurrentNetDiskUser = user;

@@ -59,7 +59,7 @@ namespace BaiduPanDownloadWpf
             log.AppendLine("Time: " + DateTime.Now);
             log.AppendLine("Type: " + e.GetType().Name);
             log.AppendLine("Message: " + e.Message);
-            log.AppendLine("Version: 0.0.0.8");
+            log.AppendLine("Version: 0.0.10.59");
             log.AppendLine("StackTrace: ");
             log.AppendLine(e.StackTrace);
             log.AppendLine();
@@ -88,7 +88,7 @@ namespace BaiduPanDownloadWpf
             log.AppendLine();
             log.AppendLine("Time: " + DateTime.Now);
             log.AppendLine("Type: " + e.GetType().Name);
-            log.AppendLine("Version: 0.0.0.8");
+            log.AppendLine("Version: 0.0.10.59");
             log.AppendLine("Message: " + e.Exception==null?"无信息":e.Exception.Message);
             log.AppendLine("StackTrace: ");
             log.AppendLine(e.Exception==null?"无信息":e.Exception.StackTrace);

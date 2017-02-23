@@ -217,6 +217,7 @@ namespace BaiduPanDownloadWpf.Core
 
         public Task<bool> DeleteAsync()
         {
+            
             return Task.Run(async () =>
             {
                 var json = await _netDiskUser.DataServer.SendPacketAsync(new DeleteFilePacket()
@@ -226,6 +227,7 @@ namespace BaiduPanDownloadWpf.Core
                 });
                 return (int)JObject.Parse(json)["errno"] == 0;
             });
+            
             /*
             return Task.Run(async () =>
             {

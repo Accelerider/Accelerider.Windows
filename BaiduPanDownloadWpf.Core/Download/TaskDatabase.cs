@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -186,7 +187,7 @@ namespace BaiduPanDownloadWpf.Core.Download
             {
                 foreach (var url in result.DownloadUrlList)
                 {
-                    var httpInfo = await HttpDownload.CreateTaskInfo(url.Value.UrlLists, info.DownloadPath, 32,
+                    var httpInfo = await HttpDownload.CreateTaskInfo(url.Value.UrlLists, info.DownloadPath, _user.DownloadThreadNumber,
                         result.Cookies);
                     info.Info = httpInfo;
                     info.Save();
@@ -244,14 +245,27 @@ namespace BaiduPanDownloadWpf.Core.Download
             if (_info.Tasks.Any(v => v.Id == id))
             {
                 var path = GetFilePathById(id);
+                if (_info.DownloadingList.Any(v => v.DownloadPath == path))
+                    _info.DownloadingList.Remove(_info.DownloadingList.FirstOrDefault(v => v.DownloadPath == path));
                 if (GetDownloadingDataByPath(path) != null)
                     SetCompleted(path);
                 _info.Tasks.Remove(_info.Tasks.FirstOrDefault(v => v.DownloadPath == path));
+                try
+                {
+                    if (File.Exists(path + ".downloading"))
+                        File.Delete(path + ".downloading");
+                    File.Delete(path);
+                }
+                catch
+                {
+                    Debug.WriteLine("删除文件 "+path+" 时出现错误");
+                }
             }
             if (_info.CompletedTasks.Any(v => v.Id == id))
             {
                 _info.CompletedTasks.Remove(_info.CompletedTasks.FirstOrDefault(v=>v.Id==id));
             }
+            
             Save();
         }
 
