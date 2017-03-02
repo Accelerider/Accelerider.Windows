@@ -1,4 +1,4 @@
-# Introduction ![version](https://img.shields.io/badge/BaiduPanDownloadWpf-0.0.10.59-orange.svg) ![build state](https://img.shields.io/badge/build-passing-brightgreen.svg) 
+# Introduction ![version](https://img.shields.io/badge/BaiduPanDownloadWpf-v0.1.0.63-orange.svg) ![build state](https://img.shields.io/badge/build-passing-brightgreen.svg) 
 百度网盘**不限速**下载客户端，此项目源于[BaiduPanDownloadWinform](https://github.com/ResourceHunter/BaiduPanDownloadWinform)，旨在使用[WPF](https://msdn.microsoft.com/en-us/library/mt149842.aspx)技术，为其编写一个更为美观的界面，并且重新设计了软件的架构，使之在应对度娘多变的和谐策略的同时，为UI部分代码的复用提供了可能。此项目基于[MUI](https://github.com/firstfloorsoftware/mui)进行开发，并借助[Prism](https://github.com/PrismLibrary/Prism)框架实现了[界面](https://github.com/ResourceHunter/BaiduPanDownloadWpf/tree/master/BaiduPanDownloadWpf)与[业务逻辑](https://github.com/ResourceHunter/BaiduPanDownloadWpf/tree/master/BaiduPanDownloadWpf.Core)的分离。
 
 ![preview](/docs/images/preview.png)
