@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="700">
     <ScrollViewer>
-        <Grid x:Name="grid" Style="{StaticResource ContentRoot}" IsSharedSizeScope="True" >
+        <Grid Style="{StaticResource ContentRoot}" IsSharedSizeScope="True" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto"/>
@@ -31,8 +31,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"
-                           Visibility="{Binding IsLoginServiceAccount, Converter={StaticResource BooleanToVisibilityConverter}}"
-                           >
+                           Visibility="{Binding IsLoginServiceAccount, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0} {1}">
                             <Binding Source="{x:Static res:UiStringResources.LoginPage_Welcome_}"/>
@@ -81,26 +80,28 @@
                     <PasswordBox Name="PasswordBoxLocalDiskUser" Grid.Row="2" Grid.Column="2"/>
                     <CheckBox Grid.Row="4" Grid.Column="2" Content="{x:Static res:UiStringResources.LoginPage_Remember_the_password}" IsChecked="{Binding IsRememberPassword}"/>
                     <CheckBox Grid.Row="6" Grid.Column="2" Content="{x:Static res:UiStringResources.LoginPage_Automatic_login}" IsChecked="{Binding IsAutoSignIn}"/>
-                    <Button Grid.Row="8" Grid.Column="2" Content="{x:Static res:UiStringResources.LoginPage_Login}"
-                            Command="{Binding LoginServiceAccountCommand}" CommandParameter="{Binding ElementName=PasswordBoxLocalDiskUser}">
-                        <Button.Style>
-                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                    <mui:ModernButton Grid.Row="8" Grid.Column="2" Content="{x:Static res:UiStringResources.LoginPage_Login}"
+                                      HorizontalAlignment="Center" IconHeight="14" IconWidth="14" IconData="F1 M 57,42L 57,34L 32.25,34L 42.25,24L 31.75,24L 17.75,38L 31.75,52L 42.25,52L 32.25,42L 57,42 Z "
+                                      Command="{Binding LoginServiceAccountCommand}" CommandParameter="{Binding ElementName=PasswordBoxLocalDiskUser}">
+                        <mui:ModernButton.Style>
+                            <Style BasedOn="{StaticResource {x:Type mui:ModernButton}}" TargetType="{x:Type mui:ModernButton}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsSigningIn}" Value="True">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </Button.Style>
-                    </Button>
+                        </mui:ModernButton.Style>
+                    </mui:ModernButton>
                     <mui:ModernProgressRing Grid.Row="8" Grid.Column="2" MinHeight="0" Height="25" IsActive="{Binding IsSigningIn}" Style="{StaticResource WaveProgressRingStyle}"/>
+                    <!--<res:AsyncButton Grid.Row="8" Grid.Column="2" HorizontalAlignment="Center" IsWorking="{Binding IsSigningIn}"
+                                     ButtonTip="{x:Static res:UiStringResources.LoginPage_Login}" ProgressBarStyle="{StaticResource WaveProgressRingStyle}" IconData="F1 M 57,42L 57,34L 32.25,34L 42.25,24L 31.75,24L 17.75,38L 31.75,52L 42.25,52L 32.25,42L 57,42 Z "
+                                     Command="{Binding LoginServiceAccountCommand}" CommandParameter="{Binding ElementName=PasswordBoxLocalDiskUser}"/>-->
                 </Grid>
 
 
                 <ComboBox Grid.Row="2" Grid.Column="0" ItemsSource="{Binding NetDiskUsers}" SelectedItem="{Binding NetDiskUsers[0]}"
-                          HorizontalContentAlignment="Stretch" Visibility="{Binding IsLoginServiceAccount, Converter={StaticResource BooleanToVisibilityConverter}}"
-                          ItemContainerStyle="{StaticResource SelectedBackgroundStyle}"
-                          Background="Transparent">
+                          Visibility="{Binding IsLoginServiceAccount, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Border Padding="6">

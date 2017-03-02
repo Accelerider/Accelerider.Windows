@@ -193,7 +193,8 @@ namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
                 var info = new DownloadInfo
                 {
                     ContentLength = response.ContentLength,
-                    BlockLength = response.ContentLength / ThreadNum,
+                    BlockLength =
+                        response.ContentLength < 1024 ? response.ContentLength : response.ContentLength/ThreadNum,
                     DownloadUrl = Url,
                     DownloadPath = DownloadPath,
                     UserCookies = UserCookies,
@@ -317,6 +318,7 @@ namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
                     var request = WebRequest.Create(sub) as HttpWebRequest;
                     request.Referer = Referer;
                     request.UserAgent = UserAgent;
+                    request.Timeout = 10000;
                     if (UserCookies != null)
                     {
                         request.CookieContainer = new CookieContainer();
@@ -328,8 +330,12 @@ namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
                     }
                     return (HttpWebResponse)request.GetResponse();
                 }
-                catch
+                catch(WebException ex)
                 {
+                    if (ex.Message.Contains("超时") || ex.Message.Contains("Timeout"))
+                    {
+                        return GetResponse();
+                    }
                 }
             }
             return null;

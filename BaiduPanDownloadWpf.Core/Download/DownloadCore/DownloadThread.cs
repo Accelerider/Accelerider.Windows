@@ -51,7 +51,9 @@ namespace BaiduPanDownloadWpf.Core.Download.DownloadCore
         {
             try
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(300);
+                _request?.Abort();
+                _response?.Close();
                 if (_stoped)
                 {
                     return;
@@ -137,10 +139,10 @@ namespace BaiduPanDownloadWpf.Core.Download.DownloadCore
             {
                 return;
             }
+            _stoped = true;
+            _workThread.Abort();
             _request?.Abort();
             _response?.Close();
-            _workThread.Abort();
-            _stoped = true;
         }
 
         private int _num;

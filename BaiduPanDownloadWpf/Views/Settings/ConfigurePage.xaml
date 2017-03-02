@@ -6,6 +6,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:res="clr-namespace:BaiduPanDownloadWpf.Assets"
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="800">
@@ -37,14 +38,16 @@
                     <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"
                                Text="{x:Static res:UiStringResources.ConfigPage_Download_path_}"/>
                     <TextBox Grid.Column="2" Grid.Row="0" IsReadOnly="True" Text="{Binding DownloadPath}" Foreground="Gray"/>
-                    <Button Grid.Column="4" Grid.Row="0" Content="{x:Static res:UiStringResources.ConfigPage_Browse}" Command="{Binding OpenFolderBrowserCommand}"/>
+                    <mui:ModernButton Grid.Column="4" Grid.Row="0" Content="{x:Static res:UiStringResources.ConfigPage_Browse}" 
+                                       IconWidth="15" IconHeight="15" IconData="F1 M 19,50L 28,34L 63,34L 54,50L 19,50 Z M 19,28.0001L 35,28C 36,25 37.4999,24.0001 37.4999,24.0001L 48.75,24C 49.3023,24 50,24.6977 50,25.25L 50,28L 53.9999,28.0001L 53.9999,32L 27,32L 19,46.4L 19,28.0001 Z "
+                                      Command="{Binding OpenFolderBrowserCommand}"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"
                                Text="{x:Static res:UiStringResources.ConfigPage_Speed_limit_}"/>
                     <Slider Name="SliderSpeedLimit" Grid.Column="2" Grid.Row="2" 
                             IsSnapToTickEnabled="True" TickPlacement="Both" 
-                            IsSelectionRangeEnabled="True" SelectionStart="32" SelectionEnd="64" 
-                            Minimum="4" Maximum="96" Value="{Binding DownloadSpeedLimit}" TickFrequency="4"/>
+                            IsSelectionRangeEnabled="True" SelectionStart="8" SelectionEnd="16" 
+                            Minimum="4" Maximum="32" Value="{Binding DownloadSpeedLimit}" TickFrequency="2"/>
                     <TextBlock Grid.Column="4" Grid.Row="2" VerticalAlignment="Center"
                                Text="{Binding Path=Value, ElementName=SliderSpeedLimit, StringFormat='{}{0} 线程'}"/>
 

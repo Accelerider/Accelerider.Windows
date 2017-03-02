@@ -4,9 +4,11 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+
                 <ResourceDictionary Source="/FirstFloor.ModernUI;component/Assets/ModernUI.xaml" />
                 <ResourceDictionary Source="/Assets/Themes/ModernUI.YourNameTheme.xaml"/>
-                <ResourceDictionary Source="/Assets/CommonResources.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/Assets/CommonResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

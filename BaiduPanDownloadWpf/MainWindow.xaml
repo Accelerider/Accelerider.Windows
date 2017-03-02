@@ -6,7 +6,8 @@
                   Title="{x:Static res:UiStringResources.MWTitile}" IsTitleVisible="True"
                   ContentSource="/Views/Home.xaml"
                   MinWidth="850" MinHeight="520"
-                  Width="1050" Height="650">
+                  Width="1050" Height="650"
+                  WindowStartupLocation="CenterScreen">
 
     <mui:ModernWindow.MenuLinkGroups>
         <mui:LinkGroup DisplayName="{x:Static res:UiStringResources.MW_file_explorer}">

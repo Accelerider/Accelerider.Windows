@@ -65,6 +65,7 @@ namespace BaiduPanDownloadWpf.Core
             return ret.Contains("0");
         }
 
+        // TODO: 记得修改。。。
         public async Task<IEnumerable<INetDiskUser>> GetAllNetDiskUsers()
         {
             if (!BoundAccount)
@@ -149,9 +150,9 @@ namespace BaiduPanDownloadWpf.Core
         }
 
         // TODO: Temporary solution.
-        public void CancelDownloadTask(long fileId)
+        public async void CancelDownloadTask(long fileId)
         {
-            TaskManager.GetTaskManagerByLocalDiskUser(Container, this).RemoveTask(fileId);
+            await TaskManager.GetTaskManagerByLocalDiskUser(Container, this).RemoveTask(fileId);
         }
 
         public LocalDiskUser(IUnityContainer container) : base(container)

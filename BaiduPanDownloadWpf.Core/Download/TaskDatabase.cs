@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using BaiduPanDownloadWpf.Core.Download.DownloadCore;
 using BaiduPanDownloadWpf.Core.Download.DwonloadCore;
@@ -149,6 +150,11 @@ namespace BaiduPanDownloadWpf.Core.Download
                 Console.WriteLine("DEBUG: 没有新任务了");
                 return new NextResult(null,209,"没有下一个任务了");
             }
+            if (info.FileInfo.FileSize < 1024*1024*30)
+            {
+                var r = await _user.DownloadFiles(new[] { info.FileInfo }, DownloadMethod.AppidDownload);
+                return await CreateData(info, r);
+            }
             var ret = await _user.DownloadFiles(new[] {info.FileInfo}, DownloadMethod.JumpDownload);
             if (ret.ErrorCode != 0)
             {
@@ -250,15 +256,20 @@ namespace BaiduPanDownloadWpf.Core.Download
                 if (GetDownloadingDataByPath(path) != null)
                     SetCompleted(path);
                 _info.Tasks.Remove(_info.Tasks.FirstOrDefault(v => v.DownloadPath == path));
-                try
+                while (true)
                 {
-                    if (File.Exists(path + ".downloading"))
-                        File.Delete(path + ".downloading");
-                    File.Delete(path);
-                }
-                catch
-                {
-                    Debug.WriteLine("删除文件 "+path+" 时出现错误");
+                    Thread.Sleep(300);
+                    try
+                    {
+                        if (File.Exists(path + ".downloading"))
+                            File.Delete(path + ".downloading");
+                        File.Delete(path);
+                        break;
+                    }
+                    catch
+                    {
+                        Debug.WriteLine("删除文件 " + path + " 时出现错误");
+                    }
                 }
             }
             if (_info.CompletedTasks.Any(v => v.Id == id))
@@ -286,7 +297,10 @@ namespace BaiduPanDownloadWpf.Core.Download
         /// </summary>
         public void Save()
         {
-            File.WriteAllText(TaskListFile, JObject.Parse(JsonConvert.SerializeObject(_info)).ToString());
+            lock (this)
+            {
+                File.WriteAllText(TaskListFile, JObject.Parse(JsonConvert.SerializeObject(_info)).ToString());
+            }
         }
 
     }

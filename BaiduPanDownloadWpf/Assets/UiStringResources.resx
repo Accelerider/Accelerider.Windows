@@ -166,7 +166,7 @@
     <value>验证码：</value>
   </data>
   <data name="MWTitile" xml:space="preserve">
-    <value>BaiduPanDownload（V0.0.10.59 内测版）</value>
+    <value>BaiduPanDownload（V0.1.0.63 内测版）</value>
   </data>
   <data name="MW_downloaded" xml:space="preserve">
     <value>下载完成</value>
@@ -223,7 +223,7 @@
     <value>并行任务：</value>
   </data>
   <data name="ConfigPage_Speed_limit_" xml:space="preserve">
-    <value>线程数量：</value>
+    <value>速度限制：</value>
   </data>
   <data name="ConfigPage_tasks" xml:space="preserve">
     <value>个</value>
@@ -254,5 +254,23 @@
   </data>
   <data name="MW_issues" xml:space="preserve">
     <value>反馈</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>v0.1.0.63</value>
+  </data>
+  <data name="OptionPage_Language_" xml:space="preserve">
+    <value>语言：</value>
+  </data>
+  <data name="OptionPage_Login_" xml:space="preserve">
+    <value>登入</value>
+  </data>
+  <data name="OptionPage_Palette_" xml:space="preserve">
+    <value>配色：</value>
+  </data>
+  <data name="OptionPage_Theme_" xml:space="preserve">
+    <value>主题：</value>
+  </data>
+  <data name="MessageDialogTitle_LoginException" xml:space="preserve">
+    <value>登入异常信息</value>
   </data>
 </root>

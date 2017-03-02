@@ -11,6 +11,7 @@ using BaiduPanDownloadWpf.Infrastructure.Events;
 using Microsoft.Practices.Unity;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BaiduPanDownloadWpf.Core.Download
 {
@@ -75,13 +76,17 @@ namespace BaiduPanDownloadWpf.Core.Download
             {
                 while (_runing)
                 {
-                    Thread.Sleep(1000);
-                    if (_downloadingTasks.Count(v=>v.DownloadState==DownloadStateEnum.Downloading) < _user.ParallelTaskNumber)
+                    Thread.Sleep(300);
+                    if (_downloadingTasks.Count(v => v.DownloadState == DownloadStateEnum.Downloading) < _user.ParallelTaskNumber)
                     {
                         //如果正在下载的文件数量与已经请求的文件数量相同
                         if (_database.GetDownloadingTask().Length == _downloadingTasks.Count)
                         {
                             var result = await _database.Next();
+                            if (result == null)
+                            {
+                                continue;
+                            }
                             if (result.ErrorCode != 0)
                             {
                                 if (result.ErrorCode == 209)
@@ -100,11 +105,12 @@ namespace BaiduPanDownloadWpf.Core.Download
                         var data =
                             _database.GetDownloadingTask()
                                 .FirstOrDefault(v => _downloadingTasks.All(v2 => v.DownloadPath != v2.DownloadPath));
-                        if(data!=null)
+                        if (data != null)
                             AddDownloadingTask(data.Info);
                     }
                 }
-            }).Start();
+            })
+            { IsBackground = true }.Start();
         }
 
         private void AddDownloadingTask(DownloadInfo info)
@@ -198,7 +204,7 @@ namespace BaiduPanDownloadWpf.Core.Download
         {
             if (!_database.Contains(id))
                 return;
-            if (_downloadingTasks.Any(v => v.DownloadPath == _database.GetFilePathById(id) && v.DownloadState!=DownloadStateEnum.Downloading))
+            if (_downloadingTasks.Any(v => v.DownloadPath == _database.GetFilePathById(id) && v.DownloadState != DownloadStateEnum.Downloading))
             {
                 _downloadingTasks.ForEach(v =>
                 {
@@ -214,19 +220,22 @@ namespace BaiduPanDownloadWpf.Core.Download
         /// 删除任务
         /// </summary>
         /// <param name="id"></param>
-        public void RemoveTask(long id)
+        public async Task RemoveTask(long id)
         {
-            if (_database.GetFilePathById(id) != string.Empty)
+            await Task.Run(() =>
             {
-                var path=_database.GetFilePathById(id);
-                if (_downloadingTasks.Any(v => v.DownloadPath == path))
+                if (_database.GetFilePathById(id) != string.Empty)
                 {
-                    var task = _downloadingTasks.FirstOrDefault(v => v.DownloadPath == path);
-                    task.StopAndSave();
-                    _downloadingTasks.Remove(task);
+                    var path = _database.GetFilePathById(id);
+                    if (_downloadingTasks.Any(v => v.DownloadPath == path))
+                    {
+                        var task = _downloadingTasks.FirstOrDefault(v => v.DownloadPath == path);
+                        task.StopAndSave();
+                        _downloadingTasks.Remove(task);
+                    }
                 }
-            }
-            _database.RemoveTask(id);
+                _database.RemoveTask(id);
+            });
             EventAggregator.GetEvent<DownloadStateChangedEvent>().Publish(new DownloadStateChangedEventArgs(id, DownloadStateEnum.Waiting, DownloadStateEnum.Canceled));
         }
 

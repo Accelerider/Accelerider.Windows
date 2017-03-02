@@ -26,8 +26,8 @@ namespace BaiduPanDownloadWpf.Core.NetWork
 
         public static Server TestServer { get; }=new Server()
         {
-            ServerAddress = "localhost",
-            Port=3355
+            ServerAddress = "tool.mrs4s.top",
+            Port=1024
         };
 
         /// <summary>

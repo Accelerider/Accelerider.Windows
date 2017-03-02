@@ -6,8 +6,9 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:res="clr-namespace:BaiduPanDownloadWpf.Assets"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="700">
+             d:DesignHeight="500" d:DesignWidth="750">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
@@ -16,70 +17,153 @@
 
     <Grid Style="{StaticResource ContentRoot}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="32"/>
-            <ColumnDefinition />
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="64"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
+
         <!--Left side-->
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="8"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
             </Grid.RowDefinitions>
+
+            <!--Sign in card-->
+            <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="12"/>
+                    <RowDefinition Height="Auto" SharedSizeGroup="SharedHeight"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto" SharedSizeGroup="SharedHeight"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="4"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto" SharedSizeGroup="SharedHeight"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="账户" Style="{StaticResource Heading2}"/>
+
+                <TextBox Grid.Row="2" 
+                         mah:TextBoxHelper.Watermark="账号"
+                         mah:TextBoxHelper.SelectAllOnFocus="True"
+                         mah:TextBoxHelper.ClearTextButton="True"/>
+
+                <PasswordBox Grid.Row="4" 
+                             mah:TextBoxHelper.Watermark="密码" 
+                             mah:TextBoxHelper.SelectAllOnFocus="True"
+                             mah:TextBoxHelper.ClearTextButton="True"/>
+
+                <CheckBox Grid.Row="6" Content="{x:Static res:UiStringResources.LoginPage_Remember_the_password}" IsChecked="{Binding IsRememberPassword}"/>
+                <CheckBox Grid.Row="8" Content="{x:Static res:UiStringResources.LoginPage_Automatic_login}" IsChecked="{Binding IsAutoSignIn}"/>
+                <mui:ModernButton Grid.Row="10" HorizontalAlignment="Center" IconHeight="14" IconWidth="14" IconData="F1 M 57,42L 57,34L 32.25,34L 42.25,24L 31.75,24L 17.75,38L 31.75,52L 42.25,52L 32.25,42L 57,42 Z "
+                                  Content="{x:Static res:UiStringResources.OptionPage_Login_}" />
+            </Grid>
+
+            <!--Sign out card-->
+            <Grid Grid.Row="0" Visibility="Collapsed">
+
+            </Grid>
+
+            <!--Sign up card-->
+            <Grid Grid.Row="0" Visibility="Collapsed">
+
+            </Grid>
 
             <!--APPEARENCE card-->
             <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="6"/>
+                    <RowDefinition Height="12"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="6"/>
+                    <RowDefinition Height="8"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="6"/>
+                    <RowDefinition Height="8"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="8"/>
                     <ColumnDefinition />
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="APPEARENCE" Style="{StaticResource Heading2}"/>
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="外观" Style="{StaticResource Heading2}"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Text="Theme: "/>
-                <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Text="Palette: "/>
-                <TextBlock Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Text="Language: "/>
+                <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.OptionPage_Theme_}"/>
+                <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.OptionPage_Palette_}"/>
+                <TextBlock Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.OptionPage_Language_}"/>
 
                 <ComboBox Grid.Column="2" Grid.Row="2" />
                 <ComboBox Grid.Column="2" Grid.Row="4" />
-                <ComboBox Grid.Column="2" Grid.Row="6" />
+                <ComboBox Grid.Column="2" Grid.Row="6">
+                    <ComboBoxItem Content="中文"/>
+                    <ComboBoxItem Content="English"/>
+                    <ComboBoxItem Content="日本語"/>
+                </ComboBox>
             </Grid>
         </Grid>
+
         <!--Right side-->
         <Grid Grid.Column="2">
-            <Grid.ColumnDefinitions>
-                
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
             <!--Dowload Configure card-->
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="6"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="6"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="6"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="8"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="DOWNLOAD CONFIGURE" Style="{StaticResource Heading2}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="12"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="下载" Style="{StaticResource Heading2}"/>
 
-                <TextBox Grid.Column="0" Grid.Row="4" IsReadOnly="True" Text="{Binding DownloadPath}" Foreground="Gray"/>
+                <TextBlock Grid.Row="2" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.ConfigPage_Download_path_}"/>
+                <TextBlock Grid.Row="6" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.ConfigPage_Speed_limit_}"/>
+                <TextBlock Grid.Row="10" VerticalAlignment="Center" Text="{x:Static res:UiStringResources.ConfigPage_Number_of_parallel_tasks_}"/>
+
+                <TextBox Grid.Row="4" IsReadOnly="True" Text="{Binding DownloadPath}" Foreground="Gray"/>
+                <Slider Grid.Row="8" Name="SliderSpeedLimit"
+                            IsSnapToTickEnabled="True" TickPlacement="Both" 
+                            IsSelectionRangeEnabled="True" SelectionStart="32" SelectionEnd="64" 
+                            Minimum="4" Maximum="64" Value="{Binding DownloadSpeedLimit}" TickFrequency="4"/>
+                <Slider Name="SliderParallelTask" Grid.Row="12" 
+                        IsSnapToTickEnabled="True" TickPlacement="Both" 
+                        Minimum="1" Maximum="5" Value="{Binding ParallelTaskNumber}"/>
+
+                <mui:ModernButton Grid.Column="2" Grid.Row="4" 
+                                  IconWidth="15" IconHeight="15" IconData="F1 M 19,50L 28,34L 63,34L 54,50L 19,50 Z M 19,28.0001L 35,28C 36,25 37.4999,24.0001 37.4999,24.0001L 48.75,24C 49.3023,24 50,24.6977 50,25.25L 50,28L 53.9999,28.0001L 53.9999,32L 27,32L 19,46.4L 19,28.0001 Z "
+                                  Command="{Binding OpenFolderBrowserCommand}"/>
+                <TextBlock Grid.Column="2" Grid.Row="8" VerticalAlignment="Center" Text="{Binding Path=Value, ElementName=SliderSpeedLimit, StringFormat='{}{0:00} Mbps'}"/>
+                <TextBlock Grid.Column="2" Grid.Row="12" VerticalAlignment="Center" >
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat='{}{0} {1}'>
+                            <Binding ElementName="SliderParallelTask" Path="Value"/>
+                            <Binding Source="{x:Static res:UiStringResources.ConfigPage_tasks}"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
             </Grid>
+
         </Grid>
     </Grid>
 </UserControl>

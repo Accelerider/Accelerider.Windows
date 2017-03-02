@@ -133,7 +133,7 @@ namespace BaiduPanDownloadWpf.Assets {
         }
         
         /// <summary>
-        ///   查找类似 线程数量： 的本地化字符串。
+        ///   查找类似 速度限制： 的本地化字符串。
         /// </summary>
         public static string ConfigPage_Speed_limit_ {
             get {
@@ -322,6 +322,15 @@ namespace BaiduPanDownloadWpf.Assets {
         }
         
         /// <summary>
+        ///   查找类似 登入异常信息 的本地化字符串。
+        /// </summary>
+        public static string MessageDialogTitle_LoginException {
+            get {
+                return ResourceManager.GetString("MessageDialogTitle_LoginException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 任务列表 的本地化字符串。
         /// </summary>
         public static string MW_download_list {
@@ -421,11 +430,47 @@ namespace BaiduPanDownloadWpf.Assets {
         }
         
         /// <summary>
-        ///   查找类似 BaiduPanDownload（V0.0.10.59 内测版） 的本地化字符串。
+        ///   查找类似 BaiduPanDownload（V0.1.0.63 内测版） 的本地化字符串。
         /// </summary>
         public static string MWTitile {
             get {
                 return ResourceManager.GetString("MWTitile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 语言： 的本地化字符串。
+        /// </summary>
+        public static string OptionPage_Language_ {
+            get {
+                return ResourceManager.GetString("OptionPage_Language_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登入 的本地化字符串。
+        /// </summary>
+        public static string OptionPage_Login_ {
+            get {
+                return ResourceManager.GetString("OptionPage_Login_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配色： 的本地化字符串。
+        /// </summary>
+        public static string OptionPage_Palette_ {
+            get {
+                return ResourceManager.GetString("OptionPage_Palette_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 主题： 的本地化字符串。
+        /// </summary>
+        public static string OptionPage_Theme_ {
+            get {
+                return ResourceManager.GetString("OptionPage_Theme_", resourceCulture);
             }
         }
         
@@ -471,6 +516,15 @@ namespace BaiduPanDownloadWpf.Assets {
         public static string SettingsPage_user_swich {
             get {
                 return ResourceManager.GetString("SettingsPage_user_swich", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 v0.1.0.63 的本地化字符串。
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
             }
         }
     }

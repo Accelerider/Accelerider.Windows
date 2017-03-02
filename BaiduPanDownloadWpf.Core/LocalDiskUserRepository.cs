@@ -12,12 +12,12 @@ using System;
 using BaiduPanDownloadWpf.Core.Download;
 using Microsoft.Practices.Unity;
 using System.Diagnostics;
-using System.Windows.Forms;
 
 namespace BaiduPanDownloadWpf.Core
 {
     public class LocalDiskUserRepository : ModelBase, ILocalDiskUserRepository
     {
+        //..
         private readonly string _userDataSavePath = Directory.GetCurrentDirectory() + @"\Users\";
         private static readonly List<ILocalDiskUser> _netDiskUserList = new List<ILocalDiskUser>();
 
@@ -74,7 +74,9 @@ namespace BaiduPanDownloadWpf.Core
                             var info = JObject.Parse(File.ReadAllText(Path.Combine(userPath, "Account.json")));
                             result.DownloadDirectory = (string) info["DownloadDirectory"];
                             result.ParallelTaskNumber = (int) info["ParallelTaskNumber"];
-                            result.DownloadThreadNumber = (int) info["DwonloadTheradNumber"];
+                            result.DownloadThreadNumber = ((int) info["DwonloadTheradNumber"]) > 32
+                                ? 32
+                                : (int) info["DwonloadTheradNumber"];
                         }
                         catch (Exception ex)
                         {
@@ -83,19 +85,14 @@ namespace BaiduPanDownloadWpf.Core
                     }
                     return result;
                 case 1:
-                    MessageBox.Show("登录失败: 用户不存在");
                     throw new LoginException("用户不存在", ClientLoginStateEnum.NonUser);
                 case 2:
-                    MessageBox.Show("登录失败: 密码错误");
                     throw new LoginException("密码错误", ClientLoginStateEnum.PasswordError);
                 case 3:
-                    MessageBox.Show("登录失败: 异地登录");
                     throw new LoginException("异地登录", ClientLoginStateEnum.OtherError);
                 case 4:
-                    MessageBox.Show("登录失败: 服务端出现未知错误");
                     throw new LoginException("服务端出现未知错误", ClientLoginStateEnum.OtherError);
                 case 5:
-                    MessageBox.Show("登录失败: 账号被ban");
                     throw new LoginException("账号被封禁", ClientLoginStateEnum.Baned);
             }
         }

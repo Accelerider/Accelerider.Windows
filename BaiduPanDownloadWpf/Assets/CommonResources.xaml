@@ -5,6 +5,7 @@
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <converters:LongToDataSizeConverter x:Key="LongToDataSizeConverter"/>
+    <SolidColorBrush x:Key="AccentColorBrush" Color="{DynamicResource AccentColor}"/>
 
     <Style x:Key="SelectedBackgroundStyle" TargetType="ListBoxItem">
         <Setter Property="Template">
@@ -122,44 +123,29 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-        <Setter Property="Background">
-            <Setter.Value>
-                <SolidColorBrush Opacity="0.6" Color="White"/>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background">
-                    <Setter.Value>
-                        <SolidColorBrush Opacity="0.6" Color="White" />
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="BorderBrush" Value="Gray"/>
-            </Trigger>
-        </Style.Triggers>
+    <Style TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}">
+        <Setter Property="Background" Value="#90FFFFFF"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentColorBrush}"/>
     </Style>
 
-    <Style TargetType="PasswordBox" BasedOn="{StaticResource {x:Type PasswordBox}}">
-        <Setter Property="Background">
-            <Setter.Value>
-                <SolidColorBrush Opacity="0.6" Color="White"/>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background">
-                    <Setter.Value>
-                        <SolidColorBrush Opacity="0.6" Color="White" />
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="BorderBrush" Value="Gray"/>
-            </Trigger>
-        </Style.Triggers>
+    <Style TargetType="PasswordBox" BasedOn="{StaticResource MetroPasswordBox}">
+        <Setter Property="Background"  Value="#90FFFFFF"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentColorBrush}"/>
     </Style>
 
     <Style TargetType="{x:Type mui:ModernButton}" BasedOn="{StaticResource {x:Type mui:ModernButton}}">
         <Setter Property="EllipseDiameter" Value="26"/>
         <Setter Property="EllipseStrokeThickness" Value="0.8"/>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource SelectedBackgroundStyle}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#30FFFFFF"></Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

@@ -8,6 +8,10 @@ using System.Collections.ObjectModel;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using BaiduPanDownloadWpf.Commands;
 using System.Windows.Controls;
+using BaiduPanDownloadWpf.Assets;
+using BaiduPanDownloadWpf.Infrastructure.Exceptions;
+using BaiduPanDownloadWpf.Views.Dialogs;
+using Prism.Logging;
 
 namespace BaiduPanDownloadWpf.ViewModels.Settings
 {
@@ -104,9 +108,15 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
                 }
                 IsLoginServiceAccount = true;
             }
-            catch (Exception)
+            catch (LoginException loginEx)
             {
-
+                Logger.Log($"Login exception: {loginEx.Message}", Category.Warn, Priority.Low);
+                new MessageDialog(UiStringResources.MessageDialogTitle_LoginException, loginEx.Message).ShowDialog();
+            }
+            catch (System.Runtime.Remoting.ServerException serverEx)
+            {
+                Logger.Log($"Server exception: {serverEx.Message}", Category.Exception, Priority.High);
+                new MessageDialog(UiStringResources.MessageDialogTitle_LoginException, serverEx.Message).ShowDialog();
             }
             IsSigningIn = false;
         }
