@@ -62,66 +62,47 @@ namespace BaiduPanDownloadWpf
             //var message = $"Message: {(e.ExceptionObject as Exception)?.Message}, StackTrace: {(e.ExceptionObject as Exception)?.StackTrace}";
             //Logger.Log(message, Category.Exception, Priority.High);
             // ------------------------------------------------------------------------------------------------------------------------------------
-            var exception = (Exception)e.ExceptionObject;
-            var log = new StringBuilder();
-            log.AppendLine("程序在运行时遇到不可预料的错误");
-            log.AppendLine("=======追踪开始=======");
-            log.AppendLine();
-            log.AppendLine("Time: " + DateTime.Now);
-            log.AppendLine("Type: " + exception.GetType().Name);
-            log.AppendLine("Message: " + exception.Message);
-            log.AppendLine("Version: 0.1.0.63");
-            log.AppendLine("StackTrace: ");
-            log.AppendLine(exception.StackTrace);
-            log.AppendLine();
-            log.AppendLine("=======追踪结束=======");
-            log.AppendLine("请将以上信息提供给开发者以供参考");
-            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Error.log")))
-            {
-                try
-                {
-                    File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Error.log"));
-                }
-                catch
-                {
-                    throw exception;
-                }
-            }
-            File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "Error.log"), log.ToString());
-            throw exception;
+            this.CatchException(e.ExceptionObject as Exception);
         }
 
         private void OnDispatcherUnhandledExceptionOccurred(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             var message = $"Message: {e.Exception.Message}, StackTrace: {Environment.NewLine}{e.Exception.StackTrace}{Environment.NewLine}";
             Logger.Log(message, Category.Exception, Priority.High);
-            // ------------------------------------------------------------------------------------------------------------------------------------
+            this.CatchException(e.Exception);
+        }
+
+        private void CatchException(Exception error)
+        {
+            if (error == null) return;
+
             var log = new StringBuilder();
             log.AppendLine("程序在运行时遇到不可预料的错误");
             log.AppendLine("=======追踪开始=======");
             log.AppendLine();
             log.AppendLine("Time: " + DateTime.Now);
-            log.AppendLine("Type: " + e.GetType().Name);
+            log.AppendLine("Type: " + error.GetType().Name);
             log.AppendLine("Version: 0.1.0.63");
-            log.AppendLine("Message: " + e.Exception == null ? "无信息" : e.Exception.Message);
+            log.AppendLine("Message: " + error.Message);
             log.AppendLine("StackTrace: ");
-            log.AppendLine(e.Exception == null ? "无信息" : e.Exception.StackTrace);
+            log.AppendLine(error.StackTrace);
             log.AppendLine();
             log.AppendLine("=======追踪结束=======");
             log.AppendLine("请将以上信息提供给开发者以供参考");
-            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Error.log")))
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Error.log");
+            try
             {
-                try
-                {
-                    File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Error.log"));
-                }
-                catch
-                {
-                    throw e.Exception;
-                }
+                File.WriteAllText(path, log.ToString());
             }
-            File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "Error.log"), log.ToString());
-            throw e.Exception;
+            catch (Exception e)
+            {
+                this.Logger.Log(e.ToString(), Category.Exception, Priority.High);
+            }
+            finally
+            {
+                Environment.Exit(-1);
+            }
         }
     }
 }
