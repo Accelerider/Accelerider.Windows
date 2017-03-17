@@ -14,14 +14,14 @@ namespace BaiduPanDownloadWpf.ViewModels
 {
     internal class DownloadedPageViewModel : ViewModelBase
     {
-        private readonly ILocalDiskUserRepository _localDiskUserRepository;
+        private readonly IMountUserRepository _mountUserRepository;
         private INetDiskUser _netDiskUser;
         private ObservableCollection<DownloadedTaskItemViewModel> _downloadTaskList = new ObservableCollection<DownloadedTaskItemViewModel>();
 
-        public DownloadedPageViewModel(IUnityContainer container, ILocalDiskUserRepository localDiskUserRepository)
+        public DownloadedPageViewModel(IUnityContainer container, IMountUserRepository mountUserRepository)
             : base(container)
         {
-            _localDiskUserRepository = localDiskUserRepository;
+            _mountUserRepository = mountUserRepository;
 
             ClearAllRecordCommand = new Command(ClearAllRecordCommandExecute, () => DownloadTaskList?.Any() ?? false);
             EventAggregator.GetEvent<DownloadStateChangedEvent>().Subscribe(
@@ -33,7 +33,7 @@ namespace BaiduPanDownloadWpf.ViewModels
 
         protected override void OnLoaded()
         {
-            if (!SetProperty(ref _netDiskUser, _localDiskUserRepository?.FirstOrDefault()?.CurrentNetDiskUser)) return;
+            if (!SetProperty(ref _netDiskUser, _mountUserRepository?.FirstOrDefault()?.GetCurrentNetDiskUser())) return;
             if (_netDiskUser == null)
             {
                 DownloadTaskList.Clear();

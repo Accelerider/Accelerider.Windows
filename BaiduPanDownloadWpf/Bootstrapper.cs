@@ -11,6 +11,7 @@ using Prism.Logging;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
 using BaiduPanDownloadWpf.Assets;
+using BaiduPanDownloadWpf.Views.Dialogs;
 
 namespace BaiduPanDownloadWpf
 {
@@ -18,7 +19,8 @@ namespace BaiduPanDownloadWpf
     {
         protected override DependencyObject CreateShell()
         {
-            return new MainWindow();
+            return new SignWindow();
+            //return new MainWindow();
         }
 
         protected override void InitializeShell()
@@ -32,11 +34,13 @@ namespace BaiduPanDownloadWpf
 
         private void OnExit(object sender, ExitEventArgs e)
         {
-            var localDiskUserRepository = Container.Resolve<ILocalDiskUserRepository>();
-            var localDiskUser = localDiskUserRepository.FirstOrDefault();
+            Container.Resolve<ILocalConfigInfo>().Save();
+
+            var mountUserRepository = Container.Resolve<IMountUserRepository>();
+            var localDiskUser = mountUserRepository.FirstOrDefault();
             if (localDiskUser != null)
             {
-                localDiskUserRepository.Save(localDiskUser);
+                mountUserRepository.Save();
             }
         }
 
@@ -48,61 +52,37 @@ namespace BaiduPanDownloadWpf
 
         protected override ILoggerFacade CreateLogger()
         {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Run log.log");
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Run records.log");
             if (File.Exists(filePath)) File.Delete(filePath);
             var file = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
             var writer = new StreamWriter(file, Encoding.UTF8) { AutoFlush = true };
-            writer.WriteLine(UiStringResources.MWTitile);
+            writer.WriteLine($"{UiStringResources.MWTitile} - {UiStringResources.Version}");
             return new TextLogger(writer);
-            //return new TextLogger();
         }
 
         private void OnUnhandledExceptionOccurred(object sender, UnhandledExceptionEventArgs e)
         {
-            //var message = $"Message: {(e.ExceptionObject as Exception)?.Message}, StackTrace: {(e.ExceptionObject as Exception)?.StackTrace}";
-            //Logger.Log(message, Category.Exception, Priority.High);
-            // ------------------------------------------------------------------------------------------------------------------------------------
-            this.CatchException(e.ExceptionObject as Exception);
+            CatchException(e.ExceptionObject as Exception);
         }
 
         private void OnDispatcherUnhandledExceptionOccurred(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            var message = $"Message: {e.Exception.Message}, StackTrace: {Environment.NewLine}{e.Exception.StackTrace}{Environment.NewLine}";
-            Logger.Log(message, Category.Exception, Priority.High);
-            this.CatchException(e.Exception);
+            CatchException(e.Exception);
         }
 
+        private MessageDialog _messageDialog;
         private void CatchException(Exception error)
         {
             if (error == null) return;
-
-            var log = new StringBuilder();
-            log.AppendLine("程序在运行时遇到不可预料的错误");
-            log.AppendLine("=======追踪开始=======");
-            log.AppendLine();
-            log.AppendLine("Time: " + DateTime.Now);
-            log.AppendLine("Type: " + error.GetType().Name);
-            log.AppendLine("Version: 0.1.0.63");
-            log.AppendLine("Message: " + error.Message);
-            log.AppendLine("StackTrace: ");
-            log.AppendLine(error.StackTrace);
-            log.AppendLine();
-            log.AppendLine("=======追踪结束=======");
-            log.AppendLine("请将以上信息提供给开发者以供参考");
-
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Error.log");
-            try
+            var message = $"Exception: {error.GetType().Name}, Message: {error.Message}, StackTrace: {Environment.NewLine}{error.StackTrace}{Environment.NewLine}";
+            Logger.Log(message, Category.Exception, Priority.High);
+            Logger.Log("The software has crashed.", Category.Info, Priority.High);
+            if (_messageDialog == null)
             {
-                File.WriteAllText(path, log.ToString());
+                _messageDialog = new MessageDialog(UiStringResources.MessageDialogTitle_Error, UiStringResources.MessageDialogContent_Crash);
+                _messageDialog.ShowDialog();
             }
-            catch (Exception e)
-            {
-                this.Logger.Log(e.ToString(), Category.Exception, Priority.High);
-            }
-            finally
-            {
-                Environment.Exit(-1);
-            }
+            Environment.Exit(-1);
         }
     }
 }

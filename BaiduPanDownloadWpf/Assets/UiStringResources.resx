@@ -117,20 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutContactInfoCentent" xml:space="preserve">
-    <value>Please let us know if you find any issues about the software.</value>
-  </data>
   <data name="AboutSoftwareAbout" xml:space="preserve">
-    <value>[b]NOTE:[/b] The software may be disabled at any time by Baidu.</value>
+    <value>高调参与开发，低调传播使用。
+[b]开源地址[/b]：[url=https://github.com/ResourceHunter/BaiduPanDownloadWpf]https://github.com/ResourceHunter/BaiduPanDownloadWpf[/url]，转载请附上[b]Github链接[/b]及[b]此页面截图[/b]。</value>
   </data>
   <data name="About_ABOUT" xml:space="preserve">
-    <value>ABOUT</value>
+    <value>关于</value>
   </data>
   <data name="About_CONTACT_INFORMATION" xml:space="preserve">
-    <value>CONTACT INFORMATION</value>
+    <value>作者</value>
   </data>
-  <data name="About_DONATE" xml:space="preserve">
-    <value>DONATE</value>
+  <data name="About_Donate" xml:space="preserve">
+    <value>[b][size=16]捐赠项目[/size][/b]
+[size=11]捐赠所得的部分将用于服务器的租用；如果你喜欢本软件，就当请我们喝一杯咖啡。[/size]</value>
   </data>
   <data name="DownloadedPage_Clear_all_records" xml:space="preserve">
     <value>清除所有记录</value>
@@ -166,7 +165,7 @@
     <value>验证码：</value>
   </data>
   <data name="MWTitile" xml:space="preserve">
-    <value>BaiduPanDownload（V0.1.0.63 内测版）</value>
+    <value>BaiduPanDownload</value>
   </data>
   <data name="MW_downloaded" xml:space="preserve">
     <value>下载完成</value>
@@ -223,7 +222,7 @@
     <value>并行任务：</value>
   </data>
   <data name="ConfigPage_Speed_limit_" xml:space="preserve">
-    <value>速度限制：</value>
+    <value>线程数量：</value>
   </data>
   <data name="ConfigPage_tasks" xml:space="preserve">
     <value>个</value>
@@ -256,7 +255,7 @@
     <value>反馈</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>v0.1.0.63</value>
+    <value>v0.2.0.79</value>
   </data>
   <data name="OptionPage_Language_" xml:space="preserve">
     <value>语言：</value>
@@ -272,5 +271,53 @@
   </data>
   <data name="MessageDialogTitle_LoginException" xml:space="preserve">
     <value>登入异常信息</value>
+  </data>
+  <data name="SW_Account" xml:space="preserve">
+    <value>账户</value>
+  </data>
+  <data name="SW_BaiduSignIn" xml:space="preserve">
+    <value>绑定百度</value>
+  </data>
+  <data name="SW_MountSignIn" xml:space="preserve">
+    <value>登入坐骑</value>
+  </data>
+  <data name="SW_MountSignUp" xml:space="preserve">
+    <value>注册坐骑</value>
+  </data>
+  <data name="About_Mrs4s" xml:space="preserve">
+    <value>[size=14][b]Mrs4s[/b][/size]
+[size=11]- Responsible for Core &amp; Server
+[b]Mail:[/b]     [url=mailto:mrs4sxiaoshi@gmail.com]mrs4sxiaoshi@gmail.com[/url]
+[b]Blog:[/b]     [url=http://www.mrs4s.top]http://www.mrs4s.top[/url][/size]</value>
+  </data>
+  <data name="About_ZDP" xml:space="preserve">
+    <value>[size=14][b]ZDP[/b] [color=#FF666666](Laplace's Demon)[/color][/size]
+[size=11]- Responsible for WPF &amp; Infrastructure
+[b]Mail:[/b]     [url=mailto:DingpingZhang@outlook.com]DingpingZhang@outlook.com[/url]
+[b]Github:[/b] [url=https://github.com/DingpingZhang]github.com/DingpingZhang[/url][/size]</value>
+  </data>
+  <data name="About_ACKNOWLEDGEMENTS" xml:space="preserve">
+    <value>致谢</value>
+  </data>
+  <data name="About_ACKNOWLEDGEMENTS_Content" xml:space="preserve">
+    <value>[size=11][b]Modern UI for WPF (MUI)[/b]: [url=https://github.com/firstfloorsoftware/mui]https://github.com/firstfloorsoftware/mui[/url] (Adapted)
+[b]MahApps.Metro[/b]: [url=https://github.com/MahApps/MahApps.Metro]https://github.com/MahApps/MahApps.Metro[/url]
+[b]Unity Container[/b]: [url=https://github.com/unitycontainer/unity]https://github.com/unitycontainer/unity[/url]
+[b]Prism[/b]: [url=https://github.com/PrismLibrary/Prism]https://github.com/PrismLibrary/Prism[/url]
+[b]Icon source[/b]: [url=https://www.iconfinder.com/icons/314711/cloud_download_icon#size=128]https://www.iconfinder.com/icons/314711/cloud_download_icon#size=128[/url][/size]</value>
+  </data>
+  <data name="About_JoinUs" xml:space="preserve">
+    <value>[b][size=16]加入我们[/size][/b] 
+[size=11]因为众所周知的原因，往往导致开发赶不上和谐。如果你拥有[b]技术[/b]与兴趣，欢迎加入我们，参与开发。
+[b]开发者群[/b]：622811874 （或扫左侧二维码，[b]非程[/b][color=#AA808080]序员[/color][b]勿扰[/b]）[/size]</value>
+  </data>
+  <data name="About_SUPPORTUS" xml:space="preserve">
+    <value>支持</value>
+  </data>
+  <data name="MessageDialogTitle_Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="MessageDialogContent_Crash" xml:space="preserve">
+    <value>我遇到了一个难题，想不通，要崩溃了。。。</value>
   </data>
 </root>

@@ -9,38 +9,69 @@
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
         <ScrollViewer>
-            <StackPanel MinWidth="200">
-                <TextBlock Text="{x:Static res:UiStringResources.About_ABOUT}" Margin="0 0 0 8" Style="{StaticResource Heading2}"/>
-                <mui:BBCodeBlock Margin="0 0 0 16" 
-                                 BBCode="{x:Static res:UiStringResources.AboutSoftwareAbout}" />
-                <TextBlock Text="{x:Static res:UiStringResources.About_DONATE}" Margin="0 0 0 8" Style="{StaticResource Heading2}"/>
-                <Image Width="192" Source="../../Assets/Images/DonateLink.jpg" Margin="0 0 0 16"/>
-                <TextBlock Text="{x:Static res:UiStringResources.About_CONTACT_INFORMATION}" Margin="0 0 0 8" Style="{StaticResource Heading2}"/>
-                <TextBlock Text="{x:Static res:UiStringResources.AboutContactInfoCentent}" Margin="0 0 0 16"/>
-                <WrapPanel >
-                    <Border Padding="16 8 16 8">
+            <StackPanel MaxWidth="1000">
+                <TextBlock Margin="0 0 0 16" Style="{StaticResource Heading2}">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} - {1}">
+                            <Binding Source="{x:Static res:UiStringResources.MWTitile}"/>
+                            <Binding Source="{x:Static res:UiStringResources.Version}"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <mui:BBCodeBlock Margin="0 0 0 16" BBCode="{x:Static res:UiStringResources.AboutSoftwareAbout}" />
+                <TextBlock Text="{x:Static res:UiStringResources.About_SUPPORTUS}" Style="{StaticResource Heading2}"/>
+                <WrapPanel HorizontalAlignment="Center">
+                    <Border Padding="16" HorizontalAlignment="Left">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition Width="32"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="210"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="../../Assets/Images/Mrs4sHead.jpg"/>
-                            <mui:BBCodeBlock Grid.Column="2" BBCode="[b]Download Core[/b] by Mrs4s&#13;&#10;[b]QQ:[/b]       184 481 2067&#13;&#10;[b]Mail:[/b]     [url=mailto:mrs4sxiaoshi@gmail.com]mrs4sxiaoshi@gmail.com[/url]&#13;&#10;[b]Blog:[/b]     [url=http://www.Mrs4s.top]Mrs4s.top[/url]"/>
+                            <Image Grid.Column="0" Source="../../Assets/Images/DevGroupNo.jpg"/>
+                            <mui:BBCodeBlock Grid.Column="2" BBCode="{x:Static res:UiStringResources.About_JoinUs}" TextWrapping="Wrap"/>
                         </Grid>
                     </Border>
-                    <Border Padding="16 8 16 8">
+                    <Border Padding="16" HorizontalAlignment="Right">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition Width="32"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="210"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="../../Assets/Images/DingpingZhangHead.jpg"/>
-                            <mui:BBCodeBlock Grid.Column="2" BBCode="[b]WPF UI[/b] by Laplace's Demon&#13;&#10;[b]Mail:[/b]     [url=mailto:DingpingZhang@outlook.com]DingpingZhang@outlook.com[/url]&#13;&#10;[b]Github:[/b] [url=https://github.com/DingpingZhang]github.com/DingpingZhang[/url]"/>
+                            <Image Grid.Column="0" Source="../../Assets/Images/DonateLink.jpg"/>
+                            <mui:BBCodeBlock Grid.Column="2" BBCode="{x:Static res:UiStringResources.About_Donate}" TextWrapping="Wrap"/>
                         </Grid>
                     </Border>
                 </WrapPanel>
+                <TextBlock Text="{x:Static res:UiStringResources.About_CONTACT_INFORMATION}" Style="{StaticResource Heading2}"/>
+                <!--<TextBlock Text="{x:Static res:UiStringResources.AboutContactInfoCentent}" TextWrapping="Wrap"/>-->
+                <WrapPanel HorizontalAlignment="Center">
+                    <Border Padding="16" HorizontalAlignment="Left">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition Width="46"/>
+                                <ColumnDefinition Width="210"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="../../Assets/Images/Mrs4sHead.jpg"/>
+                            <mui:BBCodeBlock Grid.Column="2" BBCode="{x:Static res:UiStringResources.About_Mrs4s}"/>
+                        </Grid>
+                    </Border>
+                    <Border Padding="16" HorizontalAlignment="Right">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64"/>
+                                <ColumnDefinition Width="46"/>
+                                <ColumnDefinition Width="210"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="../../Assets/Images/DingpingZhangHead.jpg"/>
+                            <mui:BBCodeBlock Grid.Column="2" BBCode="{x:Static res:UiStringResources.About_ZDP}"/>
+                        </Grid>
+                    </Border>
+                </WrapPanel>
+                <TextBlock Text="{x:Static res:UiStringResources.About_ACKNOWLEDGEMENTS}" Margin="0 0 0 16" Style="{StaticResource Heading2}"/>
+                <mui:BBCodeBlock BBCode="{x:Static res:UiStringResources.About_ACKNOWLEDGEMENTS_Content}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaiduPanDownloadWpf.Infrast
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaiduPanDownloadWpf.Core", "BaiduPanDownloadWpf.Core\BaiduPanDownloadWpf.Core.csproj", "{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{807026F9-E75B-47D6-98B4-DA2DAA0945D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaiduPanDownloadWpf.Core.Test", "BaiduPanDownloadWpf.Core.Test\BaiduPanDownloadWpf.Core.Test.csproj", "{265B76DF-7557-4C12-9DFF-3A83889519EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,34 +43,16 @@ Global
 		{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}.Release|x86.ActiveCfg = Release|Any CPU
 		{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}.Release|x86.Build.0 = Release|Any CPU
-		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Debug|x86.Build.0 = Debug|Any CPU
-		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Release|x86.ActiveCfg = Release|Any CPU
-		{807026F9-E75B-47D6-98B4-DA2DAA0945D0}.Release|x86.Build.0 = Release|Any CPU
+		{265B76DF-7557-4C12-9DFF-3A83889519EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{265B76DF-7557-4C12-9DFF-3A83889519EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{265B76DF-7557-4C12-9DFF-3A83889519EF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{265B76DF-7557-4C12-9DFF-3A83889519EF}.Debug|x86.Build.0 = Debug|Any CPU
+		{265B76DF-7557-4C12-9DFF-3A83889519EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{265B76DF-7557-4C12-9DFF-3A83889519EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{265B76DF-7557-4C12-9DFF-3A83889519EF}.Release|x86.ActiveCfg = Release|Any CPU
+		{265B76DF-7557-4C12-9DFF-3A83889519EF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://dingpingzhang.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = BaiduPanDownloadWpf\\BaiduPanDownloadWpf.csproj
-		SccProjectName1 = BaiduPanDownloadWpf
-		SccLocalPath1 = BaiduPanDownloadWpf
-		SccProjectUniqueName2 = BaiduPanDownloadWpf.Infrastructure\\BaiduPanDownloadWpf.Infrastructure.csproj
-		SccProjectName2 = BaiduPanDownloadWpf.Infrastructure
-		SccLocalPath2 = BaiduPanDownloadWpf.Infrastructure
-		SccProjectUniqueName3 = BaiduPanDownloadWpf.Core\\BaiduPanDownloadWpf.Core.csproj
-		SccProjectName3 = BaiduPanDownloadWpf.Core
-		SccLocalPath3 = BaiduPanDownloadWpf.Core
-		SccProjectUniqueName4 = Test\\Test.csproj
-		SccProjectName4 = Test
-		SccLocalPath4 = Test
 	EndGlobalSection
 EndGlobal

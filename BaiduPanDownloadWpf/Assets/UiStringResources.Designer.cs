@@ -61,7 +61,7 @@ namespace BaiduPanDownloadWpf.Assets {
         }
         
         /// <summary>
-        ///   查找类似 ABOUT 的本地化字符串。
+        ///   查找类似 关于 的本地化字符串。
         /// </summary>
         public static string About_ABOUT {
             get {
@@ -70,7 +70,29 @@ namespace BaiduPanDownloadWpf.Assets {
         }
         
         /// <summary>
-        ///   查找类似 CONTACT INFORMATION 的本地化字符串。
+        ///   查找类似 致谢 的本地化字符串。
+        /// </summary>
+        public static string About_ACKNOWLEDGEMENTS {
+            get {
+                return ResourceManager.GetString("About_ACKNOWLEDGEMENTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [size=11][b]Modern UI for WPF (MUI)[/b]: [url=https://github.com/firstfloorsoftware/mui]https://github.com/firstfloorsoftware/mui[/url] (Adapted)
+        ///[b]MahApps.Metro[/b]: [url=https://github.com/MahApps/MahApps.Metro]https://github.com/MahApps/MahApps.Metro[/url]
+        ///[b]Unity Container[/b]: [url=https://github.com/unitycontainer/unity]https://github.com/unitycontainer/unity[/url]
+        ///[b]Prism[/b]: [url=https://github.com/PrismLibrary/Prism]https://github.com/PrismLibrary/Prism[/url]
+        ///[b]Icon source[/b]: [url=https: [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        public static string About_ACKNOWLEDGEMENTS_Content {
+            get {
+                return ResourceManager.GetString("About_ACKNOWLEDGEMENTS_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 作者 的本地化字符串。
         /// </summary>
         public static string About_CONTACT_INFORMATION {
             get {
@@ -79,25 +101,62 @@ namespace BaiduPanDownloadWpf.Assets {
         }
         
         /// <summary>
-        ///   查找类似 DONATE 的本地化字符串。
+        ///   查找类似 [b][size=16]捐赠项目[/size][/b]
+        ///[size=11]捐赠所得的部分将用于服务器的租用；如果你喜欢本软件，就当请我们喝一杯咖啡。[/size] 的本地化字符串。
         /// </summary>
-        public static string About_DONATE {
+        public static string About_Donate {
             get {
-                return ResourceManager.GetString("About_DONATE", resourceCulture);
+                return ResourceManager.GetString("About_Donate", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 Please let us know if you find any issues about the software. 的本地化字符串。
+        ///   查找类似 [b][size=16]加入我们[/size][/b] 
+        ///[size=11]因为众所周知的原因，往往导致开发赶不上和谐。如果你拥有[b]技术[/b]与兴趣，欢迎加入我们，参与开发。
+        ///[b]开发者群[/b]：622811874 （或扫左侧二维码，[b]非程[/b][color=#AA808080]序员[/color][b]勿扰[/b]）[/size] 的本地化字符串。
         /// </summary>
-        public static string AboutContactInfoCentent {
+        public static string About_JoinUs {
             get {
-                return ResourceManager.GetString("AboutContactInfoCentent", resourceCulture);
+                return ResourceManager.GetString("About_JoinUs", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 [b]NOTE:[/b] The software may be disabled at any time by Baidu. 的本地化字符串。
+        ///   查找类似 [size=14][b]Mrs4s[/b][/size]
+        ///[size=11]- Responsible for Core &amp; Server
+        ///[b]Mail:[/b]     [url=mailto:mrs4sxiaoshi@gmail.com]mrs4sxiaoshi@gmail.com[/url]
+        ///[b]Blog:[/b]     [url=http://www.mrs4s.top]http://www.mrs4s.top[/url][/size] 的本地化字符串。
+        /// </summary>
+        public static string About_Mrs4s {
+            get {
+                return ResourceManager.GetString("About_Mrs4s", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 支持 的本地化字符串。
+        /// </summary>
+        public static string About_SUPPORTUS {
+            get {
+                return ResourceManager.GetString("About_SUPPORTUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [size=14][b]ZDP[/b] [color=#FF666666](Laplace&apos;s Demon)[/color][/size]
+        ///[size=11]- Responsible for WPF &amp; Infrastructure
+        ///[b]Mail:[/b]     [url=mailto:DingpingZhang@outlook.com]DingpingZhang@outlook.com[/url]
+        ///[b]Github:[/b] [url=https://github.com/DingpingZhang]github.com/DingpingZhang[/url][/size] 的本地化字符串。
+        /// </summary>
+        public static string About_ZDP {
+            get {
+                return ResourceManager.GetString("About_ZDP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 高调参与开发，低调传播使用。
+        ///[b]开源地址[/b]：[url=https://github.com/ResourceHunter/BaiduPanDownloadWpf]https://github.com/ResourceHunter/BaiduPanDownloadWpf[/url]，转载请附上[b]Github链接[/b]及[b]此页面截图[/b]。 的本地化字符串。
         /// </summary>
         public static string AboutSoftwareAbout {
             get {
@@ -133,7 +192,7 @@ namespace BaiduPanDownloadWpf.Assets {
         }
         
         /// <summary>
-        ///   查找类似 速度限制： 的本地化字符串。
+        ///   查找类似 线程数量： 的本地化字符串。
         /// </summary>
         public static string ConfigPage_Speed_limit_ {
             get {
@@ -322,6 +381,24 @@ namespace BaiduPanDownloadWpf.Assets {
         }
         
         /// <summary>
+        ///   查找类似 我遇到了一个难题，想不通，要崩溃了。。。 的本地化字符串。
+        /// </summary>
+        public static string MessageDialogContent_Crash {
+            get {
+                return ResourceManager.GetString("MessageDialogContent_Crash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 错误 的本地化字符串。
+        /// </summary>
+        public static string MessageDialogTitle_Error {
+            get {
+                return ResourceManager.GetString("MessageDialogTitle_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 登入异常信息 的本地化字符串。
         /// </summary>
         public static string MessageDialogTitle_LoginException {
@@ -430,7 +507,7 @@ namespace BaiduPanDownloadWpf.Assets {
         }
         
         /// <summary>
-        ///   查找类似 BaiduPanDownload（V0.1.0.63 内测版） 的本地化字符串。
+        ///   查找类似 BaiduPanDownload 的本地化字符串。
         /// </summary>
         public static string MWTitile {
             get {
@@ -520,7 +597,43 @@ namespace BaiduPanDownloadWpf.Assets {
         }
         
         /// <summary>
-        ///   查找类似 v0.1.0.63 的本地化字符串。
+        ///   查找类似 账户 的本地化字符串。
+        /// </summary>
+        public static string SW_Account {
+            get {
+                return ResourceManager.GetString("SW_Account", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 绑定百度 的本地化字符串。
+        /// </summary>
+        public static string SW_BaiduSignIn {
+            get {
+                return ResourceManager.GetString("SW_BaiduSignIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登入坐骑 的本地化字符串。
+        /// </summary>
+        public static string SW_MountSignIn {
+            get {
+                return ResourceManager.GetString("SW_MountSignIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 注册坐骑 的本地化字符串。
+        /// </summary>
+        public static string SW_MountSignUp {
+            get {
+                return ResourceManager.GetString("SW_MountSignUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 v0.2.0.79 的本地化字符串。
         /// </summary>
         public static string Version {
             get {

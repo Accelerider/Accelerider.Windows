@@ -284,11 +284,11 @@ namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
             if (_threads != null)
             {
                 _completedThread = 0;
+                DownloadState = DownloadStateEnum.Paused;
                 foreach (var thread in _threads)
                 {
                     thread.Stop();
                 }
-                DownloadState = DownloadStateEnum.Paused;
                 return Info;
             }
             return null;

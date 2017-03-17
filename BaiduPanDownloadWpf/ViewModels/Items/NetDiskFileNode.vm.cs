@@ -14,17 +14,17 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
 {
     internal class NetDiskFileNodeViewModel : ViewModelBase
     {
-        private readonly ILocalDiskUserRepository _localDiskUserRepository;
+        private readonly IMountUserRepository _mountUserRepository;
         private readonly INetDiskFile _netDiskFile;
         private NetDiskFileNodeViewModel _parent;
         private ObservableCollection<NetDiskFileNodeViewModel> _children;
         private bool _isDownloading;
         private int _downloadPercentage;
 
-        public NetDiskFileNodeViewModel(IUnityContainer container, ILocalDiskUserRepository localDiskUserRepository, INetDiskFile netDiskFile)
+        public NetDiskFileNodeViewModel(IUnityContainer container, IMountUserRepository mountUserRepository, INetDiskFile netDiskFile)
             : base(container)
         {
-            _localDiskUserRepository = localDiskUserRepository;
+            _mountUserRepository = mountUserRepository;
             _netDiskFile = netDiskFile;
 
             DeleteFileCommand = new Command(DeleteFileCommandExecuteAsync);
@@ -51,7 +51,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
         {
             get
             {
-                if (_children == null) RefreshChildren();
+                //if (_children == null) RefreshChildren();
                 return _children;
             }
             set { SetProperty(ref _children, value); }
@@ -104,7 +104,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
             return Task.Run(async () =>
             {
                 var children = new ObservableCollection<NetDiskFileNodeViewModel>();
-                var downloadingFiles = _localDiskUserRepository.FirstOrDefault().CurrentNetDiskUser.GetUncompletedFiles();
+                var downloadingFiles = _mountUserRepository.FirstOrDefault().GetCurrentNetDiskUser().GetUncompletedFiles();
                 foreach (var item in await _netDiskFile.GetChildrenAsync())
                 {
                     var child = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<INetDiskFile>(item));

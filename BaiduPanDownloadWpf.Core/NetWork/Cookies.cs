@@ -51,14 +51,14 @@ namespace BaiduPanDownloadWpf.Core.NetWork
 
         public string[] GetKeys()
         {
-            var Keys = new string[_cookiesKv.Count];
+            var keys = new string[_cookiesKv.Count];
             var i = 0;
             foreach (var key in _cookiesKv)
             {
-                Keys[i] = key.Key;
+                keys[i] = key.Key;
                 i++;
             }
-            return Keys;
+            return keys;
         }
 
         public bool Contains(string key)

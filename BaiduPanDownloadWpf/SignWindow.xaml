@@ -1,0 +1,21 @@
+﻿<mui:ModernWindow x:Class="BaiduPanDownloadWpf.SignWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  xmlns:res="clr-namespace:BaiduPanDownloadWpf.Assets"
+                  IsTitleVisible="True"
+                  ContentSource="/Views/SignInMountPage.xaml"
+                  ResizeMode="NoResize"
+                  Width="450" Height="300"
+                  WindowStartupLocation="CenterScreen"
+                  Icon="Assets/Images/BaiduPanDownloadWpf.ico">
+    <mui:ModernWindow.MenuLinkGroups>
+        <mui:LinkGroup DisplayName="{x:Static res:UiStringResources.SW_Account}">
+            <mui:LinkGroup.Links>
+                <mui:Link DisplayName="{x:Static res:UiStringResources.SW_MountSignIn}" Source="/Views/SignInMountPage.xaml" />
+                <mui:Link DisplayName="{x:Static res:UiStringResources.SW_MountSignUp}" Source="/Views/SignUpMountPage.xaml" />
+                <!--<mui:Link DisplayName="{x:Static res:UiStringResources.SW_BaiduSignIn}" Source="/Views/SignInBaiduPage.xaml" />-->
+            </mui:LinkGroup.Links>
+        </mui:LinkGroup>
+    </mui:ModernWindow.MenuLinkGroups>
+</mui:ModernWindow>

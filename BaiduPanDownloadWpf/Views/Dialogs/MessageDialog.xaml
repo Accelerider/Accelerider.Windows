@@ -5,7 +5,8 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   mc:Ignorable="d" 
-                  d:DesignHeight="250" d:DesignWidth="400">
+                  d:DesignHeight="250" d:DesignWidth="400"
+                  WindowStartupLocation="CenterScreen">
 
     <!-- Note: ModernDialog buttons are defined in the constructor of the code behind class -->
 

@@ -11,7 +11,7 @@ namespace BaiduPanDownloadWpf.Infrastructure
 
         private SizeUnitEnum _unit;
 
-        public long ValueBasedOnB { get; }
+        public long BaseBValue { get; }
         public double Value { get; private set; }
         public SizeUnitEnum Unit
         {
@@ -35,7 +35,7 @@ namespace BaiduPanDownloadWpf.Infrastructure
 
         public DataSize(long size)
         {
-            ValueBasedOnB = size;
+            BaseBValue = size;
             Value = size;
             _unit = SizeUnitEnum.B;
             while (Value >= ConversionFactor)
@@ -51,7 +51,7 @@ namespace BaiduPanDownloadWpf.Infrastructure
             {
                 temp *= ConversionFactor;
             }
-            ValueBasedOnB = (long)temp;
+            BaseBValue = (long)temp;
             while (size >= ConversionFactor && sizeUnit < SizeUnitEnum.P)
             {
                 size /= ConversionFactor;
@@ -86,15 +86,15 @@ namespace BaiduPanDownloadWpf.Infrastructure
         #region Operators
         public static DataSize operator +(DataSize left, DataSize right)
         {
-            return new DataSize(left.ValueBasedOnB + right.ValueBasedOnB);
+            return new DataSize(left.BaseBValue + right.BaseBValue);
         }
         public static DataSize operator +(DataSize left, long right)
         {
-            return new DataSize(left.ValueBasedOnB + right);
+            return new DataSize(left.BaseBValue + right);
         }
         public static DataSize operator -(DataSize value)
         {
-            return new DataSize(-value.ValueBasedOnB);
+            return new DataSize(-value.BaseBValue);
         }
         public static DataSize operator -(DataSize left, DataSize right)
         {
@@ -106,19 +106,19 @@ namespace BaiduPanDownloadWpf.Infrastructure
         }
         public static DataSize operator *(DataSize left, double right)
         {
-            return new DataSize(left.ValueBasedOnB * right);
+            return new DataSize(left.BaseBValue * right);
         }
         public static DataSize operator /(DataSize left, double right)
         {
-            return new DataSize(left.ValueBasedOnB / right);
+            return new DataSize(left.BaseBValue / right);
         }
         public static double operator /(DataSize left, DataSize right)
         {
-            return 1.0 * left.ValueBasedOnB / right.ValueBasedOnB;
+            return 1.0 * left.BaseBValue / right.BaseBValue;
         }
         public static bool operator ==(DataSize left, DataSize right)
         {
-            return left.ValueBasedOnB == right.ValueBasedOnB;
+            return left.BaseBValue == right.BaseBValue;
         }
         public static bool operator !=(DataSize left, DataSize right)
         {

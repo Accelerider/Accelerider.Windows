@@ -70,7 +70,7 @@
                                 <TextBlock Margin="16 0 16 0" Foreground="Gray" VerticalAlignment="Center"
                                            Text="{Binding CompletedTime}"/>
                                 <Label Margin="16 0 2 0" VerticalAlignment="Center">
-                                    <Path Width="12" Height="14" Stretch="Fill" Fill="#1BA1E2" Data="F1 M 25,52L 51,52L 51,57L 25,57L 25,52 Z M 35,16L 41,16L 41,36.5L 49,27L 49,36.5L 38,49L 27,36.5L 27,27L 35,36.5L 35,16 Z "/>
+                                    <Path Width="10" Height="14" Stretch="Fill" Fill="#1BA1E2" Data="F1 M 25,52L 51,52L 51,57L 25,57L 25,52 Z M 35,16L 41,16L 41,36.5L 49,27L 49,36.5L 38,49L 27,36.5L 27,27L 35,36.5L 35,16 Z "/>
                                 </Label>
                                 <TextBlock Margin="4 0 16 0" VerticalAlignment="Center" Foreground="Gray"
                                                Text="{x:Static res:UiStringResources.DownloadedPage_Completed}" />

@@ -7,26 +7,35 @@ using Microsoft.Practices.Unity;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using BaiduPanDownloadWpf.Infrastructure;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
+using System.Threading.Tasks;
 
 namespace BaiduPanDownloadWpf.ViewModels
 {
     internal class HomeViewModel : ViewModelBase
     {
-        private readonly ILocalDiskUserRepository _localDiskUserRepository;
+        private readonly IMountUserRepository _mountUserRepository;
         private INetDiskUser _netDiskUser;
         private NetDiskFileNodeViewModel _currentFile;
         private bool _isRefreshing;
 
 
-        public HomeViewModel(IUnityContainer container, ILocalDiskUserRepository localDiskUserRepository)
+        public HomeViewModel(IUnityContainer container, IMountUserRepository mountUserRepository)
             : base(container)
         {
-            _localDiskUserRepository = localDiskUserRepository;
+            _mountUserRepository = mountUserRepository;
 
             // TODO: Replace the Command to Prism.Commands.DelegateCommand.
-            ReturnFolderCommand = new Command(() => CurrentFile = CurrentFile.Parent, () => CurrentFile?.Parent != null);
-            EnterFolderCommand = new Command<NetDiskFileNodeViewModel>(file => CurrentFile = file, file => file?.FileType == FileTypeEnum.FolderType);
-            RefreshFileListCommand = new Command(RefreshFileListCommandExecuteAsync, () => CurrentFile != null);
+            ReturnFolderCommand = new Command(() =>
+            {
+                CurrentFile = CurrentFile.Parent;
+                IsRefreshing = false;
+            }, () => CurrentFile?.Parent != null);
+            EnterFolderCommand = new Command<NetDiskFileNodeViewModel>(async file =>
+            {
+                CurrentFile = file;
+                if (CurrentFile.Children == null) await RefreshFileListCommandExecuteAsync();
+            }, file => file?.FileType == FileTypeEnum.FolderType);
+            RefreshFileListCommand = new Command(async () => await RefreshFileListCommandExecuteAsync(), () => CurrentFile != null);
             BatchDownloadFileCommand = new Command<IList>(BatchDownloadFileCommandExecute, param => GetSeletedItems(param).Any());
             BatchDeleteFileCommand = new Command<IList>(BatchDeleteFileCommandExecute, param => GetSeletedItems(param).Any());
         }
@@ -75,7 +84,7 @@ namespace BaiduPanDownloadWpf.ViewModels
             set { SetProperty(ref _batchDeleteFileCommand, value); }
         }
 
-        private async void RefreshFileListCommandExecuteAsync()
+        private async Task RefreshFileListCommandExecuteAsync()
         {
             IsRefreshing = true;
             var refreshChildren = CurrentFile.RefreshChildren();
@@ -117,7 +126,7 @@ namespace BaiduPanDownloadWpf.ViewModels
 
         protected override void OnLoaded()
         {
-            if (SetProperty(ref _netDiskUser, _localDiskUserRepository?.FirstOrDefault()?.CurrentNetDiskUser) && _netDiskUser != null)
+            if (SetProperty(ref _netDiskUser, _mountUserRepository?.FirstOrDefault()?.GetCurrentNetDiskUser()) && _netDiskUser != null)
             {
                 CurrentFile = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<INetDiskFile>(_netDiskUser.RootFile));
                 if (RefreshFileListCommand.CanExecute()) RefreshFileListCommand.Execute();

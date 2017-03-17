@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Practices.Unity;
+﻿using Microsoft.Practices.Unity;
 using System.Collections.ObjectModel;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using BaiduPanDownloadWpf.Commands;
@@ -17,6 +12,8 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
 {
     internal class LoginPageViewModel : ViewModelBase
     {
+        private readonly IMountUserRepository _mountUserRepository;
+
         private ObservableCollection<INetDiskUser> _netDiskUsers;
         private bool _isLoginServiceAccount;
         private bool _isAddingBaiduAccount;
@@ -31,6 +28,8 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
 
         public LoginPageViewModel(IUnityContainer container) : base(container)
         {
+            _mountUserRepository = Container.Resolve<IMountUserRepository>();
+
             LoginServiceAccountCommand = new Command<PasswordBox>(LoginServiceAccountCommandExecute);
             SignOutServiceAccountCommand = new Command(SignOutServiceAccountCommandExecute);
             LoginBaiduAccountCommand = new Command(LoginBaiduAccountCommandExecute);
@@ -94,13 +93,12 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
         private async void LoginServiceAccountCommandExecute(PasswordBox password)
         {
             IsSigningIn = true;
-            var localDiskUserRepository = Container.Resolve<ILocalDiskUserRepository>();
             try
             {
-                var localDiskUser = await localDiskUserRepository.SignInAsync(LocalDiskUserName, password.Password);
-                localDiskUser.IsRememberPassword = IsRememberPassword;
-                localDiskUser.IsAutoSignIn = IsAutoSignIn;
-                var netDiskUsers = await localDiskUser.GetAllNetDiskUsers();
+                var mountUser = await _mountUserRepository.CreateAsync(LocalDiskUserName, password.Password);
+                mountUser.IsRememberPassword = IsRememberPassword;
+                mountUser.IsAutoSignIn = IsAutoSignIn;
+                var netDiskUsers = mountUser.GetAllNetDiskUsers();
                 NetDiskUsers = new ObservableCollection<INetDiskUser>();
                 foreach (var item in netDiskUsers)
                 {

@@ -5,37 +5,36 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BaiduPanDownloadWpf.Core.Download.DownloadCore;
 using BaiduPanDownloadWpf.Core.Download.DwonloadCore;
 using BaiduPanDownloadWpf.Core.ResultData;
-using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using BaiduPanDownloadWpf.Infrastructure;
+using Microsoft.Practices.Unity;
+using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 
 namespace BaiduPanDownloadWpf.Core.Download
 {
-    public class TaskDatabase
+    public class TaskDatabase : ModelBase
     {
-        private static readonly List<TaskDatabase> List=new List<TaskDatabase>();
+        private static readonly List<TaskDatabase> List = new List<TaskDatabase>();
 
-        public static TaskDatabase GetDatabaseByUser(LocalDiskUser user)
+        public static TaskDatabase GetDatabaseByUser(IUnityContainer container, MountUser user)
         {
-            if (List.Any(v => v.Name == user.Name))
+            if (List.Any(v => v.Name == user.Username))
             {
-                return List.FirstOrDefault(v => v.Name == user.Name);
+                return List.FirstOrDefault(v => v.Name == user.Username);
             }
-            var db=new TaskDatabase(user);
+            var db = new TaskDatabase(container, user);
             List.Add(db);
             return db;
         }
         private TaskList _info;
 
-        public string Name => _user.Name;
-        private readonly LocalDiskUser _user;
-        public string TaskListFile => Path.Combine(Directory.GetCurrentDirectory(), "Users", Name, "TaskList.json");
+        public string Name => _user.Username;
+        private readonly MountUser _user;
+        public string TaskListFile => Path.Combine(Common.UserDataSavePath, Name, "TaskList.json");
 
-        private TaskDatabase(LocalDiskUser user)
+        private TaskDatabase(IUnityContainer container, MountUser user) : base(container)
         {
             _user = user;
             Reload();
@@ -43,18 +42,22 @@ namespace BaiduPanDownloadWpf.Core.Download
 
         private void Reload()
         {
-            if (!File.Exists(TaskListFile))
+            string temp;
+            if (!File.Exists(TaskListFile) || string.IsNullOrEmpty(temp = File.ReadAllText(TaskListFile)))
             {
                 _info = new TaskList();
                 Save();
                 return;
             }
-            _info = JsonConvert.DeserializeObject<TaskList>(File.ReadAllText(TaskListFile));
+            else
+            {
+                _info = JsonConvert.DeserializeObject<TaskList>(temp);
+            }
             foreach (var path in _info.Tasks.Select(v => v.DownloadPath))
             {
                 if (File.Exists(path + ".downloading"))
                 {
-                    _info.DownloadingList.Add(DownloadingFileData.Load(path+".downloading"));
+                    _info.DownloadingList.Add(DownloadingFileData.Load(path + ".downloading"));
                 }
             }
         }
@@ -68,7 +71,7 @@ namespace BaiduPanDownloadWpf.Core.Download
                 DownloadFileInfo = file,
                 DownloadPath = path,
             });
-            var data=new DownloadingFileData()
+            var data = new DownloadingFileData()
             {
                 Info = null,
                 DownloadPath = path,
@@ -148,17 +151,17 @@ namespace BaiduPanDownloadWpf.Core.Download
             if (info == null)
             {
                 Console.WriteLine("DEBUG: 没有新任务了");
-                return new NextResult(null,209,"没有下一个任务了");
+                return new NextResult(null, 209, "没有下一个任务了");
             }
-            if (info.FileInfo.FileSize < 1024*1024*30)
+            if (info.FileInfo.FileSize < 1024 * 1024 * 30)
             {
                 var r = await _user.DownloadFiles(new[] { info.FileInfo }, DownloadMethod.AppidDownload);
                 return await CreateData(info, r);
             }
-            var ret = await _user.DownloadFiles(new[] {info.FileInfo}, DownloadMethod.JumpDownload);
+            var ret = await _user.DownloadFiles(new[] { info.FileInfo }, DownloadMethod.JumpDownload);
             if (ret.ErrorCode != 0)
             {
-                ret = await _user.DownloadFiles(new[] {info.FileInfo}, DownloadMethod.AppidDownload);
+                ret = await _user.DownloadFiles(new[] { info.FileInfo }, DownloadMethod.AppidDownload);
                 if (ret.ErrorCode != 0)
                 {
                     Console.WriteLine("DEBUG: 获取下载链接失败");
@@ -187,13 +190,13 @@ namespace BaiduPanDownloadWpf.Core.Download
             }
         }
 
-        public async Task<NextResult> CreateData(DownloadingFileData info,DownloadResult result)
+        public async Task<NextResult> CreateData(DownloadingFileData info, DownloadResult result)
         {
             try
             {
                 foreach (var url in result.DownloadUrlList)
                 {
-                    var httpInfo = await HttpDownload.CreateTaskInfo(url.Value.UrlLists, info.DownloadPath, _user.DownloadThreadNumber,
+                    var httpInfo = await HttpDownload.CreateTaskInfo(url.Value.UrlLists, info.DownloadPath, (int)Container.Resolve<ILocalConfigInfo>().SpeedLimit,
                         result.Cookies);
                     info.Info = httpInfo;
                     info.Save();
@@ -219,7 +222,7 @@ namespace BaiduPanDownloadWpf.Core.Download
 
         public DownloadingFileData[] GetDownloadingTask()
         {
-            return _info.DownloadingList.Where(v=>v.Info!=null).ToArray();
+            return _info.DownloadingList.Where(v => v.Info != null).ToArray();
         }
 
         public DownloadingFileData GetDownloadingDataByPath(string path)
@@ -235,7 +238,7 @@ namespace BaiduPanDownloadWpf.Core.Download
         {
             if (!Contains(path))
                 return;
-            _info.CompletedTasks.Insert(0, new CompletedTask() { DownloadPath=path,Id=GetFileIdByPath(path),FileInfo=_info.Tasks.FirstOrDefault(v=>v.DownloadPath==path).DownloadFileInfo,CompletedTime=DateTime.Now});
+            _info.CompletedTasks.Insert(0, new CompletedTask() { DownloadPath = path, Id = GetFileIdByPath(path), FileInfo = _info.Tasks.FirstOrDefault(v => v.DownloadPath == path).DownloadFileInfo, CompletedTime = DateTime.Now });
             _info.Tasks.Remove(_info.Tasks.FirstOrDefault(v => v.DownloadPath == path));
             GetDownloadingDataByPath(path).DeleteFile();
             _info.DownloadingList.Remove(GetDownloadingDataByPath(path));
@@ -245,7 +248,6 @@ namespace BaiduPanDownloadWpf.Core.Download
         /// <summary>
         /// 删除任务
         /// </summary>
-        /// <param name="path"></param>
         public void RemoveTask(long id)
         {
             if (_info.Tasks.Any(v => v.Id == id))
@@ -255,7 +257,8 @@ namespace BaiduPanDownloadWpf.Core.Download
                     _info.DownloadingList.Remove(_info.DownloadingList.FirstOrDefault(v => v.DownloadPath == path));
                 if (GetDownloadingDataByPath(path) != null)
                     SetCompleted(path);
-                _info.Tasks.Remove(_info.Tasks.FirstOrDefault(v => v.DownloadPath == path));
+                var temp = _info.Tasks.FirstOrDefault(v => v.DownloadPath == path);
+                _info.Tasks.Remove(temp);
                 while (true)
                 {
                     Thread.Sleep(300);
@@ -274,9 +277,9 @@ namespace BaiduPanDownloadWpf.Core.Download
             }
             if (_info.CompletedTasks.Any(v => v.Id == id))
             {
-                _info.CompletedTasks.Remove(_info.CompletedTasks.FirstOrDefault(v=>v.Id==id));
+                _info.CompletedTasks.Remove(_info.CompletedTasks.FirstOrDefault(v => v.Id == id));
             }
-            
+
             Save();
         }
 
@@ -286,7 +289,7 @@ namespace BaiduPanDownloadWpf.Core.Download
         /// <param name="info"></param>
         public void UpdateTask(DownloadInfo info)
         {
-            if(info==null) return;
+            if (info == null) return;
             var data = GetDownloadingDataByPath(info.DownloadPath);
             data.Info = info;
             data.Save();

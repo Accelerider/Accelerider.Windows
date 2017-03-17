@@ -1,6 +1,7 @@
 ﻿using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
+using System.IO;
 
 namespace BaiduPanDownloadWpf.Core
 {
@@ -15,7 +16,9 @@ namespace BaiduPanDownloadWpf.Core
 
         public void Initialize()
         {
-            RegisterTypeIfMissing<ILocalDiskUserRepository, LocalDiskUserRepository>(true);
+            if (!Directory.Exists(Common.UserDataSavePath)) Directory.CreateDirectory(Common.UserDataSavePath);
+            _container.RegisterInstance(typeof(ILocalConfigInfo), LocalConfigInfo.Create());
+            RegisterTypeIfMissing<IMountUserRepository, MountUserRepository>(true);
         }
 
         /// <summary>

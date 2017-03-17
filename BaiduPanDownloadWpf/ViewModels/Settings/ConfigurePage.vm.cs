@@ -11,50 +11,52 @@ namespace BaiduPanDownloadWpf.ViewModels.Settings
 {
     internal class ConfigurePageViewModel : ViewModelBase
     {
-        private readonly ILocalDiskUserRepository _localDiskUserRepository;
-        private ILocalDiskUser _localDiskUser;
+        private readonly IMountUserRepository _mountUserRepository;
+        private readonly ILocalConfigInfo _localConfigInfo;
+        private IMountUser _localDiskUser;
         private Command _openFolderBrowserCommand;
 
 
-        public ConfigurePageViewModel(IUnityContainer container, ILocalDiskUserRepository localDiskUserRepository)
+        public ConfigurePageViewModel(IUnityContainer container, IMountUserRepository mountUserRepository)
             : base(container)
         {
-            _localDiskUserRepository = localDiskUserRepository;
+            _localConfigInfo = Container.Resolve<ILocalConfigInfo>();
+            _mountUserRepository = mountUserRepository;
             OpenFolderBrowserCommand = new Command(OpenFolderBrowserCommandExecute, () => _localDiskUser != null);
         }
 
         protected override void OnLoaded()
         {
-            if (SetProperty(ref _localDiskUser, _localDiskUserRepository?.FirstOrDefault())) UpdataAllProperties();
+            if (SetProperty(ref _localDiskUser, _mountUserRepository?.FirstOrDefault())) UpdataAllProperties();
         }
 
         public string DownloadPath
         {
-            get { return _localDiskUser?.DownloadDirectory; }
+            get { return _localConfigInfo?.DownloadDirectory; }
             set
             {
                 if (_localDiskUser == null) return;
-                _localDiskUser.DownloadDirectory = value;
+                _localConfigInfo.DownloadDirectory = value;
                 OnPropertyChanged(() => DownloadPath);
             }
         }
-        public int DownloadSpeedLimit
+        public double DownloadSpeedLimit
         {
-            get { return _localDiskUser?.DownloadThreadNumber ?? 0; }
+            get { return _localConfigInfo?.SpeedLimit ?? 0; }
             set
             {
                 if (_localDiskUser == null) return;
-                _localDiskUser.DownloadThreadNumber = value;
+                _localConfigInfo.SpeedLimit = value;
                 OnPropertyChanged(() => DownloadSpeedLimit);
             }
         }
         public int ParallelTaskNumber
         {
-            get { return _localDiskUser?.ParallelTaskNumber ?? 0; }
+            get { return _localConfigInfo?.ParallelTaskNumber ?? 0; }
             set
             {
                 if (_localDiskUser == null) return;
-                _localDiskUser.ParallelTaskNumber = value;
+                _localConfigInfo.ParallelTaskNumber = value;
                 OnPropertyChanged(() => ParallelTaskNumber);
             }
         }

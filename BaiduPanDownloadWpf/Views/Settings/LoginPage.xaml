@@ -6,6 +6,7 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:res="clr-namespace:BaiduPanDownloadWpf.Assets"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:control="clr-namespace:BaiduPanDownloadWpf.Controls"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="700">
@@ -39,7 +40,7 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <mui:ModernButton Grid.Row="0" Grid.Column="2" IconWidth="14" IconHeight="14" IconData="F1 M 19.0002,34L 19.0002,42L 43.7502,42L 33.7502,52L 44.2502,52L 58.2502,38L 44.2502,24L 33.7502,24L 43.7502,34L 19.0002,34 Z "
+                <mui:ModernButton Grid.Row="0" Grid.Column="2" IconWidth="14" IconHeight="14" IconData="F1 M 57,42L 57,34L 32.25,34L 42.25,24L 31.75,24L 17.75,38L 31.75,52L 42.25,52L 32.25,42L 57,42 Z "
                                   Visibility="{Binding IsLoginServiceAccount, Converter={StaticResource BooleanToVisibilityConverter}}"
                                   Command="{Binding SignOutServiceAccountCommand}"
                                   ToolTip="Sign out"/>
@@ -80,8 +81,8 @@
                     <PasswordBox Name="PasswordBoxLocalDiskUser" Grid.Row="2" Grid.Column="2"/>
                     <CheckBox Grid.Row="4" Grid.Column="2" Content="{x:Static res:UiStringResources.LoginPage_Remember_the_password}" IsChecked="{Binding IsRememberPassword}"/>
                     <CheckBox Grid.Row="6" Grid.Column="2" Content="{x:Static res:UiStringResources.LoginPage_Automatic_login}" IsChecked="{Binding IsAutoSignIn}"/>
-                    <mui:ModernButton Grid.Row="8" Grid.Column="2" Content="{x:Static res:UiStringResources.LoginPage_Login}"
-                                      HorizontalAlignment="Center" IconHeight="14" IconWidth="14" IconData="F1 M 57,42L 57,34L 32.25,34L 42.25,24L 31.75,24L 17.75,38L 31.75,52L 42.25,52L 32.25,42L 57,42 Z "
+                    <!--<mui:ModernButton Grid.Row="8" Grid.Column="2" 
+                                      HorizontalAlignment="Center" IconHeight="14" IconWidth="14" IconData="F1 M 19.0002,34L 19.0002,42L 43.7502,42L 33.7502,52L 44.2502,52L 58.2502,38L 44.2502,24L 33.7502,24L 43.7502,34L 19.0002,34 Z "
                                       Command="{Binding LoginServiceAccountCommand}" CommandParameter="{Binding ElementName=PasswordBoxLocalDiskUser}">
                         <mui:ModernButton.Style>
                             <Style BasedOn="{StaticResource {x:Type mui:ModernButton}}" TargetType="{x:Type mui:ModernButton}">
@@ -93,10 +94,10 @@
                             </Style>
                         </mui:ModernButton.Style>
                     </mui:ModernButton>
-                    <mui:ModernProgressRing Grid.Row="8" Grid.Column="2" MinHeight="0" Height="25" IsActive="{Binding IsSigningIn}" Style="{StaticResource WaveProgressRingStyle}"/>
-                    <!--<res:AsyncButton Grid.Row="8" Grid.Column="2" HorizontalAlignment="Center" IsWorking="{Binding IsSigningIn}"
-                                     ButtonTip="{x:Static res:UiStringResources.LoginPage_Login}" ProgressBarStyle="{StaticResource WaveProgressRingStyle}" IconData="F1 M 57,42L 57,34L 32.25,34L 42.25,24L 31.75,24L 17.75,38L 31.75,52L 42.25,52L 32.25,42L 57,42 Z "
-                                     Command="{Binding LoginServiceAccountCommand}" CommandParameter="{Binding ElementName=PasswordBoxLocalDiskUser}"/>-->
+                    <mui:ModernProgressRing Grid.Row="8" Grid.Column="2" MinHeight="0" Height="25" IsActive="{Binding IsSigningIn}" Style="{StaticResource WaveProgressRingStyle}"/>-->
+                    <control:AsyncButton Grid.Row="8" Grid.Column="2" HorizontalAlignment="Center" IsWorking="{Binding IsSigningIn}"
+                                         ProgressBarStyle="{StaticResource WaveProgressRingStyle}" IconData="F1 M 19.0002,34L 19.0002,42L 43.7502,42L 33.7502,52L 44.2502,52L 58.2502,38L 44.2502,24L 33.7502,24L 43.7502,34L 19.0002,34 Z "
+                                         Command="{Binding LoginServiceAccountCommand}" CommandParameter="{Binding ElementName=PasswordBoxLocalDiskUser}"/>
                 </Grid>
 
 
@@ -116,7 +117,7 @@
                                         <ColumnDefinition Width="8"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Grid.RowSpan="3" Width="50" Height="50" Source="../../Assets/Images/DefaultUserHead.jpg"/>
+                                    <Image Grid.Column="0" Grid.RowSpan="3" Width="50" Height="50" Source="{Binding HeadImageUri, TargetNullValue='../../Assets/Images/DefaultUserHead.jpg', Converter={StaticResource UriToImageSourceConverter}}"/>
                                     <TextBlock Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" FontWeight="Bold">
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="User: {0} ({1})">

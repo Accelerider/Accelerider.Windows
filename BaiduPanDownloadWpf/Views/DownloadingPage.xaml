@@ -37,7 +37,7 @@
             <TextBlock Grid.Column="0" VerticalAlignment="Center" 
                        Text="{x:Static res:UiStringResources.DownloadingPage_Total_progress_}"/>
             <ProgressBar Grid.Column="2" VerticalAlignment="Center" Height="8"
-                         Value="{Binding TotalDownloadProgress.ValueBasedOnB, Mode=OneWay}" Maximum="{Binding TotalDownloadQuantity.ValueBasedOnB, Mode=OneWay}"/>
+                         Value="{Binding TotalDownloadProgress.BaseBValue, Mode=OneWay}" Maximum="{Binding TotalDownloadQuantity.BaseBValue, Mode=OneWay}"/>
             <TextBlock Grid.Column="4" VerticalAlignment="Center"
                        Text="{Binding TotalDownloadSpeed, Mode=OneWay, StringFormat='{}{0}/s'}"/>
             <mui:ModernButton Grid.Column="6"  IconWidth="12" IconHeight="12">
@@ -106,7 +106,7 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <ProgressBar Grid.Column="4" Grid.Row="0" Height="4"
-                                             Value="{Binding DownloadProgress.ValueBasedOnB, Mode=OneWay}" Maximum="{Binding FileSize.ValueBasedOnB, Mode=OneWay}"/>
+                                             Value="{Binding DownloadProgress.BaseBValue, Mode=OneWay}" Maximum="{Binding FileSize.BaseBValue, Mode=OneWay}"/>
                                 <TextBlock Grid.Column="0" Grid.Row="2" Foreground="Gray">
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0}/{1}">

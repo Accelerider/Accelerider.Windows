@@ -23,6 +23,7 @@ namespace BaiduPanDownloadWpf.Core
             FileType = type;
             FileSize = size;
             CompletedTime = time;
+            
         }
     }
 }

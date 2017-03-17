@@ -15,15 +15,15 @@ namespace BaiduPanDownloadWpf.ViewModels
 {
     internal class DownloadingPageViewModel : ViewModelBase
     {
-        private readonly ILocalDiskUserRepository _localDiskUserRepository;
+        private readonly IMountUserRepository _mountUserRepository;
         private INetDiskUser _netDiskUser;
         private ObservableCollection<DownloadingTaskItemViewModel> _downloadTaskList = new ObservableCollection<DownloadingTaskItemViewModel>();
 
 
-        public DownloadingPageViewModel(IUnityContainer container, ILocalDiskUserRepository localDiskUserRepository)
+        public DownloadingPageViewModel(IUnityContainer container, IMountUserRepository mountUserRepository)
             : base(container)
         {
-            _localDiskUserRepository = localDiskUserRepository;
+            _mountUserRepository = mountUserRepository;
             Func<bool> isAnyElementInDownloadTaskList = () => DownloadTaskList?.Any() ?? false;
             PauseAllCommand = new Command(PauseAllCommandExecute, isAnyElementInDownloadTaskList);
             StartAllCommand = new Command(StartAllCommandExecute, isAnyElementInDownloadTaskList);
@@ -104,7 +104,7 @@ namespace BaiduPanDownloadWpf.ViewModels
 
         protected override void OnLoaded()
         {
-            SetProperty(ref _netDiskUser, _localDiskUserRepository?.FirstOrDefault()?.CurrentNetDiskUser);
+            SetProperty(ref _netDiskUser, _mountUserRepository?.FirstOrDefault()?.GetCurrentNetDiskUser());
             if (_netDiskUser == null)
             {
                 DownloadTaskList.Clear();
@@ -113,7 +113,7 @@ namespace BaiduPanDownloadWpf.ViewModels
             foreach (var item in _netDiskUser.GetUncompletedFiles())
             {
                 if (DownloadTaskList.Any(element => element.FileId == item.FileId)) continue;
-                DownloadTaskList.Add(Container.Resolve<DownloadingTaskItemViewModel>(new DependencyOverride<ILocalDiskUser>(_localDiskUserRepository.FirstOrDefault()), new DependencyOverride<IDiskFile>(item)));
+                DownloadTaskList.Add(Container.Resolve<DownloadingTaskItemViewModel>(new DependencyOverride<IMountUser>(_mountUserRepository.FirstOrDefault()), new DependencyOverride<IDiskFile>(item)));
             }
         }
 

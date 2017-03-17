@@ -51,6 +51,9 @@
     <DocumentationFile>
     </DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>BaiduPanDownloadWpf.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FirstFloor.ModernUI, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -115,11 +118,19 @@
       <DependentUpon>AsyncButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\LongToDataSizeConverter.cs" />
+    <Compile Include="Converters\UriToImageSourceConverter.cs" />
+    <Compile Include="SignWindow.xaml.cs">
+      <DependentUpon>SignWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\Dialogs\ShareFileDialog.vm.cs" />
     <Compile Include="ViewModels\RecycleBinPage.vm.cs" />
     <Compile Include="ViewModels\Settings\ConfigurePage.vm.cs" />
     <Compile Include="ViewModels\Settings\LoginPage.vm.cs" />
+    <Compile Include="ViewModels\Settings\OptionPage.vm.cs" />
     <Compile Include="ViewModels\SharedPage.vm.cs" />
+    <Compile Include="ViewModels\Settings\SignInBaiduPage.vm.cs" />
+    <Compile Include="ViewModels\SignInMountPage.vm.cs" />
+    <Compile Include="ViewModels\SignUpMountPage.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\Dialogs\MessageDialog.xaml.cs">
       <DependentUpon>MessageDialog.xaml</DependentUpon>
@@ -135,6 +146,15 @@
     </Compile>
     <Compile Include="Views\SharedPage.xaml.cs">
       <DependentUpon>SharedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\SignInBaiduPage.xaml.cs">
+      <DependentUpon>SignInBaiduPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SignInMountPage.xaml.cs">
+      <DependentUpon>SignInMountPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SignUpMountPage.xaml.cs">
+      <DependentUpon>SignUpMountPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Assets\CommonResources.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -161,6 +181,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SignWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Dialogs\MessageDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -238,6 +262,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Settings\SignInBaiduPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SignInMountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SignUpMountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -301,6 +337,15 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\DevGroupNo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\BaiduPanDownloadWpf.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BaiduPanDownloadWpf.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="BaiduPanDownloadWpf.Views.SignInMountPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:res="clr-namespace:BaiduPanDownloadWpf.Assets"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="450"
+             x:Name="Page">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommandWithParam}" CommandParameter="{Binding ElementName=Page}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Style="{StaticResource ContentRoot}">
+        <Grid Margin="30 0 50 0" >
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSigningIn}" Value="True">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <!--Sign in card-->
+            <Grid Grid.IsSharedSizeScope="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" SharedSizeGroup="SharedHeight"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto" SharedSizeGroup="SharedHeight"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="Auto" SharedSizeGroup="SharedHeight"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBox Grid.Row="0" Text="{Binding Username}"
+                         mah:TextBoxHelper.Watermark="账号"
+                         mah:TextBoxHelper.SelectAllOnFocus="True"
+                         mah:TextBoxHelper.ClearTextButton="True"/>
+
+                <PasswordBox x:Name="PasswordBox" Grid.Row="2" 
+                             mah:TextBoxHelper.Watermark="密码" 
+                             mah:TextBoxHelper.SelectAllOnFocus="True"
+                             mah:TextBoxHelper.ClearTextButton="True"/>
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <CheckBox Content="{x:Static res:UiStringResources.LoginPage_Remember_the_password}" IsChecked="{Binding IsRememberPassword}"/>
+                    <CheckBox Margin="20 0 0 0" Content="{x:Static res:UiStringResources.LoginPage_Automatic_login}" IsChecked="{Binding IsAutoSignIn}"/>
+                </StackPanel>
+
+                <Button Grid.Row="6" Name="SignInButton"
+                        Content="{x:Static res:UiStringResources.LoginPage_Login}" 
+                        Command="{Binding SignInCommand}" CommandParameter="{Binding ElementName=PasswordBox}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSigningIn}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <mui:ModernProgressRing Grid.Row="6" IsActive="{Binding IsSigningIn}" Visibility="{Binding IsSigningIn, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Style="{StaticResource WaveProgressRingStyle}" Height="{Binding ElementName=SignInButton, Path=ActualHeight}" MinHeight="0"/>
+
+                <Grid Grid.Row="6" Background="#60EEEE00" Grid.ColumnSpan="3"
+                      Visibility="Collapsed">
+                    <TextBlock Grid.Row="6" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               Text="密码错误！"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,5 +1,4 @@
-﻿using FirstFloor.ModernUI.Windows.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BaiduPanDownloadWpf.Views.Dialogs
+namespace BaiduPanDownloadWpf.Views
 {
     /// <summary>
-    /// Interaction logic for SignInDialog.xaml
+    /// Interaction logic for SignInMountPage.xaml
     /// </summary>
-    public partial class SignInDialog : ModernWindow
+    public partial class SignInMountPage : UserControl
     {
-        public SignInDialog()
+        public SignInMountPage()
         {
             InitializeComponent();
         }

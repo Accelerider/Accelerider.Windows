@@ -10,15 +10,16 @@ using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.Practices.Unity;
 
 namespace BaiduPanDownloadWpf.Core
 {
     /// <summary>
     /// 网盘账户
     /// </summary>
-    public class NetDiskUser : INetDiskUser
+    public class NetDiskUser : ModelBase, INetDiskUser
     {
-        private readonly LocalDiskUser _account;
+        private readonly MountUser _account;
 
         /// <summary>
         /// 便利方法,获取数据服务器
@@ -33,13 +34,11 @@ namespace BaiduPanDownloadWpf.Core
         /// <summary>
         /// 便利方法,获取下载路径
         /// </summary>
-        internal string DownloadDirectory => _account.DownloadDirectory;
+        internal string DownloadDirectory => Container.Resolve<ILocalConfigInfo>().DownloadDirectory;
 
-        internal LocalDiskUser LocalUser => _account;
+        internal MountUser LocalUser => _account;
 
-
-
-        public NetDiskUser(LocalDiskUser account)
+        public NetDiskUser(IUnityContainer container, MountUser account) : base(container)
         {
             _account = account;
             RootFile = new NetDiskFile(this);
@@ -50,17 +49,17 @@ namespace BaiduPanDownloadWpf.Core
         /// <summary>
         /// 用户名
         /// </summary>
-        public string UserName { get; private set; }
+        public string Username { get; private set; }
 
         /// <summary>
         /// 昵称
         /// </summary>
-        public string NickName { get; private set; }
+        public string Nickname { get; private set; }
 
         /// <summary>
         /// 头像URL
         /// </summary>
-        public string HeadImagePath { get; private set; }
+        public Uri HeadImageUri { get; private set; }
 
         /// <summary>
         /// 总容量
@@ -129,16 +128,16 @@ namespace BaiduPanDownloadWpf.Core
         /// <summary>
         /// 更新用户信息
         /// </summary>
-        public async Task UpdateUserInfoAsync()
+        public async Task UpdateAsync()
         {
             var json = JObject.Parse(await DataServer.SendPacketAsync(new PacketBase
             {
                 Token = Token,
                 PacketID = 10
             }));
-            UserName = (string)json["username"];
-            NickName = (string)json["nick_name"];
-            HeadImagePath = (string)json["avatar_url"];
+            Username = (string)json["username"];
+            Nickname = (string)json["nick_name"];
+            HeadImageUri = new Uri((string)json["avatar_url"]);
             TotalSpace = (long)json["total"];
             FreeSpace = (long)json["free"];
             UsedSpace = (long)json["used"];

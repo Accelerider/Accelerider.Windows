@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="BaiduPanDownloadWpf.Views.Settings.SignInBaiduPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:res="clr-namespace:BaiduPanDownloadWpf.Assets"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid>
+            <!--Sign in card-->
+            <Grid Grid.IsSharedSizeScope="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" SharedSizeGroup="SharedHeight"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto" SharedSizeGroup="SharedHeight"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto" SharedSizeGroup="SharedHeight"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto" SharedSizeGroup="SharedHeight"/>
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0" Text="{Binding Username}"
+                         mah:TextBoxHelper.Watermark="是假的"
+                         mah:TextBoxHelper.SelectAllOnFocus="True"
+                         mah:TextBoxHelper.ClearTextButton="True"/>
+
+                <PasswordBox Grid.Row="2" x:Name="Password"
+                             mah:TextBoxHelper.Watermark="是假的" 
+                             mah:TextBoxHelper.SelectAllOnFocus="True"
+                             mah:TextBoxHelper.ClearTextButton="True"/>
+
+                <Grid Grid.Row="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="28"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="70"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding VCode}"
+                     mah:TextBoxHelper.Watermark="是化学的成分"
+                     mah:TextBoxHelper.SelectAllOnFocus="True"
+                     mah:TextBoxHelper.ClearTextButton="True"/>
+                    <Image Grid.Column="2" HorizontalAlignment="Right" Source="{Binding VCodeImage}"
+                       >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseUp">
+                                <i:InvokeCommandAction Command="{Binding UpdateVerificationCodeCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Image>
+                </Grid>
+                <Button Content="{x:Static res:UiStringResources.LoginPage_Login}" Grid.Row="6" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=Password}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

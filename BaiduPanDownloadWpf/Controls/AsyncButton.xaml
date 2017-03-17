@@ -11,6 +11,7 @@
     <Grid>
         <mui:ModernButton HorizontalAlignment="Center" VerticalAlignment="Center" 
                           Command="{Binding Command, ElementName=PART_AsyncButton}"
+                          CommandParameter="{Binding CommandParameter, ElementName=PART_AsyncButton}"
                           IconData="{Binding IconData, ElementName=PART_AsyncButton}"
                           IconWidth="{Binding IconWidth, ElementName=PART_AsyncButton}"
                           IconHeight="{Binding IconHeight, ElementName=PART_AsyncButton}"

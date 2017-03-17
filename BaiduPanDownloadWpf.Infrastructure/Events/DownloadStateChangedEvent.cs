@@ -31,7 +31,7 @@ namespace BaiduPanDownloadWpf.Infrastructure.Events
 #if DEBUG
         private static readonly Dictionary<DownloadStateEnum, DownloadStateEnum> StateChangeRule = new Dictionary<DownloadStateEnum, DownloadStateEnum>
         {
-            { DownloadStateEnum.Created, DownloadStateEnum.Waiting | DownloadStateEnum.Downloading },
+            { DownloadStateEnum.Created, DownloadStateEnum.Waiting },
             { DownloadStateEnum.Waiting, DownloadStateEnum.Downloading | DownloadStateEnum.Canceled | DownloadStateEnum.Paused },
             { DownloadStateEnum.Downloading, DownloadStateEnum.Paused | DownloadStateEnum.Completed | DownloadStateEnum.Canceled | DownloadStateEnum.Faulted },
             { DownloadStateEnum.Paused, DownloadStateEnum.Downloading | DownloadStateEnum.Canceled | DownloadStateEnum.Paused }

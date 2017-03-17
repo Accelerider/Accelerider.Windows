@@ -62,8 +62,9 @@
     <Compile Include="Interfaces\Files\IDiskFile.cs" />
     <Compile Include="Interfaces\Files\IFile.cs" />
     <Compile Include="Interfaces\Files\ILocalDiskFile.cs" />
-    <Compile Include="Interfaces\ILocalDiskUser.cs" />
-    <Compile Include="Interfaces\ILocalDiskUserRepository.cs" />
+    <Compile Include="Interfaces\ILocalConfigInfo.cs" />
+    <Compile Include="Interfaces\IMountUser.cs" />
+    <Compile Include="Interfaces\IMountUserRepository.cs" />
     <Compile Include="Interfaces\Files\INetDiskFile.cs" />
     <Compile Include="Interfaces\INetDiskUser.cs" />
     <Compile Include="Interfaces\IRepository{T}.cs" />

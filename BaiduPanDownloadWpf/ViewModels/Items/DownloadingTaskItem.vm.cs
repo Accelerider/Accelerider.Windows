@@ -15,7 +15,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
     internal class DownloadingTaskItemViewModel : DownloadTaskItemViewModel
     {
         // TODO: Temporary solution.
-        private ILocalDiskUser _localDiskUser;
+        private IMountUser _localDiskUser;
 
         private DataSize _downloadSpeed;
         private DataSize _downloadProgerss;
@@ -25,7 +25,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
         private Command _startTaskCommand;
         private Command _cancelTaskCommand;
 
-        public DownloadingTaskItemViewModel(IUnityContainer container, ILocalDiskUser localDiskUser, IDiskFile diskFile)
+        public DownloadingTaskItemViewModel(IUnityContainer container, IMountUser localDiskUser, IDiskFile diskFile)
             : base(container, diskFile)
         {
             // TODO: Temporary solution.
@@ -49,9 +49,9 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
         {
             get
             {
-                if (DownloadSpeed.ValueBasedOnB == 0)
+                if (DownloadSpeed.BaseBValue == 0)
                     return null;
-                return new TimeSpan(0, 0, (int)Math.Round((1.0 * (FileSize?.ValueBasedOnB ?? 0) - DownloadProgress.ValueBasedOnB) / DownloadSpeed.ValueBasedOnB));
+                return new TimeSpan(0, 0, (int)Math.Round((1.0 * (FileSize?.BaseBValue ?? 0) - DownloadProgress.BaseBValue) / DownloadSpeed.BaseBValue));
             }
         }
 

@@ -13,17 +13,17 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
         /// <summary>
         /// Gets the local path of the user's head image file.
         /// </summary>
-        string HeadImagePath { get; }
+        Uri HeadImageUri { get; }
 
         /// <summary>
         /// Gets the name of the user.
         /// </summary>
-        string UserName { get; }
+        string Username { get; }
 
         /// <summary>
         /// Gets the nick name of the user.
         /// </summary>
-        string NickName { get; }
+        string Nickname { get; }
 
         /// <summary>
         /// Gets the total size(byte) of net-disk.
@@ -46,7 +46,7 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
         INetDiskFile RootFile { get; }
 
 
-            /// <summary>
+        /// <summary>
         /// Gets the uncompleted download tasks.
         /// </summary>
         /// <returns></returns>
@@ -77,5 +77,11 @@ namespace BaiduPanDownloadWpf.Infrastructure.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync();
+
+        /// <summary>
+        /// Updates the information of the user.
+        /// </summary>
+        /// <returns></returns>
+        Task UpdateAsync();
     }
 }

@@ -5,6 +5,7 @@
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <converters:LongToDataSizeConverter x:Key="LongToDataSizeConverter"/>
+    <converters:UriToImageSourceConverter x:Key="UriToImageSourceConverter"/>
     <SolidColorBrush x:Key="AccentColorBrush" Color="{DynamicResource AccentColor}"/>
 
     <Style x:Key="SelectedBackgroundStyle" TargetType="ListBoxItem">
@@ -23,7 +24,7 @@
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Opacity="0.2" Color="{StaticResource AccentColor}"/>
+                        <SolidColorBrush Opacity="0.2" Color="{DynamicResource AccentColor}"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -34,7 +35,7 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Opacity="0.1" Color="{StaticResource AccentColor}"/>
+                        <SolidColorBrush Opacity="0.1" Color="{DynamicResource AccentColor}"/>
                     </Setter.Value>
                 </Setter>
             </MultiTrigger>
@@ -92,33 +93,25 @@
     </Style>
 
     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Background">
-            <Setter.Value>
-                <SolidColorBrush Opacity="0.6" Color="White"/>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Background"  Value="{StaticResource AccentColorBrush}"/>
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="BorderBrush" Value="Transparent"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background">
-                    <Setter.Value>
-                        <SolidColorBrush Opacity="0.6" Color="White"/>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="BorderBrush" Value="Gray"/>
+                <Setter Property="Background"  Value="{StaticResource AccentColorBrush}"/>
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderBrush" Value="Transparent"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource AccentColor}"/>
+                        <SolidColorBrush Opacity="0.6" Color="{DynamicResource AccentColor}"/>
                     </Setter.Value>
                 </Setter>
+                <Setter Property="BorderBrush" Value="Transparent"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background">
-                    <Setter.Value>
-                        <SolidColorBrush Opacity="0.1" Color="Gray"/>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="Background"  Value="#55FFFFFF"/>
             </Trigger>
         </Style.Triggers>
     </Style>

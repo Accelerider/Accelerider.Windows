@@ -12,53 +12,25 @@ using Microsoft.Practices.Unity;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 
 namespace BaiduPanDownloadWpf.Core.Download
 {
-
-    //                       玄学时间
-    //                       _oo0oo_
-    //                      o8888888o
-    //                      88" . "88
-    //                      (| -_- |)
-    //                      0\  =  /0
-    //                    ___/`---'\___
-    //                  .' \\|     |// '.
-    //                 / \\|||  :  |||// \
-    //                / _||||| -:- |||||- \
-    //               |   | \\\  -  /// |   |
-    //               | \_|  ''\---/''  |_/ |
-    //               \  .-\__  '-'  ___/-. /
-    //             ___'. .'  /--.--\  `. .'___
-    //          ."" '<  `.___\_<|>_/___.' >' "".
-    //         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-    //         \  \ `_.   \_ __\ /__ _/   .-` /  /
-    //     =====`-.____`.___ \_____/___.-`___.-'=====
-    //                       `=---='
-    //
-    //
-    //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //
-    //               佛祖保佑         永无BUG
-    //
-    //
-    //
-
     public class TaskManager : ModelBase
     {
         private static readonly Dictionary<string, TaskManager> Manager = new Dictionary<string, TaskManager>();
 
-        public static TaskManager GetTaskManagerByLocalDiskUser(IUnityContainer container, LocalDiskUser user)
+        public static TaskManager GetTaskManagerByLocalDiskUser(IUnityContainer container, MountUser user)
         {
-            if (!Manager.ContainsKey(user.Name))
+            if (!Manager.ContainsKey(user.Username))
             {
                 //Manager.Add(user.Name, new TaskManager(user));
-                Manager.Add(user.Name, container.Resolve<TaskManager>(new DependencyOverride<LocalDiskUser>(user)));
+                Manager.Add(user.Username, new TaskManager(container, user));
             }
-            return Manager[user.Name];
+            return Manager[user.Username];
         }
 
-        private readonly LocalDiskUser _user;
+        private readonly MountUser _user;
         private readonly TaskDatabase _database;
         private readonly string _dataFolder;
         private readonly List<HttpDownload> _downloadingTasks = new List<HttpDownload>();
@@ -66,18 +38,20 @@ namespace BaiduPanDownloadWpf.Core.Download
 
         public string TaskListFile => Path.Combine(_dataFolder, "TaskList.json");
 
-        public TaskManager(IUnityContainer container, LocalDiskUser user) : base(container)
+        public TaskManager(IUnityContainer container, MountUser user) : base(container)
         {
             _user = user;
-            _dataFolder = Path.Combine(Directory.GetCurrentDirectory(), "Users", user.Name);
-            _database = TaskDatabase.GetDatabaseByUser(user);
+            _dataFolder = Path.Combine(Common.UserDataSavePath, user.Username);
+            if (!Directory.Exists(_dataFolder))
+                Directory.CreateDirectory(_dataFolder);
+            _database = TaskDatabase.GetDatabaseByUser(Container, user);
             _runing = true;
             new Thread(async () =>
             {
                 while (_runing)
                 {
-                    Thread.Sleep(300);
-                    if (_downloadingTasks.Count(v => v.DownloadState == DownloadStateEnum.Downloading) < _user.ParallelTaskNumber)
+                    Thread.Sleep(1000);
+                    if (_downloadingTasks.Count(v => v.DownloadState == DownloadStateEnum.Downloading) < Container.Resolve<ILocalConfigInfo>().ParallelTaskNumber)
                     {
                         //如果正在下载的文件数量与已经请求的文件数量相同
                         if (_database.GetDownloadingTask().Length == _downloadingTasks.Count)

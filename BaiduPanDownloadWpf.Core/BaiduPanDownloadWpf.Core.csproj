@@ -65,6 +65,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -73,6 +75,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaiduServer.cs" />
+    <Compile Include="Common.cs" />
     <Compile Include="DownloadEngine\DownloadTask.cs" />
     <Compile Include="DownloadEngine\DownloadTaskManager.cs" />
     <Compile Include="DownloadEngine\DownloadTaskToken.cs" />
@@ -84,11 +88,13 @@
     <Compile Include="Download\DownloadCore\HttpDownload.cs" />
     <Compile Include="Download\TaskDatabase.cs" />
     <Compile Include="Download\TaskManager.cs" />
-    <Compile Include="LocalDiskUserRepository.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="LocalConfigInfo.cs" />
+    <Compile Include="MountUserRepository.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="DownloadCoreModule.cs" />
     <Compile Include="LocalDiskFile.cs" />
-    <Compile Include="LocalDiskUser.cs" />
+    <Compile Include="MountUser.cs" />
     <Compile Include="NetDiskFile.cs" />
     <Compile Include="NetDiskUser.cs" />
     <Compile Include="NetWork\Cookies.cs" />

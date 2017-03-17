@@ -11,6 +11,7 @@ namespace BaiduPanDownloadWpf.Controls
     public partial class AsyncButton : UserControl
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(AsyncButton), new PropertyMetadata(null));
+        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(AsyncButton), new PropertyMetadata(null));
         public static readonly DependencyProperty IsWorkingProperty = DependencyProperty.Register("IsWorking", typeof(bool), typeof(AsyncButton), new PropertyMetadata(false));
         public static readonly DependencyProperty ProgressBarStyleProperty = DependencyProperty.Register("ProgressBarStyle", typeof(Style), typeof(AsyncButton), new PropertyMetadata(null));
         public static readonly DependencyProperty ButtonTipProperty = DependencyProperty.Register("ButtonTip", typeof(string), typeof(AsyncButton), new PropertyMetadata(null));
@@ -25,6 +26,13 @@ namespace BaiduPanDownloadWpf.Controls
         {
             get { return (ICommand)GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }
+        }
+
+
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
         }
         public bool IsWorking
         {

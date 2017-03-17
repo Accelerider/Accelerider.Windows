@@ -3,12 +3,20 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   xmlns:res="clr-namespace:BaiduPanDownloadWpf.Assets"
-                  Title="{x:Static res:UiStringResources.MWTitile}" IsTitleVisible="True"
+                  IsTitleVisible="True"
                   ContentSource="/Views/Home.xaml"
-                  MinWidth="850" MinHeight="520"
-                  Width="1050" Height="650"
-                  WindowStartupLocation="CenterScreen">
-
+                  MinWidth="1000" MinHeight="520"
+                  Width="1060" Height="660"
+                  WindowStartupLocation="CenterScreen"
+                  Title="{x:Static res:UiStringResources.MWTitile}" 
+                  Icon="Assets/Images/BaiduPanDownloadWpf.ico">
+    <!--<mui:ModernWindow.Title>
+        <MultiBinding StringFormat="{}{0} ({1})">
+            <Binding Source="{x:Static res:UiStringResources.MWTitile}"/>
+            <Binding Source="{x:Static res:UiStringResources.Version}"/>
+        </MultiBinding>
+    </mui:ModernWindow.Title>-->
+    
     <mui:ModernWindow.MenuLinkGroups>
         <mui:LinkGroup DisplayName="{x:Static res:UiStringResources.MW_file_explorer}">
             <mui:LinkGroup.Links>

@@ -38,7 +38,7 @@ namespace BaiduPanDownloadWpf.Infrastructure
     public enum DownloadStateEnum
     {
         /// <summary>
-        /// The task has been created. Start state. Can be converted to <see cref="Waiting"/> or <see cref="Downloading"/>.
+        /// The task has been created. Start state. Can be converted to <see cref="Waiting"/>.
         /// </summary>
         Created = 0,
 
@@ -255,5 +255,12 @@ namespace BaiduPanDownloadWpf.Infrastructure
         /// 审核未通过
         /// </summary>
         Notpassed = 4
+    }
+
+    public enum LanguageEnum
+    {
+        Chinese,
+        English,
+        Japanese
     }
 }
