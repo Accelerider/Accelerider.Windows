@@ -8,7 +8,7 @@
 0. 选中整个解决方案并右键，选择生成解决方案（build / rebulid）；
 0. 期间会自动还原NuGet packages，并可能占用一些时间，请耐心等待；
 0. **注意**：从版本 `v0.2.0.79` 开始，用户密码将被加密传输（RSA），但公钥并没有被提供在开源代码中，所以目前本项目的代码仅供学习交流使用，不可以登入服务器；
-0. 若想启动软件主界面，可以更改`BaiduPanDownloadWpf/Bootstrapper.cs`文件中的`CreateShell()`函数为一下形式：
+0. 若想启动软件主界面，可以更改`BaiduPanDownloadWpf/Bootstrapper.cs`文件中的`CreateShell()`函数为以下形式：
 ```
         protected override DependencyObject CreateShell()
         {
@@ -21,19 +21,21 @@
 
 # Screenshots
 
-![login illustration](/docs/images/login_page.png)
-
 ![downloading page](/docs/images/downloading_page.jpg)
-
-![downloaded page](/docs/images/downloaded_page.png)
 
 ![configure page](/docs/images/configure_page.png)
 
-# <span id="jump">Contributing</span>
+![downloaded page](/docs/images/downloaded_page.png)
+
+![login page](/docs/images/login_page.png)
+
+<span id="jump"></span>
+# Contributing
 如果您对此项目有兴趣并想贡献自己的idea，欢迎通过以下方式参与：
 - 加入我们：**开发者**QQ群 `622811874`（已更新）或**联系作者** `1844812067` - [Mrs4s](https://github.com/Mrs4s)、`787673395` - [Laplace's Demon](https://github.com/DingpingZhang)
-    - 加群时，验证信息请填写任意**可证明自己编程能力**的判据，**非程**~~序员~~**勿扰**；
-    - 加作者联系方式时，请注明 `参与Github项目开发`；如果你是用户，请通过[Issues](https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues)与作者交流，感谢你的支持。
+    - 加群时，验证信息请填写任意**可证明自己编程能力**的判据，**非程**~~序员~~**勿扰**，具体参考[Issue#59](https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues/59)中`DingpingZhang`的回答；
+    - 加作者联系方式时，请注明 `参与Github项目开发`；如果你是用户，请通过[Issues](https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues)与作者交流，感谢你的支持；
+    - 不符合以上要求者，均不会通过验证。
 - 在[Issues](https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues)板块进行留言，分享你的建议或需求；
 - Fork此项目，并通过[Pull requests](https://github.com/ResourceHunter/BaiduPanDownloadWpf/pulls)贡献你的代码。
 
