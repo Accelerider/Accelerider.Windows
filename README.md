@@ -17,7 +17,7 @@
         }
 ```
 
-0. 更多关于此项目的信息，请参考[Contributing](#jump)
+0. 更多关于此项目的信息，请参考[Contributing](#Contributing)
 
 # Screenshots
 
@@ -29,11 +29,12 @@
 
 ![login page](/docs/images/login_page.png)
 
-<span id="jump"></span>
-# Contributing
+<h1 id="Contributing">Contributing</h1>
+
+
 如果您对此项目有兴趣并想贡献自己的idea，欢迎通过以下方式参与：
 - 加入我们：**开发者**QQ群 `622811874`（已更新）或**联系作者** `1844812067` - [Mrs4s](https://github.com/Mrs4s)、`787673395` - [Laplace's Demon](https://github.com/DingpingZhang)
-    - 加群时，验证信息请填写任意**可证明自己编程能力**的判据，**非程**~~序员~~**勿扰**，具体参考[Issue#59](https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues/59)中`DingpingZhang`的回答；
+    - 加群时，验证信息请填写任意**可证明编程能力**的判据，**非程**~~序员~~**勿扰**，参考该回复[Issue#59 - `DingpingZhang`](https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues/59)；
     - 加作者联系方式时，请注明 `参与Github项目开发`；如果你是用户，请通过[Issues](https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues)与作者交流，感谢你的支持；
     - 不符合以上要求者，均不会通过验证。
 - 在[Issues](https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues)板块进行留言，分享你的建议或需求；
