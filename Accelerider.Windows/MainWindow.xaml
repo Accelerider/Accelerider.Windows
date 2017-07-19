@@ -1,0 +1,123 @@
+﻿<Window x:Class="Accelerider.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:views="clr-namespace:Accelerider.Windows.Views"
+        mc:Ignorable="d"
+        MinHeight="500" MinWidth="720" Height="700" Width="1100" 
+        Style="{StaticResource FluentWindowStyle}"
+        Title="Accelerider" >
+    <Grid Background="{StaticResource LightGreyBackgoundBrush}" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="68"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!--Right content-->
+        <Grid Grid.Column="1">
+            <UserControl>
+                <UserControl.Resources>
+                    <views:NetDiskView x:Key="NetDiskView"/>
+                    <views:TransferView x:Key="TransferView"/>
+                    <views:ShareView x:Key="ShareView"/>
+                </UserControl.Resources>
+                <UserControl.Style>
+                    <Style TargetType="UserControl" BasedOn="{StaticResource {x:Type UserControl}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=TabListBox}" Value="0">
+                                <Setter Property="Content" Value="{StaticResource NetDiskView}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=TabListBox}" Value="1">
+                                <Setter Property="Content" Value="{StaticResource TransferView}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=TabListBox}" Value="2">
+                                <Setter Property="Content" Value="{StaticResource ShareView}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </UserControl.Style>
+            </UserControl>
+        </Grid>
+
+        <!--Left side bar-->
+        <Grid Grid.Column="0" Background="{StaticResource PrimaryHueDarkBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!--Tab list-->
+            <ListBox x:Name="TabListBox" Grid.Row="1" 
+                     SelectionMode="Single" SelectedIndex="0"
+                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                     ItemContainerStyle="{StaticResource TabLabelListBoxItemStyle}"
+                     HorizontalContentAlignment="Stretch">
+                <ListBoxItem Height="56" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="FolderMultiple" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="18" Width="18"/>
+                        <TextBlock Grid.Row="2" Text="Net Disk" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                    </Grid>
+                </ListBoxItem>
+                <ListBoxItem Height="56" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="SwapVertical" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="25" Width="25"/>
+                        <TextBlock Grid.Row="2" Text="Transfer" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                    </Grid>
+                </ListBoxItem>
+                <ListBoxItem Height="56">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="ShareVariant" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
+                        <TextBlock Grid.Row="2" Text="Share" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                    </Grid>
+                </ListBoxItem>
+            </ListBox>
+
+            <ListBox Grid.Row="3" SelectionMode="Single" 
+                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                     ItemContainerStyle="{StaticResource TabLabelListBoxItemStyle}"
+                     HorizontalContentAlignment="Stretch">
+                <ListBoxItem Height="56">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="LightbulbOutline" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                        <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                    </Grid>
+                </ListBoxItem>
+                <ListBoxItem Height="56">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="Settings" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                        <TextBlock Grid.Row="2" Text="Settings" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                    </Grid>
+                </ListBoxItem>
+            </ListBox>
+        </Grid>
+    </Grid>
+</Window>
