@@ -80,6 +80,7 @@
     <Compile Include="Controls\SwitchableViewContainer.cs" />
     <Compile Include="Converters\CompareConverters.cs" />
     <Compile Include="Converters\UriToImageSourceConverter.cs" />
+    <Compile Include="MockData\MockData.cs" />
     <Compile Include="ViewModels\BindableBase.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
@@ -96,8 +97,26 @@
     <Compile Include="Views\NetDiskView.xaml.cs">
       <DependentUpon>NetDiskView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ShareToFilePlaza.xaml.cs">
+      <DependentUpon>ShareToFilePlaza.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShareToNetDisk.xaml.cs">
+      <DependentUpon>ShareToNetDisk.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ShareView.xaml.cs">
       <DependentUpon>ShareView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TransferDownloaded.xaml.cs">
+      <DependentUpon>TransferDownloaded.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TransferDownloading.xaml.cs">
+      <DependentUpon>TransferDownloading.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TransferUploaded.xaml.cs">
+      <DependentUpon>TransferUploaded.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TransferUploading.xaml.cs">
+      <DependentUpon>TransferUploading.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TransferView.xaml.cs">
       <DependentUpon>TransferView.xaml</DependentUpon>
@@ -147,7 +166,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ShareToFilePlaza.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShareToNetDisk.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ShareView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TransferDownloaded.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TransferDownloading.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TransferUploaded.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TransferUploading.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -204,6 +247,10 @@
     <Resource Include="Assets\Images\FileTypes\XlsType.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Accelerider.Windows.Core\Accelerider.Windows.Core.csproj">
+      <Project>{d30a6c14-b18d-4cbc-8df4-ff9640f33b9e}</Project>
+      <Name>Accelerider.Windows.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{f61839d1-6c54-4e70-b5cb-7ea02f54a664}</Project>
       <Name>Accelerider.Windows.Infrastructure</Name>

@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:Accelerider.Windows.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             Style="{StaticResource FloatInStyle}">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="280"/>

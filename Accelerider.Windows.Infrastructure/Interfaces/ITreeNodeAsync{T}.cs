@@ -26,6 +26,11 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         ITreeNodeAsync<T> Parent { get; }
 
         /// <summary>
+        /// Gets the cache of the child's node for the node.
+        /// </summary>
+        IEnumerable<ITreeNodeAsync<T>> ChildrenCache { get; }
+
+        /// <summary>
         /// Gets children of the node.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{T}"/> that can be get children of the node.</returns>

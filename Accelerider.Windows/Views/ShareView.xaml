@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:Accelerider.Windows.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"             
-             Style="{StaticResource FloatInStyle}">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="280"/>
@@ -32,7 +31,8 @@
 
                     <TextBox Grid.Column="0" Margin="5 0 0 0" 
                              materialDesign:HintAssist.Hint="Search" x:Name="SearchBox"
-                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0"
+                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden" 
+                             BorderThickness="0"
                              MinWidth="200" VerticalAlignment="Center" />
                     <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" 
                             Command="{Binding SearchCommand}" x:Name="SearchButton"
@@ -57,7 +57,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <materialDesign:PackIcon Grid.Column="1" Kind="CloudOutline" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" Text="Baidu Share" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="Net Disk Share" VerticalAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
                 <ListBoxItem Height="45">

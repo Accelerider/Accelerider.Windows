@@ -4,26 +4,76 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Accelerider.Windows.Controls"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="500">
-    <ListBox SelectionMode="Single">
-        <ListBox.ItemsPanel>
-            <ItemsPanelTemplate>
-                <StackPanel Orientation="Horizontal"/>
-            </ItemsPanelTemplate>
-        </ListBox.ItemsPanel>
-        <ListBox.ItemContainerStyle>
-            <Style TargetType="ListBoxItem">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ListBoxItem">
-                            <Border>
-                                
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ListBox.ItemContainerStyle>
-    </ListBox>
+             d:DesignHeight="30" d:DesignWidth="500" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <StackPanel Orientation="Horizontal">
+        <Button>
+            <md:PackIcon Kind="Home" VerticalAlignment="Center" />
+        </Button>
+        <ListBox SelectionMode="Single" ItemsSource="{Binding FolderChain}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="ContentTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <ToggleButton x:Name="PART_TgBtnShowSubFolders">
+                                        <md:PackIcon Kind="ChevronRight" />
+                                    </ToggleButton>
+                                    <Button Content="{Binding Content.FilePath.FileName}" />
+                                    <Popup IsOpen="{Binding ElementName=PART_TgBtnShowSubFolders, Path=IsChecked}" StaysOpen="False"
+                                       Placement="Bottom"
+                                       PlacementTarget="{Binding ElementName=PART_TgBtnShowSubFolders}"
+                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                       ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                       Height="366" Width="240">
+                                        <Border BorderThickness="1">
+                                            <Grid>
+                                                <ListBox ItemsSource="{Binding Parent.ChildrenCache}"
+                                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                     HorizontalContentAlignment="Stretch" 
+                                                     MouseUp="ListBox_MouseUp">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="MouseUp">
+                                                            <ei:ChangePropertyAction TargetObject="{Binding ElementName=PART_TgBtnShowSubFolders}" PropertyName="IsChecked" Value="False"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Padding="4 2">
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                        <ColumnDefinition Width="8"/>
+                                                                        <ColumnDefinition/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Image Grid.Column="0" Height="22" Stretch="Uniform" Source="../Assets/Images/FileTypes/FolderType.png"
+                                                                       VerticalAlignment="Center"/>
+                                                                    <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis"
+                                                                           VerticalAlignment="Center"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </Grid>
+                                        </Border>
+                                    </Popup>
+                                </StackPanel>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+    </StackPanel>
 </Border>
+

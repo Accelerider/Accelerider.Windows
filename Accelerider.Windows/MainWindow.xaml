@@ -18,28 +18,13 @@
 
         <!--Right content-->
         <Grid Grid.Column="1">
-            <UserControl>
-                <UserControl.Resources>
-                    <views:NetDiskView x:Key="NetDiskView"/>
-                    <views:TransferView x:Key="TransferView"/>
-                    <views:ShareView x:Key="ShareView"/>
-                </UserControl.Resources>
-                <UserControl.Style>
-                    <Style TargetType="UserControl" BasedOn="{StaticResource {x:Type UserControl}}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=TabListBox}" Value="0">
-                                <Setter Property="Content" Value="{StaticResource NetDiskView}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=TabListBox}" Value="1">
-                                <Setter Property="Content" Value="{StaticResource TransferView}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=TabListBox}" Value="2">
-                                <Setter Property="Content" Value="{StaticResource ShareView}"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </UserControl.Style>
-            </UserControl>
+            <ctrls:SwitchableViewContainer Selector="{Binding ElementName=TabListBox}">
+                <ctrls:SwitchableViewContainer.Resources>
+                    <views:NetDiskView x:Key="0" Style="{StaticResource FloatInStyle}"/>
+                    <views:TransferView x:Key="1" Style="{StaticResource FloatInStyle}"/>
+                    <views:ShareView x:Key="2" Style="{StaticResource FloatInStyle}"/>
+                </ctrls:SwitchableViewContainer.Resources>
+            </ctrls:SwitchableViewContainer>
         </Grid>
 
         <!--Left side bar-->

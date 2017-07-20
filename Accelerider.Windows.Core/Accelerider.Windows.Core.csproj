@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NetDiskFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeNodeAsync.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
