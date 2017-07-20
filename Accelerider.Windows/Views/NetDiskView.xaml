@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:Accelerider.Windows.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             Style="{StaticResource FadeInStyle}">
+             Style="{StaticResource FloatInStyle}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -147,25 +147,14 @@
                 </Style>
             </Grid.Style>
         </Grid>
+
         <ScrollViewer Grid.Column="1"  Margin="25 50 25 0" Background="White"
                       HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Auto">
-            <ScrollViewer.Resources>
-                <local:NetDiskFiles x:Key="NetDiskFilesView"/>
-                <local:NetDiskRecycleBin x:Key="NetDiskRecycleBinView" />
-            </ScrollViewer.Resources>
-            <ScrollViewer.Style>
-                <Style TargetType="ScrollViewer" BasedOn="{StaticResource FadeInStyle}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=SelectViewListBox}" Value="0">
-                            <Setter Property="Content" Value="{StaticResource NetDiskFilesView}" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=SelectViewListBox}" Value="1">
-                            <Setter Property="Content" Value="{StaticResource NetDiskRecycleBinView}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ScrollViewer.Style>
+                      VerticalScrollBarVisibility="Auto" >
+            <ctrls:SwitchableViewContainer Selector="{Binding ElementName=SelectViewListBox}">
+                <local:NetDiskFiles Style="{StaticResource FadeInStyle}"/>
+                <local:NetDiskRecycleBin Style="{StaticResource FadeInStyle}" />
+            </ctrls:SwitchableViewContainer>
         </ScrollViewer>
     </Grid>
 </UserControl>

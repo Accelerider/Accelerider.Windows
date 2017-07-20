@@ -1,0 +1,56 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="FloatInStyle" TargetType="FrameworkElement">
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TranslateTransform />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.400" Storyboard.TargetProperty="Opacity" From="0" To="1">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase  EasingMode="EaseIn"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.400" Storyboard.TargetProperty="RenderTransform.X" From="50" To="0">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase  EasingMode="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="FadeInStyle" TargetType="FrameworkElement">
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TranslateTransform />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Loaded" >
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.400" Storyboard.TargetProperty="RenderTransform.Y" From="20" To="0">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase  EasingMode="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.400" Storyboard.TargetProperty="Opacity" From="0" To="1">
+                            <DoubleAnimation.EasingFunction>
+                                <CircleEase  EasingMode="EaseIn"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

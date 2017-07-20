@@ -20,7 +20,8 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{Binding (ctrls:ControlHelper.MouseOverBackgound), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Background" Value="{Binding (ctrls:ControlHelper.MouseOverBackground), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Foreground" Value="{Binding (ctrls:ControlHelper.MouseOverForeground), RelativeSource={RelativeSource Mode=Self}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -29,6 +30,7 @@
         <Setter Property="Padding" Value="0"/>
         <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth0"/>
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="Template" Value="{StaticResource FlatButtonTemplate}" />
     </Style>
 
@@ -67,9 +69,9 @@
                                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                                         <StackPanel.Resources>
                                             <Style x:Key="WindowButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource FlatButtonStyle}">
-                                                <Setter Property="ctrls:ControlHelper.MouseOverBackgound" Value="{StaticResource PrimaryHueDarkBrush}" />
+                                                <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="{StaticResource PrimaryHueDarkBrush}" />
                                                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
-                                                <Setter Property="Foreground" Value="#DDDDDD"/>
+                                                <Setter Property="Foreground" Value="White"/>
                                                 <Setter Property="Width" Value="46"/>
                                                 <Setter Property="Margin" Value="4 0 0 0"/>
                                             </Style>
@@ -116,7 +118,7 @@
                                             </i:Interaction.Triggers>
                                             <materialDesign:PackIcon Kind="WindowMaximize" />
                                         </Button>
-                                        <Button Style="{StaticResource WindowButtonStyle}" ctrls:ControlHelper.MouseOverBackgound="Red">
+                                        <Button Style="{StaticResource WindowButtonStyle}" ctrls:ControlHelper.MouseOverBackground="Red">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
                                                     <ei:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" MethodName="Close" />
@@ -147,41 +149,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="SelectedBackgroundStyle" TargetType="ListBoxItem">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListBoxItem">
-                    <Border Background="{TemplateBinding Background}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4"/>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Rectangle Grid.Column="0" x:Name="PART_SeletedMarkRectangle"/>
-                            <ContentPresenter Grid.Column="1" 
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              TextBlock.Foreground="{TemplateBinding Foreground}"/>
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#29383F"/>
-                            <Setter Property="Fill" TargetName="PART_SeletedMarkRectangle" Value="{StaticResource SecondaryAccentBrush}"/>
-                        </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="IsSelected" Value="False" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{StaticResource PrimaryHueMidBrush}"/>
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="TabLabelListBoxItemStyle" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
         <Setter Property="Template">
             <Setter.Value>
@@ -207,7 +174,7 @@
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="SelectionStates">
                                 <VisualStateGroup.Transitions>
-                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.6" GeneratedEasingFunction="{x:Null}" Storyboard="{x:Null}" To="{x:Null}"/>
+                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.4" GeneratedEasingFunction="{x:Null}" Storyboard="{x:Null}" To="{x:Null}"/>
                                 </VisualStateGroup.Transitions>
                                 <VisualState x:Name="Selected">
                                     <Storyboard>
@@ -313,7 +280,7 @@
                                 <Border.Background>
                                     <TemplateBinding Property="Foreground">
                                         <TemplateBinding.Converter>
-                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource ListBoxItemMouseOverBackgoundBrush}"/>
+                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource ListBoxItemMouseOverBackgroundBrush}"/>
                                         </TemplateBinding.Converter>
                                     </TemplateBinding>
                                 </Border.Background>
@@ -351,29 +318,4 @@
         </Setter>
     </Style>
 
-    <Style x:Key="FadeInStyle" TargetType="FrameworkElement">
-        <Setter Property="RenderTransform">
-            <Setter.Value>
-                <TranslateTransform />
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <EventTrigger RoutedEvent="Loaded">
-                <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.400" Storyboard.TargetProperty="Opacity" From="0" To="1">
-                            <DoubleAnimation.EasingFunction>
-                                <CubicEase  EasingMode="EaseIn"/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.TargetProperty="RenderTransform.X" From="50" To="0">
-                            <DoubleAnimation.EasingFunction>
-                                <CubicEase  EasingMode="EaseOut"/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-        </Style.Triggers>
-    </Style>
 </ResourceDictionary>

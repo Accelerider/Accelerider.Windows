@@ -8,8 +8,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-                <ResourceDictionary Source="Assets/Theme.Brushes.Navy.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+                <ResourceDictionary Source="Assets/Brushes.Navy.xaml"/>
+                <ResourceDictionary Source="Assets/Animations.xaml"/>
                 <ResourceDictionary Source="Assets/FluentDesignStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
