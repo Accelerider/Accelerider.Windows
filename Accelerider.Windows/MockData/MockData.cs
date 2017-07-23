@@ -20,7 +20,7 @@ namespace Accelerider.Windows.MockData
             @"E:\DingpingZhang\Documents\VSTS",
         };
 
-        public static ITreeNodeAsync<NetDiskFile> GetNetDiskTreeNode()
+        public static ITreeNodeAsync<INetDiskFile> GetNetDiskTreeNode()
         {
             var content = new NetDiskFile
             {

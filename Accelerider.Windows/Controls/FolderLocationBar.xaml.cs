@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Core;
+using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.Controls
 {
@@ -17,10 +18,10 @@ namespace Accelerider.Windows.Controls
         public event PropertyChangedEventHandler PropertyChanged;
 
         public static readonly DependencyProperty CurrentFolderProperty
-            = DependencyProperty.Register("CurrentFolder", typeof(ITreeNodeAsync<NetDiskFile>), typeof(FolderLocationBar), new PropertyMetadata(null, OnCurrentFolderChanged));
-        public ITreeNodeAsync<NetDiskFile> CurrentFolder
+            = DependencyProperty.Register("CurrentFolder", typeof(ITreeNodeAsync<INetDiskFile>), typeof(FolderLocationBar), new PropertyMetadata(null, OnCurrentFolderChanged));
+        public ITreeNodeAsync<INetDiskFile> CurrentFolder
         {
-            get => (ITreeNodeAsync<NetDiskFile>)GetValue(CurrentFolderProperty);
+            get => (ITreeNodeAsync<INetDiskFile>)GetValue(CurrentFolderProperty);
             set => SetValue(CurrentFolderProperty, value);
         }
 
@@ -28,11 +29,10 @@ namespace Accelerider.Windows.Controls
         public FolderLocationBar()
         {
             InitializeComponent();
-            CurrentFolder = MockData.MockData.GetNetDiskTreeNode();
         }
 
-        private IList<ITreeNodeAsync<NetDiskFile>> _folderChain;
-        public IList<ITreeNodeAsync<NetDiskFile>> FolderChain
+        private IList<ITreeNodeAsync<INetDiskFile>> _folderChain;
+        public IList<ITreeNodeAsync<INetDiskFile>> FolderChain
         {
             get => _folderChain;
             set => SetProperty(ref _folderChain, value);
@@ -41,7 +41,7 @@ namespace Accelerider.Windows.Controls
         private static void OnCurrentFolderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (FolderLocationBar)d;
-            var folderChain = new List<ITreeNodeAsync<NetDiskFile>>();
+            var folderChain = new List<ITreeNodeAsync<INetDiskFile>>();
             var temp = control.CurrentFolder;
             do
             {
@@ -66,7 +66,7 @@ namespace Accelerider.Windows.Controls
 
         private void ListBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (!((sender as ListBox)?.SelectedItem is ITreeNodeAsync<NetDiskFile> item)) return;
+            if (!((sender as ListBox)?.SelectedItem is TreeNodeAsync<INetDiskFile> item)) return;
             CurrentFolder = item;
         }
     }

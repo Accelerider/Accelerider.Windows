@@ -19,8 +19,20 @@ namespace Accelerider.Windows.ViewModels
         }
         #endregion
 
-        private static Func<Type, object> _viewModelFactory = type => Activator.CreateInstance(type);
-        private static Func<Type, Type> _viewModelTypeResolver = viewType =>
+        #region The AutoRegisterLoadedHandler attached property
+        public static readonly DependencyProperty AutoRegisterLoadedHandlerProperty = DependencyProperty.RegisterAttached("AutoRegisterLoadedHandler", typeof(bool), typeof(ViewModelLocator), new PropertyMetadata(false, AutoRegisterLoadedHandlerChanged));
+        public static void SetAutoRegisterLoadedHandler(DependencyObject element, bool value)
+        {
+            element.SetValue(AutoRegisterLoadedHandlerProperty, value);
+        }
+        public static bool GetAutoRegisterLoadedHandler(DependencyObject element)
+        {
+            return (bool)element.GetValue(AutoRegisterLoadedHandlerProperty);
+        }
+        #endregion
+
+
+        private static readonly Func<Type, Type> ViewModelTypeResolver = viewType =>
         {
             var viewName = viewType.FullName.Replace(".Views.", ".ViewModels.");
             var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
@@ -29,17 +41,23 @@ namespace Accelerider.Windows.ViewModels
             return Type.GetType(viewModelName);
         };
 
-        public static Func<Type, object> ViewModelFactory
-        {
-            set { _viewModelFactory = value; }
-        }
+        public static Func<Type, object> ViewModelFactory { get; set; } = type => Activator.CreateInstance(type);
 
 
         private static void AutoWireViewModelChanged(DependencyObject view, DependencyPropertyChangedEventArgs e)
         {
             if (!(bool)e.NewValue) return;
             var viewType = view.GetType();
-            if (view is FrameworkElement element) element.DataContext = _viewModelFactory(_viewModelTypeResolver(viewType));
+            if (view is FrameworkElement element)
+                element.DataContext = ViewModelFactory(ViewModelTypeResolver(viewType));
+        }
+
+        private static void AutoRegisterLoadedHandlerChanged(DependencyObject d, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            if (!(bool)eventArgs.NewValue) return;
+            var view = d as FrameworkElement;
+            var viewModel = view?.DataContext as ViewModelBase ?? throw new NullReferenceException();
+            view.Loaded += async (sender, e) => await viewModel.OnViewLoaded();
         }
     }
 }

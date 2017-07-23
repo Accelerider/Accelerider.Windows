@@ -15,7 +15,7 @@
                 <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
                     <Setter Property="Height" Value="42" />
                     <Setter Property="Foreground" Value="#333333"/>
-                    <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="{StaticResource PrimaryHueLightBrush}" />
+                    <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="#7679BE" />
                     <Setter Property="ctrls:ControlHelper.MouseOverForeground" Value="White" />
                 </Style>
             </Grid.Resources>
@@ -76,5 +76,8 @@
                 </Button.Style>
             </Button>
         </Grid>
+        <ListBox SelectionMode="Extended">
+            
+        </ListBox>
     </StackPanel>
 </UserControl>

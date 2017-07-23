@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="500" DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <StackPanel Orientation="Horizontal">
-        <Button>
+        <Button Style="{StaticResource MaterialDesignToolButton}">
             <md:PackIcon Kind="Home" VerticalAlignment="Center" />
         </Button>
         <ListBox SelectionMode="Single" ItemsSource="{Binding FolderChain}">
@@ -25,17 +25,18 @@
                         <Setter.Value>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <ToggleButton x:Name="PART_TgBtnShowSubFolders">
+                                    <ToggleButton x:Name="PART_TgBtnShowSubFolders" Style="{StaticResource MaterialDesignFlatToggleButton}">
                                         <md:PackIcon Kind="ChevronRight" />
                                     </ToggleButton>
-                                    <Button Content="{Binding Content.FilePath.FileName}" />
+                                    <Button Content="{Binding Content.FilePath.FileName}" Style="{StaticResource MaterialDesignFlatButton}"/>
                                     <Popup IsOpen="{Binding ElementName=PART_TgBtnShowSubFolders, Path=IsChecked}" StaysOpen="False"
-                                       Placement="Bottom"
-                                       PlacementTarget="{Binding ElementName=PART_TgBtnShowSubFolders}"
-                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                       ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                       Height="366" Width="240">
-                                        <Border BorderThickness="1">
+                                           Placement="Bottom"
+                                           PlacementTarget="{Binding ElementName=PART_TgBtnShowSubFolders}"
+                                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                           ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                           Height="366" Width="240"
+                                           >
+                                        <Border BorderThickness="1" >
                                             <Grid>
                                                 <ListBox ItemsSource="{Binding Parent.ChildrenCache}"
                                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"

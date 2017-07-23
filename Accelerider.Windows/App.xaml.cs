@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows
 {
@@ -13,5 +14,16 @@ namespace Accelerider.Windows
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            var container = new UnityContainer();
+            ViewModels.ViewModelLocator.ViewModelFactory = type => container.Resolve(type);
+        }
+
+        private void ConfigureContainer(IUnityContainer container)
+        {
+            
+        }
     }
 }
