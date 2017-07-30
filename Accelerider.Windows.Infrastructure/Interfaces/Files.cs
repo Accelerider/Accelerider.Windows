@@ -74,7 +74,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
     /// <summary>
     /// 
     /// </summary>
-    public interface IDownloadedFile : IDiskFile
+    public interface ITransferedFile : IDiskFile
     {
         /// <summary>
         /// 

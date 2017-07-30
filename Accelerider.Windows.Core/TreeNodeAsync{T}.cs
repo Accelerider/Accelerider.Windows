@@ -8,11 +8,12 @@ namespace Accelerider.Windows.Core
 {
     public class TreeNodeAsync<T> : ITreeNodeAsync<T>
     {
+        private NetDiskFile netDiskFile;
+
         public TreeNodeAsync(T content)
         {
             Content = content;
         }
-
 
         public T Content { get; }
         public ITreeNodeAsync<T> Root
@@ -36,7 +37,12 @@ namespace Accelerider.Windows.Core
             }
         }
         public IReadOnlyList<ITreeNodeAsync<T>> ChildrenCache { get; protected set; }
-        public Func<T, Task<IEnumerable<T>>> ChildrenProvider { get; set; }
+        private Func<T, Task<IEnumerable<T>>> _childrenProvider;
+        public Func<T, Task<IEnumerable<T>>> ChildrenProvider
+        {
+            get => _childrenProvider ?? (Parent as TreeNodeAsync<T>)?.ChildrenProvider;
+            set => _childrenProvider = value;
+        }
 
         public async Task<bool> TryGetChildrenAsync()
         {

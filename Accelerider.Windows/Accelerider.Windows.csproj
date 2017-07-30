@@ -79,8 +79,8 @@
     </Compile>
     <Compile Include="Controls\SwitchableViewContainer.cs" />
     <Compile Include="Converters\CompareConverters.cs" />
+    <Compile Include="Converters\MinusConverter.cs" />
     <Compile Include="Converters\UriToImageSourceConverter.cs" />
-    <Compile Include="MockData\MockData.cs" />
     <Compile Include="ViewModels\BindableBase.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
@@ -266,6 +266,8 @@
       <Name>Accelerider.Windows.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\Images\AcceleriderIcon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

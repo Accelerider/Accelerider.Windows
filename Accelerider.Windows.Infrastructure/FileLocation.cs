@@ -43,7 +43,6 @@ namespace Accelerider.Windows.Infrastructure
         /// <param name="fileFullPath">A string representing the full path of the file. </param>
         public FileLocation(string fileFullPath)
         {
-            Debug.WriteLine($"{DateTime.Now} : {fileFullPath}");
             var matchResult = RegexFileLocation.Match(fileFullPath);
 
             if (matchResult.Groups == null || matchResult.Groups.Count != 4) throw new ArgumentException($"The file path is not valid: {fileFullPath}", fileFullPath);

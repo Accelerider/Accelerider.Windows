@@ -8,73 +8,117 @@
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="500" DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <StackPanel Orientation="Horizontal">
-        <Button Style="{StaticResource MaterialDesignToolButton}">
-            <md:PackIcon Kind="Home" VerticalAlignment="Center" />
-        </Button>
-        <ListBox SelectionMode="Single" ItemsSource="{Binding FolderChain}">
+             d:DesignHeight="30" d:DesignWidth="500" >
+    <StackPanel Orientation="Horizontal" 
+                DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border, AncestorLevel=1}}">
+        <UserControl>
+            <UserControl.Resources>
+                <Button x:Key="HomeButton" Style="{StaticResource MaterialDesignToolButton}"
+                        Command="{Binding LocateRootCommand}">
+                    <md:PackIcon Kind="Home" VerticalAlignment="Center" Width="20" Height="20" />
+                </Button>
+                <ToggleButton x:Key="FoldToggleButton">
+                    <md:PackIcon Kind="DotsHorizontal" VerticalAlignment="Center" Width="20" Height="20" />
+                </ToggleButton>
+            </UserControl.Resources>
+            <UserControl.Style>
+                <Style TargetType="UserControl">
+                    <Setter Property="Content" Value="{StaticResource HomeButton}"/>
+                    <Style.Triggers>
+                        <!--<DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType=StackPanel},
+                                               Converter={StaticResource IsGreaterThanConverter},
+                                               ConverterParameter={Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=2, AncestorType=Border}}}"
+                                     Value="True">
+                            
+                        </DataTrigger>-->
+                    </Style.Triggers>
+                </Style>
+            </UserControl.Style>
+        </UserControl>
+        <ListBox x:Name="PART_ListBox" SelectionMode="Single" ItemsSource="{Binding FolderChain}">
+            <ListBox.Resources>
+                <Style x:Key="SystemButtonLink" TargetType="ButtonBase" >
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Foreground" Value="Gray"/>
+                    <Setter Property="FontSize" Value="13" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ButtonBase}">
+                                <Border Name="Chrome"
+                                        Background="{TemplateBinding Background}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        SnapsToDevicePixels="true">
+                                    <TextBlock DataContext="{TemplateBinding Content}"
+                                               Text="{Binding}"
+                                               Margin="{TemplateBinding Padding}"
+                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="#606060"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Resources>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="ChevronRight" VerticalAlignment="Center"/>
+                        <Button Content="{Binding Content.FilePath.FileName}" Style="{StaticResource SystemButtonLink}"
+                                Command="{Binding DataContext.LocateFolderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"
+                                CommandParameter="{Binding}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
             <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="ContentTemplate">
+                <Style TargetType="ListBoxItem" >
+                    <Setter Property="Template">
                         <Setter.Value>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <ToggleButton x:Name="PART_TgBtnShowSubFolders" Style="{StaticResource MaterialDesignFlatToggleButton}">
-                                        <md:PackIcon Kind="ChevronRight" />
-                                    </ToggleButton>
-                                    <Button Content="{Binding Content.FilePath.FileName}" Style="{StaticResource MaterialDesignFlatButton}"/>
-                                    <Popup IsOpen="{Binding ElementName=PART_TgBtnShowSubFolders, Path=IsChecked}" StaysOpen="False"
-                                           Placement="Bottom"
-                                           PlacementTarget="{Binding ElementName=PART_TgBtnShowSubFolders}"
-                                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                           ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                           Height="366" Width="240"
-                                           >
-                                        <Border BorderThickness="1" >
-                                            <Grid>
-                                                <ListBox ItemsSource="{Binding Parent.ChildrenCache}"
-                                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                                     HorizontalContentAlignment="Stretch" 
-                                                     MouseUp="ListBox_MouseUp">
-                                                    <i:Interaction.Triggers>
-                                                        <i:EventTrigger EventName="MouseUp">
-                                                            <ei:ChangePropertyAction TargetObject="{Binding ElementName=PART_TgBtnShowSubFolders}" PropertyName="IsChecked" Value="False"/>
-                                                        </i:EventTrigger>
-                                                    </i:Interaction.Triggers>
-                                                    <ListBox.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Border Padding="4 2">
-                                                                <Grid>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="Auto"/>
-                                                                        <ColumnDefinition Width="8"/>
-                                                                        <ColumnDefinition/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Image Grid.Column="0" Height="22" Stretch="Uniform" Source="../Assets/Images/FileTypes/FolderType.png"
-                                                                       VerticalAlignment="Center"/>
-                                                                    <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis"
-                                                                           VerticalAlignment="Center"/>
-                                                                </Grid>
-                                                            </Border>
-                                                        </DataTemplate>
-                                                    </ListBox.ItemTemplate>
-                                                </ListBox>
-                                            </Grid>
-                                        </Border>
-                                    </Popup>
-                                </StackPanel>
-                            </DataTemplate>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                                </Border>
+                            </ControlTemplate>
                         </Setter.Value>
                     </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsSelected" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </MultiTrigger>
+                    </Style.Triggers>
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
     </StackPanel>
 </Border>
+
+
 

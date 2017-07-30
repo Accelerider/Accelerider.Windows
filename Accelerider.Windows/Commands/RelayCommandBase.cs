@@ -7,8 +7,8 @@ namespace Accelerider.Windows.Commands
     {
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
 
         void ICommand.Execute(object parameter)

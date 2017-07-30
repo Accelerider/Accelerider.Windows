@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         MinHeight="500" MinWidth="720" Height="700" Width="1100" 
         Style="{StaticResource FluentWindowStyle}"
+        Icon="Assets/Images/AcceleriderIcon.png"
         Title="Accelerider" >
     <Grid Background="{StaticResource LightGreyBackgoundBrush}" >
         <Grid.ColumnDefinitions>

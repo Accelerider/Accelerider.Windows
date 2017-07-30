@@ -14,7 +14,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" >
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="Auto"/>
@@ -140,22 +140,24 @@
                 <Style TargetType="Grid">
                     <Setter Property="Width" Value="280" />
                     <Setter Property="Background" Value="White" />
+                    <Setter Property="Visibility" Value="Visible"/>
                     <Style.Triggers>
-                        <!-- TODO: sets Visibility property to Collapsed when width of the Window is less than a certain value. -->
+                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},
+                                               Converter={StaticResource IsLessThanConverter}, ConverterParameter=880}"
+                                     Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
         </Grid>
 
-        <ScrollViewer Grid.Column="1"  Margin="25 50 25 0" Background="White"
-                      HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Auto" >
-            <ctrls:SwitchableViewContainer Selector="{Binding ElementName=SelectViewListBox}">
-                <ctrls:SwitchableViewContainer.Resources>
-                    <local:NetDiskFiles x:Key="0" Style="{StaticResource FadeInStyle}"/>
-                    <local:NetDiskRecycleBin x:Key="1" Style="{StaticResource FadeInStyle}" />
-                </ctrls:SwitchableViewContainer.Resources>
-            </ctrls:SwitchableViewContainer>
-        </ScrollViewer>
+        <ctrls:SwitchableViewContainer Grid.Column="1"  Margin="25 50 25 0" Background="White"
+                                           Selector="{Binding ElementName=SelectViewListBox}">
+            <ctrls:SwitchableViewContainer.Resources>
+                <local:NetDiskFiles x:Key="0" Style="{StaticResource FadeInStyle}"/>
+                <local:NetDiskRecycleBin x:Key="1" Style="{StaticResource FadeInStyle}" />
+            </ctrls:SwitchableViewContainer.Resources>
+        </ctrls:SwitchableViewContainer>
     </Grid>
 </UserControl>

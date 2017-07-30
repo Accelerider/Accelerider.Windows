@@ -15,7 +15,7 @@ namespace Accelerider.Windows.Commands
 
         protected override bool CanExecute(object parameter)
         {
-            return parameter == null ? false : CanExecute((T)parameter);
+            return parameter != null && CanExecute((T)parameter);
         }
         protected override void Execute(object parameter)
         {

@@ -4,9 +4,113 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Accelerider.Windows.Views"
+             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
+             vm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+             d:DesignHeight="300" d:DesignWidth="600">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
+                <Setter Property="Height" Value="42" />
+                <Setter Property="Foreground" Value="#606060"/>
+                <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="#7679BE" />
+                <Setter Property="ctrls:ControlHelper.MouseOverForeground" Value="White" />
+            </Style>
+        </Grid.Resources>
+        <Grid Grid.Row="0" Height="50" />
+        <Grid Grid.Row="1" Background="{StaticResource LightGreyBackgoundBrush}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
+                <Button Style="{StaticResource ToolBarButtonStyle}" >
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Pause" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
+                        <TextBlock Text="Pause All" VerticalAlignment="Center" Margin="0 0 12 0" />
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource ToolBarButtonStyle}" >
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Close" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
+                        <TextBlock Text="Cancel All" VerticalAlignment="Center" Margin="0 0 12 0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <Button Grid.Column="2" Style="{StaticResource ToolBarButtonStyle}" >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Folder" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
+                    <TextBlock Text="Open Downloads Folder" VerticalAlignment="Center" Margin="0 0 12 0" />
+                </StackPanel>
+            </Button>
+        </Grid>
+        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended"
+                 ItemsSource="{Binding DownloadTasks}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 HorizontalContentAlignment="Stretch">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding EnterFolderCommand}" CommandParameter="{Binding SelectedItem, ElementName=ListboxFileList}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="20 3" Margin="3">
+                        <Border.ContextMenu>
+                            <ContextMenu x:Name="ContextMenu">
+                                <MenuItem Header="Download">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="Download" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Share to">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="Share" />
+                                    </MenuItem.Icon>
+                                    <MenuItem Header="Baidu Cloud" />
+                                    <MenuItem Header="Mrs4s Cloud" />
+                                    <MenuItem Header="File Plaza" />
+                                </MenuItem>
+                                <MenuItem Header="Delete">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="DeleteForever" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Border.ContextMenu>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton Style="{StaticResource MaterialDesignActionToggleButton}"
+                                          ToolTip="MaterialDesignActionLightToggleButton">
+                                <ToggleButton.Content>
+                                    <Image Style="{StaticResource FileImageSelectorStyle}" />
+                                </ToggleButton.Content>
+                                <materialDesign:ToggleButtonAssist.OnContent>
+                                    <materialDesign:PackIcon Kind="Pause" />
+                                </materialDesign:ToggleButtonAssist.OnContent>
+                            </ToggleButton>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

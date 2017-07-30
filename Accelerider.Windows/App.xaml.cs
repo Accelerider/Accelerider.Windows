@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Accelerider.Windows.Core;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows
@@ -19,6 +20,7 @@ namespace Accelerider.Windows
             base.OnStartup(e);
             var container = new UnityContainer();
             ViewModels.ViewModelLocator.ViewModelFactory = type => container.Resolve(type);
+            container.Resolve<Module>().Initialize();
         }
 
         private void ConfigureContainer(IUnityContainer container)

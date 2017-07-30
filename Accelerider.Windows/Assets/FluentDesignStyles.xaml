@@ -4,8 +4,12 @@
                     xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
                     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls">
+                    xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
+                    xmlns:cvrts="clr-namespace:Accelerider.Windows.Converters">
 
+    <cvrts:IsLessThanConverter x:Key="IsLessThanConverter"/>
+    <cvrts:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>
+    
     <ControlTemplate x:Key="FlatButtonTemplate" TargetType="Button">
         <Grid>
             <AdornerDecorator>
@@ -317,4 +321,53 @@
         </Setter>
     </Style>
 
+    <Style x:Key="FileImageSelectorStyle" TargetType="Image">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="ApkType">
+                <Setter Property="Source" Value="Images/FileTypes/ApkType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="DocType">
+                <Setter Property="Source" Value="Images/FileTypes/DocType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="ExeType">
+                <Setter Property="Source" Value="Images/FileTypes/ExeType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="FolderType">
+                <Setter Property="Source" Value="Images/FileTypes/FolderType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="ImgType">
+                <Setter Property="Source" Value="Images/FileTypes/ImgType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="MixFileType">
+                <Setter Property="Source" Value="Images/FileTypes/MixFileType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="MusicType">
+                <Setter Property="Source" Value="Images/FileTypes/MusicType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="OtherType">
+                <Setter Property="Source" Value="Images/FileTypes/OtherType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="PdfType">
+                <Setter Property="Source" Value="Images/FileTypes/PdfType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="PptType">
+                <Setter Property="Source" Value="Images/FileTypes/PptType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="RarType">
+                <Setter Property="Source" Value="Images/FileTypes/RarType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="TorrentType">
+                <Setter Property="Source" Value="Images/FileTypes/TorrentType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="TxtType">
+                <Setter Property="Source" Value="Images/FileTypes/TxtType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="VideoType">
+                <Setter Property="Source" Value="Images/FileTypes/VideoType.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Content.FileType}" Value="XlsType">
+                <Setter Property="Source" Value="Images/FileTypes/XlsType.png"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

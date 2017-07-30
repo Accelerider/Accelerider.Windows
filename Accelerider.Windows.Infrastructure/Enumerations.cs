@@ -152,39 +152,34 @@ namespace Accelerider.Windows.Infrastructure
     public enum TransferStateEnum
     {
         /// <summary>
-        /// The task has been created. Start state. Can be converted to <see cref="Waiting"/>.
+        /// The task created, waiting to start. Can be converted to <see cref="Transfering"/>, <see cref="Paused"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.
         /// </summary>
-        Created = 0,
-
-        /// <summary>
-        /// The task created, waiting to start. Can be converted to <see cref="Transfering"/>, <see cref="Canceled"/> or <see cref="Paused"/>.
-        /// </summary>
-        Waiting = 1,
+        Waiting = 0,
 
         /// <summary>
         /// The task is being downloaded. Can be converted to <see cref="Paused"/>, <see cref="Completed"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.
         /// </summary>
-        Transfering = 2,
+        Transfering = 1,
 
         /// <summary>
-        /// The task is Paused. Can be converted to <see cref="Transfering"/>, <see cref="Canceled"/> or <see cref="Waiting"/>.
+        /// The task is Paused. Can be converted to <see cref="Canceled"/> or <see cref="Waiting"/>.
         /// </summary>
-        Paused = 4,
+        Paused = 2,
 
         /// <summary>
         /// The task has been completed. End state.
         /// </summary>
-        Completed = 8,
+        Completed = 4,
 
         /// <summary>
         /// The task has been canceled. End state.
         /// </summary>
-        Canceled = 16,
+        Canceled = 8,
 
         /// <summary>
         /// The task failed. End state.
         /// </summary>
-        Faulted = 32
+        Faulted = 16
     }
 
     public enum LanguageEnum

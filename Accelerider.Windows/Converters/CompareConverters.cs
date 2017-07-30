@@ -13,7 +13,7 @@ namespace Accelerider.Windows.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var left = (double)value;
-            var right = (double)parameter;
+            var right = double.Parse(parameter.ToString());
             return left < right;
         }
 

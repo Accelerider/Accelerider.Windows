@@ -12,8 +12,7 @@ namespace Accelerider.Windows.ViewModels
     {
         protected IUnityContainer Container { get; }
         protected IAcceleriderUser AcceleriderUser { get; }
-        protected INetDiskUser NetDiskUser { get; }
-
+        protected INetDiskUser NetDiskUser { get; set; }
 
         private bool _isViewModelLoaded;
         public bool IsViewModelLoaded
@@ -22,15 +21,12 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _isViewModelLoaded, value);
         }
 
-
-
         protected ViewModelBase(IUnityContainer container)
         {
             Container = container;
             AcceleriderUser = container.Resolve<IAcceleriderUser>();
-            NetDiskUser = container.Resolve<INetDiskUser>();
+            NetDiskUser = AcceleriderUser.CurrentNetDiskUser;
         }
-
 
         public async Task OnViewLoaded()
         {
@@ -39,6 +35,9 @@ namespace Accelerider.Windows.ViewModels
             IsViewModelLoaded = true;
         }
 
-        protected virtual async Task LoadViewModel() { }
+        protected virtual async Task LoadViewModel()
+        {
+            NetDiskUser = AcceleriderUser.CurrentNetDiskUser;
+        }
     }
 }

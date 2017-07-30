@@ -6,15 +6,24 @@
              xmlns:local="clr-namespace:Accelerider.Windows.Views"
              xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             vm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="600">
-    <StackPanel>
-        <ctrls:FolderLocationBar Height="50" />
-        <Grid Background="#DDDEF0">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ctrls:FolderLocationBar Grid.Row="0" Height="50" CurrentFolder="{Binding CurrentFolder}"/>
+        <!--#DDDEF0-->
+        <Grid Grid.Row="1" Background="{StaticResource LightGreyBackgoundBrush}">
             <Grid.Resources>
                 <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
                     <Setter Property="Height" Value="42" />
-                    <Setter Property="Foreground" Value="#333333"/>
+                    <Setter Property="Foreground" Value="#606060"/>
                     <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="#7679BE" />
                     <Setter Property="ctrls:ControlHelper.MouseOverForeground" Value="White" />
                 </Style>
@@ -25,7 +34,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
-                <Button Style="{StaticResource ToolBarButtonStyle}"  >
+                <Button Style="{StaticResource ToolBarButtonStyle}" >
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Download" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
                         <TextBlock Text="Download" VerticalAlignment="Center" Margin="0 0 12 0" />
@@ -50,34 +59,94 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <Button Grid.Column="2" Foreground="#333333" 
-                        Margin="0 0 8 0"
-                        Width="20" Height="20" Padding="0">
-                <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" Name="PackIcon"
-                                             RenderTransformOrigin="0.5 0.5">
-                    <materialDesign:PackIcon.RenderTransform>
-                        <RotateTransform />
-                    </materialDesign:PackIcon.RenderTransform>
-                </materialDesign:PackIcon>
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignToolButton}">
-                        <Style.Triggers>
-                            <EventTrigger RoutedEvent="Click">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation From="45" To="360" Duration="1" 
-                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" 
-                                                             Storyboard.Target="{Binding ElementName=PackIcon}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
+            <Button Grid.Column="2" Foreground="#333333" Style="{StaticResource MaterialDesignToolButton}"
+                    Command="{Binding UpdateChildrenCacheCommand}"
+                    Margin="0 0 8 0" Width="20" Height="20" Padding="0">
+                <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
             </Button>
         </Grid>
-        <ListBox SelectionMode="Extended">
-            
+        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended"
+                 ItemsSource="{Binding CurrentFolder.ChildrenCache}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 HorizontalContentAlignment="Stretch"
+                 >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding EnterFolderCommand}" CommandParameter="{Binding SelectedItem, ElementName=ListboxFileList}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="20 3" Margin="3">
+                        <Border.ContextMenu>
+                            <ContextMenu x:Name="ContextMenu">
+                                <MenuItem Header="Download">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="Download" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Share to">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="Share" />
+                                    </MenuItem.Icon>
+                                    <MenuItem Header="Baidu Cloud" />
+                                    <MenuItem Header="Mrs4s Cloud" />
+                                    <MenuItem Header="File Plaza" />
+                                </MenuItem>
+                                <MenuItem Header="Delete">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="DeleteForever" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Border.ContextMenu>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="16"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="4" Text="{Binding Content.ModifiedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="6" Text="{Binding Content.FileSize}" VerticalAlignment="Center" />
+                            <ToggleButton Grid.Column="8" 
+                                          IsChecked="{Binding IsOpen, ElementName=ContextMenu}">
+                                <materialDesign:PackIcon Kind="DotsHorizontal" Width="24" Height="24" Foreground="Gray"/>
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ToggleButton">
+                                                    <AdornerDecorator>
+                                                        <Border BorderThickness="0" Background="Transparent" >
+                                                            <ContentPresenter Focusable="False" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                              HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </AdornerDecorator>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
-    </StackPanel>
+    </Grid>
 </UserControl>

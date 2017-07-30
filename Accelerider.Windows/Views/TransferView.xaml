@@ -5,11 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Accelerider.Windows.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
@@ -21,8 +22,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="1" Text="Task Category" Margin="10 0 0 0" FontSize="14"/>
-            <ListBox Grid.Row="3" 
+            <!--<TextBlock Grid.Row="1" Text="Task Category" Margin="10 0 0 0" FontSize="14"/>-->
+            <ListBox x:Name="SelectViewListBox" Grid.Row="3" 
                      ItemContainerStyle="{StaticResource LeftSideListBoxItemStyle}"
                      SelectionMode="Single" SelectedIndex="0"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
@@ -51,6 +52,7 @@
                         <TextBlock Grid.Column="3" Text="Downloaded" VerticalAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
+                <Separator Height="20"/>
                 <ListBoxItem Height="45">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -76,6 +78,31 @@
                     </Grid>
                 </ListBoxItem>
             </ListBox>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Width" Value="280" />
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},
+                                               Converter={StaticResource IsLessThanConverter}, ConverterParameter=880}"
+                                     Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
         </Grid>
+
+        <ctrls:SwitchableViewContainer Grid.Column="1"  Margin="25 50 25 0" Background="White"
+                                       Selector="{Binding ElementName=SelectViewListBox}">
+            <ctrls:SwitchableViewContainer.Resources>
+                <local:TransferDownloading x:Key="0" Style="{StaticResource FadeInStyle}"/>
+                <local:TransferDownloaded x:Key="1" Style="{StaticResource FadeInStyle}" />
+                <local:TransferUploading x:Key="2" Style="{StaticResource FadeInStyle}" />
+                <local:TransferUploaded x:Key="3" Style="{StaticResource FadeInStyle}" />
+            </ctrls:SwitchableViewContainer.Resources>
+        </ctrls:SwitchableViewContainer>
     </Grid>
 </UserControl>
+
