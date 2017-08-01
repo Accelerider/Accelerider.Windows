@@ -6,11 +6,15 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:views="clr-namespace:Accelerider.Windows.Views"
         xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
+        xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+        vm:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         MinHeight="500" MinWidth="720" Height="700" Width="1100" 
+        WindowStartupLocation="CenterScreen"
         Style="{StaticResource FluentWindowStyle}"
         Icon="Assets/Images/AcceleriderIcon.png"
         Title="Accelerider" >
+
     <Grid Background="{StaticResource LightGreyBackgoundBrush}" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="68"/>
@@ -18,7 +22,7 @@
         </Grid.ColumnDefinitions>
 
         <!--Right content-->
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" >
             <ctrls:SwitchableViewContainer Selector="{Binding ElementName=TabListBox}">
                 <ctrls:SwitchableViewContainer.Resources>
                     <views:NetDiskView x:Key="0" Style="{StaticResource FloatInStyle}"/>
@@ -26,6 +30,21 @@
                     <views:MoreView x:Key="2" Style="{StaticResource FloatInStyle}"/>
                 </ctrls:SwitchableViewContainer.Resources>
             </ctrls:SwitchableViewContainer>
+        </Grid>
+
+        <Grid Grid.Column="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid >
+                <Grid.Style>
+                    <Style TargetType="Grid" BasedOn="{StaticResource LeftTabListStyle}">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                    </Style>
+                </Grid.Style>
+            </Grid>
+            <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>
         </Grid>
 
         <!--Left side bar-->

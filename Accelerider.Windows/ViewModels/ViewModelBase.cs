@@ -5,16 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.ViewModels
 {
     public abstract class ViewModelBase : BindableBase
     {
+        private SnackbarMessageQueue _globalMessageQueue;
+        private bool _isViewModelLoaded;
+
         protected IUnityContainer Container { get; }
         protected IAcceleriderUser AcceleriderUser { get; }
         protected INetDiskUser NetDiskUser { get; set; }
-
-        private bool _isViewModelLoaded;
+        public SnackbarMessageQueue GlobalMessageQueue
+        {
+            get => _globalMessageQueue;
+            set => SetProperty(ref _globalMessageQueue, value);
+        }
         public bool IsViewModelLoaded
         {
             get => _isViewModelLoaded;
@@ -26,6 +33,7 @@ namespace Accelerider.Windows.ViewModels
             Container = container;
             AcceleriderUser = container.Resolve<IAcceleriderUser>();
             NetDiskUser = AcceleriderUser.CurrentNetDiskUser;
+            GlobalMessageQueue = container.Resolve<SnackbarMessageQueue>();
         }
 
         public async Task OnViewLoaded()

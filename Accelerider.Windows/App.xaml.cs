@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using Accelerider.Windows.Core;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows
@@ -20,12 +16,13 @@ namespace Accelerider.Windows
             base.OnStartup(e);
             var container = new UnityContainer();
             ViewModels.ViewModelLocator.ViewModelFactory = type => container.Resolve(type);
+            ConfigureContainer(container);
             container.Resolve<Module>().Initialize();
         }
 
         private void ConfigureContainer(IUnityContainer container)
         {
-            
+            container.RegisterInstance(typeof(SnackbarMessageQueue), new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
         }
     }
 }
