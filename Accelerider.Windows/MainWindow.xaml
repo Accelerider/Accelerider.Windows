@@ -7,6 +7,7 @@
         xmlns:views="clr-namespace:Accelerider.Windows.Views"
         xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
         xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+        xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
         vm:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         MinHeight="500" MinWidth="720" Height="700" Width="1100" 
@@ -37,10 +38,17 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Grid >
+            <Grid Grid.Column="0" VerticalAlignment="Bottom">
                 <Grid.Style>
                     <Style TargetType="Grid" BasedOn="{StaticResource LeftTabListStyle}">
                         <Setter Property="Visibility" Value="Hidden"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=SettingsToggleButton}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Setter Property="Background" Value="Red" />
+                                <Setter Property="Height" Value="550"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
                 </Grid.Style>
             </Grid>
@@ -53,6 +61,7 @@
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition />
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
@@ -97,44 +106,106 @@
                 </ListBoxItem>
             </ListBox>
 
-            <ListBox Grid.Row="3" SelectionMode="Single" 
-                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                     ItemContainerStyle="{StaticResource TabLabelListBoxItemStyle}"
-                     HorizontalContentAlignment="Stretch">
-                <ListBoxItem Height="56">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="2"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="LightbulbOutline" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
-                        <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem Height="56" x:Name="SettingsListBoxItem">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="2"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="Settings" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
-                        <TextBlock Grid.Row="2" Text="Settings" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
-                    </Grid>
-                </ListBoxItem>
-            </ListBox>
-            <!--<Popup AllowsTransparency="True" PopupAnimation="Fade" Placement="Right"
-                   PlacementTarget="{Binding ElementName=SettingsListBoxItem}"
-                   ctrls:ControlHelper.FollowTarget="{Binding ElementName=SettingsListBoxItem}"
-                   StaysOpen="False" 
-                   materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                   materialDesign:ShadowAssist.Darken="True"
-                   IsOpen="{Binding IsSelected, ElementName=SettingsListBoxItem}">
-                <Grid Width="280" Height="500" Background="Red">
-
+            <Button Grid.Row="3" Height="56" Padding="0" 
+                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                    Background="{StaticResource PrimaryHueDarkBrush}"
+                    BorderThickness="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="2"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <materialDesign:PackIcon Kind="LightbulbOutline" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                    <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                 </Grid>
-            </Popup>-->
+            </Button>
+            <ToggleButton x:Name="SettingsToggleButton" Grid.Row="4"
+                          Height="56" >
+                <ToggleButton.Style>
+                    <Style TargetType="ToggleButton">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="{StaticResource PrimaryHueDarkBrush}" ClipToBounds="{TemplateBinding ClipToBounds}" Margin="{TemplateBinding Margin}">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualStateGroup.Transitions>
+                                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.4" Storyboard="{x:Null}" To="Normal">
+                                                        <VisualTransition.GeneratedEasingFunction>
+                                                            <CircleEase EasingMode="EaseOut"/>
+                                                        </VisualTransition.GeneratedEasingFunction>
+                                                    </VisualTransition>
+                                                </VisualStateGroup.Transitions>
+                                                <VisualState x:Name="Normal"/>
+                                                <VisualState x:Name="MouseOver">
+                                                    <Storyboard>
+                                                        <DoubleAnimation Duration="0" To="0.4" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MouseOverBorder"/>
+                                                        <DoubleAnimation Duration="0" To="0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_MouseOverRectangle"/>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Disabled"/>
+                                            </VisualStateGroup>
+                                            <VisualStateGroup x:Name="CheckStates">
+                                                <VisualStateGroup.Transitions>
+                                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.2" GeneratedEasingFunction="{x:Null}" Storyboard="{x:Null}" To="{x:Null}"/>
+                                                </VisualStateGroup.Transitions>
+                                                <VisualState x:Name="Checked">
+                                                    <Storyboard>
+                                                        <DoubleAnimation Duration="0" To="0.8" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="CheckedBorder"/>
+                                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_CheckedRectangle"/>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Unchecked"/>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <Grid>
+                                            <Border x:Name="MouseOverBorder" Opacity="0">
+                                                <Border.Background>
+                                                    <TemplateBinding Property="Foreground">
+                                                        <TemplateBinding.Converter>
+                                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource PrimaryHueMidBrush}"/>
+                                                        </TemplateBinding.Converter>
+                                                    </TemplateBinding>
+                                                </Border.Background>
+                                            </Border>
+                                            <Border x:Name="CheckedBorder" Opacity="0" RenderTransformOrigin="0.5,0.5">
+                                                <Border.Background>
+                                                    <TemplateBinding Property="Foreground">
+                                                        <TemplateBinding.Converter>
+                                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource PrimaryHueMidBrush}"/>
+                                                        </TemplateBinding.Converter>
+                                                    </TemplateBinding>
+                                                </Border.Background>
+                                            </Border>
+                                            <materialDesign:Ripple ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Focusable="False" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                                <materialDesign:Ripple.Feedback>
+                                                    <TemplateBinding Property="Foreground">
+                                                        <TemplateBinding.Converter>
+                                                            <converters:BrushRoundConverter HighValue="White" LowValue="LightGray"/>
+                                                        </TemplateBinding.Converter>
+                                                    </TemplateBinding>
+                                                </materialDesign:Ripple.Feedback>
+                                            </materialDesign:Ripple>
+                                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_CheckedRectangle" Fill="{StaticResource PrimaryHueLightBrush}" Opacity="0"/>
+                                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_MouseOverRectangle" Fill="{StaticResource PrimaryHueLightBrush}" Opacity="0"/>
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ToggleButton.Style>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="2"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <materialDesign:PackIcon Kind="Settings" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                    <TextBlock Grid.Row="2" Text="Settings" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                </Grid>
+            </ToggleButton>
         </Grid>
     </Grid>
 </Window>
