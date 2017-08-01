@@ -23,7 +23,7 @@
                 <ctrls:SwitchableViewContainer.Resources>
                     <views:NetDiskView x:Key="0" Style="{StaticResource FloatInStyle}"/>
                     <views:TransferView x:Key="1" Style="{StaticResource FloatInStyle}"/>
-                    <views:ShareView x:Key="2" Style="{StaticResource FloatInStyle}"/>
+                    <views:MoreView x:Key="2" Style="{StaticResource FloatInStyle}"/>
                 </ctrls:SwitchableViewContainer.Resources>
             </ctrls:SwitchableViewContainer>
         </Grid>
@@ -72,8 +72,8 @@
                             <RowDefinition Height="2"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="ShareVariant" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
-                        <TextBlock Grid.Row="2" Text="Share" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                        <materialDesign:PackIcon Kind="Earth" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
+                        <TextBlock Grid.Row="2" Text="File Plaza" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                     </Grid>
                 </ListBoxItem>
             </ListBox>
@@ -93,7 +93,7 @@
                         <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                     </Grid>
                 </ListBoxItem>
-                <ListBoxItem Height="56">
+                <ListBoxItem Height="56" x:Name="SettingsListBoxItem">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
@@ -105,6 +105,17 @@
                     </Grid>
                 </ListBoxItem>
             </ListBox>
+            <!--<Popup AllowsTransparency="True" PopupAnimation="Fade" Placement="Right"
+                   PlacementTarget="{Binding ElementName=SettingsListBoxItem}"
+                   ctrls:ControlHelper.FollowTarget="{Binding ElementName=SettingsListBoxItem}"
+                   StaysOpen="False" 
+                   materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                   materialDesign:ShadowAssist.Darken="True"
+                   IsOpen="{Binding IsSelected, ElementName=SettingsListBoxItem}">
+                <Grid Width="280" Height="500" Background="Red">
+
+                </Grid>
+            </Popup>-->
         </Grid>
     </Grid>
 </Window>

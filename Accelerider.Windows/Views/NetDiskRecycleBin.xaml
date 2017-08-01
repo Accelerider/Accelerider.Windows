@@ -8,6 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
-        <TextBlock Text="Recycle Bin" FontSize="50" FontWeight="Bold"/>
+        <TextBlock Text="Recycle Bin Page" FontSize="50" FontWeight="Bold"/>
     </StackPanel>
 </UserControl>

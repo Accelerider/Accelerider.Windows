@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Accelerider.Windows.Views
 {
     /// <summary>
-    /// Interaction logic for ShareView.xaml
+    /// Interaction logic for NetDiskShare.xaml
     /// </summary>
-    public partial class ShareView : UserControl
+    public partial class NetDiskShare : UserControl
     {
-        public ShareView()
+        public NetDiskShare()
         {
             InitializeComponent();
         }

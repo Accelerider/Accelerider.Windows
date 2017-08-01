@@ -14,7 +14,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="White">
+        <Grid Grid.Column="0" Style="{StaticResource LeftTabListStyle}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="Auto"/>
@@ -22,7 +22,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!--<TextBlock Grid.Row="1" Text="Task Category" Margin="10 0 0 0" FontSize="14"/>-->
+            <TextBlock Grid.Row="1" Text="Task Category" Margin="10 0 0 0" FontSize="14"/>
             <ListBox x:Name="SelectViewListBox" Grid.Row="3" 
                      ItemContainerStyle="{StaticResource LeftSideListBoxItemStyle}"
                      SelectionMode="Single" SelectedIndex="0"
@@ -78,20 +78,6 @@
                     </Grid>
                 </ListBoxItem>
             </ListBox>
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Width" Value="280" />
-                    <Setter Property="Background" Value="White" />
-                    <Setter Property="Visibility" Value="Visible"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},
-                                               Converter={StaticResource IsLessThanConverter}, ConverterParameter=880}"
-                                     Value="True">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
         </Grid>
 
         <ctrls:SwitchableViewContainer Grid.Column="1"  Margin="25 50 25 0" Background="White"

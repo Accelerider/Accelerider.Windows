@@ -11,7 +11,7 @@
              d:DesignHeight="30" d:DesignWidth="500" >
     <StackPanel Orientation="Horizontal" 
                 DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border, AncestorLevel=1}}">
-        <UserControl>
+        <UserControl Margin="4 0 0 0">
             <UserControl.Resources>
                 <Button x:Key="HomeButton" Style="{StaticResource MaterialDesignToolButton}"
                         Command="{Binding LocateRootCommand}">
@@ -24,14 +24,6 @@
             <UserControl.Style>
                 <Style TargetType="UserControl">
                     <Setter Property="Content" Value="{StaticResource HomeButton}"/>
-                    <Style.Triggers>
-                        <!--<DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType=StackPanel},
-                                               Converter={StaticResource IsGreaterThanConverter},
-                                               ConverterParameter={Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=2, AncestorType=Border}}}"
-                                     Value="True">
-                            
-                        </DataTrigger>-->
-                    </Style.Triggers>
                 </Style>
             </UserControl.Style>
         </UserControl>

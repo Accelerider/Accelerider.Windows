@@ -14,11 +14,11 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" Style="{StaticResource LeftTabListStyle}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="10"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="Auto"/>
@@ -27,7 +27,28 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="1" Text="Category" Margin="10 0 0 0" FontSize="14"/>
+            <!--<TextBlock Grid.Row="1" Text="Category" Margin="10 0 0 0" FontSize="14"/>-->
+            <Border Grid.Row="1" Background="{StaticResource LightGreyBackgoundBrush}" Height="30" Margin="20 0" CornerRadius="3" ToolTip="Enter to search, ignore case">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" Margin="5 0 0 0" 
+                             materialDesign:HintAssist.Hint="Search" x:Name="SearchBox"
+                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden" 
+                             BorderThickness="0"
+                             MinWidth="200" VerticalAlignment="Center" />
+                    <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" 
+                            Command="{Binding SearchCommand}" x:Name="SearchButton"
+                            CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
+                            Height="24" Width="24">
+                        <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                    </Button>
+                </Grid>
+            </Border>
+
             <ListBox x:Name="SelectViewListBox" Grid.Row="3"
                      ItemContainerStyle="{StaticResource LeftSideListBoxItemStyle}"
                      SelectionMode="Single" SelectedIndex="0"
@@ -43,6 +64,18 @@
                         </Grid.ColumnDefinitions>
                         <materialDesign:PackIcon Grid.Column="1" Kind="FileMultiple" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Column="3" Text="Files" VerticalAlignment="Center"/>
+                    </Grid>
+                </ListBoxItem>
+                <ListBoxItem Height="45">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="ShareVariant" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="Shared" VerticalAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
                 <ListBoxItem Height="45">
@@ -136,27 +169,14 @@
                     <TextBlock Text="Add Net-Disk" VerticalAlignment="Center" FontSize="12"/>
                 </StackPanel>
             </Button>
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Width" Value="280" />
-                    <Setter Property="Background" Value="White" />
-                    <Setter Property="Visibility" Value="Visible"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},
-                                               Converter={StaticResource IsLessThanConverter}, ConverterParameter=880}"
-                                     Value="True">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
         </Grid>
 
         <ctrls:SwitchableViewContainer Grid.Column="1"  Margin="25 50 25 0" Background="White"
                                            Selector="{Binding ElementName=SelectViewListBox}">
             <ctrls:SwitchableViewContainer.Resources>
                 <local:NetDiskFiles x:Key="0" Style="{StaticResource FadeInStyle}"/>
-                <local:NetDiskRecycleBin x:Key="1" Style="{StaticResource FadeInStyle}" />
+                <local:NetDiskShare x:Key="1" Style="{StaticResource FadeInStyle}" />
+                <local:NetDiskRecycleBin x:Key="2" Style="{StaticResource FadeInStyle}" />
             </ctrls:SwitchableViewContainer.Resources>
         </ctrls:SwitchableViewContainer>
     </Grid>

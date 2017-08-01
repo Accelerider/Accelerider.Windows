@@ -7,9 +7,9 @@ using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class ShareViewModel : ViewModelBase
+    public class MoreViewModel : ViewModelBase
     {
-        public ShareViewModel(IUnityContainer container) : base(container)
+        public MoreViewModel(IUnityContainer container) : base(container)
         {
         }
     }
