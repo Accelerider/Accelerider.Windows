@@ -73,7 +73,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <materialDesign:PackIcon Kind="Earth" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
-                        <TextBlock Grid.Row="2" Text="File Plaza" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                        <TextBlock Grid.Row="2" Text="More" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                     </Grid>
                 </ListBoxItem>
             </ListBox>

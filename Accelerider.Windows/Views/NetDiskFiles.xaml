@@ -34,8 +34,8 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
                 <Button Style="{StaticResource ToolBarButtonStyle}" 
-                        Command="{Binding DownloadCommand}"
-                        CommandParameter="{Binding SelectedItem, ElementName=ListboxFileList}">
+                        Command="{Binding DownloadsCommand}"
+                        CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Download" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
                         <TextBlock Text="Download" VerticalAlignment="Center" Margin="0 0 12 0" />
@@ -98,7 +98,7 @@
                                     <MenuItem Header="Mrs4s Cloud" />
                                     <MenuItem Header="File Plaza" />
                                 </MenuItem>
-                                <MenuItem Header="Delete">
+                                <MenuItem Header="Delete" >
                                     <MenuItem.Icon>
                                         <materialDesign:PackIcon Kind="DeleteForever" />
                                     </MenuItem.Icon>
@@ -128,7 +128,7 @@
                             <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="4" Text="{Binding Content.ModifiedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="6" Text="{Binding Content.FileSize}" VerticalAlignment="Center" />
-                            <ToggleButton Grid.Column="8"  IsChecked="{Binding ContextMenu.IsOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}">
+                            <!--<ToggleButton Grid.Column="8"  IsChecked="{Binding ContextMenu.IsOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}">
                                 <materialDesign:PackIcon Kind="DotsHorizontal" Width="24" Height="24" Foreground="Gray"/>
                                 <ToggleButton.Style>
                                     <Style TargetType="ToggleButton">
@@ -146,7 +146,7 @@
                                         </Setter>
                                     </Style>
                                 </ToggleButton.Style>
-                            </ToggleButton>
+                            </ToggleButton>-->
                         </Grid>
                     </Border>
                 </DataTemplate>

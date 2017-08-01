@@ -30,7 +30,7 @@ namespace Accelerider.Windows.Core
         {
             var rand = new Random();
             await Task.Delay(1000);
-            var tree = new TreeNodeAsync<INetDiskFile>(new NetDiskFile { FilePath = new FileLocation("G:\\") })
+            var tree = new TreeNodeAsync<INetDiskFile>(new NetDiskFile { FilePath = new FileLocation("E:\\") })
             {
                 ChildrenProvider = async parent =>
                 {

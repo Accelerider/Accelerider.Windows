@@ -377,7 +377,7 @@
         <Setter Property="Visibility" Value="Visible"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},
-                                               Converter={StaticResource IsLessThanConverter}, ConverterParameter=880}"
+                                           Converter={StaticResource IsLessThanConverter}, ConverterParameter=920}"
                          Value="True">
                 <Setter Property="Visibility" Value="Collapsed"/>
             </DataTrigger>
