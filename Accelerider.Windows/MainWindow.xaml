@@ -45,7 +45,7 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsChecked, ElementName=SettingsToggleButton}" Value="True">
                                 <Setter Property="Visibility" Value="Visible" />
-                                <Setter Property="Background" Value="Red" />
+                                <Setter Property="Background" Value="{StaticResource PrimaryHueLightBrush}" />
                                 <Setter Property="Height" Value="550"></Setter>
                             </DataTrigger>
                         </Style.Triggers>
@@ -82,15 +82,28 @@
                         <TextBlock Grid.Row="2" Text="Net Disk" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                     </Grid>
                 </ListBoxItem>
-                <ListBoxItem Height="56" >
+                <ListBoxItem Height="56">
                     <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="2"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="SwapVertical" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="25" Width="25"/>
-                        <TextBlock Grid.Row="2" Text="Transfer" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <materialDesign:PackIcon Kind="SwapVertical" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="25" Width="25"/>
+                            <TextBlock Grid.Row="2" Text="Transfer" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="10"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="6"/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <materialDesign:Badged Badge="99+" BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"/>
+                        </Grid>
                     </Grid>
                 </ListBoxItem>
                 <ListBoxItem Height="56">

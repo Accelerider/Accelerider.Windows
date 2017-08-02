@@ -22,7 +22,7 @@ namespace Accelerider.Windows
 
         private void ConfigureContainer(IUnityContainer container)
         {
-            container.RegisterInstance(typeof(SnackbarMessageQueue), new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
+            container.RegisterInstance(typeof(SnackbarMessageQueue), new SnackbarMessageQueue());
         }
     }
 }

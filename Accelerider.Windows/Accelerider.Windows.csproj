@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="Controls\SwitchableViewContainer.cs" />
     <Compile Include="Converters\CompareConverters.cs" />
+    <Compile Include="Converters\LessThan100Converter.cs" />
     <Compile Include="Converters\MinusConverter.cs" />
     <Compile Include="Converters\UriToImageSourceConverter.cs" />
     <Compile Include="MainWindow.vm.cs" />
