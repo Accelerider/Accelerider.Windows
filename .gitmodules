@@ -1,0 +1,3 @@
+[submodule "MaterialDesignInXamlToolkit"]
+	path = MaterialDesignInXamlToolkit
+	url = git@github.com:DingpingZhang/MaterialDesignInXamlToolkit.git
