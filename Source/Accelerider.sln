@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Infrast
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Core", "Accelerider.Windows.Core\Accelerider.Windows.Core.csproj", "{D30A6C14-B18D-4CBC-8DF4-FF9640F33B9E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BE5FC83A-43A0-41C5-9E3A-1EC4B6946F39} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
+		{F61839D1-6C54-4E70-B5CB-7EA02F54A664} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
+		{D30A6C14-B18D-4CBC-8DF4-FF9640F33B9E} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 	EndGlobalSection
 EndGlobal

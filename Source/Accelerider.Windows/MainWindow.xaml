@@ -42,13 +42,6 @@
                 <Grid.Style>
                     <Style TargetType="Grid" BasedOn="{StaticResource LeftTabListStyle}">
                         <Setter Property="Visibility" Value="Hidden"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsChecked, ElementName=SettingsToggleButton}" Value="True">
-                                <Setter Property="Visibility" Value="Visible" />
-                                <Setter Property="Background" Value="{StaticResource PrimaryHueLightBrush}" />
-                                <Setter Property="Height" Value="550"></Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
                     </Style>
                 </Grid.Style>
             </Grid>
@@ -102,7 +95,9 @@
                                 <RowDefinition Height="6"/>
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <materialDesign:Badged Badge="99+" BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"/>
+                            <materialDesign:Badged Badge="993" BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
+                                                   BadgeBackground="Red" BadgeForeground="White"
+                                                   />
                         </Grid>
                     </Grid>
                 </ListBoxItem>
