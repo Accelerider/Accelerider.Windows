@@ -5,26 +5,23 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 {
     public interface IAcceleriderUser
     {
-        ICollection<INetDiskUser> NetDiskUsers { get; }
-
         INetDiskUser CurrentNetDiskUser { get; set; }
+        IReadOnlyCollection<INetDiskUser> NetDiskUsers { get; }
+
+
+        Task<bool> LoginAsync(string username, string password);
+        Task<bool> SignOutAsync();
 
         Task<bool> AddNetDiskUserAsync(INetDiskUser user);
-
         Task<bool> RemoveNetDiskUserAsync(INetDiskUser user);
 
         ITransferTaskToken UploadToFilePlaza(FileLocation filePath);
 
-        Task<bool> LoginAsync(string username, string password);
-
-        Task<bool> SignOutAsync();
-
-        ICollection<ITransferedFile> GetDownloadedFiles();
-
-        ICollection<IDiskFile> GetDownloadingFiles();
-
-        ICollection<ITransferedFile> GetUploadedFiles();
-
-        ICollection<IDiskFile> GetUploadingFiles();
+        #region Gets local files
+        IEnumerable<ITransferedFile> GetDownloadedFiles();
+        IEnumerable<IDiskFile> GetDownloadingFiles();
+        IEnumerable<ITransferedFile> GetUploadedFiles();
+        IEnumerable<IDiskFile> GetUploadingFiles();
+        #endregion
     }
 }

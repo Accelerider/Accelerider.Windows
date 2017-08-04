@@ -42,7 +42,6 @@ namespace Accelerider.Windows.Core
                            select new NetDiskFile
                            {
                                FilePath = new FileLocation(filePath),
-                               FileId = rand.Next(1000, 10000),
                                FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
                                ModifiedTime = new FileInfo(filePath).LastWriteTime
                            };
@@ -55,10 +54,11 @@ namespace Accelerider.Windows.Core
         {
             await Task.Delay(1000);
             var rand = new Random();
-            const string folderPath = @"G:\Downloads";
+            const string folderPath = @"E:\ionic\MyIonicProject";
             var filePaths = Directory.GetFiles(folderPath);
             var directoriePaths = Directory.GetDirectories(folderPath);
             return from filePath in directoriePaths.Union(filePaths)
+                   where File.Exists(filePath) || Directory.Exists(filePath)
                    select new DeletedFile
                    {
                        FilePath = new FileLocation(filePath),
@@ -78,7 +78,12 @@ namespace Accelerider.Windows.Core
             throw new NotImplementedException();
         }
 
-        public ITransferTaskToken UploadFile(FileLocation filePath)
+        public ITransferTaskToken CreateUploadTask(FileLocation filePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ITransferTaskToken CreateDownloadTask(INetDiskFile file)
         {
             throw new NotImplementedException();
         }

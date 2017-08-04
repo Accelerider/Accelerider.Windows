@@ -23,11 +23,16 @@
             </UserControl.Resources>
             <UserControl.Style>
                 <Style TargetType="UserControl">
-                    <Setter Property="Content" Value="{StaticResource HomeButton}"/>
+                    <Setter Property="Content" Value="{StaticResource FoldToggleButton}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding FoldedFolders}" Value="{x:Null}">
+                            <Setter Property="Content" Value="{StaticResource HomeButton}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </UserControl.Style>
         </UserControl>
-        <ListBox x:Name="PART_ListBox" SelectionMode="Single" ItemsSource="{Binding FolderChain}">
+        <ListBox x:Name="PART_ListBox" SelectionMode="Single" ItemsSource="{Binding DisplayedFolders}">
             <ListBox.Resources>
                 <Style x:Key="SystemButtonLink" TargetType="ButtonBase" >
                     <Setter Property="Background" Value="Transparent"/>

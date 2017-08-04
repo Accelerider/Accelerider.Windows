@@ -22,9 +22,11 @@ namespace Accelerider.Windows.Controls
     /// </summary>
     public partial class FolderLocationBar : INotifyPropertyChanged
     {
+        private const int MaxDisplayedFolderCount = 3;
+
         private ICommand _locateFolderCommand;
         private ICommand _locateRootCommand;
-        private ObservableCollection<ITreeNodeAsync<INetDiskFile>> _folderChain;
+        private ObservableCollection<ITreeNodeAsync<INetDiskFile>> _displayedFolders;
         private ObservableCollection<ITreeNodeAsync<INetDiskFile>> _foldedFolders;
         private IList<double> _listBoxActualWidthStorage = new List<double>();
 
@@ -36,27 +38,16 @@ namespace Accelerider.Windows.Controls
                 typeof(FolderLocationBar),
                 new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, CurrentFolderChanged));
 
-        public static readonly DependencyProperty DeltaWidthProperty = DependencyProperty.Register(
-            "DeltaWidth",
-            typeof(double),
-            typeof(FolderLocationBar),
-            new PropertyMetadata(0.0, DeltaWidthChanged));
-
         public ITreeNodeAsync<INetDiskFile> CurrentFolder
         {
             get => (ITreeNodeAsync<INetDiskFile>)GetValue(CurrentFolderProperty);
             set => SetValue(CurrentFolderProperty, value);
         }
-        public double DeltaWidth
-        {
-            get => (double)GetValue(DeltaWidthProperty);
-            set => SetValue(DeltaWidthProperty, value);
-        }
 
-        public ObservableCollection<ITreeNodeAsync<INetDiskFile>> FolderChain
+        public ObservableCollection<ITreeNodeAsync<INetDiskFile>> DisplayedFolders
         {
-            get => _folderChain;
-            set => SetProperty(ref _folderChain, value);
+            get => _displayedFolders;
+            set => SetProperty(ref _displayedFolders, value);
         }
         public ObservableCollection<ITreeNodeAsync<INetDiskFile>> FoldedFolders
         {
@@ -86,56 +77,35 @@ namespace Accelerider.Windows.Controls
                 () => CurrentFolder != CurrentFolder?.Root);
 
             InitializeComponent();
-
-            var multiBinding = new MultiBinding
-            {
-                Bindings =
-                {
-                    new Binding
-                    {
-                        Path = new PropertyPath("ActualWidth"),
-                        Source = PART_ListBox
-                    },
-                    new Binding
-                    {
-                        Path = new PropertyPath("ActualWidth"),
-                        Source = this
-                    }
-                },
-                Converter = new MinusConverter(),
-                Mode = BindingMode.OneWay
-            };
-            BindingOperations.SetBinding(this, DeltaWidthProperty, multiBinding);
         }
 
 
         private static void CurrentFolderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (FolderLocationBar)d;
-            var folderChain = new List<ITreeNodeAsync<INetDiskFile>>();
+            var folderChain = new Stack<ITreeNodeAsync<INetDiskFile>>();
             var temp = control.CurrentFolder;
             do
             {
-                folderChain.Add(temp);
+                folderChain.Push(temp);
             } while ((temp = temp.Parent) != null);
-            folderChain.Reverse();
-            folderChain.RemoveAt(0);
-            control.FolderChain = new ObservableCollection<ITreeNodeAsync<INetDiskFile>>(folderChain);
+            (control.DisplayedFolders, control.FoldedFolders) = ClassifyFolder(folderChain);
         }
 
-        private static void DeltaWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static (ObservableCollection<ITreeNodeAsync<INetDiskFile>> displayed, ObservableCollection<ITreeNodeAsync<INetDiskFile>> folded) ClassifyFolder(Stack<ITreeNodeAsync<INetDiskFile>> folders)
         {
-            var control = (FolderLocationBar)d;
-            // 1. 检查control.PART_ListBox.ActualWidth有无变化，变化则记录新值（添加至_listBoxActualWidthStorage末尾）
-            var deltaWidth = control.PART_ListBox.ActualWidth - control.ActualWidth;
-            if (deltaWidth <= 0) return;
-            // 2. 找到control.PART_ListBox.ActualWidth - _listBoxActualWidthStorage[i] <= control.ActualWidth
-            // 3. Moves i item(s) from FolderChain to FoldedFolders
-
-            //Debug.WriteLine($"{control.PART_ListBox.ActualWidth} == {control.FolderChain?.Aggregate(0, (sum, item) => sum + item.Content.FilePath.FileName.Length)}");
-            //if (!control.FolderChain.Any()) return;
-            //control.FoldedFolders?.Insert(0, control.FolderChain[0]);
-            //control.FolderChain.RemoveAt(0);
+            folders.Pop();
+            ObservableCollection<ITreeNodeAsync<INetDiskFile>> folded = null;
+            int delta = folders.Count - MaxDisplayedFolderCount;
+            if (delta > 0)
+            {
+                folded = new ObservableCollection<ITreeNodeAsync<INetDiskFile>>();
+                for (int i = 0; i < delta; i++)
+                {
+                    folded.Add(folders.Pop());
+                }
+            }
+            return (new ObservableCollection<ITreeNodeAsync<INetDiskFile>>(folders), folded);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

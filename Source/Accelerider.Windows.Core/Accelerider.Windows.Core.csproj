@@ -67,6 +67,7 @@
     <Compile Include="NetDiskFile.cs" />
     <Compile Include="NetDiskUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SharedFile.cs" />
     <Compile Include="TreeNodeAsync{T}.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -52,7 +52,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         /// <summary>
         /// 
         /// </summary>
-        string Password { get; }
+        string AccessCode { get; }
     }
 
     /// <summary>

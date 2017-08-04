@@ -13,7 +13,7 @@ namespace Accelerider.Windows.Core
         }
 
 
-        public ICollection<INetDiskUser> NetDiskUsers { get; private set; }
+        public IReadOnlyCollection<INetDiskUser> NetDiskUsers { get; private set; }
         public INetDiskUser CurrentNetDiskUser { get; set; }
 
         public Task<bool> AddNetDiskUserAsync(INetDiskUser user)
@@ -41,22 +41,22 @@ namespace Accelerider.Windows.Core
             throw new System.NotImplementedException();
         }
 
-        public ICollection<ITransferedFile> GetDownloadedFiles()
+        public IEnumerable<ITransferedFile> GetDownloadedFiles()
         {
             throw new System.NotImplementedException();
         }
 
-        public ICollection<IDiskFile> GetDownloadingFiles()
+        public IEnumerable<IDiskFile> GetDownloadingFiles()
         {
             throw new System.NotImplementedException();
         }
 
-        public ICollection<ITransferedFile> GetUploadedFiles()
+        public IEnumerable<ITransferedFile> GetUploadedFiles()
         {
             throw new System.NotImplementedException();
         }
 
-        public ICollection<IDiskFile> GetUploadingFiles()
+        public IEnumerable<IDiskFile> GetUploadingFiles()
         {
             throw new System.NotImplementedException();
         }

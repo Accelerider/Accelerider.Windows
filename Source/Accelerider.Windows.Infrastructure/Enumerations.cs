@@ -137,7 +137,7 @@ namespace Accelerider.Windows.Infrastructure
         /// <summary>
         /// Shares the file failed because the file was not approved.
         /// </summary>
-        Notpassed = 4,
+        NotPassed = 4,
 
         /// <summary>
         /// Shares the file failed because the file has been deleted.
@@ -184,6 +184,8 @@ namespace Accelerider.Windows.Infrastructure
 
     public enum LanguageEnum
     {
-
+        Chinese,
+        Englist,
+        Japanese,
     }
 }

@@ -98,13 +98,13 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="16"/>
                                 
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="16"/>
-                                
                                 <ColumnDefinition Width="60"/>
                                 <ColumnDefinition Width="16"/>
                                 
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="16"/>
+                                
+                                <ColumnDefinition Width="45"/>
                                 <ColumnDefinition Width="16"/>
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
