@@ -51,12 +51,24 @@ namespace Accelerider.Windows.Core
             return tree;
         }
 
-        public Task<ICollection<IDeletedFile>> GetDeletedFilesAsync()
+        public async Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
         {
-            throw new NotImplementedException();
+            await Task.Delay(1000);
+            var rand = new Random();
+            const string folderPath = @"G:\Downloads";
+            var filePaths = Directory.GetFiles(folderPath);
+            var directoriePaths = Directory.GetDirectories(folderPath);
+            return from filePath in directoriePaths.Union(filePaths)
+                   select new DeletedFile
+                   {
+                       FilePath = new FileLocation(filePath),
+                       LeftDays = rand.Next(1, 11),
+                       FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
+                       DeletedTime = new FileInfo(filePath).LastWriteTime
+                   };
         }
 
-        public Task<ICollection<ISharedFile>> GetSharedFilesAsync()
+        public Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
         {
             throw new NotImplementedException();
         }

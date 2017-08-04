@@ -323,49 +323,49 @@
 
     <Style x:Key="FileImageSelectorStyle" TargetType="Image">
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="ApkType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="ApkType">
                 <Setter Property="Source" Value="Images/FileTypes/ApkType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="DocType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="DocType">
                 <Setter Property="Source" Value="Images/FileTypes/DocType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="ExeType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="ExeType">
                 <Setter Property="Source" Value="Images/FileTypes/ExeType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="FolderType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="FolderType">
                 <Setter Property="Source" Value="Images/FileTypes/FolderType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="ImgType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="ImgType">
                 <Setter Property="Source" Value="Images/FileTypes/ImgType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="MixFileType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="MixFileType">
                 <Setter Property="Source" Value="Images/FileTypes/MixFileType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="MusicType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="MusicType">
                 <Setter Property="Source" Value="Images/FileTypes/MusicType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="OtherType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="OtherType">
                 <Setter Property="Source" Value="Images/FileTypes/OtherType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="PdfType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="PdfType">
                 <Setter Property="Source" Value="Images/FileTypes/PdfType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="PptType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="PptType">
                 <Setter Property="Source" Value="Images/FileTypes/PptType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="RarType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="RarType">
                 <Setter Property="Source" Value="Images/FileTypes/RarType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="TorrentType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="TorrentType">
                 <Setter Property="Source" Value="Images/FileTypes/TorrentType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="TxtType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="TxtType">
                 <Setter Property="Source" Value="Images/FileTypes/TxtType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="VideoType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="VideoType">
                 <Setter Property="Source" Value="Images/FileTypes/VideoType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Content.FileType}" Value="XlsType">
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="XlsType">
                 <Setter Property="Source" Value="Images/FileTypes/XlsType.png"/>
             </DataTrigger>
         </Style.Triggers>

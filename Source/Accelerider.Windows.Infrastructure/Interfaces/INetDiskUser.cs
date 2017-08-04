@@ -20,8 +20,8 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeAsync();
 
-        Task<ICollection<IDeletedFile>> GetDeletedFilesAsync();
+        Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync();
 
-        Task<ICollection<ISharedFile>> GetSharedFilesAsync();
+        Task<IEnumerable<ISharedFile>> GetSharedFilesAsync();
     }
 }

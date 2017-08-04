@@ -95,7 +95,7 @@
                                 <RowDefinition Height="6"/>
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <materialDesign:Badged Badge="993" BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
+                            <materialDesign:Badged Badge="999+" BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
                                                    BadgeBackground="Red" BadgeForeground="White"
                                                    />
                         </Grid>

@@ -56,11 +56,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceleriderUser.cs" />
+    <Compile Include="DeletedFile.cs" />
     <Compile Include="DownloadEngine\DownloadTask.cs" />
     <Compile Include="DownloadEngine\DownloadTaskManager.cs" />
     <Compile Include="DownloadEngine\TransferTaskBase.cs" />
     <Compile Include="DownloadEngine\TransferTaskManagerBase.cs" />
     <Compile Include="DownloadEngine\TransferTaskToken.cs" />
+    <Compile Include="DiskFileBase.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="NetDiskFile.cs" />
     <Compile Include="NetDiskUser.cs" />

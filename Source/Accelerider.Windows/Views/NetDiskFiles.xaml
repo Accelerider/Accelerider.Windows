@@ -13,11 +13,11 @@
              d:DesignHeight="700" d:DesignWidth="600">
     <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <ctrls:FolderLocationBar Grid.Row="0" Height="50" CurrentFolder="{Binding CurrentFolder}"/>
+        <ctrls:FolderLocationBar Grid.Row="0" CurrentFolder="{Binding CurrentFolder}"/>
         <Grid Grid.Row="1" Background="#DDDEF0">
             <Grid.Resources>
                 <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
@@ -115,38 +115,20 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="16"/>
+                                
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="16"/>
+                                
                                 <ColumnDefinition Width="110"/>
                                 <ColumnDefinition Width="16"/>
+                                
                                 <ColumnDefinition Width="60"/>
                                 <ColumnDefinition Width="16"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="16"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                            <Image Grid.Column="0" Tag="{Binding Content.FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="4" Text="{Binding Content.ModifiedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="6" Text="{Binding Content.FileSize}" VerticalAlignment="Center" />
-                            <!--<ToggleButton Grid.Column="8"  IsChecked="{Binding ContextMenu.IsOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}">
-                                <materialDesign:PackIcon Kind="DotsHorizontal" Width="24" Height="24" Foreground="Gray"/>
-                                <ToggleButton.Style>
-                                    <Style TargetType="ToggleButton">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="ToggleButton">
-                                                    <AdornerDecorator>
-                                                        <Border BorderThickness="0" Background="Transparent" >
-                                                            <ContentPresenter Focusable="False" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                                              HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                        </Border>
-                                                    </AdornerDecorator>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </ToggleButton.Style>
-                            </ToggleButton>-->
                         </Grid>
                     </Border>
                 </DataTemplate>

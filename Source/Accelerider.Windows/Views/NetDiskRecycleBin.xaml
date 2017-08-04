@@ -5,9 +5,117 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Accelerider.Windows.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+             vm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <TextBlock Text="Recycle Bin Page" FontSize="50" FontWeight="Bold"/>
-    </StackPanel>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Background="#DDDEF0">
+            <Grid.Resources>
+                <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
+                    <Setter Property="Height" Value="42" />
+                    <Setter Property="Foreground" Value="#606060"/>
+                    <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="#7679BE" />
+                    <Setter Property="ctrls:ControlHelper.MouseOverForeground" Value="White" />
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
+                <Button Style="{StaticResource ToolBarButtonStyle}" 
+                        Command="{Binding DownloadsCommand}"
+                        CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FileRestore" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
+                        <TextBlock Text="Restore" VerticalAlignment="Center" Margin="0 0 12 0" />
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource ToolBarButtonStyle}" >
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="DeleteForever" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
+                        <TextBlock Text="Delete" VerticalAlignment="Center" Margin="0 0 12 0"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <Button Grid.Column="2" Foreground="#333333" Style="{StaticResource MaterialDesignToolButton}"
+                    Command="{Binding UpdateChildrenCacheCommand}"
+                    Margin="0 0 8 0" Width="20" Height="20" Padding="0">
+                <materialDesign:PackIcon Foreground="{StaticResource PrimaryHueDarkBrush}" Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
+            </Button>
+        </Grid>
+        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended"
+                 ItemsSource="{Binding DeletedFiles}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 HorizontalContentAlignment="Stretch">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding EnterFolderCommand}" CommandParameter="{Binding SelectedItem, ElementName=ListboxFileList}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"></Setter>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu >
+                                <MenuItem Header="Restore" 
+                                          Command="{Binding PlacementTarget.Tag.DownloadCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" 
+                                          CommandParameter="{Binding}">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="FileRestore" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Delete" >
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="DeleteForever" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="8 3" Margin="3">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="16"/>
+                                
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="16"/>
+                                
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="16"/>
+                                
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="16"/>
+                                
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="16"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Text="{Binding FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="4" Text="{Binding FileSize}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="6" Text="{Binding DeletedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="8" Text="{Binding LeftDays, StringFormat='{}{0} days'}" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
 </UserControl>
