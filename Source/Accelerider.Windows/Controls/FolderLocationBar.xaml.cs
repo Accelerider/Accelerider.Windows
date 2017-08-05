@@ -1,19 +1,13 @@
 ﻿using Accelerider.Windows.Infrastructure.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Commands;
-using Accelerider.Windows.Core;
-using Accelerider.Windows.Infrastructure;
-using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Windows.Data;
-using Accelerider.Windows.Converters;
+using System.Linq;
+using System.Windows.Controls;
 
 namespace Accelerider.Windows.Controls
 {
@@ -24,11 +18,10 @@ namespace Accelerider.Windows.Controls
     {
         private const int MaxDisplayedFolderCount = 3;
 
-        private ICommand _locateFolderCommand;
+        private ICommand _locateFolderCommand; 
         private ICommand _locateRootCommand;
         private ObservableCollection<ITreeNodeAsync<INetDiskFile>> _displayedFolders;
         private ObservableCollection<ITreeNodeAsync<INetDiskFile>> _foldedFolders;
-        private IList<double> _listBoxActualWidthStorage = new List<double>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -94,7 +87,6 @@ namespace Accelerider.Windows.Controls
 
         private static (ObservableCollection<ITreeNodeAsync<INetDiskFile>> displayed, ObservableCollection<ITreeNodeAsync<INetDiskFile>> folded) ClassifyFolder(Stack<ITreeNodeAsync<INetDiskFile>> folders)
         {
-            folders.Pop();
             ObservableCollection<ITreeNodeAsync<INetDiskFile>> folded = null;
             int delta = folders.Count - MaxDisplayedFolderCount;
             if (delta > 0)
@@ -102,8 +94,12 @@ namespace Accelerider.Windows.Controls
                 folded = new ObservableCollection<ITreeNodeAsync<INetDiskFile>>();
                 for (int i = 0; i < delta; i++)
                 {
-                    folded.Add(folders.Pop());
+                    folded.Insert(0, folders.Pop());
                 }
+            }
+            else
+            {
+                folders.Pop();
             }
             return (new ObservableCollection<ITreeNodeAsync<INetDiskFile>>(folders), folded);
         }
@@ -119,6 +115,14 @@ namespace Accelerider.Windows.Controls
             storage = value;
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        private void FoldedFolderPopupListBox_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ListBox listBox)
+            {
+                CurrentFolder = (ITreeNodeAsync<INetDiskFile>) listBox.SelectedItem;
+            }
         }
     }
 }

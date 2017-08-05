@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
-namespace Accelerider.Windows.Core
+namespace Accelerider.Windows.Core.Files
 {
     public class NetDiskFile :DiskFileBase, INetDiskFile
     {

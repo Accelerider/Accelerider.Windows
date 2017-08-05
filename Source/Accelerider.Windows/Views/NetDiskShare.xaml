@@ -33,36 +33,25 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
                 <Button Style="{StaticResource ToolBarButtonStyle}" 
-                        Command="{Binding DownloadsCommand}"
+                        Command="{Binding DeletesCommand}"
                         CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="FileRestore" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
-                        <TextBlock Text="Restore" VerticalAlignment="Center" Margin="0 0 12 0" />
-                    </StackPanel>
-                </Button>
-                <Button Style="{StaticResource ToolBarButtonStyle}" >
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="DeleteForever" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
-                        <TextBlock Text="Delete" VerticalAlignment="Center" Margin="0 0 12 0"/>
+                        <TextBlock Text="Delete" VerticalAlignment="Center" Margin="0 0 12 0" />
                     </StackPanel>
                 </Button>
             </StackPanel>
             <Button Grid.Column="2" Foreground="#333333" Style="{StaticResource MaterialDesignToolButton}"
-                    Command="{Binding UpdateChildrenCacheCommand}"
+                    Command="{Binding UpdateSharedFilesCommand}"
                     Margin="0 0 8 0" Width="20" Height="20" Padding="0">
                 <materialDesign:PackIcon Foreground="{StaticResource PrimaryHueDarkBrush}" Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
             </Button>
         </Grid>
         <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended"
-                 ItemsSource="{Binding CurrentFolder.ChildrenCache}"
+                 ItemsSource="{Binding SharedFiles}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  HorizontalContentAlignment="Stretch">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding EnterFolderCommand}" CommandParameter="{Binding SelectedItem, ElementName=ListboxFileList}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
                     <Setter Property="Padding" Value="0"/>
@@ -70,24 +59,9 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu >
-                                <MenuItem Header="Download" 
-                                          Command="{Binding PlacementTarget.Tag.DownloadCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" 
-                                          CommandParameter="{Binding}">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Download" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="Share to">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Share" />
-                                    </MenuItem.Icon>
-                                    <MenuItem Header="Baidu Cloud" />
-                                    <MenuItem Header="Mrs4s Cloud" />
-                                    <MenuItem Header="File Plaza" />
-                                </MenuItem>
                                 <MenuItem Header="Delete" >
                                     <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="DeleteForever" />
+                                        <materialDesign:PackIcon Kind="Delete" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </ContextMenu>
@@ -97,26 +71,48 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border Padding="8 3" Margin="3">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="16"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="16"/>
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="16"/>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="16"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="16"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="4" Text="{Binding Content.ModifiedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="6" Text="{Binding Content.FileSize}" VerticalAlignment="Center" />
-                        </Grid>
-                    </Border>
+                    <Expander>
+                            <Expander.Header>
+                                <Border>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="16"/>
+
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="16"/>
+
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="16"/>
+
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="16"/>
+
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="16"/>
+
+                                            <ColumnDefinition Width="110"/>
+                                            <ColumnDefinition Width="16"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="4" Text="{Binding VisitedNumber, StringFormat='{}{0:G3}'}" VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="6" Text="{Binding SavedNumber, StringFormat='{}{0:G3}'}" VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="8" Text="{Binding DownloadedNumber, StringFormat='{}{0:G3}'}" VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="10" Text="{Binding SharedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                            </Expander.Header>
+                        <StackPanel Margin="29 0" Orientation="Horizontal" >
+                            <TextBlock Text="Link: " FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 16 0"/>
+                            <TextBlock Text="{Binding ShareLink}" VerticalAlignment="Center" Foreground="{StaticResource PrimaryHueMidBrush}"
+                                        TextDecorations="Underline" Margin="0 0 16 0"/>
+                                <Button Content="Copy" materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                                        VerticalAlignment="Center" Margin="0 0 16 0"/>
+                            <TextBlock Text="Share type: " FontWeight="Bold" VerticalAlignment="Center"/>
+                            <TextBlock Text="Public" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Expander>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

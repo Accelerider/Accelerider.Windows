@@ -124,6 +124,17 @@ namespace Accelerider.Windows.Infrastructure
         {
             return !(left == right);
         }
+
+        public static bool operator >(DataSize left, DataSize right)
+        {
+            return left.BaseBValue > right.BaseBValue;
+        }
+
+        public static bool operator <(DataSize left, DataSize right)
+        {
+            return left.BaseBValue < right.BaseBValue;
+        }
+
         #endregion
     }
 }

@@ -75,7 +75,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <materialDesign:PackIcon Grid.Column="1" Kind="ShareVariant" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" Text="Shared" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="My Share" VerticalAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
                 <ListBoxItem Height="45">

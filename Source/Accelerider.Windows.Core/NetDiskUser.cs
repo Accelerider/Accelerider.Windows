@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.Files;
+using Accelerider.Windows.Core.MockData;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
@@ -10,6 +12,8 @@ namespace Accelerider.Windows.Core
 {
     internal class NetDiskUser : INetDiskUser
     {
+        private ITreeNodeAsync<INetDiskFile> _fileTree;
+
 
         public Uri HeadImageUri => throw new NotImplementedException();
 
@@ -28,23 +32,30 @@ namespace Accelerider.Windows.Core
 
         public async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeAsync()
         {
+            return _fileTree = await GetNetDiskFileTreeInternalAsync();
+        }
+
+        private async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeInternalAsync()
+        {
             var rand = new Random();
-            await Task.Delay(1000);
-            var tree = new TreeNodeAsync<INetDiskFile>(new NetDiskFile { FilePath = new FileLocation("E:\\") })
+            await Task.Delay(100);
+            var tree = new TreeNodeAsync<INetDiskFile>(new NetDiskFile {FilePath = new FileLocation("G:\\")})
             {
                 ChildrenProvider = async parent =>
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(100);
                     var filePaths = Directory.GetFiles(parent.FilePath.ToString());
                     var directoriePaths = Directory.GetDirectories(parent.FilePath.ToString());
                     return from filePath in directoriePaths.Union(filePaths)
-                           where File.Exists(filePath) || Directory.Exists(filePath)
-                           select new NetDiskFile
-                           {
-                               FilePath = new FileLocation(filePath),
-                               FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
-                               ModifiedTime = new FileInfo(filePath).LastWriteTime
-                           };
+                        where File.Exists(filePath) || Directory.Exists(filePath)
+                        select new NetDiskFile
+                        {
+                            FilePath = new FileLocation(filePath),
+                            FileSize = File.Exists(filePath)
+                                ? new DataSize(new FileInfo(filePath).Length)
+                                : default(DataSize),
+                            ModifiedTime = new FileInfo(filePath).LastWriteTime
+                        };
                 }
             };
             return tree;
@@ -52,25 +63,40 @@ namespace Accelerider.Windows.Core
 
         public async Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
         {
-            await Task.Delay(1000);
+            await Task.Delay(100);
             var rand = new Random();
-            const string folderPath = @"E:\ionic\MyIonicProject";
+            const string folderPath = "E:\\";
             var filePaths = Directory.GetFiles(folderPath);
             var directoriePaths = Directory.GetDirectories(folderPath);
             return from filePath in directoriePaths.Union(filePaths)
-                   where File.Exists(filePath) || Directory.Exists(filePath)
-                   select new DeletedFile
-                   {
-                       FilePath = new FileLocation(filePath),
-                       LeftDays = rand.Next(1, 11),
-                       FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
-                       DeletedTime = new FileInfo(filePath).LastWriteTime
-                   };
+                where File.Exists(filePath) || Directory.Exists(filePath)
+                select new DeletedFile
+                {
+                    FilePath = new FileLocation(filePath),
+                    LeftDays = rand.Next(1, 11),
+                    FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
+                    DeletedTime = new FileInfo(filePath).LastWriteTime
+                };
         }
 
-        public Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
+        public async Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
         {
-            throw new NotImplementedException();
+            await Task.Delay(100);
+            var rand = new Random();
+            const string folderPath = "E:\\";
+            var filePaths = Directory.GetFiles(folderPath);
+            var directoriePaths = Directory.GetDirectories(folderPath);
+            return from filePath in directoriePaths.Union(filePaths)
+                where File.Exists(filePath) || Directory.Exists(filePath)
+                select new SharedFile
+                {
+                    Name = new FileLocation(filePath).FileName,
+                    DownloadedNumber = rand.Next(0, 1000),
+                    SavedNumber = rand.Next(0, 1000),
+                    VisitedNumber = rand.Next(0, 1000),
+                    SharedTime = new FileInfo(filePath).LastWriteTime,
+                    ShareLink = new Uri(@"https://pan.baidu.com/s/1jGE6mpC")
+                };
         }
 
         public Task<(ShareStateCode, ISharedFile)> ShareFilesAsync(IEnumerable<INetDiskFile> files, string password = null)
@@ -85,7 +111,7 @@ namespace Accelerider.Windows.Core
 
         public ITransferTaskToken CreateDownloadTask(INetDiskFile file)
         {
-            throw new NotImplementedException();
+            return new TransferTaskTokenMockData(file);
         }
     }
 }

@@ -8,6 +8,7 @@
         xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
         xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
         xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+        xmlns:controlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf"
         vm:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         MinHeight="500" MinWidth="720" Height="700" Width="1100" 
@@ -214,6 +215,30 @@
                     <TextBlock Grid.Row="2" Text="Settings" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                 </Grid>
             </ToggleButton>
+            <controlzEx:PopupEx IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}" StaysOpen="False"
+                                PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" PopupAnimation="Fade"
+                                Width="284" Height="500"
+                                AllowsTransparency="True">
+                <Border Margin="2" Background="White" BorderThickness="1" CornerRadius="2"
+                        Effect="{StaticResource MaterialDesignShadowDepth2}">
+                    <StackPanel>
+                        <Grid Margin="20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Ellipse Grid.Column="0" Height="40" Width="40">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="../Assets/Images/HeadImage.png" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Grid.Column="2" Text="Laplace's Demon" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Separator></Separator>
+                    </StackPanel>
+                </Border>
+            </controlzEx:PopupEx>
         </Grid>
     </Grid>
 </Window>
