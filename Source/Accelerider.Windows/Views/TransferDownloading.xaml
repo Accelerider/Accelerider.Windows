@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
              vm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
@@ -26,7 +25,6 @@
         </Grid.Resources>
         <Grid Grid.Row="0" Height="50" />
         <Grid Grid.Row="1" Background="#DDDEF0">
-
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition />
@@ -65,7 +63,7 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border Padding="20 3" Margin="3">
+                        <Border Padding="20 10" >
                         <Border.ContextMenu>
                             <ContextMenu x:Name="ContextMenu">
                                 <MenuItem Header="Download">
@@ -88,19 +86,41 @@
                                 </MenuItem>
                             </ContextMenu>
                         </Border.ContextMenu>
-                        <Grid>
+                        <Grid >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <ToggleButton Style="{StaticResource MaterialDesignActionToggleButton}"
-                                          ToolTip="MaterialDesignActionLightToggleButton">
-                                <ToggleButton.Content>
-                                    <Image Style="{StaticResource FileImageSelectorStyle}" />
-                                </ToggleButton.Content>
-                                <materialDesign:ToggleButtonAssist.OnContent>
-                                    <materialDesign:PackIcon Kind="Pause" />
-                                </materialDesign:ToggleButtonAssist.OnContent>
-                            </ToggleButton>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="0"/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Image Grid.Column="0" Grid.RowSpan="3" Tag="{Binding FileInfo.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
+                            <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding FileInfo.FilePath.FileName}" TextTrimming="CharacterEllipsis"/>
+                            <Grid Grid.Column="2" Grid.Row="2" VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock >
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}/{1}">
+                                            <Binding Path="Progress"/>
+                                            <Binding Path="FileInfo.FileSize"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock Grid.Column="2" Text="{Binding Speed, StringFormat='{}{0}/s'}" />
+                                <TextBlock Grid.Column="4" Text="{Binding RemainingTime, TargetNullValue='∞'}"/>
+                            </Grid>
                         </Grid>
                     </Border>
                 </DataTemplate>

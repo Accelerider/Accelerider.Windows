@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="DataSize.cs" />
     <Compile Include="Enumerations.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="FileLocation.cs" />
     <Compile Include="Interfaces\Files.cs" />
     <Compile Include="Interfaces\IAcceleriderUser.cs" />

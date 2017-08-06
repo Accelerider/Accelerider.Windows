@@ -194,12 +194,17 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
+                        
                         <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
                             <Border x:Name="MouseOverBorder" Opacity="0">
                                 <Border.Background>
                                     <TemplateBinding Property="Foreground">
                                         <TemplateBinding.Converter>
-                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource PrimaryHueMidBrush}"/>
+                                            <converters:BrushRoundConverter LowValue="{StaticResource PrimaryHueLightBrush}" HighValue="White"/>
                                         </TemplateBinding.Converter>
                                     </TemplateBinding>
                                 </Border.Background>
@@ -208,7 +213,7 @@
                                 <Border.Background>
                                     <TemplateBinding Property="Foreground">
                                         <TemplateBinding.Converter>
-                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource PrimaryHueMidBrush}"/>
+                                            <converters:BrushRoundConverter LowValue="{StaticResource PrimaryHueLightBrush}" HighValue="White"/>
                                         </TemplateBinding.Converter>
                                     </TemplateBinding>
                                 </Border.Background>
@@ -216,17 +221,18 @@
                                     <ScaleTransform ScaleX="1"/>
                                 </Border.RenderTransform>
                             </Border>
-                            <materialDesign:Ripple ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Focusable="False" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <materialDesign:Ripple x:Name="Ripple" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Focusable="False" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <materialDesign:Ripple.Feedback>
                                     <TemplateBinding Property="Foreground">
                                         <TemplateBinding.Converter>
-                                            <converters:BrushRoundConverter HighValue="White" LowValue="Black"/>
+                                            <converters:BrushRoundConverter LowValue="White" HighValue="Black"/>
                                         </TemplateBinding.Converter>
                                     </TemplateBinding>
                                 </materialDesign:Ripple.Feedback>
                             </materialDesign:Ripple>
-                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_SeletedRectangle" Fill="{StaticResource PrimaryHueLightBrush}" Opacity="0"/>
-                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_MouseOverRectangle" Fill="{StaticResource PrimaryHueLightBrush}" Opacity="0"/>
+                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_SeletedRectangle" Fill="{StaticResource PrimaryHueMidBrush}" Opacity="0"/>
+                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_MouseOverRectangle" Fill="{StaticResource PrimaryHueMidBrush}" Opacity="0"/>
+                            <Border Grid.Row="1" Background="{DynamicResource LightGreyBackgoundBrush}" Height="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>

@@ -36,7 +36,7 @@
                         Command="{Binding DeletesCommand}"
                         CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="FileRestore" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
+                        <materialDesign:PackIcon Kind="DeleteForever" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
                         <TextBlock Text="Delete" VerticalAlignment="Center" Margin="0 0 12 0" />
                     </StackPanel>
                 </Button>
@@ -61,7 +61,7 @@
                             <ContextMenu >
                                 <MenuItem Header="Delete" >
                                     <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Delete" />
+                                        <materialDesign:PackIcon Kind="DeleteForever" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </ContextMenu>
@@ -71,48 +71,48 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Expander>
+                        <Expander Background="White">
                             <Expander.Header>
-                                <Border>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="16"/>
+                            <Border>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="16"/>
 
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="16"/>
 
-                                            <ColumnDefinition Width="60"/>
-                                            <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="16"/>
 
-                                            <ColumnDefinition Width="60"/>
-                                            <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="16"/>
 
-                                            <ColumnDefinition Width="60"/>
-                                            <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="16"/>
 
-                                            <ColumnDefinition Width="110"/>
-                                            <ColumnDefinition Width="16"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="2" Text="{Binding Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="4" Text="{Binding VisitedNumber, StringFormat='{}{0:G3}'}" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Column="6" Text="{Binding SavedNumber, StringFormat='{}{0:G3}'}" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Column="8" Text="{Binding DownloadedNumber, StringFormat='{}{0:G3}'}" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Column="10" Text="{Binding SharedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </Border>
-                            </Expander.Header>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="16"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="4" Text="{Binding VisitedNumber, StringFormat='{}{0:G3}'}" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="6" Text="{Binding SavedNumber, StringFormat='{}{0:G3}'}" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="8" Text="{Binding DownloadedNumber, StringFormat='{}{0:G3}'}" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="10" Text="{Binding SharedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </Expander.Header>
                         <StackPanel Margin="29 0" Orientation="Horizontal" >
                             <TextBlock Text="Link: " FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 16 0"/>
                             <TextBlock Text="{Binding ShareLink}" VerticalAlignment="Center" Foreground="{StaticResource PrimaryHueMidBrush}"
                                         TextDecorations="Underline" Margin="0 0 16 0"/>
-                                <Button Content="Copy" materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                                        VerticalAlignment="Center" Margin="0 0 16 0"/>
+                            <Button Content="Copy" materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="0"
+                                        VerticalAlignment="Center" Margin="0 0 16 0" Background="{StaticResource PrimaryHueLightBrush}"/>
                             <TextBlock Text="Share type: " FontWeight="Bold" VerticalAlignment="Center"/>
                             <TextBlock Text="Public" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Expander>
+                        </StackPanel>
+                    </Expander>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

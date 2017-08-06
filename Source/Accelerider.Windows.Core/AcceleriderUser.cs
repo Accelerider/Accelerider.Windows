@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.Files;
+using Accelerider.Windows.Core.MockData;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
@@ -46,17 +51,28 @@ namespace Accelerider.Windows.Core
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<IDiskFile> GetDownloadingFiles()
+        public IEnumerable<ITransferTaskToken> GetDownloadingFiles()
         {
-            throw new System.NotImplementedException();
+            var rand = new Random();
+            const string folderPath = @"G:\Downloads";
+            var temp = from filePath in Directory.GetFiles(folderPath)
+                       select new DeletedFile
+                       {
+                           FilePath = new FileLocation(filePath),
+                           LeftDays = rand.Next(1, 11),
+                           FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
+                           DeletedTime = new FileInfo(filePath).LastWriteTime
+                       };
+            return from file in temp select new TransferTaskTokenMockData(file);
         }
+
 
         public IEnumerable<ITransferedFile> GetUploadedFiles()
         {
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<IDiskFile> GetUploadingFiles()
+        public IEnumerable<ITransferTaskToken> GetUploadingFiles()
         {
             throw new System.NotImplementedException();
         }

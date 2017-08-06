@@ -72,6 +72,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\RelayCommandAsync.cs" />
+    <Compile Include="Commands\RelayCommandAsync{T}.cs" />
     <Compile Include="Controls\FolderLocationBar.xaml.cs">
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>
@@ -85,6 +87,7 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Commands\RelayCommand{T}.cs" />
+    <Compile Include="ViewModels\Items\TransferTask.vm.cs" />
     <Compile Include="ViewModels\NetDiskFiles.vm.cs" />
     <Compile Include="ViewModels\NetDiskShare.vm.cs" />
     <Compile Include="ViewModels\NetDiskView.vm.cs" />

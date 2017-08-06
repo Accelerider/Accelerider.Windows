@@ -39,7 +39,7 @@ namespace Accelerider.Windows.Core
         {
             var rand = new Random();
             await Task.Delay(100);
-            var tree = new TreeNodeAsync<INetDiskFile>(new NetDiskFile {FilePath = new FileLocation("G:\\")})
+            var tree = new TreeNodeAsync<INetDiskFile>(new NetDiskFile { FilePath = new FileLocation("G:\\") })
             {
                 ChildrenProvider = async parent =>
                 {
@@ -47,15 +47,15 @@ namespace Accelerider.Windows.Core
                     var filePaths = Directory.GetFiles(parent.FilePath.ToString());
                     var directoriePaths = Directory.GetDirectories(parent.FilePath.ToString());
                     return from filePath in directoriePaths.Union(filePaths)
-                        where File.Exists(filePath) || Directory.Exists(filePath)
-                        select new NetDiskFile
-                        {
-                            FilePath = new FileLocation(filePath),
-                            FileSize = File.Exists(filePath)
-                                ? new DataSize(new FileInfo(filePath).Length)
-                                : default(DataSize),
-                            ModifiedTime = new FileInfo(filePath).LastWriteTime
-                        };
+                           where File.Exists(filePath) || Directory.Exists(filePath)
+                           select new NetDiskFile
+                           {
+                               FilePath = new FileLocation(filePath),
+                               FileSize = File.Exists(filePath)
+                                   ? new DataSize(new FileInfo(filePath).Length)
+                                   : default(DataSize),
+                               ModifiedTime = new FileInfo(filePath).LastWriteTime
+                           };
                 }
             };
             return tree;
@@ -69,14 +69,14 @@ namespace Accelerider.Windows.Core
             var filePaths = Directory.GetFiles(folderPath);
             var directoriePaths = Directory.GetDirectories(folderPath);
             return from filePath in directoriePaths.Union(filePaths)
-                where File.Exists(filePath) || Directory.Exists(filePath)
-                select new DeletedFile
-                {
-                    FilePath = new FileLocation(filePath),
-                    LeftDays = rand.Next(1, 11),
-                    FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
-                    DeletedTime = new FileInfo(filePath).LastWriteTime
-                };
+                   where File.Exists(filePath) || Directory.Exists(filePath)
+                   select new DeletedFile
+                   {
+                       FilePath = new FileLocation(filePath),
+                       LeftDays = rand.Next(1, 11),
+                       FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
+                       DeletedTime = new FileInfo(filePath).LastWriteTime
+                   };
         }
 
         public async Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
@@ -87,16 +87,16 @@ namespace Accelerider.Windows.Core
             var filePaths = Directory.GetFiles(folderPath);
             var directoriePaths = Directory.GetDirectories(folderPath);
             return from filePath in directoriePaths.Union(filePaths)
-                where File.Exists(filePath) || Directory.Exists(filePath)
-                select new SharedFile
-                {
-                    Name = new FileLocation(filePath).FileName,
-                    DownloadedNumber = rand.Next(0, 1000),
-                    SavedNumber = rand.Next(0, 1000),
-                    VisitedNumber = rand.Next(0, 1000),
-                    SharedTime = new FileInfo(filePath).LastWriteTime,
-                    ShareLink = new Uri(@"https://pan.baidu.com/s/1jGE6mpC")
-                };
+                   where File.Exists(filePath) || Directory.Exists(filePath)
+                   select new SharedFile
+                   {
+                       Name = new FileLocation(filePath).FileName,
+                       DownloadedNumber = rand.Next(0, 1000),
+                       SavedNumber = rand.Next(0, 1000),
+                       VisitedNumber = rand.Next(0, 1000),
+                       SharedTime = new FileInfo(filePath).LastWriteTime,
+                       ShareLink = new Uri(@"https://pan.baidu.com/s/1jGE6mpC")
+                   };
         }
 
         public Task<(ShareStateCode, ISharedFile)> ShareFilesAsync(IEnumerable<INetDiskFile> files, string password = null)
