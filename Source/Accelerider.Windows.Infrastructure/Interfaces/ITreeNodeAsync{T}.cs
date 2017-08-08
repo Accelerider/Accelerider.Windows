@@ -26,7 +26,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         ITreeNodeAsync<T> Parent { get; }
 
         /// <summary>
-        /// Gets the all parents chain of the node, which is from the root to the parent of the node.
+        /// Get all the parents of the node, the order of the sequence is from the root to the parent of the node.
         /// </summary>
         IReadOnlyList<ITreeNodeAsync<T>> Parents { get; }
 

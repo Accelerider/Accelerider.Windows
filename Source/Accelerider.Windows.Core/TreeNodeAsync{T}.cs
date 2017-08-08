@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Accelerider.Windows.Core.Files;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Core
 {
     public class TreeNodeAsync<T> : ITreeNodeAsync<T>
     {
-        private NetDiskFile netDiskFile;
-
         public TreeNodeAsync(T content)
         {
             Content = content;

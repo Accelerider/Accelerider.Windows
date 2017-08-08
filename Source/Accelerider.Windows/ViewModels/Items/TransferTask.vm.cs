@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Accelerider.Windows.Commands;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
@@ -10,8 +8,6 @@ namespace Accelerider.Windows.ViewModels.Items
 {
     public class TransferTaskViewModel : BindableBase
     {
-        private static readonly TransferStateEnum endState = TransferStateEnum.Faulted | TransferStateEnum.Canceled | TransferStateEnum.Completed;
-
         private readonly ITransferTaskToken _token;
 
         private DataSize _progress;
@@ -22,9 +18,6 @@ namespace Accelerider.Windows.ViewModels.Items
         private RelayCommandAsync _restartCommand;
         private RelayCommandAsync _pauseCommand;
         private bool _isTransferStateChanging;
-
-        private readonly SynchronizationContext _context = SynchronizationContext.Current;
-
 
         public TransferTaskViewModel(ITransferTaskToken token)
         {
@@ -96,7 +89,6 @@ namespace Accelerider.Windows.ViewModels.Items
             while (_token.TransferState == TransferStateEnum.Transfering)
             {
                 await Task.Delay(1000);
-                //_context.Post(o => UpdateTransferState(), null);
                 UpdateTransferState();
             }
         }
@@ -108,7 +100,7 @@ namespace Accelerider.Windows.ViewModels.Items
             if (Speed.BaseBValue == 0)
                 RemainingTime = null;
             else
-                RemainingTime = TimeSpan.FromSeconds((_token.FileInfo.FileSize - Progress) / Speed);
+                RemainingTime = TimeSpan.FromSeconds(Math.Round((_token.FileInfo.FileSize - Progress) / Speed));
         }
     }
 }
