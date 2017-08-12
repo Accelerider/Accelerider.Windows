@@ -65,6 +65,7 @@
     <Compile Include="Files\DiskFileBase.cs" />
     <Compile Include="Files\NetDiskFile.cs" />
     <Compile Include="Files\SharedFile.cs" />
+    <Compile Include="Files\TransferedFile.cs" />
     <Compile Include="MockData\TransferTaskTokenMockData.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="NetDiskUser.cs" />
@@ -77,9 +78,7 @@
       <Name>Accelerider.Windows.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MockData\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

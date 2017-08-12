@@ -1,6 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
+using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.ViewModels.Items;
 using Microsoft.Practices.Unity;
@@ -16,9 +17,20 @@ namespace Accelerider.Windows.ViewModels
         {
             DownloadTasks = new ObservableCollection<TransferTaskViewModel>(AcceleriderUser.GetDownloadingFiles().Select(item =>
             {
-                item.TransferStateChanged += OnTransferStateChanged;
+                item.TransferStateChanged += PublishTransferStateChanged;
                 return new TransferTaskViewModel(item);
             }));
+            EventAggregator.GetEvent<TransferStateChangedEvent>().Subscribe(OnTransferStateChanged, e => e.NewState == TransferStateEnum.Checking);
+        }
+
+        private void OnTransferStateChanged(TransferStateChangedEventArgs e)
+        {
+            var temp = DownloadTasks.FirstOrDefault(item => item.FileInfo.FilePath.FullPath == e.Token.FileInfo.FilePath.FullPath);
+            if (temp != null)
+            {
+                DownloadTasks.Remove(temp);
+                GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" has been downloaded.");
+            }
         }
 
         public ObservableCollection<TransferTaskViewModel> DownloadTasks
@@ -27,16 +39,9 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _downloadTasks, value);
         }
 
-        private void OnTransferStateChanged(object sender, TransferStateChangedEventArgs e)
+        private void PublishTransferStateChanged(object sender, TransferStateChangedEventArgs e)
         {
-            if (e.NewState == TransferStateEnum.Transfering)
-            {
-                
-            }
-            if (e.NewState == TransferStateEnum.Completed)
-            {
-                
-            }
+            EventAggregator.GetEvent<TransferStateChangedEvent>().Publish(e);
         }
     }
 }

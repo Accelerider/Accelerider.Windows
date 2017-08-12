@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Accelerider.Windows.Core;
+using Accelerider.Windows.Events;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 
@@ -9,7 +10,7 @@ namespace Accelerider.Windows
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -22,7 +23,8 @@ namespace Accelerider.Windows
 
         private void ConfigureContainer(IUnityContainer container)
         {
-            container.RegisterInstance(typeof(SnackbarMessageQueue), new SnackbarMessageQueue());
+            container.RegisterInstance(typeof(SnackbarMessageQueue), new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
+            container.RegisterInstance(typeof(EventAggregator), new EventAggregator());
         }
     }
 }

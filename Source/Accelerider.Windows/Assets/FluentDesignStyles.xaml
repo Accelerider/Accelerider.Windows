@@ -328,6 +328,8 @@
     </Style>
 
     <Style x:Key="FileImageSelectorStyle" TargetType="Image">
+        <Setter Property="Width" Value="28"/>
+        <Setter Property="Height" Value="28"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="ApkType">
                 <Setter Property="Source" Value="Images/FileTypes/ApkType.png"/>
@@ -344,9 +346,9 @@
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="ImgType">
                 <Setter Property="Source" Value="Images/FileTypes/ImgType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="MixFileType">
+            <!--<DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="MixFileType">
                 <Setter Property="Source" Value="Images/FileTypes/MixFileType.png"/>
-            </DataTrigger>
+            </DataTrigger>-->
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="MusicType">
                 <Setter Property="Source" Value="Images/FileTypes/MusicType.png"/>
             </DataTrigger>
@@ -362,9 +364,9 @@
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="RarType">
                 <Setter Property="Source" Value="Images/FileTypes/RarType.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="TorrentType">
+            <!--<DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="TorrentType">
                 <Setter Property="Source" Value="Images/FileTypes/TorrentType.png"/>
-            </DataTrigger>
+            </DataTrigger>-->
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="TxtType">
                 <Setter Property="Source" Value="Images/FileTypes/TxtType.png"/>
             </DataTrigger>

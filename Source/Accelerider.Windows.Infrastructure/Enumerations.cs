@@ -157,7 +157,9 @@ namespace Accelerider.Windows.Infrastructure
         Waiting = 0,
 
         /// <summary>
-        /// The task is being downloaded. Can be converted to <see cref="Paused"/>, <see cref="Completed"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.
+        /// The task is being downloaded or uploaded. 
+        /// Can be converted to  <see cref="Checking"/> (for downloaded), <see cref="Completed"/> (for uploaded),
+        /// <see cref="Paused"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.
         /// </summary>
         Transfering = 1,
 
@@ -167,25 +169,33 @@ namespace Accelerider.Windows.Infrastructure
         Paused = 2,
 
         /// <summary>
+        /// The file that have been transferred are being checked, which only happen after the downloaded. 
+        /// Can only be converted to <see cref="Completed"/>.
+        /// </summary>
+        Checking = 4,
+
+        /// <summary>
         /// The task has been completed. End state.
         /// </summary>
-        Completed = 4,
+        Completed = 8,
 
         /// <summary>
         /// The task has been canceled. End state.
         /// </summary>
-        Canceled = 8,
+        Canceled = 16,
 
         /// <summary>
         /// The task failed. End state.
         /// </summary>
-        Faulted = 16
+        Faulted = 32
     }
 
     public enum LanguageEnum
     {
         Chinese,
-        Englist,
+
+        English,
+
         Japanese,
     }
 }

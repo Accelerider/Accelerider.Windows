@@ -9,236 +9,242 @@
         xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
         xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
         xmlns:controlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf"
+        xmlns:dialogs="clr-namespace:Accelerider.Windows.Views.Dialogs"
         vm:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         MinHeight="500" MinWidth="720" Height="700" Width="1100" 
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource FluentWindowStyle}"
-        Icon="Assets/Images/AcceleriderIcon.png"
+        Icon="Assets/Images/AcceleriderLogo.ico"
         Title="Accelerider" >
-
-    <Grid Background="{StaticResource LightGreyBackgoundBrush}" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="68"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <!--Right content-->
-        <Grid Grid.Column="1" >
-            <ctrls:SwitchableViewContainer Selector="{Binding ElementName=TabListBox}">
-                <ctrls:SwitchableViewContainer.Resources>
-                    <views:NetDiskView x:Key="0" Style="{StaticResource FloatInStyle}"/>
-                    <views:TransferView x:Key="1" Style="{StaticResource FloatInStyle}"/>
-                    <views:MoreView x:Key="2" Style="{StaticResource FloatInStyle}"/>
-                </ctrls:SwitchableViewContainer.Resources>
-            </ctrls:SwitchableViewContainer>
-        </Grid>
-
-        <Grid Grid.Column="1" >
+    <materialDesign:DialogHost Identifier="RootDialog" IsOpen="True">
+        <materialDesign:DialogHost.DialogContent>
+            <dialogs:EnteringDialog/>
+        </materialDesign:DialogHost.DialogContent>
+        
+        <Grid Background="{StaticResource LightGreyBackgoundBrush}" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="68"/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" VerticalAlignment="Bottom">
-                <Grid.Style>
-                    <Style TargetType="Grid" BasedOn="{StaticResource LeftTabListStyle}">
-                        <Setter Property="Visibility" Value="Hidden"/>
-                    </Style>
-                </Grid.Style>
+
+            <!--Right content-->
+            <Grid Grid.Column="1" >
+                <ctrls:SwitchableViewContainer Selector="{Binding ElementName=TabListBox}">
+                    <ctrls:SwitchableViewContainer.Resources>
+                        <views:NetDiskView x:Key="0" Style="{StaticResource FloatInStyle}"/>
+                        <views:TransferView x:Key="1" Style="{StaticResource FloatInStyle}"/>
+                        <views:MoreView x:Key="2" Style="{StaticResource FloatInStyle}"/>
+                    </ctrls:SwitchableViewContainer.Resources>
+                </ctrls:SwitchableViewContainer>
             </Grid>
-            <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>
-        </Grid>
 
-        <!--Left side bar-->
-        <Grid Grid.Column="0" Background="{StaticResource PrimaryHueDarkBrush}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition />
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" VerticalAlignment="Bottom">
+                    <Grid.Style>
+                        <Style TargetType="Grid" BasedOn="{StaticResource LeftTabListStyle}">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </Style>
+                    </Grid.Style>
+                </Grid>
+                <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>
+            </Grid>
 
-            <!--Tab list-->
-            <ListBox x:Name="TabListBox" Grid.Row="1" 
+            <!--Left side bar-->
+            <Grid Grid.Column="0" Background="{StaticResource PrimaryHueDarkBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!--Tab list-->
+                <ListBox x:Name="TabListBox" Grid.Row="1" 
                      SelectionMode="Single" SelectedIndex="0"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ItemContainerStyle="{StaticResource TabLabelListBoxItemStyle}"
                      HorizontalContentAlignment="Stretch">
-                <ListBoxItem Height="56" >
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="2"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="FolderMultiple" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="18" Width="18"/>
-                        <TextBlock Grid.Row="2" Text="Net Disk" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem Height="56">
-                    <Grid>
+                    <ListBoxItem Height="56" >
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="25"/>
                                 <RowDefinition Height="2"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <materialDesign:PackIcon Kind="SwapVertical" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="25" Width="25"/>
-                            <TextBlock Grid.Row="2" Text="Transfer" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                            <materialDesign:PackIcon Kind="FolderMultiple" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="18" Width="18"/>
+                            <TextBlock Grid.Row="2" Text="Net Disk" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                         </Grid>
+                    </ListBoxItem>
+                    <ListBoxItem Height="56">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="10"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="6"/>
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <materialDesign:Badged Badge="999+" BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="2"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <materialDesign:PackIcon Kind="SwapVertical" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="25" Width="25"/>
+                                <TextBlock Grid.Row="2" Text="Transfer" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="10"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="6"/>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <materialDesign:Badged Badge="999+" BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
                                                    BadgeBackground="Red" BadgeForeground="White"
                                                    />
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem Height="56">
+                    </ListBoxItem>
+                    <ListBoxItem Height="56">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <materialDesign:PackIcon Kind="Earth" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
+                            <TextBlock Grid.Row="2" Text="More" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                        </Grid>
+                    </ListBoxItem>
+                </ListBox>
+
+                <Button Grid.Row="3" Height="56" Padding="0" 
+                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                    Background="{StaticResource PrimaryHueDarkBrush}"
+                    BorderThickness="0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="2"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="Earth" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
-                        <TextBlock Grid.Row="2" Text="More" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                        <materialDesign:PackIcon Kind="LightbulbOutline" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                        <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                     </Grid>
-                </ListBoxItem>
-            </ListBox>
-
-            <Button Grid.Row="3" Height="56" Padding="0" 
-                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                    Background="{StaticResource PrimaryHueDarkBrush}"
-                    BorderThickness="0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="2"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <materialDesign:PackIcon Kind="LightbulbOutline" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
-                    <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
-                </Grid>
-            </Button>
-            <ToggleButton x:Name="SettingsToggleButton" Grid.Row="4"
+                </Button>
+                <ToggleButton x:Name="SettingsToggleButton" Grid.Row="4"
                           Height="56" >
-                <ToggleButton.Style>
-                    <Style TargetType="ToggleButton">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="{StaticResource PrimaryHueDarkBrush}" ClipToBounds="{TemplateBinding ClipToBounds}" Margin="{TemplateBinding Margin}">
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup x:Name="CommonStates">
-                                                <VisualStateGroup.Transitions>
-                                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.4" Storyboard="{x:Null}" To="Normal">
-                                                        <VisualTransition.GeneratedEasingFunction>
-                                                            <CircleEase EasingMode="EaseOut"/>
-                                                        </VisualTransition.GeneratedEasingFunction>
-                                                    </VisualTransition>
-                                                </VisualStateGroup.Transitions>
-                                                <VisualState x:Name="Normal"/>
-                                                <VisualState x:Name="MouseOver">
-                                                    <Storyboard>
-                                                        <DoubleAnimation Duration="0" To="0.4" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MouseOverBorder"/>
-                                                        <DoubleAnimation Duration="0" To="0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_MouseOverRectangle"/>
-                                                    </Storyboard>
-                                                </VisualState>
-                                                <VisualState x:Name="Disabled"/>
-                                            </VisualStateGroup>
-                                            <VisualStateGroup x:Name="CheckStates">
-                                                <VisualStateGroup.Transitions>
-                                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.2" GeneratedEasingFunction="{x:Null}" Storyboard="{x:Null}" To="{x:Null}"/>
-                                                </VisualStateGroup.Transitions>
-                                                <VisualState x:Name="Checked">
-                                                    <Storyboard>
-                                                        <DoubleAnimation Duration="0" To="0.8" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="CheckedBorder"/>
-                                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_CheckedRectangle"/>
-                                                    </Storyboard>
-                                                </VisualState>
-                                                <VisualState x:Name="Unchecked"/>
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
-                                        <Grid>
-                                            <Border x:Name="MouseOverBorder" Opacity="0">
-                                                <Border.Background>
-                                                    <TemplateBinding Property="Foreground">
-                                                        <TemplateBinding.Converter>
-                                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource PrimaryHueMidBrush}"/>
-                                                        </TemplateBinding.Converter>
-                                                    </TemplateBinding>
-                                                </Border.Background>
-                                            </Border>
-                                            <Border x:Name="CheckedBorder" Opacity="0" RenderTransformOrigin="0.5,0.5">
-                                                <Border.Background>
-                                                    <TemplateBinding Property="Foreground">
-                                                        <TemplateBinding.Converter>
-                                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource PrimaryHueMidBrush}"/>
-                                                        </TemplateBinding.Converter>
-                                                    </TemplateBinding>
-                                                </Border.Background>
-                                            </Border>
-                                            <materialDesign:Ripple ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Focusable="False" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                                                <materialDesign:Ripple.Feedback>
-                                                    <TemplateBinding Property="Foreground">
-                                                        <TemplateBinding.Converter>
-                                                            <converters:BrushRoundConverter HighValue="White" LowValue="LightGray"/>
-                                                        </TemplateBinding.Converter>
-                                                    </TemplateBinding>
-                                                </materialDesign:Ripple.Feedback>
-                                            </materialDesign:Ripple>
-                                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_CheckedRectangle" Fill="{StaticResource PrimaryHueLightBrush}" Opacity="0"/>
-                                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_MouseOverRectangle" Fill="{StaticResource PrimaryHueLightBrush}" Opacity="0"/>
-                                        </Grid>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ToggleButton.Style>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="2"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <materialDesign:PackIcon Kind="Settings" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
-                    <TextBlock Grid.Row="2" Text="Settings" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
-                </Grid>
-            </ToggleButton>
-            <controlzEx:PopupEx IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}" StaysOpen="False"
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="{StaticResource PrimaryHueDarkBrush}" ClipToBounds="{TemplateBinding ClipToBounds}" Margin="{TemplateBinding Margin}">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualStateGroup.Transitions>
+                                                        <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.4" Storyboard="{x:Null}" To="Normal">
+                                                            <VisualTransition.GeneratedEasingFunction>
+                                                                <CircleEase EasingMode="EaseOut"/>
+                                                            </VisualTransition.GeneratedEasingFunction>
+                                                        </VisualTransition>
+                                                    </VisualStateGroup.Transitions>
+                                                    <VisualState x:Name="Normal"/>
+                                                    <VisualState x:Name="MouseOver">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0" To="0.4" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MouseOverBorder"/>
+                                                            <DoubleAnimation Duration="0" To="0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_MouseOverRectangle"/>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Disabled"/>
+                                                </VisualStateGroup>
+                                                <VisualStateGroup x:Name="CheckStates">
+                                                    <VisualStateGroup.Transitions>
+                                                        <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.2" GeneratedEasingFunction="{x:Null}" Storyboard="{x:Null}" To="{x:Null}"/>
+                                                    </VisualStateGroup.Transitions>
+                                                    <VisualState x:Name="Checked">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0" To="0.8" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="CheckedBorder"/>
+                                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_CheckedRectangle"/>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Unchecked"/>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <Grid>
+                                                <Border x:Name="MouseOverBorder" Opacity="0">
+                                                    <Border.Background>
+                                                        <TemplateBinding Property="Foreground">
+                                                            <TemplateBinding.Converter>
+                                                                <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource PrimaryHueMidBrush}"/>
+                                                            </TemplateBinding.Converter>
+                                                        </TemplateBinding>
+                                                    </Border.Background>
+                                                </Border>
+                                                <Border x:Name="CheckedBorder" Opacity="0" RenderTransformOrigin="0.5,0.5">
+                                                    <Border.Background>
+                                                        <TemplateBinding Property="Foreground">
+                                                            <TemplateBinding.Converter>
+                                                                <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource PrimaryHueMidBrush}"/>
+                                                            </TemplateBinding.Converter>
+                                                        </TemplateBinding>
+                                                    </Border.Background>
+                                                </Border>
+                                                <materialDesign:Ripple ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Focusable="False" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                                    <materialDesign:Ripple.Feedback>
+                                                        <TemplateBinding Property="Foreground">
+                                                            <TemplateBinding.Converter>
+                                                                <converters:BrushRoundConverter HighValue="White" LowValue="LightGray"/>
+                                                            </TemplateBinding.Converter>
+                                                        </TemplateBinding>
+                                                    </materialDesign:Ripple.Feedback>
+                                                </materialDesign:Ripple>
+                                                <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_CheckedRectangle" Fill="{StaticResource PrimaryHueLightBrush}" Opacity="0"/>
+                                                <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_MouseOverRectangle" Fill="{StaticResource PrimaryHueLightBrush}" Opacity="0"/>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ToggleButton.Style>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="Settings" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                        <TextBlock Grid.Row="2" Text="Settings" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                    </Grid>
+                </ToggleButton>
+                <controlzEx:PopupEx IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}" StaysOpen="False"
                                 PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" PopupAnimation="Fade"
                                 Width="284" Height="500"
                                 AllowsTransparency="True">
-                <Border Margin="2" Background="White" BorderThickness="1" CornerRadius="2"
+                    <Border Margin="2" Background="White" BorderThickness="1" CornerRadius="2"
                         Effect="{StaticResource MaterialDesignShadowDepth2}">
-                    <StackPanel>
-                        <Grid Margin="20">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="30"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Ellipse Grid.Column="0" Height="40" Width="40">
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="../Assets/Images/HeadImage.png" />
-                                </Ellipse.Fill>
-                            </Ellipse>
-                            <TextBlock Grid.Column="2" Text="Laplace's Demon" VerticalAlignment="Center"/>
-                        </Grid>
-                        <Separator></Separator>
-                    </StackPanel>
-                </Border>
-            </controlzEx:PopupEx>
+                        <StackPanel>
+                            <Grid Margin="20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Ellipse Grid.Column="0" Height="40" Width="40">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="../Assets/Images/HeadImage.png" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <TextBlock Grid.Column="2" Text="Laplace's Demon" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Separator></Separator>
+                        </StackPanel>
+                    </Border>
+                </controlzEx:PopupEx>
+            </Grid>
         </Grid>
-    </Grid>
+    </materialDesign:DialogHost>
 </Window>

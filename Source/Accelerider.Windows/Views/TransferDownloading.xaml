@@ -8,7 +8,7 @@
              xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
              vm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600" d:DataContext="{x:Type vm:TransferDownloadingViewModel}">
+             d:DesignHeight="300" d:DesignWidth="600" >
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -63,89 +63,77 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                        <Border Padding="20 10" >
-                        <Border.ContextMenu>
-                            <ContextMenu x:Name="ContextMenu">
-                                <MenuItem Header="Download">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Download" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="Share to">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Share" />
-                                    </MenuItem.Icon>
-                                    <MenuItem Header="Baidu Cloud" />
-                                    <MenuItem Header="Mrs4s Cloud" />
-                                    <MenuItem Header="File Plaza" />
-                                </MenuItem>
-                                <MenuItem Header="Delete">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="DeleteForever" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </ContextMenu>
-                        </Border.ContextMenu>
-                        <Grid >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Button Grid.Column="0" Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-                                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                                    materialDesign:ButtonProgressAssist.Value="{Binding Progress.BaseBValue}"
-                                    materialDesign:ButtonProgressAssist.Maximum="{Binding FileInfo.FileSize.BaseBValue}"
-                                    materialDesign:ButtonProgressAssist.IndicatorForeground="{StaticResource PrimaryHueMidBrush}">
-                                <Image Height="30" Width="30" Tag="{Binding FileInfo.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
-                            </Button>
-                            
-                            <Grid Grid.Column="2" >
+                    <Grid>
+                        <ProgressBar Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"
+                                     Maximum="{Binding FileInfo.FileSize.BaseBValue, Mode=OneWay}"
+                                     Value="{Binding Progress.BaseBValue, Mode=OneWay}"/>
+                        <Border Padding="20 8" >
+                            <Border.ContextMenu>
+                                <ContextMenu x:Name="ContextMenu">
+                                    <MenuItem Header="Download">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="Download" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Share to">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="Share" />
+                                        </MenuItem.Icon>
+                                        <MenuItem Header="Baidu Cloud" />
+                                        <MenuItem Header="Mrs4s Cloud" />
+                                        <MenuItem Header="File Plaza" />
+                                    </MenuItem>
+                                    <MenuItem Header="Delete">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="DeleteForever" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Border.ContextMenu>
+                            <Grid >
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120"/>
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="20"/>
                                     <ColumnDefinition />
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition Height="12"/>
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                
-                                <TextBlock Grid.ColumnSpan="5" Text="{Binding FileInfo.FilePath.FileName}" TextTrimming="CharacterEllipsis"/>
-                                <TextBlock Grid.Column="0" Grid.Row="2" Foreground="Gray">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0}/{1}">
-                                            <Binding Path="Progress"/>
-                                            <Binding Path="FileInfo.FileSize"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock Grid.Column="2" Grid.Row="2" Foreground="Gray" Text="{Binding Speed, StringFormat='{}{0}/s'}" />
-                                <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray" Text="{Binding RemainingTime, TargetNullValue='∞'}"/>
-                            </Grid>
-                            
-                            <Grid Grid.Column="4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Button Style="{StaticResource MaterialDesignToolButton}">
-                                    <materialDesign:PackIcon Kind="Folder" Width="20" Height="20"/>
-                                </Button>
-                                <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}">
-                                    <materialDesign:PackIcon Kind="Close" Width="20" Height="20"/>
+
+                                <Image Tag="{Binding FileInfo.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
+
+                                <Grid Grid.Column="2" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.ColumnSpan="5" Text="{Binding FileInfo.FilePath.FileName}" Foreground="{StaticResource PrimaryHueDarkBrush}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Foreground="Gray">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}/{1}">
+                                                <Binding Path="Progress"/>
+                                                <Binding Path="FileInfo.FileSize"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="2" Grid.Row="2" Foreground="Gray" Text="{Binding Speed, StringFormat='{}{0}/s'}" />
+                                    <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray" Text="{Binding RemainingTime, TargetNullValue='∞'}"/>
+                                </Grid>
+
+                                <Button Grid.Column="4" Style="{StaticResource MaterialDesignToolButton}" Foreground="#909090">
+                                    <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
                                 </Button>
                             </Grid>
-                        </Grid>
-                    </Border>
+                        </Border>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

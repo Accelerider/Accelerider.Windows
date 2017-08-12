@@ -1,4 +1,7 @@
-﻿using Accelerider.Windows.ViewModels;
+﻿using System.Threading.Tasks;
+using Accelerider.Windows.ViewModels;
+using Accelerider.Windows.Views.Dialogs;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows
@@ -9,5 +12,10 @@ namespace Accelerider.Windows
         {
             GlobalMessageQueue.Enqueue("Welcome to Accelerider!");
         }
+
+        //protected override async Task LoadViewModel()
+        //{
+        //    await DialogHost.Show(new EnteringDialog(), "RootDialog");
+        //}
     }
 }

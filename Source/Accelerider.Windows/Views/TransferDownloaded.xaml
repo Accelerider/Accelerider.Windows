@@ -4,9 +4,86 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Accelerider.Windows.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TextBlock Text="Transfer Downloaded Page" FontSize="50" FontWeight="Bold"/>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
+                <Setter Property="Height" Value="42" />
+                <Setter Property="Foreground" Value="#606060"/>
+                <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="#7679BE" />
+                <Setter Property="ctrls:ControlHelper.MouseOverForeground" Value="White" />
+            </Style>
+        </Grid.Resources>
+        <Grid Grid.Row="0" Height="50" />
+        <Grid Grid.Row="1" Background="#DDDEF0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
+                <Button Style="{StaticResource ToolBarButtonStyle}" >
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="DeleteForever" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
+                        <TextBlock Text="Empty All Records" VerticalAlignment="Center" Margin="0 0 12 0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <Button Grid.Column="2" Style="{StaticResource ToolBarButtonStyle}" >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Folder" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
+                    <TextBlock Text="Open Downloads Folder" VerticalAlignment="Center" Margin="0 0 12 0" />
+                </StackPanel>
+            </Button>
+        </Grid>
+        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended"
+                 ItemsSource="{Binding TransferedFiles}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 HorizontalContentAlignment="Stretch">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <ProgressBar Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"
+                                     Maximum="{Binding FileInfo.FileSize.BaseBValue, Mode=OneWay}"
+                                     Value="{Binding Progress.BaseBValue, Mode=OneWay}"/>
+                        <Border Padding="20 8" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="50"/>
+
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="16"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="{Binding FileSize}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="6" Text="{Binding CompletedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

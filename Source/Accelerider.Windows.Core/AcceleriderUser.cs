@@ -23,35 +23,35 @@ namespace Accelerider.Windows.Core
 
         public Task<bool> AddNetDiskUserAsync(INetDiskUser user)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Task<bool> RemoveNetDiskUserAsync(INetDiskUser user)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public ITransferTaskToken UploadToFilePlaza(FileLocation filePath)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Task<bool> LoginAsync(string username, string password)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Task<bool> SignOutAsync()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<ITransferedFile> GetDownloadedFiles()
+        public IReadOnlyCollection<ITransferedFile> GetDownloadedFiles()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<ITransferTaskToken> GetDownloadingFiles()
+        public IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles()
         {
             var rand = new Random();
             const string folderPath = @"G:\Downloads";
@@ -63,18 +63,18 @@ namespace Accelerider.Windows.Core
                            FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
                            DeletedTime = new FileInfo(filePath).LastWriteTime
                        };
-            return from file in temp select new TransferTaskTokenMockData(file);
+            return (from file in temp select new TransferTaskTokenMockData(file)).ToList();
         }
 
 
-        public IEnumerable<ITransferedFile> GetUploadedFiles()
+        public IReadOnlyCollection<ITransferedFile> GetUploadedFiles()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<ITransferTaskToken> GetUploadingFiles()
+        public IReadOnlyCollection<ITransferTaskToken> GetUploadingFiles()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

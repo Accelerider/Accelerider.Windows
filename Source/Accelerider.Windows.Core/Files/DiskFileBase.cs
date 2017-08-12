@@ -14,18 +14,17 @@ namespace Accelerider.Windows.Core.Files
             { FileTypeEnum.DocType, new []{ "doc", "docx" } },
             { FileTypeEnum.ExeType, new []{ "exe", "msi", "com", "bat", "sys" } },
             { FileTypeEnum.ImgType, new []{ "png", "jpg", "jpeg", "bmp", "gif", "svg" } },
-            { FileTypeEnum.MixFileType, new []{ "mix" } },
+            //{ FileTypeEnum.MixFileType, new []{ "mix" } },
             { FileTypeEnum.MusicType, new []{ "mp3", "wav", "aac", "wma", "flac", "ape", "ogg" } },
             { FileTypeEnum.PdfType, new []{ "pdf" } },
             { FileTypeEnum.PptType, new []{ "ppt", "pptx" } },
             { FileTypeEnum.RarType, new []{ "rar", "zip", "7z", "iso" } },
-            { FileTypeEnum.TorrentType, new []{ "torrent" } },
+            //{ FileTypeEnum.TorrentType, new []{ "torrent" } },
             { FileTypeEnum.TxtType, new []{ "txt", "lrc", "md", "json", "xml", "yml" } },
             { FileTypeEnum.VideoType, new []{ "rmvb", "mp4", "avi", "rm", "wmv", "flv", "f4v", "mkv", "3gp" } },
             { FileTypeEnum.XlsType, new []{ "xls", "xlsx" } },
         };
 
-        public long FileId { get; set; }
         public FileTypeEnum FileType => Directory.Exists(FilePath.FullPath)
             ? FileTypeEnum.FolderType
             : (from item in FileTypeDirectory

@@ -18,13 +18,13 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         ITransferTaskToken UploadToFilePlaza(FileLocation filePath);
 
         #region Gets local files
-        IEnumerable<ITransferTaskToken> GetDownloadingFiles();
+        IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles();
 
-        IEnumerable<ITransferTaskToken> GetUploadingFiles();
+        IReadOnlyCollection<ITransferTaskToken> GetUploadingFiles();
 
-        IEnumerable<ITransferedFile> GetDownloadedFiles();
+        IReadOnlyCollection<ITransferedFile> GetDownloadedFiles();
 
-        IEnumerable<ITransferedFile> GetUploadedFiles();
+        IReadOnlyCollection<ITransferedFile> GetUploadedFiles();
         #endregion
     }
 }

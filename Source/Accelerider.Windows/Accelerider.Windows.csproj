@@ -82,6 +82,11 @@
     <Compile Include="Converters\LessThan1000Converter.cs" />
     <Compile Include="Converters\MinusConverter.cs" />
     <Compile Include="Converters\UriToImageSourceConverter.cs" />
+    <Compile Include="Events\DelegateReference.cs" />
+    <Compile Include="Events\EventAggregator.cs" />
+    <Compile Include="Events\EventBase.cs" />
+    <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\EventSubscription.cs" />
     <Compile Include="MainWindow.vm.cs" />
     <Compile Include="ViewModels\BindableBase.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
@@ -100,6 +105,9 @@
     <Compile Include="ViewModels\TransferView.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\Dialogs\EnteringDialog.xaml.cs">
+      <DependentUpon>EnteringDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NetDiskFiles.xaml.cs">
       <DependentUpon>NetDiskFiles.xaml</DependentUpon>
     </Compile>
@@ -163,6 +171,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Dialogs\EnteringDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\NetDiskFiles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -240,13 +252,11 @@
     <Resource Include="Assets\Images\FileTypes\ExeType.png" />
     <Resource Include="Assets\Images\FileTypes\FolderType.png" />
     <Resource Include="Assets\Images\FileTypes\ImgType.png" />
-    <Resource Include="Assets\Images\FileTypes\MixFileType.png" />
     <Resource Include="Assets\Images\FileTypes\MusicType.png" />
     <Resource Include="Assets\Images\FileTypes\OtherType.png" />
     <Resource Include="Assets\Images\FileTypes\PdfType.png" />
     <Resource Include="Assets\Images\FileTypes\PptType.png" />
     <Resource Include="Assets\Images\FileTypes\RarType.png" />
-    <Resource Include="Assets\Images\FileTypes\TorrentType.png" />
     <Resource Include="Assets\Images\FileTypes\TxtType.png" />
     <Resource Include="Assets\Images\FileTypes\VideoType.png" />
     <Resource Include="Assets\Images\FileTypes\XlsType.png" />
@@ -270,7 +280,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\AcceleriderIcon.png" />
+    <Folder Include="ViewModels\Dialogs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\AcceleriderLogo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

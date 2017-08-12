@@ -28,7 +28,7 @@ namespace Accelerider.Windows.Core.MockData
             set
             {
                 if (Equals(_transferState, value)) return;
-                OnTransferStateChanged(new TransferStateChangedEventArgs(_transferState, _transferState = value));
+                OnTransferStateChanged(new TransferStateChangedEventArgs(this, _transferState, _transferState = value));
             }
         }
 
@@ -78,7 +78,7 @@ namespace Accelerider.Windows.Core.MockData
                 await Task.Delay(rand.Next(300, 2000), token);
                 Progress += rand.Next(0, 1024 * 64);
                 if (Progress < FileInfo.FileSize) continue;
-                TransferState = TransferStateEnum.Completed;
+                TransferState = TransferStateEnum.Checking;
                 return 0;
             }
             return 0;

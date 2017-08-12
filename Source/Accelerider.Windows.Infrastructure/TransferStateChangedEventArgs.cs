@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure
 {
     public class TransferStateChangedEventArgs
     {
-        public TransferStateChangedEventArgs(TransferStateEnum oldState, TransferStateEnum newState)
+        public TransferStateChangedEventArgs(ITransferTaskToken token, TransferStateEnum oldState, TransferStateEnum newState)
         {
+            Token = token;
             OldState = oldState;
             NewState = newState;
         }
 
+        public ITransferTaskToken Token { get; }
         public TransferStateEnum OldState { get; }
         public TransferStateEnum NewState { get; }
     }

@@ -8,8 +8,6 @@ namespace Accelerider.Windows.ViewModels.Items
 {
     public class TransferTaskViewModel : BindableBase
     {
-        private readonly ITransferTaskToken _token;
-
         private DataSize _progress;
         private TimeSpan? _remainingTime;
         private DataSize _speed;
@@ -19,27 +17,31 @@ namespace Accelerider.Windows.ViewModels.Items
         private RelayCommandAsync _pauseCommand;
         private bool _isTransferStateChanging;
 
+
         public TransferTaskViewModel(ITransferTaskToken token)
         {
-            _token = token;
-            _token.TransferStateChanged += (sender, e) => OnPropertyChanged(nameof(TransferState));
+            Token = token;
+            Token.TransferStateChanged += (sender, e) => OnPropertyChanged(nameof(TransferState));
 
             CancelCommand = new RelayCommandAsync(
-                _token.CancelAsync,
-                () => _token.TransferState.CanChangeTo(TransferStateEnum.Canceled));
+                Token.CancelAsync,
+                () => Token.TransferState.CanChangeTo(TransferStateEnum.Canceled));
             RestartCommand = new RelayCommandAsync(
-                _token.RestartAsync,
-                () => _token.TransferState.CanChangeTo(TransferStateEnum.Waiting));
+                Token.RestartAsync,
+                () => Token.TransferState.CanChangeTo(TransferStateEnum.Waiting));
             PauseCommand = new RelayCommandAsync(
-                _token.PauseAsync,
-                () => _token.TransferState.CanChangeTo(TransferStateEnum.Paused));
+                Token.PauseAsync,
+                () => Token.TransferState.CanChangeTo(TransferStateEnum.Paused));
 
             RefreshTransferState();
         }
 
-        public IDiskFile FileInfo => _token.FileInfo;
 
-        public TransferStateEnum TransferState => _token.TransferState;
+        public ITransferTaskToken Token { get; }
+
+        public IDiskFile FileInfo => Token.FileInfo;
+
+        public TransferStateEnum TransferState => Token.TransferState;
 
         public DataSize Progress
         {
@@ -86,7 +88,7 @@ namespace Accelerider.Windows.ViewModels.Items
 
         private async void RefreshTransferState()
         {
-            while (_token.TransferState == TransferStateEnum.Transfering)
+            while (Token.TransferState == TransferStateEnum.Transfering)
             {
                 await Task.Delay(1000);
                 UpdateTransferState();
@@ -95,12 +97,12 @@ namespace Accelerider.Windows.ViewModels.Items
 
         private void UpdateTransferState()
         {
-            Speed = _token.Progress - Progress;
-            Progress = _token.Progress;
+            Speed = Token.Progress - Progress;
+            Progress = Token.Progress;
             if (Speed.BaseBValue == 0)
                 RemainingTime = null;
             else
-                RemainingTime = TimeSpan.FromSeconds(Math.Round((_token.FileInfo.FileSize - Progress) / Speed));
+                RemainingTime = TimeSpan.FromSeconds(Math.Round((Token.FileInfo.FileSize - Progress) / Speed));
         }
     }
 }

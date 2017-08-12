@@ -5,19 +5,17 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 {
     public interface IFile
     {
-        long FileId { get; }
-
         FileTypeEnum FileType { get; }
     }
 
     public interface ISharedFile : IFile
     {
         string Name { get; }
-        
+
         DateTime SharedTime { get; }
 
         Uri ShareLink { get; }
-        
+
         int DownloadedNumber { get; }
 
         int SavedNumber { get; }

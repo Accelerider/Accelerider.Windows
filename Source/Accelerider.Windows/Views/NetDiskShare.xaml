@@ -107,8 +107,11 @@
                             <TextBlock Text="Link: " FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 16 0"/>
                             <TextBlock Text="{Binding ShareLink}" VerticalAlignment="Center" Foreground="{StaticResource PrimaryHueMidBrush}"
                                         TextDecorations="Underline" Margin="0 0 16 0"/>
-                            <Button Content="Copy" materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="0"
-                                        VerticalAlignment="Center" Margin="0 0 16 0" Background="{StaticResource PrimaryHueLightBrush}"/>
+                            <Button materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="0"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    VerticalAlignment="Center" Margin="0 0 16 0">
+                                <materialDesign:PackIcon Kind="ContentCopy"/>
+                            </Button>
                             <TextBlock Text="Share type: " FontWeight="Bold" VerticalAlignment="Center"/>
                             <TextBlock Text="Public" VerticalAlignment="Center"/>
                         </StackPanel>

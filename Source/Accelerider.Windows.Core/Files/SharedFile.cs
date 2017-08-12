@@ -20,8 +20,6 @@ namespace Accelerider.Windows.Core.Files
 
         public string AccessCode { get; set; }
 
-        public long FileId { get; set; }
-
         public FileTypeEnum FileType { get; set; }
     }
 }
