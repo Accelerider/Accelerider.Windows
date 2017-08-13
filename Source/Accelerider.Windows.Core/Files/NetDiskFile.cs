@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Core.Files
@@ -9,7 +10,7 @@ namespace Accelerider.Windows.Core.Files
 
         public DateTime ModifiedTime { get; set; }
 
-        public ITransferTaskToken Download()
+        public override Task<bool> DeleteAsync()
         {
             throw new NotImplementedException();
         }

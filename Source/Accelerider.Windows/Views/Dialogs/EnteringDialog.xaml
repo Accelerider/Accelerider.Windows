@@ -15,6 +15,8 @@
             <RowDefinition />
             <RowDefinition Height="16"/>
             <RowDefinition />
+            <RowDefinition Height="16"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <TextBlock >Please verify your Accelerider account</TextBlock>
@@ -31,14 +33,21 @@
 
             <materialDesign:PackIcon Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
             <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Username"
-                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"                 
-                 FontSize="16"/>
+                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
             <PasswordBox  Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Password" 
-                          Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                          FontSize="16"/>
+                          Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
         </Grid>
-        <Button Grid.Row="4" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+        <Grid Grid.Row="4" Margin="6 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0">Remembers Password</CheckBox>
+            <CheckBox Grid.Column="2">Automatic Login</CheckBox>
+        </Grid>
+        <Button Grid.Row="6" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                 Margin="28 0">
             <Button.CommandParameter>

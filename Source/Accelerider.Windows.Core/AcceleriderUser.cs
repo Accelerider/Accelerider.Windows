@@ -31,7 +31,7 @@ namespace Accelerider.Windows.Core
             throw new NotImplementedException();
         }
 
-        public ITransferTaskToken UploadToFilePlaza(FileLocation filePath)
+        public ITransferTaskToken Upload(FileLocation filePath)
         {
             throw new NotImplementedException();
         }
@@ -51,28 +51,7 @@ namespace Accelerider.Windows.Core
             throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles()
-        {
-            var rand = new Random();
-            const string folderPath = @"G:\Downloads";
-            var temp = from filePath in Directory.GetFiles(folderPath)
-                       select new DeletedFile
-                       {
-                           FilePath = new FileLocation(filePath),
-                           LeftDays = rand.Next(1, 11),
-                           FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
-                           DeletedTime = new FileInfo(filePath).LastWriteTime
-                       };
-            return (from file in temp select new TransferTaskTokenMockData(file)).ToList();
-        }
-
-
         public IReadOnlyCollection<ITransferedFile> GetUploadedFiles()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyCollection<ITransferTaskToken> GetUploadingFiles()
         {
             throw new NotImplementedException();
         }

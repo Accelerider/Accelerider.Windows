@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.DownloadEngine;
 using Accelerider.Windows.Core.Files;
 using Accelerider.Windows.Core.MockData;
 using Accelerider.Windows.Infrastructure;
@@ -12,9 +13,6 @@ namespace Accelerider.Windows.Core
 {
     internal class NetDiskUser : INetDiskUser
     {
-        private ITreeNodeAsync<INetDiskFile> _fileTree;
-
-
         public Uri HeadImageUri => throw new NotImplementedException();
 
         public string Username => "Laplace's Domon";
@@ -25,32 +23,45 @@ namespace Accelerider.Windows.Core
 
         public DataSize UsedCapacity => new DataSize(2.34, SizeUnitEnum.T);
 
-        public Task<bool> DeleteFileAsync(INetDiskFile file)
+        public IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles()
+        {
+            const string folderPath = @"G:\Downloads";
+            var temp = from filePath in Directory.GetFiles(folderPath)
+                       select new DeletedFile
+                       {
+                           FilePath = new FileLocation(filePath),
+                           FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
+                           DeletedTime = new FileInfo(filePath).LastWriteTime
+                       };
+            return (from file in temp select new TransferTaskTokenMockData(file)).ToList();
+        }
+
+        public IReadOnlyCollection<ITransferTaskToken> GetUploadingFiles()
         {
             throw new NotImplementedException();
         }
 
         public async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeAsync()
         {
-            return _fileTree = await GetNetDiskFileTreeInternalAsync();
+            return await GetNetDiskFileTreeInternalAsync();
         }
 
         private async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeInternalAsync()
         {
-            var rand = new Random();
             await Task.Delay(100);
             var tree = new TreeNodeAsync<INetDiskFile>(new NetDiskFile { FilePath = new FileLocation("G:\\") })
             {
                 ChildrenProvider = async parent =>
                 {
-                    await Task.Delay(100);
+                    await Task.Delay(10);
+                    if (!Directory.Exists(parent.FilePath)) return null;
                     var filePaths = Directory.GetFiles(parent.FilePath.ToString());
                     var directoriePaths = Directory.GetDirectories(parent.FilePath.ToString());
                     return from filePath in directoriePaths.Union(filePaths)
                            where File.Exists(filePath) || Directory.Exists(filePath)
                            select new NetDiskFile
                            {
-                               FilePath = new FileLocation(filePath),
+                               FilePath = filePath,
                                FileSize = File.Exists(filePath)
                                    ? new DataSize(new FileInfo(filePath).Length)
                                    : default(DataSize),
@@ -72,7 +83,7 @@ namespace Accelerider.Windows.Core
                    where File.Exists(filePath) || Directory.Exists(filePath)
                    select new DeletedFile
                    {
-                       FilePath = new FileLocation(filePath),
+                       FilePath = filePath,
                        LeftDays = rand.Next(1, 11),
                        FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
                        DeletedTime = new FileInfo(filePath).LastWriteTime
@@ -99,19 +110,22 @@ namespace Accelerider.Windows.Core
                    };
         }
 
+        public Task<ITransferTaskToken> UploadAsync(FileLocation filePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ITreeNodeAsync<INetDiskFile> fileNode)
+        {
+            return (from file in await fileNode.FlattenAsync()
+                    where file.Content.FileType != FileTypeEnum.FolderType
+                    select new TransferTaskTokenMockData(file.Content))
+                    .ToList();
+        }
+
         public Task<(ShareStateCode, ISharedFile)> ShareFilesAsync(IEnumerable<INetDiskFile> files, string password = null)
         {
             throw new NotImplementedException();
-        }
-
-        public ITransferTaskToken CreateUploadTask(FileLocation filePath)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ITransferTaskToken CreateDownloadTask(INetDiskFile file)
-        {
-            return new TransferTaskTokenMockData(file);
         }
     }
 }

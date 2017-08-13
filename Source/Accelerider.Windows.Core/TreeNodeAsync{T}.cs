@@ -44,11 +44,19 @@ namespace Accelerider.Windows.Core
 
         public async Task<bool> TryGetChildrenAsync()
         {
-            var temp = from item in await ChildrenProvider(Content)
-                       select new TreeNodeAsync<T>(item) { Parent = this };
-            var tempArray = temp.ToArray();
-            if (!tempArray.Any()) return false;
-            ChildrenCache = tempArray;
+            var temp = await ChildrenProvider(Content);
+            var enumerable = temp as T[] ?? temp?.ToArray();
+            if (!enumerable?.Any() ?? true) return false;
+
+            var treeNodes = (from item in enumerable
+                             select new TreeNodeAsync<T>(item) { Parent = this })
+                            .ToArray();
+            if (!treeNodes.Any())
+            {
+                ChildrenCache = null;
+                return false;
+            }
+            ChildrenCache = treeNodes;
             return true;
         }
     }

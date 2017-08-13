@@ -42,4 +42,5 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         /// <returns>Returns a <see cref="bool"/> type indicating whether the data was successfully fetched.</returns>
         Task<bool> TryGetChildrenAsync();
     }
+
 }

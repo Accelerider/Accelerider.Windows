@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
@@ -30,6 +31,8 @@ namespace Accelerider.Windows.Core.Files
             : (from item in FileTypeDirectory
                 where item.Value.Contains(FilePath.FileExtension)
                 select item.Key).SingleOrDefault();
+
+        public abstract Task<bool> DeleteAsync();
 
         public FileLocation FilePath { get; set; }
         public DataSize FileSize { get; set; }

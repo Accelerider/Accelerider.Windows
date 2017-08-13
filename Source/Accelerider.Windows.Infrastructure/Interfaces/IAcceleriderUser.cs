@@ -8,23 +8,20 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         INetDiskUser CurrentNetDiskUser { get; set; }
         IReadOnlyCollection<INetDiskUser> NetDiskUsers { get; }
 
-
+        // Accelerider account system -----------------------------------------------------------
         Task<bool> LoginAsync(string username, string password);
+
         Task<bool> SignOutAsync();
 
+        // Operates sub-account (cloud account) -------------------------------------------------
         Task<bool> AddNetDiskUserAsync(INetDiskUser user);
+
         Task<bool> RemoveNetDiskUserAsync(INetDiskUser user);
 
-        ITransferTaskToken UploadToFilePlaza(FileLocation filePath);
-
-        #region Gets local files
-        IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles();
-
-        IReadOnlyCollection<ITransferTaskToken> GetUploadingFiles();
+        ITransferTaskToken Upload(FileLocation filePath);
 
         IReadOnlyCollection<ITransferedFile> GetDownloadedFiles();
 
         IReadOnlyCollection<ITransferedFile> GetUploadedFiles();
-        #endregion
     }
 }

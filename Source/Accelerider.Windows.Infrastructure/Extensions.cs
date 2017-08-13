@@ -8,6 +8,14 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure
 {
+    public static class TreeNodeAsyncExtensions
+    {
+        public static async Task<IEnumerable<ITreeNodeAsync<T>>> FlattenAsync<T>(this ITreeNodeAsync<T> self)
+        {
+            return await new Soil<T>(self).FlattenAsync();
+        }
+    }
+
     public static class TransferStateEnumExtensions
     {
         private static readonly Dictionary<TransferStateEnum, TransferStateEnum[]> StateChangeMap = new Dictionary<TransferStateEnum, TransferStateEnum[]>

@@ -58,5 +58,15 @@ namespace Accelerider.Windows.Infrastructure
         {
             return FullPath;
         }
+
+        public static implicit operator FileLocation(string filePath)
+        {
+            return new FileLocation(filePath);
+        }
+
+        public static implicit operator string(FileLocation fileLocation)
+        {
+            return fileLocation.FullPath;
+        }
     }
 }

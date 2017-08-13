@@ -6,6 +6,8 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
     public interface IFile
     {
         FileTypeEnum FileType { get; }
+
+        Task<bool> DeleteAsync();
     }
 
     public interface ISharedFile : IFile
@@ -42,8 +44,6 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         DateTime CreatedTime { get; }
 
         DateTime ModifiedTime { get; }
-
-        ITransferTaskToken Download();
     }
 
     public interface IDeletedFile : IDiskFile

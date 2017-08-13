@@ -13,5 +13,10 @@ namespace Accelerider.Windows.Core.Files
         {
             throw new NotImplementedException();
         }
+
+        public override Task<bool> DeleteAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

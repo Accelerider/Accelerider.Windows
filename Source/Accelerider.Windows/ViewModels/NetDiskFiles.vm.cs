@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Accelerider.Windows.Commands;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
-using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using System.Collections;
+using System.Linq;
+using Accelerider.Windows.Events;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -37,7 +37,7 @@ namespace Accelerider.Windows.ViewModels
             });
         }
 
-        protected override async Task LoadViewModel()
+        protected override async Task Load()
         {
             CurrentFolder = await NetDiskUser.GetNetDiskFileTreeAsync();
         }
@@ -83,13 +83,13 @@ namespace Accelerider.Windows.ViewModels
 
         private async void DownloadCommandExecute(ITreeNodeAsync<INetDiskFile> fileNode)
         {
-            if (fileNode.Content.FileType == FileTypeEnum.FolderType)
-            {
-                if (fileNode.ChildrenCache == null) await fileNode.TryGetChildrenAsync();
-                GlobalMessageQueue.Enqueue($"Added \"{fileNode.Content.FilePath.FileName}\" folder (includes {fileNode.ChildrenCache.Count} files) to Download list.");
-            }
-            else
-                GlobalMessageQueue.Enqueue($"Added \"{fileNode.Content.FilePath.FileName}\" to Download list.");
+            var tokens = await NetDiskUser.DownloadAsync(fileNode);
+
+            GlobalMessageQueue.Enqueue(
+                fileNode.Content.FileType == FileTypeEnum.FolderType
+                    ? $"Added \"{fileNode.Content.FilePath.FileName}\" folder (includes {tokens.Count} files) to Download list."
+                    : $"Added \"{fileNode.Content.FilePath.FileName}\" to Download list.");
+            EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Publish(tokens);
         }
 
         private async void UpdateChildrenCacheAsync()

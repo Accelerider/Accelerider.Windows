@@ -39,11 +39,11 @@ namespace Accelerider.Windows.ViewModels
         public async Task OnViewLoaded()
         {
             IsViewModelLoaded = false;
-            await LoadViewModel();
+            await Load();
             IsViewModelLoaded = true;
         }
 
-        protected virtual async Task LoadViewModel()
+        protected virtual async Task Load()
         {
             NetDiskUser = AcceleriderUser.CurrentNetDiskUser;
         }
