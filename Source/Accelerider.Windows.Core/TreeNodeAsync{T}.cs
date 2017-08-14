@@ -8,10 +8,14 @@ namespace Accelerider.Windows.Core
 {
     public class TreeNodeAsync<T> : ITreeNodeAsync<T>
     {
+        private Func<T, Task<IEnumerable<T>>> _childrenProvider;
+
+
         public TreeNodeAsync(T content)
         {
             Content = content;
         }
+
 
         public T Content { get; }
         public ITreeNodeAsync<T> Root
@@ -34,23 +38,28 @@ namespace Accelerider.Windows.Core
                 return (from item in stack select item).ToList();
             }
         }
-        public IReadOnlyList<ITreeNodeAsync<T>> ChildrenCache { get; protected set; }
-        private Func<T, Task<IEnumerable<T>>> _childrenProvider;
+        public IReadOnlyList<ITreeNodeAsync<T>> ChildrenCache { get; protected set; } // TODO: WeakReference
+
         public Func<T, Task<IEnumerable<T>>> ChildrenProvider
         {
             get => _childrenProvider ?? (Parent as TreeNodeAsync<T>)?.ChildrenProvider;
             set => _childrenProvider = value;
         }
 
+
         public async Task<bool> TryGetChildrenAsync()
         {
             var temp = await ChildrenProvider(Content);
             var enumerable = temp as T[] ?? temp?.ToArray();
-            if (!enumerable?.Any() ?? true) return false;
+            if (!enumerable?.Any() ?? true)
+            {
+                ChildrenCache = null;
+                return false;
+            }
 
             var treeNodes = (from item in enumerable
-                             select new TreeNodeAsync<T>(item) { Parent = this })
-                            .ToArray();
+                             select new TreeNodeAsync<T>(item) { Parent = this }).ToArray();
+
             if (!treeNodes.Any())
             {
                 ChildrenCache = null;

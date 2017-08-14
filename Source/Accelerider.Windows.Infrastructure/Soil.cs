@@ -19,7 +19,17 @@ namespace Accelerider.Windows.Infrastructure
             return Flatten(_seed);
         }
 
-        private async Task Flourish(ITreeNodeAsync<T> seed)
+        public async Task<IReadOnlyList<ITreeNodeAsync<T>>> GetChildrenAsync(bool force = false)
+        {
+            if (force || _seed.ChildrenCache == null)
+            {
+                await _seed.TryGetChildrenAsync();
+            }
+            return _seed.ChildrenCache;
+        }
+
+
+        private async Task Flourish(ITreeNodeAsync<T> seed) // TODO: Tail recursion / CPS
         {
             if (seed.ChildrenCache != null || await seed.TryGetChildrenAsync())
             {

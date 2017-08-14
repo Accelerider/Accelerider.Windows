@@ -14,6 +14,11 @@ namespace Accelerider.Windows.Infrastructure
         {
             return await new Soil<T>(self).FlattenAsync();
         }
+
+        public static async Task<IReadOnlyList<ITreeNodeAsync<T>>> GetChildrenAsync<T>(this ITreeNodeAsync<T> self, bool force = false)
+        {
+            return await new Soil<T>(self).GetChildrenAsync(force);
+        }
     }
 
     public static class TransferStateEnumExtensions
