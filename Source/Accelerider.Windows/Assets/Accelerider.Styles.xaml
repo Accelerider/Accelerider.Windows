@@ -36,9 +36,10 @@
     <Style x:Key="FluentWindowStyle" TargetType="Window">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="32" CornerRadius="0" GlassFrameThickness="0" UseAeroCaptionButtons="False"  NonClientFrameEdges="None" ResizeBorderThickness="4"/>
+                <WindowChrome CaptionHeight="32" CornerRadius="0" UseAeroCaptionButtons="False" NonClientFrameEdges="None" />
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -137,7 +138,7 @@
                                 <Setter Property="BorderThickness" Value="0"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=WindowState}" Value="Maximized">
-                                        <Setter Property="BorderThickness" Value="8"/>
+                                        <Setter Property="Padding" Value="8"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
