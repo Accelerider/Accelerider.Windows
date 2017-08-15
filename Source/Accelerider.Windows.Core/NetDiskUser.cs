@@ -13,11 +13,11 @@ namespace Accelerider.Windows.Core
 {
     internal class NetDiskUser : INetDiskUser
     {
-        public Uri HeadImageUri => throw new NotImplementedException();
+        public Uri HeadImageUri { get; set; }
 
-        public string Username => "Laplace's Domon";
+        public string Username { get; set; }
 
-        public string Nickname => "LD50";
+        public string Nickname { get; set; }
 
         public DataSize TotalCapacity => new DataSize(5, SizeUnitEnum.T);
 
@@ -33,7 +33,7 @@ namespace Accelerider.Windows.Core
             return new List<ITransferTaskToken>();
         }
 
-        public async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeAsync()
+        public async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileRootAsync()
         {
             return await GetNetDiskFileTreeInternalAsync();
         }

@@ -8,24 +8,31 @@ namespace Accelerider.Windows.ViewModels
 {
     public abstract class ViewModelBase : BindableBase
     {
+        private INetDiskUser _netDiskUser;
         private SnackbarMessageQueue _globalMessageQueue;
-        private bool _isViewModelLoaded;
+
 
         protected IUnityContainer Container { get; }
         protected EventAggregator EventAggregator { get; }
         protected IAcceleriderUser AcceleriderUser { get; }
-        protected INetDiskUser NetDiskUser { get; set; }
-
+        public INetDiskUser NetDiskUser
+        {
+            get => _netDiskUser;
+            set
+            {
+                if (SetProperty(ref _netDiskUser, value))
+                {
+                    AcceleriderUser.CurrentNetDiskUser = value;
+                    OnCurrentNetDiskUserChanged();
+                }
+            }
+        }
         public SnackbarMessageQueue GlobalMessageQueue
         {
             get => _globalMessageQueue;
             set => SetProperty(ref _globalMessageQueue, value);
         }
-        public bool IsViewModelLoaded
-        {
-            get => _isViewModelLoaded;
-            set => SetProperty(ref _isViewModelLoaded, value);
-        }
+
 
         protected ViewModelBase(IUnityContainer container)
         {
@@ -36,16 +43,9 @@ namespace Accelerider.Windows.ViewModels
             GlobalMessageQueue = container.Resolve<SnackbarMessageQueue>();
         }
 
-        public async Task OnViewLoadedAsync()
-        {
-            IsViewModelLoaded = false;
-            await LoadAsync();
-            IsViewModelLoaded = true;
-        }
 
-        protected virtual async Task LoadAsync()
-        {
-            NetDiskUser = AcceleriderUser.CurrentNetDiskUser;
-        }
+        public virtual void OnLoadAsync() { }
+
+        protected virtual void OnCurrentNetDiskUserChanged() { }
     }
 }

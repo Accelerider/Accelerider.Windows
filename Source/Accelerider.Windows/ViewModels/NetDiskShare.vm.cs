@@ -11,7 +11,7 @@ namespace Accelerider.Windows.ViewModels
         {
         }
 
-        protected override async Task LoadAsync()
+        protected override async Task OnLoadAsync()
         {
             SharedFiles = new ObservableCollection<ISharedFile>(await NetDiskUser.GetSharedFilesAsync());
 

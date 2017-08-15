@@ -5,4 +5,5 @@
     <cvrts:IsLessThanConverter x:Key="IsLessThanConverter"/>
     <cvrts:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>
     <cvrts:LessThan1000Converter x:Key="LessThan1000Converter"/>
+    <cvrts:UriToImageSourceConverter x:Key="UriToImageSourceConverter"/>
 </ResourceDictionary>

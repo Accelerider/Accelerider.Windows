@@ -36,10 +36,10 @@ namespace Accelerider.Windows.ViewModels
         }
 
 
-        protected override async Task LoadAsync()
+        protected override async Task OnLoadAsync()
         {
-            await base.LoadAsync();
-            CurrentFolder = await NetDiskUser.GetNetDiskFileTreeAsync();
+            await base.OnLoadAsync();
+            CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
         }
 
 

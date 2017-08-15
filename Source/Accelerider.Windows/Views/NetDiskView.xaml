@@ -6,6 +6,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
              xmlns:local="clr-namespace:Accelerider.Windows.Views"
+             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+             vm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1000">
     <Grid>
@@ -93,75 +95,31 @@
             </ListBox>
 
             <TextBlock Grid.Row="5" Text="Cloud Storage" Margin="10 0 0 0" FontSize="14"/>
-            <ListBox Grid.Row="7" 
+            <ListBox Grid.Row="7" ItemsSource="{Binding NetDiskUsers}"
                      ItemContainerStyle="{StaticResource LeftSideListBoxItemStyle}"
                      SelectionMode="Single" SelectedIndex="0"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      HorizontalContentAlignment="Stretch">
-                <ListBoxItem Height="45">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="15"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Ellipse Grid.Column="1" Height="25" Width="25">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="../Assets/Images/HeadImage.png" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock Grid.Column="3" Text="Your Username" VerticalAlignment="Center"/>
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem Height="45">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="15"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Ellipse Grid.Column="1" Height="25" Width="25">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="../Assets/Images/HeadImage.png" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock Grid.Column="3" Text="Your Username" VerticalAlignment="Center"/>
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem Height="45">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="15"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Ellipse Grid.Column="1" Height="25" Width="25">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="../Assets/Images/HeadImage.png" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock Grid.Column="3" Text="Your Username" VerticalAlignment="Center"/>
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem Height="45">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="15"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Ellipse Grid.Column="1" Height="25" Width="25">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="../Assets/Images/HeadImage.png" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock Grid.Column="3" Text="Your Username" VerticalAlignment="Center"/>
-                    </Grid>
-                </ListBoxItem>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="15 0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Ellipse Height="30" Width="30">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{Binding HeadImageUri, Converter={StaticResource UriToImageSourceConverter}}" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <TextBlock Grid.Column="2" Text="{Binding Username}" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
             <Button Grid.Row="8" Height="30" Margin="35 15" materialDesign:ShadowAssist.ShadowDepth="Depth0">
                 <StackPanel Orientation="Horizontal">

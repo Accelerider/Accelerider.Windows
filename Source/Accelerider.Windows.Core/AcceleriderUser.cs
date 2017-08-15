@@ -14,7 +14,8 @@ namespace Accelerider.Windows.Core
     {
         public AcceleriderUser()
         {
-            CurrentNetDiskUser = new NetDiskUser();
+            InitializeNetDiskUsers();
+            CurrentNetDiskUser = NetDiskUsers.FirstOrDefault();
         }
 
 
@@ -54,6 +55,29 @@ namespace Accelerider.Windows.Core
         public IReadOnlyCollection<ITransferedFile> GetUploadedFiles()
         {
             throw new NotImplementedException();
+        }
+
+
+        private void InitializeNetDiskUsers()
+        {
+            NetDiskUsers = new[]
+            {
+                new NetDiskUser
+                {
+                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/29689099?v=4&amp;s=100"),
+                    Username = "Jielun Zhou"
+                },
+                new NetDiskUser
+                {
+                    HeadImageUri = new Uri("https://avatars3.githubusercontent.com/u/10069087?v=4&amp;s=100"),
+                    Username = "Junjie Lin"
+                },
+                new NetDiskUser
+                {
+                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/26038597?v=4&amp;s=100"),
+                    Username = "TaoFei Boy"
+                },
+            };
         }
     }
 }

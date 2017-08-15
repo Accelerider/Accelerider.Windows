@@ -26,7 +26,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null);
 
         // Gets net-disk files ------------------------------------------------------------
-        Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeAsync();
+        Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileRootAsync();
 
         Task<IEnumerable<ISharedFile>> GetSharedFilesAsync();
 
