@@ -18,11 +18,12 @@ namespace Accelerider.Windows.ViewModels
 
         public TransferDownloadingViewModel(IUnityContainer container) : base(container)
         {
-            DownloadTasks = new ObservableCollection<TransferTaskViewModel>(NetDiskUser.GetDownloadingFiles().Select(item =>
-            {
-                item.TransferStateChanged += OnDownloaded;
-                return new TransferTaskViewModel(item);
-            }));
+            DownloadTasks = new ObservableCollection<TransferTaskViewModel>();
+            //DownloadTasks = new ObservableCollection<TransferTaskViewModel>(NetDiskUser.GetDownloadingFiles().Select(item =>
+            //{
+            //    item.TransferStateChanged += OnDownloaded;
+            //    return new TransferTaskViewModel(item);
+            //}));
 
             EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Subscribe(OnDownloadTaskCreated, token => token != null && token.Any());
         }
@@ -36,6 +37,7 @@ namespace Accelerider.Windows.ViewModels
         {
             foreach (var token in tokens)
             {
+                token.TransferStateChanged += OnDownloaded;
                 DownloadTasks.Add(new TransferTaskViewModel(token));
             }
         }
@@ -54,7 +56,7 @@ namespace Accelerider.Windows.ViewModels
             if (temp != null)
             {
                 DownloadTasks.Remove(temp);
-                GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" has been downloaded.");
+                GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been downloaded.");
             }
             EventAggregator.GetEvent<TransferStateChangedEvent>().Publish(e);
         }
