@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using System.Linq;
 
 namespace Accelerider.Windows.Infrastructure
 {
@@ -26,6 +27,11 @@ namespace Accelerider.Windows.Infrastructure
                 await _seed.TryGetChildrenAsync();
             }
             return _seed.ChildrenCache;
+        }
+
+        public int Count()
+        {
+            return Flatten(_seed).Count();
         }
 
 

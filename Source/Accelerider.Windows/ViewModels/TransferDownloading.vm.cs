@@ -28,9 +28,9 @@ namespace Accelerider.Windows.ViewModels
             EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Subscribe(OnDownloadTaskCreated, token => token != null && token.Any());
         }
 
-        protected override Task Load()
+        protected override Task LoadAsync()
         {
-            return base.Load();
+            return base.LoadAsync();
         }
 
         private void OnDownloadTaskCreated(IReadOnlyCollection<ITransferTaskToken> tokens)

@@ -3,6 +3,7 @@ using Accelerider.Windows.ViewModels;
 using Accelerider.Windows.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
+using Accelerider.Windows.Assets;
 
 namespace Accelerider.Windows
 {
@@ -10,7 +11,7 @@ namespace Accelerider.Windows
     {
         public MainWindowViewModel(IUnityContainer container) : base(container)
         {
-            GlobalMessageQueue.Enqueue("Welcome to Accelerider!");
+            GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
         }
 
         //protected override async Task LoadViewModel()
