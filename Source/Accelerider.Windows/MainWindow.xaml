@@ -9,19 +9,14 @@
         xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
         xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
         xmlns:controlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf"
-        xmlns:dialogs="clr-namespace:Accelerider.Windows.Views.Dialogs"
         vm:ViewModelLocator.AutoWireViewModel="True"
-        mc:Ignorable="d"
         MinHeight="500" MinWidth="720" Height="700" Width="1100" 
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource FluentWindowStyle}"
         Icon="Assets/Images/AcceleriderLogo.ico"
         Title="Accelerider" >
-    <materialDesign:DialogHost Identifier="RootDialog" IsOpen="True">
-        <materialDesign:DialogHost.DialogContent>
-            <dialogs:EnteringDialog/>
-        </materialDesign:DialogHost.DialogContent>
-        
+    <materialDesign:DialogHost Identifier="RootDialog">
+
         <Grid Background="{StaticResource LightGreyBackgoundBrush}" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="68"/>
@@ -101,9 +96,8 @@
                                     <RowDefinition Height="6"/>
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <materialDesign:Badged Badge="999+" BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
-                                                   BadgeBackground="Red" BadgeForeground="White"
-                                                   />
+                                <materialDesign:Badged Badge="{Binding TransferTaskCount, Converter={StaticResource LessThan1000Converter}}" BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
+                                                       BadgeBackground="Red" BadgeForeground="White"/>
                             </Grid>
                         </Grid>
                     </ListBoxItem>

@@ -25,20 +25,12 @@ namespace Accelerider.Windows.Core
 
         public IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles()
         {
-            const string folderPath = @"G:\Downloads";
-            var temp = from filePath in Directory.GetFiles(folderPath)
-                       select new DeletedFile
-                       {
-                           FilePath = new FileLocation(filePath),
-                           FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
-                           DeletedTime = new FileInfo(filePath).LastWriteTime
-                       };
-            return (from file in temp select new TransferTaskTokenMockData(file)).ToList();
+            return new List<ITransferTaskToken>();
         }
 
         public IReadOnlyCollection<ITransferTaskToken> GetUploadingFiles()
         {
-            throw new NotImplementedException();
+            return new List<ITransferTaskToken>();
         }
 
         public async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeAsync()
@@ -53,7 +45,7 @@ namespace Accelerider.Windows.Core
             {
                 ChildrenProvider = async parent =>
                 {
-                    await Task.Delay(10);
+                    await Task.Delay(1);
                     if (!Directory.Exists(parent.FilePath)) return null;
                     var filePaths = Directory.GetFiles(parent.FilePath.ToString());
                     var directoriePaths = Directory.GetDirectories(parent.FilePath.ToString());
@@ -110,7 +102,7 @@ namespace Accelerider.Windows.Core
                    };
         }
 
-        public Task<ITransferTaskToken> UploadAsync(FileLocation from, FileLocation to)
+        public ITransferTaskToken UploadAsync(FileLocation @from, FileLocation to)
         {
             throw new NotImplementedException();
         }
@@ -123,7 +115,7 @@ namespace Accelerider.Windows.Core
                     .ToList();
         }
 
-        public Task<(ShareStateCode, ISharedFile)> ShareFilesAsync(IEnumerable<INetDiskFile> files, string password = null)
+        public Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null)
         {
             throw new NotImplementedException();
         }

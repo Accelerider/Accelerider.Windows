@@ -4,12 +4,8 @@
                     xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
                     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
-                    xmlns:cvrts="clr-namespace:Accelerider.Windows.Converters">
+                    xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls">
 
-    <cvrts:IsLessThanConverter x:Key="IsLessThanConverter"/>
-    <cvrts:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>
-    
     <ControlTemplate x:Key="FlatButtonTemplate" TargetType="Button">
         <Grid>
             <AdornerDecorator>

@@ -40,7 +40,9 @@
                         <TextBlock Text="Download" VerticalAlignment="Center" Margin="0 0 12 0" />
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource ToolBarButtonStyle}" >
+                <Button Style="{StaticResource ToolBarButtonStyle}" 
+                        Command="{Binding UploadCommand}"
+                        CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="CloudUpload" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
                         <TextBlock Text="Upload" VerticalAlignment="Center" Margin="0 0 12 0" />

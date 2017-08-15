@@ -9,9 +9,10 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
-                <ResourceDictionary Source="Assets/Brushes.Navy.xaml"/>
-                <ResourceDictionary Source="Assets/Animations.xaml"/>
-                <ResourceDictionary Source="Assets/FluentDesignStyles.xaml"/>
+                <ResourceDictionary Source="Assets/Accelerider.Brushes.Navy.xaml"/>
+                <ResourceDictionary Source="Assets/Accelerider.Converters.xaml"/>
+                <ResourceDictionary Source="Assets/Accelerider.Animations.xaml"/>
+                <ResourceDictionary Source="Assets/Accelerider.Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

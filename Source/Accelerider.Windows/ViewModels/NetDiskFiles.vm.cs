@@ -10,6 +10,8 @@ using System.Linq;
 using Accelerider.Windows.Events;
 using Accelerider.Windows.Assets;
 using System;
+using Accelerider.Windows.Views.Dialogs;
+using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -115,13 +117,14 @@ namespace Accelerider.Windows.ViewModels
 
         private async void UploadCommandExecute()
         {
+            await DialogHost.Show(new EnteringDialog(), "RootDialog");
             // 1.gets the the path of local files. to call winform method.
-            var fromPath = "";
-            var toPath = CurrentFolder.Content.FilePath;
-            var token = await NetDiskUser.UploadAsync(fromPath, toPath);
+            //var fromPath = "";
+            //var toPath = CurrentFolder.Content.FilePath;
+            //var token = NetDiskUser.UploadAsync(fromPath, toPath);
 
-            EventAggregator.GetEvent<UploadTaskCreatedEvent>().Publish(token);
-            GlobalMessageQueue.Enqueue(string.Format(UiStrings.Message_AddedFileToUploadList, token.FileInfo.FilePath.FileName));
+            //EventAggregator.GetEvent<UploadTaskCreatedEvent>().Publish(token);
+            //GlobalMessageQueue.Enqueue(string.Format(UiStrings.Message_AddedFileToUploadList, token.FileInfo.FilePath.FileName));
         }
 
         private async void DownloadCommandExecute(ITreeNodeAsync<INetDiskFile> fileNode)

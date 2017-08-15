@@ -13,16 +13,17 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         DataSize UsedCapacity { get; }
 
 
-        Task<ITransferTaskToken> UploadAsync(FileLocation from, FileLocation to);
-
-        Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ITreeNodeAsync<INetDiskFile> fileNode);
-
-        Task<(ShareStateCode, ISharedFile)> ShareFilesAsync(IEnumerable<INetDiskFile> files, string password = null);
-
         // Gets local files ---------------------------------------------------------------
         IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles();
 
         IReadOnlyCollection<ITransferTaskToken> GetUploadingFiles();
+
+        // Operates net-disk file ---------------------------------------------------------
+        ITransferTaskToken UploadAsync(FileLocation from, FileLocation to);
+
+        Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ITreeNodeAsync<INetDiskFile> fileNode);
+
+        Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null);
 
         // Gets net-disk files ------------------------------------------------------------
         Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeAsync();

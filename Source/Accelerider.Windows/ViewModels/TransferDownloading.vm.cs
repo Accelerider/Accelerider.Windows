@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
@@ -18,20 +16,22 @@ namespace Accelerider.Windows.ViewModels
 
         public TransferDownloadingViewModel(IUnityContainer container) : base(container)
         {
-            DownloadTasks = new ObservableCollection<TransferTaskViewModel>();
-            //DownloadTasks = new ObservableCollection<TransferTaskViewModel>(NetDiskUser.GetDownloadingFiles().Select(item =>
-            //{
-            //    item.TransferStateChanged += OnDownloaded;
-            //    return new TransferTaskViewModel(item);
-            //}));
+            DownloadTasks = new ObservableCollection<TransferTaskViewModel>(NetDiskUser.GetDownloadingFiles().Select(item =>
+            {
+                item.TransferStateChanged += OnDownloaded;
+                return new TransferTaskViewModel(item);
+            }));
 
             EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Subscribe(OnDownloadTaskCreated, token => token != null && token.Any());
         }
 
-        protected override Task LoadAsync()
+
+        public ObservableCollection<TransferTaskViewModel> DownloadTasks
         {
-            return base.LoadAsync();
+            get => _downloadTasks;
+            set => SetProperty(ref _downloadTasks, value);
         }
+
 
         private void OnDownloadTaskCreated(IReadOnlyCollection<ITransferTaskToken> tokens)
         {
@@ -40,12 +40,6 @@ namespace Accelerider.Windows.ViewModels
                 token.TransferStateChanged += OnDownloaded;
                 DownloadTasks.Add(new TransferTaskViewModel(token));
             }
-        }
-
-        public ObservableCollection<TransferTaskViewModel> DownloadTasks
-        {
-            get => _downloadTasks;
-            set => SetProperty(ref _downloadTasks, value);
         }
 
         private void OnDownloaded(object sender, TransferStateChangedEventArgs e)
