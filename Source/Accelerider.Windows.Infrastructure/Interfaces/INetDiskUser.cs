@@ -13,7 +13,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         DataSize UsedCapacity { get; }
 
 
-        Task<ITransferTaskToken> UploadAsync(FileLocation file);
+        Task<ITransferTaskToken> UploadAsync(FileLocation from, FileLocation to);
 
         Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ITreeNodeAsync<INetDiskFile> fileNode);
 

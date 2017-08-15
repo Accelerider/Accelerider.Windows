@@ -36,14 +36,14 @@ namespace Accelerider.Windows.ViewModels
             GlobalMessageQueue = container.Resolve<SnackbarMessageQueue>();
         }
 
-        public async Task OnViewLoaded()
+        public async Task OnViewLoadedAsync()
         {
             IsViewModelLoaded = false;
-            await Load();
+            await LoadAsync();
             IsViewModelLoaded = true;
         }
 
-        protected virtual async Task Load()
+        protected virtual async Task LoadAsync()
         {
             NetDiskUser = AcceleriderUser.CurrentNetDiskUser;
         }

@@ -19,6 +19,11 @@ namespace Accelerider.Windows.Infrastructure
         {
             return await new Soil<T>(self).GetChildrenAsync(force);
         }
+
+        public static int Count<T>(this ITreeNodeAsync<T> self)
+        {
+            return new Soil<T>(self).Count();
+        }
     }
 
     public static class TransferStateEnumExtensions

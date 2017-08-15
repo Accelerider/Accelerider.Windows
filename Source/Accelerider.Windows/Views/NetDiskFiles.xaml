@@ -33,7 +33,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
                 <Button Style="{StaticResource ToolBarButtonStyle}" 
-                        Command="{Binding DownloadsCommand}"
+                        Command="{Binding DownloadBatchCommand}"
                         CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Download" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
@@ -60,7 +60,7 @@
                 </Button>
             </StackPanel>
             <Button Grid.Column="2" Foreground="#333333" Style="{StaticResource MaterialDesignToolButton}"
-                    Command="{Binding UpdateChildrenCacheCommand}"
+                    Command="{Binding RefreshChildrenCacheCommand}"
                     Margin="0 0 8 0" Width="20" Height="20" Padding="0">
                 <materialDesign:PackIcon Foreground="{StaticResource PrimaryHueDarkBrush}" Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
             </Button>

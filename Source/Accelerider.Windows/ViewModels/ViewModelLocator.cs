@@ -40,7 +40,7 @@ namespace Accelerider.Windows.ViewModels
                 element.DataContext = ViewModelFactory(ViewModelTypeResolver(viewType));
                 if (element.DataContext is ViewModelBase viewModel)
                 {
-                    element.Loaded += async (sender, e) => await viewModel.OnViewLoaded();
+                    element.Loaded += async (sender, e) => await viewModel.OnViewLoadedAsync();
                 }
             }
         }

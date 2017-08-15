@@ -59,5 +59,41 @@ namespace Accelerider.Windows.Assets {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Added &quot;{0}&quot; to download list..
+        /// </summary>
+        internal static string Message_AddedFileToDownloadList {
+            get {
+                return ResourceManager.GetString("Message_AddedFileToDownloadList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Added &quot;{0}&quot; to upload list..
+        /// </summary>
+        internal static string Message_AddedFileToUploadList {
+            get {
+                return ResourceManager.GetString("Message_AddedFileToUploadList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Added “{0}&quot; folder (includes {1} files) to download list..
+        /// </summary>
+        internal static string Message_AddedFolderToDownloadList {
+            get {
+                return ResourceManager.GetString("Message_AddedFolderToDownloadList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to Accelerider!.
+        /// </summary>
+        internal static string Message_Welcome {
+            get {
+                return ResourceManager.GetString("Message_Welcome", resourceCulture);
+            }
+        }
     }
 }

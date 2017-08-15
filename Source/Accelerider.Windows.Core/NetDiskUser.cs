@@ -110,7 +110,7 @@ namespace Accelerider.Windows.Core
                    };
         }
 
-        public Task<ITransferTaskToken> UploadAsync(FileLocation filePath)
+        public Task<ITransferTaskToken> UploadAsync(FileLocation from, FileLocation to)
         {
             throw new NotImplementedException();
         }
