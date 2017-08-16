@@ -33,15 +33,47 @@ namespace Accelerider.Windows.Core
             return new List<ITransferTaskToken>();
         }
 
+
         public async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileRootAsync()
         {
-            return await GetNetDiskFileTreeInternalAsync();
+            return await GetNetDiskFileTreeAsyncMock();
         }
 
-        private async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeInternalAsync()
+        public async Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
         {
-            await Task.Delay(100);
-            var tree = new TreeNodeAsync<INetDiskFile>(new NetDiskFile { FilePath = new FileLocation("G:\\") })
+            return await GetDeletedFilesAsyncMock();
+        }
+
+        public async Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
+        {
+            return await GetSharedFilesAsyncMock();
+        }
+
+
+        public ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ITreeNodeAsync<INetDiskFile> fileNode, FileLocation downloadFolder = null)
+        {
+            return await DownloadAsyncMock(fileNode);
+        }
+
+        public Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        // TODO: Remove mock data
+        #region Demo data
+
+        public string FilePathMock = null;
+
+        private async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeAsyncMock()
+        {
+            await Task.Delay(1000);
+            var tree = new TreeNodeAsync<INetDiskFile>(new NetDiskFile { FilePath = new FileLocation(FilePathMock) })
             {
                 ChildrenProvider = async parent =>
                 {
@@ -50,74 +82,63 @@ namespace Accelerider.Windows.Core
                     var filePaths = Directory.GetFiles(parent.FilePath.ToString());
                     var directoriePaths = Directory.GetDirectories(parent.FilePath.ToString());
                     return from filePath in directoriePaths.Union(filePaths)
-                           where File.Exists(filePath) || Directory.Exists(filePath)
-                           select new NetDiskFile
-                           {
-                               FilePath = filePath,
-                               FileSize = File.Exists(filePath)
-                                   ? new DataSize(new FileInfo(filePath).Length)
-                                   : default(DataSize),
-                               ModifiedTime = new FileInfo(filePath).LastWriteTime
-                           };
+                        where File.Exists(filePath) || Directory.Exists(filePath)
+                        select new NetDiskFile
+                        {
+                            FilePath = filePath,
+                            FileSize = File.Exists(filePath)
+                                ? new DataSize(new FileInfo(filePath).Length)
+                                : default(DataSize),
+                            ModifiedTime = new FileInfo(filePath).LastWriteTime
+                        };
                 }
             };
             return tree;
         }
 
-        public async Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
-        {
-            await Task.Delay(100);
-            var rand = new Random();
-            const string folderPath = "E:\\";
-            var filePaths = Directory.GetFiles(folderPath);
-            var directoriePaths = Directory.GetDirectories(folderPath);
-            return from filePath in directoriePaths.Union(filePaths)
-                   where File.Exists(filePath) || Directory.Exists(filePath)
-                   select new DeletedFile
-                   {
-                       FilePath = filePath,
-                       LeftDays = rand.Next(1, 11),
-                       FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
-                       DeletedTime = new FileInfo(filePath).LastWriteTime
-                   };
-        }
-
-        public async Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
-        {
-            await Task.Delay(100);
-            var rand = new Random();
-            const string folderPath = "E:\\";
-            var filePaths = Directory.GetFiles(folderPath);
-            var directoriePaths = Directory.GetDirectories(folderPath);
-            return from filePath in directoriePaths.Union(filePaths)
-                   where File.Exists(filePath) || Directory.Exists(filePath)
-                   select new SharedFile
-                   {
-                       Name = new FileLocation(filePath).FileName,
-                       DownloadedNumber = rand.Next(0, 1000),
-                       SavedNumber = rand.Next(0, 1000),
-                       VisitedNumber = rand.Next(0, 1000),
-                       SharedTime = new FileInfo(filePath).LastWriteTime,
-                       ShareLink = new Uri(@"https://pan.baidu.com/s/1jGE6mpC")
-                   };
-        }
-
-        public ITransferTaskToken UploadAsync(FileLocation @from, FileLocation to)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ITreeNodeAsync<INetDiskFile> fileNode)
+        private async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsyncMock(ITreeNodeAsync<INetDiskFile> fileNode, FileLocation downloadFolder = null)
         {
             return (from file in await fileNode.FlattenAsync()
                     where file.Content.FileType != FileTypeEnum.FolderType
                     select new TransferTaskTokenMockData(file.Content))
-                    .ToList();
+                .ToList();
         }
 
-        public Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null)
+        private async Task<IEnumerable<ISharedFile>> GetSharedFilesAsyncMock()
         {
-            throw new NotImplementedException();
+            await Task.Delay(100);
+            var rand = new Random();
+            var filePaths = Directory.GetFiles(FilePathMock);
+            var directoriePaths = Directory.GetDirectories(FilePathMock);
+            return from filePath in directoriePaths.Union(filePaths)
+                where File.Exists(filePath) || Directory.Exists(filePath)
+                select new SharedFile
+                {
+                    Name = new FileLocation(filePath).FileName,
+                    DownloadedNumber = rand.Next(0, 1000),
+                    SavedNumber = rand.Next(0, 1000),
+                    VisitedNumber = rand.Next(0, 1000),
+                    SharedTime = new FileInfo(filePath).LastWriteTime,
+                    ShareLink = new Uri(@"https://pan.baidu.com/s/1jGE6mpC")
+                };
         }
+
+        private async Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsyncMock()
+        {
+            await Task.Delay(100);
+            var rand = new Random();
+            var filePaths = Directory.GetFiles(FilePathMock);
+            var directoriePaths = Directory.GetDirectories(FilePathMock);
+            return from filePath in directoriePaths.Union(filePaths)
+                where File.Exists(filePath) || Directory.Exists(filePath)
+                select new DeletedFile
+                {
+                    FilePath = filePath,
+                    LeftDays = rand.Next(1, 11),
+                    FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
+                    DeletedTime = new FileInfo(filePath).LastWriteTime
+                };
+        }
+        #endregion
     }
 }

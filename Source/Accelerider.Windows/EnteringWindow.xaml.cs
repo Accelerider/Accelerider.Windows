@@ -4,18 +4,17 @@ using System.Windows;
 namespace Accelerider.Windows
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for EnteringWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class EnteringWindow
     {
-        public const string Key = "MainWindow";
+        public const string Key = "EnteringWindow";
 
-        public MainWindow()
+        public EnteringWindow()
         {
             InitializeComponent();
             Application.Current.Resources[Key] = this;
         }
-
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);

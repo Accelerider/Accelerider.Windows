@@ -97,7 +97,7 @@
             <TextBlock Grid.Row="5" Text="Cloud Storage" Margin="10 0 0 0" FontSize="14"/>
             <ListBox Grid.Row="7" ItemsSource="{Binding NetDiskUsers}"
                      ItemContainerStyle="{StaticResource LeftSideListBoxItemStyle}"
-                     SelectionMode="Single" SelectedIndex="0"
+                     SelectedItem="{Binding NetDiskUser}" SelectionMode="Single"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      HorizontalContentAlignment="Stretch">
 
@@ -115,7 +115,7 @@
                                         <ImageBrush ImageSource="{Binding HeadImageUri, Converter={StaticResource UriToImageSourceConverter}}" />
                                     </Ellipse.Fill>
                                 </Ellipse>
-                                <TextBlock Grid.Column="2" Text="{Binding Username}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Nickname}" VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
                     </DataTemplate>
@@ -129,8 +129,8 @@
             </Button>
         </Grid>
 
-        <ctrls:SwitchableViewContainer Grid.Column="1"  Margin="25 50 25 0" Background="White"
-                                           Selector="{Binding ElementName=SelectViewListBox}">
+        <ctrls:SwitchableViewContainer Grid.Column="1" Margin="25 50 25 0" Background="White"
+                                       Selector="{Binding ElementName=SelectViewListBox}">
             <ctrls:SwitchableViewContainer.Resources>
                 <local:NetDiskFiles x:Key="0" Style="{StaticResource FadeInStyle}"/>
                 <local:NetDiskShare x:Key="1" Style="{StaticResource FadeInStyle}" />

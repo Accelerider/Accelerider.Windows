@@ -87,6 +87,10 @@
     <Compile Include="Converters\LessThan1000Converter.cs" />
     <Compile Include="Converters\MinusConverter.cs" />
     <Compile Include="Converters\UriToImageSourceConverter.cs" />
+    <Compile Include="EnteringWindow.xaml.cs">
+      <DependentUpon>EnteringWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EnteringWindow.vm.cs" />
     <Compile Include="Events\DelegateReference.cs" />
     <Compile Include="Events\EventAggregator.cs" />
     <Compile Include="Events\EventBase.cs" />
@@ -110,8 +114,8 @@
     <Compile Include="ViewModels\TransferView.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="Views\Dialogs\EnteringDialog.xaml.cs">
-      <DependentUpon>EnteringDialog.xaml</DependentUpon>
+    <Compile Include="Views\Dialogs\WaitingDialog.xaml.cs">
+      <DependentUpon>WaitingDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NetDiskFiles.xaml.cs">
       <DependentUpon>NetDiskFiles.xaml</DependentUpon>
@@ -163,6 +167,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="EnteringWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -176,7 +184,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Dialogs\EnteringDialog.xaml">
+    <Page Include="Views\Dialogs\WaitingDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

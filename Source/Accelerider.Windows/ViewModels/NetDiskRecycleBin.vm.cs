@@ -15,7 +15,7 @@ namespace Accelerider.Windows.ViewModels
         {
         }
 
-        protected override async Task OnLoadAsync()
+        public override async void OnLoaded()
         {
             DeletedFiles = new ObservableCollection<IDeletedFile>(await NetDiskUser.GetDeletedFilesAsync());
         }

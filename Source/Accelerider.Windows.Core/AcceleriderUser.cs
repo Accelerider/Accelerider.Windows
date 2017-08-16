@@ -15,11 +15,12 @@ namespace Accelerider.Windows.Core
         public AcceleriderUser()
         {
             InitializeNetDiskUsers();
-            CurrentNetDiskUser = NetDiskUsers.FirstOrDefault();
+            CurrentNetDiskUser = NetDiskUsers[1];
         }
 
 
-        public IReadOnlyCollection<INetDiskUser> NetDiskUsers { get; private set; }
+        public IReadOnlyList<INetDiskUser> NetDiskUsers { get; private set; }
+
         public INetDiskUser CurrentNetDiskUser { get; set; }
 
         public Task<bool> AddNetDiskUserAsync(INetDiskUser user)
@@ -65,17 +66,20 @@ namespace Accelerider.Windows.Core
                 new NetDiskUser
                 {
                     HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/29689099?v=4&amp;s=100"),
-                    Username = "Jielun Zhou"
+                    Nickname = "Jielun Zhou",
+                    FilePathMock = "E:\\"
                 },
                 new NetDiskUser
                 {
                     HeadImageUri = new Uri("https://avatars3.githubusercontent.com/u/10069087?v=4&amp;s=100"),
-                    Username = "Junjie Lin"
+                    Nickname = "Junjie Lin",
+                    FilePathMock = "F:\\"
                 },
                 new NetDiskUser
                 {
                     HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/26038597?v=4&amp;s=100"),
-                    Username = "TaoFei Boy"
+                    Nickname = "TaoFen Boy",
+                    FilePathMock = "G:\\"
                 },
             };
         }
