@@ -66,6 +66,7 @@
     <Compile Include="Files\NetDiskFile.cs" />
     <Compile Include="Files\SharedFile.cs" />
     <Compile Include="Files\TransferedFile.cs" />
+    <Compile Include="LocalConfigureInfo.cs" />
     <Compile Include="MockData\TransferTaskTokenMockData.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="NetDiskUser.cs" />

@@ -7,6 +7,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
     /// </summary>
     public interface ILocalConfigureInfo
     {
+        // For appearance of UI --------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Theme of this software.
         /// </summary>
@@ -17,20 +18,27 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         /// </summary>
         LanguageEnum Language { get; set; }
 
+        // User's information ----------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets or sets the username of Accelerider that needs to be remembered.
+        /// </summary>
+        string Username { get; set; }
+
+        /// <summary>
+        /// Gets or sets the encrypted password of Accelerider user that needs to be remembered.
+        /// </summary>
+        string PasswordEncrypted { get; set; }
+
+        /// <summary>
+        /// Gets or sets a Boolean value that specifies whether automatic login is required.
+        /// </summary>
+        bool IsAutoSignIn { get; set; }
+
+        // Download settings -----------------------------------------------------------------------------------------------------
         /// <summary>
         /// Specifies whether a dialog box is displayed each time you download.
         /// </summary>
         bool IsDisplayDownloadDialog { get; set; }
-
-        /// <summary>
-        /// Gets a <see cref="List{T}"/> value to contain the encrypted password of all users that is remembered.
-        /// </summary>
-        List<string> PasswordEncrypteds { get; }
-
-        /// <summary>
-        /// Gets a <see cref="int"/> value to indicate the index of the account that needs to login automatically.
-        /// </summary>
-        int AutoLoginAccountIndex { get; set; }
 
         /// <summary>
         /// The storage path of downloaded files.
@@ -47,6 +55,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         /// </summary>
         double SpeedLimit { get; set; }
 
+        // Persistence -----------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Persistents data.
         /// </summary>

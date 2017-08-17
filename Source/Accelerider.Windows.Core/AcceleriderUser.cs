@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using Accelerider.Windows.Core.Files;
-using Accelerider.Windows.Core.MockData;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
@@ -38,9 +34,15 @@ namespace Accelerider.Windows.Core
             throw new NotImplementedException();
         }
 
-        public Task<bool> LoginAsync(string username, string password)
+        public Task<bool> SignUpAsync(string username, string password, string licenseCode)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> SignInAsync(string username, string password)
+        {
+            await Task.Delay(2000);
+            return new Random().NextDouble() > 0.5;
         }
 
         public Task<bool> SignOutAsync()
@@ -83,5 +85,7 @@ namespace Accelerider.Windows.Core
                 },
             };
         }
+
+
     }
 }

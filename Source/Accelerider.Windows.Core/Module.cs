@@ -20,6 +20,7 @@ namespace Accelerider.Windows.Core
 
         public void Initialize()
         {
+            RegisterTypeIfMissing<ILocalConfigureInfo, LocalConfigureInfo>(true);
             RegisterTypeIfMissing<IAcceleriderUser, AcceleriderUser>(true);
             RegisterTypeIfMissing<INetDiskUser, NetDiskUser>(false);
         }

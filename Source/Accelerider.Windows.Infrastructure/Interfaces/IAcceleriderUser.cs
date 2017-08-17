@@ -10,16 +10,18 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         IReadOnlyList<INetDiskUser> NetDiskUsers { get; }
 
-        Task<bool> RemoveNetDiskUserAsync(INetDiskUser user);
-
         ITransferTaskToken Upload(FileLocation filePath);
 
+        Task<bool> AddNetDiskUserAsync(INetDiskUser user);
+
+        Task<bool> RemoveNetDiskUserAsync(INetDiskUser user);
+
         // Accelerider account system -----------------------------------------------------------
-        Task<bool> LoginAsync(string username, string password);
+        Task<bool> SignUpAsync(string username, string password, string licenseCode);
+
+        Task<bool> SignInAsync(string username, string password);
 
         Task<bool> SignOutAsync();
-
-        Task<bool> AddNetDiskUserAsync(INetDiskUser user);
 
         // Gets local files ---------------------------------------------------------------------
         IReadOnlyCollection<ITransferedFile> GetDownloadedFiles();
