@@ -10,7 +10,7 @@ namespace Accelerider.Windows.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var uri = value as Uri;
-            return uri != null ? new BitmapImage(uri) : null;
+            return uri != null ? new BitmapImage(uri) : null; // TODO: async-await
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

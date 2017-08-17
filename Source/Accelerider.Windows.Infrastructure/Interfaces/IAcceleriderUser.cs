@@ -17,9 +17,9 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         Task<bool> RemoveNetDiskUserAsync(INetDiskUser user);
 
         // Accelerider account system -----------------------------------------------------------
-        Task<bool> SignUpAsync(string username, string password, string licenseCode);
+        Task<string> SignUpAsync(string username, string password, string licenseCode);
 
-        Task<bool> SignInAsync(string username, string password);
+        Task<string> SignInAsync(string username, string password);
 
         Task<bool> SignOutAsync();
 

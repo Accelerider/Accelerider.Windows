@@ -15,6 +15,7 @@ namespace Accelerider.Windows
         {
             GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
             EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Subscribe(e => TransferTaskCount += e.Count);
+            EventAggregator.GetEvent<TransferStateChangedEvent>().Subscribe(e => TransferTaskCount--, e => e.NewState == Infrastructure.TransferStateEnum.Checking);
         }
 
 

@@ -34,15 +34,15 @@ namespace Accelerider.Windows.Core
             throw new NotImplementedException();
         }
 
-        public Task<bool> SignUpAsync(string username, string password, string licenseCode)
+        public Task<string> SignUpAsync(string username, string password, string licenseCode)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> SignInAsync(string username, string password)
+        public async Task<string> SignInAsync(string username, string password)
         {
             await Task.Delay(2000);
-            return new Random().NextDouble() > 0.5;
+            return new Random().NextDouble() > 0.8 ? "Login failed: Usename or password is incorrect." : null;
         }
 
         public Task<bool> SignOutAsync()

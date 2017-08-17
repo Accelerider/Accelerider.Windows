@@ -23,6 +23,7 @@ namespace Accelerider.Windows.Core
 
         public DataSize UsedCapacity => new DataSize(2.34, SizeUnitEnum.T);
 
+
         public IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles()
         {
             return new List<ITransferTaskToken>();

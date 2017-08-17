@@ -96,10 +96,11 @@ namespace Accelerider.Windows
         {
             var passwordMd5 = password.Password.ToMd5();
 
-            if (!(bool)await DialogHost.Show(new WaitingDialog(), "EnteringDialog", async (object sender, DialogOpenedEventArgs e) =>
-                e.Session.Close(await AcceleriderUser.SignInAsync(Username, passwordMd5/*.EncryptByRijndael()*/))))
+            var message = await DialogHost.Show(new WaitingDialog(), "EnteringDialog", async (object sender, DialogOpenedEventArgs e) =>
+                e.Session.Close(await AcceleriderUser.SignInAsync(Username, passwordMd5/*.EncryptByRijndael()*/))) as string;
+            if (!string.IsNullOrEmpty(message))
             {
-                MessageQueue.Enqueue("Login failed.");
+                MessageQueue.Enqueue(message, true);
                 return;
             }
 
@@ -111,6 +112,7 @@ namespace Accelerider.Windows
                 LocalConfigureInfo.IsAutoSignIn = IsAutoSignIn;
                 LocalConfigureInfo.Save();
             });
+
             // Launches main window and closes itself.
             new MainWindow().Show();
             (Application.Current.Resources[EnteringWindow.Key] as EnteringWindow)?.Close();

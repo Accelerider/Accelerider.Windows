@@ -18,6 +18,7 @@ namespace Accelerider.Windows.ViewModels
     public class NetDiskFilesViewModel : ViewModelBase
     {
         private ITreeNodeAsync<INetDiskFile> _currentFolder;
+        private INetDiskUser _netDiskUser;
 
         private ICommand _enterFolderCommand;
         private ICommand _refreshChildrenCacheCommand;
@@ -35,6 +36,18 @@ namespace Accelerider.Windows.ViewModels
             InitializeCommands();
         }
 
+        public override async void OnLoaded()
+        {
+            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
+            if (_netDiskUser != NetDiskUser) CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
+        }
+
+        public override void OnUnloaded()
+        {
+            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Unsubscribe(OnCurrentNetDiskUserChanged);
+            _netDiskUser = NetDiskUser;
+        }
+
         private async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
         {
             var dialog = new WaitingDialog();
@@ -43,19 +56,6 @@ namespace Accelerider.Windows.ViewModels
                 CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
                 e.Session.Close();
             });
-        }
-
-        public override async void OnLoaded()
-        {
-            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
-            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>()
-                .Subscribe(async e => CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync());
-            if (CurrentFolder == null) CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
-        }
-
-        public override void OnUnloaded()
-        {
-            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Unsubscribe(OnCurrentNetDiskUserChanged);
         }
 
         public ITreeNodeAsync<INetDiskFile> CurrentFolder
