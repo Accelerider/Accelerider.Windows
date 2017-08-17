@@ -12,6 +12,7 @@ using Accelerider.Windows.Assets;
 using System;
 using Accelerider.Windows.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
+using System.Windows.Forms;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -132,13 +133,24 @@ namespace Accelerider.Windows.ViewModels
 
         private async void UploadCommandExecute()
         {
-            //1.gets the the path of local files. to call winform method.
-            var fromPath = "";
-            var toPath = CurrentFolder.Content.FilePath;
-            var token = NetDiskUser.UploadAsync(fromPath, toPath);
+            var dialog = new OpenFileDialog() { Multiselect = true };
+            if (dialog.ShowDialog() != DialogResult.OK || dialog.FileNames.Length <= 0) return;
+            await Task.Run(() =>
+            {
+                foreach (var fromPath in dialog.FileNames)
+                {
+                    var toPath = CurrentFolder.Content.FilePath;
+                    var token = NetDiskUser.UploadAsync(fromPath, toPath);
 
-            EventAggregator.GetEvent<UploadTaskCreatedEvent>().Publish(token);
-            GlobalMessageQueue.Enqueue(string.Format(UiStrings.Message_AddedFileToUploadList, token.FileInfo.FilePath.FileName));
+                    EventAggregator.GetEvent<UploadTaskCreatedEvent>().Publish(token);
+                }
+                var fileName = GetFilePathWithFixedLength(dialog.FileNames[0], 40);
+
+                var message = dialog.FileNames.Length == 1
+                    ? string.Format(UiStrings.Message_AddedFileToUploadList, fileName)
+                    : string.Format(UiStrings.Message_AddedFilesToUploadList, fileName, dialog.FileNames.Length);
+                GlobalMessageQueue.Enqueue(message);
+            });
         }
 
         private async void DownloadCommandExecute(ITreeNodeAsync<INetDiskFile> fileNode)
@@ -158,5 +170,16 @@ namespace Accelerider.Windows.ViewModels
             OnPropertyChanged(nameof(CurrentFolder));
         }
 
+
+        private string GetFilePathWithFixedLength(string filePath, int length)
+        {
+            FileLocation fileLocation = filePath;
+            var folderNameLength = length - fileLocation.FileName.Length - 5;
+            return filePath.Length > length
+                ? folderNameLength > 0
+                    ? fileLocation.FolderPath.Substring(0, folderNameLength) + "...\\" + fileLocation.FileName
+                    : fileLocation.FileName
+                : filePath;
+        }
     }
 }

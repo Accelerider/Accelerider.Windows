@@ -61,6 +61,15 @@ namespace Accelerider.Windows.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Added &quot;{0}&quot; etc ({1} files) to update list..
+        /// </summary>
+        internal static string Message_AddedFilesToUploadList {
+            get {
+                return ResourceManager.GetString("Message_AddedFilesToUploadList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Added &quot;{0}&quot; to download list..
         /// </summary>
         internal static string Message_AddedFileToDownloadList {

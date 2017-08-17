@@ -99,6 +99,7 @@
                      ItemContainerStyle="{StaticResource LeftSideListBoxItemStyle}"
                      SelectedItem="{Binding NetDiskUser}" SelectionMode="Single"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                      HorizontalContentAlignment="Stretch">
 
                 <ListBox.ItemTemplate>

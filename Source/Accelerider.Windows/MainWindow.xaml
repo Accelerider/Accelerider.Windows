@@ -60,7 +60,7 @@
                 <ListBox x:Name="TabListBox" Grid.Row="1" 
                      SelectionMode="Single" SelectedIndex="0"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                     ItemContainerStyle="{StaticResource TabLabelListBoxItemStyle}"
+                     ItemContainerStyle="{StaticResource TabListBoxItemStyle}"
                      HorizontalContentAlignment="Stretch">
                     <ListBoxItem Height="56" >
                         <Grid>

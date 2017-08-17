@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Message_AddedFilesToUploadList" xml:space="preserve">
+    <value>Added "{0}" etc ({1} files) to update list.</value>
+  </data>
   <data name="Message_AddedFileToDownloadList" xml:space="preserve">
     <value>Added "{0}" to download list.</value>
   </data>
