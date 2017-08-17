@@ -135,22 +135,22 @@ namespace Accelerider.Windows.ViewModels
         {
             var dialog = new OpenFileDialog() { Multiselect = true };
             if (dialog.ShowDialog() != DialogResult.OK || dialog.FileNames.Length <= 0) return;
+            IEnumerable<ITransferTaskToken> tokens = null;
             await Task.Run(() =>
             {
-                foreach (var fromPath in dialog.FileNames)
+                tokens = dialog.FileNames.Select(fromPath =>
                 {
                     var toPath = CurrentFolder.Content.FilePath;
-                    var token = NetDiskUser.UploadAsync(fromPath, toPath);
-
-                    EventAggregator.GetEvent<UploadTaskCreatedEvent>().Publish(token);
-                }
-                var fileName = GetFilePathWithFixedLength(dialog.FileNames[0], 40);
-
-                var message = dialog.FileNames.Length == 1
-                    ? string.Format(UiStrings.Message_AddedFileToUploadList, fileName)
-                    : string.Format(UiStrings.Message_AddedFilesToUploadList, fileName, dialog.FileNames.Length);
-                GlobalMessageQueue.Enqueue(message);
+                    return NetDiskUser.UploadAsync(fromPath, toPath);
+                });
             });
+            EventAggregator.GetEvent<UploadTaskCreatedEvent>().Publish(tokens.ToList());
+
+            var fileName = GetFilePathWithFixedLength(dialog.FileNames[0], 40);
+            var message = dialog.FileNames.Length == 1
+                ? string.Format(UiStrings.Message_AddedFileToUploadList, fileName)
+                : string.Format(UiStrings.Message_AddedFilesToUploadList, fileName, dialog.FileNames.Length);
+            GlobalMessageQueue.Enqueue(message);
         }
 
         private async void DownloadCommandExecute(ITreeNodeAsync<INetDiskFile> fileNode)

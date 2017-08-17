@@ -2,11 +2,131 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Accelerider.Windows.Views"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
+             vm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TextBlock Text="Transfer Uploading Page" FontSize="50" FontWeight="Bold"/>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
+                <Setter Property="Height" Value="42" />
+                <Setter Property="Foreground" Value="#606060"/>
+                <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="#7679BE" />
+                <Setter Property="ctrls:ControlHelper.MouseOverForeground" Value="White" />
+            </Style>
+        </Grid.Resources>
+        <Grid Grid.Row="0" Height="50" />
+        <Grid Grid.Row="1" Background="#DDDEF0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
+                <Button Style="{StaticResource ToolBarButtonStyle}" >
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Pause" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
+                        <TextBlock Text="Pause All" VerticalAlignment="Center" Margin="0 0 12 0" />
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource ToolBarButtonStyle}" >
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Close" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
+                        <TextBlock Text="Cancel All" VerticalAlignment="Center" Margin="0 0 12 0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended"
+                 ItemsSource="{Binding UploadTasks}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 HorizontalContentAlignment="Stretch">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <ProgressBar Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"
+                                     Maximum="{Binding FileInfo.FileSize.BaseBValue, Mode=OneWay}"
+                                     Value="{Binding Progress.BaseBValue, Mode=OneWay}"/>
+                        <Border Padding="20 8" >
+                            <Border.ContextMenu>
+                                <ContextMenu x:Name="ContextMenu">
+                                    <MenuItem Header="Pause">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="Pause" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Jump queue">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="ArrowUp" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Cancel">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="Close" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Border.ContextMenu>
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Tag="{Binding FileInfo.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
+
+                                <Grid Grid.Column="2" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.ColumnSpan="5" Text="{Binding FileInfo.FilePath.FileName}" Foreground="{StaticResource PrimaryHueDarkBrush}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Foreground="Gray">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}/{1}">
+                                                <Binding Path="Progress"/>
+                                                <Binding Path="FileInfo.FileSize"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="2" Grid.Row="2" Foreground="Gray" Text="{Binding Speed, StringFormat='{}{0}/s'}" />
+                                    <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray" Text="{Binding RemainingTime, TargetNullValue='∞'}"/>
+                                </Grid>
+
+                                <Button Grid.Column="4" Style="{StaticResource MaterialDesignToolButton}" Foreground="#909090">
+                                    <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

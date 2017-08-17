@@ -52,7 +52,7 @@ namespace Accelerider.Windows.ViewModels
                 DownloadTasks.Remove(temp);
                 GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been downloaded.");
             }
-            EventAggregator.GetEvent<TransferStateChangedEvent>().Publish(e);
+            EventAggregator.GetEvent<DownloadTaskTranferedEvent>().Publish(e.Token.FileInfo);
         }
     }
 }

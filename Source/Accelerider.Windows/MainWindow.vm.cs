@@ -14,8 +14,12 @@ namespace Accelerider.Windows
         public MainWindowViewModel(IUnityContainer container) : base(container)
         {
             GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
+
             EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Subscribe(e => TransferTaskCount += e.Count);
-            EventAggregator.GetEvent<TransferStateChangedEvent>().Subscribe(e => TransferTaskCount--, e => e.NewState == Infrastructure.TransferStateEnum.Checking);
+            EventAggregator.GetEvent<UploadTaskCreatedEvent>().Subscribe(e => TransferTaskCount += e.Count);
+
+            EventAggregator.GetEvent<DownloadTaskTranferedEvent>().Subscribe(e => TransferTaskCount--);
+            EventAggregator.GetEvent<UploadTaskCompletedEvent>().Subscribe(e => TransferTaskCount--);
         }
 
 

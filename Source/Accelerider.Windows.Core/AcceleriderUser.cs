@@ -11,7 +11,7 @@ namespace Accelerider.Windows.Core
         public AcceleriderUser()
         {
             InitializeNetDiskUsers();
-            CurrentNetDiskUser = NetDiskUsers[1];
+            CurrentNetDiskUser = NetDiskUsers[2];
         }
 
 

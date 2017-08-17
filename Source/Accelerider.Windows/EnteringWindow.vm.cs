@@ -35,19 +35,19 @@ namespace Accelerider.Windows
 
         public string Username
         {
-            get { return _username; }
-            set { SetProperty(ref _username, value); }
+            get => _username;
+            set => SetProperty(ref _username, value);
         }
 
         public bool IsRememberPassword
         {
-            get { return _isRememberPassword; }
+            get => _isRememberPassword;
             set { if (SetProperty(ref _isRememberPassword, value) && !value) IsAutoSignIn = false; }
         }
 
         public bool IsAutoSignIn
         {
-            get { return _isAutoSignIn; }
+            get => _isAutoSignIn;
             set { if (SetProperty(ref _isAutoSignIn, value) && value) IsRememberPassword = true; }
         }
 
@@ -56,16 +56,16 @@ namespace Accelerider.Windows
 
         public ISnackbarMessageQueue MessageQueue
         {
-            get { return _messageQueue; }
-            set { SetProperty(ref _messageQueue, value); }
+            get => _messageQueue;
+            set => SetProperty(ref _messageQueue, value);
         }
 
 
 
         public ICommand OnLoadedCommand
         {
-            get { return _onLoadedCommand; }
-            set { SetProperty(ref _onLoadedCommand, value); }
+            get => _onLoadedCommand;
+            set => SetProperty(ref _onLoadedCommand, value);
         }
 
         public ICommand SignInCommand

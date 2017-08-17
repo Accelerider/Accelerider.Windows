@@ -11,6 +11,10 @@
         Title="EnteringWindow" Height="300" Width="430"
         Style="{StaticResource EnteringWindowStyle}">
 
+    <!--<Window.InputBindings>
+        <KeyBinding Gesture="Enter" Command="{Binding SignInCommand}" CommandParameter="{Binding ElementName=PasswordBox}"/>
+    </Window.InputBindings>-->
+    
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding OnLoadedCommand}" CommandParameter="{Binding ElementName=PasswordBox}"/>
@@ -19,11 +23,10 @@
 
     <materialDesign:DialogHost Identifier="EnteringDialog" SnackbarMessageQueue="{Binding MessageQueue}">
         <Grid Background="White">
-            <Button HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Style="{StaticResource MaterialDesignToolButton}"
-                WindowChrome.IsHitTestVisibleInChrome="True"
-                Margin="0 2 5 0">
+            <Button HorizontalAlignment="Right" VerticalAlignment="Top" Focusable="False"
+                    Style="{StaticResource MaterialDesignToolButton}"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    Margin="0 2 5 0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <ei:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" MethodName="Close" />
@@ -59,11 +62,11 @@
 
                     <materialDesign:PackIcon Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
                     <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Username"
-                         Text="{Binding Username}"
-                         Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
+                             Text="{Binding Username}"
+                             Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
                     <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
                     <PasswordBox x:Name="PasswordBox" Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Password" 
-                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                 </Grid>
                 <Grid Grid.Row="4" Margin="6 0">
                     <Grid.ColumnDefinitions>
@@ -71,14 +74,14 @@
                         <ColumnDefinition Width="16"/>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <CheckBox Grid.Column="0" IsChecked="{Binding IsRememberPassword}">Remembers Password</CheckBox>
-                    <CheckBox Grid.Column="2" IsChecked="{Binding IsAutoSignIn}" HorizontalAlignment="Right">Automatic Login</CheckBox>
+                    <CheckBox Grid.Column="0" IsChecked="{Binding IsRememberPassword}" Focusable="False">Remembers Password</CheckBox>
+                    <CheckBox Grid.Column="2" IsChecked="{Binding IsAutoSignIn}" Focusable="False" HorizontalAlignment="Right">Automatic Login</CheckBox>
                 </Grid>
                 <Button Grid.Row="6" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{Binding SignInCommand}"
-                    CommandParameter="{Binding ElementName=PasswordBox}"
-                    Margin="28 0">
-                    LOGIN
+                        Command="{Binding SignInCommand}" 
+                        CommandParameter="{Binding ElementName=PasswordBox}"
+                        Margin="28 0">
+                        LOGIN
                 </Button>
             </Grid>
             <materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" />

@@ -6,10 +6,12 @@ namespace Accelerider.Windows.Core.Files
 {
     public class TransferedFile : DiskFileBase, ITransferedFile
     {
-        public DateTime CompletedTime { get; }
-        public override Task<bool> DeleteAsync()
+        public DateTime CompletedTime { get; set; }
+
+        public override async Task<bool> DeleteAsync()
         {
-            throw new NotImplementedException();
+            await Task.Delay(1);
+            return true;
         }
     }
 }

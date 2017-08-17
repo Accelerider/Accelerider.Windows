@@ -76,7 +76,7 @@ namespace Accelerider.Windows.Core.MockData
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(rand.Next(300, 2000), token);
-                Progress += rand.Next(0, 1024 * 64);
+                Progress += rand.Next(1, 1024 * 512);
                 if (Progress < FileInfo.FileSize) continue;
                 TransferState = TransferStateEnum.Checking;
                 return 0;

@@ -53,7 +53,13 @@ namespace Accelerider.Windows.Core
 
         public ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
         {
-            return new TransferTaskTokenMockData(new NetDiskFile { FilePath = from });
+            return new TransferTaskTokenMockData(new NetDiskFile
+            {
+                FilePath = from,
+                FileSize = File.Exists(from)
+                    ? new DataSize(new FileInfo(from).Length)
+                    : default(DataSize)
+            });
         }
 
         public async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ITreeNodeAsync<INetDiskFile> fileNode, FileLocation downloadFolder = null)
