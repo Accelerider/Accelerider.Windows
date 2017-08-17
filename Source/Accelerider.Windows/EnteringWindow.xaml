@@ -1,0 +1,76 @@
+﻿<Window x:Class="Accelerider.Windows.EnteringWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+        vm:ViewModelLocator.AutoWireViewModel="True"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        Title="EnteringWindow" Height="300" Width="460"
+        Style="{StaticResource EnteringWindowStyle}">
+    <Grid Background="White">
+        <Button HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Style="{StaticResource MaterialDesignToolButton}"
+                WindowChrome.IsHitTestVisibleInChrome="True"
+                Margin="0 2 5 0">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" MethodName="Close" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <materialDesign:PackIcon Kind="WindowClose"></materialDesign:PackIcon>
+        </Button>
+        <Grid Margin="60 30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="24"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="24"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="24"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}"
+                       FontWeight="Bold"
+                       FontSize="18"
+                       Margin="6 0 0 0">WELCOME</TextBlock>
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="16"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:PackIcon Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
+                <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Username"
+                         Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
+                <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
+                <PasswordBox x:Name="PasswordBox" Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Password" 
+                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+            </Grid>
+            <Grid Grid.Row="4" Margin="6 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <CheckBox Grid.Column="0">Remembers Password</CheckBox>
+                <CheckBox Grid.Column="2" HorizontalAlignment="Right">Automatic Login</CheckBox>
+            </Grid>
+            <Button Grid.Row="6" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{Binding SignInCommand}"
+                    CommandParameter="{Binding ElementName=PasswordBox}"
+                    Margin="28 0">
+                LOGIN
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Accelerider.Windows.Views.Dialogs
 {
     /// <summary>
-    /// Interaction logic for EnteringDialog.xaml
+    /// Interaction logic for WaitingDialog.xaml
     /// </summary>
-    public partial class EnteringDialog : UserControl
+    public partial class WaitingDialog : UserControl
     {
-        public EnteringDialog()
+        public WaitingDialog()
         {
             InitializeComponent();
         }

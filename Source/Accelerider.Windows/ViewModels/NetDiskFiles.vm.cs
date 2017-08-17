@@ -35,13 +35,28 @@ namespace Accelerider.Windows.ViewModels
             InitializeCommands();
         }
 
-
-        protected override async Task OnLoadAsync()
+        private async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
         {
-            await base.OnLoadAsync();
-            CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
+            var dialog = new WaitingDialog();
+            await DialogHost.Show(dialog, "RootDialog", async (object sender, DialogOpenedEventArgs e) =>
+            {
+                CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
+                e.Session.Close();
+            });
         }
 
+        public override async void OnLoaded()
+        {
+            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
+            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>()
+                .Subscribe(async e => CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync());
+            if (CurrentFolder == null) CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
+        }
+
+        public override void OnUnloaded()
+        {
+            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Unsubscribe(OnCurrentNetDiskUserChanged);
+        }
 
         public ITreeNodeAsync<INetDiskFile> CurrentFolder
         {
@@ -117,14 +132,13 @@ namespace Accelerider.Windows.ViewModels
 
         private async void UploadCommandExecute()
         {
-            await DialogHost.Show(new EnteringDialog(), "RootDialog");
-            // 1.gets the the path of local files. to call winform method.
-            //var fromPath = "";
-            //var toPath = CurrentFolder.Content.FilePath;
-            //var token = NetDiskUser.UploadAsync(fromPath, toPath);
+            //1.gets the the path of local files. to call winform method.
+            var fromPath = "";
+            var toPath = CurrentFolder.Content.FilePath;
+            var token = NetDiskUser.UploadAsync(fromPath, toPath);
 
-            //EventAggregator.GetEvent<UploadTaskCreatedEvent>().Publish(token);
-            //GlobalMessageQueue.Enqueue(string.Format(UiStrings.Message_AddedFileToUploadList, token.FileInfo.FilePath.FileName));
+            EventAggregator.GetEvent<UploadTaskCreatedEvent>().Publish(token);
+            GlobalMessageQueue.Enqueue(string.Format(UiStrings.Message_AddedFileToUploadList, token.FileInfo.FilePath.FileName));
         }
 
         private async void DownloadCommandExecute(ITreeNodeAsync<INetDiskFile> fileNode)

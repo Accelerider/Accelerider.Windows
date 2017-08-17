@@ -9,4 +9,6 @@ namespace Accelerider.Windows.Events
     public class DownloadTaskCreatedEvent : EventBase<IReadOnlyCollection<ITransferTaskToken>> { }
 
     public class UploadTaskCreatedEvent : EventBase<ITransferTaskToken> { }
+
+    public class CurrentNetDiskUserChangedEvent : EventBase<INetDiskUser> { }
 }

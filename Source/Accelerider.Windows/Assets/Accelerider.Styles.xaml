@@ -33,13 +33,12 @@
         <Setter Property="Template" Value="{StaticResource FlatButtonTemplate}" />
     </Style>
 
-    <Style x:Key="FluentWindowStyle" TargetType="Window">
+    <Style x:Key="MainWindowStyle" TargetType="Window">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="32" CornerRadius="0" UseAeroCaptionButtons="False" NonClientFrameEdges="None" />
+                <WindowChrome CaptionHeight="32" GlassFrameThickness="1" CornerRadius="0" UseAeroCaptionButtons="False" NonClientFrameEdges="None" />
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -143,6 +142,30 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="EnteringWindowStyle" TargetType="Window">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="60" CornerRadius="0" GlassFrameThickness="1" UseAeroCaptionButtons="False" NonClientFrameEdges="None" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" >
+                        <AdornerDecorator>
+                            <Grid>
+                                <ContentPresenter />
+                            </Grid>
+                        </AdornerDecorator>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

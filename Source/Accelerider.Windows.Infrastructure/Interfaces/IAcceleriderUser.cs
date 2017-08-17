@@ -5,21 +5,23 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 {
     public interface IAcceleriderUser
     {
+        // Operates sub-account (cloud account) -------------------------------------------------
         INetDiskUser CurrentNetDiskUser { get; set; }
-        IReadOnlyCollection<INetDiskUser> NetDiskUsers { get; }
+
+        IReadOnlyList<INetDiskUser> NetDiskUsers { get; }
+
+        Task<bool> RemoveNetDiskUserAsync(INetDiskUser user);
+
+        ITransferTaskToken Upload(FileLocation filePath);
 
         // Accelerider account system -----------------------------------------------------------
         Task<bool> LoginAsync(string username, string password);
 
         Task<bool> SignOutAsync();
 
-        // Operates sub-account (cloud account) -------------------------------------------------
         Task<bool> AddNetDiskUserAsync(INetDiskUser user);
 
-        Task<bool> RemoveNetDiskUserAsync(INetDiskUser user);
-
-        ITransferTaskToken Upload(FileLocation filePath);
-
+        // Gets local files ---------------------------------------------------------------------
         IReadOnlyCollection<ITransferedFile> GetDownloadedFiles();
 
         IReadOnlyCollection<ITransferedFile> GetUploadedFiles();
