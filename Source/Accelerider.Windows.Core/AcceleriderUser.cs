@@ -8,6 +8,10 @@ namespace Accelerider.Windows.Core
 {
     internal class AcceleriderUser : IAcceleriderUser
     {
+        private readonly List<ITransferedFile> _downloadedFiles = new List<ITransferedFile>();
+        private readonly List<ITransferedFile> _uploadedFiles = new List<ITransferedFile>();
+
+
         public AcceleriderUser()
         {
             InitializeNetDiskUsers();
@@ -52,12 +56,12 @@ namespace Accelerider.Windows.Core
 
         public IReadOnlyCollection<ITransferedFile> GetDownloadedFiles()
         {
-            throw new NotImplementedException();
+            return _downloadedFiles;
         }
 
         public IReadOnlyCollection<ITransferedFile> GetUploadedFiles()
         {
-            throw new NotImplementedException();
+            return _uploadedFiles;
         }
 
 
@@ -85,7 +89,5 @@ namespace Accelerider.Windows.Core
                 },
             };
         }
-
-
     }
 }

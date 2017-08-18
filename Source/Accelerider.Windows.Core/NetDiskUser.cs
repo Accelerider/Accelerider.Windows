@@ -13,6 +13,13 @@ namespace Accelerider.Windows.Core
 {
     internal class NetDiskUser : INetDiskUser
     {
+        private readonly List<ITransferTaskToken> _downloadingFiles = new List<ITransferTaskToken>();
+        private readonly List<ITransferTaskToken> _uploadFiles = new List<ITransferTaskToken>();
+
+        private readonly List<ITransferedFile> _downloadedFiles = new List<ITransferedFile>();
+        private readonly List<ITransferedFile> _uploadedFiles = new List<ITransferedFile>();
+
+
         public Uri HeadImageUri { get; set; }
 
         public string Username { get; set; }
@@ -24,15 +31,9 @@ namespace Accelerider.Windows.Core
         public DataSize UsedCapacity => new DataSize(2.34, SizeUnitEnum.T);
 
 
-        public IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles()
-        {
-            return new List<ITransferTaskToken>();
-        }
+        public IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles() => _downloadingFiles;
 
-        public IReadOnlyCollection<ITransferTaskToken> GetUploadingFiles()
-        {
-            return new List<ITransferTaskToken>();
-        }
+        public IReadOnlyCollection<ITransferTaskToken> GetUploadingFiles() => _uploadFiles;
 
 
         public async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileRootAsync()
@@ -53,13 +54,7 @@ namespace Accelerider.Windows.Core
 
         public ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
         {
-            return new TransferTaskTokenMockData(new NetDiskFile
-            {
-                FilePath = from,
-                FileSize = File.Exists(from)
-                    ? new DataSize(new FileInfo(from).Length)
-                    : default(DataSize)
-            });
+            return UploadAsyncMock(from, to);
         }
 
         public async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ITreeNodeAsync<INetDiskFile> fileNode, FileLocation downloadFolder = null)
@@ -72,7 +67,7 @@ namespace Accelerider.Windows.Core
             throw new NotImplementedException();
         }
 
-        // TODO: Remove mock data
+        // TODO: Remove mock data ---------------------------------------------------------------------------------------------------------------------------------------------------
         #region Demo data
 
         public string FilePathMock = null;
@@ -89,26 +84,67 @@ namespace Accelerider.Windows.Core
                     var filePaths = Directory.GetFiles(parent.FilePath.ToString());
                     var directoriePaths = Directory.GetDirectories(parent.FilePath.ToString());
                     return from filePath in directoriePaths.Union(filePaths)
-                        where File.Exists(filePath) || Directory.Exists(filePath)
-                        select new NetDiskFile
-                        {
-                            FilePath = filePath,
-                            FileSize = File.Exists(filePath)
-                                ? new DataSize(new FileInfo(filePath).Length)
-                                : default(DataSize),
-                            ModifiedTime = new FileInfo(filePath).LastWriteTime
-                        };
+                           where File.Exists(filePath) || Directory.Exists(filePath)
+                           select new NetDiskFile
+                           {
+                               FilePath = filePath,
+                               FileSize = File.Exists(filePath)
+                                   ? new DataSize(new FileInfo(filePath).Length)
+                                   : default(DataSize),
+                               ModifiedTime = new FileInfo(filePath).LastWriteTime
+                           };
                 }
             };
             return tree;
         }
 
+        public ITransferTaskToken UploadAsyncMock(FileLocation from, FileLocation to)
+        {
+            var temp = new TransferTaskTokenMockData(new NetDiskFile
+            {
+                FilePath = from,
+                FileSize = File.Exists(from)
+                    ? new DataSize(new FileInfo(from).Length)
+                    : default(DataSize)
+            });
+            temp.TransferStateChanged += OnUploaded;
+            _uploadFiles.Add(temp);
+            return temp;
+        }
+
         private async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsyncMock(ITreeNodeAsync<INetDiskFile> fileNode, FileLocation downloadFolder = null)
         {
-            return (from file in await fileNode.FlattenAsync()
-                    where file.Content.FileType != FileTypeEnum.FolderType
-                    select new TransferTaskTokenMockData(file.Content))
-                .ToList();
+            var temp = (from file in await fileNode.FlattenAsync()
+                        where file.Content.FileType != FileTypeEnum.FolderType
+                        select new TransferTaskTokenMockData(file.Content)).ToList();
+            _downloadingFiles.AddRange(temp.Select(item =>
+            {
+                item.TransferStateChanged += OnDownloaded;
+                return item;
+            }));
+            return temp;
+        }
+
+        private void OnUploaded(object sender, TransferStateChangedEventArgs e)
+        {
+            if (e.NewState != TransferStateEnum.Checking) return;
+
+            var temp = _uploadFiles.FirstOrDefault(item => item.FileInfo.FilePath.FullPath == e.Token.FileInfo.FilePath.FullPath);
+            if (temp != null)
+            {
+                _uploadFiles.Remove(temp);
+            }
+        }
+
+        private void OnDownloaded(object sender, TransferStateChangedEventArgs e)
+        {
+            if (e.NewState != TransferStateEnum.Checking) return;
+
+            var temp = _downloadingFiles.FirstOrDefault(item => item.FileInfo.FilePath.FullPath == e.Token.FileInfo.FilePath.FullPath);
+            if (temp != null)
+            {
+                _downloadingFiles.Remove(temp);
+            }
         }
 
         private async Task<IEnumerable<ISharedFile>> GetSharedFilesAsyncMock()
@@ -118,16 +154,16 @@ namespace Accelerider.Windows.Core
             var filePaths = Directory.GetFiles(FilePathMock);
             var directoriePaths = Directory.GetDirectories(FilePathMock);
             return from filePath in directoriePaths.Union(filePaths)
-                where File.Exists(filePath) || Directory.Exists(filePath)
-                select new SharedFile
-                {
-                    Name = new FileLocation(filePath).FileName,
-                    DownloadedNumber = rand.Next(0, 1000),
-                    SavedNumber = rand.Next(0, 1000),
-                    VisitedNumber = rand.Next(0, 1000),
-                    SharedTime = new FileInfo(filePath).LastWriteTime,
-                    ShareLink = new Uri(@"https://pan.baidu.com/s/1jGE6mpC")
-                };
+                   where File.Exists(filePath) || Directory.Exists(filePath)
+                   select new SharedFile
+                   {
+                       Name = new FileLocation(filePath).FileName,
+                       DownloadedNumber = rand.Next(0, 1000),
+                       SavedNumber = rand.Next(0, 1000),
+                       VisitedNumber = rand.Next(0, 1000),
+                       SharedTime = new FileInfo(filePath).LastWriteTime,
+                       ShareLink = new Uri(@"https://pan.baidu.com/s/1jGE6mpC")
+                   };
         }
 
         private async Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsyncMock()
@@ -137,14 +173,14 @@ namespace Accelerider.Windows.Core
             var filePaths = Directory.GetFiles(FilePathMock);
             var directoriePaths = Directory.GetDirectories(FilePathMock);
             return from filePath in directoriePaths.Union(filePaths)
-                where File.Exists(filePath) || Directory.Exists(filePath)
-                select new DeletedFile
-                {
-                    FilePath = filePath,
-                    LeftDays = rand.Next(1, 11),
-                    FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
-                    DeletedTime = new FileInfo(filePath).LastWriteTime
-                };
+                   where File.Exists(filePath) || Directory.Exists(filePath)
+                   select new DeletedFile
+                   {
+                       FilePath = filePath,
+                       LeftDays = rand.Next(1, 11),
+                       FileSize = File.Exists(filePath) ? new DataSize(new FileInfo(filePath).Length) : default(DataSize),
+                       DeletedTime = new FileInfo(filePath).LastWriteTime
+                   };
         }
         #endregion
     }

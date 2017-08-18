@@ -15,7 +15,7 @@ namespace Accelerider.Windows.ViewModels
 
         public TransferDownloadedViewModel(IUnityContainer container) : base(container)
         {
-            TransferedFiles = new ObservableCollection<ITransferedFile>();
+            TransferedFiles = new ObservableCollection<ITransferedFile>(AcceleriderUser.GetDownloadedFiles());
             EventAggregator.GetEvent<DownloadTaskTranferedEvent>().Subscribe(OnTransferStateChanged);
         }
 

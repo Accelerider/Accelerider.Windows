@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="Accelerider.Windows.Views.SignInView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+             vm:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnLoadedCommand}" CommandParameter="{Binding ElementName=PasswordBox}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}"
+                       FontWeight="Bold"
+                       FontSize="18"
+                       Margin="6 0 0 0">WELCOME</TextBlock>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="16"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:PackIcon Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
+            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Username"
+                             Text="{Binding Username}"
+                             Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
+            <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
+            <PasswordBox x:Name="PasswordBox" Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Password" 
+                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+        </Grid>
+        <Grid Grid.Row="4" Margin="6 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" IsChecked="{Binding IsRememberPassword}" Focusable="False">Remembers Password</CheckBox>
+            <CheckBox Grid.Column="2" IsChecked="{Binding IsAutoSignIn}" Focusable="False" HorizontalAlignment="Right">Automatic Login</CheckBox>
+        </Grid>
+        <Button Grid.Row="6" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                        Command="{Binding SignInCommand}" 
+                        CommandParameter="{Binding ElementName=PasswordBox}"
+                        Margin="28 0">
+            LOGIN
+        </Button>
+    </Grid>
+</UserControl>

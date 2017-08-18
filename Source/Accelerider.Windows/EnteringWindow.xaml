@@ -4,22 +4,11 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-        xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
-        vm:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:v="clr-namespace:Accelerider.Windows.Views"
         WindowStartupLocation="CenterScreen"
         Topmost="True"
         Title="EnteringWindow" Height="300" Width="430"
         Style="{StaticResource EnteringWindowStyle}">
-
-    <!--<Window.InputBindings>
-        <KeyBinding Gesture="Enter" Command="{Binding SignInCommand}" CommandParameter="{Binding ElementName=PasswordBox}"/>
-    </Window.InputBindings>-->
-    
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding OnLoadedCommand}" CommandParameter="{Binding ElementName=PasswordBox}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
 
     <materialDesign:DialogHost Identifier="EnteringDialog" SnackbarMessageQueue="{Binding MessageQueue}">
         <Grid Background="White">
@@ -35,54 +24,7 @@
                 <materialDesign:PackIcon Kind="WindowClose"></materialDesign:PackIcon>
             </Button>
             <Grid Margin="60 30">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}"
-                       FontWeight="Bold"
-                       FontSize="18"
-                       Margin="6 0 0 0">WELCOME</TextBlock>
-                <Grid Grid.Row="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="16"/>
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <materialDesign:PackIcon Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
-                    <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Username"
-                             Text="{Binding Username}"
-                             Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
-                    <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
-                    <PasswordBox x:Name="PasswordBox" Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Password" 
-                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
-                </Grid>
-                <Grid Grid.Row="4" Margin="6 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="16"/>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <CheckBox Grid.Column="0" IsChecked="{Binding IsRememberPassword}" Focusable="False">Remembers Password</CheckBox>
-                    <CheckBox Grid.Column="2" IsChecked="{Binding IsAutoSignIn}" Focusable="False" HorizontalAlignment="Right">Automatic Login</CheckBox>
-                </Grid>
-                <Button Grid.Row="6" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
-                        Command="{Binding SignInCommand}" 
-                        CommandParameter="{Binding ElementName=PasswordBox}"
-                        Margin="28 0">
-                        LOGIN
-                </Button>
+                <v:SignInView/>
             </Grid>
             <materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" />
         </Grid>

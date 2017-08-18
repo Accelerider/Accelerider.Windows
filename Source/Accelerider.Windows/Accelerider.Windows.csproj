@@ -108,6 +108,7 @@
     <Compile Include="ViewModels\NetDiskView.vm.cs" />
     <Compile Include="ViewModels\NetDiskRecycleBin.vm.cs" />
     <Compile Include="ViewModels\MoreView.vm.cs" />
+    <Compile Include="ViewModels\SignInView.vm.cs" />
     <Compile Include="ViewModels\TransferDownloaded.vm.cs" />
     <Compile Include="ViewModels\TransferDownloading.vm.cs" />
     <Compile Include="ViewModels\TransferUploaded.vm.cs" />
@@ -135,6 +136,12 @@
     </Compile>
     <Compile Include="Views\MoreView.xaml.cs">
       <DependentUpon>MoreView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SignInView.xaml.cs">
+      <DependentUpon>SignInView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SignUpView.xaml.cs">
+      <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TransferDownloaded.xaml.cs">
       <DependentUpon>TransferDownloaded.xaml</DependentUpon>
@@ -217,6 +224,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MoreView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SignInView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SignUpView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

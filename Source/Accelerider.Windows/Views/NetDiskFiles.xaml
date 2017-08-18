@@ -32,9 +32,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
-                <Button Style="{StaticResource ToolBarButtonStyle}" 
-                        Command="{Binding DownloadBatchCommand}"
-                        CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
+                <Button Style="{StaticResource ToolBarButtonStyle}" Command="{Binding DownloadBatchCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Download" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
                         <TextBlock Text="Download" VerticalAlignment="Center" Margin="0 0 12 0" />
@@ -48,13 +46,13 @@
                         <TextBlock Text="Upload" VerticalAlignment="Center" Margin="0 0 12 0" />
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource ToolBarButtonStyle}"  >
+                <Button Style="{StaticResource ToolBarButtonStyle}" Command="{Binding ShareCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Share" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
                         <TextBlock Text="Share" VerticalAlignment="Center" Margin="0 0 12 0"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource ToolBarButtonStyle}" >
+                <Button Style="{StaticResource ToolBarButtonStyle}" Command="{Binding DeleteBatchCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="DeleteForever" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
                         <TextBlock Text="Delete" VerticalAlignment="Center" Margin="0 0 12 0"/>

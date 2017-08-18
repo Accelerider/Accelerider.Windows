@@ -50,9 +50,7 @@ namespace Accelerider.Windows.ViewModels
             if (temp != null)
             {
                 UploadTasks.Remove(temp);
-                GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been uploaded.");
             }
-            EventAggregator.GetEvent<UploadTaskCompletedEvent>().Publish(e.Token.FileInfo);
         }
     }
 }

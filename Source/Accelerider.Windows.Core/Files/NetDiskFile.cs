@@ -4,15 +4,16 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Core.Files
 {
-    public class NetDiskFile :DiskFileBase, INetDiskFile
+    public class NetDiskFile : DiskFileBase, INetDiskFile
     {
         public DateTime CreatedTime { get; set; }
 
         public DateTime ModifiedTime { get; set; }
 
-        public override Task<bool> DeleteAsync()
+        public override async Task<bool> DeleteAsync()
         {
-            throw new NotImplementedException();
+            await Task.Delay(10);
+            return new Random().NextDouble() > 0.5;
         }
     }
 }
