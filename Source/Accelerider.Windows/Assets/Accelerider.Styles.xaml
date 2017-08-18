@@ -162,8 +162,20 @@
                 <ControlTemplate TargetType="{x:Type Window}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" >
                         <AdornerDecorator>
-                            <Grid>
+                            <Grid Background="White">
+                                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Focusable="False"
+                                        Style="{StaticResource MaterialDesignToolButton}"
+                                        WindowChrome.IsHitTestVisibleInChrome="True"
+                                        Margin="0 2 5 0">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <ei:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" MethodName="Close" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <materialDesign:PackIcon Kind="WindowClose"></materialDesign:PackIcon>
+                                </Button>
                                 <ContentPresenter />
+                                <materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" />
                             </Grid>
                         </AdornerDecorator>
                     </Border>
@@ -218,7 +230,7 @@
                             <StaticResource ResourceKey="ListBoxCommonStates"/>
                             <StaticResource ResourceKey="ListBoxSelectionStates"/>
                         </VisualStateManager.VisualStateGroups>
-                        
+
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>

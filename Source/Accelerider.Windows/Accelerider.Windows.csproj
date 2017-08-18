@@ -109,6 +109,7 @@
     <Compile Include="ViewModels\NetDiskRecycleBin.vm.cs" />
     <Compile Include="ViewModels\MoreView.vm.cs" />
     <Compile Include="ViewModels\SignInView.vm.cs" />
+    <Compile Include="ViewModels\SignUpView.vm.cs" />
     <Compile Include="ViewModels\TransferDownloaded.vm.cs" />
     <Compile Include="ViewModels\TransferDownloading.vm.cs" />
     <Compile Include="ViewModels\TransferUploaded.vm.cs" />

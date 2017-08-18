@@ -16,6 +16,7 @@ namespace Accelerider.Windows.ViewModels
         private string _username;
         private bool _isRememberPassword;
         private bool _isAutoSignIn;
+        private ISnackbarMessageQueue _messageQueue;
 
         private ICommand _onLoadedCommand;
         private ICommand _signInCommand;
@@ -55,7 +56,6 @@ namespace Accelerider.Windows.ViewModels
         }
 
 
-        private ISnackbarMessageQueue _messageQueue;
 
         public ISnackbarMessageQueue MessageQueue
         {
