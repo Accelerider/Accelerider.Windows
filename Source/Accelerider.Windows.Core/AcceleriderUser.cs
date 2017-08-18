@@ -38,9 +38,10 @@ namespace Accelerider.Windows.Core
             throw new NotImplementedException();
         }
 
-        public Task<string> SignUpAsync(string username, string password, string licenseCode)
+        public async Task<string> SignUpAsync(string username, string password, string licenseCode)
         {
-            throw new NotImplementedException();
+            await Task.Delay(1000);
+            return "Sign up failed: License code is incorrect.";
         }
 
         public async Task<string> SignInAsync(string username, string password)
