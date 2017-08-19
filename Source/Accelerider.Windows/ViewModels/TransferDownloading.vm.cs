@@ -19,7 +19,7 @@ namespace Accelerider.Windows.ViewModels
             DownloadTasks = new ObservableCollection<TransferTaskViewModel>(NetDiskUser.GetDownloadingFiles().Select(item =>
             {
                 item.TransferStateChanged += OnDownloaded;
-                return new TransferTaskViewModel(item);
+                return new TransferTaskViewModel(new TaskCreatedEventArgs(NetDiskUser.Username, item));
             }));
 
             EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Subscribe(OnDownloadTaskCreated, token => token != null && token.Any());
@@ -33,12 +33,12 @@ namespace Accelerider.Windows.ViewModels
         }
 
 
-        private void OnDownloadTaskCreated(IReadOnlyCollection<ITransferTaskToken> tokens)
+        private void OnDownloadTaskCreated(IReadOnlyCollection<TaskCreatedEventArgs> taskInfos)
         {
-            foreach (var token in tokens)
+            foreach (var taskInfo in taskInfos)
             {
-                token.TransferStateChanged += OnDownloaded;
-                DownloadTasks.Add(new TransferTaskViewModel(token));
+                taskInfo.Token.TransferStateChanged += OnDownloaded;
+                DownloadTasks.Add(new TransferTaskViewModel(taskInfo));
             }
         }
 

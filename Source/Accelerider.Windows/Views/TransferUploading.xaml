@@ -9,7 +9,7 @@
              vm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid >
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -45,88 +45,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended"
-                 ItemsSource="{Binding UploadTasks}"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 HorizontalContentAlignment="Stretch">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
-                    <Setter Property="Padding" Value="0"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <ProgressBar Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"
-                                     Maximum="{Binding FileInfo.FileSize.BaseBValue, Mode=OneWay}"
-                                     Value="{Binding Progress.BaseBValue, Mode=OneWay}"/>
-                        <Border Padding="20 8" >
-                            <Border.ContextMenu>
-                                <ContextMenu x:Name="ContextMenu">
-                                    <MenuItem Header="Pause">
-                                        <MenuItem.Icon>
-                                            <materialDesign:PackIcon Kind="Pause" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="Jump queue">
-                                        <MenuItem.Icon>
-                                            <materialDesign:PackIcon Kind="ArrowUp" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="Cancel">
-                                        <MenuItem.Icon>
-                                            <materialDesign:PackIcon Kind="Close" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                </ContextMenu>
-                            </Border.ContextMenu>
-                            <Grid >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
 
-                                <Image Tag="{Binding FileInfo.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
-
-                                <Grid Grid.Column="2" >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="120"/>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition Width="60"/>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition Height="8"/>
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock Grid.ColumnSpan="5" Text="{Binding FileInfo.FilePath.FileName}" Foreground="{StaticResource PrimaryHueDarkBrush}" TextTrimming="CharacterEllipsis"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="2" Foreground="Gray">
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0}/{1}">
-                                                <Binding Path="Progress"/>
-                                                <Binding Path="FileInfo.FileSize"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                    <TextBlock Grid.Column="2" Grid.Row="2" Foreground="Gray" Text="{Binding Speed, StringFormat='{}{0}/s'}" />
-                                    <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray" Text="{Binding RemainingTime, TargetNullValue='∞'}"/>
-                                </Grid>
-
-                                <Button Grid.Column="4" Style="{StaticResource MaterialDesignToolButton}" Foreground="#909090">
-                                    <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
-                                </Button>
-                            </Grid>
-                        </Border>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <ctrls:TransferTaskList Grid.Row="2" ItemsSource="{Binding UploadTasks}"/>
     </Grid>
 </UserControl>

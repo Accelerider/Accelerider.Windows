@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Accelerider.Windows.Commands;
+using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
@@ -8,6 +9,7 @@ namespace Accelerider.Windows.ViewModels.Items
 {
     public class TransferTaskViewModel : BindableBase
     {
+        private string _ownerName;
         private DataSize _progress;
         private TimeSpan? _remainingTime;
         private DataSize _speed;
@@ -18,9 +20,10 @@ namespace Accelerider.Windows.ViewModels.Items
         private bool _isTransferStateChanging;
 
 
-        public TransferTaskViewModel(ITransferTaskToken token)
+        public TransferTaskViewModel(TaskCreatedEventArgs taskInfo)
         {
-            Token = token;
+            OwnerName = taskInfo.OwnerName;
+            Token = taskInfo.Token;
             Token.TransferStateChanged += (sender, e) => OnPropertyChanged(nameof(TransferState));
 
             CancelCommand = new RelayCommandAsync(
@@ -37,24 +40,24 @@ namespace Accelerider.Windows.ViewModels.Items
         }
 
 
+        public string OwnerName
+        {
+            get => _ownerName;
+            set => SetProperty(ref _ownerName, value);
+        }
         public ITransferTaskToken Token { get; }
-
         public IDiskFile FileInfo => Token.FileInfo;
-
         public TransferStateEnum TransferState => Token.TransferState;
-
         public DataSize Progress
         {
             get => _progress;
             set => SetProperty(ref _progress, value);
         }
-
         public DataSize Speed
         {
             get => _speed;
             set => SetProperty(ref _speed, value);
         }
-
         public TimeSpan? RemainingTime
         {
             get => _remainingTime;
@@ -67,18 +70,17 @@ namespace Accelerider.Windows.ViewModels.Items
             get => _cancelCommand;
             set => SetProperty(ref _cancelCommand, value);
         }
-
         public RelayCommandAsync RestartCommand
         {
             get => _restartCommand;
             set => SetProperty(ref _restartCommand, value);
         }
-
         public RelayCommandAsync PauseCommand
         {
             get => _pauseCommand;
             set => SetProperty(ref _pauseCommand, value);
         }
+
 
         public bool IsTransferStateChanging
         {

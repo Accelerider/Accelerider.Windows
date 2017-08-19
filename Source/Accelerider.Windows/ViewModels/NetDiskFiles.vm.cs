@@ -151,12 +151,13 @@ namespace Accelerider.Windows.ViewModels
             if (!isDownload) return;
 
             var tokens = new List<ITransferTaskToken>();
+            var ownerName = NetDiskUser.Username;
             foreach (ITreeNodeAsync<INetDiskFile> file in files)
             {
                 tokens.AddRange(await NetDiskUser.DownloadAsync(file, folder));
             }
 
-            PulishDownloadTaskCreatedEvent(tokens);
+            PulishDownloadTaskCreatedEvent(ownerName, tokens);
 
             var fileName = GetFilePathWithFixedLength(tokens.First().FileInfo.FilePath.FileName, 40);
             var message = tokens.Count == 1
@@ -172,6 +173,7 @@ namespace Accelerider.Windows.ViewModels
             if (dialog.ShowDialog() != DialogResult.OK || dialog.FileNames.Length <= 0) return;
 
             IEnumerable<ITransferTaskToken> tokens = null;
+            var ownerName = NetDiskUser.Username;
             await Task.Run(() =>
             {
                 tokens = dialog.FileNames.Select(fromPath =>
@@ -184,7 +186,7 @@ namespace Accelerider.Windows.ViewModels
             EventAggregator.GetEvent<UploadTaskCreatedEvent>().Publish(tokens.Select(token =>
             {
                 token.TransferStateChanged += OnUploaded;
-                return token;
+                return new TaskCreatedEventArgs(ownerName, token);
             }).ToList());
 
             var fileName = GetFilePathWithFixedLength(dialog.FileNames[0], 40);
@@ -219,12 +221,12 @@ namespace Accelerider.Windows.ViewModels
             return (vm.ToDownloadFileName, true);
         }
 
-        private void PulishDownloadTaskCreatedEvent(IEnumerable<ITransferTaskToken> tokens)
+        private void PulishDownloadTaskCreatedEvent(string ownerName, IEnumerable<ITransferTaskToken> tokens)
         {
             EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Publish(tokens.Select(token =>
             {
                 token.TransferStateChanged += OnDownloaded;
-                return token;
+                return new TaskCreatedEventArgs(ownerName, token);
             }).ToList());
         }
 

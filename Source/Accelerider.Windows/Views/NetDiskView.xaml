@@ -116,7 +116,7 @@
                                         <ImageBrush ImageSource="{Binding HeadImageUri, Converter={StaticResource UriToImageSourceConverter}}" />
                                     </Ellipse.Fill>
                                 </Ellipse>
-                                <TextBlock Grid.Column="2" Text="{Binding Nickname}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Username}" VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
                     </DataTemplate>

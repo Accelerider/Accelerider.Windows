@@ -19,7 +19,7 @@ namespace Accelerider.Windows.ViewModels
             UploadTasks = new ObservableCollection<TransferTaskViewModel>(NetDiskUser.GetUploadingFiles().Select(item =>
             {
                 item.TransferStateChanged += OnUploaded;
-                return new TransferTaskViewModel(item);
+                return new TransferTaskViewModel(new TaskCreatedEventArgs(NetDiskUser.Username, item));
             }));
 
             EventAggregator.GetEvent<UploadTaskCreatedEvent>().Subscribe(OnUploadTaskCreated, token => token != null && token.Any());
@@ -33,12 +33,12 @@ namespace Accelerider.Windows.ViewModels
         }
 
 
-        private void OnUploadTaskCreated(IReadOnlyCollection<ITransferTaskToken> tokens)
+        private void OnUploadTaskCreated(IReadOnlyCollection<TaskCreatedEventArgs> taskInfos)
         {
-            foreach (var token in tokens)
+            foreach (var taskInfo in taskInfos)
             {
-                token.TransferStateChanged += OnUploaded;
-                UploadTasks.Add(new TransferTaskViewModel(token));
+                taskInfo.Token.TransferStateChanged += OnUploaded;
+                UploadTasks.Add(new TransferTaskViewModel(taskInfo));
             }
         }
 

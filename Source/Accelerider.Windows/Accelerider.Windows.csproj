@@ -84,6 +84,9 @@
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SwitchableViewContainer.cs" />
+    <Compile Include="Controls\TransferTaskList.xaml.cs">
+      <DependentUpon>TransferTaskList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\CompareConverters.cs" />
     <Compile Include="Converters\LessThan1000Converter.cs" />
     <Compile Include="Converters\MinusConverter.cs" />
@@ -183,6 +186,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\FolderLocationBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TransferTaskList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
