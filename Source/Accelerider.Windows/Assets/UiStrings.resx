@@ -135,4 +135,7 @@
   <data name="Message_AddedFilesToDownloadList" xml:space="preserve">
     <value>Added "{0}" etc ({1} files) to download list.</value>
   </data>
+    <data name="DownloadDialog_FolderBrowerDialogDescription" xml:space="preserve">
+    <value>Please select the download folder</value>
+  </data>
 </root>

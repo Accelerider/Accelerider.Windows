@@ -38,7 +38,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         /// <summary>
         /// Specifies whether a dialog box is displayed each time you download.
         /// </summary>
-        bool IsDisplayDownloadDialog { get; set; }
+        bool NotDisplayDownloadDialog { get; set; }
 
         /// <summary>
         /// The storage path of downloaded files.

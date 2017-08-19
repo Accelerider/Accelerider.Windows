@@ -14,6 +14,7 @@ using Accelerider.Windows.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Forms;
 using System.Collections.ObjectModel;
+using Accelerider.Windows.ViewModels.Dialogs;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -165,22 +166,25 @@ namespace Accelerider.Windows.ViewModels
 
         private async void DownloadBatchCommandExecute(IList files)
         {
-            if (files.Count == 0) return;
+            var (folder, isDownload) = await DisplayDownloadDialogAsync(files.Cast<ITreeNodeAsync<INetDiskFile>>()
+                .Select(item => item.Content.FilePath.FileName));
+            if (!isDownload) return;
 
             var tokens = new List<ITransferTaskToken>();
             foreach (ITreeNodeAsync<INetDiskFile> file in files)
             {
-                tokens.AddRange(await NetDiskUser.DownloadAsync(file));
+                tokens.AddRange(await NetDiskUser.DownloadAsync(file, folder));
             }
 
             PulishDownloadTaskCreatedEvent(tokens);
 
             var fileName = GetFilePathWithFixedLength(tokens.First().FileInfo.FilePath.FileName, 40);
             var message = tokens.Count == 1
-                ? string.Format(UiStrings.Message_AddedFileToUploadList, fileName)
-                : string.Format(UiStrings.Message_AddedFilesToUploadList, fileName, tokens.Count);
+                ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)
+                : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, tokens.Count);
             GlobalMessageQueue.Enqueue(message);
         }
+
 
         private async void UploadCommandExecute()
         {
@@ -212,7 +216,10 @@ namespace Accelerider.Windows.ViewModels
 
         private async void DownloadCommandExecute(ITreeNodeAsync<INetDiskFile> fileNode)
         {
-            var tokens = await NetDiskUser.DownloadAsync(fileNode);
+            var (folder, isDownload) = await DisplayDownloadDialogAsync(new[] { fileNode.Content.FilePath.FileName });
+            if (!isDownload) return;
+
+            var tokens = await NetDiskUser.DownloadAsync(fileNode, folder);
 
             PulishDownloadTaskCreatedEvent(tokens);
 
@@ -228,6 +235,24 @@ namespace Accelerider.Windows.ViewModels
             OnPropertyChanged(nameof(CurrentFolder));
         }
 
+
+        private async Task<(string folder, bool isDownload)> DisplayDownloadDialogAsync(IEnumerable<string> files)
+        {
+            var configure = Container.Resolve<ILocalConfigureInfo>();
+            if (configure.NotDisplayDownloadDialog) return (null, true);
+
+            var dialog = new DownloadDialog();
+            var vm = dialog.DataContext as DownloadDialogViewModel;
+            vm.ToDownloadFileName = files.Aggregate((sum, item) => sum + item + "; ");
+
+            if (!(bool)await DialogHost.Show(dialog, "RootDialog")) return (null, false);
+
+            if (configure.NotDisplayDownloadDialog = vm.NotDisplayDownloadDialog)
+            {
+                configure.DownloadDirectory = vm.DownloadFolder;
+            }
+            return (vm.ToDownloadFileName, true);
+        }
 
         private void PulishDownloadTaskCreatedEvent(IEnumerable<ITransferTaskToken> tokens)
         {

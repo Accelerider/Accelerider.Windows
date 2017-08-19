@@ -16,7 +16,7 @@ namespace Accelerider.Windows.Core
         public bool IsAutoSignIn { get; set; }
 
 
-        public bool IsDisplayDownloadDialog { get; set; }
+        public bool NotDisplayDownloadDialog { get; set; }
         public string DownloadDirectory { get; set; }
         public int ParallelTaskNumber { get; set; }
         public double SpeedLimit { get; set; }

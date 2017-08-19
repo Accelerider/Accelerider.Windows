@@ -61,6 +61,15 @@ namespace Accelerider.Windows.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select the download folder.
+        /// </summary>
+        internal static string DownloadDialog_FolderBrowerDialogDescription {
+            get {
+                return ResourceManager.GetString("DownloadDialog_FolderBrowerDialogDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Added &quot;{0}&quot; etc ({1} files) to download list..
         /// </summary>
         internal static string Message_AddedFilesToDownloadList {

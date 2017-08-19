@@ -70,6 +70,31 @@
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  HorizontalContentAlignment="Stretch">
+            <ListBox.ContextMenu>
+                <ContextMenu >
+                    <MenuItem Header="Download" 
+                              Command="{Binding DownloadBatchCommand}" 
+                              CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Download" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Share to">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Share" />
+                        </MenuItem.Icon>
+                        <MenuItem Header="Baidu Cloud" />
+                        <MenuItem Header="Mrs4s Cloud" />
+                        <MenuItem Header="File Plaza" />
+                    </MenuItem>
+                    <MenuItem Header="Delete" >
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="DeleteForever" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding EnterFolderCommand}" CommandParameter="{Binding SelectedItem, ElementName=ListboxFileList}" />
@@ -79,7 +104,7 @@
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"></Setter>
-                    <Setter Property="ContextMenu">
+                    <!--<Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu >
                                 <MenuItem Header="Download" 
@@ -104,12 +129,12 @@
                                 </MenuItem>
                             </ContextMenu>
                         </Setter.Value>
-                    </Setter>
+                    </Setter>-->
                 </Style>
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border Padding="8">
+                    <Border Padding="20 10">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>

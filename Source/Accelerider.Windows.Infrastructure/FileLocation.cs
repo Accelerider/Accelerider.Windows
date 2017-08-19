@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Accelerider.Windows.Infrastructure
 {
-    public class FileLocation 
+    public class FileLocation
     {
         /// <summary>
         /// Gets a regular expression for splitting the file full path string.
@@ -61,12 +61,12 @@ namespace Accelerider.Windows.Infrastructure
 
         public static implicit operator FileLocation(string filePath)
         {
-            return new FileLocation(filePath);
+            return string.IsNullOrEmpty(filePath) ? null : new FileLocation(filePath);
         }
 
         public static implicit operator string(FileLocation fileLocation)
         {
-            return fileLocation.FullPath;
+            return fileLocation?.FullPath;
         }
     }
 }
