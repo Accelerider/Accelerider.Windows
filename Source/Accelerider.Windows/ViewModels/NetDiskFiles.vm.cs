@@ -26,12 +26,9 @@ namespace Accelerider.Windows.ViewModels
         private ICommand _enterFolderCommand;
         private ICommand _refreshChildrenCacheCommand;
         private ICommand _downloadCommand;
-        private ICommand _downloadBatchCommand;
         private ICommand _uploadCommand;
         private ICommand _shareCommand;
-        private ICommand _shareBatchCommand;
         private ICommand _deleteCommand;
-        private ICommand _deleteBatchCommand;
 
 
         public NetDiskFilesViewModel(IUnityContainer container) : base(container)
@@ -84,35 +81,20 @@ namespace Accelerider.Windows.ViewModels
             get => _downloadCommand;
             set => SetProperty(ref _downloadCommand, value);
         }
-        public ICommand DownloadBatchCommand
-        {
-            get => _downloadBatchCommand;
-            set => SetProperty(ref _downloadBatchCommand, value);
-        }
         public ICommand UploadCommand
         {
-            get { return _uploadCommand; }
-            set { SetProperty(ref _uploadCommand, value); }
+            get => _uploadCommand;
+            set => SetProperty(ref _uploadCommand, value);
         }
         public ICommand ShareCommand
         {
-            get { return _shareCommand; }
-            set { SetProperty(ref _shareCommand, value); }
-        }
-        public ICommand ShareBatchCommand
-        {
-            get { return _shareBatchCommand; }
-            set { SetProperty(ref _shareBatchCommand, value); }
+            get => _shareCommand;
+            set => SetProperty(ref _shareCommand, value);
         }
         public ICommand DeleteCommand
         {
-            get { return _deleteCommand; }
-            set { SetProperty(ref _deleteCommand, value); }
-        }
-        public ICommand DeleteBatchCommand
-        {
-            get { return _deleteBatchCommand; }
-            set { SetProperty(ref _deleteBatchCommand, value); }
+            get => _deleteCommand;
+            set => SetProperty(ref _deleteCommand, value);
         }
         #endregion
 
@@ -121,15 +103,13 @@ namespace Accelerider.Windows.ViewModels
         {
             EnterFolderCommand = new RelayCommand<ITreeNodeAsync<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.FileType == FileTypeEnum.FolderType);
             RefreshChildrenCacheCommand = new RelayCommand(RefreshChildrenCacheExecute);
-            DownloadCommand = new RelayCommand<ITreeNodeAsync<INetDiskFile>>(DownloadCommandExecute);
-            DownloadBatchCommand = new RelayCommand<IList>(DownloadBatchCommandExecute, files => files != null && files.Count > 0);
+            DownloadCommand = new RelayCommand<IList>(DownloadCommandExecute, files => files != null && files.Count > 0);
             UploadCommand = new RelayCommand(UploadCommandExecute);
             ShareCommand = new RelayCommand<IList>(ShareCommandExecute, files => files != null && files.Count > 0);
-            DeleteCommand = new RelayCommand<ITreeNodeAsync<INetDiskFile>>(DeleteCommandExecute);
-            DeleteBatchCommand = new RelayCommand<IList>(DeleteBatchCommandExecute, files => files != null && files.Count > 0);
+            DeleteCommand = new RelayCommand<IList>(DeleteCommandExecute, files => files != null && files.Count > 0);
         }
 
-        private void DeleteBatchCommandExecute(IList obj)
+        private void DeleteCommandExecute(IList obj)
         {
             GlobalMessageQueue.Enqueue("throw new NotImplementedException()");
         }
@@ -164,7 +144,7 @@ namespace Accelerider.Windows.ViewModels
             var (code, _) = await NetDiskUser.ShareAsync(netDiskFiles);
         }
 
-        private async void DownloadBatchCommandExecute(IList files)
+        private async void DownloadCommandExecute(IList files)
         {
             var (folder, isDownload) = await DisplayDownloadDialogAsync(files.Cast<ITreeNodeAsync<INetDiskFile>>()
                 .Select(item => item.Content.FilePath.FileName));
@@ -214,21 +194,6 @@ namespace Accelerider.Windows.ViewModels
             GlobalMessageQueue.Enqueue(message);
         }
 
-        private async void DownloadCommandExecute(ITreeNodeAsync<INetDiskFile> fileNode)
-        {
-            var (folder, isDownload) = await DisplayDownloadDialogAsync(new[] { fileNode.Content.FilePath.FileName });
-            if (!isDownload) return;
-
-            var tokens = await NetDiskUser.DownloadAsync(fileNode, folder);
-
-            PulishDownloadTaskCreatedEvent(tokens);
-
-            GlobalMessageQueue.Enqueue(
-                    fileNode.Content.FileType == FileTypeEnum.FolderType
-                    ? string.Format(UiStrings.Message_AddedFolderToDownloadList, fileNode.Content.FilePath.FileName, tokens.Count)
-                    : string.Format(UiStrings.Message_AddedFileToDownloadList, fileNode.Content.FilePath.FileName));
-        }
-
         private async void RefreshChildrenCacheExecute()
         {
             await CurrentFolder.TryGetChildrenAsync();
@@ -243,7 +208,7 @@ namespace Accelerider.Windows.ViewModels
 
             var dialog = new DownloadDialog();
             var vm = dialog.DataContext as DownloadDialogViewModel;
-            vm.ToDownloadFileName = files.Aggregate((sum, item) => sum + item + "; ");
+            vm.ToDownloadFileName = string.Join("; ", files);
 
             if (!(bool)await DialogHost.Show(dialog, "RootDialog")) return (null, false);
 

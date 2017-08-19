@@ -121,6 +121,9 @@
     <Compile Include="Views\Dialogs\DownloadDialog.xaml.cs">
       <DependentUpon>DownloadDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\ShareDialog.xaml.cs">
+      <DependentUpon>ShareDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\WaitingDialog.xaml.cs">
       <DependentUpon>WaitingDialog.xaml</DependentUpon>
     </Compile>
@@ -201,6 +204,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Dialogs\DownloadDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\ShareDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

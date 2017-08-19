@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Accelerider.Windows.Views.Dialogs.ShareDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             vm:ViewModelLocator.AutoWireViewModel="True"
+             Height="Auto" Width="500">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="10"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox>Baidu Cloud</CheckBox>
+            <CheckBox Grid.Column="0" Grid.Row="2">File Plaza</CheckBox>
+            
+            
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{Binding ShareCommand}">
+                Share
+            </Button>
+            <Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+                Cancel
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

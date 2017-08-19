@@ -32,7 +32,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
-                <Button Style="{StaticResource ToolBarButtonStyle}" Command="{Binding DownloadBatchCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
+                <Button Style="{StaticResource ToolBarButtonStyle}" Command="{Binding DownloadCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Download" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
                         <TextBlock Text="Download" VerticalAlignment="Center" Margin="0 0 12 0" />
@@ -52,7 +52,7 @@
                         <TextBlock Text="Share" VerticalAlignment="Center" Margin="0 0 12 0"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource ToolBarButtonStyle}" Command="{Binding DeleteBatchCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
+                <Button Style="{StaticResource ToolBarButtonStyle}" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="DeleteForever" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
                         <TextBlock Text="Delete" VerticalAlignment="Center" Margin="0 0 12 0"/>
@@ -73,21 +73,22 @@
             <ListBox.ContextMenu>
                 <ContextMenu >
                     <MenuItem Header="Download" 
-                              Command="{Binding DownloadBatchCommand}" 
+                              Command="{Binding DownloadCommand}" 
                               CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Download" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Share to">
+                    <MenuItem Header="Share"
+                              Command="{Binding ShareCommand}" 
+                              CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Share" />
                         </MenuItem.Icon>
-                        <MenuItem Header="Baidu Cloud" />
-                        <MenuItem Header="Mrs4s Cloud" />
-                        <MenuItem Header="File Plaza" />
                     </MenuItem>
-                    <MenuItem Header="Delete" >
+                    <MenuItem Header="Delete" 
+                              Command="{Binding DeleteCommand}" 
+                              CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="DeleteForever" />
                         </MenuItem.Icon>
@@ -104,32 +105,6 @@
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"></Setter>
-                    <!--<Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu >
-                                <MenuItem Header="Download" 
-                                          Command="{Binding PlacementTarget.Tag.DownloadCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" 
-                                          CommandParameter="{Binding}">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Download" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="Share to">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Share" />
-                                    </MenuItem.Icon>
-                                    <MenuItem Header="Baidu Cloud" />
-                                    <MenuItem Header="Mrs4s Cloud" />
-                                    <MenuItem Header="File Plaza" />
-                                </MenuItem>
-                                <MenuItem Header="Delete" >
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="DeleteForever" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </ContextMenu>
-                        </Setter.Value>
-                    </Setter>-->
                 </Style>
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
