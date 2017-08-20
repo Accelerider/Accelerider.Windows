@@ -47,8 +47,10 @@ namespace Accelerider.Windows.ViewModels
         {
             EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
 
-            if (PreviousNetDiskUser != NetDiskUser) await LoadingFilesAsync();
-            if (PreviousNetDiskUser == null) PreviousNetDiskUser = NetDiskUser;
+            if (PreviousNetDiskUser != NetDiskUser)
+            {
+                await LoadingFilesAsync();
+            }
         }
 
         public override void OnUnloaded()

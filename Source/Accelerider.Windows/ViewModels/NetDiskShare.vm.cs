@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Accelerider.Windows.ViewModels

@@ -156,8 +156,10 @@ namespace Accelerider.Windows.ViewModels
         protected override async Task<IEnumerable<ITreeNodeAsync<INetDiskFile>>> GetFilesAsync()
         {
             if (PreviousNetDiskUser != NetDiskUser)
+            {
                 CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
-
+                PreviousNetDiskUser = NetDiskUser;
+            }
             await CurrentFolder.TryGetChildrenAsync();
             return CurrentFolder.ChildrenCache;
         }
