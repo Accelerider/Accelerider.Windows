@@ -9,7 +9,6 @@ using System.Collections;
 using System.Linq;
 using Accelerider.Windows.Events;
 using Accelerider.Windows.Assets;
-using System;
 using Accelerider.Windows.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Forms;
@@ -158,7 +157,8 @@ namespace Accelerider.Windows.ViewModels
             if (PreviousNetDiskUser != NetDiskUser)
             {
                 PreviousNetDiskUser = NetDiskUser;
-                CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
+                _currentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
+                OnPropertyChanged(nameof(CurrentFolder));
             }
             await CurrentFolder.TryGetChildrenAsync();
             return CurrentFolder.ChildrenCache;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
 
@@ -11,7 +6,6 @@ namespace Accelerider.Windows.ViewModels
 {
     public class NetDiskViewModel : ViewModelBase
     {
-        private INetDiskUser _currentNetDiskUser;
         private ObservableCollection<INetDiskUser> _netDiskUsers;
 
 

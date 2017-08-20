@@ -12,9 +12,9 @@ namespace Accelerider.Windows.ViewModels
     public abstract class LoadingFilesViewModel<T> : ViewModelBase
     {
         protected INetDiskUser PreviousNetDiskUser;
+        private int _loadingCount;
 
         private ICommand _refreshFilesCommand;
-        private bool _isLoadingFiles;
         private ObservableCollection<T> _files;
 
 
@@ -30,11 +30,18 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _refreshFilesCommand, value);
         }
 
-        public bool IsLoadingFiles
+        public int LoadingCount
         {
-            get => _isLoadingFiles;
-            set => SetProperty(ref _isLoadingFiles, value);
+            get => _loadingCount;
+            set
+            {
+                if (_loadingCount == value) return;
+                _loadingCount = value;
+                OnPropertyChanged(nameof(IsLoadingFiles));
+            }
         }
+
+        public bool IsLoadingFiles => _loadingCount != 0;
 
         public ObservableCollection<T> Files
         {
@@ -43,13 +50,13 @@ namespace Accelerider.Windows.ViewModels
         }
 
 
-        public override async void OnLoaded()
+        public override void OnLoaded()
         {
             EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
 
             if (PreviousNetDiskUser != NetDiskUser)
             {
-                await LoadingFilesAsync();
+                OnCurrentNetDiskUserChanged(NetDiskUser);
             }
         }
 
@@ -67,9 +74,10 @@ namespace Accelerider.Windows.ViewModels
 
         protected async Task LoadingFilesAsync()
         {
-            IsLoadingFiles = true;
-            Files = new ObservableCollection<T>(await GetFilesAsync());
-            IsLoadingFiles = false;
+            LoadingCount++;
+            var temp = await GetFilesAsync();
+            if (temp != null) Files = new ObservableCollection<T>(temp);
+            LoadingCount--;
         }
 
         protected abstract Task<IEnumerable<T>> GetFilesAsync();
