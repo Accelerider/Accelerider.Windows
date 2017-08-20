@@ -74,8 +74,8 @@ namespace Accelerider.Windows.Core
             {
                 ChildrenProvider = async parent =>
                 {
-                    await Task.Delay(1000);
                     if (!Directory.Exists(parent.FilePath)) return null;
+                    await Task.Delay(1000);
                     var filePaths = Directory.GetFiles(parent.FilePath.ToString());
                     var directoriePaths = Directory.GetDirectories(parent.FilePath.ToString());
                     return from filePath in directoriePaths.Union(filePaths)

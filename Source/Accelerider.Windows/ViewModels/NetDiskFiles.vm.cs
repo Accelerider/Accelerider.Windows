@@ -38,7 +38,7 @@ namespace Accelerider.Windows.ViewModels
         public ITreeNodeAsync<INetDiskFile> CurrentFolder
         {
             get => _currentFolder;
-            set => SetProperty(ref _currentFolder, value);
+            set { if (SetProperty(ref _currentFolder, value)) RefreshFiles(); }
         }
 
         #region Commands
@@ -157,8 +157,8 @@ namespace Accelerider.Windows.ViewModels
         {
             if (PreviousNetDiskUser != NetDiskUser)
             {
-                CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
                 PreviousNetDiskUser = NetDiskUser;
+                CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
             }
             await CurrentFolder.TryGetChildrenAsync();
             return CurrentFolder.ChildrenCache;
@@ -167,15 +167,19 @@ namespace Accelerider.Windows.ViewModels
 
         private void InitializeCommands()
         {
-            EnterFolderCommand = new RelayCommand<ITreeNodeAsync<INetDiskFile>>(async file =>
-            {
-                CurrentFolder = file;
-                if (CurrentFolder.ChildrenCache == null) await LoadingFilesAsync();
-            }, file => file?.Content?.FileType == FileTypeEnum.FolderType);
+            EnterFolderCommand = new RelayCommand<ITreeNodeAsync<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.FileType == FileTypeEnum.FolderType);
             DownloadCommand = new RelayCommand<IList>(DownloadCommandExecute, files => files != null && files.Count > 0);
             UploadCommand = new RelayCommand(UploadCommandExecute);
             ShareCommand = new RelayCommand<IList>(ShareCommandExecute, files => files != null && files.Count > 0);
             DeleteCommand = new RelayCommand<IList>(DeleteCommandExecute, files => files != null && files.Count > 0);
+        }
+
+        private async void RefreshFiles()
+        {
+            if (CurrentFolder.ChildrenCache == null)
+                await LoadingFilesAsync();
+            else
+                Files = new ObservableCollection<ITreeNodeAsync<INetDiskFile>>(CurrentFolder.ChildrenCache);
         }
 
         private async Task<(string folder, bool isDownload)> DisplayDownloadDialogAsync(IEnumerable<string> files)
