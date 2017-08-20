@@ -21,7 +21,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal">
                     <ListBox x:Name="SwitchViewListBox" WindowChrome.IsHitTestVisibleInChrome="True" SelectedIndex="0" 
-                             ItemContainerStyle="{StaticResource TabControlListBoxItemStyle}">
+                             ItemContainerStyle="{StaticResource TextListBoxItemStyle}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal"/>

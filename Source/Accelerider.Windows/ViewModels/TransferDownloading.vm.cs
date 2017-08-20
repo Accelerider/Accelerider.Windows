@@ -16,7 +16,7 @@ namespace Accelerider.Windows.ViewModels
 
         public TransferDownloadingViewModel(IUnityContainer container) : base(container)
         {
-            DownloadTasks = new ObservableCollection<TransferTaskViewModel>(NetDiskUser.GetDownloadingFiles().Select(item =>
+            DownloadTasks = new ObservableCollection<TransferTaskViewModel>(AcceleriderUser.GetDownloadingTasks().Select(item =>
             {
                 item.TransferStateChanged += OnDownloaded;
                 return new TransferTaskViewModel(new TaskCreatedEventArgs(NetDiskUser.Username, item));

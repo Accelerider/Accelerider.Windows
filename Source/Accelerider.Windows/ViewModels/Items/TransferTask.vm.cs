@@ -30,7 +30,7 @@ namespace Accelerider.Windows.ViewModels.Items
                 Token.CancelAsync,
                 () => Token.TransferState.CanChangeTo(TransferStateEnum.Canceled));
             RestartCommand = new RelayCommandAsync(
-                Token.RestartAsync,
+                () => Token.StartAsync(),
                 () => Token.TransferState.CanChangeTo(TransferStateEnum.Waiting));
             PauseCommand = new RelayCommandAsync(
                 Token.PauseAsync,

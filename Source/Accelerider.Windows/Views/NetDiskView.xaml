@@ -52,7 +52,7 @@
             </Border>
 
             <ListBox x:Name="SelectViewListBox" Grid.Row="3"
-                     ItemContainerStyle="{StaticResource LeftSideListBoxItemStyle}"
+                     ItemContainerStyle="{StaticResource ListBoxItemStyle}"
                      SelectionMode="Single" SelectedIndex="0"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      HorizontalContentAlignment="Stretch">
@@ -96,7 +96,7 @@
 
             <TextBlock Grid.Row="5" Text="Cloud Storage" Margin="10 0 0 0" FontSize="14"/>
             <ListBox Grid.Row="7" ItemsSource="{Binding NetDiskUsers}"
-                     ItemContainerStyle="{StaticResource LeftSideListBoxItemStyle}"
+                     ItemContainerStyle="{StaticResource ListBoxItemStyle}"
                      SelectedItem="{Binding NetDiskUser}" SelectionMode="Single"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"

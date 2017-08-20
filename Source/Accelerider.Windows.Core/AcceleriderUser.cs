@@ -8,6 +8,9 @@ namespace Accelerider.Windows.Core
 {
     internal class AcceleriderUser : IAcceleriderUser
     {
+        private readonly List<ITransferTaskToken> _downloadingTasks = new List<ITransferTaskToken>();
+        private readonly List<ITransferTaskToken> _uploadTasks = new List<ITransferTaskToken>();
+
         private readonly List<ITransferedFile> _downloadedFiles = new List<ITransferedFile>();
         private readonly List<ITransferedFile> _uploadedFiles = new List<ITransferedFile>();
 
@@ -19,25 +22,7 @@ namespace Accelerider.Windows.Core
         }
 
 
-        public IReadOnlyList<INetDiskUser> NetDiskUsers { get; private set; }
-
-        public INetDiskUser CurrentNetDiskUser { get; set; }
-
-        public Task<bool> AddNetDiskUserAsync(INetDiskUser user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> RemoveNetDiskUserAsync(INetDiskUser user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ITransferTaskToken Upload(FileLocation filePath)
-        {
-            throw new NotImplementedException();
-        }
-
+        #region Accelerider account system
         public async Task<string> SignUpAsync(string username, string password, string licenseCode)
         {
             await Task.Delay(1000);
@@ -55,17 +40,50 @@ namespace Accelerider.Windows.Core
             throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<ITransferedFile> GetDownloadedFiles()
+        #endregion
+
+        #region Accelerider Services
+        public ITransferTaskToken Upload(FileLocation from, FileLocation to)
         {
-            return _downloadedFiles;
+            throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<ITransferedFile> GetUploadedFiles()
+        public Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null)
         {
-            return _uploadedFiles;
+            throw new NotImplementedException();
         }
 
+        #endregion
 
+        #region Operates sub-account (cloud account)
+        public IReadOnlyList<INetDiskUser> NetDiskUsers { get; private set; }
+
+        public INetDiskUser CurrentNetDiskUser { get; set; }
+
+        public Task<bool> AddNetDiskUserAsync(INetDiskUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RemoveNetDiskUserAsync(INetDiskUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Gets Transfer tasks or files
+        public IReadOnlyCollection<ITransferTaskToken> GetDownloadingTasks() => _downloadingTasks;
+
+        public IReadOnlyCollection<ITransferTaskToken> GetUploadingTasks() => _uploadTasks;
+
+        public IReadOnlyCollection<ITransferedFile> GetDownloadedFiles() => _downloadedFiles;
+
+        public IReadOnlyCollection<ITransferedFile> GetUploadedFiles() => _uploadedFiles;
+
+        #endregion
+
+        #region Private methods
         private void InitializeNetDiskUsers()
         {
             NetDiskUsers = new[]
@@ -74,21 +92,23 @@ namespace Accelerider.Windows.Core
                 {
                     HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/29689099?v=4&amp;s=100"),
                     Username = "Jielun Zhou",
-                    FilePathMock = "C:\\"
+                    FilePathMock = "E:\\"
                 },
                 new NetDiskUser
                 {
                     HeadImageUri = new Uri("https://avatars3.githubusercontent.com/u/10069087?v=4&amp;s=100"),
                     Username = "Junjie Lin",
-                    FilePathMock = "D:\\"
+                    FilePathMock = "F:\\"
                 },
                 new NetDiskUser
                 {
                     HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/26038597?v=4&amp;s=100"),
                     Username = "TaoFen Boy",
-                    FilePathMock = "E:\\"
+                    FilePathMock = "G:\\"
                 },
             };
         }
+
+        #endregion
     }
 }

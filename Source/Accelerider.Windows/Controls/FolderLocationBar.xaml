@@ -72,7 +72,7 @@
                              SelectionMode="Single" 
                              MouseUp="FoldedFolderPopupListBox_OnMouseUp">
                             <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource LeftSideListBoxItemStyle}" />
+                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemStyle}" />
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>

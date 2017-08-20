@@ -43,7 +43,7 @@ namespace Accelerider.Windows.Core.MockData
             return true;
         }
 
-        public async Task<bool> RestartAsync()
+        public async Task<bool> StartAsync(bool force = false)
         {
             await Task.Run(() =>
             {

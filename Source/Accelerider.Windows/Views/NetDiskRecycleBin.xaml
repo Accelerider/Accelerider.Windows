@@ -46,75 +46,73 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <Button Grid.Column="2" Foreground="#333333" Style="{StaticResource MaterialDesignToolButton}"
-                    Command="{Binding UpdateChildrenCacheCommand}"
+            <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
+                    Command="{Binding RefreshFilesCommand}"
                     Margin="0 0 8 0" Width="20" Height="20" Padding="0">
-                <materialDesign:PackIcon Foreground="{StaticResource PrimaryHueDarkBrush}" Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
+                <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
             </Button>
         </Grid>
-        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended"
-                 ItemsSource="{Binding DeletedFiles}"
+        <ctrls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
+            <ListBox x:Name="ListboxFileList" SelectionMode="Extended"
+                 ItemsSource="{Binding Files}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  HorizontalContentAlignment="Stretch">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding EnterFolderCommand}" CommandParameter="{Binding SelectedItem, ElementName=ListboxFileList}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"></Setter>
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu >
-                                <MenuItem Header="Restore" 
+
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"></Setter>
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu >
+                                    <MenuItem Header="Restore" 
                                           Command="{Binding PlacementTarget.Tag.DownloadCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" 
                                           CommandParameter="{Binding}">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="FileRestore" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="Delete" >
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="DeleteForever" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </ContextMenu>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border Padding="20 10">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="16"/>
-                                
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="16"/>
-                                
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="16"/>
-                                
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="16"/>
-                                
-                                <ColumnDefinition Width="45"/>
-                                <ColumnDefinition Width="16"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="2" Text="{Binding FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="4" Text="{Binding FileSize}" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="6" Text="{Binding DeletedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="8" Text="{Binding LeftDays, StringFormat='{}{0} days'}" VerticalAlignment="Center" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="FileRestore" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Delete" >
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="DeleteForever" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="20 10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="45"/>
+                                    <ColumnDefinition Width="16"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="{Binding FileSize}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="6" Text="{Binding DeletedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="8" Text="{Binding LeftDays, StringFormat='{}{0} days'}" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ctrls:SwitchLoadingViewContainer>
     </Grid>
 </UserControl>

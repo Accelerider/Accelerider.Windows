@@ -28,7 +28,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public async Task<bool> PauseAsync() => await _task.TryPauseAsync();
 
-        public async Task<bool> RestartAsync() => await _task.TryRestartAsync();
+        public async Task<bool> StartAsync(bool force = false) => await _task.TryRestartAsync();
 
         public bool Equals(ITransferTaskToken other) => FileInfo.FilePath == other?.FileInfo.FilePath;
 

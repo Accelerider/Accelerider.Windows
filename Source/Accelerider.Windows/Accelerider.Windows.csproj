@@ -84,6 +84,7 @@
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SwitchableViewContainer.cs" />
+    <Compile Include="Controls\SwitchLoadingViewContainer.cs" />
     <Compile Include="Controls\TransferTaskList.xaml.cs">
       <DependentUpon>TransferTaskList.xaml</DependentUpon>
     </Compile>
@@ -107,6 +108,7 @@
     <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
     <Compile Include="ViewModels\Items\TransferTask.vm.cs" />
+    <Compile Include="ViewModels\LoadingFiles.vm.cs" />
     <Compile Include="ViewModels\NetDiskFiles.vm.cs" />
     <Compile Include="ViewModels\NetDiskShare.vm.cs" />
     <Compile Include="ViewModels\NetDiskView.vm.cs" />

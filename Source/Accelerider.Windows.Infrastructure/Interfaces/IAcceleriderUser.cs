@@ -5,17 +5,6 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 {
     public interface IAcceleriderUser
     {
-        // Operates sub-account (cloud account) -------------------------------------------------
-        INetDiskUser CurrentNetDiskUser { get; set; }
-
-        IReadOnlyList<INetDiskUser> NetDiskUsers { get; }
-
-        ITransferTaskToken Upload(FileLocation filePath);
-
-        Task<bool> AddNetDiskUserAsync(INetDiskUser user);
-
-        Task<bool> RemoveNetDiskUserAsync(INetDiskUser user);
-
         // Accelerider account system -----------------------------------------------------------
         Task<string> SignUpAsync(string username, string password, string licenseCode);
 
@@ -23,7 +12,26 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         Task<bool> SignOutAsync();
 
-        // Gets local files ---------------------------------------------------------------------
+        // Accelerider Services -----------------------------------------------------------------
+        ITransferTaskToken Upload(FileLocation from, FileLocation to);
+
+        Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null);
+
+
+        // Operates sub-account (cloud account) -------------------------------------------------
+        INetDiskUser CurrentNetDiskUser { get; set; }
+
+        IReadOnlyList<INetDiskUser> NetDiskUsers { get; }
+
+        Task<bool> AddNetDiskUserAsync(INetDiskUser user);
+
+        Task<bool> RemoveNetDiskUserAsync(INetDiskUser user);
+
+        // Gets transfer tasks or files ---------------------------------------------------------------------
+        IReadOnlyCollection<ITransferTaskToken> GetDownloadingTasks();
+
+        IReadOnlyCollection<ITransferTaskToken> GetUploadingTasks();
+
         IReadOnlyCollection<ITransferedFile> GetDownloadedFiles();
 
         IReadOnlyCollection<ITransferedFile> GetUploadedFiles();

@@ -9,23 +9,16 @@ using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class NetDiskRecycleBinViewModel : ViewModelBase
+    public class NetDiskRecycleBinViewModel : LoadingFilesViewModel<IDeletedFile>
     {
         public NetDiskRecycleBinViewModel(IUnityContainer container) : base(container)
         {
         }
 
-        public override async void OnLoaded()
-        {
-            DeletedFiles = new ObservableCollection<IDeletedFile>(await NetDiskUser.GetDeletedFilesAsync());
-        }
 
-
-        private ObservableCollection<IDeletedFile> _deletedFiles;
-        public ObservableCollection<IDeletedFile> DeletedFiles
+        protected override async Task<IEnumerable<IDeletedFile>> GetFilesAsync()
         {
-            get => _deletedFiles;
-            set => SetProperty(ref _deletedFiles, value);
+            return await NetDiskUser.GetDeletedFilesAsync();
         }
 
     }

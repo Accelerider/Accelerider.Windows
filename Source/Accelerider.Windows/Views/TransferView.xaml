@@ -24,7 +24,7 @@
 
             <TextBlock Grid.Row="1" Text="Task Category" Margin="10 0 0 0" FontSize="14"/>
             <ListBox x:Name="SelectViewListBox" Grid.Row="3" 
-                     ItemContainerStyle="{StaticResource LeftSideListBoxItemStyle}"
+                     ItemContainerStyle="{StaticResource ListBoxItemStyle}"
                      SelectionMode="Single" SelectedIndex="0"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      HorizontalContentAlignment="Stretch">

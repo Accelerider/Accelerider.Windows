@@ -31,11 +31,6 @@ namespace Accelerider.Windows.Core
         public DataSize UsedCapacity => new DataSize(2.34, SizeUnitEnum.T);
 
 
-        public IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles() => _downloadingFiles;
-
-        public IReadOnlyCollection<ITransferTaskToken> GetUploadingFiles() => _uploadFiles;
-
-
         public async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileRootAsync()
         {
             return await GetNetDiskFileTreeAsyncMock();
@@ -79,7 +74,7 @@ namespace Accelerider.Windows.Core
             {
                 ChildrenProvider = async parent =>
                 {
-                    await Task.Delay(1);
+                    await Task.Delay(1000);
                     if (!Directory.Exists(parent.FilePath)) return null;
                     var filePaths = Directory.GetFiles(parent.FilePath.ToString());
                     var directoriePaths = Directory.GetDirectories(parent.FilePath.ToString());
@@ -149,7 +144,7 @@ namespace Accelerider.Windows.Core
 
         private async Task<IEnumerable<ISharedFile>> GetSharedFilesAsyncMock()
         {
-            await Task.Delay(100);
+            await Task.Delay(1000);
             var rand = new Random();
             var filePaths = Directory.GetFiles(FilePathMock);
             var directoriePaths = Directory.GetDirectories(FilePathMock);
@@ -168,7 +163,7 @@ namespace Accelerider.Windows.Core
 
         private async Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsyncMock()
         {
-            await Task.Delay(100);
+            await Task.Delay(1000);
             var rand = new Random();
             var filePaths = Directory.GetFiles(FilePathMock);
             var directoriePaths = Directory.GetDirectories(FilePathMock);

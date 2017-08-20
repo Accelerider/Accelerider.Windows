@@ -38,21 +38,18 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <Button Grid.Column="2" Foreground="#333333" Style="{StaticResource MaterialDesignToolButton}"
+            <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
                     Margin="0 0 8 0" Width="20" Height="20" Padding="0">
-                <materialDesign:PackIcon Foreground="{StaticResource PrimaryHueDarkBrush}" Kind="Folder" Width="20" Height="20" Name="PackIcon"/>
+                <materialDesign:PackIcon Kind="Folder" Width="20" Height="20" Name="PackIcon"/>
             </Button>
         </Grid>
         <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended"
                  ItemsSource="{Binding TransferedFiles}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 HorizontalContentAlignment="Stretch">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
-                    <Setter Property="Padding" Value="0"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
+                 HorizontalContentAlignment="Stretch"
+                 ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>

@@ -15,7 +15,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         Task<bool> PauseAsync();
 
-        Task<bool> RestartAsync();
+        Task<bool> StartAsync(bool force = false);
 
         Task<bool> CancelAsync();
     }

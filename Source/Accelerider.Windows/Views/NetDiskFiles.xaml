@@ -59,79 +59,77 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <Button Grid.Column="2" Foreground="#333333" Style="{StaticResource MaterialDesignToolButton}"
-                    Command="{Binding RefreshChildrenCacheCommand}"
+            <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
+                    Command="{Binding RefreshFilesCommand}"
                     Margin="0 0 8 0" Width="20" Height="20" Padding="0">
-                <materialDesign:PackIcon Foreground="{StaticResource PrimaryHueDarkBrush}" Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
+                <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
             </Button>
         </Grid>
-        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended"
-                 ItemsSource="{Binding CurrentFolder.ChildrenCache}"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 HorizontalContentAlignment="Stretch">
-            <ListBox.ContextMenu>
-                <ContextMenu >
-                    <MenuItem Header="Download" 
+        <ctrls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
+            <ListBox Name="ListboxFileList" SelectionMode="Extended"
+                     ItemsSource="{Binding Files}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     HorizontalContentAlignment="Stretch"
+                     ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+                <ListBox.ContextMenu>
+                    <ContextMenu >
+                        <MenuItem Header="Download" 
                               Command="{Binding DownloadCommand}" 
                               CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Download" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Share"
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Download" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Share"
                               Command="{Binding ShareCommand}" 
                               CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Share" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Delete" 
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Share" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Delete" 
                               Command="{Binding DeleteCommand}" 
                               CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="DeleteForever" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </ContextMenu>
-            </ListBox.ContextMenu>
-            
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding EnterFolderCommand}" CommandParameter="{Binding SelectedItem, ElementName=ListboxFileList}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem" BasedOn="{StaticResource TabLabelListBoxItemStyle}">
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"></Setter>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border Padding="20 10">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="16"/>
-                                
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="16"/>
-                                
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="50"/>
-                                
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="16"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Tag="{Binding Content.FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="4" Text="{Binding Content.FileSize}" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="6" Text="{Binding Content.ModifiedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="DeleteForever" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding EnterFolderCommand}" CommandParameter="{Binding SelectedItem, ElementName=ListboxFileList}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="20 10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="50"/>
+
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="16"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Tag="{Binding Content.FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="{Binding Content.FileSize}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="6" Text="{Binding Content.ModifiedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ctrls:SwitchLoadingViewContainer>
     </Grid>
 </UserControl>

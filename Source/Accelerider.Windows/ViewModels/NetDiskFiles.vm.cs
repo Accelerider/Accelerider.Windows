@@ -18,13 +18,11 @@ using Accelerider.Windows.ViewModels.Dialogs;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class NetDiskFilesViewModel : ViewModelBase
+    public class NetDiskFilesViewModel : LoadingFilesViewModel<ITreeNodeAsync<INetDiskFile>>
     {
         private ITreeNodeAsync<INetDiskFile> _currentFolder;
-        private INetDiskUser _netDiskUser;
 
         private ICommand _enterFolderCommand;
-        private ICommand _refreshChildrenCacheCommand;
         private ICommand _downloadCommand;
         private ICommand _uploadCommand;
         private ICommand _shareCommand;
@@ -37,44 +35,17 @@ namespace Accelerider.Windows.ViewModels
         }
 
 
-        public override async void OnLoaded()
-        {
-            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
-            if (_netDiskUser != NetDiskUser) CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
-        }
-
-        public override void OnUnloaded()
-        {
-            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Unsubscribe(OnCurrentNetDiskUserChanged);
-            _netDiskUser = NetDiskUser;
-        }
-
-        private async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
-        {
-            var dialog = new WaitingDialog();
-            await DialogHost.Show(dialog, "RootDialog", async (object sender, DialogOpenedEventArgs e) =>
-            {
-                CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
-                e.Session.Close();
-            });
-        }
-
         public ITreeNodeAsync<INetDiskFile> CurrentFolder
         {
             get => _currentFolder;
-            set { if (SetProperty(ref _currentFolder, value) && CurrentFolder.ChildrenCache == null) RefreshChildrenCacheExecute(); }
+            set => SetProperty(ref _currentFolder, value);
         }
 
-        #region Command properties
+        #region Commands
         public ICommand EnterFolderCommand
         {
             get => _enterFolderCommand;
             set => SetProperty(ref _enterFolderCommand, value);
-        }
-        public ICommand RefreshChildrenCacheCommand
-        {
-            get => _refreshChildrenCacheCommand;
-            set => SetProperty(ref _refreshChildrenCacheCommand, value);
         }
         public ICommand DownloadCommand
         {
@@ -96,42 +67,27 @@ namespace Accelerider.Windows.ViewModels
             get => _deleteCommand;
             set => SetProperty(ref _deleteCommand, value);
         }
-        #endregion
 
-
-        private void InitializeCommands()
-        {
-            EnterFolderCommand = new RelayCommand<ITreeNodeAsync<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.FileType == FileTypeEnum.FolderType);
-            RefreshChildrenCacheCommand = new RelayCommand(RefreshChildrenCacheExecute);
-            DownloadCommand = new RelayCommand<IList>(DownloadCommandExecute, files => files != null && files.Count > 0);
-            UploadCommand = new RelayCommand(UploadCommandExecute);
-            ShareCommand = new RelayCommand<IList>(ShareCommandExecute, files => files != null && files.Count > 0);
-            DeleteCommand = new RelayCommand<IList>(DeleteCommandExecute, files => files != null && files.Count > 0);
-        }
 
         private void DeleteCommandExecute(IList obj)
         {
             GlobalMessageQueue.Enqueue("throw new NotImplementedException()");
-        }
+            //var currentFolder = CurrentFolder;
+            //var result = await file.Content.DeleteAsync();
+            //if (result)
+            //{
+            //    //currentFolder.ChildrenCache.Remove(file);
+            //    await currentFolder.TryGetChildrenAsync();
+            //    if (currentFolder == CurrentFolder)
+            //    {
+            //        OnPropertyChanged(nameof(CurrentFolder));
+            //    }
+            //}
 
-        private async void DeleteCommandExecute(ITreeNodeAsync<INetDiskFile> file)
-        {
-            var currentFolder = CurrentFolder;
-            var result = await file.Content.DeleteAsync();
-            if (result)
-            {
-                //currentFolder.ChildrenCache.Remove(file);
-                await currentFolder.TryGetChildrenAsync();
-                if (currentFolder == CurrentFolder)
-                {
-                    OnPropertyChanged(nameof(CurrentFolder));
-                }
-            }
-
-            var message = result
-                ? $"\"{file.Content.FilePath.FileName}\" has been deleted."
-                : $"Deletes \"{file.Content.FilePath.FileName}\" file failed.";
-            GlobalMessageQueue.Enqueue(message);
+            //var message = result
+            //    ? $"\"{file.Content.FilePath.FileName}\" has been deleted."
+            //    : $"Deletes \"{file.Content.FilePath.FileName}\" file failed.";
+            //GlobalMessageQueue.Enqueue(message);
         }
 
         private async void ShareCommandExecute(IList files)
@@ -166,7 +122,6 @@ namespace Accelerider.Windows.ViewModels
             GlobalMessageQueue.Enqueue(message);
         }
 
-
         private async void UploadCommandExecute()
         {
             var dialog = new OpenFileDialog() { Multiselect = true };
@@ -195,13 +150,31 @@ namespace Accelerider.Windows.ViewModels
                 : string.Format(UiStrings.Message_AddedFilesToUploadList, fileName, dialog.FileNames.Length);
             GlobalMessageQueue.Enqueue(message);
         }
+        #endregion
 
-        private async void RefreshChildrenCacheExecute()
+
+        protected override async Task<IEnumerable<ITreeNodeAsync<INetDiskFile>>> GetFilesAsync()
         {
+            if (PreviousNetDiskUser != NetDiskUser)
+                CurrentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
+
             await CurrentFolder.TryGetChildrenAsync();
-            OnPropertyChanged(nameof(CurrentFolder));
+            return CurrentFolder.ChildrenCache;
         }
 
+
+        private void InitializeCommands()
+        {
+            EnterFolderCommand = new RelayCommand<ITreeNodeAsync<INetDiskFile>>(async file =>
+            {
+                CurrentFolder = file;
+                if (CurrentFolder.ChildrenCache == null) await LoadingFilesAsync();
+            }, file => file?.Content?.FileType == FileTypeEnum.FolderType);
+            DownloadCommand = new RelayCommand<IList>(DownloadCommandExecute, files => files != null && files.Count > 0);
+            UploadCommand = new RelayCommand(UploadCommandExecute);
+            ShareCommand = new RelayCommand<IList>(ShareCommandExecute, files => files != null && files.Count > 0);
+            DeleteCommand = new RelayCommand<IList>(DeleteCommandExecute, files => files != null && files.Count > 0);
+        }
 
         private async Task<(string folder, bool isDownload)> DisplayDownloadDialogAsync(IEnumerable<string> files)
         {
