@@ -45,7 +45,7 @@ namespace Accelerider.Windows.ViewModels
         }
 
 
-        public override void OnLoaded()
+        public override void OnLoaded(object view)
         {
             EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
 
@@ -55,7 +55,7 @@ namespace Accelerider.Windows.ViewModels
             }
         }
 
-        public override void OnUnloaded()
+        public override void OnUnloaded(object view)
         {
             EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Unsubscribe(OnCurrentNetDiskUserChanged);
 

@@ -1,6 +1,7 @@
 ﻿using Accelerider.Windows.Commands;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
@@ -16,23 +17,33 @@ namespace Accelerider.Windows.ViewModels
         private string _username;
         private bool _isRememberPassword;
         private bool _isAutoSignIn;
-        private ISnackbarMessageQueue _messageQueue;
 
-        private ICommand _onLoadedCommand;
         private ICommand _signInCommand;
 
 
         public SignInViewModel(IUnityContainer container) : base(container)
         {
-            MessageQueue = new SnackbarMessageQueue();
             LocalConfigureInfo = Container.Resolve<ILocalConfigureInfo>();
-            OnLoadedCommand = new RelayCommand<PasswordBox>(OnLoadedCommandExecute);
             SignInCommand = new RelayCommand<PasswordBox>(SignInCommandExecute, passwordBox => !string.IsNullOrEmpty(passwordBox.Password) && !string.IsNullOrEmpty(Username));
         }
 
-        public override void OnLoaded()
+        public override void OnLoaded(object view)
         {
-            base.OnLoaded();
+            var password = (view as SignInView).PasswordBox;
+
+            if (!string.IsNullOrEmpty(LocalConfigureInfo.Username) &&
+                !string.IsNullOrEmpty(LocalConfigureInfo.PasswordEncrypted))
+            {
+                IsRememberPassword = true;
+                Username = LocalConfigureInfo.Username;
+                password.Password = LocalConfigureInfo.PasswordEncrypted;
+            }
+            if (LocalConfigureInfo.IsAutoSignIn &&
+                SignInCommand.CanExecute(password))
+            {
+                IsAutoSignIn = true;
+                SignInCommand.Execute(password);
+            }
         }
 
         protected ILocalConfigureInfo LocalConfigureInfo { get; }
@@ -55,45 +66,12 @@ namespace Accelerider.Windows.ViewModels
             set { if (SetProperty(ref _isAutoSignIn, value) && value) IsRememberPassword = true; }
         }
 
-
-
-        public ISnackbarMessageQueue MessageQueue
-        {
-            get => _messageQueue;
-            set => SetProperty(ref _messageQueue, value);
-        }
-
-
-
-        public ICommand OnLoadedCommand
-        {
-            get => _onLoadedCommand;
-            set => SetProperty(ref _onLoadedCommand, value);
-        }
-
         public ICommand SignInCommand
         {
             get => _signInCommand;
             set => SetProperty(ref _signInCommand, value);
         }
 
-
-        private void OnLoadedCommandExecute(PasswordBox password)
-        {
-            if (!string.IsNullOrEmpty(LocalConfigureInfo.Username) &&
-                !string.IsNullOrEmpty(LocalConfigureInfo.PasswordEncrypted))
-            {
-                IsRememberPassword = true;
-                Username = LocalConfigureInfo.Username;
-                password.Password = LocalConfigureInfo.PasswordEncrypted;
-            }
-            if (LocalConfigureInfo.IsAutoSignIn &&
-                SignInCommand.CanExecute(password))
-            {
-                IsAutoSignIn = true;
-                SignInCommand.Execute(password);
-            }
-        }
 
         private async void SignInCommandExecute(PasswordBox password)
         {
@@ -103,7 +81,7 @@ namespace Accelerider.Windows.ViewModels
                 e.Session.Close(await AcceleriderUser.SignInAsync(Username, passwordMd5/*.EncryptByRijndael()*/))) as string;
             if (!string.IsNullOrEmpty(message))
             {
-                MessageQueue.Enqueue(message, true);
+                GlobalMessageQueue.Enqueue(message, true);
                 return;
             }
 

@@ -12,6 +12,7 @@ namespace Accelerider.Windows
     {
         private const int SW_SHOWNORMAL = 1;
         private const int SW_RESTORE = 9;
+        private const string PROCESS_NAME = "Accelerider.Windows";
 
 
         #region Win32 API functions
@@ -47,7 +48,7 @@ namespace Accelerider.Windows
 
         public void Check()
         {
-            _mutex = new Mutex(true, "Accelerider.Windows", out bool isNew);
+            _mutex = new Mutex(true, PROCESS_NAME, out bool isNew);
             if (!isNew)
             {
                 ActivateExistedWindow();

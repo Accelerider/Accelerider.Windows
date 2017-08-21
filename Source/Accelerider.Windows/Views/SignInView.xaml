@@ -6,12 +6,6 @@
              xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
              vm:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="Loaded">
-                <i:InvokeCommandAction Command="{Binding OnLoadedCommand}" CommandParameter="{Binding ElementName=PasswordBox}"/>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="24"/>

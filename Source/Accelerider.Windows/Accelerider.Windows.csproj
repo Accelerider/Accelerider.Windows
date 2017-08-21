@@ -340,7 +340,9 @@
       <Name>Accelerider.Windows.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\Images\Logo.jpg" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\AcceleriderLogo.ico" />
   </ItemGroup>

@@ -1,9 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
-using System.Threading.Tasks;
 using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
-using System;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -44,8 +42,8 @@ namespace Accelerider.Windows.ViewModels
             GlobalMessageQueue = container.Resolve<SnackbarMessageQueue>();
         }
 
-        public virtual void OnLoaded() { }
+        public virtual void OnLoaded(object view) { }
 
-        public virtual void OnUnloaded() { }
+        public virtual void OnUnloaded(object view) { }
     }
 }

@@ -215,7 +215,7 @@
                                     <materialDesign:PackIcon Kind="WindowClose"></materialDesign:PackIcon>
                                 </Button>
                                 <ContentPresenter />
-                                <materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" />
+                                <materialDesign:Snackbar MessageQueue="{Binding GlobalMessageQueue}" />
                             </Grid>
                         </AdornerDecorator>
                     </Border>
@@ -521,14 +521,16 @@
 
 
     <Style TargetType="ctrls:SwitchLoadingViewContainer">
-        <Style.Resources>
-            <ProgressBar x:Key="PART_ProgressBar" IsIndeterminate="True" Width="24" Height="24" Margin="16" Value="33"
-                         Style="{DynamicResource MaterialDesignCircularProgressBar}"/>
-        </Style.Resources>
+        <Setter Property="LoadingContent">
+            <Setter.Value>
+                <ProgressBar IsIndeterminate="True" Width="24" Height="24" Margin="16" Value="33"
+                             Style="{DynamicResource MaterialDesignCircularProgressBar}"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Content" Value="{Binding LoadedContent, RelativeSource={RelativeSource Self}}" />
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsLoading, RelativeSource={RelativeSource Self}}" Value="True">
-                <Setter Property="Content" Value="{StaticResource PART_ProgressBar}"/>
+                <Setter Property="Content" Value="{Binding LoadingContent, RelativeSource={RelativeSource Self}}"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
             </DataTrigger>

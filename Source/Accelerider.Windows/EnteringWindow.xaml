@@ -12,61 +12,58 @@
         x:Name="OwnerWindow" Style="{StaticResource EnteringWindowStyle}">
 
     <materialDesign:DialogHost Identifier="EnteringDialog">
-        <Grid>
-            <Grid Margin="60 30" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal">
-                    <ListBox x:Name="SwitchViewListBox" WindowChrome.IsHitTestVisibleInChrome="True" SelectedIndex="0" 
+        <Grid Margin="60 30" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="24"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <ListBox x:Name="SwitchViewListBox" WindowChrome.IsHitTestVisibleInChrome="True" SelectedIndex="0" 
                              ItemContainerStyle="{StaticResource TextListBoxItemStyle}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBoxItem Content="LOGIN">
-                            <ListBoxItem.Triggers>
-                                <EventTrigger RoutedEvent="ListBoxItem.Selected">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.TargetName="OwnerWindow" Storyboard.TargetProperty="Height" From="360" To="300">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <BackEase  EasingMode="EaseOut"/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </ListBoxItem.Triggers>
-                        </ListBoxItem>
-                        <ListBoxItem Content="REGISTER">
-                            <ListBoxItem.Triggers>
-                                <EventTrigger RoutedEvent="ListBoxItem.Selected">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.TargetName="OwnerWindow" Storyboard.TargetProperty="Height" From="300" To="360">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <BackEase  EasingMode="EaseOut"/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </ListBoxItem.Triggers>
-                        </ListBoxItem>
-                    </ListBox>
-                </StackPanel>
-                <ctrls:SwitchableViewContainer Grid.Row="2" Selector="{Binding ElementName=SwitchViewListBox}">
-                    <ctrls:SwitchableViewContainer.Resources>
-                        <v:SignInView x:Key="0" Style="{StaticResource TranslateToRightStyle}"/>
-                        <v:SignUpView x:Key="1" Style="{StaticResource TranslateToLeftStyle}"/>
-                    </ctrls:SwitchableViewContainer.Resources>
-                </ctrls:SwitchableViewContainer>
-            </Grid>
-            <materialDesign:Snackbar MessageQueue="{Binding GlobalMessageQueue}" />
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBoxItem Content="LOGIN">
+                        <ListBoxItem.Triggers>
+                            <EventTrigger RoutedEvent="ListBoxItem.Selected">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.TargetName="OwnerWindow" Storyboard.TargetProperty="Height" From="360" To="300">
+                                            <DoubleAnimation.EasingFunction>
+                                                <BackEase  EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ListBoxItem.Triggers>
+                    </ListBoxItem>
+                    <ListBoxItem Content="REGISTER">
+                        <ListBoxItem.Triggers>
+                            <EventTrigger RoutedEvent="ListBoxItem.Selected">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.TargetName="OwnerWindow" Storyboard.TargetProperty="Height" From="300" To="360">
+                                            <DoubleAnimation.EasingFunction>
+                                                <BackEase  EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ListBoxItem.Triggers>
+                    </ListBoxItem>
+                </ListBox>
+            </StackPanel>
+            <ctrls:SwitchableViewContainer Grid.Row="2" Selector="{Binding ElementName=SwitchViewListBox}">
+                <ctrls:SwitchableViewContainer.Resources>
+                    <v:SignInView x:Key="0" Style="{StaticResource TranslateToRightStyle}"/>
+                    <v:SignUpView x:Key="1" Style="{StaticResource TranslateToLeftStyle}"/>
+                </ctrls:SwitchableViewContainer.Resources>
+            </ctrls:SwitchableViewContainer>
         </Grid>
     </materialDesign:DialogHost>
 </Window>
