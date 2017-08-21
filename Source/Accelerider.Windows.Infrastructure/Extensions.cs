@@ -140,7 +140,7 @@ namespace Accelerider.Windows.Infrastructure
             return plainText;
         }
 
-        public static string EncryptByRSA(this string text, string publicKeyXml = null)
+        public static string EncryptByRsa(this string text, string publicKeyXml = null)
         {
             if (RsaPublicKey == null) return text; // FOR OPEN SOURCE CODE.
             Rsa.FromXmlString(publicKeyXml ?? RsaPublicKey);

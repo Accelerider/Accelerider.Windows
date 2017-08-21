@@ -71,7 +71,7 @@
             </ctrls:SwitchableViewContainer>
         </Grid>
         <ctrls:SwitchLoadingViewContainer.LoadingContent>
-            <Grid Background="#5458AF"  Style="{StaticResource FadeInStyle}">
+            <Grid Background="#5458AF" Style="{StaticResource FadeInStyle}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="Auto"/>
@@ -81,7 +81,10 @@
                 </Grid.RowDefinitions>
                 <Image Grid.Row="1" Source="Assets/Images/Logo.png" Height="180" Width="180" Style="{StaticResource FloatInUpDelayStyle}"/>
 
-                <TextBlock Grid.Row="3" FontSize="14" Foreground="White" HorizontalAlignment="Center">Loading Accelerider for Windows . . .</TextBlock>
+                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Loading Accelerider for Window" FontSize="14" Foreground="White" Style="{StaticResource FadeInStyle}"/>
+                    <TextBlock FontSize="14" Foreground="White" Width="25" Style="{StaticResource WaitingDotsStyle}"/>
+                </StackPanel>
             </Grid>
         </ctrls:SwitchLoadingViewContainer.LoadingContent>
     </ctrls:SwitchLoadingViewContainer>

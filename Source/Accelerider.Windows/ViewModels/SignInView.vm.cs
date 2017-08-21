@@ -90,7 +90,7 @@ namespace Accelerider.Windows.ViewModels
             // Saves data.
             await Task.Run(() =>
             {
-                LocalConfigureInfo.PasswordEncrypted = IsRememberPassword ? passwordMd5.EncryptByRSA() : string.Empty;
+                LocalConfigureInfo.PasswordEncrypted = IsRememberPassword ? passwordMd5 : string.Empty;
                 LocalConfigureInfo.Username = IsRememberPassword ? Username : string.Empty;
                 LocalConfigureInfo.IsAutoSignIn = IsAutoSignIn;
                 LocalConfigureInfo.Save();
