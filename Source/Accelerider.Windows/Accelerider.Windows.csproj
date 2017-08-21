@@ -102,6 +102,7 @@
     <Compile Include="Events\Events.cs" />
     <Compile Include="Events\EventSubscription.cs" />
     <Compile Include="MainWindow.vm.cs" />
+    <Compile Include="SingletonProcess.cs" />
     <Compile Include="ViewModels\BindableBase.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />

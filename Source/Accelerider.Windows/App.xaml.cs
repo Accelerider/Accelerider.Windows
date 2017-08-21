@@ -14,6 +14,8 @@ namespace Accelerider.Windows
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            new SingletonProcess().Check();
+
             base.OnStartup(e);
             var container = new UnityContainer();
             ViewModels.ViewModelLocator.ViewModelFactory = type => container.Resolve(type);

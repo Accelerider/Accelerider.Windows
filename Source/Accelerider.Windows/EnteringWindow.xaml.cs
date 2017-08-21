@@ -14,6 +14,7 @@ namespace Accelerider.Windows
         {
             InitializeComponent();
             Application.Current.Resources[Key] = this;
+            Loaded += SingletonProcess.OnWindowLoaded;
         }
         protected override void OnClosing(CancelEventArgs e)
         {
