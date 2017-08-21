@@ -95,12 +95,12 @@
             </ListBox>
 
             <TextBlock Grid.Row="5" Text="Cloud Storage" Margin="10 0 0 0" FontSize="14"/>
-            <ListBox Grid.Row="7" ItemsSource="{Binding NetDiskUsers}"
+            <ListBox Grid.Row="7" ItemsSource="{Binding NetDiskUsers}" IsEnabled="{Binding CanSwitchUser}"
                      ItemContainerStyle="{StaticResource ListBoxItemStyle}"
                      SelectedItem="{Binding NetDiskUser}" SelectionMode="Single"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     HorizontalContentAlignment="Stretch">
+                     HorizontalContentAlignment="Stretch" >
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>

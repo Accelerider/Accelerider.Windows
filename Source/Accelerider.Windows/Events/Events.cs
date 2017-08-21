@@ -29,4 +29,6 @@ namespace Accelerider.Windows.Events
 
     public class CurrentNetDiskUserChangedEvent : EventBase<INetDiskUser> { }
 
+
+    public class IsLoadingFilesChangedEvent : EventBase<bool> { }
 }

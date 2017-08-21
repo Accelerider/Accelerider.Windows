@@ -14,6 +14,7 @@ using MaterialDesignThemes.Wpf;
 using System.Windows.Forms;
 using System.Collections.ObjectModel;
 using Accelerider.Windows.ViewModels.Dialogs;
+using System;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -112,9 +113,9 @@ namespace Accelerider.Windows.ViewModels
                 tokens.AddRange(await NetDiskUser.DownloadAsync(file, folder));
             }
 
-            PulishDownloadTaskCreatedEvent(ownerName, tokens);
+            PulishTaskCreatedEvent(ownerName, tokens, OnUploaded);
 
-            var fileName = GetFilePathWithFixedLength(tokens.First().FileInfo.FilePath.FileName, 40);
+            var fileName = TrimFileName(tokens.First().FileInfo.FilePath.FileName, 40);
             var message = tokens.Count == 1
                 ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)
                 : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, tokens.Count);
@@ -137,13 +138,9 @@ namespace Accelerider.Windows.ViewModels
                 });
             });
 
-            EventAggregator.GetEvent<UploadTaskCreatedEvent>().Publish(tokens.Select(token =>
-            {
-                token.TransferStateChanged += OnUploaded;
-                return new TaskCreatedEventArgs(ownerName, token);
-            }).ToList());
+            PulishTaskCreatedEvent(ownerName, tokens, OnUploaded);
 
-            var fileName = GetFilePathWithFixedLength(dialog.FileNames[0], 40);
+            var fileName = TrimFileName(dialog.FileNames[0], 40);
             var message = dialog.FileNames.Length == 1
                 ? string.Format(UiStrings.Message_AddedFileToUploadList, fileName)
                 : string.Format(UiStrings.Message_AddedFilesToUploadList, fileName, dialog.FileNames.Length);
@@ -179,7 +176,7 @@ namespace Accelerider.Windows.ViewModels
             if (CurrentFolder.ChildrenCache == null)
                 await LoadingFilesAsync();
             else
-                Files = new ObservableCollection<ITreeNodeAsync<INetDiskFile>>(CurrentFolder.ChildrenCache);
+                Files = CurrentFolder.ChildrenCache;
         }
 
         private async Task<(string folder, bool isDownload)> DisplayDownloadDialogAsync(IEnumerable<string> files)
@@ -200,11 +197,11 @@ namespace Accelerider.Windows.ViewModels
             return (vm.ToDownloadFileName, true);
         }
 
-        private void PulishDownloadTaskCreatedEvent(string ownerName, IEnumerable<ITransferTaskToken> tokens)
+        private void PulishTaskCreatedEvent(string ownerName, IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferStateChangedEventArgs> handler)
         {
             EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Publish(tokens.Select(token =>
             {
-                token.TransferStateChanged += OnDownloaded;
+                token.TransferStateChanged += handler;
                 return new TaskCreatedEventArgs(ownerName, token);
             }).ToList());
         }
@@ -225,15 +222,15 @@ namespace Accelerider.Windows.ViewModels
             EventAggregator.GetEvent<DownloadTaskTranferedEvent>().Publish(e.Token.FileInfo);
         }
 
-        private string GetFilePathWithFixedLength(string filePath, int length)
+        private string TrimFileName(string fileName, int length)
         {
-            FileLocation fileLocation = filePath;
+            FileLocation fileLocation = fileName;
             var folderNameLength = length - fileLocation.FileName.Length - 5;
-            return filePath.Length > length
+            return fileName.Length > length
                 ? folderNameLength > 0
                     ? fileLocation.FolderPath.Substring(0, folderNameLength) + "...\\" + fileLocation.FileName
                     : fileLocation.FileName
-                : filePath;
+                : fileName;
         }
     }
 }

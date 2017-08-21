@@ -6,16 +6,18 @@ using Accelerider.Windows.Commands;
 using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
+using Accelerider.Windows.Views.Dialogs;
+using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.ViewModels
 {
     public abstract class LoadingFilesViewModel<T> : ViewModelBase
     {
         protected INetDiskUser PreviousNetDiskUser;
-        private int _loadingCount;
 
+        private bool _isLoadingFiles;
         private ICommand _refreshFilesCommand;
-        private ObservableCollection<T> _files;
+        private IEnumerable<T> _files;
 
 
         protected LoadingFilesViewModel(IUnityContainer container) : base(container)
@@ -30,20 +32,13 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _refreshFilesCommand, value);
         }
 
-        public int LoadingCount
+        public bool IsLoadingFiles
         {
-            get => _loadingCount;
-            set
-            {
-                if (_loadingCount == value) return;
-                _loadingCount = value;
-                OnPropertyChanged(nameof(IsLoadingFiles));
-            }
+            get => _isLoadingFiles;
+            set { if (SetProperty(ref _isLoadingFiles, value)) EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Publish(_isLoadingFiles); }
         }
 
-        public bool IsLoadingFiles => _loadingCount != 0;
-
-        public ObservableCollection<T> Files
+        public IEnumerable<T> Files
         {
             get => _files;
             set => SetProperty(ref _files, value);
@@ -74,10 +69,11 @@ namespace Accelerider.Windows.ViewModels
 
         protected async Task LoadingFilesAsync()
         {
-            LoadingCount++;
-            var temp = await GetFilesAsync();
-            if (temp != null) Files = new ObservableCollection<T>(temp);
-            LoadingCount--;
+            if (IsLoadingFiles) return;
+
+            IsLoadingFiles = true;
+            Files = await GetFilesAsync();
+            IsLoadingFiles = false;
         }
 
         protected abstract Task<IEnumerable<T>> GetFilesAsync();

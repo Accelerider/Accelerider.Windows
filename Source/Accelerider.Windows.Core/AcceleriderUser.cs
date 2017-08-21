@@ -92,19 +92,19 @@ namespace Accelerider.Windows.Core
                 {
                     HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/29689099?v=4&amp;s=100"),
                     Username = "Jielun Zhou",
-                    FilePathMock = "E:\\"
+                    FilePathMock = "C:\\"
                 },
                 new NetDiskUser
                 {
                     HeadImageUri = new Uri("https://avatars3.githubusercontent.com/u/10069087?v=4&amp;s=100"),
                     Username = "Junjie Lin",
-                    FilePathMock = "F:\\"
+                    FilePathMock = "D:\\"
                 },
                 new NetDiskUser
                 {
                     HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/26038597?v=4&amp;s=100"),
                     Username = "TaoFen Boy",
-                    FilePathMock = "G:\\"
+                    FilePathMock = "E:\\"
                 },
             };
         }
