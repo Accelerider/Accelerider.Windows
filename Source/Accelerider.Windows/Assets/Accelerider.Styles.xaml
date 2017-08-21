@@ -6,6 +6,7 @@
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls">
 
+    
     <ControlTemplate x:Key="FlatButtonTemplate" TargetType="Button">
         <Grid>
             <AdornerDecorator>
@@ -521,6 +522,8 @@
 
 
     <Style TargetType="ctrls:SwitchLoadingViewContainer">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="LoadingContent">
             <Setter.Value>
                 <ProgressBar IsIndeterminate="True" Width="24" Height="24" Margin="16" Value="33"
@@ -531,8 +534,6 @@
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsLoading, RelativeSource={RelativeSource Self}}" Value="True">
                 <Setter Property="Content" Value="{Binding LoadingContent, RelativeSource={RelativeSource Self}}"/>
-                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
             </DataTrigger>
         </Style.Triggers>
     </Style>

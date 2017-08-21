@@ -24,9 +24,9 @@
             <Grid Grid.Column="1" >
                 <ctrls:SwitchableViewContainer Selector="{Binding ElementName=TabListBox}">
                     <ctrls:SwitchableViewContainer.Resources>
-                        <views:NetDiskView x:Key="0" Style="{StaticResource FloatInStyle}"/>
-                        <views:TransferView x:Key="1" Style="{StaticResource FloatInStyle}"/>
-                        <views:MoreView x:Key="2" Style="{StaticResource FloatInStyle}"/>
+                        <views:NetDiskView x:Key="0" Style="{StaticResource FloatInRightToLeftStyle}"/>
+                        <views:TransferView x:Key="1" Style="{StaticResource FloatInRightToLeftStyle}"/>
+                        <views:MoreView x:Key="2" Style="{StaticResource FloatInRightToLeftStyle}"/>
                     </ctrls:SwitchableViewContainer.Resources>
                 </ctrls:SwitchableViewContainer>
             </Grid>

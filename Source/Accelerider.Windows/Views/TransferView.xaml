@@ -83,10 +83,10 @@
         <ctrls:SwitchableViewContainer Grid.Column="1"  Margin="25 50 25 0" Background="White"
                                        Selector="{Binding ElementName=SelectViewListBox}">
             <ctrls:SwitchableViewContainer.Resources>
-                <local:TransferDownloading x:Key="0" Style="{StaticResource FadeInStyle}"/>
-                <local:TransferDownloaded x:Key="1" Style="{StaticResource FadeInStyle}" />
-                <local:TransferUploading x:Key="3" Style="{StaticResource FadeInStyle}" />
-                <local:TransferUploaded x:Key="4" Style="{StaticResource FadeInStyle}" />
+                <local:TransferDownloading x:Key="0" Style="{StaticResource FloatInUpStyle}"/>
+                <local:TransferDownloaded x:Key="1" Style="{StaticResource FloatInUpStyle}" />
+                <local:TransferUploading x:Key="3" Style="{StaticResource FloatInUpStyle}" />
+                <local:TransferUploaded x:Key="4" Style="{StaticResource FloatInUpStyle}" />
             </ctrls:SwitchableViewContainer.Resources>
         </ctrls:SwitchableViewContainer>
     </Grid>

@@ -341,10 +341,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\Logo.jpg" />
+    <Resource Include="Assets\Images\AcceleriderLogo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\AcceleriderLogo.ico" />
+    <Resource Include="Assets\Images\Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

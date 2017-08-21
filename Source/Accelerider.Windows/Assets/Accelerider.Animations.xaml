@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style x:Key="FloatInStyle" TargetType="FrameworkElement">
+    <Style x:Key="FloatInRightToLeftStyle" TargetType="FrameworkElement">
         <Setter Property="RenderTransform">
             <Setter.Value>
                 <TranslateTransform />
@@ -27,7 +27,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="FadeInStyle" TargetType="FrameworkElement">
+    <Style x:Key="FloatInUpStyle" TargetType="FrameworkElement">
         <Setter Property="RenderTransform">
             <Setter.Value>
                 <TranslateTransform />
@@ -47,6 +47,56 @@
                                 <CircleEase  EasingMode="EaseIn"/>
                             </DoubleAnimation.EasingFunction>
                         </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="FadeInStyle" TargetType="FrameworkElement">
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.400" Storyboard.TargetProperty="Opacity" From="0" To="1">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase  EasingMode="EaseIn"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="FloatInUpDelayStyle" TargetType="FrameworkElement">
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TranslateTransform />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Loaded" >
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.Y">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="20"/>
+                            <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="20"/>
+                            <EasingDoubleKeyFrame KeyTime="00:00:00.800" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="00:00:00.800" Value="1">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CubicEase EasingMode="EaseIn"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>

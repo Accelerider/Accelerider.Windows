@@ -1,7 +1,6 @@
 ﻿<Window x:Class="Accelerider.Windows.EnteringWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:v="clr-namespace:Accelerider.Windows.Views"
         xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
         xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
@@ -11,27 +10,31 @@
         Title="EnteringWindow" Height="300" Width="430"
         x:Name="OwnerWindow" Style="{StaticResource EnteringWindowStyle}">
 
-    <materialDesign:DialogHost Identifier="EnteringDialog">
+    <ctrls:SwitchLoadingViewContainer IsLoading="{Binding IsLoading}">
         <Grid Margin="60 30" VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="21"/>
                 <RowDefinition Height="24"/>
-                <RowDefinition/>
+                <RowDefinition />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <ListBox x:Name="SwitchViewListBox" WindowChrome.IsHitTestVisibleInChrome="True" SelectedIndex="0" 
-                             ItemContainerStyle="{StaticResource TextListBoxItemStyle}">
+                         ItemContainerStyle="{StaticResource TextListBoxItemStyle}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
+                            <StackPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
+
                     <ListBoxItem Content="LOGIN">
                         <ListBoxItem.Triggers>
                             <EventTrigger RoutedEvent="ListBoxItem.Selected">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.TargetName="OwnerWindow" Storyboard.TargetProperty="Height" From="360" To="300">
+                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="360" To="300">
                                             <DoubleAnimation.EasingFunction>
                                                 <BackEase  EasingMode="EaseOut"/>
                                             </DoubleAnimation.EasingFunction>
@@ -41,12 +44,13 @@
                             </EventTrigger>
                         </ListBoxItem.Triggers>
                     </ListBoxItem>
+
                     <ListBoxItem Content="REGISTER">
                         <ListBoxItem.Triggers>
                             <EventTrigger RoutedEvent="ListBoxItem.Selected">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.TargetName="OwnerWindow" Storyboard.TargetProperty="Height" From="300" To="360">
+                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="300" To="360">
                                             <DoubleAnimation.EasingFunction>
                                                 <BackEase  EasingMode="EaseOut"/>
                                             </DoubleAnimation.EasingFunction>
@@ -58,6 +62,7 @@
                     </ListBoxItem>
                 </ListBox>
             </StackPanel>
+
             <ctrls:SwitchableViewContainer Grid.Row="2" Selector="{Binding ElementName=SwitchViewListBox}">
                 <ctrls:SwitchableViewContainer.Resources>
                     <v:SignInView x:Key="0" Style="{StaticResource TranslateToRightStyle}"/>
@@ -65,5 +70,19 @@
                 </ctrls:SwitchableViewContainer.Resources>
             </ctrls:SwitchableViewContainer>
         </Grid>
-    </materialDesign:DialogHost>
+        <ctrls:SwitchLoadingViewContainer.LoadingContent>
+            <Grid Background="#5458AF"  Style="{StaticResource FadeInStyle}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="1" Source="Assets/Images/Logo.png" Height="180" Width="180" Style="{StaticResource FloatInUpDelayStyle}"/>
+
+                <TextBlock Grid.Row="3" FontSize="14" Foreground="White" HorizontalAlignment="Center">Loading Accelerider for Windows . . .</TextBlock>
+            </Grid>
+        </ctrls:SwitchLoadingViewContainer.LoadingContent>
+    </ctrls:SwitchLoadingViewContainer>
 </Window>

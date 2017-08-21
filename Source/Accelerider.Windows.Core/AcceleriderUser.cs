@@ -25,14 +25,14 @@ namespace Accelerider.Windows.Core
         #region Accelerider account system
         public async Task<string> SignUpAsync(string username, string password, string licenseCode)
         {
-            await Task.Delay(1000);
+            await Task.Delay(5000);
             return "Sign up failed: License code is incorrect.";
         }
 
         public async Task<string> SignInAsync(string username, string password)
         {
-            await Task.Delay(2000);
-            return new Random().NextDouble() > 0.8 ? "Login failed: Usename or password is incorrect." : null;
+            await Task.Delay(5000);
+            return new Random().NextDouble() > 0.1 ? "Login failed: Usename or password is incorrect." : null;
         }
 
         public Task<bool> SignOutAsync()

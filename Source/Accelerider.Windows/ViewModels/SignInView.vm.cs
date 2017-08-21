@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Accelerider.Windows.Events;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -77,11 +78,12 @@ namespace Accelerider.Windows.ViewModels
         {
             var passwordMd5 = password.Password.ToMd5();
 
-            var message = await DialogHost.Show(new WaitingDialog(), "EnteringDialog", async (object sender, DialogOpenedEventArgs e) =>
-                e.Session.Close(await AcceleriderUser.SignInAsync(Username, passwordMd5/*.EncryptByRijndael()*/))) as string;
+            EventAggregator.GetEvent<IsLoadingMainWindowEvent>().Publish(true);
+            var message = await AcceleriderUser.SignInAsync(Username, passwordMd5 /*.EncryptByRijndael()*/);
             if (!string.IsNullOrEmpty(message))
             {
                 GlobalMessageQueue.Enqueue(message, true);
+                EventAggregator.GetEvent<IsLoadingMainWindowEvent>().Publish(false);
                 return;
             }
 
@@ -97,6 +99,7 @@ namespace Accelerider.Windows.ViewModels
             // Launches main window and closes itself.
             new MainWindow().Show();
             (Application.Current.Resources[EnteringWindow.Key] as EnteringWindow)?.Close();
+            EventAggregator.GetEvent<IsLoadingMainWindowEvent>().Publish(false);
         }
     }
 }

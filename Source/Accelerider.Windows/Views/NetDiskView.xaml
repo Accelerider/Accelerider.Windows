@@ -133,9 +133,9 @@
         <ctrls:SwitchableViewContainer Grid.Column="1" Margin="25 50 25 0" Background="White"
                                        Selector="{Binding ElementName=SelectViewListBox}">
             <ctrls:SwitchableViewContainer.Resources>
-                <local:NetDiskFiles x:Key="0" Style="{StaticResource FadeInStyle}"/>
-                <local:NetDiskShare x:Key="1" Style="{StaticResource FadeInStyle}" />
-                <local:NetDiskRecycleBin x:Key="2" Style="{StaticResource FadeInStyle}" />
+                <local:NetDiskFiles x:Key="0" Style="{StaticResource FloatInUpStyle}"/>
+                <local:NetDiskShare x:Key="1" Style="{StaticResource FloatInUpStyle}" />
+                <local:NetDiskRecycleBin x:Key="2" Style="{StaticResource FloatInUpStyle}" />
             </ctrls:SwitchableViewContainer.Resources>
         </ctrls:SwitchableViewContainer>
     </Grid>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Accelerider.Windows.Commands;
+using Accelerider.Windows.Events;
 using Accelerider.Windows.Views;
 using Microsoft.Practices.Unity;
 
@@ -32,6 +33,7 @@ namespace Accelerider.Windows.ViewModels
                 GlobalMessageQueue.Enqueue("Password does not match the confirm password.");
                 return;
             }
+            EventAggregator.GetEvent<IsLoadingMainWindowEvent>().Publish(true);
             var message = await AcceleriderUser.SignUpAsync(Username, view.PasswordBox.Password, view.PasswordBoxCode.Password);
             if (string.IsNullOrEmpty(message))
             {
@@ -41,6 +43,7 @@ namespace Accelerider.Windows.ViewModels
             {
                 GlobalMessageQueue.Enqueue(message);
             }
+            EventAggregator.GetEvent<IsLoadingMainWindowEvent>().Publish(false);
         }
 
 

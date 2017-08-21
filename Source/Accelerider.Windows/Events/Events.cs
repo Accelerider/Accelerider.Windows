@@ -31,4 +31,6 @@ namespace Accelerider.Windows.Events
 
 
     public class IsLoadingFilesChangedEvent : EventBase<bool> { }
+
+    public class IsLoadingMainWindowEvent : EventBase<bool> { }
 }
