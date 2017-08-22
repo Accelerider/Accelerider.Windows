@@ -109,7 +109,7 @@
     <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
     <Compile Include="ViewModels\Items\TransferTask.vm.cs" />
-    <Compile Include="ViewModels\LoadingFiles.vm.cs" />
+    <Compile Include="ViewModels\LoadingFilesBase.vm.cs" />
     <Compile Include="ViewModels\NetDiskFiles.vm.cs" />
     <Compile Include="ViewModels\NetDiskShare.vm.cs" />
     <Compile Include="ViewModels\NetDiskView.vm.cs" />
@@ -119,6 +119,7 @@
     <Compile Include="ViewModels\SignUpView.vm.cs" />
     <Compile Include="ViewModels\TransferDownloaded.vm.cs" />
     <Compile Include="ViewModels\TransferDownloading.vm.cs" />
+    <Compile Include="ViewModels\TransferingBase.vm.cs" />
     <Compile Include="ViewModels\TransferUploaded.vm.cs" />
     <Compile Include="ViewModels\TransferUploading.vm.cs" />
     <Compile Include="ViewModels\TransferView.vm.cs" />

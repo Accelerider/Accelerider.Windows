@@ -4,9 +4,11 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Events
 {
-    public class DownloadTaskCreatedEvent : EventBase<IReadOnlyCollection<TaskCreatedEventArgs>> { }
+    public class TaskCreatedEvent : EventBase<IReadOnlyCollection<TaskCreatedEventArgs>> { }
 
-    public class UploadTaskCreatedEvent : EventBase<IReadOnlyCollection<TaskCreatedEventArgs>> { }
+    public class DownloadTaskCreatedEvent : TaskCreatedEvent { }
+
+    public class UploadTaskCreatedEvent : TaskCreatedEvent { }
 
     public class TaskCreatedEventArgs
     {

@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Accelerider.Windows.Commands;
 using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
-using Accelerider.Windows.Views.Dialogs;
-using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public abstract class LoadingFilesViewModel<T> : ViewModelBase
+    public abstract class LoadingFilesBaseViewModel<T> : ViewModelBase
     {
         protected INetDiskUser PreviousNetDiskUser;
 
@@ -20,7 +17,7 @@ namespace Accelerider.Windows.ViewModels
         private IEnumerable<T> _files;
 
 
-        protected LoadingFilesViewModel(IUnityContainer container) : base(container)
+        protected LoadingFilesBaseViewModel(IUnityContainer container) : base(container)
         {
             RefreshFilesCommand = new RelayCommand(async () => await LoadingFilesAsync());
         }
@@ -41,7 +38,11 @@ namespace Accelerider.Windows.ViewModels
         public IEnumerable<T> Files
         {
             get => _files;
-            set => SetProperty(ref _files, value);
+            set
+            {
+                SetProperty(ref _files, value);
+                IsLoadingFiles = false;
+            }
         }
 
 
@@ -73,7 +74,6 @@ namespace Accelerider.Windows.ViewModels
 
             IsLoadingFiles = true;
             Files = await GetFilesAsync();
-            IsLoadingFiles = false;
         }
 
         protected abstract Task<IEnumerable<T>> GetFilesAsync();

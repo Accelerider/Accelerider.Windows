@@ -102,10 +102,59 @@ namespace Accelerider.Windows.Core
                 },
                 new NetDiskUser
                 {
-                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/26038597?v=4&amp;s=100"),
+                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/25058219?v=4&amp;s=100"),
                     Username = "TaoFen Boy",
                     FilePathMock = "E:\\"
                 },
+                new NetDiskUser
+                {
+                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/26038597?v=4&amp;s=100"),
+                    Username = "czy8518",
+                    FilePathMock = "E:\\"
+                },
+                new NetDiskUser
+                {
+                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/20897838?v=4&amp;s=100"),
+                    Username = "Mr-Share",
+                    FilePathMock = "E:\\"
+                },
+                new NetDiskUser
+                {
+                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/4465021?v=4&amp;s=100"),
+                    Username = "DestinyHunter",
+                    FilePathMock = "E:\\"
+                },
+                new NetDiskUser
+                {
+                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/27673128?v=4&amp;s=100"),
+                    Username = "qitiandashengsunwukong",
+                    FilePathMock = "E:\\"
+                },
+                new NetDiskUser
+                {
+                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/9046253?v=4&amp;s=100"),
+                    Username = "MegalovaniaHere",
+                    FilePathMock = "E:\\"
+                },
+                new NetDiskUser
+                {
+                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/25217638?v=4&amp;s=100"),
+                    Username = "starlightme",
+                    FilePathMock = "E:\\"
+                },
+                new NetDiskUser
+                {
+                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/11731515?v=4&amp;s=100"),
+                    Username = "Roadchen",
+                    FilePathMock = "E:\\"
+                },
+                new NetDiskUser
+                {
+                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/4246206?v=4&amp;s=100"),
+                    Username = "itodayer",
+                    FilePathMock = "E:\\"
+                },
+
             };
         }
 

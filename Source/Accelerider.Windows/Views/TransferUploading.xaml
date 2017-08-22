@@ -46,6 +46,6 @@
             </StackPanel>
         </Grid>
 
-        <ctrls:TransferTaskList Grid.Row="2" ItemsSource="{Binding UploadTasks}"/>
+        <ctrls:TransferTaskList Grid.Row="2" ItemsSource="{Binding TransferTasks}"/>
     </Grid>
 </UserControl>

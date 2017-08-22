@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class NetDiskShareViewModel : LoadingFilesViewModel<ISharedFile>
+    public class NetDiskShareViewModel : LoadingFilesBaseViewModel<ISharedFile>
     {
         public NetDiskShareViewModel(IUnityContainer container) : base(container)
         {

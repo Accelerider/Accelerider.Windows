@@ -105,27 +105,15 @@
     
     <Style x:Key="WaitingDotsStyle" TargetType="TextBlock">
         <Style.Triggers>
-            <Trigger Property="Tag" Value="0">
-                <Setter Property="Text" Value=" " />
-            </Trigger>
-            <Trigger Property="Tag" Value="1">
-                <Setter Property="Text" Value=" ." />
-            </Trigger>
-            <Trigger Property="Tag" Value="2">
-                <Setter Property="Text" Value=" . ." />
-            </Trigger>
-            <Trigger Property="Tag" Value="3">
-                <Setter Property="Text" Value=" . . ." />
-            </Trigger>
             <EventTrigger RoutedEvent="Loaded">
                 <BeginStoryboard>
                     <Storyboard>
-                        <ObjectAnimationUsingKeyFrames RepeatBehavior="Forever" Storyboard.TargetProperty="Tag">
-                            <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="0"/>
-                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="1"/>
-                            <DiscreteObjectKeyFrame KeyTime="0:0:1.0" Value="2"/>
-                            <DiscreteObjectKeyFrame KeyTime="0:0:1.5" Value="3"/>
-                            <DiscreteObjectKeyFrame KeyTime="0:0:2.0" Value="0"/>
+                        <ObjectAnimationUsingKeyFrames RepeatBehavior="Forever" Storyboard.TargetProperty="Text">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value=""/>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value=" ."/>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:1.0" Value=" . ."/>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:1.5" Value=" . . ."/>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:2.0" Value=""/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </BeginStoryboard>

@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Accelerider.Windows.Commands;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.ViewModels.Dialogs;
 using Microsoft.Practices.Unity;
 using System.Collections;
 using System.Linq;
@@ -13,12 +14,11 @@ using Accelerider.Windows.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Forms;
 using System.Collections.ObjectModel;
-using Accelerider.Windows.ViewModels.Dialogs;
 using System;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class NetDiskFilesViewModel : LoadingFilesViewModel<ITreeNodeAsync<INetDiskFile>>
+    public class NetDiskFilesViewModel : LoadingFilesBaseViewModel<ITreeNodeAsync<INetDiskFile>>
     {
         private ITreeNodeAsync<INetDiskFile> _currentFolder;
 
@@ -69,35 +69,13 @@ namespace Accelerider.Windows.ViewModels
         }
 
 
-        private void DeleteCommandExecute(IList obj)
+        private void InitializeCommands()
         {
-            GlobalMessageQueue.Enqueue("throw new NotImplementedException()");
-            //var currentFolder = CurrentFolder;
-            //var result = await file.Content.DeleteAsync();
-            //if (result)
-            //{
-            //    //currentFolder.ChildrenCache.Remove(file);
-            //    await currentFolder.TryGetChildrenAsync();
-            //    if (currentFolder == CurrentFolder)
-            //    {
-            //        OnPropertyChanged(nameof(CurrentFolder));
-            //    }
-            //}
-
-            //var message = result
-            //    ? $"\"{file.Content.FilePath.FileName}\" has been deleted."
-            //    : $"Deletes \"{file.Content.FilePath.FileName}\" file failed.";
-            //GlobalMessageQueue.Enqueue(message);
-        }
-
-        private async void ShareCommandExecute(IList files)
-        {
-            var netDiskFiles = new Collection<INetDiskFile>();
-            foreach (ITreeNodeAsync<INetDiskFile> file in files)
-            {
-                netDiskFiles.Add(file.Content);
-            }
-            var (code, _) = await NetDiskUser.ShareAsync(netDiskFiles);
+            EnterFolderCommand = new RelayCommand<ITreeNodeAsync<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.FileType == FileTypeEnum.FolderType);
+            DownloadCommand = new RelayCommand<IList>(DownloadCommandExecute, files => files != null && files.Count > 0);
+            UploadCommand = new RelayCommand(UploadCommandExecute);
+            ShareCommand = new RelayCommand<IList>(ShareCommandExecute, files => files != null && files.Count > 0);
+            DeleteCommand = new RelayCommand<IList>(DeleteCommandExecute, files => files != null && files.Count > 0);
         }
 
         private async void DownloadCommandExecute(IList files)
@@ -113,7 +91,7 @@ namespace Accelerider.Windows.ViewModels
                 tokens.AddRange(await NetDiskUser.DownloadAsync(file, folder));
             }
 
-            PulishTaskCreatedEvent(ownerName, tokens, OnUploaded);
+            PulishTaskCreatedEvent<DownloadTaskCreatedEvent>(ownerName, tokens, OnDownloaded);
 
             var fileName = TrimFileName(tokens.First().FileInfo.FilePath.FileName, 40);
             var message = tokens.Count == 1
@@ -138,7 +116,7 @@ namespace Accelerider.Windows.ViewModels
                 });
             });
 
-            PulishTaskCreatedEvent(ownerName, tokens, OnUploaded);
+            PulishTaskCreatedEvent<UploadTaskCreatedEvent>(ownerName, tokens, OnUploaded);
 
             var fileName = TrimFileName(dialog.FileNames[0], 40);
             var message = dialog.FileNames.Length == 1
@@ -146,8 +124,38 @@ namespace Accelerider.Windows.ViewModels
                 : string.Format(UiStrings.Message_AddedFilesToUploadList, fileName, dialog.FileNames.Length);
             GlobalMessageQueue.Enqueue(message);
         }
-        #endregion
 
+        private async void ShareCommandExecute(IList files)
+        {
+            var netDiskFiles = new Collection<INetDiskFile>();
+            foreach (ITreeNodeAsync<INetDiskFile> file in files)
+            {
+                netDiskFiles.Add(file.Content);
+            }
+            var (code, _) = await NetDiskUser.ShareAsync(netDiskFiles);
+        }
+
+        private void DeleteCommandExecute(IList obj)
+        {
+            GlobalMessageQueue.Enqueue("throw new NotImplementedException()");
+            //var currentFolder = CurrentFolder;
+            //var result = await file.Content.DeleteAsync();
+            //if (result)
+            //{
+            //    //currentFolder.ChildrenCache.Remove(file);
+            //    await currentFolder.TryGetChildrenAsync();
+            //    if (currentFolder == CurrentFolder)
+            //    {
+            //        OnPropertyChanged(nameof(CurrentFolder));
+            //    }
+            //}
+
+            //var message = result
+            //    ? $"\"{file.Content.FilePath.FileName}\" has been deleted."
+            //    : $"Deletes \"{file.Content.FilePath.FileName}\" file failed.";
+            //GlobalMessageQueue.Enqueue(message);
+        }
+        #endregion
 
         protected override async Task<IEnumerable<ITreeNodeAsync<INetDiskFile>>> GetFilesAsync()
         {
@@ -159,16 +167,6 @@ namespace Accelerider.Windows.ViewModels
             }
             await CurrentFolder.TryGetChildrenAsync();
             return CurrentFolder.ChildrenCache;
-        }
-
-
-        private void InitializeCommands()
-        {
-            EnterFolderCommand = new RelayCommand<ITreeNodeAsync<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.FileType == FileTypeEnum.FolderType);
-            DownloadCommand = new RelayCommand<IList>(DownloadCommandExecute, files => files != null && files.Count > 0);
-            UploadCommand = new RelayCommand(UploadCommandExecute);
-            ShareCommand = new RelayCommand<IList>(ShareCommandExecute, files => files != null && files.Count > 0);
-            DeleteCommand = new RelayCommand<IList>(DeleteCommandExecute, files => files != null && files.Count > 0);
         }
 
         private async void RefreshFiles()
@@ -197,9 +195,10 @@ namespace Accelerider.Windows.ViewModels
             return (vm.ToDownloadFileName, true);
         }
 
-        private void PulishTaskCreatedEvent(string ownerName, IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferStateChangedEventArgs> handler)
+        private void PulishTaskCreatedEvent<T>(string ownerName, IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferStateChangedEventArgs> handler) 
+            where T : TaskCreatedEvent, new()
         {
-            EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Publish(tokens.Select(token =>
+            EventAggregator.GetEvent<T>().Publish(tokens.Select(token =>
             {
                 token.TransferStateChanged += handler;
                 return new TaskCreatedEventArgs(ownerName, token);

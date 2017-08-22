@@ -124,7 +124,7 @@
             </ListBox>
             <Button Grid.Row="8" Height="30" Margin="35 15" materialDesign:ShadowAssist.ShadowDepth="Depth0">
                 <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="Plus" Width="20" Height="20" VerticalAlignment="Center" Margin="0 0 10 0"/>
+                    <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" VerticalAlignment="Center" Margin="0 0 10 0"/>
                     <TextBlock Text="Add Net-Disk" VerticalAlignment="Center" FontSize="12"/>
                 </StackPanel>
             </Button>

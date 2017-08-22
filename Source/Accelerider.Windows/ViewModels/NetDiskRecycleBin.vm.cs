@@ -5,7 +5,7 @@ using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class NetDiskRecycleBinViewModel : LoadingFilesViewModel<IDeletedFile>
+    public class NetDiskRecycleBinViewModel : LoadingFilesBaseViewModel<IDeletedFile>
     {
         public NetDiskRecycleBinViewModel(IUnityContainer container) : base(container)
         {
