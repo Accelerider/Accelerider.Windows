@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System.Linq;
+using Microsoft.Practices.Unity;
 using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
@@ -16,7 +17,7 @@ namespace Accelerider.Windows.ViewModels
 
         public INetDiskUser NetDiskUser
         {
-            get => AcceleriderUser.CurrentNetDiskUser;
+            get => AcceleriderUser.CurrentNetDiskUser ?? AcceleriderUser.NetDiskUsers.FirstOrDefault();
             set
             {
                 var temp = AcceleriderUser.CurrentNetDiskUser;

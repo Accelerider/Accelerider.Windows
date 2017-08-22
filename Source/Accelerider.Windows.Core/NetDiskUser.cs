@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Accelerider.Windows.Core.DownloadEngine;
 using Accelerider.Windows.Core.Files;
 using Accelerider.Windows.Core.MockData;
 using Accelerider.Windows.Infrastructure;
@@ -11,13 +10,10 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Core
 {
-    internal class NetDiskUser : INetDiskUser
+    internal class NetDiskUser : IBaiduCloudUser
     {
         private readonly List<ITransferTaskToken> _downloadingFiles = new List<ITransferTaskToken>();
         private readonly List<ITransferTaskToken> _uploadFiles = new List<ITransferTaskToken>();
-
-        private readonly List<ITransferedFile> _downloadedFiles = new List<ITransferedFile>();
-        private readonly List<ITransferedFile> _uploadedFiles = new List<ITransferedFile>();
 
 
         public Uri HeadImageUri { get; set; }
@@ -73,7 +69,7 @@ namespace Accelerider.Windows.Core
         #region Demo data
 
         public string FilePathMock = null;
-        private Random _rand = new Random();
+        private readonly Random _rand = new Random();
 
         private async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeAsyncMock()
         {
@@ -115,7 +111,7 @@ namespace Accelerider.Windows.Core
             return temp;
         }
 
-        private async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsyncMock(ITreeNodeAsync<INetDiskFile> fileNode, FileLocation downloadFolder = null)
+        private async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsyncMock(ITreeNodeAsync<INetDiskFile> fileNode)
         {
             var temp = (from file in await fileNode.FlattenAsync()
                         where file.Content.FileType != FileTypeEnum.FolderType
@@ -160,7 +156,7 @@ namespace Accelerider.Windows.Core
                    where File.Exists(filePath) || Directory.Exists(filePath)
                    select new SharedFile
                    {
-                       Name = new FileLocation(filePath).FileName,
+                       Title = new FileLocation(filePath).FileName,
                        DownloadedNumber = rand.Next(0, 1000),
                        SavedNumber = rand.Next(0, 1000),
                        VisitedNumber = rand.Next(0, 1000),

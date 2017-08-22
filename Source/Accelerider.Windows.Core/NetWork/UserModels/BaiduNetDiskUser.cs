@@ -63,5 +63,10 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         {
             throw new NotImplementedException();
         }
+
+        public Task<bool> RefreshUserInfoAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

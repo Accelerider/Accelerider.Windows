@@ -12,17 +12,11 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
     public interface ISharedFile : IFile
     {
-        string Name { get; }
+        string Title { get; }
 
         DateTime SharedTime { get; }
 
         Uri ShareLink { get; }
-
-        int DownloadedNumber { get; }
-
-        int SavedNumber { get; }
-
-        int VisitedNumber { get; }
 
         string AccessCode { get; }
     }
@@ -41,8 +35,6 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
     public interface INetDiskFile : IDiskFile
     {
-        DateTime CreatedTime { get; }
-
         DateTime ModifiedTime { get; }
     }
 

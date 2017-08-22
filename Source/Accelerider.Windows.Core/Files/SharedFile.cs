@@ -7,7 +7,7 @@ namespace Accelerider.Windows.Core.Files
 {
     public class SharedFile : ISharedFile
     {
-        public string Name { get; set; }
+        public string Title { get; set; }
         
         public DateTime SharedTime { get; set; }
 
