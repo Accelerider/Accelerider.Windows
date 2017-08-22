@@ -30,6 +30,8 @@ namespace Accelerider.Windows.Core
 
         public DataSize UsedCapacity => new DataSize(2.34, SizeUnitEnum.T);
 
+        internal long Userid { get; set; }
+
 
         public async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileRootAsync()
         {
