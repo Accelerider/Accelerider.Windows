@@ -47,6 +47,11 @@ namespace Accelerider.Windows.Core
         }
 
 
+        public Task<bool> RefreshUserInfoAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
         {
             return UploadAsyncMock(from, to);

@@ -69,20 +69,30 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="FloatInUpDelayStyle" TargetType="FrameworkElement">
+    <Style x:Key="ZoomDelayStyle" TargetType="FrameworkElement">
+        <Setter Property="RenderTransformOrigin" Value="0.5 0.5"/>
         <Setter Property="RenderTransform">
             <Setter.Value>
-                <TranslateTransform />
+                <ScaleTransform />
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <EventTrigger RoutedEvent="Loaded" >
                 <BeginStoryboard>
                     <Storyboard>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.Y">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="20"/>
-                            <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="20"/>
-                            <EasingDoubleKeyFrame KeyTime="00:00:00.800" Value="0">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleX">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="00:00:00.800" Value="1">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleY">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="00:00:00.800" Value="1">
                                 <EasingDoubleKeyFrame.EasingFunction>
                                     <CubicEase EasingMode="EaseOut"/>
                                 </EasingDoubleKeyFrame.EasingFunction>
@@ -102,7 +112,7 @@
             </EventTrigger>
         </Style.Triggers>
     </Style>
-    
+
     <Style x:Key="WaitingDotsStyle" TargetType="TextBlock">
         <Style.Triggers>
             <EventTrigger RoutedEvent="Loaded">

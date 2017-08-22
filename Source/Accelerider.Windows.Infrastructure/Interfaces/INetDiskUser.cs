@@ -6,6 +6,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 {
     public interface INetDiskUser
     {
+        // User Information ---------------------------------------------------------------
         Uri HeadImageUri { get; }
 
         string Username { get; }
@@ -16,11 +17,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         DataSize UsedCapacity { get; }
 
-        // Gets local files ---------------------------------------------------------------
-        //IReadOnlyCollection<ITransferTaskToken> GetDownloadingFiles();
-
-        //IReadOnlyCollection<ITransferTaskToken> GetUploadingFiles();
-
+        Task<bool> RefreshUserInfoAsync();
         // Operates net-disk file ---------------------------------------------------------
         ITransferTaskToken UploadAsync(FileLocation from, FileLocation to);
 

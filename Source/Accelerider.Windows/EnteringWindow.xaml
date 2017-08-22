@@ -79,9 +79,9 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Image Grid.Row="1" Source="Assets/Images/Logo.png" Height="180" Width="180" Style="{StaticResource FloatInUpDelayStyle}"/>
+                <Image Grid.Row="1" Source="Assets/Images/Logo.png" Height="180" Width="180" Style="{StaticResource ZoomDelayStyle}"/>
 
-                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" >
                     <TextBlock Text="Loading Accelerider for Window" FontSize="14" Foreground="White" Style="{StaticResource FadeInStyle}"/>
                     <TextBlock FontSize="14" Foreground="White" Width="25" Style="{StaticResource WaitingDotsStyle}"/>
                 </StackPanel>
