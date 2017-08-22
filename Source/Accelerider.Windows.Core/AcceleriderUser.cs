@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.NetWork;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core
 {
     internal class AcceleriderUser : IAcceleriderUser
     {
+
+        internal string Token { get; private set; }
+
+
         private readonly List<ITransferTaskToken> _downloadingTasks = new List<ITransferTaskToken>();
         private readonly List<ITransferTaskToken> _uploadTasks = new List<ITransferTaskToken>();
 
         private readonly List<ITransferedFile> _downloadedFiles = new List<ITransferedFile>();
         private readonly List<ITransferedFile> _uploadedFiles = new List<ITransferedFile>();
 
-
         public AcceleriderUser()
         {
             InitializeNetDiskUsers();
-            CurrentNetDiskUser = NetDiskUsers[2];
+            //CurrentNetDiskUser = NetDiskUsers[2];
         }
 
 
@@ -31,8 +36,18 @@ namespace Accelerider.Windows.Core
 
         public async Task<string> SignInAsync(string username, string password)
         {
-            await Task.Delay(6000);
-            return new Random().NextDouble() > 0.8 ? "Login failed: Usename or password is incorrect." : null;
+            var json = JObject.Parse(await new HttpClient().PostAsync("http://api.usmusic.cn/login?security=md5",
+                new Dictionary<string, string>()
+                {
+                    ["name"] = username,
+                    ["password"] = password,
+                    ["clienttype"] = "wpf",
+                    ["ver"] = "1"
+                }));
+            if (json.Value<int>("errno") != 0)
+                return json.Value<string>("message");
+            Token = json.Value<string>("token");
+            return string.Empty;
         }
 
         public Task<bool> SignOutAsync()
