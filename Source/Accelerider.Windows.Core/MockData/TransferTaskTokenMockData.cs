@@ -45,11 +45,11 @@ namespace Accelerider.Windows.Core.MockData
 
         public async Task<bool> StartAsync(bool force = false)
         {
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 _cancellationTokenSource = new CancellationTokenSource();
                 Progress = new DataSize(0);
-                ChangeProgress(_cancellationTokenSource.Token);
+                await ChangeProgress(_cancellationTokenSource.Token);
             });
             TransferState = TransferStateEnum.Transfering;
             return true;

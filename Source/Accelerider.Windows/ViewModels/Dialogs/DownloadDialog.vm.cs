@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Windows.Input;
 using Accelerider.Windows.Assets;
 using Accelerider.Windows.Commands;
@@ -17,7 +12,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
     {
         private ICommand _downloadCommand;
         private ICommand _openFolderDialogCommand;
-        private bool _isDisplayDownloadDialog;
+        private bool _notDisplayDownloadDialog;
         private string _toDownloadFileName;
         private string _downloadFolder;
 
@@ -50,8 +45,8 @@ namespace Accelerider.Windows.ViewModels.Dialogs
 
         public bool NotDisplayDownloadDialog
         {
-            get => _isDisplayDownloadDialog;
-            set => SetProperty(ref _isDisplayDownloadDialog, value);
+            get => _notDisplayDownloadDialog;
+            set => SetProperty(ref _notDisplayDownloadDialog, value);
         }
         public string ToDownloadFileName
         {

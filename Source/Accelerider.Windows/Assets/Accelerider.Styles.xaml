@@ -204,6 +204,8 @@
                     <Border BorderBrush="{TemplateBinding BorderBrush}" >
                         <AdornerDecorator>
                             <Grid Background="White">
+                                <Image Source="Images\LogoSmall.png" Height="24" Width="24" Margin="8 5 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <ContentPresenter />
                                 <Button HorizontalAlignment="Right" VerticalAlignment="Top" Focusable="False"
                                         Style="{StaticResource MaterialDesignToolButton}"
                                         WindowChrome.IsHitTestVisibleInChrome="True"
@@ -215,7 +217,6 @@
                                     </i:Interaction.Triggers>
                                     <materialDesign:PackIcon Kind="WindowClose"></materialDesign:PackIcon>
                                 </Button>
-                                <ContentPresenter />
                                 <materialDesign:Snackbar MessageQueue="{Binding GlobalMessageQueue}" />
                             </Grid>
                         </AdornerDecorator>
