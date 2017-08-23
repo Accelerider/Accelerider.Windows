@@ -17,7 +17,7 @@ namespace Accelerider.Windows.Infrastructure
 
         public static FileLocation[] GetAvailableFolders()
         {
-            return (from path in new[] { Downloads, Desktop, Documents, Music, Pictures, Videos, Favorites }
+            return (from path in new[] { Desktop, Downloads, Videos, Music, Pictures, Documents, Favorites }
                     where path != null
                     select path).ToArray();
         }

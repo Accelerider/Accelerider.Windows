@@ -17,7 +17,7 @@ namespace Accelerider.Windows.Core
 
 
         public bool NotDisplayDownloadDialog { get; set; }
-        public string DownloadDirectory { get; set; }
+        public FileLocation DownloadDirectory { get; set; }
         public int ParallelTaskNumber { get; set; }
         public double SpeedLimit { get; set; }
 

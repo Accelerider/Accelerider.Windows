@@ -6,7 +6,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              vm:ViewModelLocator.AutoWireViewModel="True"
              Height="Auto" Width="500">
-    <Grid Margin="20">
+    <Grid Margin="50 20 20 20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="10"/>
@@ -21,17 +21,15 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="10"/>
                 <ColumnDefinition />
-                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="15"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="File or folder: " VerticalAlignment="Center"/>
-            <TextBox Grid.Row="0" Grid.Column="2" IsReadOnly="True" Text="{Binding DownloadItemsSummary}" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="To folder: " VerticalAlignment="Center"/>
-            <ComboBox Grid.Row="2" Grid.Column="2" IsReadOnly="True" SelectedItem="{Binding DownloadFolder}" ItemsSource="{Binding DefaultFolders}" VerticalAlignment="Center"/>
-            <Button Grid.Row="2" Grid.Column="4" Style="{StaticResource MaterialDesignToolButton}"
+            <TextBox IsReadOnly="True" Text="{Binding DownloadItemsSummary, Mode=OneWay}" VerticalAlignment="Center"
+                     materialDesign:HintAssist.Hint="{Binding DownloadItemsHint}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
+            <ComboBox Grid.Row="2" SelectedItem="{Binding DownloadFolder}" ItemsSource="{Binding DefaultFolders}" IsReadOnly="True" VerticalAlignment="Center"
+                      materialDesign:HintAssist.Hint="To" Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
+            <Button Grid.Row="2" Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}" VerticalAlignment="Bottom"
                     Command="{Binding OpenFolderDialogCommand}">
                 <materialDesign:PackIcon Kind="Folder"/>
             </Button>

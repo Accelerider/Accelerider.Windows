@@ -80,13 +80,15 @@ namespace Accelerider.Windows.ViewModels
 
         private async void DownloadCommandExecute(IList files)
         {
-            var (folder, isDownload) = await DisplayDownloadDialogAsync(files.Cast<ITreeNodeAsync<INetDiskFile>>()
-                .Select(item => item.Content.FilePath.FileName));
+            var fileArray = files.Cast<ITreeNodeAsync<INetDiskFile>>().ToArray();
+
+            var (folder, isDownload) = await DisplayDownloadDialogAsync(fileArray.Select(item => item.Content.FilePath.FileName));
+
             if (!isDownload) return;
 
             var tokens = new List<ITransferTaskToken>();
             var ownerName = NetDiskUser.Username;
-            foreach (ITreeNodeAsync<INetDiskFile> file in files)
+            foreach (var file in fileArray)
             {
                 tokens.AddRange(await NetDiskUser.DownloadAsync(file, folder));
             }
@@ -184,7 +186,7 @@ namespace Accelerider.Windows.ViewModels
 
             var dialog = new DownloadDialog();
             var vm = dialog.DataContext as DownloadDialogViewModel;
-            vm.DownloadItemsSummary = string.Join("; ", files);
+            vm.DownloadItems = files.ToList();
 
             if (!(bool)await DialogHost.Show(dialog, "RootDialog")) return (null, false);
 

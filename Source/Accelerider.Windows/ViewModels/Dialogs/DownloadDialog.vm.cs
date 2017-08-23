@@ -8,6 +8,7 @@ using Microsoft.Practices.Unity;
 using Accelerider.Windows.Infrastructure;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Accelerider.Windows.ViewModels.Dialogs
 {
@@ -16,7 +17,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
         private ICommand _downloadCommand;
         private ICommand _openFolderDialogCommand;
         private bool _notDisplayDownloadDialog;
-        private string _downloadItemsSummary;
+        private List<string> _downloadItems;
         private FileLocation _downloadFolder;
         private ObservableCollection<FileLocation> _defaultFolders;
 
@@ -57,10 +58,21 @@ namespace Accelerider.Windows.ViewModels.Dialogs
             set => SetProperty(ref _notDisplayDownloadDialog, value);
         }
 
-        public string DownloadItemsSummary
+        public string DownloadItemsHint => string.Format("Items ({0})", DownloadItems?.Count); // Because of unknown reason, materialDesign:HintAssist.Hint="{Binding DownloadItems.Count, StringFormat='Items ({0})'}" don't work.
+
+        public string DownloadItemsSummary => DownloadItems == null ? string.Empty : string.Join("; ", DownloadItems);
+
+        public List<string> DownloadItems
         {
-            get => _downloadItemsSummary;
-            set => SetProperty(ref _downloadItemsSummary, value);
+            get { return _downloadItems; }
+            set
+            {
+                if (SetProperty(ref _downloadItems, value))
+                {
+                    OnPropertyChanged(nameof(DownloadItemsHint));
+                    OnPropertyChanged(nameof(DownloadItemsSummary));
+                }
+            }
         }
 
         public FileLocation DownloadFolder

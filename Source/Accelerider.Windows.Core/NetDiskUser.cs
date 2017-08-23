@@ -73,13 +73,13 @@ namespace Accelerider.Windows.Core
 
         private async Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileTreeAsyncMock()
         {
-            await Task.Delay(_rand.Next(4, 4000));
+            await Task.Delay(_rand.Next(4, 400));
             var tree = new TreeNodeAsync<INetDiskFile>(new NetDiskFile { FilePath = new FileLocation(FilePathMock) })
             {
                 ChildrenProvider = async parent =>
                 {
                     if (!Directory.Exists(parent.FilePath)) return null;
-                    await Task.Delay(_rand.Next(4, 4000));
+                    await Task.Delay(_rand.Next(4, 400));
                     var filePaths = Directory.GetFiles(parent.FilePath.ToString());
                     var directoriePaths = Directory.GetDirectories(parent.FilePath.ToString());
                     return from filePath in directoriePaths.Union(filePaths)
