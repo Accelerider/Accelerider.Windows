@@ -43,7 +43,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         /// <summary>
         /// The storage path of downloaded files.
         /// </summary>
-        string DownloadDirectory { get; set; }
+        FileLocation DownloadDirectory { get; set; }
 
         /// <summary>
         /// The number of download tasks that can be performed at the same time.

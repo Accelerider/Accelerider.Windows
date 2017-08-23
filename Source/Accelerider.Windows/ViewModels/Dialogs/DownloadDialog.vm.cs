@@ -5,6 +5,9 @@ using Accelerider.Windows.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
+using Accelerider.Windows.Infrastructure;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Accelerider.Windows.ViewModels.Dialogs
 {
@@ -13,13 +16,17 @@ namespace Accelerider.Windows.ViewModels.Dialogs
         private ICommand _downloadCommand;
         private ICommand _openFolderDialogCommand;
         private bool _notDisplayDownloadDialog;
-        private string _toDownloadFileName;
-        private string _downloadFolder;
+        private string _downloadItemsSummary;
+        private FileLocation _downloadFolder;
+        private ObservableCollection<FileLocation> _defaultFolders;
 
 
         public DownloadDialogViewModel(IUnityContainer container) : base(container)
         {
-            DownloadFolder = Container.Resolve<ILocalConfigureInfo>().DownloadDirectory;
+            var downloadDirectory = Container.Resolve<ILocalConfigureInfo>().DownloadDirectory;
+
+            DefaultFolders = new ObservableCollection<FileLocation>(SystemFolder.GetAvailableFolders());
+            DownloadFolder = string.IsNullOrEmpty(downloadDirectory) ? DefaultFolders.FirstOrDefault() : downloadDirectory;
 
             OpenFolderDialogCommand = new RelayCommand(OpenFolderDialogCommandExecute);
             DownloadCommand = new RelayCommand(
@@ -27,7 +34,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
                 {
                     if (DialogHost.CloseDialogCommand.CanExecute(true, null))
                         DialogHost.CloseDialogCommand.Execute(true, null);
-                }, 
+                },
                 () => !string.IsNullOrEmpty(DownloadFolder));
         }
 
@@ -37,6 +44,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
             get => _downloadCommand;
             set => SetProperty(ref _downloadCommand, value);
         }
+
         public ICommand OpenFolderDialogCommand
         {
             get => _openFolderDialogCommand;
@@ -48,16 +56,25 @@ namespace Accelerider.Windows.ViewModels.Dialogs
             get => _notDisplayDownloadDialog;
             set => SetProperty(ref _notDisplayDownloadDialog, value);
         }
-        public string ToDownloadFileName
+
+        public string DownloadItemsSummary
         {
-            get => _toDownloadFileName;
-            set => SetProperty(ref _toDownloadFileName, value);
+            get => _downloadItemsSummary;
+            set => SetProperty(ref _downloadItemsSummary, value);
         }
-        public string DownloadFolder
+
+        public FileLocation DownloadFolder
         {
             get => _downloadFolder;
             set => SetProperty(ref _downloadFolder, value);
         }
+
+        public ObservableCollection<FileLocation> DefaultFolders
+        {
+            get { return _defaultFolders; }
+            set { SetProperty(ref _defaultFolders, value); }
+        }
+
 
 
         private void OpenFolderDialogCommandExecute()
@@ -66,6 +83,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 DownloadFolder = dialog.SelectedPath;
+                DefaultFolders.Insert(0, DownloadFolder);
             }
         }
     }

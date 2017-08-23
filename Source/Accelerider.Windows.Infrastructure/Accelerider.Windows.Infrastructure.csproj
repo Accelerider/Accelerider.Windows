@@ -59,6 +59,7 @@
     <Compile Include="Interfaces\ITreeNodeAsync{T}.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Soil.cs" />
+    <Compile Include="SystemFolder.cs" />
     <Compile Include="TransferStateChangedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>

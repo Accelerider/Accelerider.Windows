@@ -184,7 +184,7 @@ namespace Accelerider.Windows.ViewModels
 
             var dialog = new DownloadDialog();
             var vm = dialog.DataContext as DownloadDialogViewModel;
-            vm.ToDownloadFileName = string.Join("; ", files);
+            vm.DownloadItemsSummary = string.Join("; ", files);
 
             if (!(bool)await DialogHost.Show(dialog, "RootDialog")) return (null, false);
 
@@ -192,7 +192,7 @@ namespace Accelerider.Windows.ViewModels
             {
                 configure.DownloadDirectory = vm.DownloadFolder;
             }
-            return (vm.ToDownloadFileName, true);
+            return (vm.DownloadFolder, true);
         }
 
         private void PulishTaskCreatedEvent<T>(string ownerName, IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferStateChangedEventArgs> handler) 

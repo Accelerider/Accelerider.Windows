@@ -28,9 +28,9 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="File or folder: " VerticalAlignment="Center"/>
-            <TextBox Grid.Row="0" Grid.Column="2" IsReadOnly="True" Text="{Binding ToDownloadFileName}" VerticalAlignment="Center"></TextBox>
+            <TextBox Grid.Row="0" Grid.Column="2" IsReadOnly="True" Text="{Binding DownloadItemsSummary}" VerticalAlignment="Center"/>
             <TextBlock Grid.Row="2" Grid.Column="0" Text="To folder: " VerticalAlignment="Center"/>
-            <TextBox Grid.Row="2" Grid.Column="2" IsReadOnly="True" Text="{Binding DownloadFolder}" VerticalAlignment="Center"></TextBox>
+            <ComboBox Grid.Row="2" Grid.Column="2" IsReadOnly="True" SelectedItem="{Binding DownloadFolder}" ItemsSource="{Binding DefaultFolders}" VerticalAlignment="Center"/>
             <Button Grid.Row="2" Grid.Column="4" Style="{StaticResource MaterialDesignToolButton}"
                     Command="{Binding OpenFolderDialogCommand}">
                 <materialDesign:PackIcon Kind="Folder"/>
@@ -40,10 +40,6 @@
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{Binding DownloadCommand}">
-                <!--Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
-                <Button.CommandParameter>
-                    <system:Boolean>True</system:Boolean>
-                </Button.CommandParameter>-->
                 Download
             </Button>
             <Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
