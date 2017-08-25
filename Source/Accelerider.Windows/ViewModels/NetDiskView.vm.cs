@@ -43,9 +43,9 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _addNetDiskCommand, value);
         }
 
-        private void AddNetDiskCommandExecute()
+        private async void AddNetDiskCommandExecute()
         {
-            new AuthenticationBrowserWindow().ShowDialog();
+            await DialogHost.Show(new SeletNetDiskTypeDialog(), "RootDialog");
         }
 
 

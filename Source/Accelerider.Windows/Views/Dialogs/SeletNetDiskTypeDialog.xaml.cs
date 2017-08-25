@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Accelerider.Windows.Views.Dialogs
 {
     /// <summary>
-    /// Interaction logic for SeleteNetDiskTypeDialog.xaml
+    /// Interaction logic for SeletNetDiskTypeDialog.xaml
     /// </summary>
-    public partial class SeleteNetDiskTypeDialog : UserControl
+    public partial class SeletNetDiskTypeDialog : UserControl
     {
-        public SeleteNetDiskTypeDialog()
+        public SeletNetDiskTypeDialog()
         {
             InitializeComponent();
         }

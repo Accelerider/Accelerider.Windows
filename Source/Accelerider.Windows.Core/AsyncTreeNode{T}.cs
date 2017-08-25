@@ -6,48 +6,48 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Core
 {
-    public class TreeNodeAsync<T> : ITreeNodeAsync<T>
+    public class AsyncTreeNode<T> : IAsyncTreeNode<T>
     {
         private Func<T, Task<IEnumerable<T>>> _childrenProvider;
 
 
-        public TreeNodeAsync(T content)
+        public AsyncTreeNode(T content)
         {
             Content = content;
         }
 
 
         public T Content { get; }
-        public ITreeNodeAsync<T> Root
+        public IAsyncTreeNode<T> Root
         {
             get
             {
-                ITreeNodeAsync<T> temp = this;
+                IAsyncTreeNode<T> temp = this;
                 while (temp.Parent != null) temp = temp.Parent;
                 return temp;
             }
         }
-        public ITreeNodeAsync<T> Parent { get; protected set; }
-        public IReadOnlyList<ITreeNodeAsync<T>> Parents
+        public IAsyncTreeNode<T> Parent { get; protected set; }
+        public IReadOnlyList<IAsyncTreeNode<T>> Parents
         {
             get
             {
-                var stack = new Stack<ITreeNodeAsync<T>>();
-                ITreeNodeAsync<T> temp = this;
+                var stack = new Stack<IAsyncTreeNode<T>>();
+                IAsyncTreeNode<T> temp = this;
                 while ((temp = temp.Parent) != null) stack.Push(temp);
                 return (from item in stack select item).ToList();
             }
         }
-        public IReadOnlyList<ITreeNodeAsync<T>> ChildrenCache { get; protected set; } // TODO: WeakReference
+        public IReadOnlyList<IAsyncTreeNode<T>> ChildrenCache { get; protected set; } // TODO: WeakReference
 
         public Func<T, Task<IEnumerable<T>>> ChildrenProvider
         {
-            get => _childrenProvider ?? (Parent as TreeNodeAsync<T>)?.ChildrenProvider;
+            get => _childrenProvider ?? (Parent as AsyncTreeNode<T>)?.ChildrenProvider;
             set => _childrenProvider = value;
         }
 
 
-        public async Task<bool> TryGetChildrenAsync()
+        public async Task<bool> RefreshChildrenCacheAsync()
         {
             var temp = await ChildrenProvider(Content);
             var enumerable = temp as T[] ?? temp?.ToArray();
@@ -58,7 +58,7 @@ namespace Accelerider.Windows.Core
             }
 
             var treeNodes = (from item in enumerable
-                             select new TreeNodeAsync<T>(item) { Parent = this }).ToArray();
+                             select new AsyncTreeNode<T>(item) { Parent = this }).ToArray();
 
             if (!treeNodes.Any())
             {

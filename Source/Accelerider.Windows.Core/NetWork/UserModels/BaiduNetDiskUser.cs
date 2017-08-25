@@ -39,7 +39,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ITreeNodeAsync<INetDiskFile> fileNode, FileLocation downloadFolder = null)
+        public Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(IAsyncTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null)
         {
             throw new NotImplementedException();
         }
@@ -49,7 +49,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public Task<ITreeNodeAsync<INetDiskFile>> GetNetDiskFileRootAsync()
+        public Task<IAsyncTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
         {
             throw new NotImplementedException();
         }

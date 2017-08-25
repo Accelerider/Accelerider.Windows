@@ -11,19 +11,19 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure
 {
-    public static class TreeNodeAsyncExtensions
+    public static class AsyncTreeNodeExtensions
     {
-        public static async Task<IEnumerable<ITreeNodeAsync<T>>> FlattenAsync<T>(this ITreeNodeAsync<T> self)
+        public static async Task<IEnumerable<IAsyncTreeNode<T>>> FlattenAsync<T>(this IAsyncTreeNode<T> self)
         {
             return await new Soil<T>(self).FlattenAsync();
         }
 
-        public static async Task<IReadOnlyList<ITreeNodeAsync<T>>> GetChildrenAsync<T>(this ITreeNodeAsync<T> self, bool force = false)
+        public static async Task<IReadOnlyList<IAsyncTreeNode<T>>> GetChildrenAsync<T>(this IAsyncTreeNode<T> self, bool force = false)
         {
             return await new Soil<T>(self).GetChildrenAsync(force);
         }
 
-        public static int Count<T>(this ITreeNodeAsync<T> self)
+        public static int Count<T>(this IAsyncTreeNode<T> self)
         {
             return new Soil<T>(self).Count();
         }

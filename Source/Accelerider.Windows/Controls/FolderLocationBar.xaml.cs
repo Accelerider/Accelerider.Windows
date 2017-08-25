@@ -20,29 +20,29 @@ namespace Accelerider.Windows.Controls
 
         private ICommand _locateFolderCommand; 
         private ICommand _locateRootCommand;
-        private ObservableCollection<ITreeNodeAsync<INetDiskFile>> _displayedFolders;
-        private ObservableCollection<ITreeNodeAsync<INetDiskFile>> _foldedFolders;
+        private ObservableCollection<IAsyncTreeNode<INetDiskFile>> _displayedFolders;
+        private ObservableCollection<IAsyncTreeNode<INetDiskFile>> _foldedFolders;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public static readonly DependencyProperty CurrentFolderProperty = DependencyProperty.Register(
                 "CurrentFolder",
-                typeof(ITreeNodeAsync<INetDiskFile>),
+                typeof(IAsyncTreeNode<INetDiskFile>),
                 typeof(FolderLocationBar),
                 new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, CurrentFolderChanged));
 
-        public ITreeNodeAsync<INetDiskFile> CurrentFolder
+        public IAsyncTreeNode<INetDiskFile> CurrentFolder
         {
-            get => (ITreeNodeAsync<INetDiskFile>)GetValue(CurrentFolderProperty);
+            get => (IAsyncTreeNode<INetDiskFile>)GetValue(CurrentFolderProperty);
             set => SetValue(CurrentFolderProperty, value);
         }
 
-        public ObservableCollection<ITreeNodeAsync<INetDiskFile>> DisplayedFolders
+        public ObservableCollection<IAsyncTreeNode<INetDiskFile>> DisplayedFolders
         {
             get => _displayedFolders;
             set => SetProperty(ref _displayedFolders, value);
         }
-        public ObservableCollection<ITreeNodeAsync<INetDiskFile>> FoldedFolders
+        public ObservableCollection<IAsyncTreeNode<INetDiskFile>> FoldedFolders
         {
             get => _foldedFolders;
             set => SetProperty(ref _foldedFolders, value);
@@ -62,7 +62,7 @@ namespace Accelerider.Windows.Controls
 
         public FolderLocationBar()
         {
-            LocateFolderCommand = new RelayCommand<ITreeNodeAsync<INetDiskFile>>(
+            LocateFolderCommand = new RelayCommand<IAsyncTreeNode<INetDiskFile>>(
                 fileNode => CurrentFolder = fileNode,
                 fileNode => CurrentFolder != fileNode);
             LocateRootCommand = new RelayCommand(
@@ -76,7 +76,7 @@ namespace Accelerider.Windows.Controls
         private static void CurrentFolderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (FolderLocationBar)d;
-            var folderChain = new Stack<ITreeNodeAsync<INetDiskFile>>();
+            var folderChain = new Stack<IAsyncTreeNode<INetDiskFile>>();
             var temp = control.CurrentFolder;
             do
             {
@@ -85,13 +85,13 @@ namespace Accelerider.Windows.Controls
             (control.DisplayedFolders, control.FoldedFolders) = ClassifyFolder(folderChain);
         }
 
-        private static (ObservableCollection<ITreeNodeAsync<INetDiskFile>> displayed, ObservableCollection<ITreeNodeAsync<INetDiskFile>> folded) ClassifyFolder(Stack<ITreeNodeAsync<INetDiskFile>> folders)
+        private static (ObservableCollection<IAsyncTreeNode<INetDiskFile>> displayed, ObservableCollection<IAsyncTreeNode<INetDiskFile>> folded) ClassifyFolder(Stack<IAsyncTreeNode<INetDiskFile>> folders)
         {
-            ObservableCollection<ITreeNodeAsync<INetDiskFile>> folded = null;
+            ObservableCollection<IAsyncTreeNode<INetDiskFile>> folded = null;
             int delta = folders.Count - MaxDisplayedFolderCount;
             if (delta > 0)
             {
-                folded = new ObservableCollection<ITreeNodeAsync<INetDiskFile>>();
+                folded = new ObservableCollection<IAsyncTreeNode<INetDiskFile>>();
                 for (int i = 0; i < delta; i++)
                 {
                     folded.Insert(0, folders.Pop());
@@ -101,7 +101,7 @@ namespace Accelerider.Windows.Controls
             {
                 folders.Pop();
             }
-            return (new ObservableCollection<ITreeNodeAsync<INetDiskFile>>(folders), folded);
+            return (new ObservableCollection<IAsyncTreeNode<INetDiskFile>>(folders), folded);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -121,7 +121,7 @@ namespace Accelerider.Windows.Controls
         {
             if (sender is ListBox listBox)
             {
-                CurrentFolder = (ITreeNodeAsync<INetDiskFile>) listBox.SelectedItem;
+                CurrentFolder = (IAsyncTreeNode<INetDiskFile>) listBox.SelectedItem;
             }
         }
     }

@@ -108,6 +108,8 @@
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
+    <Compile Include="ViewModels\Dialogs\SeletNetDiskTypeDialog.vm.cs" />
+    <Compile Include="ViewModels\Items\NetDiskType.vm.cs" />
     <Compile Include="ViewModels\Items\TransferTask.vm.cs" />
     <Compile Include="ViewModels\LoadingFilesBase.vm.cs" />
     <Compile Include="ViewModels\NetDiskFiles.vm.cs" />
@@ -131,8 +133,8 @@
     <Compile Include="Views\Dialogs\DownloadDialog.xaml.cs">
       <DependentUpon>DownloadDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dialogs\SeleteNetDiskTypeDialog.xaml.cs">
-      <DependentUpon>SeleteNetDiskTypeDialog.xaml</DependentUpon>
+    <Compile Include="Views\Dialogs\SeletNetDiskTypeDialog.xaml.cs">
+      <DependentUpon>SeletNetDiskTypeDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\ShareDialog.xaml.cs">
       <DependentUpon>ShareDialog.xaml</DependentUpon>
@@ -228,7 +230,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Dialogs\SeleteNetDiskTypeDialog.xaml">
+    <Page Include="Views\Dialogs\SeletNetDiskTypeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -363,6 +365,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\LogoSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\BaiduCloudLogo.png" />
+    <Resource Include="Assets\Images\OneDriveLogo.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
