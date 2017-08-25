@@ -19,10 +19,10 @@ namespace Accelerider.Windows.Assets {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class UiStrings {
+    public class UiStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Accelerider.Windows.Assets {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Accelerider.Windows.Assets.UiStrings", typeof(UiStrings).Assembly);
@@ -51,7 +51,7 @@ namespace Accelerider.Windows.Assets {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,36 @@ namespace Accelerider.Windows.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sets as the default folder and don&apos;t ask me..
+        /// </summary>
+        public static string DownloadDialog_CheckBox {
+            get {
+                return ResourceManager.GetString("DownloadDialog_CheckBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select the download folder.
         /// </summary>
-        internal static string DownloadDialog_FolderBrowerDialogDescription {
+        public static string DownloadDialog_FolderBrowerDialogDescription {
             get {
                 return ResourceManager.GetString("DownloadDialog_FolderBrowerDialogDescription", resourceCulture);
             }
@@ -72,7 +99,7 @@ namespace Accelerider.Windows.Assets {
         /// <summary>
         ///   Looks up a localized string similar to Added &quot;{0}&quot; etc ({1} files) to download list..
         /// </summary>
-        internal static string Message_AddedFilesToDownloadList {
+        public static string Message_AddedFilesToDownloadList {
             get {
                 return ResourceManager.GetString("Message_AddedFilesToDownloadList", resourceCulture);
             }
@@ -81,7 +108,7 @@ namespace Accelerider.Windows.Assets {
         /// <summary>
         ///   Looks up a localized string similar to Added &quot;{0}&quot; etc ({1} files) to upload list..
         /// </summary>
-        internal static string Message_AddedFilesToUploadList {
+        public static string Message_AddedFilesToUploadList {
             get {
                 return ResourceManager.GetString("Message_AddedFilesToUploadList", resourceCulture);
             }
@@ -90,7 +117,7 @@ namespace Accelerider.Windows.Assets {
         /// <summary>
         ///   Looks up a localized string similar to Added &quot;{0}&quot; to download list..
         /// </summary>
-        internal static string Message_AddedFileToDownloadList {
+        public static string Message_AddedFileToDownloadList {
             get {
                 return ResourceManager.GetString("Message_AddedFileToDownloadList", resourceCulture);
             }
@@ -99,7 +126,7 @@ namespace Accelerider.Windows.Assets {
         /// <summary>
         ///   Looks up a localized string similar to Added &quot;{0}&quot; to upload list..
         /// </summary>
-        internal static string Message_AddedFileToUploadList {
+        public static string Message_AddedFileToUploadList {
             get {
                 return ResourceManager.GetString("Message_AddedFileToUploadList", resourceCulture);
             }
@@ -108,7 +135,7 @@ namespace Accelerider.Windows.Assets {
         /// <summary>
         ///   Looks up a localized string similar to Added “{0}&quot; folder (includes {1} files) to download list..
         /// </summary>
-        internal static string Message_AddedFolderToDownloadList {
+        public static string Message_AddedFolderToDownloadList {
             get {
                 return ResourceManager.GetString("Message_AddedFolderToDownloadList", resourceCulture);
             }
@@ -117,7 +144,7 @@ namespace Accelerider.Windows.Assets {
         /// <summary>
         ///   Looks up a localized string similar to Welcome to Accelerider!.
         /// </summary>
-        internal static string Message_Welcome {
+        public static string Message_Welcome {
             get {
                 return ResourceManager.GetString("Message_Welcome", resourceCulture);
             }

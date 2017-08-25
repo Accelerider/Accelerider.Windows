@@ -53,35 +53,8 @@
             </Button>
         </Grid>
         <ctrls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
-            <ListBox x:Name="ListboxFileList" SelectionMode="Extended"
-                 ItemsSource="{Binding Files}"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 HorizontalContentAlignment="Stretch">
-
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
-                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"></Setter>
-                        <Setter Property="ContextMenu">
-                            <Setter.Value>
-                                <ContextMenu >
-                                    <MenuItem Header="Restore" 
-                                          Command="{Binding PlacementTarget.Tag.DownloadCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" 
-                                          CommandParameter="{Binding}">
-                                        <MenuItem.Icon>
-                                            <materialDesign:PackIcon Kind="FileRestore" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Header="Delete" >
-                                        <MenuItem.Icon>
-                                            <materialDesign:PackIcon Kind="DeleteForever" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                </ContextMenu>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
+            <ListBox x:Name="ListboxFileList" SelectionMode="Extended" ItemsSource="{Binding Files}"
+                     ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>

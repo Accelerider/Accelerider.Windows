@@ -125,8 +125,14 @@
     <Compile Include="ViewModels\TransferView.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\Dialogs\AuthenticationBrowserWindow.xaml.cs">
+      <DependentUpon>AuthenticationBrowserWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\DownloadDialog.xaml.cs">
       <DependentUpon>DownloadDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\SeleteNetDiskTypeDialog.xaml.cs">
+      <DependentUpon>SeleteNetDiskTypeDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\ShareDialog.xaml.cs">
       <DependentUpon>ShareDialog.xaml</DependentUpon>
@@ -214,7 +220,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Dialogs\AuthenticationBrowserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Dialogs\DownloadDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\SeleteNetDiskTypeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -289,7 +303,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Assets\UiStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>UiStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Page Include="Assets\Accelerider.Converters.xaml">

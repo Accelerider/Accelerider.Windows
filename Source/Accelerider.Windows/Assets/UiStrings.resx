@@ -135,7 +135,16 @@
   <data name="Message_AddedFilesToDownloadList" xml:space="preserve">
     <value>Added "{0}" etc ({1} files) to download list.</value>
   </data>
-    <data name="DownloadDialog_FolderBrowerDialogDescription" xml:space="preserve">
+  <data name="DownloadDialog_FolderBrowerDialogDescription" xml:space="preserve">
     <value>Please select the download folder</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DownloadDialog_CheckBox" xml:space="preserve">
+    <value>Sets as the default folder and don't ask me.</value>
   </data>
 </root>

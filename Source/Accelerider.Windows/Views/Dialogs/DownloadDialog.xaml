@@ -2,14 +2,15 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:res="clr-namespace:Accelerider.Windows.Assets"
+             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
              vm:ViewModelLocator.AutoWireViewModel="True"
              Height="Auto" Width="500">
     <Grid Margin="50 20 20 20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="Auto"/>
@@ -34,18 +35,15 @@
                 <materialDesign:PackIcon Kind="Folder"/>
             </Button>
         </Grid>
-        <CheckBox Grid.Row="2" IsChecked="{Binding NotDisplayDownloadDialog}">Sets as the default folder and don't ask me.</CheckBox>
+        <CheckBox Grid.Row="2" IsChecked="{Binding NotDisplayDownloadDialog}" Content="{x:Static res:UiStrings.DownloadDialog_CheckBox}"/>
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{Binding DownloadCommand}">
-                Download
-            </Button>
+                    Command="{Binding DownloadCommand}" Content="{x:Static res:UiStrings.Download}"/>
             <Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Content="{x:Static res:UiStrings.Cancel}">
                 <Button.CommandParameter>
                     <system:Boolean>False</system:Boolean>
                 </Button.CommandParameter>
-                Cancel
             </Button>
         </StackPanel>
     </Grid>

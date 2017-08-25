@@ -15,7 +15,7 @@ namespace Accelerider.Windows.ViewModels
         private ObservableCollection<TransferTaskViewModel> _transferTasks;
 
 
-        public TransferingBaseViewModel(IUnityContainer container) : base(container)
+        protected TransferingBaseViewModel(IUnityContainer container) : base(container)
         {
             TransferTasks = new ObservableCollection<TransferTaskViewModel>(GetinitializedTasks().Select(item =>
             {
@@ -29,8 +29,8 @@ namespace Accelerider.Windows.ViewModels
 
         public ObservableCollection<TransferTaskViewModel> TransferTasks
         {
-            get { return _transferTasks; }
-            set { SetProperty(ref _transferTasks, value); }
+            get => _transferTasks;
+            set => SetProperty(ref _transferTasks, value);
         }
 
 

@@ -13,7 +13,7 @@ namespace Accelerider.Windows.Core.Files
         public override async Task<bool> DeleteAsync()
         {
             await Task.Delay(10);
-            return new Random().NextDouble() > 0.5;
+            return new Random().NextDouble() > 0.1;
         }
     }
 }

@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -51,6 +52,7 @@
     <Compile Include="Interfaces\Files.cs" />
     <Compile Include="Interfaces\IAcceleriderUser.cs" />
     <Compile Include="Interfaces\IAccount.cs" />
+    <Compile Include="Interfaces\IAuthenticator.cs" />
     <Compile Include="Interfaces\IBaiduCloudUser.cs" />
     <Compile Include="Interfaces\ILocalConfigureInfo.cs" />
     <Compile Include="Interfaces\INetDiskUser.cs" />

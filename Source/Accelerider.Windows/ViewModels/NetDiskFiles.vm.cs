@@ -104,7 +104,7 @@ namespace Accelerider.Windows.ViewModels
 
         private async void UploadCommandExecute()
         {
-            var dialog = new OpenFileDialog() { Multiselect = true };
+            var dialog = new OpenFileDialog { Multiselect = true };
             if (dialog.ShowDialog() != DialogResult.OK || dialog.FileNames.Length <= 0) return;
 
             IEnumerable<ITransferTaskToken> tokens = null;
@@ -129,33 +129,34 @@ namespace Accelerider.Windows.ViewModels
 
         private async void ShareCommandExecute(IList files)
         {
-            var netDiskFiles = new Collection<INetDiskFile>();
-            foreach (ITreeNodeAsync<INetDiskFile> file in files)
-            {
-                netDiskFiles.Add(file.Content);
-            }
-            var (code, _) = await NetDiskUser.ShareAsync(netDiskFiles);
+            // 1. Display dialog.
+
+            // 2. Determines whether to share based on the return value of dialog.
+
+            var (code, shareSummary) = await NetDiskUser.ShareAsync(files.Cast<ITreeNodeAsync<INetDiskFile>>().Select(node => node.Content));
+
+            // 3. Sends the GlobalMessageQueue for reporting result.
         }
 
-        private void DeleteCommandExecute(IList obj)
+        private async void DeleteCommandExecute(IList files)
         {
-            GlobalMessageQueue.Enqueue("throw new NotImplementedException()");
-            //var currentFolder = CurrentFolder;
-            //var result = await file.Content.DeleteAsync();
-            //if (result)
-            //{
-            //    //currentFolder.ChildrenCache.Remove(file);
-            //    await currentFolder.TryGetChildrenAsync();
-            //    if (currentFolder == CurrentFolder)
-            //    {
-            //        OnPropertyChanged(nameof(CurrentFolder));
-            //    }
-            //}
+            var currentFolder = CurrentFolder;
+            var fileArray = files.Cast<ITreeNodeAsync<INetDiskFile>>().ToArray();
 
-            //var message = result
-            //    ? $"\"{file.Content.FilePath.FileName}\" has been deleted."
-            //    : $"Deletes \"{file.Content.FilePath.FileName}\" file failed.";
-            //GlobalMessageQueue.Enqueue(message);
+            var errorFileCount = 0;
+            foreach (var file in fileArray)
+            {
+                if (!await file.Content.DeleteAsync()) errorFileCount++;
+            }
+            if (errorFileCount < fileArray.Length)
+            {
+                await currentFolder.TryGetChildrenAsync();
+                if (currentFolder == CurrentFolder)
+                {
+                    OnPropertyChanged(nameof(CurrentFolder));
+                }
+            }
+            GlobalMessageQueue.Enqueue($"({fileArray.Length - errorFileCount}/{fileArray.Length}) files have been deleted.");
         }
         #endregion
 
@@ -197,7 +198,7 @@ namespace Accelerider.Windows.ViewModels
             return (vm.DownloadFolder, true);
         }
 
-        private void PulishTaskCreatedEvent<T>(string ownerName, IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferStateChangedEventArgs> handler) 
+        private void PulishTaskCreatedEvent<T>(string ownerName, IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferStateChangedEventArgs> handler)
             where T : TaskCreatedEvent, new()
         {
             EventAggregator.GetEvent<T>().Publish(tokens.Select(token =>
@@ -209,9 +210,9 @@ namespace Accelerider.Windows.ViewModels
 
         private void OnUploaded(object sender, TransferStateChangedEventArgs e)
         {
-            if (e.NewState != TransferStateEnum.Checking) return; // TODO: 
+            if (e.NewState != TransferStateEnum.Checking) return; // TODO: e.NewState != TransferStateEnum.Completed
 
-            GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been uploaded.");
+            //GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been uploaded.");
             EventAggregator.GetEvent<UploadTaskCompletedEvent>().Publish(e.Token.FileInfo);
         }
 
@@ -219,7 +220,7 @@ namespace Accelerider.Windows.ViewModels
         {
             if (e.NewState != TransferStateEnum.Checking) return;
 
-            GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been downloaded.");
+            //GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been downloaded.");
             EventAggregator.GetEvent<DownloadTaskTranferedEvent>().Publish(e.Token.FileInfo);
         }
 

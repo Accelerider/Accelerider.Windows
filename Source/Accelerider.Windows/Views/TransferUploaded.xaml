@@ -39,11 +39,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended"
-                 ItemsSource="{Binding TransferedFiles}"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 HorizontalContentAlignment="Stretch"
+        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended" ItemsSource="{Binding TransferedFiles}"
                  ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
 
             <ListBox.ItemTemplate>

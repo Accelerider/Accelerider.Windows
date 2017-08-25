@@ -58,13 +58,13 @@ namespace Accelerider.Windows.ViewModels.Dialogs
             set => SetProperty(ref _notDisplayDownloadDialog, value);
         }
 
-        public string DownloadItemsHint => string.Format("Items ({0})", DownloadItems?.Count); // Because of unknown reason, materialDesign:HintAssist.Hint="{Binding DownloadItems.Count, StringFormat='Items ({0})'}" don't work.
+        public string DownloadItemsHint => $"Items ({DownloadItems?.Count})"; // Because of unknown reason, materialDesign:HintAssist.Hint="{Binding DownloadItems.Count, StringFormat='Items ({0})'}" don't work.
 
         public string DownloadItemsSummary => DownloadItems == null ? string.Empty : string.Join("; ", DownloadItems);
 
         public List<string> DownloadItems
         {
-            get { return _downloadItems; }
+            get => _downloadItems;
             set
             {
                 if (SetProperty(ref _downloadItems, value))
@@ -83,8 +83,8 @@ namespace Accelerider.Windows.ViewModels.Dialogs
 
         public ObservableCollection<FileLocation> DefaultFolders
         {
-            get { return _defaultFolders; }
-            set { SetProperty(ref _defaultFolders, value); }
+            get => _defaultFolders;
+            set => SetProperty(ref _defaultFolders, value);
         }
 
 
@@ -95,7 +95,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 DownloadFolder = dialog.SelectedPath;
-                DefaultFolders.Insert(0, DownloadFolder);
+                if (!DefaultFolders.Contains(DownloadFolder)) DefaultFolders.Insert(0, DownloadFolder);
             }
         }
     }

@@ -125,25 +125,25 @@ namespace Accelerider.Windows.Core
                 {
                     HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/26038597?v=4&amp;s=100"),
                     Username = "czy8518",
-                    FilePathMock = "E:\\"
+                    FilePathMock = "F:\\"
                 },
                 new NetDiskUser
                 {
                     HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/20897838?v=4&amp;s=100"),
                     Username = "Mr-Share",
-                    FilePathMock = "E:\\"
+                    FilePathMock = "G:\\"
                 },
                 new NetDiskUser
                 {
                     HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/4465021?v=4&amp;s=100"),
                     Username = "DestinyHunter",
-                    FilePathMock = "E:\\"
+                    FilePathMock = "H:\\"
                 },
                 new NetDiskUser
                 {
                     HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/27673128?v=4&amp;s=100"),
                     Username = "qitiandashengsunwukong",
-                    FilePathMock = "E:\\"
+                    FilePathMock = "I:\\"
                 },
                 new NetDiskUser
                 {

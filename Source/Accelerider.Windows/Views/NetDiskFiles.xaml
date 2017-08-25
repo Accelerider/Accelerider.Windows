@@ -68,9 +68,6 @@
         <ctrls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
             <ListBox Name="ListboxFileList" SelectionMode="Extended"
                      ItemsSource="{Binding Files}"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     HorizontalContentAlignment="Stretch"
                      ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
                 <ListBox.ContextMenu>
                     <ContextMenu >

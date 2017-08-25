@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace Accelerider.Windows.Infrastructure
@@ -58,6 +57,35 @@ namespace Accelerider.Windows.Infrastructure
         {
             return FullPath;
         }
+
+        #region Equals
+        public static bool operator ==(FileLocation left, FileLocation right)
+        {
+            return left?.FullPath == right?.FullPath;
+        }
+
+        public static bool operator !=(FileLocation left, FileLocation right)
+        {
+            return !(left == right);
+        }
+
+        protected bool Equals(FileLocation other)
+        {
+            return string.Equals(FullPath, other.FullPath);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && Equals(obj as FileLocation);
+        }
+
+        public override int GetHashCode()
+        {
+            return FullPath != null ? FullPath.GetHashCode() : 0;
+        }
+        #endregion
 
         public static implicit operator FileLocation(string filePath)
         {
