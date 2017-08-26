@@ -108,7 +108,7 @@
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
-    <Compile Include="ViewModels\Dialogs\SeletNetDiskTypeDialog.vm.cs" />
+    <Compile Include="ViewModels\Dialogs\SelectNetDiskTypeDialog.vm.cs" />
     <Compile Include="ViewModels\Items\NetDiskType.vm.cs" />
     <Compile Include="ViewModels\Items\TransferTask.vm.cs" />
     <Compile Include="ViewModels\LoadingFilesBase.vm.cs" />
@@ -133,8 +133,8 @@
     <Compile Include="Views\Dialogs\DownloadDialog.xaml.cs">
       <DependentUpon>DownloadDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dialogs\SeletNetDiskTypeDialog.xaml.cs">
-      <DependentUpon>SeletNetDiskTypeDialog.xaml</DependentUpon>
+    <Compile Include="Views\Dialogs\SelectNetDiskTypeDialog.xaml.cs">
+      <DependentUpon>SelectNetDiskTypeDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\ShareDialog.xaml.cs">
       <DependentUpon>ShareDialog.xaml</DependentUpon>
@@ -230,7 +230,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Dialogs\SeletNetDiskTypeDialog.xaml">
+    <Page Include="Views\Dialogs\SelectNetDiskTypeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

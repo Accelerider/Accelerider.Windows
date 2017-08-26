@@ -45,7 +45,7 @@ namespace Accelerider.Windows.ViewModels
 
         private async void AddNetDiskCommandExecute()
         {
-            await DialogHost.Show(new SeletNetDiskTypeDialog(), "RootDialog");
+            await DialogHost.Show(new SelectNetDiskTypeDialog(), "RootDialog");
         }
 
 

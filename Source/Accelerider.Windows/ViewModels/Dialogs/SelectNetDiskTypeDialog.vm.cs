@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Accelerider.Windows.Commands;
 using Accelerider.Windows.ViewModels.Items;
 using Accelerider.Windows.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
@@ -8,22 +10,16 @@ using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels.Dialogs
 {
-    public class SeletNetDiskTypeDialogViewModel : ViewModelBase
+    public class SelectNetDiskTypeDialogViewModel : ViewModelBase
     {
-        private NetDiskTypeViewModel _netDiskType;
         private IEnumerable<NetDiskTypeViewModel> _netDiskTypes;
+        private ICommand _selectNetDiskCommand;
 
 
-        public SeletNetDiskTypeDialogViewModel(IUnityContainer container) : base(container)
+        public SelectNetDiskTypeDialogViewModel(IUnityContainer container) : base(container)
         {
             NetDiskTypes = InitializeNetDiskTypes();
-        }
-
-
-        public NetDiskTypeViewModel NetDiskType
-        {
-            get => _netDiskType;
-            set { if (SetProperty(ref _netDiskType, value)) OnNetDiskTypeChanged(); }
+            SelectNetDiskCommand = new RelayCommand<NetDiskTypeViewModel>(SelectNetDiskCommandExecute);
         }
 
         public IEnumerable<NetDiskTypeViewModel> NetDiskTypes
@@ -32,8 +28,14 @@ namespace Accelerider.Windows.ViewModels.Dialogs
             set => SetProperty(ref _netDiskTypes, value);
         }
 
+        public ICommand SelectNetDiskCommand
+        {
+            get => _selectNetDiskCommand;
+            set => SetProperty(ref _selectNetDiskCommand, value);
+        }
 
-        private void OnNetDiskTypeChanged()
+
+        private void SelectNetDiskCommandExecute(NetDiskTypeViewModel netDiskType)
         {
             var showDialog = new AuthenticationBrowserWindow().ShowDialog();
             if (showDialog != null && (bool)showDialog &&
