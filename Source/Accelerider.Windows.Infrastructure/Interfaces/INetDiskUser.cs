@@ -18,12 +18,12 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         // Operates net-disk file ---------------------------------------------------------
         ITransferTaskToken UploadAsync(FileLocation from, FileLocation to);
 
-        Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(IAsyncTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null);
+        Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null);
 
         Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null);
 
         // Gets net-disk files ------------------------------------------------------------
-        Task<IAsyncTreeNode<INetDiskFile>> GetNetDiskFileRootAsync();
+        Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync();
 
         Task<IEnumerable<ISharedFile>> GetSharedFilesAsync();
 

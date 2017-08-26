@@ -6,6 +6,7 @@
              xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
+             xmlns:local="clr-namespace:Accelerider.Windows.Views"
              vm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600" >
@@ -46,6 +47,6 @@
             </StackPanel>
         </Grid>
 
-        <ctrls:TransferTaskList Grid.Row="2" ItemsSource="{Binding TransferTasks}"/>
+        <local:TransferTaskList Grid.Row="2" ItemsSource="{Binding TransferTasks}"/>
     </Grid>
 </UserControl>

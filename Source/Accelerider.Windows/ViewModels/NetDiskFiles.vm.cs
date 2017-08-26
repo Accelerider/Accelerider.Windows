@@ -18,9 +18,9 @@ using System;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class NetDiskFilesViewModel : LoadingFilesBaseViewModel<IAsyncTreeNode<INetDiskFile>>
+    public class NetDiskFilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>
     {
-        private IAsyncTreeNode<INetDiskFile> _currentFolder;
+        private ILazyTreeNode<INetDiskFile> _currentFolder;
 
         private ICommand _enterFolderCommand;
         private ICommand _downloadCommand;
@@ -35,7 +35,7 @@ namespace Accelerider.Windows.ViewModels
         }
 
 
-        public IAsyncTreeNode<INetDiskFile> CurrentFolder
+        public ILazyTreeNode<INetDiskFile> CurrentFolder
         {
             get => _currentFolder;
             set { if (SetProperty(ref _currentFolder, value)) RefreshFiles(); }
@@ -71,7 +71,7 @@ namespace Accelerider.Windows.ViewModels
 
         private void InitializeCommands()
         {
-            EnterFolderCommand = new RelayCommand<IAsyncTreeNode<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.FileType == FileTypeEnum.FolderType);
+            EnterFolderCommand = new RelayCommand<ILazyTreeNode<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.FileType == FileTypeEnum.FolderType);
             DownloadCommand = new RelayCommand<IList>(DownloadCommandExecute, files => files != null && files.Count > 0);
             UploadCommand = new RelayCommand(UploadCommandExecute);
             ShareCommand = new RelayCommand<IList>(ShareCommandExecute, files => files != null && files.Count > 0);
@@ -80,7 +80,7 @@ namespace Accelerider.Windows.ViewModels
 
         private async void DownloadCommandExecute(IList files)
         {
-            var fileArray = files.Cast<IAsyncTreeNode<INetDiskFile>>().ToArray();
+            var fileArray = files.Cast<ILazyTreeNode<INetDiskFile>>().ToArray();
 
             var (folder, isDownload) = await DisplayDownloadDialogAsync(fileArray.Select(item => item.Content.FilePath.FileName));
 
@@ -133,7 +133,7 @@ namespace Accelerider.Windows.ViewModels
 
             // 2. Determines whether to share based on the return value of dialog.
 
-            var (code, shareSummary) = await NetDiskUser.ShareAsync(files.Cast<IAsyncTreeNode<INetDiskFile>>().Select(node => node.Content));
+            var (code, shareSummary) = await NetDiskUser.ShareAsync(files.Cast<ILazyTreeNode<INetDiskFile>>().Select(node => node.Content));
 
             // 3. Sends the GlobalMessageQueue for reporting result.
         }
@@ -141,7 +141,7 @@ namespace Accelerider.Windows.ViewModels
         private async void DeleteCommandExecute(IList files)
         {
             var currentFolder = CurrentFolder;
-            var fileArray = files.Cast<IAsyncTreeNode<INetDiskFile>>().ToArray();
+            var fileArray = files.Cast<ILazyTreeNode<INetDiskFile>>().ToArray();
 
             var errorFileCount = 0;
             foreach (var file in fileArray)
@@ -160,7 +160,7 @@ namespace Accelerider.Windows.ViewModels
         }
         #endregion
 
-        protected override async Task<IEnumerable<IAsyncTreeNode<INetDiskFile>>> GetFilesAsync()
+        protected override async Task<IEnumerable<ILazyTreeNode<INetDiskFile>>> GetFilesAsync()
         {
             if (PreviousNetDiskUser != NetDiskUser)
             {

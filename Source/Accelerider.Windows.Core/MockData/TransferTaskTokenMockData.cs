@@ -10,14 +10,13 @@ namespace Accelerider.Windows.Core.MockData
     public class TransferTaskTokenMockData : ITransferTaskToken
     {
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        private Task _task;
         private TransferStateEnum _transferState;
 
         public TransferTaskTokenMockData(IDiskFile fileInfo)
         {
             FileInfo = fileInfo;
             TransferState = TransferStateEnum.Transfering;
-            _task = ChangeProgress(_cancellationTokenSource.Token);
+            ChangeProgress(_cancellationTokenSource.Token);
         }
 
         public event EventHandler<TransferStateChangedEventArgs> TransferStateChanged;
@@ -39,18 +38,18 @@ namespace Accelerider.Windows.Core.MockData
         {
             _cancellationTokenSource.Cancel();
             TransferState = TransferStateEnum.Paused;
-            await _task;
+            await Task.Delay(1000);
             return true;
         }
 
         public async Task<bool> StartAsync(bool force = false)
         {
-            await Task.Run(async () =>
-            {
-                _cancellationTokenSource = new CancellationTokenSource();
-                Progress = new DataSize(0);
-                await ChangeProgress(_cancellationTokenSource.Token);
-            });
+            await Task.Delay(2000);
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            Progress = new DataSize(0);
+            ChangeProgress(_cancellationTokenSource.Token);
+
             TransferState = TransferStateEnum.Transfering;
             return true;
         }
@@ -58,7 +57,6 @@ namespace Accelerider.Windows.Core.MockData
         public async Task<bool> CancelAsync()
         {
             if (!await PauseAsync()) return false;
-            _task = null;
             _cancellationTokenSource = null;
             Progress = new DataSize(0);
             TransferState = TransferStateEnum.Canceled;
@@ -70,18 +68,16 @@ namespace Accelerider.Windows.Core.MockData
             return FileInfo.FilePath == other?.FileInfo.FilePath;
         }
 
-        private async Task<int> ChangeProgress(CancellationToken token)
+        private async void ChangeProgress(CancellationToken token)
         {
             var rand = new Random();
             while (!token.IsCancellationRequested)
             {
-                await Task.Delay(rand.Next(300, 2000), token);
-                Progress += rand.Next(1, 1024 * 512);
+                await Task.Delay(rand.Next(300, 1000));
+                Progress += rand.Next(1, 1024 * 256);
                 if (Progress < FileInfo.FileSize) continue;
                 TransferState = TransferStateEnum.Checking;
-                return 0;
             }
-            return 0;
         }
 
         protected virtual void OnTransferStateChanged(TransferStateChangedEventArgs e)

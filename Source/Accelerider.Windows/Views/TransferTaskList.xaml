@@ -1,19 +1,47 @@
-﻿<ListBox x:Class="Accelerider.Windows.Controls.TransferTaskList"
+﻿<ListBox x:Class="Accelerider.Windows.Views.TransferTaskList"
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-         SelectionMode="Extended"
+         SelectionMode="Single"
          Style="{StaticResource {x:Type ListBox}}"
          ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
 
     <ListBox.ContextMenu>
         <ContextMenu x:Name="ContextMenu">
-            <MenuItem Header="Pause">
+            <MenuItem CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+                <MenuItem.Style>
+                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Icon">
+                            <Setter.Value>
+                                <materialDesign:PackIcon Kind="Pause" />
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Header" Value="Pause"/>
+                        <Setter Property="Command" Value="{Binding PauseCommand}"/>
+                        <Style.Triggers>
+                            <DataTrigger Value="Paused" Binding="{Binding PlacementTarget.SelectedItem.TransferState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+                                <Setter Property="Icon">
+                                    <Setter.Value>
+                                        <materialDesign:PackIcon Kind="Play" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Header" Value="Restart"/>
+                                <Setter Property="Command" Value="{Binding StartCommand}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </MenuItem.Style>
+            </MenuItem>
+            <MenuItem Header="Jump Queue"
+                      Command="{Binding StartForceCommand}"
+                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
                 <MenuItem.Icon>
-                    <materialDesign:PackIcon Kind="Pause" />
+                    <materialDesign:PackIcon Kind="ArrowUp" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Cancel">
+            <MenuItem Header="Cancel"
+                      Command="{Binding CancelCommand}"
+                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
                 <MenuItem.Icon>
                     <materialDesign:PackIcon Kind="Close" />
                 </MenuItem.Icon>
@@ -25,6 +53,7 @@
         <DataTemplate>
             <Grid >
                 <ProgressBar Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"
+                             IsIndeterminate="{Binding IsBusy}"
                              Maximum="{Binding FileInfo.FileSize.BaseBValue, Mode=OneWay}"
                              Value="{Binding Progress.BaseBValue, Mode=OneWay}"/>
                 <Border Padding="20 8">

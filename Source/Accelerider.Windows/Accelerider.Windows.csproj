@@ -85,7 +85,7 @@
     </Compile>
     <Compile Include="Controls\SwitchableViewContainer.cs" />
     <Compile Include="Controls\SwitchLoadingViewContainer.cs" />
-    <Compile Include="Controls\TransferTaskList.xaml.cs">
+    <Compile Include="Views\TransferTaskList.xaml.cs">
       <DependentUpon>TransferTaskList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\CompareConverters.cs" />
@@ -201,7 +201,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\TransferTaskList.xaml">
+    <Page Include="Views\TransferTaskList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

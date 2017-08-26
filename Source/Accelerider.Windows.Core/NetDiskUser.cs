@@ -29,7 +29,7 @@ namespace Accelerider.Windows.Core
         internal long Userid { get; set; }
 
 
-        public async Task<IAsyncTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
+        public async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
         {
             return await GetNetDiskFileTreeAsyncMock();
         }
@@ -55,7 +55,7 @@ namespace Accelerider.Windows.Core
             return UploadAsyncMock(from, to);
         }
 
-        public async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(IAsyncTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null)
+        public async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null)
         {
             return await DownloadAsyncMock(fileNode);
         }
@@ -71,10 +71,10 @@ namespace Accelerider.Windows.Core
         public string FilePathMock = null;
         private readonly Random _rand = new Random();
 
-        private async Task<IAsyncTreeNode<INetDiskFile>> GetNetDiskFileTreeAsyncMock()
+        private async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileTreeAsyncMock()
         {
             await Task.Delay(_rand.Next(4, 400));
-            var tree = new AsyncTreeNode<INetDiskFile>(new NetDiskFile { FilePath = new FileLocation(FilePathMock) })
+            var tree = new LazyTreeNode<INetDiskFile>(new NetDiskFile { FilePath = new FileLocation(FilePathMock) })
             {
                 ChildrenProvider = async parent =>
                 {
@@ -111,7 +111,7 @@ namespace Accelerider.Windows.Core
             return temp;
         }
 
-        private async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsyncMock(IAsyncTreeNode<INetDiskFile> fileNode)
+        private async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsyncMock(ILazyTreeNode<INetDiskFile> fileNode)
         {
             var temp = (from file in await fileNode.FlattenAsync()
                         where file.Content.FileType != FileTypeEnum.FolderType

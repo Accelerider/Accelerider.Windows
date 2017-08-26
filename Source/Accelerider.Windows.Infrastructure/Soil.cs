@@ -7,20 +7,20 @@ namespace Accelerider.Windows.Infrastructure
 {
     internal class Soil<T>
     {
-        private readonly IAsyncTreeNode<T> _seed;
+        private readonly ILazyTreeNode<T> _seed;
 
-        public Soil(IAsyncTreeNode<T> seed)
+        public Soil(ILazyTreeNode<T> seed)
         {
             _seed = seed;
         }
 
-        public async Task<IEnumerable<IAsyncTreeNode<T>>> FlattenAsync()
+        public async Task<IEnumerable<ILazyTreeNode<T>>> FlattenAsync()
         {
             await Flourish(_seed);
             return Flatten(_seed);
         }
 
-        public async Task<IReadOnlyList<IAsyncTreeNode<T>>> GetChildrenAsync(bool force = false)
+        public async Task<IReadOnlyList<ILazyTreeNode<T>>> GetChildrenAsync(bool force = false)
         {
             if (force || _seed.ChildrenCache == null)
             {
@@ -35,7 +35,7 @@ namespace Accelerider.Windows.Infrastructure
         }
 
 
-        private async Task Flourish(IAsyncTreeNode<T> seed) // TODO: Tail recursion / CPS
+        private async Task Flourish(ILazyTreeNode<T> seed) // TODO: Tail recursion / CPS
         {
             if (seed.ChildrenCache != null || await seed.RefreshChildrenCacheAsync())
             {
@@ -46,7 +46,7 @@ namespace Accelerider.Windows.Infrastructure
             }
         }
 
-        private IEnumerable<IAsyncTreeNode<T>> Flatten(IAsyncTreeNode<T> node)
+        private IEnumerable<ILazyTreeNode<T>> Flatten(ILazyTreeNode<T> node)
         {
             yield return node;
             if (node.ChildrenCache == null) yield break;

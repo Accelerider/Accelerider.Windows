@@ -18,7 +18,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null);
 
-        //Task<IAsyncTreeNode<INetDiskFile>> GetSharedFileRootAsync(ISharedFile shareSummary);
+        //Task<ILazyTreeNode<INetDiskFile>> GetSharedFileRootAsync(ISharedFile shareSummary);
 
         // Operates sub-account (cloud account) -------------------------------------------------
         INetDiskUser CurrentNetDiskUser { get; set; }

@@ -78,7 +78,7 @@
     <Compile Include="NetWork\Cookies.cs" />
     <Compile Include="NetWork\HttpClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AsyncTreeNode{T}.cs" />
+    <Compile Include="LazyTreeNode{T}.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">

@@ -6,43 +6,43 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Core
 {
-    public class AsyncTreeNode<T> : IAsyncTreeNode<T>
+    public class LazyTreeNode<T> : ILazyTreeNode<T>
     {
         private Func<T, Task<IEnumerable<T>>> _childrenProvider;
 
 
-        public AsyncTreeNode(T content)
+        public LazyTreeNode(T content)
         {
             Content = content;
         }
 
 
         public T Content { get; }
-        public IAsyncTreeNode<T> Root
+        public ILazyTreeNode<T> Root
         {
             get
             {
-                IAsyncTreeNode<T> temp = this;
+                ILazyTreeNode<T> temp = this;
                 while (temp.Parent != null) temp = temp.Parent;
                 return temp;
             }
         }
-        public IAsyncTreeNode<T> Parent { get; protected set; }
-        public IReadOnlyList<IAsyncTreeNode<T>> Parents
+        public ILazyTreeNode<T> Parent { get; protected set; }
+        public IReadOnlyList<ILazyTreeNode<T>> Parents
         {
             get
             {
-                var stack = new Stack<IAsyncTreeNode<T>>();
-                IAsyncTreeNode<T> temp = this;
+                var stack = new Stack<ILazyTreeNode<T>>();
+                ILazyTreeNode<T> temp = this;
                 while ((temp = temp.Parent) != null) stack.Push(temp);
                 return (from item in stack select item).ToList();
             }
         }
-        public IReadOnlyList<IAsyncTreeNode<T>> ChildrenCache { get; protected set; } // TODO: WeakReference
+        public IReadOnlyList<ILazyTreeNode<T>> ChildrenCache { get; protected set; } // TODO: WeakReference
 
         public Func<T, Task<IEnumerable<T>>> ChildrenProvider
         {
-            get => _childrenProvider ?? (Parent as AsyncTreeNode<T>)?.ChildrenProvider;
+            get => _childrenProvider ?? (Parent as LazyTreeNode<T>)?.ChildrenProvider;
             set => _childrenProvider = value;
         }
 
@@ -58,7 +58,7 @@ namespace Accelerider.Windows.Core
             }
 
             var treeNodes = (from item in enumerable
-                             select new AsyncTreeNode<T>(item) { Parent = this }).ToArray();
+                             select new LazyTreeNode<T>(item) { Parent = this }).ToArray();
 
             if (!treeNodes.Any())
             {

@@ -8,7 +8,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
     /// Represents a tree structure whose child nodes will be acquired when the <see cref="GetChildrenAsync"/> method is called.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IAsyncTreeNode<out T>
+    public interface ILazyTreeNode<out T>
     {
         /// <summary>
         /// Gets content of the node.
@@ -18,22 +18,22 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         /// <summary>
         /// Gets root of the node
         /// </summary>
-        IAsyncTreeNode<T> Root { get; }
+        ILazyTreeNode<T> Root { get; }
 
         /// <summary>
         /// Gets parent of the node.
         /// </summary>
-        IAsyncTreeNode<T> Parent { get; }
+        ILazyTreeNode<T> Parent { get; }
 
         /// <summary>
         /// Get all the parents of the node, the order of the sequence is from the root to the parent of the node.
         /// </summary>
-        IReadOnlyList<IAsyncTreeNode<T>> Parents { get; }
+        IReadOnlyList<ILazyTreeNode<T>> Parents { get; }
 
         /// <summary>
         /// Gets the cache of the child's node for the node.
         /// </summary>
-        IReadOnlyList<IAsyncTreeNode<T>> ChildrenCache { get; }
+        IReadOnlyList<ILazyTreeNode<T>> ChildrenCache { get; }
 
         /// <summary>
         /// Try to get the children of the node, 

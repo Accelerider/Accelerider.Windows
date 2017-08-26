@@ -1,4 +1,4 @@
-﻿namespace Accelerider.Windows.Controls
+﻿namespace Accelerider.Windows.Views
 {
     /// <summary>
     /// Interaction logic for TransferTaskList.xaml
