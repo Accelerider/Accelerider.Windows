@@ -3,11 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ctrls="clr-namespace:Accelerider.Windows.Views"
+             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
-             xmlns:controls="clr-namespace:Accelerider.Windows.Controls"
              vm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="600" d:DataContext="{x:Type vm:NetDiskFilesViewModel}">
@@ -17,48 +16,19 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <controls:FolderLocationBar Grid.Row="0" CurrentFolder="{Binding CurrentFolder}"/>
+        <ctrls:FolderLocationBar Grid.Row="0" CurrentFolder="{Binding CurrentFolder}"/>
         <Grid Grid.Row="1" Background="#DDDEF0">
-            <Grid.Resources>
-                <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
-                    <Setter Property="Height" Value="42" />
-                    <Setter Property="Foreground" Value="#606060"/>
-                    <Setter Property="controls:ControlHelper.MouseOverBackground" Value="#7679BE" />
-                    <Setter Property="controls:ControlHelper.MouseOverForeground" Value="White" />
-                </Style>
-            </Grid.Resources>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
-                <Button Style="{StaticResource ToolBarButtonStyle}" Command="{Binding DownloadCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Download" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
-                        <TextBlock Text="Download" VerticalAlignment="Center" Margin="0 0 12 0" />
-                    </StackPanel>
-                </Button>
-                <Button Style="{StaticResource ToolBarButtonStyle}" 
-                        Command="{Binding UploadCommand}"
-                        CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CloudUpload" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
-                        <TextBlock Text="Upload" VerticalAlignment="Center" Margin="0 0 12 0" />
-                    </StackPanel>
-                </Button>
-                <Button Style="{StaticResource ToolBarButtonStyle}" Command="{Binding ShareCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Share" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
-                        <TextBlock Text="Share" VerticalAlignment="Center" Margin="0 0 12 0"/>
-                    </StackPanel>
-                </Button>
-                <Button Style="{StaticResource ToolBarButtonStyle}" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="DeleteForever" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
-                        <TextBlock Text="Delete" VerticalAlignment="Center" Margin="0 0 12 0"/>
-                    </StackPanel>
-                </Button>
+                <ctrls:ToolBarButton IconKind="Download" Label="Download" Command="{Binding DownloadCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
+                <ctrls:ToolBarButton IconKind="CloudUpload" Label="Upload" Command="{Binding UploadCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
+                <ctrls:ToolBarButton IconKind="Share" Label="Share" Command="{Binding ShareCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
+                <ctrls:ToolBarButton IconKind="DeleteForever" Label="Delete" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
             </StackPanel>
             <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
                     Command="{Binding RefreshFilesCommand}"
@@ -66,7 +36,7 @@
                 <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
             </Button>
         </Grid>
-        <controls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
+        <ctrls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
             <ListBox Name="ListboxFileList" SelectionMode="Extended"
                      ItemsSource="{Binding Files}"
                      ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
@@ -128,7 +98,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </controls:SwitchLoadingViewContainer>
+        </ctrls:SwitchLoadingViewContainer>
     </Grid>
 </UserControl>
 

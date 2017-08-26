@@ -4,10 +4,9 @@
                     xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
                     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:ctrls="clr-namespace:Accelerider.Windows.Views"
-                    xmlns:controls="clr-namespace:Accelerider.Windows.Controls">
+                    xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls">
 
-    
+
     <ControlTemplate x:Key="FlatButtonTemplate" TargetType="Button">
         <Grid>
             <AdornerDecorator>
@@ -22,8 +21,8 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{Binding (controls:ControlHelper.MouseOverBackground), RelativeSource={RelativeSource Mode=Self}}" />
-                <Setter Property="Foreground" Value="{Binding (controls:ControlHelper.MouseOverForeground), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Background" Value="{Binding (ctrls:ControlHelper.MouseOverBackground), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Foreground" Value="{Binding (ctrls:ControlHelper.MouseOverForeground), RelativeSource={RelativeSource Mode=Self}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -74,6 +73,13 @@
         <Setter Property="Template" Value="{StaticResource FlatButtonTemplate}" />
     </Style>
 
+    <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
+        <Setter Property="Height" Value="42" />
+        <Setter Property="Foreground" Value="#606060"/>
+        <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="#7679BE" />
+        <Setter Property="ctrls:ControlHelper.MouseOverForeground" Value="White" />
+    </Style>
+
 
     <Style x:Key="MainWindowStyle" TargetType="Window">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
@@ -110,8 +116,8 @@
                                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                                         <StackPanel.Resources>
                                             <Style x:Key="WindowButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource FlatButtonStyle}">
-                                                <Setter Property="controls:ControlHelper.MouseOverBackground" Value="{StaticResource PrimaryHueDarkBrush}" />
-                                                <Setter Property="controls:ControlHelper.MouseOverForeground" Value="White"/>
+                                                <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="{StaticResource PrimaryHueDarkBrush}" />
+                                                <Setter Property="ctrls:ControlHelper.MouseOverForeground" Value="White"/>
                                                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
                                                 <Setter Property="Width" Value="46"/>
                                                 <Setter Property="Margin" Value="4 0 0 0"/>
@@ -159,7 +165,7 @@
                                             </i:Interaction.Triggers>
                                             <materialDesign:PackIcon Kind="WindowMaximize" />
                                         </Button>
-                                        <Button Style="{StaticResource WindowButtonStyle}" controls:ControlHelper.MouseOverBackground="Red">
+                                        <Button Style="{StaticResource WindowButtonStyle}" ctrls:ControlHelper.MouseOverBackground="Red">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
                                                     <ei:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" MethodName="Close" />
@@ -523,7 +529,7 @@
     </Style>
 
 
-    <Style TargetType="controls:SwitchLoadingViewContainer">
+    <Style TargetType="ctrls:SwitchLoadingViewContainer">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="LoadingContent">
@@ -539,10 +545,12 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    
+
     <Style TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     </Style>
+
+
 </ResourceDictionary>

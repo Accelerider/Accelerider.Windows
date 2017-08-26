@@ -16,14 +16,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid.Resources>
-            <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
-                <Setter Property="Height" Value="42" />
-                <Setter Property="Foreground" Value="#606060"/>
-                <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="#7679BE" />
-                <Setter Property="ctrls:ControlHelper.MouseOverForeground" Value="White" />
-            </Style>
-        </Grid.Resources>
+
         <Grid Grid.Row="0" Height="50" />
         <Grid Grid.Row="1" Background="#DDDEF0">
             <Grid.ColumnDefinitions>
@@ -32,18 +25,8 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
-                <Button Style="{StaticResource ToolBarButtonStyle}" >
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Pause" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
-                        <TextBlock Text="Pause All" VerticalAlignment="Center" Margin="0 0 12 0" />
-                    </StackPanel>
-                </Button>
-                <Button Style="{StaticResource ToolBarButtonStyle}" >
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Close" Width="20" Height="20" VerticalAlignment="Center" Margin="8 0 4 0" />
-                        <TextBlock Text="Cancel All" VerticalAlignment="Center" Margin="0 0 12 0" />
-                    </StackPanel>
-                </Button>
+                <ctrls:ToolBarButton IconKind="Pause" Label="Pause All"/>
+                <ctrls:ToolBarButton IconKind="Close" Label="Cancel All"/>
             </StackPanel>
         </Grid>
 

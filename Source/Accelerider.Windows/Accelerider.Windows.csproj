@@ -85,6 +85,9 @@
     </Compile>
     <Compile Include="Controls\SwitchableViewContainer.cs" />
     <Compile Include="Controls\SwitchLoadingViewContainer.cs" />
+    <Compile Include="Controls\ToolBarButton.xaml.cs">
+      <DependentUpon>ToolBarButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TransferTaskList.xaml.cs">
       <DependentUpon>TransferTaskList.xaml</DependentUpon>
     </Compile>
@@ -198,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\FolderLocationBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ToolBarButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
