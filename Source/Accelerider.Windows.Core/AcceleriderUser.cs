@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Core.NetWork;
+using Accelerider.Windows.Core.NetWork.UserModels;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Newtonsoft.Json.Linq;
@@ -23,7 +24,7 @@ namespace Accelerider.Windows.Core
         public AcceleriderUser()
         {
             InitializeNetDiskUsers();
-            //CurrentNetDiskUser = NetDiskUsers[2];
+            CurrentNetDiskUser = NetDiskUsers[0];
         }
 
 
@@ -101,6 +102,7 @@ namespace Accelerider.Windows.Core
         #region Private methods
         private void InitializeNetDiskUsers()
         {
+            
             NetDiskUsers = new[]
             {
                 new NetDiskUser
@@ -171,6 +173,22 @@ namespace Accelerider.Windows.Core
                 },
 
             };
+            
+            /* test
+            var json = JObject.Parse(new HttpClient().Post("http://api.usmusic.cn/login?security=md5",
+                new Dictionary<string, string>()
+                {
+                    ["name"] = "you username",
+                    ["password"] = "you password",
+                    ["clienttype"] = "wpf",
+                    ["ver"] = "1"
+                }));
+            Token = json.Value<string>("token");
+            NetDiskUsers = new[]
+            {
+                new BaiduNetDiskUser(this, "you userid")
+            };
+            */
         }
 
         #endregion

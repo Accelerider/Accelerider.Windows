@@ -9,7 +9,7 @@ namespace Accelerider.Windows.Core.Files
 {
     public abstract class DiskFileBase : IDiskFile
     {
-        private static readonly Dictionary<FileTypeEnum, string[]> FileTypeDirectory = new Dictionary<FileTypeEnum, string[]>
+        protected static readonly Dictionary<FileTypeEnum, string[]> FileTypeDirectory = new Dictionary<FileTypeEnum, string[]>
         {
             { FileTypeEnum.ApkType, new []{ "apk" }},
             { FileTypeEnum.DocType, new []{ "doc", "docx" } },
