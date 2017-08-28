@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.Files.BaiduNetDisk;
 using Accelerider.Windows.Core.NetWork;
 using Accelerider.Windows.Core.NetWork.UserModels;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core
@@ -23,8 +26,8 @@ namespace Accelerider.Windows.Core
 
         public AcceleriderUser()
         {
-            InitializeNetDiskUsers();
-            CurrentNetDiskUser = NetDiskUsers[0];
+            //InitializeNetDiskUsers();
+            //CurrentNetDiskUser = NetDiskUsers[0];
         }
 
 
@@ -48,6 +51,7 @@ namespace Accelerider.Windows.Core
             if (json.Value<int>("errno") != 0)
                 return json.Value<string>("message");
             Token = json.Value<string>("token");
+            await InitializeNetDiskUsers();
             return string.Empty;
         }
 
@@ -100,95 +104,16 @@ namespace Accelerider.Windows.Core
         #endregion
 
         #region Private methods
-        private void InitializeNetDiskUsers()
+        private async Task InitializeNetDiskUsers()
         {
-            
-            NetDiskUsers = new[]
-            {
-                new NetDiskUser
-                {
-                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/29689099?v=4&amp;s=100"),
-                    Username = "Jielun Zhou",
-                    FilePathMock = "C:\\"
-                },
-                new NetDiskUser
-                {
-                    HeadImageUri = new Uri("https://avatars3.githubusercontent.com/u/10069087?v=4&amp;s=100"),
-                    Username = "Junjie Lin",
-                    FilePathMock = "D:\\"
-                },
-                new NetDiskUser
-                {
-                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/25058219?v=4&amp;s=100"),
-                    Username = "TaoFen Boy",
-                    FilePathMock = "E:\\"
-                },
-                new NetDiskUser
-                {
-                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/26038597?v=4&amp;s=100"),
-                    Username = "czy8518",
-                    FilePathMock = "F:\\"
-                },
-                new NetDiskUser
-                {
-                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/20897838?v=4&amp;s=100"),
-                    Username = "Mr-Share",
-                    FilePathMock = "G:\\"
-                },
-                new NetDiskUser
-                {
-                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/4465021?v=4&amp;s=100"),
-                    Username = "DestinyHunter",
-                    FilePathMock = "H:\\"
-                },
-                new NetDiskUser
-                {
-                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/27673128?v=4&amp;s=100"),
-                    Username = "qitiandashengsunwukong",
-                    FilePathMock = "I:\\"
-                },
-                new NetDiskUser
-                {
-                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/9046253?v=4&amp;s=100"),
-                    Username = "MegalovaniaHere",
-                    FilePathMock = "E:\\"
-                },
-                new NetDiskUser
-                {
-                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/25217638?v=4&amp;s=100"),
-                    Username = "starlightme",
-                    FilePathMock = "E:\\"
-                },
-                new NetDiskUser
-                {
-                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/11731515?v=4&amp;s=100"),
-                    Username = "Roadchen",
-                    FilePathMock = "E:\\"
-                },
-                new NetDiskUser
-                {
-                    HeadImageUri = new Uri("https://avatars0.githubusercontent.com/u/4246206?v=4&amp;s=100"),
-                    Username = "itodayer",
-                    FilePathMock = "E:\\"
-                },
+            var list = new List<INetDiskUser>();
+            //Loading baidu user
 
-            };
-            
-            /* test
-            var json = JObject.Parse(new HttpClient().Post("http://api.usmusic.cn/login?security=md5",
-                new Dictionary<string, string>()
-                {
-                    ["name"] = "you username",
-                    ["password"] = "you password",
-                    ["clienttype"] = "wpf",
-                    ["ver"] = "1"
-                }));
-            Token = json.Value<string>("token");
-            NetDiskUsers = new[]
-            {
-                new BaiduNetDiskUser(this, "you userid")
-            };
-            */
+            var json = JObject.Parse(await new HttpClient().GetAsync("http://api.usmusic.cn/userlist?token=" + Token));
+            if (json.Value<int>("errno") == 0)
+                list.AddRange(json["userlist"].Select(v => new BaiduNetDiskUser(this, v.Value<long>("Uk").ToString())));
+            NetDiskUsers = list;
+            CurrentNetDiskUser = NetDiskUsers[0];
         }
 
         #endregion

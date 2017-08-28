@@ -13,6 +13,13 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         public string Username { get; }
         public DataSize TotalCapacity { get; }
         public DataSize UsedCapacity { get; }
+
+
+        internal OneDriveUser(AcceleriderUser user, string userid)
+        {
+            
+        }
+
         public Task<bool> RefreshUserInfoAsync()
         {
             throw new NotImplementedException();
