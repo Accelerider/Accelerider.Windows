@@ -3,29 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.Files.OneDrive;
+using Accelerider.Windows.Core.Tools;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core.NetWork.UserModels
 {
-    internal class OneDriveUser : IOneDriveUser
+    [JsonObject(MemberSerialization.OptIn)]
+    public class OneDriveUser : IOneDriveUser
     {
-        public string Username { get; }
-        public DataSize TotalCapacity { get; }
-        public DataSize UsedCapacity { get; }
+        [JsonProperty("name")]
+        public string Username { get; set; }
+        public DataSize TotalCapacity => new DataSize(_totalQuota);
+        public DataSize UsedCapacity => new DataSize(_usedQuota);
+
+        [JsonProperty("id")]
+        internal string Userid { get; set; }
+
+        [JsonProperty("totalQuota")]
+        private long _totalQuota;
+
+        [JsonProperty("usedQuota")]
+        private long _usedQuota;
+
+        internal AcceleriderUser User { get; set; }
 
 
-        internal OneDriveUser(AcceleriderUser user, string userid)
+        public async Task<bool> RefreshUserInfoAsync()
         {
-            
+            return true;
         }
 
-        public Task<bool> RefreshUserInfoAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ITransferTaskToken UploadAsync(FileLocation @from, FileLocation to)
+        public ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
         {
             throw new NotImplementedException();
         }
@@ -40,9 +52,27 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
+        public async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
         {
-            throw new NotImplementedException();
+            await Task.Delay(100);
+            var tree = new LazyTreeNode<INetDiskFile>(new OneDriveFile{User = this})
+            {
+                ChildrenProvider = async parent =>
+                {
+                    if (parent.FileType != FileTypeEnum.FolderType) return null;
+                    var json = JObject.Parse(
+                        await new HttpClient().GetAsync(
+                            $"http://api.usmusic.cn/onedrive/filelist?token={User.Token}&user={Userid}&path={parent.FilePath.FullPath.UrlEncode()}"));
+                    if (json.Value<int>("errno") != 0) return null;
+                    return JArray.Parse(json["list"].ToString()).Select(v =>
+                    {
+                        var file = JsonConvert.DeserializeObject<OneDriveFile>(v.ToString());
+                        file.User = this;
+                        return file;
+                    }).ToList();
+                }
+            };
+            return tree;
         }
 
         public Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
