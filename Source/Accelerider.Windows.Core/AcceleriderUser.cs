@@ -113,6 +113,7 @@ namespace Accelerider.Windows.Core
             var onedrive = JObject.Parse(await new HttpClient().GetAsync("http://api.usmusic.cn/onedrive/userlist?token="+Token));
             if (baidu.Value<int>("errno") == 0)
                 list.AddRange(baidu["userlist"].Select(v => new BaiduNetDiskUser(this, v.Value<long>("Uk").ToString())));
+            list.Add(new AcceleriderCloudUser(this));
             if(onedrive.Value<int>("errno") == 0)
                 list.AddRange(onedrive["userlist"].Select(v =>
                 {
