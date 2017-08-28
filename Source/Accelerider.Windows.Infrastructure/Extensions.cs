@@ -13,6 +13,11 @@ namespace Accelerider.Windows.Infrastructure
 {
     public static class LazyTreeNodeExtensions
     {
+        public static async Task ForEachAsync<T>(this ILazyTreeNode<T> self, Action<T> action)
+        {
+            await new Soil<T>(self).ForEachAsync(action);
+        }
+
         public static async Task<IEnumerable<ILazyTreeNode<T>>> FlattenAsync<T>(this ILazyTreeNode<T> self)
         {
             return await new Soil<T>(self).FlattenAsync();

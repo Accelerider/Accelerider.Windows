@@ -2,12 +2,15 @@
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using System.Linq;
+using System;
 
 namespace Accelerider.Windows.Infrastructure
 {
     internal class Soil<T>
     {
         private readonly ILazyTreeNode<T> _seed;
+        private Action<T> _action;
+
 
         public Soil(ILazyTreeNode<T> seed)
         {
@@ -16,7 +19,8 @@ namespace Accelerider.Windows.Infrastructure
 
         public async Task<IEnumerable<ILazyTreeNode<T>>> FlattenAsync()
         {
-            await Flourish(_seed);
+            _action = null;
+            await FlourishAsync(_seed);
             return Flatten(_seed);
         }
 
@@ -29,19 +33,26 @@ namespace Accelerider.Windows.Infrastructure
             return _seed.ChildrenCache;
         }
 
+        internal async Task ForEachAsync(Action<T> action)
+        {
+            _action = action;
+            await FlourishAsync(_seed);
+        }
+
         public int Count()
         {
             return Flatten(_seed).Count();
         }
 
 
-        private async Task Flourish(ILazyTreeNode<T> seed) // TODO: Tail recursion / CPS
+        private async Task FlourishAsync(ILazyTreeNode<T> seed) // TODO: Tail recursion / CPS
         {
-            if (seed.ChildrenCache != null || await seed.RefreshChildrenCacheAsync())
+            _action?.Invoke(seed.Content);
+            if (await seed.RefreshChildrenCacheAsync() && seed.ChildrenCache != null)
             {
                 foreach (var item in seed.ChildrenCache)
                 {
-                    await Flourish(item);
+                    await FlourishAsync(item);
                 }
             }
         }
