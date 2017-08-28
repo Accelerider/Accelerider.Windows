@@ -88,6 +88,7 @@
     <Compile Include="Controls\ToolBarButton.xaml.cs">
       <DependentUpon>ToolBarButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
