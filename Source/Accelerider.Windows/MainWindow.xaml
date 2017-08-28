@@ -124,13 +124,8 @@
                     </Grid>
                 </Button>
                 <ToggleButton x:Name="SettingsToggleButton" Grid.Row="4"
-                          Height="56" Style="{StaticResource RightBarAndUnderlineToggleButtonStyle}">
-                    <Ellipse Grid.Column="0" Height="32" Width="32">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="Assets/Images/HeadImage.png" />
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <!--<Grid>
+                              Height="56" Style="{StaticResource RightBarAndUnderlineToggleButtonStyle}">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="2"/>
@@ -138,11 +133,11 @@
                         </Grid.RowDefinitions>
                         <materialDesign:PackIcon Kind="Settings" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
                         <TextBlock Grid.Row="2" Text="Settings" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
-                    </Grid>-->
+                    </Grid>
                 </ToggleButton>
                 <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}" StaysOpen="False"
                                      PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" PopupAnimation="Fade"
-                                     Width="284" Height="600"/>
+                                     Width="284" Height="Auto"/>
             </Grid>
         </Grid>
     </materialDesign:DialogHost>
