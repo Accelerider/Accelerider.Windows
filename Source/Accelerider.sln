@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows", "Accelerider.Windows\Accelerider.Windows.csproj", "{BE5FC83A-43A0-41C5-9E3A-1EC4B6946F39}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaterialDesignColors.Wpf", "..\MaterialDesignInXamlToolkit\MaterialDesignColors.Wpf\MaterialDesignColors.Wpf.csproj", "{90B53209-C60C-4655-B28D-A1B3E1044BA3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaterialDesignThemes.Wpf", "..\MaterialDesignInXamlToolkit\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj", "{F079FB0A-A8ED-4216-B6A5-345756751A04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Components.Authenticator", "Accelerider.Windows.Components.Authenticator\Accelerider.Windows.Components.Authenticator.csproj", "{A91ADD02-6C31-4566-81D5-2E8170D02EA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +56,12 @@ Global
 		{F079FB0A-A8ED-4216-B6A5-345756751A04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F079FB0A-A8ED-4216-B6A5-345756751A04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F079FB0A-A8ED-4216-B6A5-345756751A04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A91ADD02-6C31-4566-81D5-2E8170D02EA3}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
+		{A91ADD02-6C31-4566-81D5-2E8170D02EA3}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
+		{A91ADD02-6C31-4566-81D5-2E8170D02EA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A91ADD02-6C31-4566-81D5-2E8170D02EA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A91ADD02-6C31-4566-81D5-2E8170D02EA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A91ADD02-6C31-4566-81D5-2E8170D02EA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,5 +72,9 @@ Global
 		{D30A6C14-B18D-4CBC-8DF4-FF9640F33B9E} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 		{90B53209-C60C-4655-B28D-A1B3E1044BA3} = {86AFA9E9-9F35-4D33-80F5-9B782C2E3AD4}
 		{F079FB0A-A8ED-4216-B6A5-345756751A04} = {86AFA9E9-9F35-4D33-80F5-9B782C2E3AD4}
+		{A91ADD02-6C31-4566-81D5-2E8170D02EA3} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {242F229E-E9BF-4DED-9237-326C7C9489A4}
 	EndGlobalSection
 EndGlobal

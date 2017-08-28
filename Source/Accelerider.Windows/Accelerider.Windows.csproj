@@ -88,6 +88,7 @@
     <Compile Include="Controls\ToolBarButton.xaml.cs">
       <DependentUpon>ToolBarButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
@@ -137,8 +138,8 @@
     <Compile Include="ViewModels\TransferView.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="Views\Dialogs\AuthenticationBrowserWindow.xaml.cs">
-      <DependentUpon>AuthenticationBrowserWindow.xaml</DependentUpon>
+    <Compile Include="Views\Dialogs\AuthenticatorWindow.xaml.cs">
+      <DependentUpon>AuthenticatorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\DownloadDialog.xaml.cs">
       <DependentUpon>DownloadDialog.xaml</DependentUpon>
@@ -244,7 +245,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Dialogs\AuthenticationBrowserWindow.xaml">
+    <Page Include="Views\Dialogs\AuthenticatorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -369,6 +370,10 @@
     <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
       <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
       <Name>MaterialDesignThemes.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.Components.Authenticator\Accelerider.Windows.Components.Authenticator.csproj">
+      <Project>{a91add02-6c31-4566-81d5-2e8170d02ea3}</Project>
+      <Name>Accelerider.Windows.Components.Authenticator</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Core\Accelerider.Windows.Core.csproj">
       <Project>{d30a6c14-b18d-4cbc-8df4-ff9640f33b9e}</Project>

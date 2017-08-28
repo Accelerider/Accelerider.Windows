@@ -6,37 +6,20 @@ using System.Threading.Tasks;
 using Accelerider.Windows.Core.DownloadEngine;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
+using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.Core
 {
-    public class Module
+    public class Module : ModuleBase
     {
-        private readonly IUnityContainer _container;
-
-        public Module(IUnityContainer container)
+        public Module(IUnityContainer container) : base(container)
         {
-            _container = container;
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
             RegisterTypeIfMissing<ILocalConfigureInfo, LocalConfigureInfo>(true);
             RegisterTypeIfMissing<IAcceleriderUser, AcceleriderUser>(true);
-            RegisterTypeIfMissing<INetDiskUser, NetDiskUser>(false);
-        }
-
-        private void RegisterTypeIfMissing<TForm, TTo>(bool registerAsSingleton) where TTo : TForm
-        {
-            if (_container.IsRegistered<TForm>()) return;
-
-            if (registerAsSingleton)
-            {
-                _container.RegisterType<TForm, TTo>(new ContainerControlledLifetimeManager());
-            }
-            else
-            {
-                _container.RegisterType<TForm, TTo>();
-            }
         }
     }
 }
