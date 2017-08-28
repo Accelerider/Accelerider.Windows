@@ -88,6 +88,13 @@
     <Compile Include="Controls\ToolBarButton.xaml.cs">
       <DependentUpon>ToolBarButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\SettingsPopup.vm.cs" />
+    <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
+      <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingPopup.xaml.cs">
+      <DependentUpon>SettingPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TransferTaskList.xaml.cs">
       <DependentUpon>TransferTaskList.xaml</DependentUpon>
     </Compile>
@@ -205,6 +212,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ToolBarButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
