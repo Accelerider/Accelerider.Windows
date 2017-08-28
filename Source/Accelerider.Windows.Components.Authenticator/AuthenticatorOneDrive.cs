@@ -1,4 +1,4 @@
-﻿using Accelerider.Windows.Core;
+﻿using Accelerider.Windows.Core.NetWork.UserModels;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;

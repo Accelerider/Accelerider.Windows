@@ -8,6 +8,7 @@ using Accelerider.Windows.Core.NetWork.UserModels;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.ObjectBuilder2;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core
@@ -108,11 +109,17 @@ namespace Accelerider.Windows.Core
         private async Task InitializeNetDiskUsers()
         {
             var list = new List<INetDiskUser>();
-            //Loading baidu user
-
-            var json = JObject.Parse(await new HttpClient().GetAsync("http://api.usmusic.cn/userlist?token=" + Token));
-            if (json.Value<int>("errno") == 0)
-                list.AddRange(json["userlist"].Select(v => new BaiduNetDiskUser(this, v.Value<long>("Uk").ToString())));
+            var baidu = JObject.Parse(await new HttpClient().GetAsync("http://api.usmusic.cn/userlist?token=" + Token));
+            var onedrive = JObject.Parse(await new HttpClient().GetAsync("http://api.usmusic.cn/onedrive/userlist?token="+Token));
+            if (baidu.Value<int>("errno") == 0)
+                list.AddRange(baidu["userlist"].Select(v => new BaiduNetDiskUser(this, v.Value<long>("Uk").ToString())));
+            if(onedrive.Value<int>("errno") == 0)
+                list.AddRange(onedrive["userlist"].Select(v =>
+                {
+                    var user = JsonConvert.DeserializeObject<OneDriveUser>(v.ToString());
+                    user.User = this;
+                    return user;
+                }));
             NetDiskUsers = list;
             CurrentNetDiskUser = NetDiskUsers[0];
         }
