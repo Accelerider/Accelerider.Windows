@@ -98,7 +98,7 @@ namespace Accelerider.Windows.Core.NetWork
             }
 #if DEBUG
             /*
-            LogHelper.Info($"Debug - POST {url}  result " + (result.Length > 2048 ? "result to long" : result));
+            LogHelper.Info($"Debug - POST {url}  result " + (result.Length > 2048 ? "result too long" : result));
             LogHelper.Info("Debug - Post body: " + string.Join("&", dic.Select(v => $"{Uri.UnescapeDataString(v.Key)}={Uri.UnescapeDataString(v.Value)}")));
             */
 #endif

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.Files.BaiduNetDisk;
+using Accelerider.Windows.Core.Tools;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core.NetWork.UserModels
@@ -27,11 +30,14 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             Userid = userid;
             var json = JObject.Parse(
                 new HttpClient().Get($"http://api.usmusic.cn/userinfo?token={_user.Token}&uk={Userid}"));
-            HeadImageUri = new Uri(json.Value<string>("avatar_url"));
-            Username = json.Value<string>("username");
-            Nickname = json.Value<string>("nick_name");
-            TotalCapacity = new DataSize(json.Value<long>("total"));
-            UsedCapacity = new DataSize(json.Value<long>("used"));
+            if (json.Value<int>("errno") == 0)
+            {
+                HeadImageUri = new Uri(json.Value<string>("avatar_url"));
+                Username = json.Value<string>("username");
+                Nickname = json.Value<string>("nick_name");
+                TotalCapacity = new DataSize(json.Value<long>("total"));
+                UsedCapacity = new DataSize(json.Value<long>("used"));
+            }
         }
 
         public ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
@@ -49,9 +55,25 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
+        public async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
         {
-            throw new NotImplementedException();
+            await Task.Delay(100);
+            var tree = new LazyTreeNode<INetDiskFile>(new BaiduNetDiskFile{User = _user})
+            {
+                ChildrenProvider = async parent =>
+                {
+                    if (parent.FileType != FileTypeEnum.FolderType) return null;
+                    var json = JObject.Parse(await new HttpClient().GetAsync($"http://api.usmusic.cn/filelist?token={_user.Token}&uk={Userid}&path={parent.FilePath.FullPath.UrlEncode()}"));
+                    if (json.Value<int>("errno") != 0) return null;
+                    return JArray.Parse(json["list"].ToString()).Select(v =>
+                    {
+                        var file= JsonConvert.DeserializeObject<BaiduNetDiskFile>(v.ToString());
+                        file.User = _user;
+                        return file;
+                    });
+                }
+            };
+            return tree;
         }
 
         public Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
@@ -64,9 +86,20 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public Task<bool> RefreshUserInfoAsync()
+        public async Task<bool> RefreshUserInfoAsync()
         {
-            throw new NotImplementedException();
+            var json = JObject.Parse(await
+                new HttpClient().GetAsync($"http://api.usmusic.cn/userinfo?token={_user.Token}&uk={Userid}"));
+            if (json.Value<int>("errno") == 0)
+            {
+                HeadImageUri = new Uri(json.Value<string>("avatar_url"));
+                Username = json.Value<string>("username");
+                Nickname = json.Value<string>("nick_name");
+                TotalCapacity = new DataSize(json.Value<long>("total"));
+                UsedCapacity = new DataSize(json.Value<long>("used"));
+                return true;
+            }
+            return false;
         }
     }
 }

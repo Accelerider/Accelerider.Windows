@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceleriderUser.cs" />
+    <Compile Include="Files\BaiduNetDisk\BaiduNetDiskFile.cs" />
     <Compile Include="NetWork\UserModels\BaiduNetDiskUser.cs" />
     <Compile Include="DownloadEngine\DownloadQueue.cs" />
     <Compile Include="DownloadEngine\DownloadTask.cs" />
@@ -77,8 +78,11 @@
     <Compile Include="NetDiskUser.cs" />
     <Compile Include="NetWork\Cookies.cs" />
     <Compile Include="NetWork\HttpClient.cs" />
+    <Compile Include="NetWork\UserModels\Mrs4sCloudUser.cs" />
+    <Compile Include="NetWork\UserModels\OneDriveUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LazyTreeNode{T}.cs" />
+    <Compile Include="Tools\StringTools.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
