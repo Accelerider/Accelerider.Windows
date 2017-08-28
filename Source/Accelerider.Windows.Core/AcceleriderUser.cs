@@ -80,9 +80,10 @@ namespace Accelerider.Windows.Core
 
         public INetDiskUser CurrentNetDiskUser { get; set; }
 
-        public Task<bool> AddNetDiskUserAsync(INetDiskUser user)
+        public async Task<bool> AddNetDiskUserAsync(INetDiskUser user)
         {
-            throw new NotImplementedException();
+            await Task.Delay(200);
+            return true;
         }
 
         public Task<bool> RemoveNetDiskUserAsync(INetDiskUser user)

@@ -4,10 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:ctrls="clr-namespace:Accelerider.Windows.Views"
              xmlns:local="clr-namespace:Accelerider.Windows.Views"
              xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
-             xmlns:controls="clr-namespace:Accelerider.Windows.Controls"
+             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
              vm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1000">
@@ -132,16 +131,28 @@
             </Button>
         </Grid>
 
-        <controls:SwitchableViewContainer Grid.Column="1" Margin="25 50 25 0" Background="White"
+        <ctrls:SwitchableViewContainer Grid.Column="1" Margin="25 50 25 0" Background="White"
                                        Selector="{Binding ElementName=SelectViewListBox}">
-            <controls:SwitchableViewContainer.Resources>
+            <ctrls:SwitchableViewContainer.Resources>
                 <local:NetDiskFiles x:Key="0" Style="{StaticResource FloatInUpStyle}"/>
                 <local:NetDiskShare x:Key="1" Style="{StaticResource FloatInUpStyle}" />
                 <local:NetDiskRecycleBin x:Key="2" Style="{StaticResource FloatInUpStyle}" />
-            </controls:SwitchableViewContainer.Resources>
-        </controls:SwitchableViewContainer>
+            </ctrls:SwitchableViewContainer.Resources>
+        </ctrls:SwitchableViewContainer>
     </Grid>
 </UserControl>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

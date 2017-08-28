@@ -63,7 +63,7 @@
                             <ColumnDefinition Width="20"/>
                             <ColumnDefinition />
                             <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <!--<ColumnDefinition Width="Auto"/>-->
                         </Grid.ColumnDefinitions>
 
                         <Image Tag="{Binding FileInfo.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
@@ -96,31 +96,31 @@
                             <TextBlock Grid.Column="2" Grid.Row="2" Foreground="Gray" Text="{Binding Speed, StringFormat='{}{0}/s'}" />
                             <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray" Text="{Binding RemainingTime, TargetNullValue='∞'}"/>
                             <TextBlock Grid.Column="6" Grid.Row="2" TextTrimming="CharacterEllipsis">
-                                    <Run Text="Related User: " Foreground="Gray"/>
-                                    <Run Text="{Binding OwnerName}" Foreground="{StaticResource PrimaryHueMidBrush}"></Run>
+                                <Run Text="Related User: " Foreground="Gray"/>
+                                <Run Text="{Binding OwnerName}" Foreground="{StaticResource PrimaryHueMidBrush}"/>
                             </TextBlock>
                         </Grid>
 
-                        <StackPanel x:Name="Buttons" Grid.Column="4" Orientation="Horizontal" >
-                            <Button Style="{StaticResource MaterialDesignToolButton}" Foreground="#909090" Margin="5 0">
+                        <!--<StackPanel x:Name="Buttons" Grid.Column="4" Orientation="Horizontal" >
+                            <Button Style="{StaticResource MaterialDesignToolButton}" Foreground="Gray" Margin="5 0">
                                 <materialDesign:PackIcon Kind="Pause" Width="20" Height="20"/>
                             </Button>
-                            <Button Style="{StaticResource MaterialDesignToolButton}" Foreground="#909090" Margin="5 0">
+                            <Button Style="{StaticResource MaterialDesignToolButton}" Foreground="Gray" Margin="5 0">
                                 <materialDesign:PackIcon Kind="Close" Width="20" Height="20"/>
                             </Button>
-                        </StackPanel>
+                        </StackPanel>-->
                     </Grid>
                 </Border>
             </Grid>
 
-            <DataTemplate.Triggers>
+            <!--<DataTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter TargetName="Buttons" Property="Visibility" Value="Visible"></Setter>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="False">
                     <Setter TargetName="Buttons" Property="Visibility" Value="Collapsed"></Setter>
                 </Trigger>
-            </DataTemplate.Triggers>
+            </DataTemplate.Triggers>-->
         </DataTemplate>
     </ListBox.ItemTemplate>
 </ListBox>

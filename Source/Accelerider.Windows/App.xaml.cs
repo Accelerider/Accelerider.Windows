@@ -19,8 +19,10 @@ namespace Accelerider.Windows
             base.OnStartup(e);
             var container = new UnityContainer();
             ViewModels.ViewModelLocator.ViewModelFactory = type => container.Resolve(type);
+
             ConfigureContainer(container);
-            container.Resolve<Module>().Initialize();
+            container.Resolve<Core.Module>().Initialize();
+            container.Resolve<Components.Authenticator.Module>().Initialize();
         }
 
         private void ConfigureContainer(IUnityContainer container)

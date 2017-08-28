@@ -7,6 +7,7 @@ using Accelerider.Windows.ViewModels.Items;
 using Accelerider.Windows.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
+using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.ViewModels.Dialogs
 {
@@ -37,12 +38,19 @@ namespace Accelerider.Windows.ViewModels.Dialogs
 
         private void SelectNetDiskCommandExecute(NetDiskTypeViewModel netDiskType)
         {
-            var showDialog = new AuthenticationBrowserWindow().ShowDialog();
-            if (showDialog != null && (bool)showDialog &&
-                DialogHost.CloseDialogCommand.CanExecute(true, null))
+            var window = new AuthenticatorWindow();
+            switch (netDiskType.Name)
             {
-                DialogHost.CloseDialogCommand.Execute(true, null);
+                case "Baidu Cloud":
+                    var authBaiduCloud = Container.Resolve<IAuthenticator<IBaiduCloudUser>>();
+                    (window.DataContext as AuthenticatorWindowViewModel).SetAuthenticator(authBaiduCloud);
+                    break;
+                case "OneDrive":
+                    var authOneDrive = Container.Resolve<IAuthenticator<IOneDriveUser>>();
+                    (window.DataContext as AuthenticatorWindowViewModel).SetAuthenticator(authOneDrive);
+                    break;
             }
+            var dialogResult = window.ShowDialog();
         }
 
         private IEnumerable<NetDiskTypeViewModel> InitializeNetDiskTypes()
