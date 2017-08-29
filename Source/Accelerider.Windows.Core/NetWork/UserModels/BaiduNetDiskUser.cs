@@ -12,15 +12,14 @@ using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core.NetWork.UserModels
 {
-    internal class BaiduNetDiskUser : INetDiskUser
+    internal class BaiduNetDiskUser : IBaiduCloudUser, ITaskCreator
     {
         public Uri HeadImageUri { get; set; }
         public string Username { get; set; }
         public string Nickname { get; set; }
         public DataSize TotalCapacity { get; set; }
         public DataSize UsedCapacity { get; set; }
-
-        internal string Userid { get; }
+        public string Userid { get; }
 
         public AcceleriderUser AccUser { get; }
 
@@ -28,16 +27,6 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         {
             AccUser = user;
             Userid = userid;
-            var json = JObject.Parse(
-                new HttpClient().Get($"http://api.usmusic.cn/userinfo?token={AccUser.Token}&uk={Userid}"));
-            if (json.Value<int>("errno") == 0)
-            {
-                HeadImageUri = new Uri(json.Value<string>("avatar_url"));
-                Username = json.Value<string>("username");
-                Nickname = json.Value<string>("nick_name");
-                TotalCapacity = new DataSize(json.Value<long>("total"));
-                UsedCapacity = new DataSize(json.Value<long>("used"));
-            }
         }
 
         public ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
@@ -100,6 +89,16 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                 return true;
             }
             return false;
+        }
+
+        public Task<bool> CheckQuickAccess()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyCollection<string> GetDownloadUrls(string file)
+        {
+            throw new NotImplementedException();
         }
     }
 }

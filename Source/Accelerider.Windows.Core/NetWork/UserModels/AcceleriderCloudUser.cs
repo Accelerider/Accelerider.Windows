@@ -13,11 +13,13 @@ using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core.NetWork.UserModels
 {
-    internal class AcceleriderCloudUser : INetDiskUser
+    internal class AcceleriderCloudUser : INetDiskUser, ITaskCreator
     {
         public string Username => "AcceleriderCloud";
         public DataSize TotalCapacity { get; } = new DataSize(0);
         public DataSize UsedCapacity { get; } = new DataSize(0);
+
+        public string Userid => "AcceleriderCloudUser";
 
         public AcceleriderUser AccUser { get; }
         internal AcceleriderCloudUser(AcceleriderUser user)
@@ -25,9 +27,9 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             AccUser = user;
         }
 
-        public Task<bool> RefreshUserInfoAsync()
+        public async Task<bool> RefreshUserInfoAsync()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
@@ -73,6 +75,16 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         }
 
         public Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> CheckQuickAccess()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyCollection<string> GetDownloadUrls(string file)
         {
             throw new NotImplementedException();
         }

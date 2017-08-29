@@ -12,6 +12,7 @@ namespace Accelerider.Windows.Core
 {
     internal class LocalConfigureInfo : ILocalConfigureInfo
     {
+        internal static LocalConfigureInfo Config;
         public LocalConfigureInfo()
         {
             try
@@ -38,14 +39,15 @@ namespace Accelerider.Windows.Core
             {
                 Console.WriteLine(ex);
             }
+            Config = this;
         }
 
         public string Theme { get; set; }
         public LanguageEnum Language { get; set; }
 
 
-        public string Username { get; set; } = "name";
-        public string PasswordEncrypted { get; set; } = "";
+        public string Username { get; set; }
+        public string PasswordEncrypted { get; set; } 
         public bool IsAutoSignIn { get; set; }
 
 

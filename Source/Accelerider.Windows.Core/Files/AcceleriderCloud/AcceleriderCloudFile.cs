@@ -46,6 +46,7 @@ namespace Accelerider.Windows.Core.Files.AcceleriderCloud
 
         public override async Task<bool> DeleteAsync()
         {
+            
             return
                 JObject.Parse(
                         await

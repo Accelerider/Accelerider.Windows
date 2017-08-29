@@ -59,9 +59,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceleriderUser.cs" />
+    <Compile Include="DownloadEngine\DownloadCore\DownloadInfo.cs" />
+    <Compile Include="DownloadEngine\DownloadCore\DownloadThread\CommonDownloadThread.cs" />
+    <Compile Include="DownloadEngine\DownloadCore\HttpDownload.cs" />
+    <Compile Include="DownloadEngine\DownloadCore\IDownloadThread.cs" />
     <Compile Include="Files\AcceleriderCloud\AcceleriderCloudFile.cs" />
+    <Compile Include="Files\AcceleriderCloud\AcceleriderCloudSharedFile.cs" />
     <Compile Include="Files\BaiduNetDisk\BaiduNetDiskFile.cs" />
     <Compile Include="Files\OneDrive\OneDriveFile.cs" />
+    <Compile Include="ITaskCreator.cs" />
     <Compile Include="NetWork\UserModels\AcceleriderCloudUser.cs" />
     <Compile Include="NetWork\UserModels\BaiduNetDiskUser.cs" />
     <Compile Include="DownloadEngine\DownloadQueue.cs" />

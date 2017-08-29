@@ -26,7 +26,7 @@ namespace Accelerider.Windows.Core
 
         public DataSize UsedCapacity => new DataSize(2.34, SizeUnitEnum.T);
 
-        internal long Userid { get; set; }
+        public string Userid { get; set; }
 
 
         public async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
@@ -157,9 +157,6 @@ namespace Accelerider.Windows.Core
                    select new SharedFile
                    {
                        Title = new FileLocation(filePath).FileName,
-                       DownloadedNumber = rand.Next(0, 1000),
-                       SavedNumber = rand.Next(0, 1000),
-                       VisitedNumber = rand.Next(0, 1000),
                        SharedTime = new FileInfo(filePath).LastWriteTime,
                        ShareLink = new Uri(@"https://pan.baidu.com/s/1jGE6mpC")
                    };
