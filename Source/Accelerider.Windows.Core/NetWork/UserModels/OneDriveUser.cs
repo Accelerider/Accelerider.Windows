@@ -29,7 +29,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         [JsonProperty("usedQuota")]
         private long _usedQuota;
 
-        internal AcceleriderUser User { get; set; }
+        internal AcceleriderUser AccUser { get; set; }
 
 
         public async Task<bool> RefreshUserInfoAsync()
@@ -62,7 +62,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                     if (parent.FileType != FileTypeEnum.FolderType) return null;
                     var json = JObject.Parse(
                         await new HttpClient().GetAsync(
-                            $"http://api.usmusic.cn/onedrive/filelist?token={User.Token}&user={Userid}&path={parent.FilePath.FullPath.UrlEncode()}"));
+                            $"http://api.usmusic.cn/onedrive/filelist?token={AccUser.Token}&user={Userid}&path={parent.FilePath.FullPath.UrlEncode()}"));
                     if (json.Value<int>("errno") != 0) return null;
                     return JArray.Parse(json["list"].ToString()).Select(v =>
                     {

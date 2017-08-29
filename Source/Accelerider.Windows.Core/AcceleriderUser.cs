@@ -56,9 +56,11 @@ namespace Accelerider.Windows.Core
             return string.Empty;
         }
 
-        public Task<bool> SignOutAsync()
+        public async Task<bool> SignOutAsync()
         {
-            throw new NotImplementedException();
+            await Task.Delay(100);
+            Token = string.Empty;
+            return true;
         }
 
         #endregion
@@ -118,7 +120,7 @@ namespace Accelerider.Windows.Core
                 list.AddRange(onedrive["userlist"].Select(v =>
                 {
                     var user = JsonConvert.DeserializeObject<OneDriveUser>(v.ToString());
-                    user.User = this;
+                    user.AccUser = this;
                     return user;
                 }));
             NetDiskUsers = list;

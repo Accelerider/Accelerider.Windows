@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.NetWork;
 using Accelerider.Windows.Core.NetWork.UserModels;
+using Accelerider.Windows.Core.Tools;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core.Files.OneDrive
 {
@@ -45,9 +49,12 @@ namespace Accelerider.Windows.Core.Files.OneDrive
 
 
         public new FileLocation FilePath => new FileLocation(string.IsNullOrEmpty(_path) ? "/" : _path);
-        public override Task<bool> DeleteAsync()
+        public override async Task<bool> DeleteAsync()
         {
-            throw new NotImplementedException();
+            return JObject.Parse(await
+                           new HttpClient().GetAsync(
+                               $"http://api.usmusic.cn/onedrive/delete?token={User.AccUser.Token}&user={User.Userid}&path={_path.UrlEncode()}"))
+                       .Value<int>("errno") == 0;
         }
         public new DataSize FileSize => new DataSize(_size);
         public DateTime ModifiedTime => DateTime.Parse(_createTime);

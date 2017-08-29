@@ -19,10 +19,10 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         public DataSize TotalCapacity { get; } = new DataSize(0);
         public DataSize UsedCapacity { get; } = new DataSize(0);
 
-        private readonly AcceleriderUser _user;
+        public AcceleriderUser AccUser { get; }
         internal AcceleriderCloudUser(AcceleriderUser user)
         {
-            _user = user;
+            AccUser = user;
         }
 
         public Task<bool> RefreshUserInfoAsync()
@@ -48,18 +48,18 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         public async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
         {
             await Task.Delay(100);
-            var tree=new LazyTreeNode<INetDiskFile>(new AcceleriderCloudFile{User = _user})
+            var tree = new LazyTreeNode<INetDiskFile>(new AcceleriderCloudFile { User = AccUser })
             {
                 ChildrenProvider = async parent =>
                 {
                     var json =
                         JObject.Parse(await new HttpClient().GetAsync(
-                            $"http://api.usmusic.cn/cloud/filelist?token={_user.Token}&path={parent.FilePath.FullPath.UrlEncode()}"));
+                            $"http://api.usmusic.cn/cloud/filelist?token={AccUser.Token}&path={parent.FilePath.FullPath.UrlEncode()}"));
                     if (json.Value<int>("errno") != 0) return null;
                     return JArray.Parse(json["list"].ToString()).Select(v =>
                     {
                         var file = JsonConvert.DeserializeObject<AcceleriderCloudFile>(v.ToString());
-                        file.User = _user;
+                        file.User = AccUser;
                         return file;
                     });
                 }

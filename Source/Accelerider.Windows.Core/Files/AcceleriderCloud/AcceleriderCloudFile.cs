@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.NetWork;
+using Accelerider.Windows.Core.Tools;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core.Files.AcceleriderCloud
 {
@@ -41,9 +44,14 @@ namespace Accelerider.Windows.Core.Files.AcceleriderCloud
                 where item.Value.Contains(FilePath.FileExtension)
                 select item.Key).SingleOrDefault();
 
-        public override Task<bool> DeleteAsync()
+        public override async Task<bool> DeleteAsync()
         {
-            throw new NotImplementedException();
+            return
+                JObject.Parse(
+                        await
+                            new HttpClient().GetAsync(
+                                $"http://api.usmusic.cn/cloud/delete?token={User.Token}&path={_path.UrlEncode()}"))
+                    .Value<int>("errno") == 0;
         }
         public new FileLocation FilePath => new FileLocation(string.IsNullOrEmpty(_path) ? "/" : _path);
         public new DataSize FileSize => new DataSize(_size);

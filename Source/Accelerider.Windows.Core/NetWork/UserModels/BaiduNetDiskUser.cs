@@ -22,14 +22,14 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
 
         internal string Userid { get; }
 
-        private readonly AcceleriderUser _user;
+        public AcceleriderUser AccUser { get; }
 
         internal BaiduNetDiskUser(AcceleriderUser user, string userid)
         {
-            _user = user;
+            AccUser = user;
             Userid = userid;
             var json = JObject.Parse(
-                new HttpClient().Get($"http://api.usmusic.cn/userinfo?token={_user.Token}&uk={Userid}"));
+                new HttpClient().Get($"http://api.usmusic.cn/userinfo?token={AccUser.Token}&uk={Userid}"));
             if (json.Value<int>("errno") == 0)
             {
                 HeadImageUri = new Uri(json.Value<string>("avatar_url"));
@@ -58,17 +58,17 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         public async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
         {
             await Task.Delay(100);
-            var tree = new LazyTreeNode<INetDiskFile>(new BaiduNetDiskFile{User = _user})
+            var tree = new LazyTreeNode<INetDiskFile>(new BaiduNetDiskFile{User = this})
             {
                 ChildrenProvider = async parent =>
                 {
                     if (parent.FileType != FileTypeEnum.FolderType) return null;
-                    var json = JObject.Parse(await new HttpClient().GetAsync($"http://api.usmusic.cn/filelist?token={_user.Token}&uk={Userid}&path={parent.FilePath.FullPath.UrlEncode()}"));
+                    var json = JObject.Parse(await new HttpClient().GetAsync($"http://api.usmusic.cn/filelist?token={AccUser.Token}&uk={Userid}&path={parent.FilePath.FullPath.UrlEncode()}"));
                     if (json.Value<int>("errno") != 0) return null;
                     return JArray.Parse(json["list"].ToString()).Select(v =>
                     {
                         var file= JsonConvert.DeserializeObject<BaiduNetDiskFile>(v.ToString());
-                        file.User = _user;
+                        file.User = this;
                         return file;
                     });
                 }
@@ -89,7 +89,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         public async Task<bool> RefreshUserInfoAsync()
         {
             var json = JObject.Parse(await
-                new HttpClient().GetAsync($"http://api.usmusic.cn/userinfo?token={_user.Token}&uk={Userid}"));
+                new HttpClient().GetAsync($"http://api.usmusic.cn/userinfo?token={AccUser.Token}&uk={Userid}"));
             if (json.Value<int>("errno") == 0)
             {
                 HeadImageUri = new Uri(json.Value<string>("avatar_url"));
