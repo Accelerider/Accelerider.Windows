@@ -16,9 +16,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public static DownloadTaskManager Manager { get; } = new DownloadTaskManager();
 
         public List<DownloadTaskItem> Items;
-
         public List<DownloadTask> Handles => _handles ?? (_handles = Items.Select(v => new DownloadTask(v)).ToList());
-
         public List<HttpDownload> Tasks;
 
 
@@ -89,6 +87,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
                     if (File.Exists(task.DownloadPath + ".downloading"))
                         File.Delete(task.DownloadPath + ".downloading");
                     Items.First(v => v.DownloadPath == task.DownloadPath).Completed = true;
+                    Items.First(v => v.DownloadPath == task.DownloadPath).CompletedTime = DateTime.Now;
                     Save();
                     break;
                 case TransferStateEnum.Faulted:
@@ -144,11 +143,18 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public bool Completed { get; set; }
 
-        public INetDiskFile NetDiskFile => _netDiskFile ?? (_netDiskFile = AcceleriderUser.AccUser
-                                               .GetTaskCreatorByUserid(FromUser)
-                                               .GetNetDiskFileByPath(FilePath));
+        public INetDiskFile NetDiskFile
+        {
+            get => _netDiskFile ?? (_netDiskFile = AcceleriderUser.AccUser
+                       .GetTaskCreatorByUserid(FromUser)
+                       .GetNetDiskFileByPath(FilePath));
+            set => _netDiskFile = value;
+        }
+
 
         [JsonIgnore]
         private INetDiskFile _netDiskFile;
+
+        public DateTime CompletedTime { get; set; }
     }
 }

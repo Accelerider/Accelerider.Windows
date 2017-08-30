@@ -46,40 +46,39 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
 
         public async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null)
         {
-            var path = downloadFolder.FullPath;
-            var filelist = new List<INetDiskFile>();
-
-            await fileNode.ForEachAsync(file => filelist.Add(file));
-            var temp = filelist.Where(v => v.FileType != FileTypeEnum.FolderType)
-                .Select(v => (File: v, DownloadPath: path + (path.Split('\\').Length == 2 ? string.Empty : @"\") + v
-                                                         .FilePath.FullPath
-                                                         .Replace(fileNode.Content.FilePath.FullPath + "/",
-                                                             string.Empty)
-                                                         .Replace("/", @"\")));
-            return temp.Select(v => DownloadTaskManager.Manager.Add(new DownloadTaskItem()
+            var result = new List<ITransferTaskToken>();
+            if (fileNode.Content.FileType == FileTypeEnum.FolderType)
             {
-                FilePath = v.File.FilePath.FullPath,
-                DownloadPath = v.DownloadPath,
-                FromUser = Userid,
-                Completed = false
-            })).ToList();
+                var redundantPathLength = fileNode.Content.FilePath.FolderPath.Length + 1;
+                await fileNode.ForEachAsync(file =>
+                {
+                    if (file.FileType == FileTypeEnum.FolderType) return;
+                    var subPath = file.FilePath.FullPath.Substring(redundantPathLength);
+                    FileLocation downloadPath = Path.Combine(downloadFolder, subPath);
+                    if (!Directory.Exists(downloadPath.FolderPath))
+                        Directory.CreateDirectory(downloadPath.FolderPath);
+                    result.Add(DownloadTaskManager.Manager.Add(new DownloadTaskItem()
+                    {
+                        FilePath = file.FilePath,
+                        DownloadPath = downloadPath,
+                        FromUser = Userid,
+                        Completed = false
+                    }));
+                });
+            }
+            else
+            {
+                result.Add(DownloadTaskManager.Manager.Add(new DownloadTaskItem()
+                {
+                    FilePath = fileNode.Content.FilePath,
+                    DownloadPath = Path.Combine(downloadFolder, fileNode.Content.FilePath.FileName),
+                    FromUser = Userid,
+                    Completed = false
+                }));
+            }
+            return result;
         }
 
-        /*
-        private async Task<IReadOnlyCollection<OneDriveFile>> GetFilesByPath(string path)
-        {
-            var json = JObject.Parse(
-                await new HttpClient().GetAsync(
-                    $"http://api.usmusic.cn/onedrive/filelist?token={AccUser.Token}&user={Userid}&path={path.UrlEncode()}"));
-            if (json.Value<int>("errno") != 0) return null;
-            return JArray.Parse(json["list"].ToString()).Select(v =>
-            {
-                var file = JsonConvert.DeserializeObject<OneDriveFile>(v.ToString());
-                file.User = this;
-                return file;
-            }).ToList();
-        }
-        */
         public Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null)
         {
             throw new NotImplementedException();
@@ -122,7 +121,6 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         public async Task<IReadOnlyCollection<string>> GetDownloadUrls(string file)
         {
             return await Task.Run(() => new[] { (GetNetDiskFileByPath(file) as OneDriveFile)?.DownloadLink });
-
         }
 
         public INetDiskFile GetNetDiskFileByPath(string path)

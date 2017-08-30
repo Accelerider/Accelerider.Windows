@@ -9,7 +9,7 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Core.DownloadEngine
 {
-    internal class DownloadTask : ITransferTaskToken
+    internal class DownloadTask : ITransferTaskToken, ITransferedFile
     {
         public DownloadTaskItem Item { get; }
 
@@ -49,7 +49,13 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public async Task<bool> StartAsync(bool force = false)
         {
-            return await Task.Run(() => false);
+            return await Task.Run(() =>
+            {
+                var task = DownloadTaskManager.Manager.GetTaskProcess(Item);
+                if (task == null || task.DownloadState == TransferStateEnum.Transfering || task.DownloadState == TransferStateEnum.Faulted) return false;
+                task.DownloadState = TransferStateEnum.Waiting;
+                return true;
+            });
         }
 
         public Task<bool> CancelAsync()
@@ -58,5 +64,14 @@ namespace Accelerider.Windows.Core.DownloadEngine
         }
 
         public bool Equals(ITransferTaskToken other) => FileInfo.FilePath == other?.FileInfo.FilePath;
+        public FileTypeEnum FileType => FileInfo.FileType;
+        public Task<bool> DeleteAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public FileLocation FilePath => Item.FilePath;
+        public DataSize FileSize => FileInfo.FileSize;
+        public DateTime CompletedTime => Item.CompletedTime;
     }
 }
