@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.DownloadEngine;
 using Accelerider.Windows.Core.Files.BaiduNetDisk;
 using Accelerider.Windows.Core.NetWork;
 using Accelerider.Windows.Core.NetWork.UserModels;
@@ -56,6 +57,7 @@ namespace Accelerider.Windows.Core
                 return json.Value<string>("message");
             Token = json.Value<string>("token");
             await InitializeNetDiskUsers();
+            var temp = DownloadTaskManager.Manager.Handles;
             return string.Empty;
         }
 
@@ -105,7 +107,7 @@ namespace Accelerider.Windows.Core
         #endregion
 
         #region Gets Transfer tasks or files
-        public IReadOnlyCollection<ITransferTaskToken> GetDownloadingTasks() => _downloadingTasks;
+        public IReadOnlyCollection<ITransferTaskToken> GetDownloadingTasks() => DownloadTaskManager.Manager.Handles;
 
         public IReadOnlyCollection<ITransferTaskToken> GetUploadingTasks() => _uploadTasks;
 
@@ -132,9 +134,7 @@ namespace Accelerider.Windows.Core
                     return user;
                 }));
             foreach (var user in list)
-            {
                 await user.RefreshUserInfoAsync();
-            }
             NetDiskUsers = list;
             CurrentNetDiskUser = NetDiskUsers[0];
 

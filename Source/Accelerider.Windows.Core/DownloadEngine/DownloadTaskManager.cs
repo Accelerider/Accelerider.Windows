@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Accelerider.Windows.Core.DownloadEngine.DownloadCore;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Interfaces;
 using Newtonsoft.Json;
-using Timer = System.Timers.Timer;
 
 namespace Accelerider.Windows.Core.DownloadEngine
 {
@@ -13,10 +16,15 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public static DownloadTaskManager Manager { get; } = new DownloadTaskManager();
 
         public List<DownloadTaskItem> Items;
+
+        public List<DownloadTask> Handles => _handles ?? (_handles = Items.Select(v => new DownloadTask(v)).ToList());
+
         public List<HttpDownload> Tasks;
 
 
-        private readonly Timer _managerTimer;
+        public event Action<DownloadTaskItem, TransferStateEnum, TransferStateEnum> TaskStateChangeEvent;
+
+        private List<DownloadTask> _handles;
         private DownloadTaskManager()
         {
             var taskListFile = Path.Combine(Directory.GetCurrentDirectory(), "DownloadList.json");
@@ -27,15 +35,18 @@ namespace Accelerider.Windows.Core.DownloadEngine
                 .Select(v => HttpDownload.GetTaskByInfo(
                     JsonConvert.DeserializeObject<DownloadInfo>(File.ReadAllText(v.DownloadPath + ".downloading"))))
                 .ToList();
-            _managerTimer = new Timer()
+            Tasks.ForEach(v => v.DownloadStateChangedEvent += Task_DownloadStateChangedEvent);
+            Task.Run(async () =>
             {
-                Interval = 500
-            };
-            _managerTimer.Elapsed += ManagerTimerElapsed;
-            _managerTimer.Start();
+                while (true)
+                {
+                    await Task.Delay(500);
+                    await ManagerTimer();
+                }
+            });
         }
 
-        private void ManagerTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private async Task ManagerTimer()
         {
             var downloading = Tasks.Count(v => v.DownloadState == TransferStateEnum.Transfering);
             if (downloading < LocalConfigureInfo.Config.ParallelTaskNumber)
@@ -48,14 +59,17 @@ namespace Accelerider.Windows.Core.DownloadEngine
                     var item = Items.FirstOrDefault(v => !v.Completed && Tasks.All(t => t.DownloadPath != v.DownloadPath)); //在已创建任务中不存在
                     if (item == null) return;
                     var creator = AcceleriderUser.AccUser.GetTaskCreatorByUserid(item.FromUser);
-                    IReadOnlyCollection<string> urls = new List<string>();
-                    if (creator == null || (urls = creator.GetDownloadUrls(item.FilePath)) == null)
+                    IReadOnlyCollection<string> urls;
+                    if (creator == null || (urls = await creator.GetDownloadUrls(item.FilePath)) == null)
                     {
                         //TODO 在这里需要做任务失败的操作
                         return;
                     }
+                    var blockSize = 1024 * 1024 * 10L;
+                    if (!(creator is IBaiduCloudUser))
+                        blockSize = 100 * 1024 * 1024;
                     var info = HttpDownload.CreateTaskInfo(urls.ToArray(), item.DownloadPath, 16,
-                        new Dictionary<string, string>());
+                        new Dictionary<string, string>(), null, blockSize);
                     info.Save(item.DownloadPath + ".downloading");
                     task = HttpDownload.GetTaskByInfo(info);
                     Tasks.Add(task);
@@ -63,16 +77,17 @@ namespace Accelerider.Windows.Core.DownloadEngine
                 task.DownloadStateChangedEvent += Task_DownloadStateChangedEvent;
                 task.Start();
             }
+
         }
 
         private void Task_DownloadStateChangedEvent(object sender, StateChangedArgs args)
         {
-            var task = (HttpDownload) sender;
+            var task = (HttpDownload)sender;
             switch (args.NewState)
             {
                 case TransferStateEnum.Completed:
-                    if(File.Exists(task.DownloadPath+".downloading"))
-                        File.Delete(task.DownloadPath+".downloading");
+                    if (File.Exists(task.DownloadPath + ".downloading"))
+                        File.Delete(task.DownloadPath + ".downloading");
                     Items.First(v => v.DownloadPath == task.DownloadPath).Completed = true;
                     Save();
                     break;
@@ -83,13 +98,28 @@ namespace Accelerider.Windows.Core.DownloadEngine
                     task.Info.Save(task.DownloadPath + ".downloading");
                     break;
             }
+            TaskStateChangeEvent?.Invoke(Items.First(v => v.DownloadPath == task.DownloadPath), args.OldState, args.NewState);
         }
 
         public void Enqueue(DownloadTaskItem task)
         {
+
+        }
+
+        public DownloadTask Add(DownloadTaskItem task)
+        {
             if (Items.All(v => v.DownloadPath != task.DownloadPath))
+            {
                 Items.Add(task);
+                Handles.Add(new DownloadTask(task));
+            }
             Save();
+            return Handles.FirstOrDefault(v => v.Item.DownloadPath == task.DownloadPath);
+        }
+
+        public HttpDownload GetTaskProcess(DownloadTaskItem task)
+        {
+            return Tasks.FirstOrDefault(v => v.DownloadPath == task.DownloadPath);
         }
 
         public void Remove(DownloadTaskItem task)
@@ -100,7 +130,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public void Save()
         {
             var taskListFile = Path.Combine(Directory.GetCurrentDirectory(), "DownloadList.json");
-            File.WriteAllText(taskListFile, JsonConvert.SerializeObject(this, Formatting.Indented));
+            File.WriteAllText(taskListFile, JsonConvert.SerializeObject(Items, Formatting.Indented));
         }
     }
 
@@ -113,5 +143,12 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public string DownloadPath { get; set; }
 
         public bool Completed { get; set; }
+
+        public INetDiskFile NetDiskFile => _netDiskFile ?? (_netDiskFile = AcceleriderUser.AccUser
+                                               .GetTaskCreatorByUserid(FromUser)
+                                               .GetNetDiskFileByPath(FilePath));
+
+        [JsonIgnore]
+        private INetDiskFile _netDiskFile;
     }
 }

@@ -56,6 +56,8 @@ namespace Accelerider.Windows.Core.Files.BaiduNetDisk
         }
 
         public new FileLocation FilePath => new FileLocation(string.IsNullOrEmpty(_path) ? "/" : _path);
+
+        internal string FileName => _serverFileName;
         public new DataSize FileSize => new DataSize(_size);
         public DateTime ModifiedTime => new DateTime(1970, 1, 1, 8, 0, 0) + TimeSpan.FromSeconds(_serverMtime);
     }

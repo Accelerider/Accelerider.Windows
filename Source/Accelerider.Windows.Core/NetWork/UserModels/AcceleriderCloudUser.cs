@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Accelerider.Windows.Core.Files.AcceleriderCloud;
-using Accelerider.Windows.Core.Files.BaiduNetDisk;
 using Accelerider.Windows.Core.Tools;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
@@ -84,9 +83,22 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<string> GetDownloadUrls(string file)
+        public Task<IReadOnlyCollection<string>> GetDownloadUrls(string file)
         {
             throw new NotImplementedException();
+        }
+
+        public INetDiskFile GetNetDiskFileByPath(string path)
+        {
+            var fileName = path.Split('/').Last();
+            var json = JObject.Parse(new HttpClient().Get($"http://api.usmusic.cn/cloud/filelist?token={AccUser.Token}&path={path.GetSuperPath().UrlEncode()}"));
+            if (json.Value<int>("errno") != 0) return null;
+            return JArray.Parse(json["list"].ToString()).Select(v =>
+            {
+                var file = JsonConvert.DeserializeObject<AcceleriderCloudFile>(v.ToString());
+                file.User = AccUser;
+                return file;
+            }).FirstOrDefault(v => v.FileName == fileName);
         }
     }
 }

@@ -40,6 +40,7 @@ namespace Accelerider.Windows.Core.Files.OneDrive
 
         internal OneDriveUser User { get; set; }
 
+        
 
         public new FileTypeEnum FileType => _dir == 1
             ? FileTypeEnum.FolderType

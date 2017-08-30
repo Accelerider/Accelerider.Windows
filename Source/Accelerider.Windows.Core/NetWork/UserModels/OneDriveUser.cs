@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.DownloadEngine;
 using Accelerider.Windows.Core.Files.OneDrive;
 using Accelerider.Windows.Core.Tools;
 using Accelerider.Windows.Infrastructure;
@@ -42,11 +44,42 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null)
+        public async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null)
         {
-            throw new NotImplementedException();
+            var path = downloadFolder.FullPath;
+            var filelist = new List<INetDiskFile>();
+
+            await fileNode.ForEachAsync(file => filelist.Add(file));
+            var temp = filelist.Where(v => v.FileType != FileTypeEnum.FolderType)
+                .Select(v => (File: v, DownloadPath: path + (path.Split('\\').Length == 2 ? string.Empty : @"\") + v
+                                                         .FilePath.FullPath
+                                                         .Replace(fileNode.Content.FilePath.FullPath + "/",
+                                                             string.Empty)
+                                                         .Replace("/", @"\")));
+            return temp.Select(v => DownloadTaskManager.Manager.Add(new DownloadTaskItem()
+            {
+                FilePath = v.File.FilePath.FullPath,
+                DownloadPath = v.DownloadPath,
+                FromUser = Userid,
+                Completed = false
+            })).ToList();
         }
 
+        /*
+        private async Task<IReadOnlyCollection<OneDriveFile>> GetFilesByPath(string path)
+        {
+            var json = JObject.Parse(
+                await new HttpClient().GetAsync(
+                    $"http://api.usmusic.cn/onedrive/filelist?token={AccUser.Token}&user={Userid}&path={path.UrlEncode()}"));
+            if (json.Value<int>("errno") != 0) return null;
+            return JArray.Parse(json["list"].ToString()).Select(v =>
+            {
+                var file = JsonConvert.DeserializeObject<OneDriveFile>(v.ToString());
+                file.User = this;
+                return file;
+            }).ToList();
+        }
+        */
         public Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null)
         {
             throw new NotImplementedException();
@@ -55,7 +88,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         public async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
         {
             await Task.Delay(100);
-            var tree = new LazyTreeNode<INetDiskFile>(new OneDriveFile{User = this})
+            var tree = new LazyTreeNode<INetDiskFile>(new OneDriveFile { User = this })
             {
                 ChildrenProvider = async parent =>
                 {
@@ -69,7 +102,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                         var file = JsonConvert.DeserializeObject<OneDriveFile>(v.ToString());
                         file.User = this;
                         return file;
-                    }).ToList();
+                    });
                 }
             };
             return tree;
@@ -86,9 +119,24 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         }
 
 
-        public IReadOnlyCollection<string> GetDownloadUrls(string file)
+        public async Task<IReadOnlyCollection<string>> GetDownloadUrls(string file)
         {
-            return null;
+            return await Task.Run(() => new[] { (GetNetDiskFileByPath(file) as OneDriveFile)?.DownloadLink });
+
+        }
+
+        public INetDiskFile GetNetDiskFileByPath(string path)
+        {
+            var fileName = path.Split('/').Last();
+            var json = JObject.Parse(new HttpClient().Get(
+                    $"http://api.usmusic.cn/onedrive/filelist?token={AccUser.Token}&user={Userid}&path={path.GetSuperPath().UrlEncode()}"));
+            if (json.Value<int>("errno") != 0) return null;
+            return JArray.Parse(json["list"].ToString()).Select(v =>
+            {
+                var file = JsonConvert.DeserializeObject<OneDriveFile>(v.ToString());
+                file.User = this;
+                return file;
+            }).FirstOrDefault(v => v.FileName == fileName);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
 {
     internal class TransferTaskToken : ITransferTaskToken
     {
+
         private volatile TransferStateEnum _transferState;
         private readonly TransferTaskBase _task;
 

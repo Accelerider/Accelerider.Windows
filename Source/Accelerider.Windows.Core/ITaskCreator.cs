@@ -10,7 +10,8 @@ namespace Accelerider.Windows.Core
     internal interface ITaskCreator
     {
 
-        IReadOnlyCollection<string> GetDownloadUrls(string file);
+        Task<IReadOnlyCollection<string>> GetDownloadUrls(string file);
 
+        INetDiskFile GetNetDiskFileByPath(string path);
     }
 }

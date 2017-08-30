@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Accelerider.Windows.Core.DownloadEngine.DownloadCore.DownloadThread;
 using Accelerider.Windows.Core.NetWork;
+using Accelerider.Windows.Core.Tools;
 using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
@@ -115,8 +116,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
         /// </summary>
         public void Start()
         {
-
-            if (Url == null || Url.Length == 0 || ThreadNum < 1 || Info == null)
+            if (Info == null)
             {
                 throw new NullReferenceException("参数错误");
             }
@@ -220,7 +220,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
         /// <param name="data"></param>
         /// <param name="blockSize"></param>
         /// <returns></returns>
-        public static DownloadInfo CreateTaskInfo(string[] urls, string downloadPath, int threadNum, Dictionary<string, string> data = null, Cookies cookies = null, int blockSize = 1024 * 1024 * 10)
+        public static DownloadInfo CreateTaskInfo(string[] urls, string downloadPath, int threadNum, Dictionary<string, string> data = null, Cookies cookies = null, long blockSize = 1024 * 1024 * 10)
         {
             var response = GetResponse(urls);
             if (response == null)
@@ -229,6 +229,11 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
             {
                 ContentLength = response.ContentLength,
                 DownloadUrl = urls,
+                BlockLength = response.ContentLength < blockSize
+                    ? response.ContentLength < 100
+                        ? response.ContentLength
+                        : blockSize / response.ContentLength
+                    : blockSize,
                 DownloadPath = downloadPath,
                 ThreadNum = threadNum,
             };
@@ -266,9 +271,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
             if (Threads != null)
             {
                 foreach (var thread in Threads)
-                {
                     thread.Stop();
-                }
                 DownloadState = TransferStateEnum.Paused;
                 return Info;
             }

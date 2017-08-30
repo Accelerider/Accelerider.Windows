@@ -96,9 +96,22 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<string> GetDownloadUrls(string file)
+        public Task<IReadOnlyCollection<string>> GetDownloadUrls(string file)
         {
             throw new NotImplementedException();
+        }
+
+        public INetDiskFile GetNetDiskFileByPath(string path)
+        {
+            var fileName = path.Split('/').Last();
+            var json = JObject.Parse(new HttpClient().Get($"http://api.usmusic.cn/filelist?token={AccUser.Token}&uk={Userid}&path={path.GetSuperPath().UrlEncode()}"));
+            if (json.Value<int>("errno") != 0) return null;
+            return JArray.Parse(json["list"].ToString()).Select(v =>
+            {
+                var file = JsonConvert.DeserializeObject<BaiduNetDiskFile>(v.ToString());
+                file.User = this;
+                return file;
+            }).FirstOrDefault(v => v.FileName == fileName);
         }
     }
 }

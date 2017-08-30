@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
 using Accelerider.Windows.ViewModels;
 using Microsoft.Practices.Unity;
 using Accelerider.Windows.Assets;
@@ -13,6 +13,7 @@ namespace Accelerider.Windows
 
         public MainWindowViewModel(IUnityContainer container) : base(container)
         {
+            ServicePointManager.DefaultConnectionLimit = 99999;
             GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
 
             EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Subscribe(e => TransferTaskCount += e.Count);
