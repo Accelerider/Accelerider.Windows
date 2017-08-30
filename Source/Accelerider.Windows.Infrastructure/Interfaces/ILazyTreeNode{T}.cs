@@ -45,7 +45,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         Task<bool> RefreshChildrenCacheAsync();
 
         /// <summary>
-        /// Apply action to the content of this node and its children.
+        /// Applies action to the content of this node and its children.
         /// </summary>
         /// <param name="action">A operation to the content of nodes.</param>
         /// <returns>Returns a <see cref="Task"/> to wait.</returns>

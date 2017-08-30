@@ -196,6 +196,7 @@
     <Compile Include="Views\TransferView.xaml.cs">
       <DependentUpon>TransferView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowController.cs" />
     <Page Include="Assets\Accelerider.Animations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
