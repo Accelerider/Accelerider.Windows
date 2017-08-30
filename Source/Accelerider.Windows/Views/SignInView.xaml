@@ -35,9 +35,9 @@
         </Grid>
         <Grid Grid.Row="2" Margin="6 0">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition />
-                <ColumnDefinition Width="16"/>
-                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <CheckBox Grid.Column="0" IsChecked="{Binding IsRememberPassword}" Focusable="False">Remembers Password</CheckBox>
             <CheckBox Grid.Column="2" IsChecked="{Binding IsAutoSignIn}" Focusable="False" HorizontalAlignment="Right">Automatic Login</CheckBox>

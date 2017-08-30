@@ -59,7 +59,5 @@ namespace Accelerider.Windows.ViewModels
             get => _signUpCommand;
             set => SetProperty(ref _signUpCommand, value);
         }
-
-
     }
 }

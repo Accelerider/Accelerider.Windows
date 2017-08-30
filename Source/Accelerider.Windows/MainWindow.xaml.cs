@@ -13,16 +13,8 @@ namespace Accelerider.Windows
         public MainWindow()
         {
             InitializeComponent();
-            Application.Current.Resources[Key] = this;
+            WindowController.Register(this);
             Loaded += SingletonProcess.OnWindowLoaded;
-        }
-
-
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-            Application.Current.Resources.Remove(Key);
         }
     }
 }
