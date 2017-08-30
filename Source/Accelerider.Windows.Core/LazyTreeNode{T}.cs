@@ -6,9 +6,11 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Core
 {
-    public class LazyTreeNode<T> : ILazyTreeNode<T>
+    internal class LazyTreeNode<T> : ILazyTreeNode<T>
     {
         private Func<T, Task<IEnumerable<T>>> _childrenProvider;
+        private LazyTreeNode<T> _parent;
+        private List<LazyTreeNode<T>> _childrenCache;
 
 
         public LazyTreeNode(T content)
@@ -18,6 +20,7 @@ namespace Accelerider.Windows.Core
 
 
         public T Content { get; }
+
         public ILazyTreeNode<T> Root
         {
             get
@@ -27,7 +30,9 @@ namespace Accelerider.Windows.Core
                 return temp;
             }
         }
-        public ILazyTreeNode<T> Parent { get; protected set; }
+
+        public ILazyTreeNode<T> Parent => _parent;
+
         public IReadOnlyList<ILazyTreeNode<T>> Parents
         {
             get
@@ -38,35 +43,55 @@ namespace Accelerider.Windows.Core
                 return (from item in stack select item).ToList();
             }
         }
-        public IReadOnlyList<ILazyTreeNode<T>> ChildrenCache { get; protected set; } // TODO: WeakReference
+
+        public IReadOnlyList<ILazyTreeNode<T>> ChildrenCache => _childrenCache?.AsReadOnly(); // TODO: WeakReference, but make sure it can be used at least once.
 
         public Func<T, Task<IEnumerable<T>>> ChildrenProvider
         {
-            get => _childrenProvider ?? (Parent as LazyTreeNode<T>)?.ChildrenProvider;
+            get => _childrenProvider ?? _parent.ChildrenProvider;
             set => _childrenProvider = value;
         }
 
 
         public async Task<bool> RefreshChildrenCacheAsync()
         {
-            var temp = await ChildrenProvider(Content);
-            var enumerable = temp as T[] ?? temp?.ToArray();
-            if (!enumerable?.Any() ?? true)
+            var enumerable = await ChildrenProvider(Content);
+            var array = enumerable as T[] ?? enumerable?.ToArray();
+            if (!array?.Any() ?? true)
             {
-                ChildrenCache = null;
+                _childrenCache = null;
                 return false;
             }
 
-            var treeNodes = (from item in enumerable
-                             select new LazyTreeNode<T>(item) { Parent = this }).ToArray();
+            var treeNodes = (from item in array
+                             select new LazyTreeNode<T>(item) { _parent = this })
+                             .ToList();
 
             if (!treeNodes.Any())
             {
-                ChildrenCache = null;
+                _childrenCache = null;
                 return false;
             }
-            ChildrenCache = treeNodes;
+            _childrenCache = treeNodes;
             return true;
+        }
+
+        public async Task ForEachAsync(Action<T> action)
+        {
+            await FlourishAsync(this, action);
+        }
+
+
+        private async Task FlourishAsync(LazyTreeNode<T> seed, Action<T> action) // TODO: CPS
+        {
+            action?.Invoke(seed.Content);
+            if (await seed.RefreshChildrenCacheAsync())
+            {
+                foreach (var item in seed._childrenCache)
+                {
+                    await FlourishAsync(item, action);
+                }
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
     /// Represents a tree structure whose <see cref="ChildrenCache"/> will be fetched or refreshed 
     /// when the <see cref="RefreshChildrenCacheAsync"/> method is called.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of <see cref="Content"/> in the tree node.</typeparam>
     public interface ILazyTreeNode<out T>
     {
         /// <summary>
@@ -43,6 +43,12 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         /// </summary>
         /// <returns>Returns a <see cref="bool"/> type indicating whether the data was successfully fetched.</returns>
         Task<bool> RefreshChildrenCacheAsync();
-    }
 
+        /// <summary>
+        /// Apply action to the content of this node and its children.
+        /// </summary>
+        /// <param name="action">A operation to the content of nodes.</param>
+        /// <returns>Returns a <see cref="Task"/> to wait.</returns>
+        Task ForEachAsync(Action<T> action);
+    }
 }
