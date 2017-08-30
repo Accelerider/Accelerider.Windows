@@ -28,24 +28,6 @@ namespace Accelerider.Windows.ViewModels
             SignInCommand = new RelayCommand<PasswordBox>(SignInCommandExecute, passwordBox => !string.IsNullOrEmpty(passwordBox.Password) && !string.IsNullOrEmpty(Username));
         }
 
-        public override void OnLoaded(object view)
-        {
-            var password = (view as SignInView).PasswordBox;
-
-            if (!string.IsNullOrEmpty(LocalConfigureInfo.Username) &&
-                !string.IsNullOrEmpty(LocalConfigureInfo.PasswordEncrypted))
-            {
-                IsRememberPassword = true;
-                Username = LocalConfigureInfo.Username;
-                password.Password = LocalConfigureInfo.PasswordEncrypted;
-            }
-            if (LocalConfigureInfo.IsAutoSignIn &&
-                SignInCommand.CanExecute(password))
-            {
-                IsAutoSignIn = true;
-                SignInCommand.Execute(password);
-            }
-        }
 
         protected ILocalConfigureInfo LocalConfigureInfo { get; }
 
@@ -74,9 +56,29 @@ namespace Accelerider.Windows.ViewModels
         }
 
 
+        public override void OnLoaded(object view)
+        {
+            var password = (view as SignInView).PasswordBox;
+
+            if (!string.IsNullOrEmpty(LocalConfigureInfo.Username) &&
+                !string.IsNullOrEmpty(LocalConfigureInfo.PasswordEncrypted))
+            {
+                IsRememberPassword = true;
+                Username = LocalConfigureInfo.Username;
+                password.Password = LocalConfigureInfo.PasswordEncrypted;
+            }
+            if (LocalConfigureInfo.IsAutoSignIn &&
+                SignInCommand.CanExecute(password))
+            {
+                IsAutoSignIn = true;
+                SignInCommand.Execute(password);
+            }
+        }
+
+
         private async void SignInCommandExecute(PasswordBox password)
         {
-            var passwordMd5 = password.Password.ToMd5();
+            var passwordMd5 = LocalConfigureInfo.IsAutoSignIn ? password.Password : password.Password.ToMd5();
 
             EventAggregator.GetEvent<IsLoadingMainWindowEvent>().Publish(true);
             var message = await AcceleriderUser.SignInAsync(Username, passwordMd5 /*.EncryptByRijndael()*/);
@@ -91,8 +93,8 @@ namespace Accelerider.Windows.ViewModels
             // Saves data.
             await Task.Run(() =>
             {
-                LocalConfigureInfo.PasswordEncrypted = IsRememberPassword ? passwordMd5 : string.Empty;
                 LocalConfigureInfo.Username = IsRememberPassword ? Username : string.Empty;
+                LocalConfigureInfo.PasswordEncrypted = IsRememberPassword ? passwordMd5 : string.Empty;
                 LocalConfigureInfo.IsAutoSignIn = IsAutoSignIn;
                 LocalConfigureInfo.Save();
             });
