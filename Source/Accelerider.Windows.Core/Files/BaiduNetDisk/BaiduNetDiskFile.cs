@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Accelerider.Windows.Core.NetWork;
+using Accelerider.Windows.Core.NetWork.UserModels;
+using Accelerider.Windows.Core.Tools;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core.Files.BaiduNetDisk
 {
@@ -37,7 +41,7 @@ namespace Accelerider.Windows.Core.Files.BaiduNetDisk
         [JsonProperty("md5")]
         private string _md5;
 
-        internal AcceleriderUser User { get; set; }
+        internal BaiduNetDiskUser User { get; set; }
 
         public new FileTypeEnum FileType => _isDir == 1
             ? FileTypeEnum.FolderType
@@ -45,9 +49,10 @@ namespace Accelerider.Windows.Core.Files.BaiduNetDisk
                where item.Value.Contains(FilePath.FileExtension)
                select item.Key).SingleOrDefault();
 
-        public override Task<bool> DeleteAsync()
+        public override async Task<bool> DeleteAsync()
         {
-            throw new NotImplementedException();
+            var json = JObject.Parse(await new HttpClient().GetAsync($"http://api.usmusic.cn/deleteFile?token={User.AccUser.Token}&uk={User.Userid}&path={_path.UrlEncode()}"));
+            return json.Value<int>("errno") == 0;
         }
 
         public new FileLocation FilePath => new FileLocation(string.IsNullOrEmpty(_path) ? "/" : _path);

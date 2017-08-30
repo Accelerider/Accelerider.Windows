@@ -84,6 +84,7 @@ namespace Accelerider.Windows.ViewModels
             {
                 GlobalMessageQueue.Enqueue(message, true);
                 EventAggregator.GetEvent<IsLoadingMainWindowEvent>().Publish(false);
+                LocalConfigureInfo.IsAutoSignIn = false;
                 return;
             }
 

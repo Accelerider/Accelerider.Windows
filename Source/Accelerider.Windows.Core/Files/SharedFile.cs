@@ -13,12 +13,6 @@ namespace Accelerider.Windows.Core.Files
 
         public Uri ShareLink { get; set; }
 
-        public int DownloadedNumber { get; set; }
-
-        public int SavedNumber { get; set; }
-
-        public int VisitedNumber { get; set; }
-
         public string AccessCode { get; set; }
 
         public FileTypeEnum FileType { get; set; }

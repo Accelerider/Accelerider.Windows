@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 namespace Accelerider.Windows.Infrastructure.Interfaces
 {
     /// <summary>
-    /// Represents a tree structure whose child nodes will be acquired when the <see cref="GetChildrenAsync"/> method is called.
+    /// Represents a tree structure whose <see cref="ChildrenCache"/> will be fetched or refreshed 
+    /// when the <see cref="RefreshChildrenCacheAsync"/> method is called.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface ILazyTreeNode<out T>
     {
         /// <summary>
-        /// Gets content of the node.
+        /// Gets the content that stored by the node.
         /// </summary>
         T Content { get; }
 
@@ -27,6 +28,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         /// <summary>
         /// Get all the parents of the node, the order of the sequence is from the root to the parent of the node.
+        /// (<see cref="Root"/> --> <see cref="Parent"/>)
         /// </summary>
         IReadOnlyList<ILazyTreeNode<T>> Parents { get; }
 
@@ -36,8 +38,8 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         IReadOnlyList<ILazyTreeNode<T>> ChildrenCache { get; }
 
         /// <summary>
-        /// Try to get the children of the node, 
-        /// if true is returned, the children data is taken in <see cref="ChildrenCache"/>.
+        /// Try to refresh the children of the node, 
+        /// if true is returned, the data in <see cref="ChildrenCache"/> is up-to-date.
         /// </summary>
         /// <returns>Returns a <see cref="bool"/> type indicating whether the data was successfully fetched.</returns>
         Task<bool> RefreshChildrenCacheAsync();

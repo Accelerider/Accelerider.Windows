@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 namespace Accelerider.Windows.Core.NetWork.UserModels
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class OneDriveUser : IOneDriveUser
+    public class OneDriveUser : IOneDriveUser, ITaskCreator
     {
         [JsonProperty("name")]
         public string Username { get; set; }
@@ -21,7 +21,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         public DataSize UsedCapacity => new DataSize(_usedQuota);
 
         [JsonProperty("id")]
-        internal string Userid { get; set; }
+        public string Userid { get; set; }
 
         [JsonProperty("totalQuota")]
         private long _totalQuota;
@@ -29,7 +29,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         [JsonProperty("usedQuota")]
         private long _usedQuota;
 
-        internal AcceleriderUser User { get; set; }
+        internal AcceleriderUser AccUser { get; set; }
 
 
         public async Task<bool> RefreshUserInfoAsync()
@@ -62,7 +62,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                     if (parent.FileType != FileTypeEnum.FolderType) return null;
                     var json = JObject.Parse(
                         await new HttpClient().GetAsync(
-                            $"http://api.usmusic.cn/onedrive/filelist?token={User.Token}&user={Userid}&path={parent.FilePath.FullPath.UrlEncode()}"));
+                            $"http://api.usmusic.cn/onedrive/filelist?token={AccUser.Token}&user={Userid}&path={parent.FilePath.FullPath.UrlEncode()}"));
                     if (json.Value<int>("errno") != 0) return null;
                     return JArray.Parse(json["list"].ToString()).Select(v =>
                     {
@@ -83,6 +83,12 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         public Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
         {
             throw new NotImplementedException();
+        }
+
+
+        public IReadOnlyCollection<string> GetDownloadUrls(string file)
+        {
+            return null;
         }
     }
 }
