@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,8 +35,23 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null)
+        public async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null)
         {
+            if (fileNode.Content.FileType == FileTypeEnum.FolderType)
+            {
+                var redundantPathLength = fileNode.Content.FilePath.FolderPath.Length + 1;
+
+                await fileNode.ForEachAsync(file =>
+                {
+                    if (file.FileType == FileTypeEnum.FolderType) return;
+
+                    var subPath = file.FilePath.FullPath.Substring(redundantPathLength);
+                    FileLocation downloadPath = Path.Combine(downloadFolder, subPath);
+                    Directory.CreateDirectory(downloadPath.FolderPath);
+                });
+
+
+            }
             throw new NotImplementedException();
         }
 
@@ -47,7 +63,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         public async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
         {
             await Task.Delay(100);
-            var tree = new LazyTreeNode<INetDiskFile>(new BaiduNetDiskFile{User = this})
+            var tree = new LazyTreeNode<INetDiskFile>(new BaiduNetDiskFile { User = this })
             {
                 ChildrenProvider = async parent =>
                 {
@@ -56,7 +72,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                     if (json.Value<int>("errno") != 0) return null;
                     return JArray.Parse(json["list"].ToString()).Select(v =>
                     {
-                        var file= JsonConvert.DeserializeObject<BaiduNetDiskFile>(v.ToString());
+                        var file = JsonConvert.DeserializeObject<BaiduNetDiskFile>(v.ToString());
                         file.User = this;
                         return file;
                     });
