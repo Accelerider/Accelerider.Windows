@@ -232,7 +232,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
                 BlockLength = response.ContentLength < blockSize
                     ? response.ContentLength < 100
                         ? response.ContentLength
-                        : blockSize / response.ContentLength
+                        : blockSize / threadNum
                     : blockSize,
                 DownloadPath = downloadPath,
                 ThreadNum = threadNum,
