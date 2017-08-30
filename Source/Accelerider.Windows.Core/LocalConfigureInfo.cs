@@ -11,9 +11,9 @@ namespace Accelerider.Windows.Core
         public LanguageEnum Language { get; set; }
 
 
-        public string Username { get; set; } = "name";
-        public string PasswordEncrypted { get; set; } = "";
-        public bool IsAutoSignIn { get; set; }
+        public string Username { get; set; } = "test_2017";
+        public string PasswordEncrypted { get; set; } = "test_2017";
+        public bool IsAutoSignIn { get; set; } = true;
 
 
         public bool NotDisplayDownloadDialog { get; set; }

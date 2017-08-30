@@ -4,7 +4,8 @@
                     xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
                     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls">
+                    xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
+                    xmlns:controlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf">
 
 
     <ControlTemplate x:Key="FlatButtonTemplate" TargetType="Button">
@@ -627,7 +628,7 @@
         </Setter>
     </Style>
 
-    
+
     <!-- ToggleButton style -->
     <Style x:Key="RightBarAndUnderlineToggleButtonStyle" TargetType="ToggleButton">
         <Setter Property="Template">
@@ -701,4 +702,51 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--<Style TargetType="{x:Type ctrls:SettingItem}" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="14"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="{Binding IconKind, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ctrls:SettingItem}}}" Width="20" Height="20"/>
+                        <TextBlock Grid.Column="3" Text="{Binding Label, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ctrls:SettingItem}}}" VerticalAlignment="Center"/>
+                        <materialDesign:PackIcon Grid.Column="5" Kind="ChevronRight" Width="20" Height="20" Foreground="Gray" >
+                            <materialDesign:PackIcon.Style>
+                                <Style TargetType="{x:Type materialDesign:PackIcon}" BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Value="0" Binding="{Binding Items, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ctrls:SettingItem}}}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </materialDesign:PackIcon.Style>
+                        </materialDesign:PackIcon>
+
+                        <controlzEx:PopupEx x:Name="Popup" PlacementTarget="{Binding ElementName=Owner}" Placement="Right" PopupAnimation="Slide"
+                                            IsOpen="{Binding IsMouseOver, ElementName=Owner, Mode=OneWay}" StaysOpen="True"
+                                            Height="Auto" MaxHeight="300" Width="250"
+                                            AllowsTransparency="True">
+                            <Border Margin="2" Background="White" BorderThickness="1" CornerRadius="2"
+                                    Effect="{StaticResource MaterialDesignShadowDepth2}">
+                                <ItemsPresenter x:Name="ItemsPresenter"
+                                                KeyboardNavigation.DirectionalNavigation="Cycle"
+                                                Grid.IsSharedSizeScope="True"
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                KeyboardNavigation.TabNavigation="Cycle"/>
+                            </Border>
+                        </controlzEx:PopupEx>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
 </ResourceDictionary>

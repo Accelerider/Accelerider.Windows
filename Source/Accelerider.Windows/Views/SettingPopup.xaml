@@ -3,6 +3,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:controlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf"
+                    xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
                     xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
                     vm:ViewModelLocator.AutoWireViewModel="True"
                     StaysOpen="True" AllowsTransparency="True">
@@ -22,54 +23,19 @@
                 </Ellipse>
                 <TextBlock Grid.Column="2" Text="Laplace's Demon" VerticalAlignment="Center"/>
             </Grid>
-            <ListBox Margin="0 0 0 15">
-                <StackPanel Orientation="Horizontal" Margin="14 0">
-                    <materialDesign:PackIcon Kind="AccountCircle" Margin="0 0 8 0" Width="20" Height="20"/>
-                    <TextBlock Text="Change picture" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="14 0">
-                    <materialDesign:PackIcon Kind="Star" Margin="0 0 8 0" Width="20" Height="20"/>
-                    <TextBlock Text="Saved" VerticalAlignment="Center"/>
-                </StackPanel>
+            <ListBox Margin="0 0 0 12" >
+                <ctrls:SettingItem IconKind="AccountSettings" Label="Change profile"/>
                 <Separator Background="{StaticResource LightGreyBackgoundBrush}"/>
-                <StackPanel Orientation="Horizontal" Margin="14 0">
-                    <materialDesign:PackIcon Kind="Application" Margin="0 0 8 0" Width="20" Height="20"/>
-                    <TextBlock Text="Application" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="14 0">
-                    <materialDesign:PackIcon Kind="CommentProcessingOutline" Margin="0 0 8 0" Width="20" Height="20"/>
-                    <TextBlock Text="Notifications" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="14 0">
-                    <materialDesign:PackIcon Kind="Translate" Margin="0 0 8 0" Width="20" Height="20"/>
-                    <TextBlock Text="Language" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="14 0">
-                    <materialDesign:PackIcon Kind="Keyboard" Margin="0 0 8 0" Width="20" Height="20"/>
-                    <TextBlock Text="Keyboard shortcuts" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="14 0">
-                    <materialDesign:PackIcon Kind="HelpCircleOutline" Margin="0 0 8 0" Width="20" Height="20"/>
-                    <TextBlock Text="Help" VerticalAlignment="Center"/>
-                </StackPanel>
+                <ctrls:SettingItem IconKind="Application" Label="Application"/>
+                <ctrls:SettingItem IconKind="CommentProcessingOutline" Label="Notifications"/>
+                <ctrls:SettingItem IconKind="Translate" Label="Language"/>
+                <ctrls:SettingItem IconKind="Settings" Label="Open other settings"/>
+                <ctrls:SettingItem IconKind="HelpCircleOutline" Label="Help"/>
                 <Separator Background="{StaticResource LightGreyBackgoundBrush}"/>
-                <StackPanel Orientation="Horizontal" Margin="14 0">
-                    <materialDesign:PackIcon Kind="InformationVariant" Margin="0 0 8 0" Width="20" Height="20"/>
-                    <TextBlock Text="About" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="14 0">
-                    <materialDesign:PackIcon Kind="ArrowUpBoldCircleOutline" Margin="0 0 8 0" Width="20" Height="20"/>
-                    <TextBlock Text="Check for updates" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="14 0">
-                    <materialDesign:PackIcon Kind="Web" Margin="0 0 8 0" Width="20" Height="20"/>
-                    <TextBlock Text="Open Accelerider online" VerticalAlignment="Center"/>
-                </StackPanel>
+                <ctrls:SettingItem IconKind="InformationVariant" Label="About"/>
+                <ctrls:SettingItem IconKind="ArrowUpBoldCircleOutline" Label="Check for updates"/>
                 <Separator Background="{StaticResource LightGreyBackgoundBrush}"/>
-                <StackPanel Orientation="Horizontal" Margin="14 0">
-                    <materialDesign:PackIcon Kind="Logout" Margin="0 0 8 0" Width="20" Height="20"/>
-                    <TextBlock Text="Log out" VerticalAlignment="Center"/>
-                </StackPanel>
+                <ctrls:SettingItem IconKind="Logout" Label="Log out"/>
             </ListBox>
         </StackPanel>
     </Border>
