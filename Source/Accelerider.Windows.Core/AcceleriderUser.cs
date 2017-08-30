@@ -15,6 +15,7 @@ namespace Accelerider.Windows.Core
 {
     internal class AcceleriderUser : IAcceleriderUser
     {
+        internal static AcceleriderUser AccUser { get; private set; }
 
         internal string Token { get; private set; }
 
@@ -29,7 +30,9 @@ namespace Accelerider.Windows.Core
         {
             //InitializeNetDiskUsers();
             //CurrentNetDiskUser = NetDiskUsers[0];
+            AccUser = this;
         }
+
 
 
         #region Accelerider account system
@@ -94,6 +97,11 @@ namespace Accelerider.Windows.Core
             throw new NotImplementedException();
         }
 
+        internal ITaskCreator GetTaskCreatorByUserid(string id)
+        {
+            return NetDiskUsers.FirstOrDefault(v => v.Userid == id) as ITaskCreator;
+        }
+
         #endregion
 
         #region Gets Transfer tasks or files
@@ -112,19 +120,24 @@ namespace Accelerider.Windows.Core
         {
             var list = new List<INetDiskUser>();
             var baidu = JObject.Parse(await new HttpClient().GetAsync("http://api.usmusic.cn/userlist?token=" + Token));
-            var onedrive = JObject.Parse(await new HttpClient().GetAsync("http://api.usmusic.cn/onedrive/userlist?token="+Token));
+            var onedrive = JObject.Parse(await new HttpClient().GetAsync("http://api.usmusic.cn/onedrive/userlist?token=" + Token));
             if (baidu.Value<int>("errno") == 0)
                 list.AddRange(baidu["userlist"].Select(v => new BaiduNetDiskUser(this, v.Value<long>("Uk").ToString())));
             list.Add(new AcceleriderCloudUser(this));
-            if(onedrive.Value<int>("errno") == 0)
+            if (onedrive.Value<int>("errno") == 0)
                 list.AddRange(onedrive["userlist"].Select(v =>
                 {
                     var user = JsonConvert.DeserializeObject<OneDriveUser>(v.ToString());
                     user.AccUser = this;
                     return user;
                 }));
+            foreach (var user in list)
+            {
+                await user.RefreshUserInfoAsync();
+            }
             NetDiskUsers = list;
             CurrentNetDiskUser = NetDiskUsers[0];
+
         }
 
         #endregion
