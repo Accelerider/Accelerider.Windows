@@ -3,40 +3,69 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Input;
-using Accelerider.Windows.Assets;
 using Accelerider.Windows.Commands;
+using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels
 {
     public class SettingsPopupViewModel : ViewModelBase
     {
-        private ICommand _openFolderDialogCommand;
+
+        private ICommand _changeProfileCommand;
+        private ICommand _openOtherSettingsCommand;
+        private ICommand _helpCommand;
+        private ICommand _checkUpdateCommand;
+        private ICommand _openOfficialSiteCommand;
+        private ICommand _signOutCommand;
 
 
         public SettingsPopupViewModel(IUnityContainer container) : base(container)
         {
-            OpenFolderDialogCommand = new RelayCommand(OpenFolderDialogCommandExecute);
-        }
-
-
-        public ICommand OpenFolderDialogCommand
-        {
-            get => _openFolderDialogCommand;
-            set => SetProperty(ref _openFolderDialogCommand, value);
-        }
-
-
-        private void OpenFolderDialogCommandExecute()
-        {
-            var dialog = new FolderBrowserDialog { Description = UiStrings.DownloadDialog_FolderBrowerDialogDescription };
-            if (dialog.ShowDialog() == DialogResult.OK)
+            SignOutCommand = new RelayCommand(() =>
             {
-                //DownloadFolder = dialog.SelectedPath;
-                //if (!DefaultFolders.Contains(DownloadFolder)) DefaultFolders.Insert(0, DownloadFolder);
-            }
+                Container.Resolve<ILocalConfigureInfo>().IsAutoSignIn = false;
+                WindowController.Switch<MainWindow, EnteringWindow>();
+            });
         }
+
+
+        public ICommand ChangeProfileCommand
+        {
+            get => _changeProfileCommand;
+            set => SetProperty(ref _changeProfileCommand, value);
+        }
+
+        public ICommand OpenOtherSettingsCommand
+        {
+            get => _openOtherSettingsCommand;
+            set => SetProperty(ref _openOtherSettingsCommand, value);
+        }
+
+        public ICommand HelpCommand
+        {
+            get => _helpCommand;
+            set => SetProperty(ref _helpCommand, value);
+        }
+
+        public ICommand CheckUpdateCommand
+        {
+            get => _checkUpdateCommand;
+            set => SetProperty(ref _checkUpdateCommand, value);
+        }
+
+        public ICommand OpenOfficialSiteCommand
+        {
+            get => _openOfficialSiteCommand;
+            set => SetProperty(ref _openOfficialSiteCommand, value);
+        }
+
+        public ICommand SignOutCommand
+        {
+            get => _signOutCommand;
+            set => SetProperty(ref _signOutCommand, value);
+        }
+
     }
 }

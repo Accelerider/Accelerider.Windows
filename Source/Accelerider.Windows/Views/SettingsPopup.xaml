@@ -23,20 +23,31 @@
                 </Ellipse>
                 <TextBlock Grid.Column="2" Text="Laplace's Demon" VerticalAlignment="Center"/>
             </Grid>
-            <ListBox Margin="0 0 0 12" >
-                <ctrls:SettingItem IconKind="AccountSettings" Label="Change profile"/>
-                <Separator Background="{StaticResource LightGreyBackgoundBrush}"/>
+            <StackPanel Margin="0 0 0 8" >
+                <!-- open dialog -->
+                <ctrls:SettingItem IconKind="AccountSettings" Label="Change profile" Command="{Binding ChangeProfileCommand}"/>
+                <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgoundBrush}"/>
+                <!-- sub menu -->
                 <ctrls:SettingItem IconKind="Application" Label="Application"/>
+                <!-- open dialog or sub menu-->
                 <ctrls:SettingItem IconKind="CommentProcessingOutline" Label="Notifications"/>
+                <!-- sub menu -->
                 <ctrls:SettingItem IconKind="Translate" Label="Language"/>
-                <ctrls:SettingItem IconKind="Settings" Label="Open other settings"/>
-                <ctrls:SettingItem IconKind="HelpCircleOutline" Label="Help"/>
-                <Separator Background="{StaticResource LightGreyBackgoundBrush}"/>
+                <!-- open dialog -->
+                <ctrls:SettingItem IconKind="Settings" Label="Open other settings" Command="{Binding OpenOtherSettingsCommand}"/>
+                <!-- open web -->
+                <ctrls:SettingItem IconKind="HelpCircleOutline" Label="Help" Command="{Binding HelpCommand}"/>
+                <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgoundBrush}"/>
+                <!-- open menu -->
                 <ctrls:SettingItem IconKind="InformationVariant" Label="About"/>
-                <ctrls:SettingItem IconKind="ArrowUpBoldCircleOutline" Label="Check for updates"/>
-                <Separator Background="{StaticResource LightGreyBackgoundBrush}"/>
-                <ctrls:SettingItem IconKind="Logout" Label="Log out"/>
-            </ListBox>
+                <!-- message queue -->
+                <ctrls:SettingItem IconKind="ArrowUpBoldCircleOutline" Label="Check for updates" Command="{Binding CheckUpdateCommand}"/>
+                <!-- open web -->
+                <ctrls:SettingItem IconKind="Web" Label="Official site" Command="{Binding OpenOfficialSiteCommand}"/>
+                <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgoundBrush}"/>
+                <!-- open EnteringWindow and closes MainWindow -->
+                <ctrls:SettingItem IconKind="Logout" Label="Log out" Command="{Binding SignOutCommand}"/>
+            </StackPanel>
         </StackPanel>
     </Border>
 </controlzEx:PopupEx>

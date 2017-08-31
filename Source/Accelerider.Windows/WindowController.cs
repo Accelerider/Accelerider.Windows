@@ -13,9 +13,9 @@ namespace Accelerider.Windows
 
         public static void Register<T>(T window) where T : Window
         {
-            if (_windowDictionary.ContainsKey(typeof(T))) throw new ArgumentException();
+            //if (_windowDictionary.ContainsKey(typeof(T))) throw new ArgumentException();
 
-            _windowDictionary.Add(typeof(T), window);
+            _windowDictionary[typeof(T)] = window;
         }
 
         public static void Close<T>() where T : Window
@@ -23,7 +23,7 @@ namespace Accelerider.Windows
             var type = typeof(T);
             var window = _windowDictionary[typeof(T)];
             _windowDictionary.Remove(type);
-            window.Close();
+            window?.Close();
         }
 
         public static void Switch<TClose, TShow>() 

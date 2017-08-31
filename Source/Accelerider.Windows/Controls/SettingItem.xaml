@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Accelerider.Windows.Controls.SettingItem"
+﻿<ListBoxItem x:Class="Accelerider.Windows.Controls.SettingItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,10 +6,10 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Accelerider.Windows.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-
+             d:DesignHeight="300" d:DesignWidth="300" MouseUp="SettingItem_OnMouseUp"
+             Style="{StaticResource {x:Type ListBoxItem}}">
     <StackPanel Orientation="Horizontal" Margin="14 0">
-        <materialDesign:PackIcon Kind="{Binding IconKind, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Margin="0 0 8 0" Width="20" Height="20"/>
-        <TextBlock Text="{Binding Label, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" VerticalAlignment="Center"/>
+        <materialDesign:PackIcon Kind="{Binding IconKind, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}" Margin="0 0 8 0" Width="20" Height="20"/>
+        <TextBlock Text="{Binding Label, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}" VerticalAlignment="Center"/>
     </StackPanel>
-</UserControl>
+</ListBoxItem>

@@ -97,8 +97,8 @@
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingPopup.xaml.cs">
-      <DependentUpon>SettingPopup.xaml</DependentUpon>
+    <Compile Include="Views\SettingsPopup.xaml.cs">
+      <DependentUpon>SettingsPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TransferTaskList.xaml.cs">
       <DependentUpon>TransferTaskList.xaml</DependentUpon>
@@ -229,7 +229,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingPopup.xaml">
+    <Page Include="Views\SettingsPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

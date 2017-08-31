@@ -101,16 +101,13 @@ namespace Accelerider.Windows.Infrastructure
                 rijndaelAlgorithm.Key = key ?? DefaultKey;
                 rijndaelAlgorithm.IV = iv ?? DefaultIv;
                 var encryptor = rijndaelAlgorithm.CreateEncryptor(rijndaelAlgorithm.Key, rijndaelAlgorithm.IV);
+
                 using (var msEncrypt = new MemoryStream())
+                using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                using (var swEncrypt = new StreamWriter(csEncrypt))
                 {
-                    using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (var swEncrypt = new StreamWriter(csEncrypt))
-                        {
-                            swEncrypt.Write(text);
-                        }
-                        encryptedInfo = msEncrypt.ToArray();
-                    }
+                    swEncrypt.Write(text);
+                    encryptedInfo = msEncrypt.ToArray();
                 }
             }
             return BitConverter.ToString(encryptedInfo).Replace("-", string.Empty);
@@ -131,15 +128,12 @@ namespace Accelerider.Windows.Infrastructure
                 {
                     cipherByte[i] = Convert.ToByte(text.Substring(i * 2, 2), 16);
                 }
+
                 using (var msDecrypt = new MemoryStream(cipherByte))
+                using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                using (var srDecrypt = new StreamReader(csDecrypt))
                 {
-                    using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (var srDecrypt = new StreamReader(csDecrypt))
-                        {
-                            plainText = srDecrypt.ReadToEnd();
-                        }
-                    }
+                    plainText = srDecrypt.ReadToEnd();
                 }
             }
             return plainText;
