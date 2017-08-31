@@ -107,11 +107,12 @@ namespace Accelerider.Windows.Core
         #endregion
 
         #region Gets Transfer tasks or files
-        public IReadOnlyCollection<ITransferTaskToken> GetDownloadingTasks() => DownloadTaskManager.Manager.Handles;
+
+        public IReadOnlyCollection<ITransferTaskToken> GetDownloadingTasks() => DownloadTaskManager.Manager.Handles.Where(v => !v.Item.Completed).ToList();
 
         public IReadOnlyCollection<ITransferTaskToken> GetUploadingTasks() => _uploadTasks;
 
-        public IReadOnlyCollection<ITransferedFile> GetDownloadedFiles() => _downloadedFiles;
+        public IReadOnlyCollection<ITransferedFile> GetDownloadedFiles() => DownloadTaskManager.Manager.Handles.Where(v => v.Item.Completed).ToList();
 
         public IReadOnlyCollection<ITransferedFile> GetUploadedFiles() => _uploadedFiles;
 
