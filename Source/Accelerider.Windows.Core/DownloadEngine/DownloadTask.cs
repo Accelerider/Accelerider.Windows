@@ -32,10 +32,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public TransferTaskStatusEnum TransferTaskStatus => DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
                                                   TransferTaskStatusEnum.Canceled;
 
-        public string OwnerName
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public string OwnerName => string.Empty;
 
         public IDiskFile FileInfo => Item.NetDiskFile;
 
@@ -58,8 +55,8 @@ namespace Accelerider.Windows.Core.DownloadEngine
             return await Task.Run(() =>
             {
                 var task = DownloadTaskManager.Manager.GetTaskProcess(Item);
-                if (task == null || task.DownloadState == TransferStateEnum.Transfering || task.DownloadState == TransferStateEnum.Faulted) return false;
-                task.DownloadState = TransferStateEnum.Waiting;
+                if (task == null || task.DownloadState == TransferTaskStatusEnum.Transfering || task.DownloadState == TransferTaskStatusEnum.Faulted) return false;
+                task.DownloadState = TransferTaskStatusEnum.Waiting;
                 return true;
             });
         }
