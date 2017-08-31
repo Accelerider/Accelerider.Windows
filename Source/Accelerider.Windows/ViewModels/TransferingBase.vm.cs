@@ -27,10 +27,10 @@ namespace Accelerider.Windows.ViewModels
         {
             InitializeCommands();
 
-            TransferTasks = new ObservableCollection<TransferTaskViewModel>(GetinitializedTasks().Select(item =>
+            TransferTasks = new ObservableCollection<TransferTaskViewModel>(GetInitializedTasks().Select(item =>
             {
                 item.TransferTaskStatusChanged += OnTransfered;
-                return new TransferTaskViewModel(new TaskCreatedEventArgs(NetDiskUser.Username, item));
+                return new TransferTaskViewModel(item);
             }));
 
             EventAggregator.GetEvent<T>().Subscribe(OnTransferTaskCreated, token => token != null && token.Any());
@@ -95,12 +95,12 @@ namespace Accelerider.Windows.ViewModels
         }
         #endregion
 
-        private void OnTransferTaskCreated(IReadOnlyCollection<TaskCreatedEventArgs> taskInfos)
+        private void OnTransferTaskCreated(IReadOnlyCollection<ITransferTaskToken> tokens)
         {
-            foreach (var taskInfo in taskInfos)
+            foreach (var token in tokens)
             {
-                taskInfo.Token.TransferTaskStatusChanged += OnTransfered;
-                TransferTasks.Add(new TransferTaskViewModel(taskInfo));
+                token.TransferTaskStatusChanged += OnTransfered;
+                TransferTasks.Add(new TransferTaskViewModel(token));
             }
         }
 
@@ -115,7 +115,7 @@ namespace Accelerider.Windows.ViewModels
             }
         }
 
-        protected abstract IReadOnlyCollection<ITransferTaskToken> GetinitializedTasks();
+        protected abstract IReadOnlyCollection<ITransferTaskToken> GetInitializedTasks();
 
     }
 }

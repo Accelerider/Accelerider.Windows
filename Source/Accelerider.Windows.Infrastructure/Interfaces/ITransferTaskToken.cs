@@ -9,9 +9,12 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         TransferTaskStatusEnum TransferTaskStatus { get; }
 
+        string OwnerName { get; }
+
         IDiskFile FileInfo { get; }
 
         DataSize Progress { get; }
+
 
         Task<bool> PauseAsync();
 

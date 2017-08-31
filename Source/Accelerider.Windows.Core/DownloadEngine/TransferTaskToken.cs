@@ -21,6 +21,11 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public TransferTaskStatusEnum TransferTaskStatus { get => _transferTaskStatus; private set => _transferTaskStatus = value; }
 
+        public string OwnerName
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public IDiskFile FileInfo { get; set; }
 
         public DataSize Progress { get; set; }

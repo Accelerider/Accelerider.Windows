@@ -87,13 +87,12 @@ namespace Accelerider.Windows.ViewModels
             if (!isDownload) return;
 
             var tokens = new List<ITransferTaskToken>();
-            var ownerName = NetDiskUser.Username;
             foreach (var file in fileArray)
             {
                 tokens.AddRange(await NetDiskUser.DownloadAsync(file, folder));
             }
 
-            PulishTaskCreatedEvent<DownloadTaskCreatedEvent>(ownerName, tokens, OnDownloaded);
+            PulishTaskCreatedEvent<DownloadTaskCreatedEvent>(tokens, OnDownloaded);
 
             var fileName = TrimFileName(tokens.First().FileInfo.FilePath.FileName, 40);
             var message = tokens.Count == 1
@@ -108,7 +107,6 @@ namespace Accelerider.Windows.ViewModels
             if (dialog.ShowDialog() != DialogResult.OK || dialog.FileNames.Length <= 0) return;
 
             IEnumerable<ITransferTaskToken> tokens = null;
-            var ownerName = NetDiskUser.Username;
             await Task.Run(() =>
             {
                 tokens = dialog.FileNames.Select(fromPath =>
@@ -118,7 +116,7 @@ namespace Accelerider.Windows.ViewModels
                 });
             });
 
-            PulishTaskCreatedEvent<UploadTaskCreatedEvent>(ownerName, tokens, OnUploaded);
+            PulishTaskCreatedEvent<UploadTaskCreatedEvent>(tokens, OnUploaded);
 
             var fileName = TrimFileName(dialog.FileNames[0], 40);
             var message = dialog.FileNames.Length == 1
@@ -198,13 +196,13 @@ namespace Accelerider.Windows.ViewModels
             return (vm.DownloadFolder, true);
         }
 
-        private void PulishTaskCreatedEvent<T>(string ownerName, IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferTaskStatusChangedEventArgs> handler)
+        private void PulishTaskCreatedEvent<T>(IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferTaskStatusChangedEventArgs> handler)
             where T : TaskCreatedEvent, new()
         {
             EventAggregator.GetEvent<T>().Publish(tokens.Select(token =>
             {
                 token.TransferTaskStatusChanged += handler;
-                return new TaskCreatedEventArgs(ownerName, token);
+                return token;
             }).ToList());
         }
 

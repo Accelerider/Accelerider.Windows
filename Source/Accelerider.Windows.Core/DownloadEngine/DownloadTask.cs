@@ -31,6 +31,12 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public TransferTaskStatusEnum TransferTaskStatus => DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
                                                   TransferTaskStatusEnum.Canceled;
+
+        public string OwnerName
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public IDiskFile FileInfo => Item.NetDiskFile;
 
         public DataSize Progress => new DataSize(

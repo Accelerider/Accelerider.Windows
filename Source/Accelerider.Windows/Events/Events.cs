@@ -4,24 +4,11 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Events
 {
-    public class TaskCreatedEvent : EventBase<IReadOnlyCollection<TaskCreatedEventArgs>> { }
+    public class TaskCreatedEvent : EventBase<IReadOnlyCollection<ITransferTaskToken>> { }
 
     public class DownloadTaskCreatedEvent : TaskCreatedEvent { }
 
     public class UploadTaskCreatedEvent : TaskCreatedEvent { }
-
-    public class TaskCreatedEventArgs
-    {
-        public TaskCreatedEventArgs(string ownerName, ITransferTaskToken token)
-        {
-            OwnerName = ownerName;
-            Token = token;
-        }
-
-        public string OwnerName { get; }
-        public ITransferTaskToken Token { get; }
-    }
-
 
     public class DownloadTaskTranferedEvent : EventBase<IDiskFile> { }
 

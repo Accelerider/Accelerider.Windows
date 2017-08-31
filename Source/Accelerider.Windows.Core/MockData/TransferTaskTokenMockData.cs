@@ -31,6 +31,11 @@ namespace Accelerider.Windows.Core.MockData
             }
         }
 
+        public string OwnerName
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public IDiskFile FileInfo { get; }
         public DataSize Progress { get; private set; } = new DataSize(0);
 

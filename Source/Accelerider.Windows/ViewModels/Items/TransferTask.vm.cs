@@ -16,13 +16,13 @@ namespace Accelerider.Windows.ViewModels.Items
         private bool _isBusy;
 
 
-        public TransferTaskViewModel(TaskCreatedEventArgs taskInfo)
+        public TransferTaskViewModel(ITransferTaskToken token)
         {
-            OwnerName = taskInfo.OwnerName;
-            Token = taskInfo.Token;
+            OwnerName = token.OwnerName;
+            Token = token;
             Token.TransferTaskStatusChanged += (sender, e) => OnPropertyChanged(nameof(TransferTaskStatus));
 
-            RefreshTransferTaskStatus();
+            RefreshTransferTaskStatusCycle();
         }
 
 
@@ -64,7 +64,7 @@ namespace Accelerider.Windows.ViewModels.Items
         }
 
 
-        private async void RefreshTransferTaskStatus()
+        private async void RefreshTransferTaskStatusCycle()
         {
             while (true)
             {

@@ -14,6 +14,6 @@ namespace Accelerider.Windows.ViewModels
 
         protected override TransferTaskStatusEnum TransferedStatus => TransferTaskStatusEnum.Completed;
 
-        protected override IReadOnlyCollection<ITransferTaskToken> GetinitializedTasks() => AcceleriderUser.GetUploadingTasks();
+        protected override IReadOnlyCollection<ITransferTaskToken> GetInitializedTasks() => AcceleriderUser.GetUploadingTasks();
     }
 }
