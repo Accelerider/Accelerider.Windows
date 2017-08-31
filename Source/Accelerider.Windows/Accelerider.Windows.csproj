@@ -78,6 +78,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UiStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Commands\RelayCommandAsync.cs" />
     <Compile Include="Commands\RelayCommandAsync{T}.cs" />
     <Compile Include="Controls\FolderLocationBar.xaml.cs">

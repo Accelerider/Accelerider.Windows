@@ -1,37 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Accelerider.Windows
 {
     public static class WindowController
     {
-        private static readonly Dictionary<Type, Window> _windowDictionary = new Dictionary<Type, Window>();
-
-        public static void Register<T>(T window) where T : Window
+        public static void Show<T>() where T : Window, new()
         {
-            //if (_windowDictionary.ContainsKey(typeof(T))) throw new ArgumentException();
-
-            _windowDictionary[typeof(T)] = window;
+            Application.Current.MainWindow = new T();
+            Application.Current.MainWindow.Loaded += SingletonProcess.OnWindowLoaded;
+            Application.Current.MainWindow.Show();
         }
 
         public static void Close<T>() where T : Window
         {
-            var type = typeof(T);
-            var window = _windowDictionary[typeof(T)];
-            _windowDictionary.Remove(type);
+            var window = FirstOrDefault<T>();
             window?.Close();
         }
 
         public static void Switch<TClose, TShow>() 
-            where TClose : Window
             where TShow : Window, new()
+            where TClose : Window
         {
-            new TShow().Show();
+            Show<TShow>();
             Close<TClose>();
+        }
+
+        private static Window FirstOrDefault<T>()
+        {
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window is T) return window;
+            }
+            return null;
         }
     }
 }

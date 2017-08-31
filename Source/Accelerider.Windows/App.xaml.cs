@@ -16,18 +16,8 @@ namespace Accelerider.Windows
             new SingletonProcess().Check();
 
             base.OnStartup(e);
-            var container = new UnityContainer();
-            ViewModels.ViewModelLocator.ViewModelFactory = type => container.Resolve(type);
 
-            ConfigureContainer(container);
-            container.Resolve<Core.Module>().Initialize();
-            container.Resolve<Components.Authenticator.Module>().Initialize();
-        }
-
-        private void ConfigureContainer(IUnityContainer container)
-        {
-            container.RegisterInstance(typeof(SnackbarMessageQueue), new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
-            container.RegisterInstance(typeof(EventAggregator), new EventAggregator());
+            new Bootstrapper().Run();
         }
     }
 }
