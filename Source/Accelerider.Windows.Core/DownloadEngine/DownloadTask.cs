@@ -19,18 +19,18 @@ namespace Accelerider.Windows.Core.DownloadEngine
             DownloadTaskManager.Manager.TaskStateChangeEvent += Manager_TaskStateChangeEvent;
         }
 
-        private void Manager_TaskStateChangeEvent(DownloadTaskItem arg1, TransferStateEnum arg2, TransferStateEnum arg3)
+        private void Manager_TaskStateChangeEvent(DownloadTaskItem arg1, TransferTaskStatusEnum arg2, TransferTaskStatusEnum arg3)
         {
             if (arg1 == Item)
             {
-                TransferStateChanged?.Invoke(this, new TransferStateChangedEventArgs(this, arg2, arg3));
+                TransferTaskStatusChanged?.Invoke(this, new TransferTaskStatusChangedEventArgs(this, arg2, arg3));
             }
         }
 
-        public event EventHandler<TransferStateChangedEventArgs> TransferStateChanged;
+        public event EventHandler<TransferTaskStatusChangedEventArgs> TransferTaskStatusChanged;
 
-        public TransferStateEnum TransferState => DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
-                                                  TransferStateEnum.Canceled;
+        public TransferTaskStatusEnum TransferTaskStatus => DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
+                                                  TransferTaskStatusEnum.Canceled;
         public IDiskFile FileInfo => Item.NetDiskFile;
 
         public DataSize Progress => new DataSize(

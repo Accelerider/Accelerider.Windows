@@ -5,9 +5,9 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 {
     public interface ITransferTaskToken : IEquatable<ITransferTaskToken>
     {
-        event EventHandler<TransferStateChangedEventArgs> TransferStateChanged;
+        event EventHandler<TransferTaskStatusChangedEventArgs> TransferTaskStatusChanged;
 
-        TransferStateEnum TransferState { get; }
+        TransferTaskStatusEnum TransferTaskStatus { get; }
 
         IDiskFile FileInfo { get; }
 

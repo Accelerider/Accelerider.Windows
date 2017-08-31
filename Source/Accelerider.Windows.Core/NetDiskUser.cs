@@ -106,7 +106,7 @@ namespace Accelerider.Windows.Core
                     ? new DataSize(new FileInfo(from).Length)
                     : default(DataSize)
             });
-            temp.TransferStateChanged += OnUploaded;
+            temp.TransferTaskStatusChanged += OnUploaded;
             _uploadFiles.Add(temp);
             return temp;
         }
@@ -118,15 +118,15 @@ namespace Accelerider.Windows.Core
                         select new TransferTaskTokenMockData(file.Content)).ToList();
             _downloadingFiles.AddRange(temp.Select(item =>
             {
-                item.TransferStateChanged += OnDownloaded;
+                item.TransferTaskStatusChanged += OnDownloaded;
                 return item;
             }));
             return temp;
         }
 
-        private void OnUploaded(object sender, TransferStateChangedEventArgs e)
+        private void OnUploaded(object sender, TransferTaskStatusChangedEventArgs e)
         {
-            if (e.NewState != TransferStateEnum.Checking) return;
+            if (e.NewStatus != TransferTaskStatusEnum.Checking) return;
 
             var temp = _uploadFiles.FirstOrDefault(item => item.FileInfo.FilePath.FullPath == e.Token.FileInfo.FilePath.FullPath);
             if (temp != null)
@@ -135,9 +135,9 @@ namespace Accelerider.Windows.Core
             }
         }
 
-        private void OnDownloaded(object sender, TransferStateChangedEventArgs e)
+        private void OnDownloaded(object sender, TransferTaskStatusChangedEventArgs e)
         {
-            if (e.NewState != TransferStateEnum.Checking) return;
+            if (e.NewStatus != TransferTaskStatusEnum.Checking) return;
 
             var temp = _downloadingFiles.FirstOrDefault(item => item.FileInfo.FilePath.FullPath == e.Token.FileInfo.FilePath.FullPath);
             if (temp != null)

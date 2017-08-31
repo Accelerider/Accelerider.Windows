@@ -10,24 +10,24 @@ namespace Accelerider.Windows.Core.MockData
     public class TransferTaskTokenMockData : ITransferTaskToken
     {
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        private TransferStateEnum _transferState;
+        private TransferTaskStatusEnum _transferTaskStatus;
 
         public TransferTaskTokenMockData(IDiskFile fileInfo)
         {
             FileInfo = fileInfo;
-            TransferState = TransferStateEnum.Transfering;
+            TransferTaskStatus = TransferTaskStatusEnum.Transfering;
             ChangeProgress(_cancellationTokenSource.Token);
         }
 
-        public event EventHandler<TransferStateChangedEventArgs> TransferStateChanged;
+        public event EventHandler<TransferTaskStatusChangedEventArgs> TransferTaskStatusChanged;
 
-        public TransferStateEnum TransferState
+        public TransferTaskStatusEnum TransferTaskStatus
         {
-            get => _transferState;
+            get => _transferTaskStatus;
             set
             {
-                if (Equals(_transferState, value)) return;
-                OnTransferStateChanged(new TransferStateChangedEventArgs(this, _transferState, _transferState = value));
+                if (Equals(_transferTaskStatus, value)) return;
+                OnTransferTaskStatusChanged(new TransferTaskStatusChangedEventArgs(this, _transferTaskStatus, _transferTaskStatus = value));
             }
         }
 
@@ -37,7 +37,7 @@ namespace Accelerider.Windows.Core.MockData
         public async Task<bool> PauseAsync()
         {
             _cancellationTokenSource.Cancel();
-            TransferState = TransferStateEnum.Paused;
+            TransferTaskStatus = TransferTaskStatusEnum.Paused;
             await Task.Delay(1000);
             return true;
         }
@@ -50,7 +50,7 @@ namespace Accelerider.Windows.Core.MockData
             Progress = new DataSize(0);
             ChangeProgress(_cancellationTokenSource.Token);
 
-            TransferState = TransferStateEnum.Transfering;
+            TransferTaskStatus = TransferTaskStatusEnum.Transfering;
             return true;
         }
 
@@ -59,7 +59,7 @@ namespace Accelerider.Windows.Core.MockData
             if (!await PauseAsync()) return false;
             _cancellationTokenSource = null;
             Progress = new DataSize(0);
-            TransferState = TransferStateEnum.Canceled;
+            TransferTaskStatus = TransferTaskStatusEnum.Canceled;
             return true;
         }
 
@@ -76,13 +76,13 @@ namespace Accelerider.Windows.Core.MockData
                 await Task.Delay(rand.Next(300, 1000));
                 Progress += rand.Next(1, 1024 * 256);
                 if (Progress < FileInfo.FileSize) continue;
-                TransferState = TransferStateEnum.Checking;
+                TransferTaskStatus = TransferTaskStatusEnum.Checking;
             }
         }
 
-        protected virtual void OnTransferStateChanged(TransferStateChangedEventArgs e)
+        protected virtual void OnTransferTaskStatusChanged(TransferTaskStatusChangedEventArgs e)
         {
-            TransferStateChanged?.Invoke(this, e);
+            TransferTaskStatusChanged?.Invoke(this, e);
         }
     }
 }

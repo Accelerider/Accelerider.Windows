@@ -51,7 +51,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
         /// <summary>
         /// 下载状态
         /// </summary>
-        public TransferStateEnum DownloadState
+        public TransferTaskStatusEnum DownloadState
         {
             get => _state;
             set
@@ -108,7 +108,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
         #region 私有参数
         private float _percentage = -1F;
         private long _speed = 0L;
-        private TransferStateEnum _state = TransferStateEnum.Waiting;
+        private TransferTaskStatusEnum _state = TransferTaskStatusEnum.Waiting;
 
         #endregion
         /// <summary>
@@ -125,16 +125,16 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
 
                 if (Info.Completed)
                 {
-                    DownloadState = TransferStateEnum.Completed;
+                    DownloadState = TransferTaskStatusEnum.Completed;
                     DownloadPercentage = 100F;
                     DownloadSpeed = 0;
                     return;
                 }
-                DownloadState = TransferStateEnum.Transfering;
+                DownloadState = TransferTaskStatusEnum.Transfering;
                 var response = GetResponse(Url);
                 if (response == null)
                 {
-                    DownloadState = TransferStateEnum.Faulted;
+                    DownloadState = TransferTaskStatusEnum.Faulted;
                     return;
                 }
                 if (!File.Exists(DownloadPath))
@@ -164,7 +164,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
             }
             catch
             {
-                DownloadState = TransferStateEnum.Faulted;
+                DownloadState = TransferTaskStatusEnum.Faulted;
             }
         }
 
@@ -180,7 +180,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
                     DownloadPercentage = 100F;
                     Info.Completed = true;
                     Info.CompletedTime = DateTime.Now;
-                    DownloadState = TransferStateEnum.Completed;
+                    DownloadState = TransferTaskStatusEnum.Completed;
                     return;
                 }
                 var block = Info.DownloadBlockList.FirstOrDefault(v => !v.Completed && !v.Downloading);
@@ -244,7 +244,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
         private void ReportDownloadProgress()
         {
             var temp = 0L;
-            while (DownloadState == TransferStateEnum.Transfering)
+            while (DownloadState == TransferTaskStatusEnum.Transfering)
             {
                 Thread.Sleep(1000);
                 if (temp == 0)
@@ -253,7 +253,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
                 }
                 else
                 {
-                    if (DownloadState == TransferStateEnum.Transfering)
+                    if (DownloadState == TransferTaskStatusEnum.Transfering)
                     {
                         DownloadSpeed = Info.CompletedLength - temp;
                         DownloadPercentage = Info.CompletedLength;
@@ -272,7 +272,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
             {
                 foreach (var thread in Threads)
                     thread.Stop();
-                DownloadState = TransferStateEnum.Paused;
+                DownloadState = TransferTaskStatusEnum.Paused;
                 return Info;
             }
             return null;
@@ -329,10 +329,10 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
 
     internal class StateChangedArgs : EventArgs
     {
-        public TransferStateEnum OldState { get; }
-        public TransferStateEnum NewState { get; }
+        public TransferTaskStatusEnum OldState { get; }
+        public TransferTaskStatusEnum NewState { get; }
 
-        public StateChangedArgs(TransferStateEnum oldState, TransferStateEnum newState)
+        public StateChangedArgs(TransferTaskStatusEnum oldState, TransferTaskStatusEnum newState)
         {
             this.OldState = oldState;
             this.NewState = newState;

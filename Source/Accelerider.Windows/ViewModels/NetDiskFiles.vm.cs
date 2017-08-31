@@ -198,27 +198,27 @@ namespace Accelerider.Windows.ViewModels
             return (vm.DownloadFolder, true);
         }
 
-        private void PulishTaskCreatedEvent<T>(string ownerName, IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferStateChangedEventArgs> handler)
+        private void PulishTaskCreatedEvent<T>(string ownerName, IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferTaskStatusChangedEventArgs> handler)
             where T : TaskCreatedEvent, new()
         {
             EventAggregator.GetEvent<T>().Publish(tokens.Select(token =>
             {
-                token.TransferStateChanged += handler;
+                token.TransferTaskStatusChanged += handler;
                 return new TaskCreatedEventArgs(ownerName, token);
             }).ToList());
         }
 
-        private void OnUploaded(object sender, TransferStateChangedEventArgs e)
+        private void OnUploaded(object sender, TransferTaskStatusChangedEventArgs e)
         {
-            if (e.NewState != TransferStateEnum.Checking) return; // TODO: e.NewState != TransferStateEnum.Completed
+            if (e.NewStatus != TransferTaskStatusEnum.Checking) return; // TODO: e.NewState != TransferTaskStatusEnum.Completed
 
             //GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been uploaded.");
             EventAggregator.GetEvent<UploadTaskCompletedEvent>().Publish(e.Token.FileInfo);
         }
 
-        private void OnDownloaded(object sender, TransferStateChangedEventArgs e)
+        private void OnDownloaded(object sender, TransferTaskStatusChangedEventArgs e)
         {
-            if (e.NewState != TransferStateEnum.Checking) return;
+            if (e.NewStatus != TransferTaskStatusEnum.Checking) return;
 
             //GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been downloaded.");
             EventAggregator.GetEvent<DownloadTaskTranferedEvent>().Publish(e.Token.FileInfo);

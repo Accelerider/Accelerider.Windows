@@ -22,7 +22,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public List<HttpDownload> Tasks;
 
 
-        public event Action<DownloadTaskItem, TransferStateEnum, TransferStateEnum> TaskStateChangeEvent;
+        public event Action<DownloadTaskItem, TransferTaskStatusEnum, TransferTaskStatusEnum> TaskStateChangeEvent;
 
         private List<DownloadTask> _handles;
         private DownloadTaskManager()
@@ -48,12 +48,12 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         private async Task ManagerTimer()
         {
-            var downloading = Tasks.Count(v => v.DownloadState == TransferStateEnum.Transfering);
+            var downloading = Tasks.Count(v => v.DownloadState == TransferTaskStatusEnum.Transfering);
             if (downloading < LocalConfigureInfo.Config.ParallelTaskNumber)
             {
                 //移除所有下载完成的任务
-                Tasks.RemoveAll(v => v.DownloadState == TransferStateEnum.Completed);
-                var task = Tasks.FirstOrDefault(v => v.DownloadState == TransferStateEnum.Waiting);
+                Tasks.RemoveAll(v => v.DownloadState == TransferTaskStatusEnum.Completed);
+                var task = Tasks.FirstOrDefault(v => v.DownloadState == TransferTaskStatusEnum.Waiting);
                 if (task == null)
                 {
                     var item = Items.FirstOrDefault(v => !v.Completed && Tasks.All(t => t.DownloadPath != v.DownloadPath)); //在已创建任务中不存在
@@ -85,16 +85,16 @@ namespace Accelerider.Windows.Core.DownloadEngine
             var task = (HttpDownload)sender;
             switch (args.NewState)
             {
-                case TransferStateEnum.Completed:
+                case TransferTaskStatusEnum.Completed:
                     if (File.Exists(task.DownloadPath + ".downloading"))
                         File.Delete(task.DownloadPath + ".downloading");
                     Items.First(v => v.DownloadPath == task.DownloadPath).Completed = true;
                     Save();
                     break;
-                case TransferStateEnum.Faulted:
+                case TransferTaskStatusEnum.Faulted:
                     //TODO 刷新链接(还没做好)
                     break;
-                case TransferStateEnum.Paused:
+                case TransferTaskStatusEnum.Paused:
                     task.Info.Save(task.DownloadPath + ".downloading");
                     break;
             }

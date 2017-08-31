@@ -19,7 +19,7 @@
                         <Setter Property="Header" Value="Pause"/>
                         <Setter Property="Command" Value="{Binding PauseCommand}"/>
                         <Style.Triggers>
-                            <DataTrigger Value="Paused" Binding="{Binding PlacementTarget.SelectedItem.TransferState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+                            <DataTrigger Value="Paused" Binding="{Binding PlacementTarget.SelectedItem.TransferTaskStatus, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
                                 <Setter Property="Icon">
                                     <Setter.Value>
                                         <materialDesign:PackIcon Kind="Play" />

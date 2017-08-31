@@ -29,13 +29,15 @@ namespace Accelerider.Windows.ViewModels
 
             TransferTasks = new ObservableCollection<TransferTaskViewModel>(GetinitializedTasks().Select(item =>
             {
-                item.TransferStateChanged += OnTransfered;
+                item.TransferTaskStatusChanged += OnTransfered;
                 return new TransferTaskViewModel(new TaskCreatedEventArgs(NetDiskUser.Username, item));
             }));
 
             EventAggregator.GetEvent<T>().Subscribe(OnTransferTaskCreated, token => token != null && token.Any());
         }
 
+
+        protected abstract TransferTaskStatusEnum TransferedStatus { get; }
 
         public ObservableCollection<TransferTaskViewModel> TransferTasks
         {
@@ -73,13 +75,13 @@ namespace Accelerider.Windows.ViewModels
         {
             PauseCommand = new RelayCommand<TransferTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.PauseAsync(), "Pause task failed."),
-                taskToken => !taskToken.IsBusy && taskToken.Token.TransferState == TransferStateEnum.Transfering);
+                taskToken => !taskToken.IsBusy && taskToken.Token.TransferTaskStatus == TransferTaskStatusEnum.Transfering);
             StartCommand = new RelayCommand<TransferTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(), "Restart task failed."),
-                taskToken => !taskToken.IsBusy && taskToken.Token.TransferState == TransferStateEnum.Paused);
+                taskToken => !taskToken.IsBusy && taskToken.Token.TransferTaskStatus == TransferTaskStatusEnum.Paused);
             StartForceCommand = new RelayCommand<TransferTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(true), "Jump queue failed."),
-                taskToken => !taskToken.IsBusy && taskToken.Token.TransferState != TransferStateEnum.Transfering);
+                taskToken => !taskToken.IsBusy && taskToken.Token.TransferTaskStatus != TransferTaskStatusEnum.Transfering);
             CancelCommand = new RelayCommand<TransferTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.CancelAsync(), "Cancel task failed."),
                 taskToken => !taskToken.IsBusy);
@@ -97,14 +99,14 @@ namespace Accelerider.Windows.ViewModels
         {
             foreach (var taskInfo in taskInfos)
             {
-                taskInfo.Token.TransferStateChanged += OnTransfered;
+                taskInfo.Token.TransferTaskStatusChanged += OnTransfered;
                 TransferTasks.Add(new TransferTaskViewModel(taskInfo));
             }
         }
 
-        private void OnTransfered(object sender, TransferStateChangedEventArgs e)
+        private void OnTransfered(object sender, TransferTaskStatusChangedEventArgs e)
         {
-            if (e.NewState != TransferStateEnum.Checking) return;
+            if (e.NewStatus != TransferedStatus) return;
 
             var temp = TransferTasks.FirstOrDefault(item => item.FileInfo.FilePath.FullPath == e.Token.FileInfo.FilePath.FullPath);
             if (temp != null)

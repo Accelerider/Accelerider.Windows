@@ -9,15 +9,15 @@ namespace Accelerider.Windows.Core.DownloadEngine
 {
     internal abstract class TransferTaskBase
     {
-        public event EventHandler<TransferStateChangedEventArgs> TransferStateChanged;
+        public event EventHandler<TransferTaskStatusChangedEventArgs> TransferTaskStatusChanged;
 
         public abstract Task<bool> TryCancelAsync();
         public abstract Task<bool> TryPauseAsync();
         public abstract Task<bool> TryRestartAsync();
 
-        protected virtual void OnTransferStateChanged(TransferStateChangedEventArgs e)
+        protected virtual void OnTransferTaskStatusChanged(TransferTaskStatusChangedEventArgs e)
         {
-            TransferStateChanged?.Invoke(this, e);
+            TransferTaskStatusChanged?.Invoke(this, e);
         }
     }
 }

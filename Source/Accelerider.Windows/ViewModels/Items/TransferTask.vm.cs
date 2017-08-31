@@ -20,9 +20,9 @@ namespace Accelerider.Windows.ViewModels.Items
         {
             OwnerName = taskInfo.OwnerName;
             Token = taskInfo.Token;
-            Token.TransferStateChanged += (sender, e) => OnPropertyChanged(nameof(TransferState));
+            Token.TransferTaskStatusChanged += (sender, e) => OnPropertyChanged(nameof(TransferTaskStatus));
 
-            RefreshTransferState();
+            RefreshTransferTaskStatus();
         }
 
 
@@ -36,7 +36,7 @@ namespace Accelerider.Windows.ViewModels.Items
 
         public IDiskFile FileInfo => Token.FileInfo;
 
-        public TransferStateEnum TransferState => Token.TransferState;
+        public TransferTaskStatusEnum TransferTaskStatus => Token.TransferTaskStatus;
 
         public DataSize Progress
         {
@@ -64,16 +64,16 @@ namespace Accelerider.Windows.ViewModels.Items
         }
 
 
-        private async void RefreshTransferState()
+        private async void RefreshTransferTaskStatus()
         {
             while (true)
             {
                 await Task.Delay(1000);
-                UpdateTransferState();
+                UpdateTransferTaskStatus();
             }
         }
 
-        private void UpdateTransferState()
+        private void UpdateTransferTaskStatus()
         {
             Speed = Token.Progress - Progress;
             Progress = Token.Progress;

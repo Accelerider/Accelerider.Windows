@@ -149,45 +149,50 @@ namespace Accelerider.Windows.Infrastructure
     /// Indicates the status of a file which is in th e transfer (download or upload) cycle.
     /// </summary>
     [Flags]
-    public enum TransferStateEnum
+    public enum TransferTaskStatusEnum
     {
         /// <summary>
-        /// The task created, waiting to start. Can be converted to <see cref="Transfering"/>, <see cref="Paused"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.
+        /// The task created, Can only be converted to <see cref="Waiting"/>.
         /// </summary>
-        Waiting = 0,
+        Created = 0,
+
+        /// <summary>
+        /// The task is waiting to start. Can be converted to <see cref="Transfering"/>, <see cref="Paused"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.
+        /// </summary>
+        Waiting = 1,
 
         /// <summary>
         /// The task is being downloaded or uploaded. 
         /// Can be converted to  <see cref="Checking"/> (for downloaded), <see cref="Completed"/> (for uploaded),
         /// <see cref="Paused"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.
         /// </summary>
-        Transfering = 1,
+        Transfering = 2,
 
         /// <summary>
         /// The task is Paused. Can be converted to <see cref="Canceled"/> or <see cref="Waiting"/>.
         /// </summary>
-        Paused = 2,
+        Paused = 4,
 
         /// <summary>
         /// The file that have been transferred are being checked, which only happen after the downloaded. 
         /// Can only be converted to <see cref="Completed"/>.
         /// </summary>
-        Checking = 4,
+        Checking = 8,
 
         /// <summary>
         /// The task has been completed. End state.
         /// </summary>
-        Completed = 8,
+        Completed = 16,
 
         /// <summary>
         /// The task has been canceled. End state.
         /// </summary>
-        Canceled = 16,
+        Canceled = 32,
 
         /// <summary>
         /// The task failed. End state.
         /// </summary>
-        Faulted = 32
+        Faulted = 64
     }
 
     public enum LanguageEnum

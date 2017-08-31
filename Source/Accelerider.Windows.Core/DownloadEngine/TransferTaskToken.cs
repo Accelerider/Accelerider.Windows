@@ -8,18 +8,18 @@ namespace Accelerider.Windows.Core.DownloadEngine
     internal class TransferTaskToken : ITransferTaskToken
     {
 
-        private volatile TransferStateEnum _transferState;
+        private volatile TransferTaskStatusEnum _transferTaskStatus;
         private readonly TransferTaskBase _task;
 
         public TransferTaskToken(TransferTaskBase task)
         {
             _task = task;
-            _task.TransferStateChanged += (sender, e) => OnTransferStateChanged(e);
+            _task.TransferTaskStatusChanged += (sender, e) => OnTransferTaskStatusChanged(e);
         }
 
-        public event EventHandler<TransferStateChangedEventArgs> TransferStateChanged;
+        public event EventHandler<TransferTaskStatusChangedEventArgs> TransferTaskStatusChanged;
 
-        public TransferStateEnum TransferState { get => _transferState; private set => _transferState = value; }
+        public TransferTaskStatusEnum TransferTaskStatus { get => _transferTaskStatus; private set => _transferTaskStatus = value; }
 
         public IDiskFile FileInfo { get; set; }
 
@@ -33,10 +33,10 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public bool Equals(ITransferTaskToken other) => FileInfo.FilePath == other?.FileInfo.FilePath;
 
-        protected virtual void OnTransferStateChanged(TransferStateChangedEventArgs e)
+        protected virtual void OnTransferTaskStatusChanged(TransferTaskStatusChangedEventArgs e)
         {
-            TransferState = e.NewState;
-            TransferStateChanged?.Invoke(this, e);
+            TransferTaskStatus = e.NewStatus;
+            TransferTaskStatusChanged?.Invoke(this, e);
         }
     }
 }
