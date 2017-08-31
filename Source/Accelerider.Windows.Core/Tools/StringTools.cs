@@ -31,13 +31,5 @@ namespace Accelerider.Windows.Core.Tools
             var superPath = string.Join("/", tmp);
             return string.IsNullOrEmpty(superPath) ? "/" : superPath;
         }
-
-        public static string GetFileSizeString(this long size)
-        {
-            if (size < 1024) return size + "B";
-            if (size < 1024 * 1024) return (size / 1024D).ToString("f2") + "KB";
-            if (size < 1024 * 1024 * 1024) return (size / 1024D / 1024D).ToString("f2") + "MB";
-            return (size / 1024D / 1024D / 1024D).ToString("f2") + "GB";
-        }
     }
 }

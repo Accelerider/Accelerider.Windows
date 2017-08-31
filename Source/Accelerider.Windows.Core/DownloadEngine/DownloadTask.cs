@@ -32,7 +32,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public TransferTaskStatusEnum TransferTaskStatus => DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
                                                   TransferTaskStatusEnum.Canceled;
 
-        public string OwnerName => string.Empty;
+        public string OwnerName => (AcceleriderUser.AccUser.GetTaskCreatorByUserid(Item.FromUser) as INetDiskUser)?.Username ?? "Unknown";
 
         public IDiskFile FileInfo => Item.NetDiskFile;
 

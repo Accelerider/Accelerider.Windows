@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -78,21 +79,37 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         }
 
-        private void Task_DownloadStateChangedEvent(object sender, StateChangedArgs args)
+        private async void Task_DownloadStateChangedEvent(object sender, StateChangedArgs args)
         {
             var task = (HttpDownload)sender;
+            var item = Items.First(v => v.DownloadPath == task.DownloadPath);
             switch (args.NewState)
             {
                 case TransferTaskStatusEnum.Completed:
                     if (File.Exists(task.DownloadPath + ".downloading"))
                         File.Delete(task.DownloadPath + ".downloading");
-                    Items.First(v => v.DownloadPath == task.DownloadPath).Completed = true;
-                    Items.First(v => v.DownloadPath == task.DownloadPath).CompletedTime = DateTime.Now;
+                    item.Completed = true;
+                    item.CompletedTime = DateTime.Now;
                     Save();
                     break;
                 case TransferTaskStatusEnum.Faulted:
-                    //TODO 刷新链接(还没做好)
-                    break;
+                    if (task.Data.ContainsKey("LastRefreshTime") && DateTime.Now - DateTime.Parse(task.Data["LastRefreshTime"]) < new TimeSpan(1, 0, 0)) //如果最后刷新时间距离现在小于一小时
+                        break;
+                    var creator = AcceleriderUser.AccUser.GetTaskCreatorByUserid(item.FromUser);
+                    IReadOnlyCollection<string> urls;
+                    if (creator == null || (urls = await creator.GetDownloadUrls(item.FilePath)) == null)
+                    {
+                        //TODO 在这里需要做任务失败的操作
+                        break;
+                    }
+                    task.Info.DownloadUrl = urls.ToArray();
+                    task.Info.DownloadCount.Clear();
+                    if(!task.Data.ContainsKey("LastRefreshTime"))
+                        task.Data.Add("LastRefreshTime",DateTime.Now.ToString(CultureInfo.InvariantCulture));
+                    task.Data["LastRefreshTime"] = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+                    task.Info.Save(item.DownloadPath + ".downloading");
+                    task.DownloadState = TransferTaskStatusEnum.Waiting;
+                    return;
                 case TransferTaskStatusEnum.Paused:
                     task.Info.Save(task.DownloadPath + ".downloading");
                     break;
