@@ -208,7 +208,7 @@ namespace Accelerider.Windows.ViewModels
 
         private void OnUploaded(object sender, TransferTaskStatusChangedEventArgs e)
         {
-            if (e.NewStatus != TransferTaskStatusEnum.Checking) return; // TODO: e.NewState != TransferTaskStatusEnum.Completed
+            if (e.NewStatus != TransferTaskStatusEnum.Completed) return;
 
             //GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been uploaded.");
             EventAggregator.GetEvent<UploadTaskCompletedEvent>().Publish(e.Token.FileInfo);

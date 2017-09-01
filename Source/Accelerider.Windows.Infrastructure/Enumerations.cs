@@ -195,6 +195,13 @@ namespace Accelerider.Windows.Infrastructure
         Faulted = 64
     }
 
+    public enum FileCheckStatusEnum
+    {
+        Normal,
+        Warning,
+        Error
+    }
+
     public enum LanguageEnum
     {
         Chinese,
