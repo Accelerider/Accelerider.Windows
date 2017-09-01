@@ -82,9 +82,7 @@
     <Compile Include="Files\SharedFile.cs" />
     <Compile Include="Files\TransferedFile.cs" />
     <Compile Include="LocalConfigureInfo.cs" />
-    <Compile Include="MockData\TransferTaskTokenMockData.cs" />
     <Compile Include="Module.cs" />
-    <Compile Include="NetDiskUser.cs" />
     <Compile Include="NetWork\Cookies.cs" />
     <Compile Include="NetWork\HttpClient.cs" />
     <Compile Include="NetWork\UserModels\OneDriveUser.cs" />

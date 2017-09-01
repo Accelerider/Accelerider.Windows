@@ -7,13 +7,17 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
     {
         event EventHandler<TransferTaskStatusChangedEventArgs> TransferTaskStatusChanged;
 
-        TransferTaskStatusEnum TransferTaskStatus { get; }
 
         string OwnerName { get; }
 
-        IDiskFile FileInfo { get; }
+        TransferTaskStatusEnum TransferTaskStatus { get; }
 
         DataSize Progress { get; }
+
+
+        IDiskFile FileInfo { get; }
+
+        ITransferedFile GetTransferedFile();
 
 
         Task<bool> PauseAsync();

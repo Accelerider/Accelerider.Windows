@@ -22,6 +22,8 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null);
 
+        Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action);// TODO: Changes it to IAsyncEnumerable<T> when the C# 8.0 is released.
+
         Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null);
 
         // Gets net-disk files ------------------------------------------------------------

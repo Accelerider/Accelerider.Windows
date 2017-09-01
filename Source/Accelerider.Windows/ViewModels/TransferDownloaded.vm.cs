@@ -1,38 +1,34 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using Accelerider.Windows.Core.Files;
+using System.Collections.Generic;
 using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
+using System.Linq;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class TransferDownloadedViewModel : ViewModelBase
+    public class TransferDownloadedViewModel : TransferedBaseViewModel<DownloadTaskEndEvent>
     {
-        private ObservableCollection<ITransferedFile> _transferedFiles;
-
-
         public TransferDownloadedViewModel(IUnityContainer container) : base(container)
         {
-            TransferedFiles = new ObservableCollection<ITransferedFile>(AcceleriderUser.GetDownloadedFiles());
-            EventAggregator.GetEvent<DownloadTaskTranferedEvent>().Subscribe(OnTransferTaskStatusChanged);
         }
 
-        private void OnTransferTaskStatusChanged(IDiskFile e)
+
+        protected override void OnGettingAToken(ITransferTaskToken token)
         {
-            TransferedFiles.Insert(0, new TransferedFile
-            {
-                CompletedTime = DateTime.Now,
-                FilePath = e.FilePath,
-                FileSize = e.FileSize
-            });
+            base.OnGettingAToken(token);
+            token.TransferTaskStatusChanged += OnTransferTaskStatusChanged;
         }
 
-        public ObservableCollection<ITransferedFile> TransferedFiles
+        private void OnTransferTaskStatusChanged(object sender, TransferTaskStatusChangedEventArgs e)
         {
-            get => _transferedFiles;
-            set => SetProperty(ref _transferedFiles, value);
+            if (e.OldStatus != TransferTaskStatusEnum.Checking || 
+                e.NewStatus != TransferTaskStatusEnum.Completed) return;
+
+            // TODO: Update UI ITransferedFile.FileCheckStatus.
         }
+
+        protected override IReadOnlyCollection<ITransferedFile> GetTransferedFiles() => AcceleriderUser.GetDownloadedFiles();
     }
 }

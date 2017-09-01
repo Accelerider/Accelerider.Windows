@@ -211,7 +211,7 @@ namespace Accelerider.Windows.ViewModels
             if (e.NewStatus != TransferTaskStatusEnum.Completed) return;
 
             //GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been uploaded.");
-            EventAggregator.GetEvent<UploadTaskCompletedEvent>().Publish(e.Token.FileInfo);
+            EventAggregator.GetEvent<UploadTaskEndEvent>().Publish(e.Token);
         }
 
         private void OnDownloaded(object sender, TransferTaskStatusChangedEventArgs e)
@@ -219,7 +219,7 @@ namespace Accelerider.Windows.ViewModels
             if (e.NewStatus != TransferTaskStatusEnum.Checking) return;
 
             //GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been downloaded.");
-            EventAggregator.GetEvent<DownloadTaskTranferedEvent>().Publish(e.Token.FileInfo);
+            EventAggregator.GetEvent<DownloadTaskEndEvent>().Publish(e.Token);
         }
 
         private string TrimFileName(string fileName, int length)

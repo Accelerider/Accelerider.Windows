@@ -10,11 +10,13 @@ namespace Accelerider.Windows.Events
 
     public class UploadTaskCreatedEvent : TaskCreatedEvent { }
 
-    public class DownloadTaskTranferedEvent : EventBase<IDiskFile> { }
 
-    public  class DownloadTaskCheckedEvent : EventBase<object> { }
+    public class TaskEndEvent : EventBase<ITransferTaskToken> { }
 
-    public class UploadTaskCompletedEvent : EventBase<IDiskFile> { }
+    public class DownloadTaskEndEvent : TaskEndEvent { }
+
+    public class UploadTaskEndEvent : TaskEndEvent { }
+
 
     public class CurrentNetDiskUserChangedEvent : EventBase<INetDiskUser> { }
 

@@ -161,6 +161,12 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                 return file;
             }).FirstOrDefault(v => v.FileName == fileName);
         }
+
+        public Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action)
+        {
+            throw new NotImplementedException();
+        }
+
         private class LinksFormat
         {
             [JsonProperty("links")]

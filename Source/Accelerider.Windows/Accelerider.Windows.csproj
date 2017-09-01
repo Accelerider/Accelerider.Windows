@@ -95,6 +95,7 @@
     <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
+    <Compile Include="ViewModels\TransferedBase.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>

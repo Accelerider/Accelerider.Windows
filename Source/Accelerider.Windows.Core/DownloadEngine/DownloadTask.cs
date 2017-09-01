@@ -66,9 +66,14 @@ namespace Accelerider.Windows.Core.DownloadEngine
             throw new NotImplementedException();
         }
 
-        public bool Equals(ITransferTaskToken other) => FileInfo.FilePath == other?.FileInfo.FilePath;
+        public bool Equals(ITransferTaskToken other) => false;
         public FileTypeEnum FileType => FileInfo.FileType;
         public Task<bool> DeleteAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ITransferedFile GetTransferedFile()
         {
             throw new NotImplementedException();
         }
@@ -76,5 +81,8 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public FileLocation FilePath => Item.FilePath;
         public DataSize FileSize => FileInfo.FileSize;
         public DateTime CompletedTime => Item.CompletedTime;
+
+        public FileCheckStatusEnum FileCheckStatus => throw new NotImplementedException();
+
     }
 }

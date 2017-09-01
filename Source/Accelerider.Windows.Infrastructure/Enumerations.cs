@@ -146,7 +146,7 @@ namespace Accelerider.Windows.Infrastructure
     }
 
     /// <summary>
-    /// Indicates the status of a file which is in th e transfer (download or upload) cycle.
+    /// Indicates the status of a file which is in the transfer (download or upload) cycle.
     /// </summary>
     [Flags]
     public enum TransferTaskStatusEnum
@@ -195,11 +195,30 @@ namespace Accelerider.Windows.Infrastructure
         Faulted = 64
     }
 
+    /// <summary>
+    /// Indicates th status of a file which is the result of the file is checked after downloaded.
+    /// </summary>
     public enum FileCheckStatusEnum
     {
-        Normal,
-        Warning,
-        Error
+        /// <summary>
+        /// The check result is not available when the file being transfered.
+        /// </summary>
+        NotAvailable = 0,
+
+        /// <summary>
+        /// Check result is normal. For uploading completed files, the results are always displayed.
+        /// </summary>
+        Normal = 1,
+
+        /// <summary>
+        /// The check result contains warnings.
+        /// </summary>
+        Warning = 2,
+
+        /// <summary>
+        /// The check result contains errors.
+        /// </summary>
+        Error = 3
     }
 
     public enum LanguageEnum

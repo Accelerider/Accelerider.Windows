@@ -30,18 +30,24 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public DataSize Progress { get; set; }
 
+
         public async Task<bool> CancelAsync() => await _task.TryCancelAsync();
 
         public async Task<bool> PauseAsync() => await _task.TryPauseAsync();
 
         public async Task<bool> StartAsync(bool force = false) => await _task.TryRestartAsync();
 
-        public bool Equals(ITransferTaskToken other) => FileInfo.FilePath == other?.FileInfo.FilePath;
+        public bool Equals(ITransferTaskToken other) => false;
 
         protected virtual void OnTransferTaskStatusChanged(TransferTaskStatusChangedEventArgs e)
         {
             TransferTaskStatus = e.NewStatus;
             TransferTaskStatusChanged?.Invoke(this, e);
+        }
+
+        public ITransferedFile GetTransferedFile()
+        {
+            throw new NotImplementedException();
         }
     }
 }

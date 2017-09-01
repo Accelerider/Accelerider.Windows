@@ -30,6 +30,8 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
     public interface ITransferedFile : IDiskFile
     {
+        FileCheckStatusEnum FileCheckStatus { get; }
+
         DateTime CompletedTime { get; }
     }
 

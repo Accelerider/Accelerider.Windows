@@ -24,8 +24,8 @@ namespace Accelerider.Windows
             EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Subscribe(e => TransferTaskCount += e.Count);
             EventAggregator.GetEvent<UploadTaskCreatedEvent>().Subscribe(e => TransferTaskCount += e.Count);
 
-            EventAggregator.GetEvent<DownloadTaskTranferedEvent>().Subscribe(e => TransferTaskCount--);
-            EventAggregator.GetEvent<UploadTaskCompletedEvent>().Subscribe(e => TransferTaskCount--);
+            EventAggregator.GetEvent<DownloadTaskEndEvent>().Subscribe(e => TransferTaskCount--);
+            EventAggregator.GetEvent<UploadTaskEndEvent>().Subscribe(e => TransferTaskCount--);
         }
 
 
@@ -58,14 +58,14 @@ namespace Accelerider.Windows
         {
             if (e.NewStatus != TransferTaskStatusEnum.Completed) return;
 
-            EventAggregator.GetEvent<UploadTaskCompletedEvent>().Publish(e.Token.FileInfo);
+            EventAggregator.GetEvent<UploadTaskEndEvent>().Publish(e.Token);
         }
 
         private void OnDownloaded(object sender, TransferTaskStatusChangedEventArgs e)
         {
             if (e.NewStatus != TransferTaskStatusEnum.Checking) return;
 
-            EventAggregator.GetEvent<DownloadTaskTranferedEvent>().Publish(e.Token.FileInfo);
+            EventAggregator.GetEvent<DownloadTaskEndEvent>().Publish(e.Token);
         }
     }
 }
