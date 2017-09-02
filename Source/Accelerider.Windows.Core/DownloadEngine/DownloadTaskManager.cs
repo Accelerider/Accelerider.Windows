@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Accelerider.Windows.Core.DownloadEngine.DownloadCore;
 using Accelerider.Windows.Infrastructure;
@@ -104,8 +103,8 @@ namespace Accelerider.Windows.Core.DownloadEngine
                     }
                     task.Info.DownloadUrl = urls.ToArray();
                     task.Info.DownloadCount.Clear();
-                    if(!task.Data.ContainsKey("LastRefreshTime"))
-                        task.Data.Add("LastRefreshTime",DateTime.Now.ToString(CultureInfo.InvariantCulture));
+                    if (!task.Data.ContainsKey("LastRefreshTime"))
+                        task.Data.Add("LastRefreshTime", DateTime.Now.ToString(CultureInfo.InvariantCulture));
                     task.Data["LastRefreshTime"] = DateTime.Now.ToString(CultureInfo.InvariantCulture);
                     task.Info.Save(item.DownloadPath + ".downloading");
                     task.DownloadState = TransferTaskStatusEnum.Waiting;

@@ -36,42 +36,6 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public async Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null)
-        {
-            var result = new List<ITransferTaskToken>();
-            if (fileNode.Content.FileType == FileTypeEnum.FolderType)
-            {
-                var redundantPathLength = fileNode.Content.FilePath.FolderPath.Length + 1;
-                await fileNode.ForEachAsync(file =>
-                {
-                    if (file.FileType == FileTypeEnum.FolderType) return;
-
-                    var subPath = file.FilePath.FullPath.Substring(redundantPathLength);
-                    FileLocation downloadPath = Path.Combine(downloadFolder, subPath);
-                    if (!Directory.Exists(downloadPath.FolderPath))
-                        Directory.CreateDirectory(downloadPath.FolderPath);
-                    result.Add(DownloadTaskManager.Manager.Add(new DownloadTaskItem()
-                    {
-                        FilePath = file.FilePath,
-                        DownloadPath = downloadPath,
-                        FromUser = Userid,
-                        Completed = false
-                    }));
-                });
-            }
-            else
-            {
-                result.Add(DownloadTaskManager.Manager.Add(new DownloadTaskItem()
-                {
-                    FilePath = fileNode.Content.FilePath,
-                    DownloadPath = Path.Combine(downloadFolder, fileNode.Content.FilePath.FileName),
-                    FromUser = Userid,
-                    Completed = false
-                }));
-            }
-            return result;
-        }
-
         public async Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action)
         {
             if (fileNode.Content.FileType == FileTypeEnum.FolderType)
@@ -90,6 +54,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                         FilePath = file.FilePath,
                         DownloadPath = downloadPath,
                         FromUser = Userid,
+                        NetDiskFile = file,
                         Completed = false
                     }));
                 });
@@ -101,6 +66,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                     FilePath = fileNode.Content.FilePath,
                     DownloadPath = Path.Combine(downloadFolder, fileNode.Content.FilePath.FileName),
                     FromUser = Userid,
+                    NetDiskFile = fileNode.Content,
                     Completed = false
                 }));
             }
@@ -158,11 +124,6 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             return false;
         }
 
-        public Task<bool> CheckQuickAccess()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IReadOnlyCollection<string>> GetDownloadUrls(string file)
         {
             return await Task.Run(() =>
@@ -174,7 +135,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                         new HttpClient().Post($"http://api.usmusic.cn/filelinks?token={AccUser.Token}&uk={Userid}",
                             new Dictionary<string, string>()
                             {
-                                ["files"] = Uri.EscapeDataString(JArray.FromObject(new[] {nFile})
+                                ["files"] = Uri.EscapeDataString(JArray.FromObject(new[] { nFile })
                                     .ToString(Formatting.None))
                             }));
                 if (json.Value<int>("errno") != 0) return null;
