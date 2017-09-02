@@ -26,7 +26,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
             get { throw new NotImplementedException(); }
         }
 
-        public IDiskFile FileInfo { get; set; }
+        public IFileSummary FileSummary { get; set; }
 
         public DataSize Progress { get; set; }
 

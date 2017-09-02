@@ -98,7 +98,7 @@ namespace Accelerider.Windows.ViewModels
                 });
             }
 
-            var fileName = TrimFileName(tokens.First().FileInfo.FilePath.FileName, 40);
+            var fileName = TrimFileName(tokens.First().FileSummary.FilePath.FileName, 40);
             var message = tokens.Count == 1
                 ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)
                 : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, tokens.Count);

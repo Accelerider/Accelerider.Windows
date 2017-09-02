@@ -34,7 +34,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public string OwnerName => (AcceleriderUser.AccUser.GetTaskCreatorByUserid(Item.FromUser) as INetDiskUser)?.Username ?? "Unknown";
 
-        public IDiskFile FileInfo => Item.NetDiskFile;
+        public IFileSummary FileSummary => Item.NetDiskFile;
 
         public DataSize Progress => new DataSize(
             DownloadTaskManager.Manager.GetTaskProcess(Item)?.Info.CompletedLength ?? 0L);
@@ -67,7 +67,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         }
 
         public bool Equals(ITransferTaskToken other) => false;
-        public FileTypeEnum FileType => FileInfo.FileType;
+        public FileTypeEnum FileType => FileSummary.FileType;
         public Task<bool> DeleteAsync()
         {
             throw new NotImplementedException();
@@ -79,7 +79,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         }
 
         public FileLocation FilePath => Item.FilePath;
-        public DataSize FileSize => FileInfo.FileSize;
+        public DataSize FileSize => FileSummary.FileSize;
         public DateTime CompletedTime => Item.CompletedTime;
 
         public FileCheckStatusEnum CheckStatus => throw new NotImplementedException();

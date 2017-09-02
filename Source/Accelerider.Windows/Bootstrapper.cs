@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using Accelerider.Windows.Events;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
@@ -16,9 +17,16 @@ namespace Accelerider.Windows
             ConfigureContainer();
             ConfigureViewModelLocator();
             InitializeModules();
+            ConfigureApplicationEventHandlers();
             ShowShell();
         }
 
+        private void ConfigureApplicationEventHandlers()
+        {
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => OnUnhandledException(sender, (Exception)e.ExceptionObject);
+            Application.Current.DispatcherUnhandledException += (sender, e) => OnUnhandledException(sender, e.Exception);
+            Application.Current.Exit += OnExit;
+        }
 
         protected virtual IUnityContainer CreateContainer()
         {
@@ -45,6 +53,17 @@ namespace Accelerider.Windows
         {
             Container.Resolve<Core.Module>().Initialize();
             Container.Resolve<Components.Authenticator.Module>().Initialize();
+        }
+
+
+        private void OnExit(object sender, ExitEventArgs e)
+        {
+
+        }
+
+        protected virtual void OnUnhandledException(object sender, Exception exception)
+        {
+
         }
     }
 }

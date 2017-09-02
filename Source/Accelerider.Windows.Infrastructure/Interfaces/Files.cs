@@ -3,14 +3,17 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.Interfaces
 {
-    public interface IFile
+    public interface IDeletable
     {
-        FileTypeEnum FileType { get; }
-
         Task<bool> DeleteAsync();
     }
 
-    public interface ISharedFile : IFile
+    public interface IFile
+    {
+        FileTypeEnum FileType { get; }
+    }
+
+    public interface ISharedFile : IFile, IDeletable
     {
         string Title { get; }
 
@@ -21,11 +24,15 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         string AccessCode { get; }
     }
 
-    public interface IDiskFile : IFile
+    public interface IFileSummary : IFile
     {
         FileLocation FilePath { get; }
 
         DataSize FileSize { get; }
+    }
+
+    public interface IDiskFile : IFileSummary, IDeletable
+    {
     }
 
     public interface ITransferedFile : IDiskFile

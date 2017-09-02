@@ -65,6 +65,7 @@ namespace Accelerider.Windows.ViewModels
 
         private async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
         {
+            await currentNetDiskUser.RefreshUserInfoAsync();
             await LoadingFilesAsync();
         }
 

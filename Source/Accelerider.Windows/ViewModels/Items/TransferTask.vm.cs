@@ -34,7 +34,7 @@ namespace Accelerider.Windows.ViewModels.Items
 
         public ITransferTaskToken Token { get; }
 
-        public IDiskFile FileInfo => Token.FileInfo;
+        public IFileSummary FileInfo => Token.FileSummary;
 
         public TransferTaskStatusEnum TransferTaskStatus => Token.TaskStatus;
 
@@ -80,7 +80,7 @@ namespace Accelerider.Windows.ViewModels.Items
             if (Speed.BaseBValue == 0)
                 RemainingTime = null;
             else
-                RemainingTime = TimeSpan.FromSeconds(Math.Round((Token.FileInfo.FileSize - Progress) / Speed));
+                RemainingTime = TimeSpan.FromSeconds(Math.Round((Token.FileSummary.FileSize - Progress) / Speed));
         }
     }
 }

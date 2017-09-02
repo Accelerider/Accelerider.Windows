@@ -31,7 +31,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         /// <summary>
         /// Gets a <see cref="IDiskFile"/> object that contains the information of the file that belongs to this task.
         /// </summary>
-        IDiskFile FileInfo { get; }
+        IFileSummary FileSummary { get; }
 
         /// <summary>
         /// Gets the transfered file after this task was completed (<see cref="TransferTaskStatusEnum.Completed"/> or <see cref="TransferTaskStatusEnum.Checking"/>).
