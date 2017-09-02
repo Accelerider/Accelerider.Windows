@@ -300,7 +300,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
                     var request = WebRequest.Create(sub) as HttpWebRequest;
                     request.UserAgent = "netdisk;5.5.2.0;PC;PC-Windows;6.1.7601;WindowsBaiduNetdisk";
                     request.Timeout = 10000;
-                    return (HttpWebResponse)request.GetResponse();
+                    return (HttpWebResponse) request.GetResponse();
                 }
                 catch (WebException ex)
                 {
@@ -308,6 +308,10 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
                     {
                         return GetResponse(urls);
                     }
+                }
+                catch (Exception)
+                {
+                    return null;
                 }
             }
             return null;

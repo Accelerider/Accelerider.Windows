@@ -32,41 +32,6 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public override async Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action)
-        {
-            if (fileNode.Content.FileType == FileTypeEnum.FolderType)
-            {
-                var redundantPathLength = fileNode.Content.FilePath.FolderPath.Length + 1;
-                await fileNode.ForEachAsync(file =>
-                {
-                    if (file.FileType == FileTypeEnum.FolderType) return;
-
-                    var subPath = file.FilePath.FullPath.Substring(redundantPathLength);
-                    FileLocation downloadPath = Path.Combine(downloadFolder, subPath);
-                    if (!Directory.Exists(downloadPath.FolderPath))
-                        Directory.CreateDirectory(downloadPath.FolderPath);
-                    action?.Invoke(DownloadTaskManager.Manager.Add(new DownloadTaskItem
-                    {
-                        FilePath = file.FilePath,
-                        DownloadPath = downloadPath,
-                        FromUser = UserId,
-                        NetDiskFile = file,
-                        Completed = false
-                    }));
-                });
-            }
-            else
-            {
-                action?.Invoke(DownloadTaskManager.Manager.Add(new DownloadTaskItem
-                {
-                    FilePath = fileNode.Content.FilePath,
-                    DownloadPath = Path.Combine(downloadFolder, fileNode.Content.FilePath.FileName),
-                    FromUser = UserId,
-                    NetDiskFile = fileNode.Content,
-                    Completed = false
-                }));
-            }
-        }
 
         public override Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null)
         {

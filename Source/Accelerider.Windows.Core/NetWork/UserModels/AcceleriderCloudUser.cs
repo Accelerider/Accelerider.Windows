@@ -93,9 +93,5 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             }).FirstOrDefault(v => v.FileName == fileName);
         }
 
-        public override Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

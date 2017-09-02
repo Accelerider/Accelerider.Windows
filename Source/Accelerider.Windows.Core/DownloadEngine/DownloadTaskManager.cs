@@ -19,8 +19,9 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public List<DownloadTask> Handles => _handles ?? (_handles = Items.Select(v => new DownloadTask(v)).ToList());
         public List<HttpDownload> Tasks;
 
-
         public event Action<DownloadTaskItem, TransferTaskStatusEnum, TransferTaskStatusEnum> TaskStateChangeEvent;
+
+        private bool _stop = false;
 
         private List<DownloadTask> _handles;
         private DownloadTaskManager()
@@ -36,10 +37,11 @@ namespace Accelerider.Windows.Core.DownloadEngine
             Tasks.ForEach(v => v.DownloadStateChangedEvent += Task_DownloadStateChangedEvent);
             Task.Run(async () =>
             {
-                while (true)
+                while (!_stop)
                 {
                     await Task.Delay(500);
-                    await ManagerTimer();
+                    if(!_stop)
+                        await ManagerTimer();
                 }
             });
         }
@@ -75,7 +77,6 @@ namespace Accelerider.Windows.Core.DownloadEngine
                 task.DownloadStateChangedEvent += Task_DownloadStateChangedEvent;
                 task.Start();
             }
-
         }
 
         private async void Task_DownloadStateChangedEvent(object sender, StateChangedArgs args)
@@ -147,6 +148,12 @@ namespace Accelerider.Windows.Core.DownloadEngine
             var taskListFile = Path.Combine(Directory.GetCurrentDirectory(), "DownloadList.json");
             File.WriteAllText(taskListFile, JsonConvert.SerializeObject(Items.ToArray(), Formatting.Indented));
         }
+
+        public void Stop()
+        {
+            _stop = true;
+            Tasks.ForEach(v => v.StopAndSave());
+        }
     }
 
     internal class DownloadTaskItem
@@ -159,18 +166,34 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public bool Completed { get; set; }
 
-        public INetDiskFile NetDiskFile
+        public DownloadTaskFile NetDiskFile { get; set; }
+
+        public DateTime CompletedTime { get; set; }
+    }
+
+    internal class DownloadTaskFile : IFileSummary
+    {
+        public FileTypeEnum FileType { get; set; }
+
+        [JsonIgnore]
+        public FileLocation FilePath
         {
-            get => _netDiskFile ?? (_netDiskFile = AcceleriderUser.AccUser
-                       .GetTaskCreatorByUserid(FromUser)
-                       .GetNetDiskFileByPath(FilePath));
-            set => _netDiskFile = value;
+            get => new FileLocation(_path);
+            set => _path = value;
+        }
+
+        [JsonIgnore]
+        public DataSize FileSize
+        {
+            get => new DataSize(_fileSize);
+            set => _fileSize = value.BaseBValue;
         }
 
 
-        [JsonIgnore]
-        private INetDiskFile _netDiskFile;
+        [JsonProperty("FilePath")]
+        private string _path;
 
-        public DateTime CompletedTime { get; set; }
+        [JsonProperty("FileSize")]
+        private long _fileSize;
     }
 }

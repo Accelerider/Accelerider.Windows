@@ -27,11 +27,11 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
 
         [JsonProperty("name")]
         public override string Username { get; protected set; }
-        public DataSize TotalCapacity => new DataSize(_totalQuota);
-        public DataSize UsedCapacity => new DataSize(_usedQuota);
+        public override DataSize TotalCapacity => new DataSize(_totalQuota);
+        public override DataSize UsedCapacity => new DataSize(_usedQuota);
 
         [JsonProperty("id")]
-        public string UserId { get; set; }
+        public override string UserId { get; protected set; }
 
         internal AcceleriderUser AccUser { get; set; }
 
@@ -102,41 +102,6 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                 file.User = this;
                 return file;
             }).FirstOrDefault(v => v.FileName == fileName);
-        }
-
-        public override async Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action)
-        {
-            if (fileNode.Content.FileType == FileTypeEnum.FolderType)
-            {
-                var redundantPathLength = fileNode.Content.FilePath.FolderPath.Length + 1;
-                await fileNode.ForEachAsync(file =>
-                {
-                    if (file.FileType == FileTypeEnum.FolderType) return;
-                    var subPath = file.FilePath.FullPath.Substring(redundantPathLength);
-                    FileLocation downloadPath = Path.Combine(downloadFolder, subPath);
-                    if (!Directory.Exists(downloadPath.FolderPath))
-                        Directory.CreateDirectory(downloadPath.FolderPath);
-                    action(DownloadTaskManager.Manager.Add(new DownloadTaskItem()
-                    {
-                        FilePath = file.FilePath,
-                        DownloadPath = downloadPath,
-                        FromUser = UserId,
-                        NetDiskFile = file,
-                        Completed = false
-                    }));
-                });
-            }
-            else
-            {
-                action(DownloadTaskManager.Manager.Add(new DownloadTaskItem()
-                {
-                    FilePath = fileNode.Content.FilePath,
-                    DownloadPath = Path.Combine(downloadFolder, fileNode.Content.FilePath.FileName),
-                    FromUser = UserId,
-                    NetDiskFile = fileNode.Content,
-                    Completed = false
-                }));
-            }
         }
     }
 }

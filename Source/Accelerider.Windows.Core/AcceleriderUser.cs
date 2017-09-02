@@ -64,7 +64,7 @@ namespace Accelerider.Windows.Core
 
         public void OnExit()
         {
-            throw new NotImplementedException();
+            DownloadTaskManager.Manager.Stop();
         }
 
         #endregion
