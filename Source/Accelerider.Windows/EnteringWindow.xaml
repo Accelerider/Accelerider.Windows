@@ -7,6 +7,7 @@
         vm:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
         Topmost="True"
+        Icon="AcceleriderLogo.ico"
         Title="EnteringWindow" Height="310" Width="430"
         x:Name="OwnerWindow" Style="{StaticResource EnteringWindowStyle}">
 

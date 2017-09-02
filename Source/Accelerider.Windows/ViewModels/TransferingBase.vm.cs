@@ -33,7 +33,7 @@ namespace Accelerider.Windows.ViewModels
                 return new TransferTaskViewModel(item);
             }));
 
-            EventAggregator.GetEvent<T>().Subscribe(OnTransferTaskCreated, token => token != null && token.Any());
+            EventAggregator.GetEvent<T>().Subscribe(OnTransferTaskCreated, token => token != null);
         }
 
 
@@ -75,13 +75,13 @@ namespace Accelerider.Windows.ViewModels
         {
             PauseCommand = new RelayCommand<TransferTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.PauseAsync(), "Pause task failed."),
-                taskToken => !taskToken.IsBusy && taskToken.Token.TransferTaskStatus == TransferTaskStatusEnum.Transfering);
+                taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus == TransferTaskStatusEnum.Transfering);
             StartCommand = new RelayCommand<TransferTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(), "Restart task failed."),
-                taskToken => !taskToken.IsBusy && taskToken.Token.TransferTaskStatus == TransferTaskStatusEnum.Paused);
+                taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus == TransferTaskStatusEnum.Paused);
             StartForceCommand = new RelayCommand<TransferTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(true), "Jump queue failed."),
-                taskToken => !taskToken.IsBusy && taskToken.Token.TransferTaskStatus != TransferTaskStatusEnum.Transfering);
+                taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus != TransferTaskStatusEnum.Transfering);
             CancelCommand = new RelayCommand<TransferTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.CancelAsync(), "Cancel task failed."),
                 taskToken => !taskToken.IsBusy);
@@ -95,13 +95,10 @@ namespace Accelerider.Windows.ViewModels
         }
         #endregion
 
-        private void OnTransferTaskCreated(IReadOnlyCollection<ITransferTaskToken> tokens)
+        private void OnTransferTaskCreated(ITransferTaskToken token)
         {
-            foreach (var token in tokens)
-            {
                 token.TransferTaskStatusChanged += OnTransfered;
                 TransferTasks.Add(new TransferTaskViewModel(token));
-            }
         }
 
         private void OnTransfered(object sender, TransferTaskStatusChangedEventArgs e)

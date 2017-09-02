@@ -19,7 +19,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public event EventHandler<TransferTaskStatusChangedEventArgs> TransferTaskStatusChanged;
 
-        public TransferTaskStatusEnum TransferTaskStatus { get => _transferTaskStatus; private set => _transferTaskStatus = value; }
+        public TransferTaskStatusEnum TaskStatus { get => _transferTaskStatus; private set => _transferTaskStatus = value; }
 
         public string OwnerName
         {
@@ -41,7 +41,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         protected virtual void OnTransferTaskStatusChanged(TransferTaskStatusChangedEventArgs e)
         {
-            TransferTaskStatus = e.NewStatus;
+            TaskStatus = e.NewStatus;
             TransferTaskStatusChanged?.Invoke(this, e);
         }
 

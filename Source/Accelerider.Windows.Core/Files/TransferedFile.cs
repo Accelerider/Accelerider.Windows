@@ -9,7 +9,7 @@ namespace Accelerider.Windows.Core.Files
     {
         public DateTime CompletedTime { get; set; }
 
-        public FileCheckStatusEnum FileCheckStatus => throw new NotImplementedException();
+        public FileCheckStatusEnum CheckStatus => throw new NotImplementedException();
 
         public override async Task<bool> DeleteAsync()
         {

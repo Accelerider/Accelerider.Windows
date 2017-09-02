@@ -43,22 +43,26 @@ namespace Accelerider.Windows.Core.Files.BaiduNetDisk
 
         internal BaiduNetDiskUser User { get; set; }
 
-        public new FileTypeEnum FileType => _isDir == 1
-            ? FileTypeEnum.FolderType
-            : (from item in FileTypeDirectory
-               where item.Value.Contains(FilePath.FileExtension)
-               select item.Key).SingleOrDefault();
+
+        public override FileTypeEnum FileType => _isDir == 1 ? FileTypeEnum.FolderType : (from item in FileTypeDirectory
+                                                                                          where item.Value.Contains(FilePath.FileExtension)
+                                                                                          select item.Key).SingleOrDefault();
+
+        public override FileLocation FilePath => string.IsNullOrEmpty(_path) ? "/" : _path;
+
+        public override DataSize FileSize => new DataSize(_size);
+
+
+        public DateTime ModifiedTime => new DateTime(1970, 1, 1, 8, 0, 0) + TimeSpan.FromSeconds(_serverMtime);
+
+
+        internal string FileName => _serverFileName;
+
 
         public override async Task<bool> DeleteAsync()
         {
             var json = JObject.Parse(await new HttpClient().GetAsync($"http://api.usmusic.cn/deleteFile?token={User.AccUser.Token}&uk={User.Userid}&path={_path.UrlEncode()}"));
             return json.Value<int>("errno") == 0;
         }
-
-        public new FileLocation FilePath => new FileLocation(string.IsNullOrEmpty(_path) ? "/" : _path);
-
-        internal string FileName => _serverFileName;
-        public new DataSize FileSize => new DataSize(_size);
-        public DateTime ModifiedTime => new DateTime(1970, 1, 1, 8, 0, 0) + TimeSpan.FromSeconds(_serverMtime);
     }
 }

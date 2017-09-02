@@ -21,8 +21,8 @@ namespace Accelerider.Windows
             ServicePointManager.DefaultConnectionLimit = 99999;
             GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
 
-            EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Subscribe(e => TransferTaskCount += e.Count);
-            EventAggregator.GetEvent<UploadTaskCreatedEvent>().Subscribe(e => TransferTaskCount += e.Count);
+            EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Subscribe(e => TransferTaskCount++);
+            EventAggregator.GetEvent<UploadTaskCreatedEvent>().Subscribe(e => TransferTaskCount++);
 
             EventAggregator.GetEvent<DownloadTaskEndEvent>().Subscribe(e => TransferTaskCount--);
             EventAggregator.GetEvent<UploadTaskEndEvent>().Subscribe(e => TransferTaskCount--);
@@ -38,7 +38,7 @@ namespace Accelerider.Windows
 
         public override void OnLoaded(object view)
         {
-            var acceleriderUser =  Container.Resolve<IAcceleriderUser>();
+            var acceleriderUser = Container.Resolve<IAcceleriderUser>();
 
             PulishTaskCreatedEvent<DownloadTaskCreatedEvent>(acceleriderUser.GetDownloadingTasks(), OnDownloaded);
             PulishTaskCreatedEvent<DownloadTaskCreatedEvent>(acceleriderUser.GetUploadingTasks(), OnUploaded);
@@ -47,11 +47,11 @@ namespace Accelerider.Windows
         private void PulishTaskCreatedEvent<T>(IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferTaskStatusChangedEventArgs> handler)
             where T : TaskCreatedEvent, new()
         {
-            EventAggregator.GetEvent<T>().Publish(tokens.Select(token =>
+            foreach (var token in tokens)
             {
                 token.TransferTaskStatusChanged += handler;
-                return token;
-            }).ToList());
+                EventAggregator.GetEvent<T>().Publish(token);
+            }
         }
 
         private void OnUploaded(object sender, TransferTaskStatusChangedEventArgs e)

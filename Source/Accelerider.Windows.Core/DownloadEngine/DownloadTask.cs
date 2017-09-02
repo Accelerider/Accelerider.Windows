@@ -29,7 +29,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public event EventHandler<TransferTaskStatusChangedEventArgs> TransferTaskStatusChanged;
 
-        public TransferTaskStatusEnum TransferTaskStatus => DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
+        public TransferTaskStatusEnum TaskStatus => DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
                                                   TransferTaskStatusEnum.Canceled;
 
         public string OwnerName => (AcceleriderUser.AccUser.GetTaskCreatorByUserid(Item.FromUser) as INetDiskUser)?.Username ?? "Unknown";
@@ -82,7 +82,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public DataSize FileSize => FileInfo.FileSize;
         public DateTime CompletedTime => Item.CompletedTime;
 
-        public FileCheckStatusEnum FileCheckStatus => throw new NotImplementedException();
+        public FileCheckStatusEnum CheckStatus => throw new NotImplementedException();
 
     }
 }

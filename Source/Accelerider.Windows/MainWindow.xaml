@@ -9,7 +9,7 @@
         MinHeight="500" MinWidth="720" Height="700" Width="1100" 
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource MainWindowStyle}"
-        Icon="Assets/Images/AcceleriderLogo.ico"
+        Icon="AcceleriderLogo.ico"
         Title="Accelerider" >
     <materialDesign:DialogHost Identifier="RootDialog">
         <Grid Background="{StaticResource LightGreyBackgoundBrush}" >

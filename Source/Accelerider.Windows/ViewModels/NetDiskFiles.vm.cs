@@ -89,10 +89,14 @@ namespace Accelerider.Windows.ViewModels
             var tokens = new List<ITransferTaskToken>();
             foreach (var file in fileArray)
             {
-                tokens.AddRange(await NetDiskUser.DownloadAsync(file, folder));
+                await NetDiskUser.DownloadAsync(file, folder, token =>
+                {
+                    // Pulishes event
+                    PulishTaskCreatedEvent<DownloadTaskCreatedEvent>(token, OnDownloaded);
+                    // Records token
+                    tokens.Add(token);
+                });
             }
-
-            PulishTaskCreatedEvent<DownloadTaskCreatedEvent>(tokens, OnDownloaded);
 
             var fileName = TrimFileName(tokens.First().FileInfo.FilePath.FileName, 40);
             var message = tokens.Count == 1
@@ -106,17 +110,17 @@ namespace Accelerider.Windows.ViewModels
             var dialog = new OpenFileDialog { Multiselect = true };
             if (dialog.ShowDialog() != DialogResult.OK || dialog.FileNames.Length <= 0) return;
 
-            IEnumerable<ITransferTaskToken> tokens = null;
+            var tokens = new List<ITransferTaskToken>();
             await Task.Run(() =>
             {
-                tokens = dialog.FileNames.Select(fromPath =>
+                foreach (var fromPath in dialog.FileNames)
                 {
                     var toPath = CurrentFolder.Content.FilePath;
-                    return NetDiskUser.UploadAsync(fromPath, toPath);
-                });
+                    var token = NetDiskUser.UploadAsync(fromPath, toPath);
+                    PulishTaskCreatedEvent<UploadTaskCreatedEvent>(token, OnUploaded);
+                    tokens.Add(token);
+                }
             });
-
-            PulishTaskCreatedEvent<UploadTaskCreatedEvent>(tokens, OnUploaded);
 
             var fileName = TrimFileName(dialog.FileNames[0], 40);
             var message = dialog.FileNames.Length == 1
@@ -181,7 +185,7 @@ namespace Accelerider.Windows.ViewModels
         private async Task<(string folder, bool isDownload)> DisplayDownloadDialogAsync(IEnumerable<string> files)
         {
             var configure = Container.Resolve<ILocalConfigureInfo>();
-            if (configure.NotDisplayDownloadDialog) return (null, true);
+            if (configure.NotDisplayDownloadDialog) return (configure.DownloadDirectory, true);
 
             var dialog = new DownloadDialog();
             var vm = dialog.DataContext as DownloadDialogViewModel;
@@ -196,14 +200,11 @@ namespace Accelerider.Windows.ViewModels
             return (vm.DownloadFolder, true);
         }
 
-        private void PulishTaskCreatedEvent<T>(IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferTaskStatusChangedEventArgs> handler)
+        private void PulishTaskCreatedEvent<T>(ITransferTaskToken token, EventHandler<TransferTaskStatusChangedEventArgs> handler)
             where T : TaskCreatedEvent, new()
         {
-            EventAggregator.GetEvent<T>().Publish(tokens.Select(token =>
-            {
-                token.TransferTaskStatusChanged += handler;
-                return token;
-            }).ToList());
+            token.TransferTaskStatusChanged += handler;
+            EventAggregator.GetEvent<T>().Publish(token);
         }
 
         private void OnUploaded(object sender, TransferTaskStatusChangedEventArgs e)

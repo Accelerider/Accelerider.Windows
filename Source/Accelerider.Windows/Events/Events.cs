@@ -4,7 +4,7 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Events
 {
-    public class TaskCreatedEvent : EventBase<IReadOnlyCollection<ITransferTaskToken>> { }
+    public class TaskCreatedEvent : EventBase<ITransferTaskToken> { }
 
     public class DownloadTaskCreatedEvent : TaskCreatedEvent { }
 

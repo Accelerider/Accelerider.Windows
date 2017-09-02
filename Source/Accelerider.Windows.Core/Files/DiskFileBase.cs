@@ -25,15 +25,12 @@ namespace Accelerider.Windows.Core.Files
             { FileTypeEnum.XlsType, new []{ "xls", "xlsx" } },
         };
 
-        public FileTypeEnum FileType => Directory.Exists(FilePath.FullPath)
-            ? FileTypeEnum.FolderType
-            : (from item in FileTypeDirectory
-                where item.Value.Contains(FilePath.FileExtension)
-                select item.Key).SingleOrDefault();
+        public virtual FileTypeEnum FileType { get; protected set; }
+
+        public virtual FileLocation FilePath { get; protected set; }
+
+        public virtual DataSize FileSize { get; protected set; }
 
         public abstract Task<bool> DeleteAsync();
-
-        public FileLocation FilePath { get; set; }
-        public DataSize FileSize { get; set; }
     }
 }

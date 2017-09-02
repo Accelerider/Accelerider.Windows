@@ -36,7 +36,7 @@ namespace Accelerider.Windows.ViewModels.Items
 
         public IDiskFile FileInfo => Token.FileInfo;
 
-        public TransferTaskStatusEnum TransferTaskStatus => Token.TransferTaskStatus;
+        public TransferTaskStatusEnum TransferTaskStatus => Token.TaskStatus;
 
         public DataSize Progress
         {
