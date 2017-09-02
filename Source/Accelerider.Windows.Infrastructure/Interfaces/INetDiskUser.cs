@@ -9,8 +9,6 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         // User Information ---------------------------------------------------------------
         string Username { get; }
 
-        string Userid { get; }
-
         DataSize TotalCapacity { get; }
 
         DataSize UsedCapacity { get; }

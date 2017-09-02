@@ -12,41 +12,33 @@ using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core.NetWork.UserModels
 {
-    internal class AcceleriderCloudUser : INetDiskUser, ITaskCreator
+    internal sealed class AcceleriderCloudUser : NetDiskUserBase, ITaskCreator
     {
-        public string Username => "AcceleriderCloud";
-        public DataSize TotalCapacity { get; } = new DataSize(0);
-        public DataSize UsedCapacity { get; } = new DataSize(0);
-
-        public string Userid => "AcceleriderCloudUser";
-
         public AcceleriderUser AccUser { get; }
+
         internal AcceleriderCloudUser(AcceleriderUser user)
         {
+            Username = "AcceleriderCloud";
+            UserId = "AcceleriderCloudUser";
             AccUser = user;
         }
 
-        public async Task<bool> RefreshUserInfoAsync()
+        public override async Task<bool> RefreshUserInfoAsync()
         {
             return true;
         }
 
-        public ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
+        public override ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null)
+        public override Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
+        public override async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
         {
             await Task.Delay(100);
             var tree = new LazyTreeNode<INetDiskFile>(new AcceleriderCloudFile { User = AccUser })
@@ -68,12 +60,12 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             return tree;
         }
 
-        public Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
+        public override Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
+        public override Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
         {
             throw new NotImplementedException();
         }
@@ -101,7 +93,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             }).FirstOrDefault(v => v.FileName == fileName);
         }
 
-        public Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action)
+        public override Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action)
         {
             throw new NotImplementedException();
         }

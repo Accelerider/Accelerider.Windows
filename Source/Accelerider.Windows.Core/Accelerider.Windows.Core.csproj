@@ -71,6 +71,7 @@
     <Compile Include="Files\BaiduNetDisk\BaiduNetDiskFile.cs" />
     <Compile Include="Files\OneDrive\OneDriveFile.cs" />
     <Compile Include="ITaskCreator.cs" />
+    <Compile Include="NetWork\NetDiskUserBase.cs" />
     <Compile Include="NetWork\UserModels\AcceleriderCloudUser.cs" />
     <Compile Include="NetWork\UserModels\BaiduNetDiskUser.cs" />
     <Compile Include="DownloadEngine\DownloadQueue.cs" />

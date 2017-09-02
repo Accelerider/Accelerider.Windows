@@ -22,19 +22,12 @@ namespace Accelerider.Windows.Core
         internal string Token { get; private set; }
 
 
-        private readonly List<ITransferTaskToken> _downloadingTasks = new List<ITransferTaskToken>();
-        private readonly List<ITransferTaskToken> _uploadTasks = new List<ITransferTaskToken>();
-
-        private readonly List<ITransferedFile> _downloadedFiles = new List<ITransferedFile>();
-        private readonly List<ITransferedFile> _uploadedFiles = new List<ITransferedFile>();
-
         public AcceleriderUser()
         {
             //InitializeNetDiskUsers();
             //CurrentNetDiskUser = NetDiskUsers[0];
             AccUser = this;
         }
-
 
 
         #region Accelerider account system
@@ -62,12 +55,16 @@ namespace Accelerider.Windows.Core
             return string.Empty;
         }
 
-
         public async Task<bool> SignOutAsync()
         {
             await Task.Delay(100);
             Token = string.Empty;
             return true;
+        }
+
+        public void OnExit()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -82,11 +79,13 @@ namespace Accelerider.Windows.Core
         {
             throw new NotImplementedException();
         }
-
         #endregion
 
         #region Operates sub-account (cloud account)
-        public IReadOnlyList<INetDiskUser> NetDiskUsers { get; private set; }
+
+        private IReadOnlyList<NetDiskUserBase> _netDiskUsers;
+
+        public IReadOnlyList<INetDiskUser> NetDiskUsers => _netDiskUsers;
 
         public INetDiskUser CurrentNetDiskUser { get; set; }
 
@@ -103,7 +102,7 @@ namespace Accelerider.Windows.Core
 
         internal ITaskCreator GetTaskCreatorByUserid(string id)
         {
-            return NetDiskUsers.FirstOrDefault(v => v.Userid == id) as ITaskCreator;
+            return _netDiskUsers.FirstOrDefault(v => v.UserId == id) as ITaskCreator;
         }
 
         #endregion
@@ -112,18 +111,18 @@ namespace Accelerider.Windows.Core
 
         public IReadOnlyCollection<ITransferTaskToken> GetDownloadingTasks() => DownloadTaskManager.Manager.Handles.Where(v => !v.Item.Completed).ToList();
 
-        public IReadOnlyCollection<ITransferTaskToken> GetUploadingTasks() => _uploadTasks;
+        public IReadOnlyCollection<ITransferTaskToken> GetUploadingTasks() => new List<ITransferTaskToken>();
 
         public IReadOnlyCollection<ITransferedFile> GetDownloadedFiles() => DownloadTaskManager.Manager.Handles.Where(v => v.Item.Completed).ToList();
 
-        public IReadOnlyCollection<ITransferedFile> GetUploadedFiles() => _uploadedFiles;
+        public IReadOnlyCollection<ITransferedFile> GetUploadedFiles() => new List<ITransferedFile>();
 
         #endregion
 
         #region Private methods
         private async Task InitializeNetDiskUsers()
         {
-            var list = new List<INetDiskUser>();
+            var list = new List<NetDiskUserBase>();
             var baidu = JObject.Parse(await new HttpClient().GetAsync("http://api.usmusic.cn/userlist?token=" + Token));
             var onedrive = JObject.Parse(await new HttpClient().GetAsync("http://api.usmusic.cn/onedrive/userlist?token=" + Token));
             if (baidu.Value<int>("errno") == 0)
@@ -138,7 +137,7 @@ namespace Accelerider.Windows.Core
                 }));
             foreach (var user in list)
                 await user.RefreshUserInfoAsync();
-            NetDiskUsers = list;
+            _netDiskUsers = list;
             CurrentNetDiskUser = NetDiskUsers[0];
 
         }

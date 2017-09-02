@@ -13,6 +13,8 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         Task<bool> SignOutAsync();
 
+        void OnExit();
+
         // Accelerider Services -----------------------------------------------------------------
         ITransferTaskToken Upload(FileLocation from, FileLocation to);
 

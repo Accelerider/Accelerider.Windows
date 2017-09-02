@@ -61,7 +61,7 @@ namespace Accelerider.Windows.Core.Files.BaiduNetDisk
 
         public override async Task<bool> DeleteAsync()
         {
-            var json = JObject.Parse(await new HttpClient().GetAsync($"http://api.usmusic.cn/deleteFile?token={User.AccUser.Token}&uk={User.Userid}&path={_path.UrlEncode()}"));
+            var json = JObject.Parse(await new HttpClient().GetAsync($"http://api.usmusic.cn/deleteFile?token={User.AccUser.Token}&uk={User.UserId}&path={_path.UrlEncode()}"));
             return json.Value<int>("errno") == 0;
         }
     }

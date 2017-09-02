@@ -15,41 +15,43 @@ using Newtonsoft.Json.Linq;
 namespace Accelerider.Windows.Core.NetWork.UserModels
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class OneDriveUser : IOneDriveUser, ITaskCreator
+    public class OneDriveUser : NetDiskUserBase, IOneDriveUser, ITaskCreator
     {
-        [JsonProperty("name")]
-        public string Username { get; set; }
-        public DataSize TotalCapacity => new DataSize(_totalQuota);
-        public DataSize UsedCapacity => new DataSize(_usedQuota);
-
-        [JsonProperty("id")]
-        public string Userid { get; set; }
-
         [JsonProperty("totalQuota")]
         private long _totalQuota;
 
         [JsonProperty("usedQuota")]
         private long _usedQuota;
 
+        //private string _username;
+
+        [JsonProperty("name")]
+        public override string Username { get; protected set; }
+        public DataSize TotalCapacity => new DataSize(_totalQuota);
+        public DataSize UsedCapacity => new DataSize(_usedQuota);
+
+        [JsonProperty("id")]
+        public string UserId { get; set; }
+
         internal AcceleriderUser AccUser { get; set; }
 
 
-        public async Task<bool> RefreshUserInfoAsync()
+        public override async Task<bool> RefreshUserInfoAsync()
         {
             return true;
         }
 
-        public ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
+        public override ITransferTaskToken UploadAsync(FileLocation from, FileLocation to)
         {
             throw new NotImplementedException();
         }
 
-        public Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null)
+        public override Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
+        public override async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
         {
             await Task.Delay(100);
             var tree = new LazyTreeNode<INetDiskFile>(new OneDriveFile { User = this })
@@ -59,7 +61,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                     if (parent.FileType != FileTypeEnum.FolderType) return null;
                     var json = JObject.Parse(
                         await new HttpClient().GetAsync(
-                            $"http://api.usmusic.cn/onedrive/filelist?token={AccUser.Token}&user={Userid}&path={parent.FilePath.FullPath.UrlEncode()}"));
+                            $"http://api.usmusic.cn/onedrive/filelist?token={AccUser.Token}&user={UserId}&path={parent.FilePath.FullPath.UrlEncode()}"));
                     if (json.Value<int>("errno") != 0) return null;
                     return JArray.Parse(json["list"].ToString()).Select(v =>
                     {
@@ -72,12 +74,12 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             return tree;
         }
 
-        public Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
+        public override Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
+        public override Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
         {
             throw new NotImplementedException();
         }
@@ -92,7 +94,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
         {
             var fileName = path.Split('/').Last();
             var json = JObject.Parse(new HttpClient().Get(
-                    $"http://api.usmusic.cn/onedrive/filelist?token={AccUser.Token}&user={Userid}&path={path.GetSuperPath().UrlEncode()}"));
+                    $"http://api.usmusic.cn/onedrive/filelist?token={AccUser.Token}&user={UserId}&path={path.GetSuperPath().UrlEncode()}"));
             if (json.Value<int>("errno") != 0) return null;
             return JArray.Parse(json["list"].ToString()).Select(v =>
             {
@@ -102,7 +104,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             }).FirstOrDefault(v => v.FileName == fileName);
         }
 
-        public async Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action)
+        public override async Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action)
         {
             if (fileNode.Content.FileType == FileTypeEnum.FolderType)
             {
@@ -118,7 +120,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                     {
                         FilePath = file.FilePath,
                         DownloadPath = downloadPath,
-                        FromUser = Userid,
+                        FromUser = UserId,
                         NetDiskFile = file,
                         Completed = false
                     }));
@@ -130,7 +132,7 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                 {
                     FilePath = fileNode.Content.FilePath,
                     DownloadPath = Path.Combine(downloadFolder, fileNode.Content.FilePath.FileName),
-                    FromUser = Userid,
+                    FromUser = UserId,
                     NetDiskFile = fileNode.Content,
                     Completed = false
                 }));

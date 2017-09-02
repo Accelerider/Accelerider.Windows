@@ -54,7 +54,7 @@ namespace Accelerider.Windows.Core.Files.OneDrive
         {
             return JObject.Parse(await
                            new HttpClient().GetAsync(
-                               $"http://api.usmusic.cn/onedrive/delete?token={User.AccUser.Token}&user={User.Userid}&path={_path.UrlEncode()}"))
+                               $"http://api.usmusic.cn/onedrive/delete?token={User.AccUser.Token}&user={User.UserId}&path={_path.UrlEncode()}"))
                        .Value<int>("errno") == 0;
         }
         public new DataSize FileSize => new DataSize(_size);
