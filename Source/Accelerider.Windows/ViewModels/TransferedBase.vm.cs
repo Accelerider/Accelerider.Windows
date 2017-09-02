@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using System.Collections.ObjectModel;
+using System.Windows;
 using Accelerider.Windows.Events;
 
 namespace Accelerider.Windows.ViewModels
@@ -19,7 +20,7 @@ namespace Accelerider.Windows.ViewModels
         protected TransferedBaseViewModel(IUnityContainer container) : base(container)
         {
             TransferedFiles = new ObservableCollection<ITransferedFile>(GetTransferedFiles());
-            EventAggregator.GetEvent<T>().Subscribe(OnGettingAToken);
+            EventAggregator.GetEvent<T>().Subscribe(token => Application.Current.Dispatcher.Invoke(() => OnGettingAToken(token)));
         }
 
 

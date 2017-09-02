@@ -75,7 +75,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public ITransferedFile GetTransferedFile()
         {
-            throw new NotImplementedException();
+            return TaskStatus == TransferTaskStatusEnum.Checking ? this : null;
         }
 
         public FileLocation FilePath => Item.FilePath;

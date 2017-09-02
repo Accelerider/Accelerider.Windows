@@ -4,7 +4,9 @@ using System.Linq;
 using Microsoft.Practices.Unity;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Accelerider.Windows.Commands;
 using Accelerider.Windows.ViewModels.Items;
 using Accelerider.Windows.Events;
@@ -97,8 +99,8 @@ namespace Accelerider.Windows.ViewModels
 
         private void OnTransferTaskCreated(ITransferTaskToken token)
         {
-                token.TransferTaskStatusChanged += OnTransfered;
-                TransferTasks.Add(new TransferTaskViewModel(token));
+            token.TransferTaskStatusChanged += OnTransfered;
+            TransferTasks.Add(new TransferTaskViewModel(token));
         }
 
         private void OnTransfered(object sender, TransferTaskStatusChangedEventArgs e)
@@ -108,7 +110,7 @@ namespace Accelerider.Windows.ViewModels
             var temp = TransferTasks.FirstOrDefault(item => item.FileSummary.FilePath.FullPath == e.Token.FileSummary.FilePath.FullPath);
             if (temp != null)
             {
-                TransferTasks.Remove(temp);
+                Application.Current.Dispatcher.Invoke(() => TransferTasks.Remove(temp));
             }
         }
 

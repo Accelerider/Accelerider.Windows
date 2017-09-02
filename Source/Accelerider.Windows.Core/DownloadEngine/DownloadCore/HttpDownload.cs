@@ -58,8 +58,8 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
             {
                 if (_state != value)
                 {
-                    DownloadStateChangedEvent?.Invoke(this, new StateChangedArgs(_state, value));
                     _state = value;
+                    DownloadStateChangedEvent?.Invoke(this, new StateChangedArgs(_state, value));
                 }
             }
         }
