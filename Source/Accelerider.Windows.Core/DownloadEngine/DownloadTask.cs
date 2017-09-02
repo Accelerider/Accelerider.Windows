@@ -82,7 +82,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public DataSize FileSize => FileSummary.FileSize;
         public DateTime CompletedTime => Item.CompletedTime;
 
-        public FileCheckStatusEnum CheckStatus => throw new NotImplementedException();
+        public FileCheckStatusEnum CheckStatus => Item.FileCheckStatus;
 
     }
 }

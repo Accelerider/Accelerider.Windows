@@ -85,11 +85,12 @@ namespace Accelerider.Windows.Core.DownloadEngine
             var item = Items.First(v => v.DownloadPath == task.DownloadPath);
             switch (args.NewState)
             {
-                case TransferTaskStatusEnum.Completed:
+                case TransferTaskStatusEnum.Checking:
                     if (File.Exists(task.DownloadPath + ".downloading"))
                         File.Delete(task.DownloadPath + ".downloading");
                     item.Completed = true;
                     item.CompletedTime = DateTime.Now;
+                    item.FileCheckStatus = FileCheckStatusEnum.Warning;
                     Save();
                     break;
                 case TransferTaskStatusEnum.Faulted:
@@ -167,6 +168,8 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public bool Completed { get; set; }
 
         public DownloadTaskFile NetDiskFile { get; set; }
+
+        public FileCheckStatusEnum FileCheckStatus { get; set; } = FileCheckStatusEnum.NotAvailable;
 
         public DateTime CompletedTime { get; set; }
     }
