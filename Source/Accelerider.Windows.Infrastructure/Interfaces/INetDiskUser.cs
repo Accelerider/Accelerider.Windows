@@ -20,7 +20,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         // Operates net-disk file ---------------------------------------------------------
         ITransferTaskToken UploadAsync(FileLocation from, FileLocation to);
 
-        Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null);
+        //Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null);
 
         Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action);// TODO: Changes it to IAsyncEnumerable<T> when the C# 8.0 is released.
 
