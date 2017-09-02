@@ -70,9 +70,9 @@
 
                         <Grid Grid.Column="2" >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="150"/>
                                 <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="80"/>
                                 <ColumnDefinition Width="20"/>
                                 <ColumnDefinition Width="60"/>
                                 <ColumnDefinition Width="20"/>
