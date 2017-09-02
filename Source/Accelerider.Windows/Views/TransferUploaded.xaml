@@ -33,9 +33,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <ProgressBar Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"
-                                     Maximum="{Binding FileInfo.FileSize.BaseBValue, Mode=OneWay}"
-                                     Value="{Binding Progress.BaseBValue, Mode=OneWay}"/>
+                        <ProgressBar Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"/>
                         <Border Padding="20 8" >
                             <Grid>
                                 <Grid.ColumnDefinitions>

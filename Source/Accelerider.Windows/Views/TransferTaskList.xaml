@@ -54,7 +54,7 @@
             <Grid >
                 <ProgressBar Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"
                              IsIndeterminate="{Binding IsBusy}"
-                             Maximum="{Binding FileInfo.FileSize.BaseBValue, Mode=OneWay}"
+                             Maximum="{Binding FileSummary.FileSize.BaseBValue, Mode=OneWay}"
                              Value="{Binding Progress.BaseBValue, Mode=OneWay}"/>
                 <Border Padding="20 8">
                     <Grid>
@@ -66,7 +66,7 @@
                             <!--<ColumnDefinition Width="Auto"/>-->
                         </Grid.ColumnDefinitions>
 
-                        <Image Tag="{Binding FileInfo.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
+                        <Image Tag="{Binding FileSummary.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
 
                         <Grid Grid.Column="2" >
                             <Grid.ColumnDefinitions>
@@ -84,12 +84,12 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.ColumnSpan="7" Text="{Binding FileInfo.FilePath.FileName}" Foreground="{StaticResource PrimaryHueDarkBrush}" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Grid.ColumnSpan="7" Text="{Binding FileSummary.FilePath.FileName}" Foreground="{StaticResource PrimaryHueDarkBrush}" TextTrimming="CharacterEllipsis"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Foreground="Gray">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0}/{1}">
                                         <Binding Path="Progress"/>
-                                        <Binding Path="FileInfo.FileSize"/>
+                                        <Binding Path="FileSummary.FileSize"/>
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>

@@ -211,7 +211,6 @@ namespace Accelerider.Windows.ViewModels
         {
             if (e.NewStatus != TransferTaskStatusEnum.Completed) return;
 
-            //GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been uploaded.");
             EventAggregator.GetEvent<UploadTaskEndEvent>().Publish(e.Token);
         }
 
@@ -219,7 +218,6 @@ namespace Accelerider.Windows.ViewModels
         {
             if (e.NewStatus != TransferTaskStatusEnum.Checking) return;
 
-            //GlobalMessageQueue.Enqueue($"\"{e.Token.FileInfo.FilePath.FileName}\" ({e.Token.FileInfo.FileSize}) has been downloaded.");
             EventAggregator.GetEvent<DownloadTaskEndEvent>().Publish(e.Token);
         }
 

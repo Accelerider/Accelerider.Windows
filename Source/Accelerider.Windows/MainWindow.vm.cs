@@ -44,6 +44,11 @@ namespace Accelerider.Windows
             PulishTaskCreatedEvent<DownloadTaskCreatedEvent>(acceleriderUser.GetUploadingTasks(), OnUploaded);
         }
 
+        public override void OnUnloaded(object view)
+        {
+            AcceleriderUser.OnExit();
+        }
+
         private void PulishTaskCreatedEvent<T>(IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferTaskStatusChangedEventArgs> handler)
             where T : TaskCreatedEvent, new()
         {

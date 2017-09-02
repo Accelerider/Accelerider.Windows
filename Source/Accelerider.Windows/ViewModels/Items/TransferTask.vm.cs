@@ -34,7 +34,7 @@ namespace Accelerider.Windows.ViewModels.Items
 
         public ITransferTaskToken Token { get; }
 
-        public IFileSummary FileInfo => Token.FileSummary;
+        public IFileSummary FileSummary => Token.FileSummary;
 
         public TransferTaskStatusEnum TransferTaskStatus => Token.TaskStatus;
 

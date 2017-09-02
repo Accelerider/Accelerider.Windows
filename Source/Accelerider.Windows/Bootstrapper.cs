@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Accelerider.Windows.Events;
+using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 
@@ -58,7 +59,7 @@ namespace Accelerider.Windows
 
         private void OnExit(object sender, ExitEventArgs e)
         {
-
+            Container.Resolve<IAcceleriderUser>().OnExit();
         }
 
         protected virtual void OnUnhandledException(object sender, Exception exception)

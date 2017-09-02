@@ -105,7 +105,7 @@ namespace Accelerider.Windows.ViewModels
         {
             if (e.NewStatus != TransferedStatus) return;
 
-            var temp = TransferTasks.FirstOrDefault(item => item.FileInfo.FilePath.FullPath == e.Token.FileSummary.FilePath.FullPath);
+            var temp = TransferTasks.FirstOrDefault(item => item.FileSummary.FilePath.FullPath == e.Token.FileSummary.FilePath.FullPath);
             if (temp != null)
             {
                 TransferTasks.Remove(temp);
