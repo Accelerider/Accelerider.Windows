@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Practices.Unity;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Accelerider.Windows.Commands;
-using Accelerider.Windows.ViewModels.Items;
 using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.ViewModels.Others;
 
 namespace Accelerider.Windows.ViewModels
 {
     public abstract class TransferingBaseViewModel<T> : ViewModelBase
         where T : TaskCreatedEvent, new()
     {
-        private ObservableCollection<TransferTaskViewModel> _transferTasks;
+        private AutoOrderedTaskList _transferTasks;
         private ICommand _pauseCommand;
         private ICommand _startCommand;
         private ICommand _startForceCommand;
@@ -29,7 +27,7 @@ namespace Accelerider.Windows.ViewModels
         {
             InitializeCommands();
 
-            TransferTasks = new ObservableCollection<TransferTaskViewModel>(GetInitializedTasks().Select(item =>
+            TransferTasks = new AutoOrderedTaskList(GetInitializedTasks().Select(item =>
             {
                 item.TransferTaskStatusChanged += OnTransfered;
                 return new TransferTaskViewModel(item);
@@ -41,7 +39,7 @@ namespace Accelerider.Windows.ViewModels
 
         protected abstract TransferTaskStatusEnum TransferedStatus { get; }
 
-        public ObservableCollection<TransferTaskViewModel> TransferTasks
+        public AutoOrderedTaskList TransferTasks
         {
             get => _transferTasks;
             set => SetProperty(ref _transferTasks, value);

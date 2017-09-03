@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Accelerider.Windows.Commands;
-using Accelerider.Windows.ViewModels.Items;
 using Accelerider.Windows.Views.Dialogs;
-using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.ViewModels.Others;
 
 namespace Accelerider.Windows.ViewModels.Dialogs
 {

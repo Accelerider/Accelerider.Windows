@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media.Imaging;
 
-namespace Accelerider.Windows.ViewModels.Items
+namespace Accelerider.Windows.ViewModels.Others
 {
     public class NetDiskTypeViewModel : BindableBase
     {

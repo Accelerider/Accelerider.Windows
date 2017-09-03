@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
+    <Compile Include="ViewModels\Others\AutoOrderedTaskList.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
     <Compile Include="ViewModels\TransferedBase.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
@@ -126,8 +127,8 @@
     <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
     <Compile Include="ViewModels\Dialogs\SelectNetDiskTypeDialog.vm.cs" />
-    <Compile Include="ViewModels\Items\NetDiskType.vm.cs" />
-    <Compile Include="ViewModels\Items\TransferTask.vm.cs" />
+    <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
+    <Compile Include="ViewModels\Others\TransferTask.vm.cs" />
     <Compile Include="ViewModels\LoadingFilesBase.vm.cs" />
     <Compile Include="ViewModels\NetDiskFiles.vm.cs" />
     <Compile Include="ViewModels\NetDiskShare.vm.cs" />

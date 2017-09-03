@@ -64,6 +64,7 @@ namespace Accelerider.Windows
             if (e.NewStatus != TransferTaskStatusEnum.Completed) return;
 
             EventAggregator.GetEvent<UploadTaskEndEvent>().Publish(e.Token);
+            ((ITransferTaskToken)sender).TransferTaskStatusChanged -= OnUploaded;
         }
 
         private void OnDownloaded(object sender, TransferTaskStatusChangedEventArgs e)
@@ -71,6 +72,7 @@ namespace Accelerider.Windows
             if (e.NewStatus != TransferTaskStatusEnum.Checking) return;
 
             EventAggregator.GetEvent<DownloadTaskEndEvent>().Publish(e.Token);
+            ((ITransferTaskToken)sender).TransferTaskStatusChanged -= OnDownloaded;
         }
     }
 }

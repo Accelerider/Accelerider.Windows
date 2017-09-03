@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
-namespace Accelerider.Windows.ViewModels.Items
+namespace Accelerider.Windows.ViewModels.Others
 {
     public class TransferTaskViewModel : BindableBase
     {

@@ -30,7 +30,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public event EventHandler<TransferTaskStatusChangedEventArgs> TransferTaskStatusChanged;
 
         public TransferTaskStatusEnum TaskStatus => DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
-                                                  TransferTaskStatusEnum.Canceled;
+                                                  TransferTaskStatusEnum.Created;
 
         public string OwnerName => (AcceleriderUser.AccUser.GetTaskCreatorByUserid(Item.FromUser) as INetDiskUser)?.Username ?? "Unknown";
 
