@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Core.DownloadEngine.DownloadCore;
+using Accelerider.Windows.Core.Tools;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Newtonsoft.Json;
@@ -35,24 +36,37 @@ namespace Accelerider.Windows.Core.DownloadEngine
                     JsonConvert.DeserializeObject<DownloadInfo>(File.ReadAllText(v.DownloadPath + ".downloading"))))
                 .ToList();
             Tasks.ForEach(v => v.DownloadStateChangedEvent += Task_DownloadStateChangedEvent);
+            //任务管理
             Task.Run(async () =>
             {
                 while (!_stop)
                 {
                     await Task.Delay(500);
-                    if(!_stop)
+                    if (!_stop)
                         await ManagerTimer();
+                }
+            });
+            //效验管理
+            Task.Run(async () =>
+            {
+                while (!_stop)
+                {
+                    await Task.Delay(500);
+                    if (!_stop)
+                        await CheckFile();
                 }
             });
         }
 
+        /// <summary>
+        /// 下载任务调度
+        /// </summary>
+        /// <returns></returns>
         private async Task ManagerTimer()
         {
             var downloading = Tasks.Count(v => v.DownloadState == TransferTaskStatusEnum.Transfering);
             if (downloading < LocalConfigureInfo.Config.ParallelTaskNumber)
             {
-                //移除所有下载完成的任务
-                Tasks.RemoveAll(v => v.DownloadState == TransferTaskStatusEnum.Completed);
                 var task = Tasks.FirstOrDefault(v => v.DownloadState == TransferTaskStatusEnum.Waiting);
                 if (task == null)
                 {
@@ -79,6 +93,42 @@ namespace Accelerider.Windows.Core.DownloadEngine
             }
         }
 
+        /// <summary>
+        /// 文件效验任务调度
+        /// </summary>
+        /// <returns></returns>
+        private async Task CheckFile()
+        {
+            var item = Items.FirstOrDefault(v => v.WaitingCheck);
+            if (item == null)
+                return;
+            if (AcceleriderUser.AccUser.GetTaskCreatorByUserid(item.FromUser) is IBaiduCloudUser)
+            {
+                try
+                {
+                    if (File.Exists(item.DownloadPath))
+                    {
+                        var md5 = await FileTools.GetMd5HashFromFile(item.DownloadPath);
+                        if (!string.IsNullOrEmpty(md5))
+                        {
+                            //TODO 需要修改服务端 暂时啥都不做
+                            item.WaitingCheck = false;
+                            item.FileCheckStatus = FileCheckStatusEnum.Normal;
+                            Save();
+                            return;
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+            item.WaitingCheck = false;
+            item.FileCheckStatus = FileCheckStatusEnum.Warning;
+            Save();
+        }
+
         private async void Task_DownloadStateChangedEvent(object sender, StateChangedArgs args)
         {
             var task = (HttpDownload)sender;
@@ -90,7 +140,8 @@ namespace Accelerider.Windows.Core.DownloadEngine
                         File.Delete(task.DownloadPath + ".downloading");
                     item.Completed = true;
                     item.CompletedTime = DateTime.Now;
-                    item.FileCheckStatus = FileCheckStatusEnum.Warning;
+                    item.WaitingCheck = true;
+                    Tasks.Remove(task);
                     Save();
                     break;
                 case TransferTaskStatusEnum.Faulted:
@@ -114,6 +165,16 @@ namespace Accelerider.Windows.Core.DownloadEngine
                 case TransferTaskStatusEnum.Paused:
                     task.Info.Save(task.DownloadPath + ".downloading");
                     break;
+                case TransferTaskStatusEnum.Canceled:
+                    if (File.Exists(task.DownloadPath + ".downloading"))
+                        File.Delete(task.DownloadPath + ".downloading");
+                    Delete(item);
+                    Save();
+                    return;
+                case TransferTaskStatusEnum.Waiting:
+                    if (args.OldState == TransferTaskStatusEnum.Faulted)
+                        return;
+                    break;
             }
             TaskStateChangeEvent?.Invoke(Items.First(v => v.DownloadPath == task.DownloadPath), args.OldState, args.NewState);
         }
@@ -128,10 +189,19 @@ namespace Accelerider.Windows.Core.DownloadEngine
             if (Items.All(v => v.DownloadPath != task.DownloadPath))
             {
                 Items.Add(task);
-                Handles.Add(new DownloadTask(task));
+                var downloadTask = new DownloadTask(task);
+                Handles.Add(downloadTask);
+                Save();
+                return downloadTask;
             }
+            return null;
+        }
+
+        public void Delete(DownloadTaskItem task)
+        {
+            Items.Remove(task);
+            Handles.RemoveAll(v => v.Item == task);
             Save();
-            return Handles.FirstOrDefault(v => v.Item.DownloadPath == task.DownloadPath);
         }
 
         public HttpDownload GetTaskProcess(DownloadTaskItem task)
@@ -171,7 +241,33 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public FileCheckStatusEnum FileCheckStatus { get; set; } = FileCheckStatusEnum.NotAvailable;
 
+        public bool WaitingCheck { get; set; } = false;
+
         public DateTime CompletedTime { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is DownloadTaskItem))
+                return false;
+            var b = (DownloadTaskItem)obj;
+            return this == b;
+        }
+
+
+        public override int GetHashCode()
+        {
+            return DownloadPath.GetHashCode();
+        }
+
+        public static bool operator ==(DownloadTaskItem left, DownloadTaskItem right)
+        {
+            return left?.DownloadPath == right?.DownloadPath;
+        }
+
+        public static bool operator !=(DownloadTaskItem left, DownloadTaskItem right)
+        {
+            return !(left == right);
+        }
     }
 
     internal class DownloadTaskFile : IFileSummary
