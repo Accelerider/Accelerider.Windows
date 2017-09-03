@@ -31,13 +31,8 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public event EventHandler<TransferTaskStatusChangedEventArgs> TransferTaskStatusChanged;
 
-        //任务已取消 -> Canceled, 等待检查 -> Checking， 传输列表不存在 -> Created
-        public TransferTaskStatusEnum TaskStatus => _cancel  
-            ? TransferTaskStatusEnum.Canceled
-            : Item.WaitingCheck
-                ? TransferTaskStatusEnum.Checking
-                : DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
-                  TransferTaskStatusEnum.Created;
+        
+        public TransferTaskStatusEnum TaskStatus => GetTaskStatus();
 
         public string OwnerName => (AcceleriderUser.AccUser.GetTaskCreatorByUserid(Item.FromUser) as INetDiskUser)?.Username ?? "Unknown";
 
@@ -45,6 +40,19 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public DataSize Progress => new DataSize(
             DownloadTaskManager.Manager.GetTaskProcess(Item)?.Info.CompletedLength ?? 0L);
+
+        //任务已取消 -> Canceled, 等待检查 -> Checking， 传输列表不存在 -> Created, 检查完成 -> Completed
+        private TransferTaskStatusEnum GetTaskStatus()
+        {
+            if (CheckStatus != FileCheckStatusEnum.NotAvailable)
+                return TransferTaskStatusEnum.Completed;
+            if (_cancel)
+                return TransferTaskStatusEnum.Canceled;
+            if (Item.WaitingCheck)
+                return TransferTaskStatusEnum.Checking;
+            return DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
+                   TransferTaskStatusEnum.Created;
+        }
 
         public async Task<bool> PauseAsync()
         {

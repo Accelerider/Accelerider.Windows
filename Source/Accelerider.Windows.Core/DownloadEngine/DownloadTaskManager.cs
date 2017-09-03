@@ -114,6 +114,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
                             //TODO 需要修改服务端 暂时啥都不做
                             item.WaitingCheck = false;
                             item.FileCheckStatus = FileCheckStatusEnum.Normal;
+                            TaskStateChangeEvent?.Invoke(item, TransferTaskStatusEnum.Checking, TransferTaskStatusEnum.Completed);
                             Save();
                             return;
                         }
@@ -126,6 +127,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
             }
             item.WaitingCheck = false;
             item.FileCheckStatus = FileCheckStatusEnum.Warning;
+            TaskStateChangeEvent?.Invoke(item,TransferTaskStatusEnum.Checking, TransferTaskStatusEnum.Completed);
             Save();
         }
 
