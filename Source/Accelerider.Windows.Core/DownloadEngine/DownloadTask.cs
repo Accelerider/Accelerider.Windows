@@ -13,6 +13,8 @@ namespace Accelerider.Windows.Core.DownloadEngine
     {
         public DownloadTaskItem Item { get; }
 
+        private bool _cancel;
+
         internal DownloadTask(DownloadTaskItem item)
         {
             Item = item;
@@ -21,7 +23,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         private void Manager_TaskStateChangeEvent(DownloadTaskItem arg1, TransferTaskStatusEnum arg2, TransferTaskStatusEnum arg3)
         {
-            if (arg1 == Item)
+            if (arg1 == Item && !_cancel)
             {
                 TransferTaskStatusChanged?.Invoke(this, new TransferTaskStatusChangedEventArgs(this, arg2, arg3));
             }
@@ -29,8 +31,8 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public event EventHandler<TransferTaskStatusChangedEventArgs> TransferTaskStatusChanged;
 
-        public TransferTaskStatusEnum TaskStatus => DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
-                                                  TransferTaskStatusEnum.Created;
+        
+        public TransferTaskStatusEnum TaskStatus => GetTaskStatus();
 
         public string OwnerName => (AcceleriderUser.AccUser.GetTaskCreatorByUserid(Item.FromUser) as INetDiskUser)?.Username ?? "Unknown";
 
@@ -38,6 +40,19 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public DataSize Progress => new DataSize(
             DownloadTaskManager.Manager.GetTaskProcess(Item)?.Info.CompletedLength ?? 0L);
+
+        //任务已取消 -> Canceled, 等待检查 -> Checking， 传输列表不存在 -> Created, 检查完成 -> Completed
+        private TransferTaskStatusEnum GetTaskStatus()
+        {
+            if (CheckStatus != FileCheckStatusEnum.NotAvailable)
+                return TransferTaskStatusEnum.Completed;
+            if (_cancel)
+                return TransferTaskStatusEnum.Canceled;
+            if (Item.WaitingCheck)
+                return TransferTaskStatusEnum.Checking;
+            return DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
+                   TransferTaskStatusEnum.Created;
+        }
 
         public async Task<bool> PauseAsync()
         {
@@ -61,9 +76,20 @@ namespace Accelerider.Windows.Core.DownloadEngine
             });
         }
 
-        public Task<bool> CancelAsync()
+        public async Task<bool> CancelAsync()
         {
-            throw new NotImplementedException();
+            _cancel = true;
+            return await Task.Run(() =>
+            {
+                var task = DownloadTaskManager.Manager.GetTaskProcess(Item);
+                if (task == null || task.DownloadState == TransferTaskStatusEnum.Canceled) return false;
+                var temp = task.DownloadState;
+                if (task.DownloadState == TransferTaskStatusEnum.Transfering)
+                    task.StopAndSave();
+                task.DownloadState = TransferTaskStatusEnum.Canceled;
+                TransferTaskStatusChanged?.Invoke(this, new TransferTaskStatusChangedEventArgs(this, temp, TransferTaskStatusEnum.Canceled));
+                return true;
+            });
         }
 
         public bool Equals(ITransferTaskToken other) => false;

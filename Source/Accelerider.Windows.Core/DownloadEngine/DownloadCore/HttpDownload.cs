@@ -157,7 +157,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
                     var url = Url[num];
                     if (Info.DownloadCount.Count > 0)
                         url = Info.DownloadCount.FirstOrDefault(v => v.Value == Info.DownloadCount.Values.Max()).Key;
-                    var thread =  new CommonDownloadThread(url, DownloadPath, block, Info);
+                    var thread = new CommonDownloadThread(url, DownloadPath, block, Info);
                     thread.ThreadCompletedEvent += HttpDownload_ThreadCompletedEvent;
                     Threads.Add(thread);
                     num++;
@@ -192,7 +192,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
                 var url = Url[_num];
                 if (Info.DownloadCount.Count > 0)
                     url = Info.DownloadCount.FirstOrDefault(v => v.Value == Info.DownloadCount.Values.Max()).Key;
-                var thread =  new CommonDownloadThread(url, DownloadPath, block, Info);
+                var thread = new CommonDownloadThread(url, DownloadPath, block, Info);
                 thread.ThreadCompletedEvent += HttpDownload_ThreadCompletedEvent;
                 Threads.Add(thread);
             }
@@ -291,7 +291,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
         {
             return DownloadPath.GetHashCode();
         }
-        
+
         private static HttpWebResponse GetResponse(string[] urls)
         {
             foreach (var sub in urls)
@@ -301,7 +301,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
                     var request = WebRequest.Create(sub) as HttpWebRequest;
                     request.UserAgent = "netdisk;5.5.2.0;PC;PC-Windows;6.1.7601;WindowsBaiduNetdisk";
                     request.Timeout = 10000;
-                    return (HttpWebResponse) request.GetResponse();
+                    return (HttpWebResponse)request.GetResponse();
                 }
                 catch (WebException ex)
                 {
@@ -317,7 +317,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
             }
             return null;
         }
-        
+
 
     }
     internal class PercentageChangedEventArgs : EventArgs
