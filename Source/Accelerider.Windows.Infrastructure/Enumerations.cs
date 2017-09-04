@@ -190,7 +190,7 @@ namespace Accelerider.Windows.Infrastructure
         Canceled = 32,
 
         /// <summary>
-        /// The task failed. End state.
+        /// The task failed. Can be converted to <see cref="Canceled"/> or <see cref="Waiting"/>.
         /// </summary>
         Faulted = 64
     }
