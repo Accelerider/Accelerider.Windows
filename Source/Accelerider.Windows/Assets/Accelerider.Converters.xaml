@@ -7,4 +7,5 @@
     <cvrts:LessThan1000Converter x:Key="LessThan1000Converter"/>
     <cvrts:UriToImageSourceConverter x:Key="UriToImageSourceConverter"/>
     <cvrts:StringToImageConverter x:Key="StringToImageConverter"/>
+    <cvrts:PlusConverter x:Key="PlusConverter"/>
 </ResourceDictionary>

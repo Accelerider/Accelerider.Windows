@@ -1,34 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using Accelerider.Windows.Events;
-using Accelerider.Windows.Infrastructure;
+﻿using System.Collections.ObjectModel;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
-using System.Linq;
+using Accelerider.Windows.ViewModels.Others;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class TransferDownloadedViewModel : TransferedBaseViewModel<DownloadTaskEndEvent>
+    public class TransferDownloadedViewModel : TransferedBaseViewModel
     {
         public TransferDownloadedViewModel(IUnityContainer container) : base(container)
         {
         }
 
-
-        protected override void OnGettingAToken(ITransferTaskToken token)
-        {
-            base.OnGettingAToken(token);
-            token.TransferTaskStatusChanged += OnTransferTaskStatusChanged;
-        }
-
-        private void OnTransferTaskStatusChanged(object sender, TransferTaskStatusChangedEventArgs e)
-        {
-            if (e.OldStatus != TransferTaskStatusEnum.Checking || 
-                e.NewStatus != TransferTaskStatusEnum.Completed) return;
-
-            // TODO: Update UI ITransferedFile.FileCheckStatus.
-        }
-
-        protected override IReadOnlyCollection<ITransferedFile> GetTransferedFiles() => AcceleriderUser.GetDownloadedFiles();
+        protected override ObservableCollection<ITransferedFile> GetTransferedFiles() => Container.Resolve<TransferingTaskList>(TransferingTaskList.DownloadKey).TransferedFileList;
     }
 }

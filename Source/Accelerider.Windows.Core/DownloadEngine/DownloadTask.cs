@@ -92,7 +92,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
             });
         }
 
-        public bool Equals(ITransferTaskToken other) => false;
+        public bool Equals(ITransferTaskToken other) => FileSummary.FilePath == other?.FileSummary.FilePath;
         public FileTypeEnum FileType => FileSummary.FileType;
         public Task<bool> DeleteAsync()
         {

@@ -8,18 +8,19 @@ using Accelerider.Windows.ViewModels.Dialogs;
 using Microsoft.Practices.Unity;
 using System.Collections;
 using System.Linq;
-using Accelerider.Windows.Events;
 using Accelerider.Windows.Assets;
 using Accelerider.Windows.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Forms;
-using System.Collections.ObjectModel;
-using System;
+using Accelerider.Windows.ViewModels.Others;
 
 namespace Accelerider.Windows.ViewModels
 {
     public class NetDiskFilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>
     {
+        private readonly TransferingTaskList _downloadList;
+        private readonly TransferingTaskList _uploadList;
+
         private ILazyTreeNode<INetDiskFile> _currentFolder;
 
         private ICommand _enterFolderCommand;
@@ -32,6 +33,9 @@ namespace Accelerider.Windows.ViewModels
         public NetDiskFilesViewModel(IUnityContainer container) : base(container)
         {
             InitializeCommands();
+
+            _downloadList = Container.Resolve<TransferingTaskList>(TransferingTaskList.DownloadKey);
+            _uploadList = Container.Resolve<TransferingTaskList>(TransferingTaskList.UploadKey);
         }
 
 
@@ -91,9 +95,9 @@ namespace Accelerider.Windows.ViewModels
             {
                 await NetDiskUser.DownloadAsync(file, folder, token =>
                 {
-                    // Pulishes event
-                    PulishTaskCreatedEvent<DownloadTaskCreatedEvent>(token, OnDownloaded);
-                    // Records token
+                    // Add new task to download list.
+                    _downloadList.Add(new TransferingTaskViewModel(token));
+                    // Records tokens
                     tokens.Add(token);
                 });
             }
@@ -117,7 +121,9 @@ namespace Accelerider.Windows.ViewModels
                 {
                     var toPath = CurrentFolder.Content.FilePath;
                     var token = NetDiskUser.UploadAsync(fromPath, toPath);
-                    PulishTaskCreatedEvent<UploadTaskCreatedEvent>(token, OnUploaded);
+                    // Add new task to download list.
+                    _uploadList.Add(new TransferingTaskViewModel(token));
+                    // Records tokens
                     tokens.Add(token);
                 }
             });
@@ -198,27 +204,6 @@ namespace Accelerider.Windows.ViewModels
                 configure.DownloadDirectory = vm.DownloadFolder;
             }
             return (vm.DownloadFolder, true);
-        }
-
-        private void PulishTaskCreatedEvent<T>(ITransferTaskToken token, EventHandler<TransferTaskStatusChangedEventArgs> handler)
-            where T : TaskCreatedEvent, new()
-        {
-            token.TransferTaskStatusChanged += handler;
-            EventAggregator.GetEvent<T>().Publish(token);
-        }
-
-        private void OnUploaded(object sender, TransferTaskStatusChangedEventArgs e)
-        {
-            if (e.NewStatus != TransferTaskStatusEnum.Completed) return;
-
-            EventAggregator.GetEvent<UploadTaskEndEvent>().Publish(e.Token);
-        }
-
-        private void OnDownloaded(object sender, TransferTaskStatusChangedEventArgs e)
-        {
-            if (e.NewStatus != TransferTaskStatusEnum.Checking) return;
-
-            EventAggregator.GetEvent<DownloadTaskEndEvent>().Publish(e.Token);
         }
 
         private string TrimFileName(string fileName, int length)

@@ -1,78 +1,60 @@
-﻿using System.Net;
-using Accelerider.Windows.ViewModels;
+﻿using Accelerider.Windows.ViewModels;
 using Microsoft.Practices.Unity;
 using Accelerider.Windows.Assets;
 using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure.Interfaces;
-using System.Linq;
 using System.Collections.Generic;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.ViewModels.Others;
 
 namespace Accelerider.Windows
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private int _transferTaskCount;
+        private TransferingTaskList _downloadList;
+        private TransferingTaskList _uploadList;
 
 
         public MainWindowViewModel(IUnityContainer container) : base(container)
         {
-            ServicePointManager.DefaultConnectionLimit = 99999;
             GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
 
-            EventAggregator.GetEvent<DownloadTaskCreatedEvent>().Subscribe(e => TransferTaskCount++);
-            EventAggregator.GetEvent<UploadTaskCreatedEvent>().Subscribe(e => TransferTaskCount++);
-
-            EventAggregator.GetEvent<DownloadTaskEndEvent>().Subscribe(e => TransferTaskCount--);
-            EventAggregator.GetEvent<UploadTaskEndEvent>().Subscribe(e => TransferTaskCount--);
+            ConfigureTransferList();
         }
 
 
-        public int TransferTaskCount
+        public TransferingTaskList DownloadList
         {
-            get => _transferTaskCount;
-            set => SetProperty(ref _transferTaskCount, value);
+            get => _downloadList;
+            set => SetProperty(ref _downloadList, value);
         }
 
-
-        public override void OnLoaded(object view)
+        public TransferingTaskList UploadList
         {
-            var acceleriderUser = Container.Resolve<IAcceleriderUser>();
-
-            PulishTaskCreatedEvent<DownloadTaskCreatedEvent>(acceleriderUser.GetDownloadingTasks(), OnDownloaded);
-            PulishTaskCreatedEvent<DownloadTaskCreatedEvent>(acceleriderUser.GetUploadingTasks(), OnUploaded);
+            get => _uploadList;
+            set => SetProperty(ref _uploadList, value);
         }
+
 
         public override void OnUnloaded(object view)
         {
             AcceleriderUser.OnExit();
         }
 
-        private void PulishTaskCreatedEvent<T>(IEnumerable<ITransferTaskToken> tokens, EventHandler<TransferTaskStatusChangedEventArgs> handler)
-            where T : TaskCreatedEvent, new()
+
+        private void ConfigureTransferList()
         {
-            foreach (var token in tokens)
-            {
-                token.TransferTaskStatusChanged += handler;
-                EventAggregator.GetEvent<T>().Publish(token);
-            }
-        }
+            DownloadList = new TransferingTaskList(AcceleriderUser.GetDownloadingTasks().Select(task => new TransferingTaskViewModel(task)));
+            UploadList = new TransferingTaskList(AcceleriderUser.GetUploadingTasks().Select(task => new TransferingTaskViewModel(task)));
 
-        private void OnUploaded(object sender, TransferTaskStatusChangedEventArgs e)
-        {
-            if (e.NewStatus != TransferTaskStatusEnum.Completed) return;
+            DownloadList.TransferedFileList = new ObservableCollection<ITransferedFile>(AcceleriderUser.GetDownloadedFiles());
+            UploadList.TransferedFileList = new ObservableCollection<ITransferedFile>(AcceleriderUser.GetUploadedFiles());
 
-            EventAggregator.GetEvent<UploadTaskEndEvent>().Publish(e.Token);
-            ((ITransferTaskToken)sender).TransferTaskStatusChanged -= OnUploaded;
-        }
-
-        private void OnDownloaded(object sender, TransferTaskStatusChangedEventArgs e)
-        {
-            if (e.NewStatus != TransferTaskStatusEnum.Checking) return;
-
-            EventAggregator.GetEvent<DownloadTaskEndEvent>().Publish(e.Token);
-            ((ITransferTaskToken)sender).TransferTaskStatusChanged -= OnDownloaded;
+            Container.RegisterInstance(TransferingTaskList.DownloadKey, DownloadList);
+            Container.RegisterInstance(TransferingTaskList.UploadKey, UploadList);
         }
     }
 }

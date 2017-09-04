@@ -53,7 +53,12 @@
                                     <ColumnDefinition Width="110"/>
                                     <ColumnDefinition Width="16"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                <materialDesign:Badged Badge="？" BadgeColorZoneMode="Accent" BadgeBackground="Red" BadgeForeground="White">
+                                    <!--<materialDesign:Badged.Badge>
+                                        <materialDesign:PackIcon Kind="Exclamation" />
+                                    </materialDesign:Badged.Badge>-->
+                                    <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                </materialDesign:Badged>
                                 <TextBlock Grid.Column="2" Text="{Binding FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="4" Text="{Binding FileSize}" VerticalAlignment="Center" />
                                 <TextBlock Grid.Column="6" Text="{Binding CompletedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>

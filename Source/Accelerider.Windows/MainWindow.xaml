@@ -91,8 +91,15 @@
                                     <RowDefinition Height="6"/>
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <materialDesign:Badged Badge="{Binding TransferTaskCount, Converter={StaticResource LessThan1000Converter}}" BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
-                                                       BadgeBackground="Red" BadgeForeground="White"/>
+                                <materialDesign:Badged BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
+                                                       BadgeBackground="Red" BadgeForeground="White">
+                                    <materialDesign:Badged.Badge>
+                                        <MultiBinding Converter="{StaticResource PlusConverter}">
+                                            <Binding Path="DownloadList.Count"/>
+                                            <Binding Path="UploadList.Count"/>
+                                        </MultiBinding>
+                                    </materialDesign:Badged.Badge>
+                                </materialDesign:Badged>
                             </Grid>
                         </Grid>
                     </ListBoxItem>

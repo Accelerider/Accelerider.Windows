@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using Accelerider.Windows.Events;
-using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Interfaces;
+﻿using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.ViewModels.Others;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class TransferDownloadingViewModel : TransferingBaseViewModel<DownloadTaskCreatedEvent>
+    public class TransferDownloadingViewModel : TransferingBaseViewModel
     {
         public TransferDownloadingViewModel(IUnityContainer container) : base(container)
         {
@@ -14,6 +12,6 @@ namespace Accelerider.Windows.ViewModels
 
         protected override TransferTaskStatusEnum TransferedStatus => TransferTaskStatusEnum.Checking;
 
-        protected override IReadOnlyCollection<ITransferTaskToken> GetInitializedTasks() => AcceleriderUser.GetDownloadingTasks();
+        protected override TransferingTaskList GetTaskList() => Container.Resolve<TransferingTaskList>(TransferingTaskList.DownloadKey);
     }
 }

@@ -1,23 +1,7 @@
-﻿using System.Collections.Generic;
-using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Interfaces;
+﻿using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Events
 {
-    public class TaskCreatedEvent : EventBase<ITransferTaskToken> { }
-
-    public class DownloadTaskCreatedEvent : TaskCreatedEvent { }
-
-    public class UploadTaskCreatedEvent : TaskCreatedEvent { }
-
-
-    public class TaskEndEvent : EventBase<ITransferTaskToken> { }
-
-    public class DownloadTaskEndEvent : TaskEndEvent { }
-
-    public class UploadTaskEndEvent : TaskEndEvent { }
-
-
     public class CurrentNetDiskUserChangedEvent : EventBase<INetDiskUser> { }
 
 

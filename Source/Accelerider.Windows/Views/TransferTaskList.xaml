@@ -4,7 +4,41 @@
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          SelectionMode="Single"
          Style="{StaticResource {x:Type ListBox}}"
-         ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+         >
+    <ListBox.ItemContainerStyle>
+        <Style TargetType="ListBoxItem" BasedOn="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+            <Setter Property="RenderTransformOrigin" Value="0.5 0.5"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Loaded" >
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleX">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="00:00:00.800" Value="1">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleY">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="1">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </ListBox.ItemContainerStyle>
 
     <ListBox.ContextMenu>
         <ContextMenu x:Name="ContextMenu">
@@ -32,7 +66,7 @@
                     </Style>
                 </MenuItem.Style>
             </MenuItem>
-            <MenuItem Header="Jump Queue"
+            <MenuItem Header="Next"
                       Command="{Binding StartForceCommand}"
                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
                 <MenuItem.Icon>
@@ -52,7 +86,7 @@
     <ListBox.ItemTemplate>
         <DataTemplate>
             <Grid >
-                <ProgressBar Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"
+                <ProgressBar x:Name="ProgressBar" Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"
                              IsIndeterminate="{Binding IsBusy}"
                              Maximum="{Binding FileSummary.FileSize.BaseBValue, Mode=OneWay}"
                              Value="{Binding Progress.BaseBValue, Mode=OneWay}"/>
@@ -93,7 +127,7 @@
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
-                            <TextBlock Grid.Column="2" Grid.Row="2" Foreground="Gray" Text="{Binding Speed, StringFormat='{}{0}/s'}" />
+                            <TextBlock x:Name="ProgressTextBox" Grid.Column="2" Grid.Row="2" Foreground="Gray" Text="{Binding Speed, StringFormat='{}{0}/s'}" />
                             <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray" Text="{Binding RemainingTime, TargetNullValue='∞'}"/>
                             <TextBlock Grid.Column="6" Grid.Row="2" TextTrimming="CharacterEllipsis">
                                 <Run Text="Related User: " Foreground="Gray"/>
@@ -113,14 +147,29 @@
                 </Border>
             </Grid>
 
-            <!--<DataTemplate.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding TransferTaskStatus}" Value="Created">
+                    <Setter TargetName="ProgressTextBox" Property="Text" Value="Waiting..."/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding TransferTaskStatus}" Value="Waiting">
+                    <Setter TargetName="ProgressTextBox" Property="Text" Value="Waiting..."/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding TransferTaskStatus}" Value="Paused">
+                    <Setter TargetName="ProgressTextBox" Property="Text" Value="Paused"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding TransferTaskStatus}" Value="Faulted">
+                    <Setter TargetName="ProgressTextBox" Property="Text" Value="Faulted"/>
+                    <Setter TargetName="ProgressTextBox" Property="Foreground" Value="Red"/>
+                    <Setter TargetName="ProgressBar" Property="IsIndeterminate" Value="True"/>
+                    <Setter TargetName="ProgressBar" Property="Foreground" Value="Red"/>
+                </DataTrigger>
+                <!--<Trigger Property="IsMouseOver" Value="True">
                     <Setter TargetName="Buttons" Property="Visibility" Value="Visible"></Setter>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="False">
                     <Setter TargetName="Buttons" Property="Visibility" Value="Collapsed"></Setter>
-                </Trigger>
-            </DataTemplate.Triggers>-->
+                </Trigger>-->
+            </DataTemplate.Triggers>
         </DataTemplate>
     </ListBox.ItemTemplate>
 </ListBox>

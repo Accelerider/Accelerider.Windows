@@ -22,13 +22,6 @@ namespace Accelerider.Windows
             ShowShell();
         }
 
-        private void ConfigureApplicationEventHandlers()
-        {
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) => OnUnhandledException(sender, (Exception)e.ExceptionObject);
-            Application.Current.DispatcherUnhandledException += (sender, e) => OnUnhandledException(sender, e.Exception);
-            Application.Current.Exit += OnExit;
-        }
-
         protected virtual IUnityContainer CreateContainer()
         {
             return new UnityContainer();
@@ -36,18 +29,13 @@ namespace Accelerider.Windows
 
         protected virtual void ConfigureContainer()
         {
-            Container.RegisterInstance(typeof(SnackbarMessageQueue), new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
-            Container.RegisterInstance(typeof(EventAggregator), new EventAggregator());
+            Container.RegisterInstance(new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
+            Container.RegisterInstance(new EventAggregator());
         }
 
         protected virtual void ConfigureViewModelLocator()
         {
             ViewModels.ViewModelLocator.ViewModelFactory = type => Container.Resolve(type);
-        }
-
-        protected virtual void ShowShell()
-        {
-            WindowController.Show<EnteringWindow>();
         }
 
         protected virtual void InitializeModules()
@@ -56,8 +44,20 @@ namespace Accelerider.Windows
             Container.Resolve<Components.Authenticator.Module>().Initialize();
         }
 
+        protected virtual void ShowShell()
+        {
+            WindowController.Show<EnteringWindow>();
+        }
 
-        private void OnExit(object sender, ExitEventArgs e)
+        protected virtual void ConfigureApplicationEventHandlers()
+        {
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => OnUnhandledException(sender, (Exception)e.ExceptionObject);
+            Application.Current.DispatcherUnhandledException += (sender, e) => OnUnhandledException(sender, e.Exception);
+            Application.Current.Exit += OnExit;
+        }
+
+
+        protected virtual void OnExit(object sender, ExitEventArgs e)
         {
             Container.Resolve<IAcceleriderUser>().OnExit();
         }

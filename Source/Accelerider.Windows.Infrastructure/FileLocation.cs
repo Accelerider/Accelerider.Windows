@@ -53,26 +53,14 @@ namespace Accelerider.Windows.Infrastructure
             FileExtension = matchResult.Groups[3].Value.ToLower();
         }
 
-        public override string ToString()
-        {
-            return FullPath;
-        }
+        public override string ToString() => FullPath;
 
         #region Equals
-        public static bool operator ==(FileLocation left, FileLocation right)
-        {
-            return left?.FullPath == right?.FullPath;
-        }
+        public static bool operator ==(FileLocation left, FileLocation right) => left?.FullPath == right?.FullPath;
 
-        public static bool operator !=(FileLocation left, FileLocation right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(FileLocation left, FileLocation right) => !(left == right);
 
-        protected bool Equals(FileLocation other)
-        {
-            return string.Equals(FullPath, other.FullPath);
-        }
+        protected bool Equals(FileLocation other) => string.Equals(FullPath, other.FullPath);
 
         public override bool Equals(object obj)
         {
@@ -81,20 +69,11 @@ namespace Accelerider.Windows.Infrastructure
             return obj.GetType() == GetType() && Equals(obj as FileLocation);
         }
 
-        public override int GetHashCode()
-        {
-            return FullPath != null ? FullPath.GetHashCode() : 0;
-        }
+        public override int GetHashCode() => FullPath != null ? FullPath.GetHashCode() : 0;
         #endregion
 
-        public static implicit operator FileLocation(string filePath)
-        {
-            return string.IsNullOrEmpty(filePath) ? null : new FileLocation(filePath);
-        }
+        public static implicit operator FileLocation(string filePath) => string.IsNullOrEmpty(filePath) ? null : new FileLocation(filePath);
 
-        public static implicit operator string(FileLocation fileLocation)
-        {
-            return fileLocation?.FullPath;
-        }
+        public static implicit operator string(FileLocation fileLocation) => fileLocation?.FullPath;
     }
 }

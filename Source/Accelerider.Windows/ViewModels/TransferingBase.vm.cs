@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using Accelerider.Windows.Commands;
-using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.ViewModels.Others;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public abstract class TransferingBaseViewModel<T> : ViewModelBase
-        where T : TaskCreatedEvent, new()
+    public abstract class TransferingBaseViewModel : ViewModelBase
     {
-        private AutoOrderedTaskList _transferTasks;
+        private TransferingTaskList _transferTasks;
         private ICommand _pauseCommand;
         private ICommand _startCommand;
         private ICommand _startForceCommand;
@@ -27,19 +22,13 @@ namespace Accelerider.Windows.ViewModels
         {
             InitializeCommands();
 
-            TransferTasks = new AutoOrderedTaskList(GetInitializedTasks().Select(item =>
-            {
-                item.TransferTaskStatusChanged += OnTransfered;
-                return new TransferTaskViewModel(item);
-            }));
-
-            EventAggregator.GetEvent<T>().Subscribe(OnTransferTaskCreated, token => token != null);
+            TransferTasks = GetTaskList();
         }
 
 
         protected abstract TransferTaskStatusEnum TransferedStatus { get; }
 
-        public AutoOrderedTaskList TransferTasks
+        public TransferingTaskList TransferTasks
         {
             get => _transferTasks;
             set => SetProperty(ref _transferTasks, value);
@@ -73,21 +62,21 @@ namespace Accelerider.Windows.ViewModels
 
         private void InitializeCommands()
         {
-            PauseCommand = new RelayCommand<TransferTaskViewModel>(
+            PauseCommand = new RelayCommand<TransferingTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.PauseAsync(), "Pause task failed."),
                 taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus == TransferTaskStatusEnum.Transfering);
-            StartCommand = new RelayCommand<TransferTaskViewModel>(
+            StartCommand = new RelayCommand<TransferingTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(), "Restart task failed."),
                 taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus == TransferTaskStatusEnum.Paused);
-            StartForceCommand = new RelayCommand<TransferTaskViewModel>(
+            StartForceCommand = new RelayCommand<TransferingTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(true), "Jump queue failed."),
                 taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus != TransferTaskStatusEnum.Transfering);
-            CancelCommand = new RelayCommand<TransferTaskViewModel>(
+            CancelCommand = new RelayCommand<TransferingTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.CancelAsync(), "Cancel task failed."),
                 taskToken => !taskToken.IsBusy);
         }
 
-        private async void OperateTaskToken(TransferTaskViewModel taskToken, Func<ITransferTaskToken, Task<bool>> operation, string errorMessage)
+        private async void OperateTaskToken(TransferingTaskViewModel taskToken, Func<ITransferTaskToken, Task<bool>> operation, string errorMessage)
         {
             taskToken.IsBusy = true;
             if (!await operation(taskToken.Token)) GlobalMessageQueue.Enqueue(errorMessage);
@@ -95,24 +84,6 @@ namespace Accelerider.Windows.ViewModels
         }
         #endregion
 
-        private void OnTransferTaskCreated(ITransferTaskToken token)
-        {
-            token.TransferTaskStatusChanged += OnTransfered;
-            TransferTasks.Add(new TransferTaskViewModel(token));
-        }
-
-        private void OnTransfered(object sender, TransferTaskStatusChangedEventArgs e)
-        {
-            if (e.NewStatus != TransferedStatus) return;
-
-            var temp = TransferTasks.FirstOrDefault(item => item.FileSummary.FilePath.FullPath == e.Token.FileSummary.FilePath.FullPath);
-            if (temp != null)
-            {
-                Application.Current.Dispatcher.Invoke(() => TransferTasks.Remove(temp));
-            }
-        }
-
-        protected abstract IReadOnlyCollection<ITransferTaskToken> GetInitializedTasks();
-
+        protected abstract TransferingTaskList GetTaskList();
     }
 }

@@ -5,7 +5,7 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.ViewModels.Others
 {
-    public class TransferTaskViewModel : BindableBase
+    public class TransferingTaskViewModel : BindableBase
     {
         private string _ownerName;
         private DataSize _progress;
@@ -15,7 +15,7 @@ namespace Accelerider.Windows.ViewModels.Others
         private bool _isBusy;
 
 
-        public TransferTaskViewModel(ITransferTaskToken token)
+        public TransferingTaskViewModel(ITransferTaskToken token)
         {
             OwnerName = token.OwnerName;
             Token = token;
