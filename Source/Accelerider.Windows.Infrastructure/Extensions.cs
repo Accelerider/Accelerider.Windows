@@ -149,19 +149,21 @@ namespace Accelerider.Windows.Infrastructure
 
     public static class TransferTaskStatusEnumExtensions
     {
-        private static readonly Dictionary<TransferTaskStatusEnum, TransferTaskStatusEnum[]> StatusChangeMap = new Dictionary<TransferTaskStatusEnum, TransferTaskStatusEnum[]>
+        private static readonly Dictionary<TransferTaskStatusEnum, TransferTaskStatusEnum[]> StatusChangeMapping = new Dictionary<TransferTaskStatusEnum, TransferTaskStatusEnum[]>
         {
-            { TransferTaskStatusEnum.Created, new[]{ TransferTaskStatusEnum.Waiting } },
-            { TransferTaskStatusEnum.Waiting, new[]{ TransferTaskStatusEnum.Transfering, TransferTaskStatusEnum.Paused, TransferTaskStatusEnum.Canceled, TransferTaskStatusEnum.Faulted } },
+            { TransferTaskStatusEnum.Created, new []{ TransferTaskStatusEnum.Waiting } },
+            { TransferTaskStatusEnum.Waiting, new []{ TransferTaskStatusEnum.Transfering, TransferTaskStatusEnum.Paused, TransferTaskStatusEnum.Canceled, TransferTaskStatusEnum.Faulted } },
             { TransferTaskStatusEnum.Transfering, new []{ TransferTaskStatusEnum.Paused, TransferTaskStatusEnum.Checking, TransferTaskStatusEnum.Completed, TransferTaskStatusEnum.Canceled, TransferTaskStatusEnum.Faulted } },
-            { TransferTaskStatusEnum.Paused, new []{TransferTaskStatusEnum.Canceled, TransferTaskStatusEnum.Waiting, } }
+            { TransferTaskStatusEnum.Checking, new []{ TransferTaskStatusEnum.Completed } },
+            { TransferTaskStatusEnum.Paused, new []{ TransferTaskStatusEnum.Canceled, TransferTaskStatusEnum.Waiting, } },
+            { TransferTaskStatusEnum.Faulted, new []{ TransferTaskStatusEnum.Canceled, TransferTaskStatusEnum.Waiting } },
         };
 
-        private const TransferTaskStatusEnum EndStatus = TransferTaskStatusEnum.Completed | TransferTaskStatusEnum.Canceled | TransferTaskStatusEnum.Faulted;
+        private const TransferTaskStatusEnum EndStatus = TransferTaskStatusEnum.Completed | TransferTaskStatusEnum.Canceled;
 
         public static bool CanChangeTo(this TransferTaskStatusEnum self, TransferTaskStatusEnum other)
         {
-            return self != (self & EndStatus) && StatusChangeMap[self].Contains(other);
+            return self != (self & EndStatus) && StatusChangeMapping[self].Contains(other);
         }
     }
 }
