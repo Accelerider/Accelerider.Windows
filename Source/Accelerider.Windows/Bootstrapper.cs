@@ -4,6 +4,7 @@ using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
+using System.Net;
 
 namespace Accelerider.Windows
 {
@@ -19,7 +20,7 @@ namespace Accelerider.Windows
             ConfigureViewModelLocator();
             InitializeModules();
             ConfigureApplicationEventHandlers();
-            ShowShell();
+            InitializeShell();
         }
 
         protected virtual IUnityContainer CreateContainer()
@@ -44,8 +45,9 @@ namespace Accelerider.Windows
             Container.Resolve<Components.Authenticator.Module>().Initialize();
         }
 
-        protected virtual void ShowShell()
+        protected virtual void InitializeShell()
         {
+            ServicePointManager.DefaultConnectionLimit = 99999;
             WindowController.Show<EnteringWindow>();
         }
 

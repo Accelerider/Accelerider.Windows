@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace Accelerider.Windows.Converters
@@ -14,7 +10,8 @@ namespace Accelerider.Windows.Converters
         {
             var left = double.Parse(values[0].ToString());
             var right = double.Parse(values[1].ToString());
-            return left + right;
+            double? result = left + right;
+            return result <= 0 ? null : result;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

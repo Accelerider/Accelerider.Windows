@@ -13,7 +13,6 @@ namespace Accelerider.Windows.Core
 
         public override void Initialize()
         {
-            ServicePointManager.DefaultConnectionLimit = 99999;
             RegisterTypeIfMissing<ILocalConfigureInfo, LocalConfigureInfo>(true);
             RegisterTypeIfMissing<IAcceleriderUser, AcceleriderUser>(true);
         }
