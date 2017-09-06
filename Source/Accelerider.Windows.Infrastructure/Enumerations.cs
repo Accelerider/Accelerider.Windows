@@ -148,51 +148,43 @@ namespace Accelerider.Windows.Infrastructure
     /// <summary>
     /// Indicates the status of a file which is in the transfer (download or upload) cycle.
     /// </summary>
-    [Flags]
     public enum TransferTaskStatusEnum
     {
         /// <summary>
         /// The task created, Can only be converted to <see cref="Waiting"/>.
         /// </summary>
-        Created = 0,
+        Created,
 
         /// <summary>
-        /// The task is waiting to start. Can be converted to <see cref="Transfering"/>, <see cref="Paused"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.
+        /// The task is waiting to start. Can be converted to <see cref="Transferring"/>, <see cref="Paused"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.
         /// </summary>
-        Waiting = 1,
+        Waiting,
 
         /// <summary>
         /// The task is being downloaded or uploaded. 
-        /// Can be converted to  <see cref="Checking"/> (for downloaded), <see cref="Completed"/> (for uploaded),
-        /// <see cref="Paused"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.
+        /// Can be converted to <see cref="Completed"/>, <see cref="Paused"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.
         /// </summary>
-        Transfering = 2,
+        Transferring,
 
         /// <summary>
         /// The task is Paused. Can be converted to <see cref="Canceled"/> or <see cref="Waiting"/>.
         /// </summary>
-        Paused = 4,
-
-        /// <summary>
-        /// The file that have been transferred are being checked, which only happen after the downloaded. 
-        /// Can only be converted to <see cref="Completed"/>.
-        /// </summary>
-        Checking = 8,
+        Paused,
 
         /// <summary>
         /// The task has been completed. End state.
         /// </summary>
-        Completed = 16,
+        Completed,
 
         /// <summary>
         /// The task has been canceled. End state.
         /// </summary>
-        Canceled = 32,
+        Canceled,
 
         /// <summary>
         /// The task failed. Can be converted to <see cref="Canceled"/> or <see cref="Waiting"/>.
         /// </summary>
-        Faulted = 64
+        Faulted
     }
 
     /// <summary>

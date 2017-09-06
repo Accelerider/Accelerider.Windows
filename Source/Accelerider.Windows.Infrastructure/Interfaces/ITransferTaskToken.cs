@@ -35,7 +35,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         IFileSummary FileSummary { get; }
 
         /// <summary>
-        /// Gets the transfered file after this task was completed (<see cref="TransferTaskStatusEnum.Completed"/> or <see cref="TransferTaskStatusEnum.Checking"/>).
+        /// Gets the transfered file after this task was completed (<see cref="TransferTaskStatusEnum.Completed"/>).
         /// Returns null when the <see cref="TaskStatus"/> of this task is any other value.
         /// </summary>
         /// <returns>Returns a <see cref="ITransferedFile"/> object that represents the result of this task.</returns>

@@ -7,7 +7,7 @@ namespace Accelerider.Windows.Infrastructure
     {
         public TransferTaskStatusChangedEventArgs(ITransferTaskToken token, TransferTaskStatusEnum oldStatus, TransferTaskStatusEnum newStatus)
         {
-            if(!oldStatus.CanChangeTo(newStatus)) throw new InvalidOperationException($"{oldStatus} can not converted to {newStatus}");
+            if(!oldStatus.CanConvertedTo(newStatus)) throw new InvalidOperationException($"{oldStatus} can not converted to {newStatus}");
 
             Token = token;
             OldStatus = oldStatus;
