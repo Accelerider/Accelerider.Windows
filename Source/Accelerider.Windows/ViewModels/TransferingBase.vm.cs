@@ -26,8 +26,6 @@ namespace Accelerider.Windows.ViewModels
         }
 
 
-        protected abstract TransferTaskStatusEnum TransferedStatus { get; }
-
         public TransferingTaskList TransferTasks
         {
             get => _transferTasks;
@@ -64,13 +62,13 @@ namespace Accelerider.Windows.ViewModels
         {
             PauseCommand = new RelayCommand<TransferingTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.PauseAsync(), "Pause task failed."),
-                taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus == TransferTaskStatusEnum.Transfering);
+                taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus == TransferTaskStatusEnum.Transferring);
             StartCommand = new RelayCommand<TransferingTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(), "Restart task failed."),
                 taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus == TransferTaskStatusEnum.Paused);
             StartForceCommand = new RelayCommand<TransferingTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(true), "Jump queue failed."),
-                taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus != TransferTaskStatusEnum.Transfering);
+                taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus != TransferTaskStatusEnum.Transferring);
             CancelCommand = new RelayCommand<TransferingTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.CancelAsync(), "Cancel task failed."),
                 taskToken => !taskToken.IsBusy);

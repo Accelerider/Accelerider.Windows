@@ -131,7 +131,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
                     DownloadSpeed = 0;
                     return;
                 }
-                DownloadState = TransferTaskStatusEnum.Transfering;
+                DownloadState = TransferTaskStatusEnum.Transferring;
                 var response = GetResponse(Url);
                 if (response == null)
                 {
@@ -245,7 +245,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
         private void ReportDownloadProgress()
         {
             var temp = 0L;
-            while (DownloadState == TransferTaskStatusEnum.Transfering)
+            while (DownloadState == TransferTaskStatusEnum.Transferring)
             {
                 Thread.Sleep(1000);
                 if (temp == 0)
@@ -254,7 +254,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
                 }
                 else
                 {
-                    if (DownloadState == TransferTaskStatusEnum.Transfering)
+                    if (DownloadState == TransferTaskStatusEnum.Transferring)
                     {
                         DownloadSpeed = Info.CompletedLength - temp;
                         DownloadPercentage = Info.CompletedLength;

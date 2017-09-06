@@ -29,7 +29,7 @@ namespace Accelerider.Windows.ViewModels.Others
 
         private readonly Dictionary<TransferTaskStatusEnum, int> _orderMapping = new Dictionary<TransferTaskStatusEnum, int>
         {
-            { TransferTaskStatusEnum.Transfering, 0 },
+            { TransferTaskStatusEnum.Transferring, 0 },
             { TransferTaskStatusEnum.Waiting, 1 },
             { TransferTaskStatusEnum.Created, 1 },
             { TransferTaskStatusEnum.Faulted, 2 },
@@ -94,8 +94,7 @@ namespace Accelerider.Windows.ViewModels.Others
 
         private void AddToTransferedList(TransferingTaskViewModel task)
         {
-            if (task.TransferTaskStatus == TransferTaskStatusEnum.Checking ||
-                task.TransferTaskStatus == TransferTaskStatusEnum.Completed)
+            if (task.TransferTaskStatus == TransferTaskStatusEnum.Completed)
             {
                 // TODO
                 //task.Token.TransferTaskStatusChanged += OnTaskStatusChangedForTransferedTask;

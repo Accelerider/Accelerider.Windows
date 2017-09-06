@@ -64,7 +64,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         /// <returns></returns>
         private async Task ManagerTimer()
         {
-            var downloading = Tasks.Count(v => v.DownloadState == TransferTaskStatusEnum.Transfering);
+            var downloading = Tasks.Count(v => v.DownloadState == TransferTaskStatusEnum.Transferring);
             if (downloading < LocalConfigureInfo.Config.ParallelTaskNumber)
             {
                 var task = Tasks.FirstOrDefault(v => v.DownloadState == TransferTaskStatusEnum.Waiting);

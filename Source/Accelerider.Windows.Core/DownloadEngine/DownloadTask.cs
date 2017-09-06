@@ -49,7 +49,8 @@ namespace Accelerider.Windows.Core.DownloadEngine
             if (_cancel)
                 return TransferTaskStatusEnum.Canceled;
             if (Item.WaitingCheck)
-                return TransferTaskStatusEnum.Checking;
+                //return TransferTaskStatusEnum.Checking;
+                return TransferTaskStatusEnum.Completed; // TODO
             return DownloadTaskManager.Manager.GetTaskProcess(Item)?.DownloadState ??
                    TransferTaskStatusEnum.Created;
         }
@@ -70,7 +71,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
             return await Task.Run(() =>
             {
                 var task = DownloadTaskManager.Manager.GetTaskProcess(Item);
-                if (task == null || task.DownloadState == TransferTaskStatusEnum.Transfering || task.DownloadState == TransferTaskStatusEnum.Faulted) return false;
+                if (task == null || task.DownloadState == TransferTaskStatusEnum.Transferring || task.DownloadState == TransferTaskStatusEnum.Faulted) return false;
                 task.DownloadState = TransferTaskStatusEnum.Waiting;
                 return true;
             });
@@ -84,7 +85,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
                 var task = DownloadTaskManager.Manager.GetTaskProcess(Item);
                 if (task == null || task.DownloadState == TransferTaskStatusEnum.Canceled) return false;
                 var temp = task.DownloadState;
-                if (task.DownloadState == TransferTaskStatusEnum.Transfering)
+                if (task.DownloadState == TransferTaskStatusEnum.Transferring)
                     task.StopAndSave();
                 task.DownloadState = TransferTaskStatusEnum.Canceled;
                 TransferTaskStatusChanged?.Invoke(this, new TransferTaskStatusChangedEventArgs(this, temp, TransferTaskStatusEnum.Canceled));
@@ -101,13 +102,14 @@ namespace Accelerider.Windows.Core.DownloadEngine
 
         public ITransferedFile GetTransferedFile()
         {
-            return TaskStatus == TransferTaskStatusEnum.Checking ? this : null;
+            return TaskStatus == TransferTaskStatusEnum.Completed ? this : null;
         }
 
         public FileLocation FilePath => Item.FilePath;
         public DataSize FileSize => FileSummary.FileSize;
         public DateTime CompletedTime => Item.CompletedTime;
 
+        public event EventHandler<FileCheckStatusEnum> FileChekced;
         public FileCheckStatusEnum CheckStatus => Item.FileCheckStatus;
 
     }

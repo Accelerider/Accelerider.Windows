@@ -152,18 +152,18 @@ namespace Accelerider.Windows.Infrastructure
         private static readonly Dictionary<TransferTaskStatusEnum, TransferTaskStatusEnum[]> StatusChangeMapping = new Dictionary<TransferTaskStatusEnum, TransferTaskStatusEnum[]>
         {
             { TransferTaskStatusEnum.Created, new []{ TransferTaskStatusEnum.Waiting } },
-            { TransferTaskStatusEnum.Waiting, new []{ TransferTaskStatusEnum.Transfering, TransferTaskStatusEnum.Paused, TransferTaskStatusEnum.Canceled, TransferTaskStatusEnum.Faulted } },
-            { TransferTaskStatusEnum.Transfering, new []{ TransferTaskStatusEnum.Paused, TransferTaskStatusEnum.Checking, TransferTaskStatusEnum.Completed, TransferTaskStatusEnum.Canceled, TransferTaskStatusEnum.Faulted } },
-            { TransferTaskStatusEnum.Checking, new []{ TransferTaskStatusEnum.Completed } },
-            { TransferTaskStatusEnum.Paused, new []{ TransferTaskStatusEnum.Canceled, TransferTaskStatusEnum.Waiting, } },
-            { TransferTaskStatusEnum.Faulted, new []{ TransferTaskStatusEnum.Canceled, TransferTaskStatusEnum.Waiting } },
+            { TransferTaskStatusEnum.Waiting, new []{ TransferTaskStatusEnum.Transferring, TransferTaskStatusEnum.Paused, TransferTaskStatusEnum.Faulted } },
+            { TransferTaskStatusEnum.Transferring, new []{ TransferTaskStatusEnum.Paused, TransferTaskStatusEnum.Completed, TransferTaskStatusEnum.Faulted } },
+            { TransferTaskStatusEnum.Paused, new []{ TransferTaskStatusEnum.Waiting, } },
+            { TransferTaskStatusEnum.Faulted, new []{ TransferTaskStatusEnum.Waiting } },
         };
 
-        private const TransferTaskStatusEnum EndStatus = TransferTaskStatusEnum.Completed | TransferTaskStatusEnum.Canceled;
+        public static bool CanConvertedTo(this TransferTaskStatusEnum self, TransferTaskStatusEnum other) => 
+            !self.IsEndStatus() && // The end status cannot be converted.
+            (other == TransferTaskStatusEnum.Canceled || // Any status can be Canceled except the end status.
+            StatusChangeMapping[self].Contains(other));
 
-        public static bool CanChangeTo(this TransferTaskStatusEnum self, TransferTaskStatusEnum other)
-        {
-            return self != (self & EndStatus) && StatusChangeMapping[self].Contains(other);
-        }
+        public static bool IsEndStatus(this TransferTaskStatusEnum self) => self == TransferTaskStatusEnum.Completed ||
+                                                                            self == TransferTaskStatusEnum.Canceled;
     }
 }

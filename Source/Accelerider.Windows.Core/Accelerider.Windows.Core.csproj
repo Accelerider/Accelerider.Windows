@@ -81,7 +81,6 @@
     <Compile Include="Files\DiskFileBase.cs" />
     <Compile Include="Files\NetDiskFile.cs" />
     <Compile Include="Files\SharedFile.cs" />
-    <Compile Include="Files\TransferedFile.cs" />
     <Compile Include="LocalConfigureInfo.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="NetWork\Cookies.cs" />
