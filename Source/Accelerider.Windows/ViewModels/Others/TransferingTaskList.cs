@@ -14,9 +14,9 @@ namespace Accelerider.Windows.ViewModels.Others
         public const string UploadKey = "UploadList";
         private const int NotAvailable = -1;
 
-        private ObservableCollection<ITransferedFile> _transferedFileList;
+        private TransferedFileList _transferedFileList;
 
-        public ObservableCollection<ITransferedFile> TransferedFileList
+        public TransferedFileList TransferedFileList
         {
             get => _transferedFileList;
             set
@@ -39,7 +39,6 @@ namespace Accelerider.Windows.ViewModels.Others
 
         public TransferingTaskList(IEnumerable<TransferingTaskViewModel> collection)
         {
-            TransferedFileList = new ObservableCollection<ITransferedFile>();
             foreach (var item in collection)
             {
                 Add(item);
@@ -96,15 +95,8 @@ namespace Accelerider.Windows.ViewModels.Others
         {
             if (task.TransferTaskStatus == TransferTaskStatusEnum.Completed)
             {
-                // TODO
-                //task.Token.TransferTaskStatusChanged += OnTaskStatusChangedForTransferedTask;
                 Application.Current.Dispatcher.Invoke(() => TransferedFileList.Insert(0, task.Token.GetTransferedFile()));
             }
-        }
-
-        private void OnTaskStatusChangedForTransferedTask(object sender, TransferTaskStatusChangedEventArgs e)
-        {
-            // TODO
         }
 
         private int GetAppropriateIndex(TransferingTaskViewModel other)

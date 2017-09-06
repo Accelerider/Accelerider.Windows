@@ -50,8 +50,8 @@ namespace Accelerider.Windows
             DownloadList = new TransferingTaskList(AcceleriderUser.GetDownloadingTasks().Select(task => new TransferingTaskViewModel(task)));
             UploadList = new TransferingTaskList(AcceleriderUser.GetUploadingTasks().Select(task => new TransferingTaskViewModel(task)));
 
-            DownloadList.TransferedFileList = new ObservableCollection<ITransferedFile>(AcceleriderUser.GetDownloadedFiles());
-            UploadList.TransferedFileList = new ObservableCollection<ITransferedFile>(AcceleriderUser.GetUploadedFiles());
+            DownloadList.TransferedFileList = new TransferedFileList(AcceleriderUser.GetDownloadedFiles());
+            UploadList.TransferedFileList = new TransferedFileList(AcceleriderUser.GetUploadedFiles());
 
             Container.RegisterInstance(TransferingTaskList.DownloadKey, DownloadList);
             Container.RegisterInstance(TransferingTaskList.UploadKey, UploadList);
