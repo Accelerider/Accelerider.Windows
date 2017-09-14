@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.ViewModels.Others
 {
-    public class TransferedTaskList : ObservableCollection<ITransferedFile>
+    public class TransferedFileList : ObservableCollection<ITransferedFile>
     {
-        public TransferedTaskList(IEnumerable<ITransferedFile> files)
+        public TransferedFileList(IEnumerable<ITransferedFile> files)
         {
             foreach (var file in files)
             {
@@ -14,25 +15,22 @@ namespace Accelerider.Windows.ViewModels.Others
             }
         }
 
-        public void Add(ITransferTaskToken token) 
-        {
-            InsertItem(0, token.GetTransferedFile());
-        }
-
         protected override void InsertItem(int index, ITransferedFile item)
         {
+            item.FileChekced += OnChecked;
             base.InsertItem(GetAppropriateIndex(item), item);
         }
 
-
-        private void SubscribeCheckedEvent(ITransferedFile file)
+        protected override void RemoveItem(int index)
         {
-            
+            Items[index].FileChekced -= OnChecked;
+            base.RemoveItem(index);
         }
 
-        private void OnChecked()
+        private void OnChecked(object sender, FileCheckStatusEnum e)
         {
-            
+            var file = (ITransferedFile) sender;
+            SetItem(IndexOf(file), file);
         }
 
         private int GetAppropriateIndex(ITransferedFile other)
@@ -41,7 +39,7 @@ namespace Accelerider.Windows.ViewModels.Others
             for (; i < Items.Count; i++)
             {
                 var item = Items[i];
-                if (other.CompletedTime < item.CompletedTime) break;
+                if (other.CompletedTime > item.CompletedTime) break;
             }
             return i;
         }

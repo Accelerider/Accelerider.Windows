@@ -62,7 +62,9 @@ namespace Accelerider.Windows.ViewModels
         {
             PauseCommand = new RelayCommand<TransferingTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.PauseAsync(), "Pause task failed."),
-                taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus == TransferTaskStatusEnum.Transferring);
+                taskToken => !taskToken.IsBusy && 
+                taskToken.Token.TaskStatus == TransferTaskStatusEnum.Transferring ||
+                taskToken.Token.TaskStatus == TransferTaskStatusEnum.Waiting);
             StartCommand = new RelayCommand<TransferingTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(), "Restart task failed."),
                 taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus == TransferTaskStatusEnum.Paused);

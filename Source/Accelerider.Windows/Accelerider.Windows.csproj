@@ -94,7 +94,7 @@
     <Compile Include="Converters\PlusConverter.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
-    <Compile Include="ViewModels\Others\TransferedTaskList.cs" />
+    <Compile Include="ViewModels\Others\TransferedFileList.cs" />
     <Compile Include="ViewModels\Others\TransferingTaskList.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
     <Compile Include="ViewModels\TransferedBase.vm.cs" />
