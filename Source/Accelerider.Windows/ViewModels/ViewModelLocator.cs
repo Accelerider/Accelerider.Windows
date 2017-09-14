@@ -34,10 +34,9 @@ namespace Accelerider.Windows.ViewModels
         private static void AutoWireViewModelChanged(DependencyObject view, DependencyPropertyChangedEventArgs eventArgs)
         {
             if (!(bool)eventArgs.NewValue) return;
-            var viewType = view.GetType();
             if (view is FrameworkElement element)
             {
-                element.DataContext = ViewModelFactory(ViewModelTypeResolver(viewType));
+                element.DataContext = ViewModelFactory(ViewModelTypeResolver(view.GetType()));
                 if (element.DataContext is ViewModelBase viewModel)
                 {
                     element.Loaded += (sender, e) => viewModel.OnLoaded(sender);

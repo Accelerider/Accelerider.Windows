@@ -63,6 +63,8 @@
     <Compile Include="DownloadEngine\DownloadCore\DownloadThread\CommonDownloadThread.cs" />
     <Compile Include="DownloadEngine\DownloadCore\HttpDownload.cs" />
     <Compile Include="DownloadEngine\DownloadCore\IDownloadThread.cs" />
+    <Compile Include="DownloadEngine\EngineV2\DownloadQueue.cs" />
+    <Compile Include="DownloadEngine\EngineV2\DownloadTask.cs" />
     <Compile Include="Files\AcceleriderCloud\AcceleriderCloudFile.cs" />
     <Compile Include="Files\AcceleriderCloud\AcceleriderCloudSharedFile.cs" />
     <Compile Include="Files\BaiduNetDisk\BaiduNetDiskFile.cs" />
@@ -71,12 +73,8 @@
     <Compile Include="NetWork\NetDiskUserBase.cs" />
     <Compile Include="NetWork\UserModels\AcceleriderCloudUser.cs" />
     <Compile Include="NetWork\UserModels\BaiduNetDiskUser.cs" />
-    <Compile Include="DownloadEngine\DownloadQueue.cs" />
     <Compile Include="DownloadEngine\DownloadTask.cs" />
     <Compile Include="DownloadEngine\DownloadTaskManager.cs" />
-    <Compile Include="DownloadEngine\TransferTaskBase.cs" />
-    <Compile Include="DownloadEngine\TransferTaskManagerBase.cs" />
-    <Compile Include="DownloadEngine\TransferTaskToken.cs" />
     <Compile Include="Files\DeletedFile.cs" />
     <Compile Include="Files\DiskFileBase.cs" />
     <Compile Include="Files\NetDiskFile.cs" />
