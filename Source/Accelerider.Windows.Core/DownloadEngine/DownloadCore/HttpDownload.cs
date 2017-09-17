@@ -181,7 +181,7 @@ namespace Accelerider.Windows.Core.DownloadEngine.DownloadCore
                     DownloadPercentage = 100F;
                     Info.Completed = true;
                     Info.CompletedTime = DateTime.Now;
-                    DownloadState = TransferTaskStatusEnum.Checking;
+                    DownloadState = TransferTaskStatusEnum.Completed;
                     return;
                 }
                 var block = Info.DownloadBlockList.FirstOrDefault(v => !v.Completed && !v.Downloading);
