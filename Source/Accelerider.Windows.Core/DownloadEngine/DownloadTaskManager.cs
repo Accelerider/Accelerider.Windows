@@ -114,7 +114,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
                             //TODO 需要修改服务端 暂时啥都不做
                             item.WaitingCheck = false;
                             item.FileCheckStatus = FileCheckStatusEnum.Normal;
-                            //TaskStateChangeEvent?.Invoke(item, TransferTaskStatusEnum.Checking, TransferTaskStatusEnum.Completed);
+                            //TaskStateChangeEvent?.Invoke(item, TransferTaskStatusEnum.Checking,/* TODO: Please confirm this change. */ TransferTaskStatusEnum.Completed);
                             Save();
                             return;
                         }
@@ -127,7 +127,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
             }
             item.WaitingCheck = false;
             item.FileCheckStatus = FileCheckStatusEnum.Warning;
-            //TaskStateChangeEvent?.Invoke(item,TransferTaskStatusEnum.Checking, TransferTaskStatusEnum.Completed);
+            //TaskStateChangeEvent?.Invoke(item,TransferTaskStatusEnum.Checking,/* TODO: Please confirm this change. */ TransferTaskStatusEnum.Completed);
             Save();
         }
 
@@ -137,7 +137,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
             var item = Items.First(v => v.DownloadPath == task.DownloadPath);
             switch (args.NewState)
             {
-                case TransferTaskStatusEnum.Completed:
+                case TransferTaskStatusEnum.Completed: // TODO: Please confirm this change.
                     if (File.Exists(task.DownloadPath + ".downloading"))
                         File.Delete(task.DownloadPath + ".downloading");
                     item.Completed = true;

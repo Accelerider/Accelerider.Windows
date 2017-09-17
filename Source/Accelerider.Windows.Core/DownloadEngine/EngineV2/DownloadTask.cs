@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Accelerider.Windows.Core.DownloadEngine
+namespace Accelerider.Windows.Core.DownloadEngine.EngineV2
 {
-    internal class TransferTaskManagerBase
+    internal class DownloadTask
     {
-
     }
 }

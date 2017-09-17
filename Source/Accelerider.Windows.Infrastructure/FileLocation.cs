@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace Accelerider.Windows.Infrastructure
 {
+    [DebuggerDisplay("{FullPath}")]
     public class FileLocation
     {
         /// <summary>
