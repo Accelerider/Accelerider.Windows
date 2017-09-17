@@ -97,15 +97,15 @@
     <Compile Include="ViewModels\Others\TransferedFileList.cs" />
     <Compile Include="ViewModels\Others\TransferingTaskList.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
-    <Compile Include="ViewModels\TransferedBase.vm.cs" />
+    <Compile Include="ViewModels\Transmission\TransferedBase.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPopup.xaml.cs">
       <DependentUpon>SettingsPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TransferTaskList.xaml.cs">
-      <DependentUpon>TransferTaskList.xaml</DependentUpon>
+    <Compile Include="Views\Transmission\TaskProgressList.xaml.cs">
+      <DependentUpon>TaskProgressList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\CompareConverters.cs" />
     <Compile Include="Converters\LessThan1000Converter.cs" />
@@ -130,20 +130,20 @@
     <Compile Include="ViewModels\Dialogs\SelectNetDiskTypeDialog.vm.cs" />
     <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
     <Compile Include="ViewModels\Others\TransferingTask.vm.cs" />
-    <Compile Include="ViewModels\LoadingFilesBase.vm.cs" />
-    <Compile Include="ViewModels\NetDiskFiles.vm.cs" />
-    <Compile Include="ViewModels\NetDiskShare.vm.cs" />
-    <Compile Include="ViewModels\NetDiskView.vm.cs" />
-    <Compile Include="ViewModels\NetDiskRecycleBin.vm.cs" />
-    <Compile Include="ViewModels\MoreView.vm.cs" />
-    <Compile Include="ViewModels\SignInView.vm.cs" />
-    <Compile Include="ViewModels\SignUpView.vm.cs" />
-    <Compile Include="ViewModels\TransferDownloaded.vm.cs" />
-    <Compile Include="ViewModels\TransferDownloading.vm.cs" />
-    <Compile Include="ViewModels\TransferingBase.vm.cs" />
-    <Compile Include="ViewModels\TransferUploaded.vm.cs" />
-    <Compile Include="ViewModels\TransferUploading.vm.cs" />
-    <Compile Include="ViewModels\TransferView.vm.cs" />
+    <Compile Include="ViewModels\NetDisk\LoadingFilesBase.vm.cs" />
+    <Compile Include="ViewModels\NetDisk\Files.vm.cs" />
+    <Compile Include="ViewModels\NetDisk\Share.vm.cs" />
+    <Compile Include="ViewModels\NetDisk\Root.vm.cs" />
+    <Compile Include="ViewModels\NetDisk\RecycleBin.vm.cs" />
+    <Compile Include="ViewModels\SharingGroup\Root.vm.cs" />
+    <Compile Include="ViewModels\Entering\SignInView.vm.cs" />
+    <Compile Include="ViewModels\Entering\SignUpView.vm.cs" />
+    <Compile Include="ViewModels\Transmission\Downloaded.vm.cs" />
+    <Compile Include="ViewModels\Transmission\Downloading.vm.cs" />
+    <Compile Include="ViewModels\Transmission\TransferingBase.vm.cs" />
+    <Compile Include="ViewModels\Transmission\Uploaded.vm.cs" />
+    <Compile Include="ViewModels\Transmission\Uploading.vm.cs" />
+    <Compile Include="ViewModels\Transmission\Root.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Dialogs\AuthenticatorWindow.xaml.cs">
@@ -164,41 +164,41 @@
     <Compile Include="Views\Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NetDiskFiles.xaml.cs">
-      <DependentUpon>NetDiskFiles.xaml</DependentUpon>
+    <Compile Include="Views\NetDisk\Files.xaml.cs">
+      <DependentUpon>Files.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NetDiskRecycleBin.xaml.cs">
-      <DependentUpon>NetDiskRecycleBin.xaml</DependentUpon>
+    <Compile Include="Views\NetDisk\RecycleBin.xaml.cs">
+      <DependentUpon>RecycleBin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NetDiskShare.xaml.cs">
-      <DependentUpon>NetDiskShare.xaml</DependentUpon>
+    <Compile Include="Views\NetDisk\Share.xaml.cs">
+      <DependentUpon>Share.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NetDiskView.xaml.cs">
-      <DependentUpon>NetDiskView.xaml</DependentUpon>
+    <Compile Include="Views\NetDisk\Root.xaml.cs">
+      <DependentUpon>Root.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MoreView.xaml.cs">
-      <DependentUpon>MoreView.xaml</DependentUpon>
+    <Compile Include="Views\SharingGroup\Root.xaml.cs">
+      <DependentUpon>Root.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SignInView.xaml.cs">
+    <Compile Include="Views\Entering\SignInView.xaml.cs">
       <DependentUpon>SignInView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SignUpView.xaml.cs">
+    <Compile Include="Views\Entering\SignUpView.xaml.cs">
       <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TransferDownloaded.xaml.cs">
-      <DependentUpon>TransferDownloaded.xaml</DependentUpon>
+    <Compile Include="Views\Transmission\Downloaded.xaml.cs">
+      <DependentUpon>Downloaded.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TransferDownloading.xaml.cs">
-      <DependentUpon>TransferDownloading.xaml</DependentUpon>
+    <Compile Include="Views\Transmission\Downloading.xaml.cs">
+      <DependentUpon>Downloading.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TransferUploaded.xaml.cs">
-      <DependentUpon>TransferUploaded.xaml</DependentUpon>
+    <Compile Include="Views\Transmission\Uploaded.xaml.cs">
+      <DependentUpon>Uploaded.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TransferUploading.xaml.cs">
-      <DependentUpon>TransferUploading.xaml</DependentUpon>
+    <Compile Include="Views\Transmission\Uploading.xaml.cs">
+      <DependentUpon>Uploading.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TransferView.xaml.cs">
-      <DependentUpon>TransferView.xaml</DependentUpon>
+    <Compile Include="Views\Transmission\Root.xaml.cs">
+      <DependentUpon>Root.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowController.cs" />
     <Page Include="Assets\Accelerider.Animations.xaml">
@@ -237,7 +237,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TransferTaskList.xaml">
+    <Page Include="Views\Transmission\TaskProgressList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -282,51 +282,51 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NetDiskFiles.xaml">
+    <Page Include="Views\NetDisk\Files.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NetDiskRecycleBin.xaml">
+    <Page Include="Views\NetDisk\RecycleBin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NetDiskShare.xaml">
+    <Page Include="Views\NetDisk\Share.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NetDiskView.xaml">
+    <Page Include="Views\NetDisk\Root.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MoreView.xaml">
+    <Page Include="Views\SharingGroup\Root.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SignInView.xaml">
+    <Page Include="Views\Entering\SignInView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SignUpView.xaml">
+    <Page Include="Views\Entering\SignUpView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TransferDownloaded.xaml">
+    <Page Include="Views\Transmission\Downloaded.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TransferDownloading.xaml">
+    <Page Include="Views\Transmission\Downloading.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TransferUploaded.xaml">
+    <Page Include="Views\Transmission\Uploaded.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TransferUploading.xaml">
+    <Page Include="Views\Transmission\Uploading.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TransferView.xaml">
+    <Page Include="Views\Transmission\Root.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -412,5 +412,6 @@
     <Resource Include="Assets\Images\BaiduCloudLogo.png" />
     <Resource Include="Assets\Images\OneDriveLogo.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
