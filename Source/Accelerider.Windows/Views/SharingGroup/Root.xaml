@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Accelerider.Windows.Views.SharingGroup"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -43,5 +43,6 @@
                 </Grid>
             </Border>
         </Grid>
+        <local:SharingGroupScreen Grid.Column="1" Margin="30,20"/>
     </Grid>
 </UserControl>

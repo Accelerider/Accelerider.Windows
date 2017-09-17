@@ -83,6 +83,9 @@
     <Compile Include="Controls\FolderLocationBar.xaml.cs">
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MessageCard.xaml.cs">
+      <DependentUpon>MessageCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SettingItem.xaml.cs">
       <DependentUpon>SettingItem.xaml</DependentUpon>
     </Compile>
@@ -97,12 +100,22 @@
     <Compile Include="ViewModels\Others\TransferedFileList.cs" />
     <Compile Include="ViewModels\Others\TransferingTaskList.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
+    <Compile Include="ViewModels\SharingGroup\SharingGroupScreen.vm.cs" />
     <Compile Include="ViewModels\Transmission\TransferedBase.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPopup.xaml.cs">
       <DependentUpon>SettingsPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SharingGroup\ConversationsTab.xaml.cs">
+      <DependentUpon>ConversationsTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SharingGroup\FilesTab.xaml.cs">
+      <DependentUpon>FilesTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SharingGroup\SharingGroupScreen.xaml.cs">
+      <DependentUpon>SharingGroupScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Transmission\TaskProgressList.xaml.cs">
       <DependentUpon>TaskProgressList.xaml</DependentUpon>
@@ -221,6 +234,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\MessageCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SettingItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -234,6 +251,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SharingGroup\ConversationsTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SharingGroup\FilesTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SharingGroup\SharingGroupScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

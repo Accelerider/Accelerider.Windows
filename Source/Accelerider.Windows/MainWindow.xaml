@@ -113,8 +113,8 @@
                                 <RowDefinition Height="2"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <materialDesign:PackIcon Kind="Earth" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
-                            <TextBlock Grid.Row="2" Text="More" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                            <materialDesign:PackIcon Kind="AccountMultiple" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
+                            <TextBlock Grid.Row="2" Text="Group" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                         </Grid>
                     </ListBoxItem>
                 </ListBox>
