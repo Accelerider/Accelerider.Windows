@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Accelerider.Windows.EnteringWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:v="clr-namespace:Accelerider.Windows.Views"
+        xmlns:enteringViews="clr-namespace:Accelerider.Windows.Views.Entering"
         xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
         xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
         vm:ViewModelLocator.AutoWireViewModel="True"
@@ -66,8 +66,8 @@
 
             <ctrls:SwitchableViewContainer Grid.Row="2" Selector="{Binding ElementName=SwitchViewListBox}">
                 <ctrls:SwitchableViewContainer.Resources>
-                    <v:SignInView x:Key="0" Style="{StaticResource TranslateToRightStyle}"/>
-                    <v:SignUpView x:Key="1" Style="{StaticResource TranslateToLeftStyle}"/>
+                    <enteringViews:SignInView x:Key="0" Style="{StaticResource TranslateToRightStyle}"/>
+                    <enteringViews:SignUpView x:Key="1" Style="{StaticResource TranslateToLeftStyle}"/>
                 </ctrls:SwitchableViewContainer.Resources>
             </ctrls:SwitchableViewContainer>
         </Grid>

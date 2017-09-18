@@ -3,6 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:views="clr-namespace:Accelerider.Windows.Views"
+        xmlns:netDiskViews="clr-namespace:Accelerider.Windows.Views.NetDisk"
+        xmlns:transferringViews="clr-namespace:Accelerider.Windows.Views.Transmission"
+        xmlns:sharingGroupViews="clr-namespace:Accelerider.Windows.Views.SharingGroup"
         xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
         xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
         vm:ViewModelLocator.AutoWireViewModel="True"
@@ -22,9 +25,9 @@
             <Grid Grid.Column="1" >
                 <ctrls:SwitchableViewContainer Selector="{Binding ElementName=TabListBox}">
                     <ctrls:SwitchableViewContainer.Resources>
-                        <views:NetDiskView x:Key="0" Style="{StaticResource FloatInRightToLeftStyle}"/>
-                        <views:TransferView x:Key="1" Style="{StaticResource FloatInRightToLeftStyle}"/>
-                        <views:MoreView x:Key="2" Style="{StaticResource FloatInRightToLeftStyle}"/>
+                        <netDiskViews:Root x:Key="0" Style="{StaticResource FloatInRightToLeftStyle}"/>
+                        <transferringViews:Root x:Key="1" Style="{StaticResource FloatInRightToLeftStyle}"/>
+                        <sharingGroupViews:Root x:Key="2" Style="{StaticResource FloatInRightToLeftStyle}"/>
                     </ctrls:SwitchableViewContainer.Resources>
                 </ctrls:SwitchableViewContainer>
             </Grid>
@@ -110,8 +113,8 @@
                                 <RowDefinition Height="2"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <materialDesign:PackIcon Kind="Earth" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
-                            <TextBlock Grid.Row="2" Text="More" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                            <materialDesign:PackIcon Kind="AccountMultiple" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
+                            <TextBlock Grid.Row="2" Text="Group" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                         </Grid>
                     </ListBoxItem>
                 </ListBox>
