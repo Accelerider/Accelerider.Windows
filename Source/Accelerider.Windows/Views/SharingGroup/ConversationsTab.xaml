@@ -4,67 +4,33 @@
              xmlns:crtls="clr-namespace:Accelerider.Windows.Controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Grid >
-        <Grid.Resources>
-            <Style x:Key="DividingLineBorderStyle" TargetType="Border">
-                <Setter Property="Height" Value="1"/>
-                <Setter Property="Background" Value="LightGray"/>
-                <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                <Setter Property="Visibility" Value="Collapsed"/>
-                <Style.Triggers>
-                    <DataTrigger Value="Visible" Binding="{Binding ComputedVerticalScrollBarVisibility, ElementName=MessageList, Mode=OneWay}">
-                        <Setter Property="Visibility" Value="Visible"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Grid.Resources>
-        
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition />
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Style="{StaticResource DividingLineBorderStyle}"/>
-        <ScrollViewer x:Name="MessageList" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-            <StackPanel>
-                <crtls:MessageCard Message="shfh asf"
-                                   Author="SB No.1"
-                                   HeadUri="../../Assets/Images/HeadImage.png"/>
-                <crtls:MessageCard Message=" kjasf kjash fdsahfasdkh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asf"
-                                   Author="SB No.2"
-                                   HeadUri="../../Assets/Images/HeadImage.png"/>
-                <crtls:MessageCard Message="kjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asf"
-                                   Author="傻B"
-                                   HeadUri="../../Assets/Images/HeadImage.png"/>
-                <crtls:MessageCard Message=" kjasf kjash fdsahfasdkh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asf"
-                                   Author="我是喷子"
-                                   HeadUri="../../Assets/Images/HeadImage.png"/>
-            </StackPanel>
-        </ScrollViewer>
-        <Border Grid.Row="2" Style="{StaticResource DividingLineBorderStyle}"/>
+        <crtls:MessageList Grid.Row="0"/>
 
-        <Border Grid.Row="4" Background="White" Padding="5 0" CornerRadius="3"
+        <Border Grid.Row="2" Background="White" Margin="55 0 0 0" Padding="5 0" CornerRadius="3"
                 MinHeight="40" MaxHeight="100" Height="Auto">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <TextBox x:Name="MessageBox" Grid.Column="0" TextWrapping="Wrap" FontSize="14" BorderThickness="0"
-                         materialDesign:HintAssist.Hint="New message"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         VerticalAlignment="Center" VerticalContentAlignment="Center"
-                         MinWidth="200" MinHeight="40" />
-                <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" 
-                        Command="{Binding SearchCommand}"
-                        CommandParameter="{Binding ElementName=MessageBox, Path=Text}"
-                        Height="24" Width="24" HorizontalAlignment="Right">
-                    <materialDesign:PackIcon Kind="Send" Opacity=".56" />
-                </Button>
-            </Grid>
-        </Border>
+                    <TextBox x:Name="MessageBox" Grid.Column="0" TextWrapping="Wrap" FontSize="14" BorderThickness="0"
+                             materialDesign:HintAssist.Hint="New message"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             VerticalAlignment="Center" VerticalContentAlignment="Center"
+                             MinWidth="200" MinHeight="40" />
+                    <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" 
+                            Command="{Binding SearchCommand}" CommandParameter="{Binding ElementName=MessageBox, Path=Text}"
+                            Height="24" Width="24" HorizontalAlignment="Right">
+                        <materialDesign:PackIcon Kind="Send" Opacity=".56" />
+                    </Button>
+                </Grid>
+            </Border>
     </Grid>
 </UserControl>

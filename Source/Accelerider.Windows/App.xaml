@@ -7,10 +7,15 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
-                <ResourceDictionary Source="Assets/Accelerider.Brushes.Navy.xaml"/>
-                <ResourceDictionary Source="Assets/Accelerider.Converters.xaml"/>
-                <ResourceDictionary Source="Assets/Accelerider.Animations.xaml"/>
-                <ResourceDictionary Source="Assets/Accelerider.Styles.xaml"/>
+
+                <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Brushes.Navy.xaml"/>
+                <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Converters.xaml"/>
+                <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Animations.xaml"/>
+                <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Styles.Buttons.xaml"/>
+                <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Styles.Windows.xaml"/>
+                <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Styles.TabControls.xaml"/>
+                <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Styles.ListBoxes.xaml"/>
+                <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Styles.Others.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

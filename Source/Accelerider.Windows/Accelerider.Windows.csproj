@@ -86,6 +86,9 @@
     <Compile Include="Controls\MessageCard.xaml.cs">
       <DependentUpon>MessageCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MessageList.xaml.cs">
+      <DependentUpon>MessageList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SettingItem.xaml.cs">
       <DependentUpon>SettingItem.xaml</DependentUpon>
     </Compile>
@@ -214,19 +217,27 @@
       <DependentUpon>Root.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowController.cs" />
-    <Page Include="Assets\Accelerider.Animations.xaml">
+    <Page Include="Assets\ResourceDictionaries\Accelerider.Animations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Accelerider.Brushes.Blue.xaml">
+    <Page Include="Assets\ResourceDictionaries\Accelerider.Brushes.Blue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Accelerider.Styles.xaml">
+    <Page Include="Assets\ResourceDictionaries\Accelerider.Styles.Buttons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Assets\Accelerider.Brushes.Navy.xaml">
+    <Page Include="Assets\ResourceDictionaries\Accelerider.Styles.TabControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\ResourceDictionaries\Accelerider.Styles.Windows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\ResourceDictionaries\Accelerider.Brushes.Navy.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -235,6 +246,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MessageCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MessageList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -373,7 +388,15 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>UiStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Page Include="Assets\Accelerider.Converters.xaml">
+    <Page Include="Assets\ResourceDictionaries\Accelerider.Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\ResourceDictionaries\Accelerider.Styles.ListBoxes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\ResourceDictionaries\Accelerider.Styles.Others.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
