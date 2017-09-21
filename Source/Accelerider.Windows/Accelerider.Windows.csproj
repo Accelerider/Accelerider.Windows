@@ -99,10 +99,12 @@
     </Compile>
     <Compile Include="Converters\PlusConverter.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
+    <Compile Include="MockData\Message.cs" />
     <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
     <Compile Include="ViewModels\Others\TransferedFileList.cs" />
     <Compile Include="ViewModels\Others\TransferingTaskList.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
+    <Compile Include="ViewModels\SharingGroup\ConversationsTab.vm.cs" />
     <Compile Include="ViewModels\SharingGroup\SharingGroupScreen.vm.cs" />
     <Compile Include="ViewModels\Transmission\TransferedBase.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">

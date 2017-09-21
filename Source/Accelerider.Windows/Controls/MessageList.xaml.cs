@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -16,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Accelerider.Windows.MockData;
 
 namespace Accelerider.Windows.Controls
 {
@@ -37,6 +39,40 @@ namespace Accelerider.Windows.Controls
         }
 
 
+
+        public static readonly DependencyProperty MessagesProperty = DependencyProperty.Register("Messages", typeof(ObservableCollection<Message>), typeof(MessageList), new PropertyMetadata(null, MessagesChanged));
+
+        private static void MessagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue == null) return;
+
+            var control = (MessageList) d;
+            control.Messages.CollectionChanged += control.OnCollectionChanged;
+        }
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (Message item in e.NewItems)
+                {
+                    PART_MessageStackPanel.Children.Add(new MessageCard
+                    {
+                        Message = item.Text,
+                        Author = item.Author,
+                        Date = item.Date,
+                        HeadUri = item.HeadUri
+                    });
+                }
+            }
+        }
+
+        public ObservableCollection<Message> Messages
+        {
+            get => (ObservableCollection<Message>)GetValue(MessagesProperty);
+            set => SetValue(MessagesProperty, value);
+        }
+
+
         public bool IsArrivedTop
         {
             get => _isArrivedTop;
@@ -49,7 +85,7 @@ namespace Accelerider.Windows.Controls
             private set { if (SetProperty(ref _isArrivedBottom, value) && value) LoadSubsequentMessages(); }
         }
 
-        
+
 
 
         private void Initialize()

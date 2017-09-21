@@ -39,20 +39,7 @@
 
         <Border Grid.Row="0" Style="{StaticResource TopBorderSytle}"/>
         <ScrollViewer x:Name="PART_ScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-            <StackPanel x:Name="PART_MessageStackPanel">
-                <crtls:MessageCard Message="shsfdg g fd gdgds fh asf"
-                                   Author="SB No.1"
-                                   HeadUri="../../Assets/Images/HeadImage.png"/>
-                <crtls:MessageCard Message="kjasf kjash fdsahfasdkh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asf"
-                                   Author="SB No.2"
-                                   HeadUri="../../Assets/Images/HeadImage.png"/>
-                <crtls:MessageCard Message="kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asf"
-                                   Author="傻B"
-                                   HeadUri="../../Assets/Images/HeadImage.png"/>
-                <crtls:MessageCard Message="kjasf kjash fdsahfasdkh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asfhsadiufhsdh fdsahfasdkjf adsgfjkasd fjadskf dsaghfaskjf kjashfh asf"
-                                   Author="我是喷子"
-                                   HeadUri="../../Assets/Images/HeadImage.png"/>
-            </StackPanel>
+            <StackPanel x:Name="PART_MessageStackPanel"/>
         </ScrollViewer>
         <Border Grid.Row="2" Style="{StaticResource BottomBorderSytle}"/>
     </Grid>
