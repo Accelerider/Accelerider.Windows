@@ -63,6 +63,7 @@ namespace Accelerider.Windows.Controls
                         HeadUri = item.HeadUri
                     });
                 }
+                PART_ScrollViewer.ScrollToEnd(); // Upexpected: The ScrollToEnd() method will trigger the IsArrivedTop property change, and cause the LoadPreviousMessages() method to be called. 
             }
         }
 
