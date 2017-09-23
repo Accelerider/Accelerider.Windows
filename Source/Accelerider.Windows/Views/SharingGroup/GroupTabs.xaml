@@ -1,9 +1,7 @@
-﻿<UserControl x:Class="Accelerider.Windows.Views.SharingGroup.SharingGroupScreen"
+﻿<UserControl x:Class="Accelerider.Windows.Views.SharingGroup.GroupTabs"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Accelerider.Windows.Views.SharingGroup"
-             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
-             vm:ViewModelLocator.AutoWireViewModel="True">
+             xmlns:local="clr-namespace:Accelerider.Windows.Views.SharingGroup">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

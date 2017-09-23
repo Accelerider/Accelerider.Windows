@@ -3,9 +3,9 @@
     /// <summary>
     /// Interaction logic for TransferView.xaml
     /// </summary>
-    public partial class Root
+    public partial class TransmissionComposite
     {
-        public Root()
+        public TransmissionComposite()
         {
             InitializeComponent();
         }

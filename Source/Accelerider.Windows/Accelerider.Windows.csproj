@@ -105,7 +105,6 @@
     <Compile Include="ViewModels\Others\TransferingTaskList.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
     <Compile Include="ViewModels\SharingGroup\ConversationsTab.vm.cs" />
-    <Compile Include="ViewModels\SharingGroup\SharingGroupScreen.vm.cs" />
     <Compile Include="ViewModels\Transmission\TransferedBase.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
@@ -119,8 +118,8 @@
     <Compile Include="Views\SharingGroup\FilesTab.xaml.cs">
       <DependentUpon>FilesTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SharingGroup\SharingGroupScreen.xaml.cs">
-      <DependentUpon>SharingGroupScreen.xaml</DependentUpon>
+    <Compile Include="Views\SharingGroup\GroupTabs.xaml.cs">
+      <DependentUpon>GroupTabs.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Transmission\TaskProgressList.xaml.cs">
       <DependentUpon>TaskProgressList.xaml</DependentUpon>
@@ -151,9 +150,9 @@
     <Compile Include="ViewModels\NetDisk\LoadingFilesBase.vm.cs" />
     <Compile Include="ViewModels\NetDisk\Files.vm.cs" />
     <Compile Include="ViewModels\NetDisk\Share.vm.cs" />
-    <Compile Include="ViewModels\NetDisk\Root.vm.cs" />
+    <Compile Include="ViewModels\NetDisk\NetDiskComposite.vm.cs" />
     <Compile Include="ViewModels\NetDisk\RecycleBin.vm.cs" />
-    <Compile Include="ViewModels\SharingGroup\Root.vm.cs" />
+    <Compile Include="ViewModels\SharingGroup\SharingGroupComposite.vm.cs" />
     <Compile Include="ViewModels\Entering\SignInView.vm.cs" />
     <Compile Include="ViewModels\Entering\SignUpView.vm.cs" />
     <Compile Include="ViewModels\Transmission\Downloaded.vm.cs" />
@@ -161,7 +160,6 @@
     <Compile Include="ViewModels\Transmission\TransferingBase.vm.cs" />
     <Compile Include="ViewModels\Transmission\Uploaded.vm.cs" />
     <Compile Include="ViewModels\Transmission\Uploading.vm.cs" />
-    <Compile Include="ViewModels\Transmission\Root.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Dialogs\AuthenticatorWindow.xaml.cs">
@@ -191,11 +189,11 @@
     <Compile Include="Views\NetDisk\Share.xaml.cs">
       <DependentUpon>Share.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NetDisk\Root.xaml.cs">
-      <DependentUpon>Root.xaml</DependentUpon>
+    <Compile Include="Views\NetDisk\NetDiskComposite.xaml.cs">
+      <DependentUpon>NetDiskComposite.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SharingGroup\Root.xaml.cs">
-      <DependentUpon>Root.xaml</DependentUpon>
+    <Compile Include="Views\SharingGroup\SharingGroupComposite.xaml.cs">
+      <DependentUpon>SharingGroupComposite.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Entering\SignInView.xaml.cs">
       <DependentUpon>SignInView.xaml</DependentUpon>
@@ -215,8 +213,8 @@
     <Compile Include="Views\Transmission\Uploading.xaml.cs">
       <DependentUpon>Uploading.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\Root.xaml.cs">
-      <DependentUpon>Root.xaml</DependentUpon>
+    <Compile Include="Views\Transmission\TransmissionComposite.xaml.cs">
+      <DependentUpon>TransmissionComposite.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowController.cs" />
     <Page Include="Assets\ResourceDictionaries\Accelerider.Animations.xaml">
@@ -279,7 +277,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SharingGroup\SharingGroupScreen.xaml">
+    <Page Include="Views\SharingGroup\GroupTabs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -340,11 +338,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NetDisk\Root.xaml">
+    <Page Include="Views\NetDisk\NetDiskComposite.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SharingGroup\Root.xaml">
+    <Page Include="Views\SharingGroup\SharingGroupComposite.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -372,7 +370,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Transmission\Root.xaml">
+    <Page Include="Views\Transmission\TransmissionComposite.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

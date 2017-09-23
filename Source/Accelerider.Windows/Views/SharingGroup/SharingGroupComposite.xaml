@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Accelerider.Windows.Views.SharingGroup.Root"
+﻿<UserControl x:Class="Accelerider.Windows.Views.SharingGroup.SharingGroupComposite"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -43,6 +43,6 @@
                 </Grid>
             </Border>
         </Grid>
-        <local:SharingGroupScreen Grid.Column="1" Margin="30,20"/>
+        <local:GroupTabs Grid.Column="1" Margin="30,20"/>
     </Grid>
 </UserControl>

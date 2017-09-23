@@ -9,14 +9,14 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.ViewModels.NetDisk
 {
-    public class RootViewModel : ViewModelBase
+    public class NetDiskCompositeViewModel : ViewModelBase
     {
         private bool _canSwitchUser;
         private ObservableCollection<INetDiskUser> _netDiskUsers;
         private ICommand _addNetDiskCommand;
 
 
-        public RootViewModel(IUnityContainer container) : base(container)
+        public NetDiskCompositeViewModel(IUnityContainer container) : base(container)
         {
             NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.NetDiskUsers);
             EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Subscribe(isloadingFiles => CanSwitchUser = !isloadingFiles);

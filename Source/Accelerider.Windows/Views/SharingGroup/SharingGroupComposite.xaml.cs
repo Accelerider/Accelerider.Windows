@@ -3,9 +3,9 @@
     /// <summary>
     /// Interaction logic for ShareView.xaml
     /// </summary>
-    public partial class Root
+    public partial class SharingGroupComposite
     {
-        public Root()
+        public SharingGroupComposite()
         {
             InitializeComponent();
         }

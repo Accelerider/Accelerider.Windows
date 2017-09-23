@@ -3,9 +3,9 @@
     /// <summary>
     /// Interaction logic for NetDiskView.xaml
     /// </summary>
-    public partial class Root
+    public partial class NetDiskComposite
     {
-        public Root()
+        public NetDiskComposite()
         {
             InitializeComponent();
         }
