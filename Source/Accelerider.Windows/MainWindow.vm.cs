@@ -1,7 +1,6 @@
 ﻿using Accelerider.Windows.ViewModels;
 using Microsoft.Practices.Unity;
 using Accelerider.Windows.Assets;
-using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using System.Collections.Generic;
 using System;

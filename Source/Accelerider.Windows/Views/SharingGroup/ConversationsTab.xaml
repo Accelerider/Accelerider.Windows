@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:crtls="clr-namespace:Accelerider.Windows.Controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
-             vm:ViewModelLocator.AutoWireViewModel="True">
+             xmlns:mvvm="http://prismlibrary.com/"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition />

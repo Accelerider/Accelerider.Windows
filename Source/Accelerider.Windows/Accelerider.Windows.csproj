@@ -47,6 +47,15 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
+    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Unity.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.6.3.0\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -54,7 +63,10 @@
       <HintPath>..\packages\System.ValueTuple.4.4.0-preview2-25405-01\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -132,14 +144,9 @@
       <DependentUpon>EnteringWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EnteringWindow.vm.cs" />
-    <Compile Include="Events\DelegateReference.cs" />
-    <Compile Include="Events\EventAggregator.cs" />
-    <Compile Include="Events\EventBase.cs" />
-    <Compile Include="Events\Events.cs" />
-    <Compile Include="Events\EventSubscription.cs" />
+    <Compile Include="Events.cs" />
     <Compile Include="MainWindow.vm.cs" />
     <Compile Include="SingletonProcess.cs" />
-    <Compile Include="ViewModels\BindableBase.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Commands\RelayCommand{T}.cs" />
@@ -161,7 +168,6 @@
     <Compile Include="ViewModels\Transmission\Uploaded.vm.cs" />
     <Compile Include="ViewModels\Transmission\Uploading.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Dialogs\AuthenticatorWindow.xaml.cs">
       <DependentUpon>AuthenticatorWindow.xaml</DependentUpon>
     </Compile>
@@ -216,7 +222,7 @@
     <Compile Include="Views\Transmission\TransmissionComposite.xaml.cs">
       <DependentUpon>TransmissionComposite.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowController.cs" />
+    <Compile Include="ShellController.cs" />
     <Page Include="Assets\ResourceDictionaries\Accelerider.Animations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

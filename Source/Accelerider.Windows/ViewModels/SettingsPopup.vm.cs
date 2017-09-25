@@ -26,7 +26,7 @@ namespace Accelerider.Windows.ViewModels
             SignOutCommand = new RelayCommand(() =>
             {
                 Container.Resolve<ILocalConfigureInfo>().IsAutoSignIn = false;
-                WindowController.Switch<MainWindow, EnteringWindow>();
+                ShellController.Switch<MainWindow, EnteringWindow>();
             });
         }
 

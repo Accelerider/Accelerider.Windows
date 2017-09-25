@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using Microsoft.Practices.Unity;
-using Accelerider.Windows.Events;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
+using Prism.Events;
+using Prism.Mvvm;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -12,7 +13,7 @@ namespace Accelerider.Windows.ViewModels
 
 
         protected IUnityContainer Container { get; }
-        protected EventAggregator EventAggregator { get; }
+        protected IEventAggregator EventAggregator { get; }
         protected IAcceleriderUser AcceleriderUser { get; }
 
         public INetDiskUser NetDiskUser
@@ -21,11 +22,9 @@ namespace Accelerider.Windows.ViewModels
             set
             {
                 var temp = AcceleriderUser.CurrentNetDiskUser;
-                if (SetProperty(ref temp, value))
-                {
-                    AcceleriderUser.CurrentNetDiskUser = temp;
-                    EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Publish(temp);
-                }
+                if (!SetProperty(ref temp, value)) return;
+                AcceleriderUser.CurrentNetDiskUser = temp;
+                EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Publish(temp);
             }
         }
         public SnackbarMessageQueue GlobalMessageQueue
@@ -38,7 +37,7 @@ namespace Accelerider.Windows.ViewModels
         protected ViewModelBase(IUnityContainer container)
         {
             Container = container;
-            EventAggregator = container.Resolve<EventAggregator>();
+            EventAggregator = container.Resolve<IEventAggregator>();
             AcceleriderUser = container.Resolve<IAcceleriderUser>();
             GlobalMessageQueue = container.Resolve<SnackbarMessageQueue>();
         }

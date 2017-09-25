@@ -3,7 +3,6 @@ using System.Windows.Input;
 using Accelerider.Windows.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
-using Accelerider.Windows.Events;
 using Accelerider.Windows.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 

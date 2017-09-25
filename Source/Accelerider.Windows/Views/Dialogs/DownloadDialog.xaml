@@ -4,8 +4,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:res="clr-namespace:Accelerider.Windows.Assets"
-             xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
-             vm:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:mvvm="http://prismlibrary.com/"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
              Height="Auto" Width="500">
     <Grid Margin="50 20 20 20">
         <Grid.RowDefinitions>

@@ -1,5 +1,5 @@
-﻿using Accelerider.Windows.Infrastructure.Interfaces;
-using Microsoft.Practices.Unity;
+﻿using Microsoft.Practices.Unity;
+using Prism.Modularity;
 
 namespace Accelerider.Windows.Infrastructure
 {

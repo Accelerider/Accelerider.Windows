@@ -1,4 +1,5 @@
 ﻿using System.Windows.Media.Imaging;
+using Prism.Mvvm;
 
 namespace Accelerider.Windows.ViewModels.Others
 {

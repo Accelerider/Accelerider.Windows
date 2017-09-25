@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using Accelerider.Windows.Events;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 

@@ -7,7 +7,6 @@ using Accelerider.Windows.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Infrastructure;
 using System.Threading.Tasks;
-using Accelerider.Windows.Events;
 using MaterialDesignThemes.Wpf;
 using Accelerider.Windows.Views.Dialogs;
 

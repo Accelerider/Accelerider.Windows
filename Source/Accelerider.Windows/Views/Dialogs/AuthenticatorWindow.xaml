@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="AuthenticatorWindow" Height="550" Width="600"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResize"
-        xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
-        vm:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:mvvm="http://prismlibrary.com/"
+        mvvm:ViewModelLocator.AutoWireViewModel="True"
         Style="{StaticResource EnteringWindowStyle}" Padding="1 35 1 1" 
         Content="{Binding Content}">
 </Window>

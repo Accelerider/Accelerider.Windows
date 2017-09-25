@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Prism.Mvvm;
 
 namespace Accelerider.Windows.ViewModels.Others
 {

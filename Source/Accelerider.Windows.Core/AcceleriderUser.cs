@@ -44,7 +44,7 @@ namespace Accelerider.Windows.Core
                 {
                     ["name"] = username,
                     ["password"] = password,
-                    ["clienttype"] = "wpf",
+                    ["clienttype"] = "test",
                     ["ver"] = "1"
                 }));
             if (json.Value<int>("errno") != 0)
