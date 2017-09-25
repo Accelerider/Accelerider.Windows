@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Accelerider.Windows.Common;
 using Microsoft.Practices.Unity;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;

@@ -1,15 +1,9 @@
-﻿using Accelerider.Windows.ViewModels;
-using Microsoft.Practices.Unity;
+﻿using System.Linq;
 using Accelerider.Windows.Assets;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using System.Collections.Generic;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.ViewModels.Others;
+using Microsoft.Practices.Unity;
 
-namespace Accelerider.Windows
+namespace Accelerider.Windows.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {

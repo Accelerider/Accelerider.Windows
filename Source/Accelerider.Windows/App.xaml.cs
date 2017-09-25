@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows;
-using MaterialDesignThemes.Wpf;
-using Microsoft.Practices.Unity;
+﻿using System.Windows;
+using Accelerider.Windows.Common;
 
 namespace Accelerider.Windows
 {

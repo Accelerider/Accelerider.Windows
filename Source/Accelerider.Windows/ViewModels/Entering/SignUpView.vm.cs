@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Accelerider.Windows.Commands;
+using Accelerider.Windows.Common;
 using Accelerider.Windows.Views.Entering;
 using Microsoft.Practices.Unity;
 

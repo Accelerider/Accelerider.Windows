@@ -92,6 +92,8 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Commands\RelayAsyncCommand.cs" />
     <Compile Include="Commands\RelayAsyncCommand{T}.cs" />
+    <Compile Include="Common\ConstStrings.cs" />
+    <Compile Include="Common\Enumerations.cs" />
     <Compile Include="Controls\FolderLocationBar.xaml.cs">
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>
@@ -140,13 +142,13 @@
     <Compile Include="Converters\LessThan1000Converter.cs" />
     <Compile Include="Converters\MinusConverter.cs" />
     <Compile Include="Converters\UriToImageSourceConverter.cs" />
-    <Compile Include="EnteringWindow.xaml.cs">
+    <Compile Include="Views\Entering\EnteringWindow.xaml.cs">
       <DependentUpon>EnteringWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EnteringWindow.vm.cs" />
-    <Compile Include="Events.cs" />
-    <Compile Include="MainWindow.vm.cs" />
-    <Compile Include="SingletonProcess.cs" />
+    <Compile Include="ViewModels\Entering\EnteringWindow.vm.cs" />
+    <Compile Include="Common\Events.cs" />
+    <Compile Include="ViewModels\MainWindow.vm.cs" />
+    <Compile Include="Common\SingletonProcess.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Commands\RelayCommand{T}.cs" />
@@ -222,7 +224,7 @@
     <Compile Include="Views\Transmission\TransmissionComposite.xaml.cs">
       <DependentUpon>TransmissionComposite.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShellController.cs" />
+    <Compile Include="Common\ShellController.cs" />
     <Page Include="Assets\ResourceDictionaries\Accelerider.Animations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -291,11 +293,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EnteringWindow.xaml">
+    <Page Include="Views\Entering\EnteringWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -304,7 +306,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\ControlHelper.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -456,7 +458,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="AcceleriderLogo.ico">
+    <Resource Include="Assets\Images\AcceleriderLogo.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

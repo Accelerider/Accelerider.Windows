@@ -1,4 +1,4 @@
-﻿namespace Accelerider.Windows
+﻿namespace Accelerider.Windows.Views.Entering
 {
     /// <summary>
     /// Interaction logic for EnteringWindow.xaml

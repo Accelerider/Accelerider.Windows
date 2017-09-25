@@ -1,7 +1,7 @@
 ﻿using Accelerider.Windows.Infrastructure.Interfaces;
 using Prism.Events;
 
-namespace Accelerider.Windows
+namespace Accelerider.Windows.Common
 {
     public class CurrentNetDiskUserChangedEvent : PubSubEvent<INetDiskUser> { }
 

@@ -1,12 +1,12 @@
-﻿using Accelerider.Windows.Properties;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using Accelerider.Windows.Properties;
 
-namespace Accelerider.Windows
+namespace Accelerider.Windows.Common
 {
     public class SingletonProcess
     {

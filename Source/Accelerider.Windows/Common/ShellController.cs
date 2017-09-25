@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 
-namespace Accelerider.Windows
+namespace Accelerider.Windows.Common
 {
     public static class ShellController
     {

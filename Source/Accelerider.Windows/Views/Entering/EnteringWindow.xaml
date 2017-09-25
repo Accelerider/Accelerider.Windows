@@ -1,4 +1,4 @@
-﻿<Window x:Class="Accelerider.Windows.EnteringWindow"
+﻿<Window x:Class="Accelerider.Windows.Views.Entering.EnteringWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:enteringViews="clr-namespace:Accelerider.Windows.Views.Entering"
@@ -7,7 +7,7 @@
         mvvm:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
         Topmost="True"
-        Icon="AcceleriderLogo.ico"
+        Icon="../../Assets/Images/AcceleriderLogo.ico"
         Title="EnteringWindow" Height="310" Width="430"
         x:Name="OwnerWindow" Style="{StaticResource EnteringWindowStyle}">
 
@@ -80,7 +80,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Image Grid.Row="1" Source="Assets/Images/Logo.png" Height="180" Width="180" Style="{StaticResource ZoomDelayStyle}"/>
+                <Image Grid.Row="1" Source="../../Assets/Images/Logo.png" Height="180" Width="180" Style="{StaticResource ZoomDelayStyle}"/>
 
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" >
                     <TextBlock Text="Loading Accelerider for Windows" FontSize="14" Foreground="White" Style="{StaticResource FadeInStyle}"/>

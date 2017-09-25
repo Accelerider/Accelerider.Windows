@@ -4,6 +4,7 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using System.Net;
+using Accelerider.Windows.Common;
 using Accelerider.Windows.ViewModels;
 using Prism.Mvvm;
 using Prism.Unity;
@@ -22,7 +23,7 @@ namespace Accelerider.Windows
 
         protected override void ConfigureViewModelLocator() => ViewModelLocationProvider.SetDefaultViewModelFactory(ResolveViewModel);
 
-        protected override DependencyObject CreateShell() => new EnteringWindow();
+        protected override DependencyObject CreateShell() => new Views.Entering.EnteringWindow();
 
         protected override void InitializeShell()
         {

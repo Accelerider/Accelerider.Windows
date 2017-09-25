@@ -1,16 +1,7 @@
-﻿using System.Windows.Input;
-using Accelerider.Windows.ViewModels;
+﻿using Accelerider.Windows.Common;
 using Microsoft.Practices.Unity;
-using System.Windows;
-using System.Windows.Controls;
-using Accelerider.Windows.Commands;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using Accelerider.Windows.Infrastructure;
-using System.Threading.Tasks;
-using MaterialDesignThemes.Wpf;
-using Accelerider.Windows.Views.Dialogs;
 
-namespace Accelerider.Windows
+namespace Accelerider.Windows.ViewModels.Entering
 {
     public class EnteringWindowViewModel : ViewModelBase
     {

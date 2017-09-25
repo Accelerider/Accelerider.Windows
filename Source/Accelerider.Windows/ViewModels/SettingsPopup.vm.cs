@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Accelerider.Windows.Commands;
+using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Views;
+using Accelerider.Windows.Views.Entering;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Accelerider.Windows.Commands;
+using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
 using Accelerider.Windows.Views.Dialogs;
