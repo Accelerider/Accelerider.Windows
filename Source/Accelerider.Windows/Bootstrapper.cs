@@ -42,14 +42,11 @@ namespace Accelerider.Windows
         #region Private methods
         private void ConfigureApplicationEventHandlers()
         {
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) => OnUnhandledException(sender, (Exception)e.ExceptionObject);
-            Application.Current.DispatcherUnhandledException += (sender, e) => OnUnhandledException(sender, e.Exception);
+            var resolver = Container.Resolve<ExceptionResolver>();
+            AppDomain.CurrentDomain.UnhandledException += resolver.UnhandledExceptionHandler;
+            Application.Current.DispatcherUnhandledException += resolver.DispatcherUnhandledExceptionHandler;
+
             Application.Current.Exit += OnExit;
-        }
-
-        private void OnUnhandledException(object sender, Exception exception)
-        {
-
         }
 
         private void OnExit(object sender, ExitEventArgs e)

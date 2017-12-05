@@ -94,6 +94,7 @@
     <Compile Include="Commands\RelayAsyncCommand{T}.cs" />
     <Compile Include="Common\ConstStrings.cs" />
     <Compile Include="Common\Enumerations.cs" />
+    <Compile Include="Common\ExceptionResolver.cs" />
     <Compile Include="Controls\FolderLocationBar.xaml.cs">
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>
