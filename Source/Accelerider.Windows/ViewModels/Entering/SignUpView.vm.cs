@@ -36,7 +36,8 @@ namespace Accelerider.Windows.ViewModels.Entering
             var message = await AcceleriderUser.SignUpAsync(Username, view.PasswordBox.Password, view.PasswordBoxCode.Password);
             if (string.IsNullOrEmpty(message))
             {
-                // Sign in
+                GlobalMessageQueue.Enqueue("You have successfully registered!");
+
             }
             else
             {

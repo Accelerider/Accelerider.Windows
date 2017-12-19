@@ -34,15 +34,15 @@
                 <ctrls:SettingItem IconKind="Translate" Label="Language"/>
                 <!-- open dialog -->
                 <ctrls:SettingItem IconKind="Settings" Label="Open other settings" Command="{Binding OpenOtherSettingsCommand}"/>
+                <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgoundBrush}"/>
                 <!-- open web -->
                 <ctrls:SettingItem IconKind="HelpCircleOutline" Label="Help" Command="{Binding HelpCommand}"/>
-                <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgoundBrush}"/>
-                <!-- open menu -->
-                <ctrls:SettingItem IconKind="InformationVariant" Label="About"/>
-                <!-- message queue -->
-                <ctrls:SettingItem IconKind="ArrowUpBoldCircleOutline" Label="Check for updates" Command="{Binding CheckUpdateCommand}"/>
                 <!-- open web -->
                 <ctrls:SettingItem IconKind="Web" Label="Official site" Command="{Binding OpenOfficialSiteCommand}"/>
+                <!-- message queue -->
+                <ctrls:SettingItem IconKind="ArrowUpBoldCircleOutline" Label="Check for updates" Command="{Binding CheckUpdateCommand}"/>
+                <!-- open menu -->
+                <ctrls:SettingItem IconKind="InformationVariant" Label="About" Command="{Binding AboutCommand}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgoundBrush}"/>
                 <!-- open EnteringWindow and closes MainWindow -->
                 <ctrls:SettingItem IconKind="Logout" Label="Log out" Command="{Binding SignOutCommand}"/>
