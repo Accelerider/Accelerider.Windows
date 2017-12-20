@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows", "Accelerider.Windows\Accelerider.Windows.csproj", "{BE5FC83A-43A0-41C5-9E3A-1EC4B6946F39}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Components.Authenticator", "Accelerider.Windows.Components.Authenticator\Accelerider.Windows.Components.Authenticator.csproj", "{A91ADD02-6C31-4566-81D5-2E8170D02EA3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.OrleansInterfaces.SharingGroup", "Accelerider.Windows.OrleansInterfaces.SharingGroup\Accelerider.Windows.OrleansInterfaces.SharingGroup.csproj", "{1EC9A602-FE78-49E1-81C1-A9DED48235DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Lab", "Accelerider.Lab\Accelerider.Lab.csproj", "{F6C4DE64-3A68-45A0-B9B4-B0D3BFEBAE48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +72,12 @@ Global
 		{1EC9A602-FE78-49E1-81C1-A9DED48235DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EC9A602-FE78-49E1-81C1-A9DED48235DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EC9A602-FE78-49E1-81C1-A9DED48235DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6C4DE64-3A68-45A0-B9B4-B0D3BFEBAE48}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C4DE64-3A68-45A0-B9B4-B0D3BFEBAE48}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
+		{F6C4DE64-3A68-45A0-B9B4-B0D3BFEBAE48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6C4DE64-3A68-45A0-B9B4-B0D3BFEBAE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6C4DE64-3A68-45A0-B9B4-B0D3BFEBAE48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C4DE64-3A68-45A0-B9B4-B0D3BFEBAE48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +90,7 @@ Global
 		{F079FB0A-A8ED-4216-B6A5-345756751A04} = {86AFA9E9-9F35-4D33-80F5-9B782C2E3AD4}
 		{A91ADD02-6C31-4566-81D5-2E8170D02EA3} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 		{1EC9A602-FE78-49E1-81C1-A9DED48235DA} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
+		{F6C4DE64-3A68-45A0-B9B4-B0D3BFEBAE48} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {242F229E-E9BF-4DED-9237-326C7C9489A4}

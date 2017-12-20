@@ -2,8 +2,8 @@
 {
     public static class ConstStrings
     {
-        #region Region names
+        public const string NavigationBarRegion = "NavigationBarRegion";
+        public const string MainScreenRegion = "MainScreenRegion";
 
-        #endregion
     }
 }
