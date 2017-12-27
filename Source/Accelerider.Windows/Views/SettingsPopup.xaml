@@ -5,7 +5,7 @@
                     xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
                     xmlns:mvvm="http://prismlibrary.com/"
                     mvvm:ViewModelLocator.AutoWireViewModel="True"
-                    StaysOpen="True" AllowsTransparency="True">
+                    AllowsTransparency="True">
     <Border Margin="2" Background="White" BorderThickness="1" CornerRadius="2"
             Effect="{StaticResource MaterialDesignShadowDepth2}">
         <StackPanel>
@@ -26,14 +26,8 @@
                 <!-- open dialog -->
                 <ctrls:SettingItem IconKind="AccountSettings" Label="Change profile" Command="{Binding ChangeProfileCommand}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgoundBrush}"/>
-                <!-- sub menu -->
-                <ctrls:SettingItem IconKind="Application" Label="Application"/>
-                <!-- open dialog or sub menu-->
-                <ctrls:SettingItem IconKind="CommentProcessingOutline" Label="Notifications"/>
-                <!-- sub menu -->
-                <ctrls:SettingItem IconKind="Translate" Label="Language"/>
                 <!-- open dialog -->
-                <ctrls:SettingItem IconKind="Settings" Label="Open other settings" Command="{Binding OpenOtherSettingsCommand}"/>
+                <ctrls:SettingItem IconKind="Settings" Label="Open settings panel" Command="{Binding OpenSettingsPanelCommand}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgoundBrush}"/>
                 <!-- open web -->
                 <ctrls:SettingItem IconKind="HelpCircleOutline" Label="Help" Command="{Binding HelpCommand}"/>
@@ -50,3 +44,4 @@
         </StackPanel>
     </Border>
 </controlzEx:PopupEx>
+ 

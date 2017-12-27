@@ -7,34 +7,32 @@ using Accelerider.Windows.Views.Entering;
 using Microsoft.Practices.Unity;
 using System.Diagnostics;
 using MaterialDesignThemes.Wpf;
+using Accelerider.Windows.Views.Dialogs;
 
 namespace Accelerider.Windows.ViewModels
 {
     public class SettingsPopupViewModel : ViewModelBase
     {
-        private const string _helpUrl = "https://github.com/Accelerider/Accelerider.Windows/wiki";
-        private const string _releaseUrl = "https://github.com/Accelerider/Accelerider.Windows/releases";
-        private const string _webUrl = "http://pan.accelerider.com";
-        private const string _aboutUrl = "https://github.com/Accelerider/Accelerider.Windows";
-
-
         private ICommand _changeProfileCommand;
-        private ICommand _openOtherSettingsCommand;
+        private ICommand _openSettingsPanelCommand;
         private ICommand _helpCommand;
         private ICommand _aboutCommand;
         private ICommand _checkUpdateCommand;
         private ICommand _openOfficialSiteCommand;
         private ICommand _signOutCommand;
 
+        private SettingsPopup _view;
 
         public SettingsPopupViewModel(IUnityContainer container) : base(container)
         {
+            ChangeProfileCommand = new RelayCommand(() => OpenDialog(new ProfileDialog()));
 
+            OpenSettingsPanelCommand = new RelayCommand(() => OpenDialog(new SettingsDialog()));
 
-            HelpCommand = new RelayCommand(() => OpenWebPage(_helpUrl));
-            OpenOfficialSiteCommand = new RelayCommand(() => OpenWebPage(_webUrl));
-            CheckUpdateCommand = new RelayCommand(() => OpenWebPage(_releaseUrl));
-            AboutCommand = new RelayCommand(() => OpenWebPage(_aboutUrl));
+            HelpCommand = new RelayCommand(() => OpenWebPage(ConstStrings.HelpUrl));
+            OpenOfficialSiteCommand = new RelayCommand(() => OpenWebPage(ConstStrings.WebSitePanUrl));
+            CheckUpdateCommand = new RelayCommand(() => OpenWebPage(ConstStrings.ReleaseUrl));
+            AboutCommand = new RelayCommand(() => OpenWebPage(ConstStrings.GithubHomeUrl));
 
             SignOutCommand = new RelayCommand(() =>
             {
@@ -43,6 +41,11 @@ namespace Accelerider.Windows.ViewModels
             });
         }
 
+        public override void OnLoaded(object view)
+        {
+            base.OnLoaded(view);
+            _view = view as SettingsPopup;
+        }
 
         public ICommand ChangeProfileCommand
         {
@@ -50,10 +53,12 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _changeProfileCommand, value);
         }
 
-        public ICommand OpenOtherSettingsCommand
+        // -----------------------------------------------------------------------------------------------------
+
+        public ICommand OpenSettingsPanelCommand
         {
-            get => _openOtherSettingsCommand;
-            set => SetProperty(ref _openOtherSettingsCommand, value);
+            get => _openSettingsPanelCommand;
+            set => SetProperty(ref _openSettingsPanelCommand, value);
         }
 
         // -----------------------------------------------------------------------------------------------------
@@ -93,6 +98,10 @@ namespace Accelerider.Windows.ViewModels
 
         private void OpenWebPage(string url) => Process.Start(url);
 
-        private async void OpenDialog(object dialog) => await DialogHost.Show(dialog, "RootDialog");
+        private async void OpenDialog(object dialog)
+        {
+            _view.SetValue(SettingsPopup.IsOpenProperty, false);
+            await DialogHost.Show(dialog, "RootDialog");
+        }
     }
 }

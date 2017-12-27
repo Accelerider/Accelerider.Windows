@@ -120,9 +120,10 @@
                 </ListBox>
 
                 <Button Grid.Row="3" Height="56" Padding="0" 
-                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                    Background="{StaticResource PrimaryHueDarkBrush}"
-                    BorderThickness="0">
+                        Command="{Binding FeedbackCommand}"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                        Background="{StaticResource PrimaryHueDarkBrush}"
+                        BorderThickness="0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
@@ -141,11 +142,11 @@
                             <RowDefinition Height="2"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="Settings" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
-                        <TextBlock Grid.Row="2" Text="Settings" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                        <materialDesign:PackIcon Kind="Menu" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                        <TextBlock Grid.Row="2" Text="Menu" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                     </Grid>
                 </ToggleButton>
-                <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}" StaysOpen="False"
+                <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}"  StaysOpen="False"
                                      PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" PopupAnimation="Fade"
                                      Width="284" Height="Auto"/>
             </Grid>

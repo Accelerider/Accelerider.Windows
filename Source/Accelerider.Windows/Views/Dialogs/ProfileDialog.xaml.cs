@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Accelerider.Windows.Views.Dialogs
 {
     /// <summary>
-    /// Interaction logic for WaitingDialog.xaml
+    /// Interaction logic for ProfileDialog.xaml
     /// </summary>
-    public partial class WaitingDialog : UserControl
+    public partial class ProfileDialog : UserControl
     {
-        public WaitingDialog()
+        public ProfileDialog()
         {
             InitializeComponent();
         }

@@ -1,8 +1,0 @@
-﻿<UserControl x:Class="Accelerider.Windows.Views.Dialogs.WaitingDialog"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ProgressBar Width="24" Height="24" Margin="16"
-                 Style="{DynamicResource MaterialDesignCircularProgressBar}"
-                 IsIndeterminate="True"
-                 Value="33"/>
-</UserControl>
