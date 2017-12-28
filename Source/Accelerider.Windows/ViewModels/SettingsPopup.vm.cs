@@ -22,12 +22,15 @@ namespace Accelerider.Windows.ViewModels
         private ICommand _signOutCommand;
 
         private SettingsPopup _view;
+        private ProfileDialog _profileDialog;
+        private SettingsDialog _settingsDialog;
+
 
         public SettingsPopupViewModel(IUnityContainer container) : base(container)
         {
-            ChangeProfileCommand = new RelayCommand(() => OpenDialog(new ProfileDialog()));
+            ChangeProfileCommand = new RelayCommand(() => OpenDialog(_profileDialog ?? (_profileDialog = new ProfileDialog())));
 
-            OpenSettingsPanelCommand = new RelayCommand(() => OpenDialog(new SettingsDialog()));
+            OpenSettingsPanelCommand = new RelayCommand(() => OpenDialog(_settingsDialog ?? (_settingsDialog = new SettingsDialog())));
 
             HelpCommand = new RelayCommand(() => OpenWebPage(ConstStrings.HelpUrl));
             OpenOfficialSiteCommand = new RelayCommand(() => OpenWebPage(ConstStrings.WebSitePanUrl));

@@ -63,7 +63,7 @@
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ItemContainerStyle="{StaticResource RightBarListBoxItemStyle}"
                      HorizontalContentAlignment="Stretch">
-                    <ListBoxItem Height="56" >
+                    <ListBoxItem Height="56" Cursor="Hand">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="25"/>
@@ -74,7 +74,7 @@
                             <TextBlock Grid.Row="2" Text="Net Disk" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                         </Grid>
                     </ListBoxItem>
-                    <ListBoxItem Height="56">
+                    <ListBoxItem Height="56" Cursor="Hand">
                         <Grid>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -106,7 +106,7 @@
                             </Grid>
                         </Grid>
                     </ListBoxItem>
-                    <ListBoxItem Height="56">
+                    <ListBoxItem Height="56" Cursor="Hand" >
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="25"/>
@@ -147,8 +147,8 @@
                     </Grid>
                 </ToggleButton>
                 <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}"  StaysOpen="False"
-                                     PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" PopupAnimation="Fade"
-                                     Width="284" Height="Auto"/>
+                                     PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" VerticalOffset="-354" PopupAnimation="Fade"
+                                     Width="284" Height="Auto" />
             </Grid>
         </Grid>
     </materialDesign:DialogHost>
