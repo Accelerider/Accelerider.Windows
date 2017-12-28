@@ -8,7 +8,7 @@
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              Style="{StaticResource AcceleriderDialogStyle}"
              Height="Auto" Width="500">
-    <Grid Margin="50 20 20 20">
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="20"/>
@@ -40,12 +40,12 @@
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{Binding DownloadCommand}" Content="{x:Static res:UiStrings.Download}"/>
-            <Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
+            <!--<Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Content="{x:Static res:UiStrings.Cancel}">
                 <Button.CommandParameter>
                     <system:Boolean>False</system:Boolean>
                 </Button.CommandParameter>
-            </Button>
+            </Button>-->
         </StackPanel>
     </Grid>
 </UserControl>
