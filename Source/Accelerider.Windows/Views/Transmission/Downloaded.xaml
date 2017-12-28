@@ -27,7 +27,7 @@
                 <materialDesign:PackIcon Kind="Folder" Width="20" Height="20" Name="PackIcon"/>
             </Button>
         </Grid>
-        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended" ItemsSource="{Binding TransferedFiles}"
+        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended" ItemsSource="{Binding TransferredFiles}"
                  ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
 
             <ListBox.ItemTemplate>

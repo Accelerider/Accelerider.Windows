@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+
 using Accelerider.Windows.Infrastructure.Interfaces;
-using Microsoft.Practices.Unity;
 using Accelerider.Windows.ViewModels.Others;
+
+using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels.Transmission
 {
@@ -11,6 +13,6 @@ namespace Accelerider.Windows.ViewModels.Transmission
         {
         }
 
-        protected override ObservableCollection<ITransferedFile> GetTransferedFiles() => Container.Resolve<TransferingTaskList>(TransferingTaskList.DownloadKey).TransferedFileList;
+        protected override ObservableCollection<ITransferredFile> GetTransferredFiles() => Container.Resolve<TransferringTaskList>(TransferringTaskList.DownloadKey).TransferredFileList;
     }
 }

@@ -25,10 +25,10 @@
             <StackPanel Margin="0 0 0 8" >
                 <!-- open dialog -->
                 <ctrls:SettingItem IconKind="AccountSettings" Label="Change profile" Command="{Binding ChangeProfileCommand}"/>
-                <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgoundBrush}"/>
+                <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open dialog -->
                 <ctrls:SettingItem IconKind="Settings" Label="Open settings panel" Command="{Binding OpenSettingsPanelCommand}"/>
-                <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgoundBrush}"/>
+                <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open web -->
                 <ctrls:SettingItem IconKind="HelpCircleOutline" Label="Help" Command="{Binding HelpCommand}"/>
                 <!-- open web -->
@@ -37,7 +37,7 @@
                 <ctrls:SettingItem IconKind="ArrowUpBoldCircleOutline" Label="Check for updates" Command="{Binding CheckUpdateCommand}"/>
                 <!-- open menu -->
                 <ctrls:SettingItem IconKind="InformationVariant" Label="About" Command="{Binding AboutCommand}"/>
-                <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgoundBrush}"/>
+                <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open EnteringWindow and closes MainWindow -->
                 <ctrls:SettingItem IconKind="Logout" Label="Log out" Command="{Binding SignOutCommand}"/>
             </StackPanel>

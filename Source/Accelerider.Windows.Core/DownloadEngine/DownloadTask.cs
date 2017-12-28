@@ -9,7 +9,7 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Core.DownloadEngine
 {
-    internal class DownloadTask : ITransferTaskToken, ITransferedFile
+    internal class DownloadTask : ITransferTaskToken, ITransferredFile
     {
         public DownloadTaskItem Item { get; }
 
@@ -100,7 +100,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
             throw new NotImplementedException();
         }
 
-        public ITransferedFile GetTransferedFile()
+        public ITransferredFile GetTransferredFile()
         {
             return TaskStatus == TransferTaskStatusEnum.Completed ? this : null;
         }
@@ -109,7 +109,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public DataSize FileSize => FileSummary.FileSize;
         public DateTime CompletedTime => Item.CompletedTime;
 
-        public event EventHandler<FileCheckStatusEnum> FileChekced;
+        public event EventHandler<FileCheckStatusEnum> FileChecked;
         public FileCheckStatusEnum CheckStatus => Item.FileCheckStatus;
 
     }

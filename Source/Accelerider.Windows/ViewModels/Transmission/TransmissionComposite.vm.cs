@@ -1,13 +1,11 @@
-﻿using Accelerider.Windows.Commands;
+﻿using System.Windows.Input;
+
+using Accelerider.Windows.Commands;
 using Accelerider.Windows.Views.Dialogs;
+
 using MaterialDesignThemes.Wpf;
+
 using Microsoft.Practices.Unity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Accelerider.Windows.ViewModels.Transmission
 {
@@ -26,10 +24,6 @@ namespace Accelerider.Windows.ViewModels.Transmission
             set => SetProperty(ref _addOfflineTaskCommand, value);
         }
 
-        private async void AddOfflineTaskCommandExecute()
-        {
-            await DialogHost.Show(new AddOfflineTaskDialog(), "RootDialog");
-        }
-
+        private async void AddOfflineTaskCommandExecute() => await DialogHost.Show(new AddOfflineTaskDialog(), "RootDialog");
     }
 }

@@ -8,24 +8,11 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.ViewModels.Others
 {
-    public class TransferingTaskList : ObservableCollection<TransferingTaskViewModel>
+    public class TransferringTaskList : ObservableCollection<TransferringTaskViewModel>
     {
         public const string DownloadKey = "DownloadList";
         public const string UploadKey = "UploadList";
         private const int NotAvailable = -1;
-
-        private TransferedFileList _transferedFileList;
-
-        public TransferedFileList TransferedFileList
-        {
-            get => _transferedFileList;
-            set
-            {
-                if (EqualityComparer<ObservableCollection<ITransferedFile>>.Default.Equals(_transferedFileList, value)) return;
-                _transferedFileList = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(TransferedFileList)));
-            }
-        }
 
         private readonly Dictionary<TransferTaskStatusEnum, int> _orderMapping = new Dictionary<TransferTaskStatusEnum, int>
         {
@@ -36,8 +23,9 @@ namespace Accelerider.Windows.ViewModels.Others
             { TransferTaskStatusEnum.Paused, 3 },
         };
 
+        private TransferredFileList _transferredFileList;
 
-        public TransferingTaskList(IEnumerable<TransferingTaskViewModel> collection)
+        public TransferringTaskList(IEnumerable<TransferringTaskViewModel> collection)
         {
             foreach (var item in collection)
             {
@@ -45,13 +33,23 @@ namespace Accelerider.Windows.ViewModels.Others
             }
         }
 
+        public TransferredFileList TransferredFileList
+        {
+            get => _transferredFileList;
+            set
+            {
+                if (EqualityComparer<ObservableCollection<ITransferredFile>>.Default.Equals(_transferredFileList, value)) return;
+                _transferredFileList = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(TransferredFileList)));
+            }
+        }
 
-        protected override void InsertItem(int index, TransferingTaskViewModel item)
+        protected override void InsertItem(int index, TransferringTaskViewModel item)
         {
             index = GetAppropriateIndex(item);
             if (index == NotAvailable)
             {
-                AddToTransferedList(item);
+                AddToTransferredList(item);
                 return;
             }
 
@@ -75,7 +73,7 @@ namespace Accelerider.Windows.ViewModels.Others
                 if (appropriateIndex == NotAvailable)
                 {
                     Remove(task);
-                    AddToTransferedList(task);
+                    this.AddToTransferredList(task);
                     return;
                 }
 
@@ -91,19 +89,19 @@ namespace Accelerider.Windows.ViewModels.Others
             }
         }
 
-        private void AddToTransferedList(TransferingTaskViewModel task)
+        private void AddToTransferredList(TransferringTaskViewModel task)
         {
             if (task.TransferTaskStatus == TransferTaskStatusEnum.Completed)
             {
-                Application.Current.Dispatcher.Invoke(() => TransferedFileList.Insert(0, task.Token.GetTransferedFile()));
+                Application.Current.Dispatcher.Invoke(() => TransferredFileList.Insert(0, task.Token.GetTransferredFile()));
             }
         }
 
-        private int GetAppropriateIndex(TransferingTaskViewModel other)
+        private int GetAppropriateIndex(TransferringTaskViewModel other)
         {
             if (!_orderMapping.ContainsKey(other.TransferTaskStatus)) return NotAvailable;
 
-            int i = 0;
+            var i = 0;
             for (; i < Items.Count; i++)
             {
                 var item = Items[i];
@@ -113,6 +111,7 @@ namespace Accelerider.Windows.ViewModels.Others
                     _orderMapping[other.TransferTaskStatus] <= _orderMapping[itemNext.TransferTaskStatus]))
                     break;
             }
+
             return i;
         }
     }

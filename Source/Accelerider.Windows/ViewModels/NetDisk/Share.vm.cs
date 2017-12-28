@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
+
+using Accelerider.Windows.Infrastructure.Interfaces;
+
+using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels.NetDisk
 {
@@ -11,10 +13,6 @@ namespace Accelerider.Windows.ViewModels.NetDisk
         {
         }
 
-        protected override async Task<IEnumerable<ISharedFile>> GetFilesAsync()
-        {
-            return await NetDiskUser.GetSharedFilesAsync();
-        }
-
+        protected override async Task<IEnumerable<ISharedFile>> GetFilesAsync() => await NetDiskUser.GetSharedFilesAsync();
     }
 }

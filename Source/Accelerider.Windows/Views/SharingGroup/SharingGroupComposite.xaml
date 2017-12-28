@@ -22,7 +22,7 @@
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="1" Background="{StaticResource LightGreyBackgoundBrush}" Height="30" Margin="20 0" CornerRadius="3" ToolTip="Enter to search, ignore case">
+            <Border Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" Height="30" Margin="20 0" CornerRadius="3" ToolTip="Enter to search, ignore case">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />

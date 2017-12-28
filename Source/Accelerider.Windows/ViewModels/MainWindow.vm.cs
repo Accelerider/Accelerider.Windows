@@ -11,8 +11,8 @@ namespace Accelerider.Windows.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private TransferingTaskList _downloadList;
-        private TransferingTaskList _uploadList;
+        private TransferringTaskList _downloadList;
+        private TransferringTaskList _uploadList;
         private ICommand _feedbackCommand;
 
 
@@ -31,13 +31,13 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _feedbackCommand, value);
         }
 
-        public TransferingTaskList DownloadList
+        public TransferringTaskList DownloadList
         {
             get => _downloadList;
             set => SetProperty(ref _downloadList, value);
         }
 
-        public TransferingTaskList UploadList
+        public TransferringTaskList UploadList
         {
             get => _uploadList;
             set => SetProperty(ref _uploadList, value);
@@ -52,14 +52,14 @@ namespace Accelerider.Windows.ViewModels
 
         private void ConfigureTransferList()
         {
-            DownloadList = new TransferingTaskList(AcceleriderUser.GetDownloadingTasks().Select(task => new TransferingTaskViewModel(task)));
-            UploadList = new TransferingTaskList(AcceleriderUser.GetUploadingTasks().Select(task => new TransferingTaskViewModel(task)));
+            DownloadList = new TransferringTaskList(AcceleriderUser.GetDownloadingTasks().Select(task => new TransferringTaskViewModel(task)));
+            UploadList = new TransferringTaskList(AcceleriderUser.GetUploadingTasks().Select(task => new TransferringTaskViewModel(task)));
 
-            DownloadList.TransferedFileList = new TransferedFileList(AcceleriderUser.GetDownloadedFiles());
-            UploadList.TransferedFileList = new TransferedFileList(AcceleriderUser.GetUploadedFiles());
+            DownloadList.TransferredFileList = new TransferredFileList(AcceleriderUser.GetDownloadedFiles());
+            UploadList.TransferredFileList = new TransferredFileList(AcceleriderUser.GetUploadedFiles());
 
-            Container.RegisterInstance(TransferingTaskList.DownloadKey, DownloadList);
-            Container.RegisterInstance(TransferingTaskList.UploadKey, UploadList);
+            Container.RegisterInstance(TransferringTaskList.DownloadKey, DownloadList);
+            Container.RegisterInstance(TransferringTaskList.UploadKey, UploadList);
         }
     }
 }

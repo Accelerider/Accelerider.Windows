@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows.Data;
 using System.Linq;
+using System.Windows.Data;
 
 namespace Accelerider.Windows.Converters
 {
@@ -9,7 +9,7 @@ namespace Accelerider.Windows.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            double? result = values.Select(value => double.Parse(value.ToString())).Aggregate((sum, value) => sum += value);
+            double? result = values.Select(value => double.Parse(value.ToString())).Aggregate((sum, value) => sum + value);
             return result <= 0 ? null : result;
         }
 

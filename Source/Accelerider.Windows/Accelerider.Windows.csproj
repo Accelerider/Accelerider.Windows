@@ -115,8 +115,8 @@
     <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="MockData\Message.cs" />
     <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
-    <Compile Include="ViewModels\Others\TransferedFileList.cs" />
-    <Compile Include="ViewModels\Others\TransferingTaskList.cs" />
+    <Compile Include="ViewModels\Others\TransferredFileList.cs" />
+    <Compile Include="ViewModels\Others\TransferringTaskList.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
     <Compile Include="ViewModels\SharingGroup\ConversationsTab.vm.cs" />
     <Compile Include="ViewModels\Transmission\TransferedBase.vm.cs" />
@@ -165,7 +165,7 @@
     <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
     <Compile Include="ViewModels\Dialogs\SelectNetDiskTypeDialog.vm.cs" />
     <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
-    <Compile Include="ViewModels\Others\TransferingTask.vm.cs" />
+    <Compile Include="ViewModels\Others\TransferringTask.vm.cs" />
     <Compile Include="ViewModels\NetDisk\LoadingFilesBase.vm.cs" />
     <Compile Include="ViewModels\NetDisk\Files.vm.cs" />
     <Compile Include="ViewModels\NetDisk\Share.vm.cs" />

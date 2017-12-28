@@ -11,7 +11,7 @@ namespace Accelerider.Windows.ViewModels.Transmission
 {
     public abstract class TransferringBaseViewModel : ViewModelBase
     {
-        private TransferingTaskList _transferTasks;
+        private TransferringTaskList _transferTasks;
         private ICommand _pauseCommand;
         private ICommand _startCommand;
         private ICommand _startForceCommand;
@@ -26,7 +26,7 @@ namespace Accelerider.Windows.ViewModels.Transmission
         }
 
 
-        public TransferingTaskList TransferTasks
+        public TransferringTaskList TransferTasks
         {
             get => _transferTasks;
             set => SetProperty(ref _transferTasks, value);
@@ -60,23 +60,23 @@ namespace Accelerider.Windows.ViewModels.Transmission
 
         private void InitializeCommands()
         {
-            PauseCommand = new RelayCommand<TransferingTaskViewModel>(
+            PauseCommand = new RelayCommand<TransferringTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.PauseAsync(), "Pause task failed."),
                 taskToken => !taskToken.IsBusy && 
                 taskToken.Token.TaskStatus == TransferTaskStatusEnum.Transferring ||
                 taskToken.Token.TaskStatus == TransferTaskStatusEnum.Waiting);
-            StartCommand = new RelayCommand<TransferingTaskViewModel>(
+            StartCommand = new RelayCommand<TransferringTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(), "Restart task failed."),
                 taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus == TransferTaskStatusEnum.Paused);
-            StartForceCommand = new RelayCommand<TransferingTaskViewModel>(
+            StartForceCommand = new RelayCommand<TransferringTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(true), "Jump queue failed."),
                 taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus != TransferTaskStatusEnum.Transferring);
-            CancelCommand = new RelayCommand<TransferingTaskViewModel>(
+            CancelCommand = new RelayCommand<TransferringTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.CancelAsync(), "Cancel task failed."),
                 taskToken => !taskToken.IsBusy);
         }
 
-        private async void OperateTaskToken(TransferingTaskViewModel taskToken, Func<ITransferTaskToken, Task<bool>> operation, string errorMessage)
+        private async void OperateTaskToken(TransferringTaskViewModel taskToken, Func<ITransferTaskToken, Task<bool>> operation, string errorMessage)
         {
             taskToken.IsBusy = true;
             if (!await operation(taskToken.Token)) GlobalMessageQueue.Enqueue(errorMessage);
@@ -84,6 +84,6 @@ namespace Accelerider.Windows.ViewModels.Transmission
         }
         #endregion
 
-        protected abstract TransferingTaskList GetTaskList();
+        protected abstract TransferringTaskList GetTaskList();
     }
 }

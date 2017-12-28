@@ -36,8 +36,8 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         IReadOnlyCollection<ITransferTaskToken> GetUploadingTasks();
 
-        IReadOnlyCollection<ITransferedFile> GetDownloadedFiles();
+        IReadOnlyCollection<ITransferredFile> GetDownloadedFiles();
 
-        IReadOnlyCollection<ITransferedFile> GetUploadedFiles();
+        IReadOnlyCollection<ITransferredFile> GetUploadedFiles();
     }
 }

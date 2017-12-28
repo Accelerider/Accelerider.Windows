@@ -1,13 +1,16 @@
-﻿using System.Windows.Input;
+﻿using System.Diagnostics;
+using System.Windows.Input;
+
 using Accelerider.Windows.Commands;
 using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Views;
-using Accelerider.Windows.Views.Entering;
-using Microsoft.Practices.Unity;
-using System.Diagnostics;
-using MaterialDesignThemes.Wpf;
 using Accelerider.Windows.Views.Dialogs;
+using Accelerider.Windows.Views.Entering;
+
+using MaterialDesignThemes.Wpf;
+
+using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -25,7 +28,6 @@ namespace Accelerider.Windows.ViewModels
         private ProfileDialog _profileDialog;
         private SettingsDialog _settingsDialog;
         private AboutDialog _aboutDialog;
-
 
         public SettingsPopupViewModel(IUnityContainer container) : base(container)
         {
@@ -45,12 +47,6 @@ namespace Accelerider.Windows.ViewModels
             });
         }
 
-        public override void OnLoaded(object view)
-        {
-            base.OnLoaded(view);
-            _view = view as SettingsPopup;
-        }
-
         public ICommand ChangeProfileCommand
         {
             get => _changeProfileCommand;
@@ -58,7 +54,6 @@ namespace Accelerider.Windows.ViewModels
         }
 
         // -----------------------------------------------------------------------------------------------------
-
         public ICommand OpenSettingsPanelCommand
         {
             get => _openSettingsPanelCommand;
@@ -66,7 +61,6 @@ namespace Accelerider.Windows.ViewModels
         }
 
         // -----------------------------------------------------------------------------------------------------
-
         public ICommand HelpCommand
         {
             get => _helpCommand;
@@ -92,19 +86,23 @@ namespace Accelerider.Windows.ViewModels
         }
 
         // -----------------------------------------------------------------------------------------------------
-
         public ICommand SignOutCommand
         {
             get => _signOutCommand;
             set => SetProperty(ref _signOutCommand, value);
         }
 
+        public override void OnLoaded(object view)
+        {
+            base.OnLoaded(view);
+            _view = view as SettingsPopup;
+        }
 
         private void OpenWebPage(string url) => Process.Start(url);
 
         private async void OpenDialog(object dialog)
         {
-            _view.SetValue(SettingsPopup.IsOpenProperty, false);
+            _view.SetValue(System.Windows.Controls.Primitives.Popup.IsOpenProperty, false);
             await DialogHost.Show(dialog, "RootDialog");
         }
     }

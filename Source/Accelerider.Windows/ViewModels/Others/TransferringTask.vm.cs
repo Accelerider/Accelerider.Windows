@@ -6,17 +6,15 @@ using Prism.Mvvm;
 
 namespace Accelerider.Windows.ViewModels.Others
 {
-    public class TransferingTaskViewModel : BindableBase
+    public class TransferringTaskViewModel : BindableBase
     {
         private string _ownerName;
         private DataSize _progress;
         private TimeSpan? _remainingTime;
         private DataSize _speed;
-
         private bool _isBusy;
 
-
-        public TransferingTaskViewModel(ITransferTaskToken token)
+        public TransferringTaskViewModel(ITransferTaskToken token)
         {
             OwnerName = token.OwnerName;
             Token = token;
@@ -24,7 +22,6 @@ namespace Accelerider.Windows.ViewModels.Others
 
             RefreshTransferTaskStatusCycle();
         }
-
 
         public string OwnerName
         {
@@ -56,13 +53,11 @@ namespace Accelerider.Windows.ViewModels.Others
             set => SetProperty(ref _remainingTime, value);
         }
 
-
         public bool IsBusy
         {
             get => _isBusy;
             set => SetProperty(ref _isBusy, value);
         }
-
 
         private async void RefreshTransferTaskStatusCycle()
         {
