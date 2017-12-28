@@ -50,7 +50,6 @@
             <!--Left side bar-->
             <Grid Grid.Column="0" Background="{StaticResource PrimaryHueDarkBrush}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                     <RowDefinition Height="Auto"/>
@@ -58,7 +57,7 @@
                 </Grid.RowDefinitions>
 
                 <!--Tab list-->
-                <ListBox x:Name="TabListBox" Grid.Row="1" 
+                <ListBox x:Name="TabListBox" Grid.Row="0" 
                      SelectionMode="Single" SelectedIndex="0"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ItemContainerStyle="{StaticResource RightBarListBoxItemStyle}"
@@ -119,7 +118,7 @@
                     </ListBoxItem>
                 </ListBox>
 
-                <Button Grid.Row="3" Height="56" Padding="0" 
+                <Button Grid.Row="2" Height="56" Padding="0" 
                         Command="{Binding FeedbackCommand}"
                         materialDesign:ShadowAssist.ShadowDepth="Depth0"
                         Background="{StaticResource PrimaryHueDarkBrush}"
@@ -134,7 +133,7 @@
                         <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
                     </Grid>
                 </Button>
-                <ToggleButton x:Name="SettingsToggleButton" Grid.Row="4"
+                <ToggleButton x:Name="SettingsToggleButton" Grid.Row="3"
                               Height="56" Style="{StaticResource RightBarAndUnderlineToggleButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>

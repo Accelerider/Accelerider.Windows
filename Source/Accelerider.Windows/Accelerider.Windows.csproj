@@ -120,8 +120,12 @@
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
     <Compile Include="ViewModels\SharingGroup\ConversationsTab.vm.cs" />
     <Compile Include="ViewModels\Transmission\TransferedBase.vm.cs" />
+    <Compile Include="ViewModels\Transmission\TransmissionComposite.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\AddOfflineTaskDialog.xaml.cs">
+      <DependentUpon>AddOfflineTaskDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\ProfileDialog.xaml.cs">
       <DependentUpon>ProfileDialog.xaml</DependentUpon>
@@ -137,6 +141,9 @@
     </Compile>
     <Compile Include="Views\SharingGroup\GroupTabs.xaml.cs">
       <DependentUpon>GroupTabs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transmission\OfflineDownload.xaml.cs">
+      <DependentUpon>OfflineDownload.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Transmission\TaskProgressList.xaml.cs">
       <DependentUpon>TaskProgressList.xaml</DependentUpon>
@@ -241,6 +248,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Assets\ResourceDictionaries\Accelerider.Styles.UserControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Assets\ResourceDictionaries\Accelerider.Styles.Windows.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -273,6 +284,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Dialogs\AddOfflineTaskDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Dialogs\ProfileDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -290,6 +305,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SharingGroup\GroupTabs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Transmission\OfflineDownload.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,6 +6,7 @@
              xmlns:res="clr-namespace:Accelerider.Windows.Assets"
              xmlns:mvvm="http://prismlibrary.com/"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
+             Style="{StaticResource AcceleriderDialogStyle}"
              Height="Auto" Width="500">
     <Grid Margin="50 20 20 20">
         <Grid.RowDefinitions>

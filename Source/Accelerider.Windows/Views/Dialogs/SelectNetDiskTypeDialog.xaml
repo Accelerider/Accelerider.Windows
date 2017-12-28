@@ -7,21 +7,20 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mvvm="http://prismlibrary.com/"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
+             Style="{StaticResource AcceleriderDialogStyle}"
              Width="400">
-    <Grid >
+    <Grid Margin="0 0 0 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="10"/>
             <RowDefinition />
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Please select net-disk type" Margin="20 10"
                    Foreground="{StaticResource PrimaryHueMidBrush}"
                    FontWeight="Bold" FontSize="16"/>
 
-        <ListBox x:Name="PART_ListBox" Grid.Row="2" ItemsSource="{Binding NetDiskTypes}" SelectionMode="Single"
+        <ListBox x:Name="NetDiskTypeListBox" Grid.Row="2" ItemsSource="{Binding NetDiskTypes}" SelectionMode="Single"
                  ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}" >
 
             <i:Interaction.Triggers>
@@ -34,7 +33,7 @@
                 </i:EventTrigger>
                 
                 <i:EventTrigger EventName="MouseUp">
-                    <i:InvokeCommandAction Command="{Binding SelectNetDiskCommand}" CommandParameter="{Binding SelectedItem, ElementName=PART_ListBox}"/>
+                    <i:InvokeCommandAction Command="{Binding SelectNetDiskCommand}" CommandParameter="{Binding SelectedItem, ElementName=NetDiskTypeListBox}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
@@ -51,11 +50,11 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button Grid.Row="4" Style="{StaticResource MaterialDesignFlatButton}" Content="{x:Static res:UiStrings.Cancel}"
+        <!--<Button Grid.Row="4" Style="{StaticResource MaterialDesignFlatButton}" Content="{x:Static res:UiStrings.Cancel}"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
             <Button.CommandParameter>
                 <system:Boolean>False</system:Boolean>
             </Button.CommandParameter>
-        </Button>
+        </Button>-->
     </Grid>
 </UserControl>

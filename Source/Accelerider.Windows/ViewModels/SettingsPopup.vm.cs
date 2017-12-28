@@ -24,6 +24,7 @@ namespace Accelerider.Windows.ViewModels
         private SettingsPopup _view;
         private ProfileDialog _profileDialog;
         private SettingsDialog _settingsDialog;
+        private AboutDialog _aboutDialog;
 
 
         public SettingsPopupViewModel(IUnityContainer container) : base(container)
@@ -35,7 +36,7 @@ namespace Accelerider.Windows.ViewModels
             HelpCommand = new RelayCommand(() => OpenWebPage(ConstStrings.HelpUrl));
             OpenOfficialSiteCommand = new RelayCommand(() => OpenWebPage(ConstStrings.WebSitePanUrl));
             CheckUpdateCommand = new RelayCommand(() => OpenWebPage(ConstStrings.ReleaseUrl));
-            AboutCommand = new RelayCommand(() => OpenWebPage(ConstStrings.GithubHomeUrl));
+            AboutCommand = new RelayCommand(() => OpenDialog(_aboutDialog ?? (_aboutDialog = new AboutDialog())));
 
             SignOutCommand = new RelayCommand(() =>
             {
