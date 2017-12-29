@@ -10,18 +10,14 @@ namespace Accelerider.Windows.ViewModels.NetDisk
 {
     public abstract class LoadingFilesBaseViewModel<T> : ViewModelBase
     {
-        protected INetDiskUser PreviousNetDiskUser;
-
         private bool _isLoadingFiles;
         private ICommand _refreshFilesCommand;
         private IEnumerable<T> _files;
-
 
         protected LoadingFilesBaseViewModel(IUnityContainer container) : base(container)
         {
             RefreshFilesCommand = new RelayCommand(async () => await LoadingFilesAsync());
         }
-
 
         public ICommand RefreshFilesCommand
         {
@@ -45,6 +41,7 @@ namespace Accelerider.Windows.ViewModels.NetDisk
             }
         }
 
+        protected INetDiskUser PreviousNetDiskUser { get; set; }
 
         public override void OnLoaded(object view)
         {
@@ -63,20 +60,21 @@ namespace Accelerider.Windows.ViewModels.NetDisk
             PreviousNetDiskUser = NetDiskUser;
         }
 
-        private async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
-        {
-            await currentNetDiskUser.RefreshUserInfoAsync();
-            await LoadingFilesAsync();
-        }
-
         protected async Task LoadingFilesAsync()
         {
             if (IsLoadingFiles) return;
 
             IsLoadingFiles = true;
-            Files = await GetFilesAsync();
+            var task = GetFilesAsync();
+            if (task != null) Files = await task;
         }
 
         protected abstract Task<IEnumerable<T>> GetFilesAsync();
+
+        private async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
+        {
+            await currentNetDiskUser.RefreshUserInfoAsync();
+            await LoadingFilesAsync();
+        }
     }
 }

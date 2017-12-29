@@ -22,7 +22,7 @@
                 <ctrls:ToolBarButton IconKind="DeleteForever" Label="Empty All Records"/>
             </StackPanel>
         </Grid>
-        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended" ItemsSource="{Binding TransferedFiles}"
+        <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended" ItemsSource="{Binding TransferredFiles}"
                  ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
 
             <ListBox.ItemTemplate>

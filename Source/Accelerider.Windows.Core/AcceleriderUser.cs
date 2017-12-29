@@ -113,9 +113,9 @@ namespace Accelerider.Windows.Core
 
         public IReadOnlyCollection<ITransferTaskToken> GetUploadingTasks() => new List<ITransferTaskToken>();
 
-        public IReadOnlyCollection<ITransferedFile> GetDownloadedFiles() => DownloadTaskManager.Manager.Handles.Where(v => v.Item.Completed).ToList();
+        public IReadOnlyCollection<ITransferredFile> GetDownloadedFiles() => DownloadTaskManager.Manager.Handles.Where(v => v.Item.Completed).ToList();
 
-        public IReadOnlyCollection<ITransferedFile> GetUploadedFiles() => new List<ITransferedFile>();
+        public IReadOnlyCollection<ITransferredFile> GetUploadedFiles() => new List<ITransferredFile>();
 
         #endregion
 

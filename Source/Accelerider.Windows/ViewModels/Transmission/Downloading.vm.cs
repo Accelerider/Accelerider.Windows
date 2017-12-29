@@ -9,6 +9,6 @@ namespace Accelerider.Windows.ViewModels.Transmission
         {
         }
 
-        protected override TransferingTaskList GetTaskList() => Container.Resolve<TransferingTaskList>(TransferingTaskList.DownloadKey);
+        protected override TransferringTaskList GetTaskList() => Container.Resolve<TransferringTaskList>(TransferringTaskList.DownloadKey);
     }
 }

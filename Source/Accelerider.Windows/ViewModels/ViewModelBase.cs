@@ -1,8 +1,12 @@
 ﻿using System.Linq;
+
 using Accelerider.Windows.Common;
-using Microsoft.Practices.Unity;
 using Accelerider.Windows.Infrastructure.Interfaces;
+
 using MaterialDesignThemes.Wpf;
+
+using Microsoft.Practices.Unity;
+
 using Prism.Events;
 using Prism.Mvvm;
 
@@ -12,10 +16,13 @@ namespace Accelerider.Windows.ViewModels
     {
         private SnackbarMessageQueue _globalMessageQueue;
 
-
-        protected IUnityContainer Container { get; }
-        protected IEventAggregator EventAggregator { get; }
-        protected IAcceleriderUser AcceleriderUser { get; }
+        protected ViewModelBase(IUnityContainer container)
+        {
+            Container = container;
+            EventAggregator = container.Resolve<IEventAggregator>();
+            AcceleriderUser = container.Resolve<IAcceleriderUser>();
+            GlobalMessageQueue = container.Resolve<SnackbarMessageQueue>();
+        }
 
         public INetDiskUser NetDiskUser
         {
@@ -28,23 +35,23 @@ namespace Accelerider.Windows.ViewModels
                 EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Publish(temp);
             }
         }
+
         public SnackbarMessageQueue GlobalMessageQueue
         {
             get => _globalMessageQueue;
             set => SetProperty(ref _globalMessageQueue, value);
         }
 
+        protected IUnityContainer Container { get; }
+        protected IEventAggregator EventAggregator { get; }
+        protected IAcceleriderUser AcceleriderUser { get; }
 
-        protected ViewModelBase(IUnityContainer container)
+        public virtual void OnLoaded(object view)
         {
-            Container = container;
-            EventAggregator = container.Resolve<IEventAggregator>();
-            AcceleriderUser = container.Resolve<IAcceleriderUser>();
-            GlobalMessageQueue = container.Resolve<SnackbarMessageQueue>();
         }
 
-        public virtual void OnLoaded(object view) { }
-
-        public virtual void OnUnloaded(object view) { }
+        public virtual void OnUnloaded(object view)
+        {
+        }
     }
 }

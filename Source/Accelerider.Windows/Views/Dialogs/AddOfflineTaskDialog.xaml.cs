@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Accelerider.Windows.Views.Dialogs
 {
     /// <summary>
-    /// Interaction logic for WaitingDialog.xaml
+    /// Interaction logic for AddOfflineTaskDialog.xaml
     /// </summary>
-    public partial class WaitingDialog : UserControl
+    public partial class AddOfflineTaskDialog : UserControl
     {
-        public WaitingDialog()
+        public AddOfflineTaskDialog()
         {
             InitializeComponent();
         }

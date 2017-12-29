@@ -95,7 +95,7 @@
                                 <Border.Background>
                                     <TemplateBinding Property="Foreground">
                                         <TemplateBinding.Converter>
-                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource LightGreyBackgoundBrush}"/>
+                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource LightGreyBackgroundBrush}"/>
                                         </TemplateBinding.Converter>
                                     </TemplateBinding>
                                 </Border.Background>
@@ -172,7 +172,7 @@
                             </materialDesign:Ripple>
                             <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_SeletedRectangle" Fill="{StaticResource PrimaryHueMidBrush}" Opacity="0"/>
                             <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_MouseOverRectangle" Fill="{StaticResource PrimaryHueMidBrush}" Opacity="0"/>
-                            <Border Grid.Row="1" Background="{DynamicResource LightGreyBackgoundBrush}" Height="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+                            <Border Grid.Row="1" Background="{DynamicResource LightGreyBackgroundBrush}" Height="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>

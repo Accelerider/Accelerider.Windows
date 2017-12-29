@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Accelerider.Windows.Views.Transmission"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls">
+             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
+             xmlns:mvvm="http://prismlibrary.com/"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -21,7 +23,7 @@
             </Grid.RowDefinitions>
 
             <!--<TextBlock Grid.Row="1" Text="Task Category" Margin="10 0 0 0" FontSize="14"/>-->
-            <Border Grid.Row="1" Background="{StaticResource LightGreyBackgoundBrush}" Height="30" Margin="20 0" CornerRadius="3" ToolTip="Enter to search, ignore case">
+            <Border Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" Height="30" Margin="20 0" CornerRadius="3" ToolTip="Enter to search, ignore case">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -66,7 +68,7 @@
                             <ColumnDefinition Width="20"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Grid.Column="1" Kind="Check" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="CheckAll" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Column="3" Text="Downloaded" VerticalAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
@@ -79,7 +81,20 @@
                             <ColumnDefinition Width="20"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Grid.Column="1" Kind="CloudUpload" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="CloudDownload" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="Offline Tasks" VerticalAlignment="Center"/>
+                    </Grid>
+                </ListBoxItem>
+                <Separator/>
+                <ListBoxItem Height="45">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="Upload" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Column="3" Text="Uploading" VerticalAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
@@ -91,16 +106,17 @@
                             <ColumnDefinition Width="20"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Grid.Column="1" Kind="CloudCheck" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="CheckAll" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Column="3" Text="Uploaded" VerticalAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
             </ListBox>
 
-            <Button Grid.Row="5" Height="30" Margin="35 15" materialDesign:ShadowAssist.ShadowDepth="Depth0">
+            <Button Grid.Row="5" Height="30" Margin="35 15" materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                    Command="{Binding AddOfflineTaskCommand}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" VerticalAlignment="Center" Margin="0 0 10 0"/>
-                    <TextBlock Text="Add Download Task" VerticalAlignment="Center" FontSize="12"/>
+                    <TextBlock Text="Add Offline Task" VerticalAlignment="Center" FontSize="12"/>
                 </StackPanel>
             </Button>
         </Grid>
@@ -110,8 +126,9 @@
             <ctrls:SwitchableViewContainer.Resources>
                 <local:Downloading x:Key="0" Style="{StaticResource FloatInUpStyle}"/>
                 <local:Downloaded x:Key="1" Style="{StaticResource FloatInUpStyle}" />
-                <local:Uploading x:Key="3" Style="{StaticResource FloatInUpStyle}" />
-                <local:Uploaded x:Key="4" Style="{StaticResource FloatInUpStyle}" />
+                <local:OfflineDownload x:Key="3" Style="{StaticResource FloatInUpStyle}" />
+                <local:Uploading x:Key="5" Style="{StaticResource FloatInUpStyle}" />
+                <local:Uploaded x:Key="6" Style="{StaticResource FloatInUpStyle}" />
             </ctrls:SwitchableViewContainer.Resources>
         </ctrls:SwitchableViewContainer>
     </Grid>

@@ -15,7 +15,7 @@
         Icon="../Assets/Images/AcceleriderLogo.ico"
         Title="Accelerider" >
     <materialDesign:DialogHost Identifier="RootDialog">
-        <Grid Background="{StaticResource LightGreyBackgoundBrush}" >
+        <Grid Background="{StaticResource LightGreyBackgroundBrush}" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="68"/>
                 <ColumnDefinition />
@@ -50,7 +50,6 @@
             <!--Left side bar-->
             <Grid Grid.Column="0" Background="{StaticResource PrimaryHueDarkBrush}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                     <RowDefinition Height="Auto"/>
@@ -58,23 +57,23 @@
                 </Grid.RowDefinitions>
 
                 <!--Tab list-->
-                <ListBox x:Name="TabListBox" Grid.Row="1" 
+                <ListBox x:Name="TabListBox" Grid.Row="0" 
                      SelectionMode="Single" SelectedIndex="0"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ItemContainerStyle="{StaticResource RightBarListBoxItemStyle}"
                      HorizontalContentAlignment="Stretch">
-                    <ListBoxItem Height="56" >
+                    <ListBoxItem Height="56" Cursor="Hand">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="25"/>
                                 <RowDefinition Height="2"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <materialDesign:PackIcon Kind="FolderMultiple" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="18" Width="18"/>
-                            <TextBlock Grid.Row="2" Text="Net Disk" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                            <materialDesign:PackIcon Kind="FolderMultiple" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="18" Width="18"/>
+                            <TextBlock Grid.Row="2" Text="Net Disk" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
                         </Grid>
                     </ListBoxItem>
-                    <ListBoxItem Height="56">
+                    <ListBoxItem Height="56" Cursor="Hand">
                         <Grid>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -82,8 +81,8 @@
                                     <RowDefinition Height="2"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <materialDesign:PackIcon Kind="SwapVertical" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="25" Width="25"/>
-                                <TextBlock Grid.Row="2" Text="Transfer" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                                <materialDesign:PackIcon Kind="SwapVertical" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="25" Width="25"/>
+                                <TextBlock Grid.Row="2" Text="Transfer" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -106,34 +105,35 @@
                             </Grid>
                         </Grid>
                     </ListBoxItem>
-                    <ListBoxItem Height="56">
+                    <ListBoxItem Height="56" Cursor="Hand" >
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="25"/>
                                 <RowDefinition Height="2"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <materialDesign:PackIcon Kind="AccountMultiple" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
-                            <TextBlock Grid.Row="2" Text="Group" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                            <materialDesign:PackIcon Kind="AccountMultiple" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
+                            <TextBlock Grid.Row="2" Text="Group" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
                         </Grid>
                     </ListBoxItem>
                 </ListBox>
 
-                <Button Grid.Row="3" Height="56" Padding="0" 
-                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                    Background="{StaticResource PrimaryHueDarkBrush}"
-                    BorderThickness="0">
+                <Button Grid.Row="2" Height="56" Padding="0" 
+                        Command="{Binding FeedbackCommand}"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                        Background="{StaticResource PrimaryHueDarkBrush}"
+                        BorderThickness="0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="2"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="LightbulbOutline" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
-                        <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                        <materialDesign:PackIcon Kind="LightbulbOutline" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                        <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
                     </Grid>
                 </Button>
-                <ToggleButton x:Name="SettingsToggleButton" Grid.Row="4"
+                <ToggleButton x:Name="SettingsToggleButton" Grid.Row="3"
                               Height="56" Style="{StaticResource RightBarAndUnderlineToggleButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -141,13 +141,13 @@
                             <RowDefinition Height="2"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="Settings" Foreground="{StaticResource LightGreyBackgoundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
-                        <TextBlock Grid.Row="2" Text="Settings" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgoundBrush}" FontSize="10"/>
+                        <materialDesign:PackIcon Kind="Menu" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                        <TextBlock Grid.Row="2" Text="Menu" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
                     </Grid>
                 </ToggleButton>
-                <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}" StaysOpen="False"
-                                     PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" PopupAnimation="Fade"
-                                     Width="284" Height="Auto"/>
+                <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}"  StaysOpen="False"
+                                     PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" VerticalOffset="-354" PopupAnimation="Fade"
+                                     Width="284" Height="Auto" />
             </Grid>
         </Grid>
     </materialDesign:DialogHost>

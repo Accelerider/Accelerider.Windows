@@ -1,15 +1,18 @@
 ﻿<UserControl x:Class="Accelerider.Windows.Views.Dialogs.SettingsDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <TabControl>
-        <TabItem Header="Download">
-            <Grid Height="300"></Grid>
-        </TabItem>
-        <TabItem Header="Upload">
-            <Grid Height="200"></Grid>
-        </TabItem>
-        <TabItem Header="Download">
-            <Grid Height="500"></Grid>
-        </TabItem>
-    </TabControl>
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Style="{StaticResource AcceleriderDialogStyle}">
+    <Grid Width="700">
+        <TabControl Grid.Row="1">
+            <TabItem Header="Download">
+                <Grid Height="300"></Grid>
+            </TabItem>
+            <TabItem Header="Upload">
+                <Grid Height="200"></Grid>
+            </TabItem>
+            <TabItem Header="Download">
+                <Grid Height="500"></Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
 </UserControl>

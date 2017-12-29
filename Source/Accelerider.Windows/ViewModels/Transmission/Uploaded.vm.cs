@@ -11,6 +11,6 @@ namespace Accelerider.Windows.ViewModels.Transmission
         {
         }
 
-        protected override ObservableCollection<ITransferedFile> GetTransferedFiles() => Container.Resolve<TransferingTaskList>(TransferingTaskList.UploadKey).TransferedFileList;
+        protected override ObservableCollection<ITransferredFile> GetTransferredFiles() => Container.Resolve<TransferringTaskList>(TransferringTaskList.UploadKey).TransferredFileList;
     }
 }

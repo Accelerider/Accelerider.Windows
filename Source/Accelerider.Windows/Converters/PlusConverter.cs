@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Data;
 
 namespace Accelerider.Windows.Converters
@@ -8,9 +9,7 @@ namespace Accelerider.Windows.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var left = double.Parse(values[0].ToString());
-            var right = double.Parse(values[1].ToString());
-            double? result = left + right;
+            double? result = values.Select(value => double.Parse(value.ToString())).Aggregate((sum, value) => sum + value);
             return result <= 0 ? null : result;
         }
 

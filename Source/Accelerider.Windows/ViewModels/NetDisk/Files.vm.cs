@@ -1,25 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
+
+using Accelerider.Windows.Assets;
 using Accelerider.Windows.Commands;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.ViewModels.Dialogs;
-using Microsoft.Practices.Unity;
-using System.Collections;
-using System.Linq;
-using Accelerider.Windows.Assets;
-using Accelerider.Windows.Views.Dialogs;
-using MaterialDesignThemes.Wpf;
-using System.Windows.Forms;
 using Accelerider.Windows.ViewModels.Others;
+using Accelerider.Windows.Views.Dialogs;
+
+using MaterialDesignThemes.Wpf;
+
+using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels.NetDisk
 {
     public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>
     {
-        private readonly TransferingTaskList _downloadList;
-        private readonly TransferingTaskList _uploadList;
+        private readonly TransferringTaskList _downloadList;
+        private readonly TransferringTaskList _uploadList;
 
         private ILazyTreeNode<INetDiskFile> _currentFolder;
 
@@ -29,15 +32,13 @@ namespace Accelerider.Windows.ViewModels.NetDisk
         private ICommand _shareCommand;
         private ICommand _deleteCommand;
 
-
         public FilesViewModel(IUnityContainer container) : base(container)
         {
             InitializeCommands();
 
-            _downloadList = Container.Resolve<TransferingTaskList>(TransferingTaskList.DownloadKey);
-            _uploadList = Container.Resolve<TransferingTaskList>(TransferingTaskList.UploadKey);
+            _downloadList = Container.Resolve<TransferringTaskList>(TransferringTaskList.DownloadKey);
+            _uploadList = Container.Resolve<TransferringTaskList>(TransferringTaskList.UploadKey);
         }
-
 
         public ILazyTreeNode<INetDiskFile> CurrentFolder
         {
@@ -96,7 +97,7 @@ namespace Accelerider.Windows.ViewModels.NetDisk
                 await NetDiskUser.DownloadAsync(file, folder, token =>
                 {
                     // Add new task to download list.
-                    _downloadList.Add(new TransferingTaskViewModel(token));
+                    _downloadList.Add(new TransferringTaskViewModel(token));
                     // Records tokens
                     tokens.Add(token);
                 });
@@ -122,7 +123,7 @@ namespace Accelerider.Windows.ViewModels.NetDisk
                     var toPath = CurrentFolder.Content.FilePath;
                     var token = NetDiskUser.UploadAsync(fromPath, toPath);
                     // Add new task to download list.
-                    _uploadList.Add(new TransferingTaskViewModel(token));
+                    _uploadList.Add(new TransferringTaskViewModel(token));
                     // Records tokens
                     tokens.Add(token);
                 }

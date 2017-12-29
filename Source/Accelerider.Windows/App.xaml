@@ -11,11 +11,13 @@
                 <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Brushes.Navy.xaml"/>
                 <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Converters.xaml"/>
                 <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Animations.xaml"/>
+
                 <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Styles.Buttons.xaml"/>
                 <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Styles.Windows.xaml"/>
                 <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Styles.TabControls.xaml"/>
                 <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Styles.ListBoxes.xaml"/>
                 <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Styles.Others.xaml"/>
+                <ResourceDictionary Source="Assets/ResourceDictionaries/Accelerider.Styles.UserControls.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

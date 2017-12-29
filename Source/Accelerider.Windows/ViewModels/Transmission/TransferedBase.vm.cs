@@ -6,21 +6,21 @@ namespace Accelerider.Windows.ViewModels.Transmission
 {
     public abstract class TransferredBaseViewModel : ViewModelBase
     {
-        private ObservableCollection<ITransferedFile> _transferedFiles;
+        private ObservableCollection<ITransferredFile> transferredFiles;
 
 
         protected TransferredBaseViewModel(IUnityContainer container) : base(container)
         {
-            TransferedFiles = GetTransferedFiles();
+            TransferredFiles = GetTransferredFiles();
         }
 
 
-        public ObservableCollection<ITransferedFile> TransferedFiles
+        public ObservableCollection<ITransferredFile> TransferredFiles
         {
-            get => _transferedFiles;
-            set => SetProperty(ref _transferedFiles, value);
+            get => transferredFiles;
+            set => SetProperty(ref transferredFiles, value);
         }
 
-        protected abstract ObservableCollection<ITransferedFile> GetTransferedFiles();
+        protected abstract ObservableCollection<ITransferredFile> GetTransferredFiles();
     }
 }

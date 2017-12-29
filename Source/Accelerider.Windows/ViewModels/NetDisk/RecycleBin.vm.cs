@@ -11,11 +11,6 @@ namespace Accelerider.Windows.ViewModels.NetDisk
         {
         }
 
-
-        protected override async Task<IEnumerable<IDeletedFile>> GetFilesAsync()
-        {
-            return await NetDiskUser.GetDeletedFilesAsync();
-        }
-
+        protected override async Task<IEnumerable<IDeletedFile>> GetFilesAsync() => await NetDiskUser.GetDeletedFilesAsync();
     }
 }

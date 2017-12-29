@@ -3,8 +3,9 @@
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          SelectionMode="Single"
-         Style="{StaticResource {x:Type ListBox}}">
-    <ListBox.ItemContainerStyle>
+         Style="{StaticResource {x:Type ListBox}}"
+         ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+    <!--<ListBox.ItemContainerStyle>
         <Style TargetType="ListBoxItem" BasedOn="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
             <Setter Property="RenderTransformOrigin" Value="0.5 0.5"/>
             <Setter Property="RenderTransform">
@@ -37,7 +38,7 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
-    </ListBox.ItemContainerStyle>
+    </ListBox.ItemContainerStyle>-->
 
     <ListBox.ContextMenu>
         <ContextMenu x:Name="ContextMenu">

@@ -1,8 +1,9 @@
-﻿<UserControl x:Class="Accelerider.Windows.Views.Dialogs.AboutDialog"
+﻿<UserControl x:Class="Accelerider.Windows.Views.Dialogs.ProfileDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Style="{StaticResource AcceleriderDialogStyle}">
+
     <Grid Width="500" Height="500">
-            
+        <TextBlock Text="I am a content!"></TextBlock>
     </Grid>
 </UserControl>

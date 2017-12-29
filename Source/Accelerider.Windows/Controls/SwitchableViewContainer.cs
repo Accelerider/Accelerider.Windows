@@ -7,11 +7,6 @@ namespace Accelerider.Windows.Controls
     public class SwitchableViewContainer : UserControl
     {
         public static readonly DependencyProperty SelectorProperty = DependencyProperty.Register("Selector", typeof(Selector), typeof(SwitchableViewContainer), new PropertyMetadata(null, OnSelectorChanged));
-        public Selector Selector
-        {
-            get => (Selector)GetValue(SelectorProperty);
-            set => SetValue(SelectorProperty, value);
-        }
 
         public SwitchableViewContainer()
         {
@@ -20,6 +15,12 @@ namespace Accelerider.Windows.Controls
                 if (Selector.SelectedIndex != -1)
                     Content = Resources[Selector.SelectedIndex.ToString()];
             };
+        }
+
+        public Selector Selector
+        {
+            get => (Selector)GetValue(SelectorProperty);
+            set => SetValue(SelectorProperty, value);
         }
 
         private static void OnSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -17,13 +17,11 @@ namespace Accelerider.Windows.Controls
             set => SetValue(IsLoadingProperty, value);
         }
 
-
         public object LoadingContent
         {
-            get { return (object)GetValue(LoadingContentProperty); }
-            set { SetValue(LoadingContentProperty, value); }
+            get => this.GetValue(LoadingContentProperty);
+            set => SetValue(LoadingContentProperty, value);
         }
-
 
         public object LoadedContent
         {

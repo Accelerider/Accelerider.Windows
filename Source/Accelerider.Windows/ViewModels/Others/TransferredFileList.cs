@@ -5,9 +5,9 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.ViewModels.Others
 {
-    public class TransferedFileList : ObservableCollection<ITransferedFile>
+    public class TransferredFileList : ObservableCollection<ITransferredFile>
     {
-        public TransferedFileList(IEnumerable<ITransferedFile> files)
+        public TransferredFileList(IEnumerable<ITransferredFile> files)
         {
             foreach (var file in files)
             {
@@ -15,32 +15,33 @@ namespace Accelerider.Windows.ViewModels.Others
             }
         }
 
-        protected override void InsertItem(int index, ITransferedFile item)
+        protected override void InsertItem(int index, ITransferredFile item)
         {
-            item.FileChekced += OnChecked;
+            item.FileChecked += OnChecked;
             base.InsertItem(GetAppropriateIndex(item), item);
         }
 
         protected override void RemoveItem(int index)
         {
-            Items[index].FileChekced -= OnChecked;
+            Items[index].FileChecked -= OnChecked;
             base.RemoveItem(index);
         }
 
         private void OnChecked(object sender, FileCheckStatusEnum e)
         {
-            var file = (ITransferedFile) sender;
+            var file = (ITransferredFile)sender;
             SetItem(IndexOf(file), file);
         }
 
-        private int GetAppropriateIndex(ITransferedFile other)
+        private int GetAppropriateIndex(ITransferredFile other)
         {
-            int i = 0;
+            var i = 0;
             for (; i < Items.Count; i++)
             {
                 var item = Items[i];
                 if (other.CompletedTime > item.CompletedTime) break;
             }
+
             return i;
         }
     }

@@ -35,9 +35,9 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
     {
     }
 
-    public interface ITransferedFile : IDiskFile
+    public interface ITransferredFile : IDiskFile
     {
-        event EventHandler<FileCheckStatusEnum> FileChekced;
+        event EventHandler<FileCheckStatusEnum> FileChecked;
 
         FileCheckStatusEnum CheckStatus { get; }
 

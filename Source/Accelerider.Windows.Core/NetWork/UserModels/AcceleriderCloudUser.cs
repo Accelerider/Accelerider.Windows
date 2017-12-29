@@ -62,12 +62,12 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
 
         public override Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
         {
-            throw new NotImplementedException();
+            return Task.FromResult<IEnumerable<ISharedFile>>(null);
         }
 
         public override Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
         {
-            throw new NotImplementedException();
+            return Task.FromResult<IEnumerable<IDeletedFile>>(null);
         }
 
         public Task<bool> CheckQuickAccess()

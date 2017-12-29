@@ -15,7 +15,6 @@ namespace Accelerider.Windows.ViewModels.NetDisk
         private ObservableCollection<INetDiskUser> _netDiskUsers;
         private ICommand _addNetDiskCommand;
 
-
         public NetDiskCompositeViewModel(IUnityContainer container) : base(container)
         {
             NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.NetDiskUsers);
@@ -46,7 +45,5 @@ namespace Accelerider.Windows.ViewModels.NetDisk
         {
             await DialogHost.Show(new SelectNetDiskTypeDialog(), "RootDialog");
         }
-
-
     }
 }

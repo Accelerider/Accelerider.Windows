@@ -9,7 +9,6 @@ namespace Accelerider.Windows.ViewModels.Others
         private string _name;
         private string _description;
 
-
         public BitmapImage Logo
         {
             get => _logo;
@@ -27,6 +26,5 @@ namespace Accelerider.Windows.ViewModels.Others
             get => _description;
             set => SetProperty(ref _description, value);
         }
-
     }
 }

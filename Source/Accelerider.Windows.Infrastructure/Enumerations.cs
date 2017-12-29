@@ -193,7 +193,7 @@ namespace Accelerider.Windows.Infrastructure
     public enum FileCheckStatusEnum
     {
         /// <summary>
-        /// The check result is not available when the file being transfered.
+        /// The check result is not available when the file being transferred.
         /// </summary>
         NotAvailable = 0,
 

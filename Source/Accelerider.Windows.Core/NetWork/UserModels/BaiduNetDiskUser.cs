@@ -11,6 +11,7 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Accelerider.Windows.Core.Files;
 
 namespace Accelerider.Windows.Core.NetWork.UserModels
 {
@@ -38,10 +39,9 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public override async Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
+        public override Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync()
         {
-            await Task.Delay(100);
-            var tree = new LazyTreeNode<INetDiskFile>(new BaiduNetDiskFile { User = this })
+            ILazyTreeNode<INetDiskFile> tree = new LazyTreeNode<INetDiskFile>(new BaiduNetDiskFile { User = this })
             {
                 ChildrenProvider = async parent =>
                 {
@@ -56,17 +56,23 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
                     });
                 }
             };
-            return tree;
+            return Task.FromResult(tree);
         }
 
-        public override Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
+        public override async Task<IEnumerable<ISharedFile>> GetSharedFilesAsync()
         {
-            throw new NotImplementedException();
+            var getSharedFilesUrl = $"http://api.usmusic.cn/sharefiles?token={AccUser.Token}&path=/";
+            var json = JObject.Parse(await new HttpClient().GetAsync(getSharedFilesUrl));
+            if (json.Value<int>("errno") != 0) return null;
+            return JArray.Parse(json["list"].ToString()).Select(item =>
+            {
+                return JsonConvert.DeserializeObject<SharedFile>(item.ToString());
+            });
         }
 
         public override Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync()
         {
-            throw new NotImplementedException();
+            return Task.FromResult<IEnumerable<IDeletedFile>>(null);
         }
 
         public override async Task<bool> RefreshUserInfoAsync()

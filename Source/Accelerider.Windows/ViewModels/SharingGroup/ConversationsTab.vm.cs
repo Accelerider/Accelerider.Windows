@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Accelerider.Windows.Commands;
 using Accelerider.Windows.MockData;
@@ -16,7 +12,6 @@ namespace Accelerider.Windows.ViewModels.SharingGroup
         private ObservableCollection<Message> _messages = new ObservableCollection<Message>();
         private string _draft;
         private ICommand _sendCommand;
-
 
         public ConversationsTabViewModel(IUnityContainer container) : base(container)
         {
@@ -35,9 +30,6 @@ namespace Accelerider.Windows.ViewModels.SharingGroup
                 () => !string.IsNullOrEmpty(Draft));
         }
 
-
-
-
         public ObservableCollection<Message> Messages
         {
             get => _messages;
@@ -55,7 +47,5 @@ namespace Accelerider.Windows.ViewModels.SharingGroup
             get => _sendCommand;
             set => SetProperty(ref _sendCommand, value);
         }
-
-
     }
 }
