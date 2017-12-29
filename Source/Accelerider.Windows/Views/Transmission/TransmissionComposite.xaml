@@ -1,12 +1,45 @@
-﻿<UserControl x:Class="Accelerider.Windows.Views.Transmission.TransmissionComposite"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Accelerider.Windows.Views.Transmission"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
-             xmlns:mvvm="http://prismlibrary.com/"
-             mvvm:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
+﻿<TabItem x:Class="Accelerider.Windows.Views.Transmission.TransmissionComposite"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:local="clr-namespace:Accelerider.Windows.Views.Transmission"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+         xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
+         xmlns:mvvm="http://prismlibrary.com/"
+         mvvm:ViewModelLocator.AutoWireViewModel="True">
+    <TabItem.Header>
+        <Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="2"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <materialDesign:PackIcon Kind="SwapVertical" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="25" Width="25"/>
+                <TextBlock Grid.Row="2" Text="Transfer" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="4"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="6"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <materialDesign:Badged BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
+                                       BadgeBackground="Red" BadgeForeground="White" >
+                    <materialDesign:Badged.Badge>
+                        <MultiBinding Converter="{StaticResource PlusConverter}">
+                            <Binding Path="DataContext.DownloadList.Count" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                            <Binding Path="DataContext.UploadList.Count" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        </MultiBinding>
+                    </materialDesign:Badged.Badge>
+                </materialDesign:Badged>
+            </Grid>
+        </Grid>
+    </TabItem.Header>
+
+    <Grid Style="{StaticResource FloatInRightToLeftStyle}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition />
@@ -132,5 +165,5 @@
             </ctrls:SwitchableViewContainer.Resources>
         </ctrls:SwitchableViewContainer>
     </Grid>
-</UserControl>
+</TabItem>
 

@@ -29,14 +29,14 @@
         <VisualState x:Name="Selected">
             <Storyboard>
                 <DoubleAnimation Duration="0" To="0.8" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SelectedBorder"/>
-                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_SelectedRectangle"/>
+                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_SeletedRectangle"/>
             </Storyboard>
         </VisualState>
         <VisualState x:Name="Unselected"/>
         <VisualState x:Name="SelectedUnfocused">
             <Storyboard>
                 <DoubleAnimation Duration="0" To="0.8" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SelectedBorder"/>
-                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_SelectedRectangle"/>
+                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_SeletedRectangle"/>
             </Storyboard>
         </VisualState>
     </VisualStateGroup>
@@ -170,7 +170,7 @@
                                     </TemplateBinding>
                                 </materialDesign:Ripple.Feedback>
                             </materialDesign:Ripple>
-                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_SelectedRectangle" Fill="{StaticResource PrimaryHueMidBrush}" Opacity="0"/>
+                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_SeletedRectangle" Fill="{StaticResource PrimaryHueMidBrush}" Opacity="0"/>
                             <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_MouseOverRectangle" Fill="{StaticResource PrimaryHueMidBrush}" Opacity="0"/>
                             <Border Grid.Row="1" Background="{DynamicResource LightGreyBackgroundBrush}" Height="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
                         </Grid>
@@ -230,7 +230,7 @@
                                     </TemplateBinding>
                                 </materialDesign:Ripple.Feedback>
                             </materialDesign:Ripple>
-                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_SelectedRectangle" Fill="#9FA4FE" Opacity="0"/>
+                            <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_SeletedRectangle" Fill="#9FA4FE" Opacity="0"/>
                             <Rectangle Width="4" HorizontalAlignment="Left" x:Name="PART_MouseOverRectangle" Fill="#9FA4FE" Opacity="0"/>
                         </Grid>
                     </Border>

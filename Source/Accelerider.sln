@@ -19,6 +19,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaterialDesignThemes.Wpf", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Components.Authenticator", "Accelerider.Windows.Components.Authenticator\Accelerider.Windows.Components.Authenticator.csproj", "{A91ADD02-6C31-4566-81D5-2E8170D02EA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Shell", "Accelerider.Windows.Shell\Accelerider.Windows.Shell.csproj", "{405A9ABB-E35C-4E98-8A76-C4FFEB8848E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.RestfulApi", "Accelerider.Windows.RestfulApi\Accelerider.Windows.RestfulApi.csproj", "{14434CBC-3321-42BA-B4DF-8FE4420D3F1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.TransferEngine", "Accelerider.Windows.TransferEngine\Accelerider.Windows.TransferEngine.csproj", "{09A2520B-6482-43AD-989A-3E1106C83176}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Resources", "Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj", "{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AppVeyor|Any CPU = AppVeyor|Any CPU
@@ -62,6 +70,30 @@ Global
 		{A91ADD02-6C31-4566-81D5-2E8170D02EA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A91ADD02-6C31-4566-81D5-2E8170D02EA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A91ADD02-6C31-4566-81D5-2E8170D02EA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{405A9ABB-E35C-4E98-8A76-C4FFEB8848E6}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
+		{405A9ABB-E35C-4E98-8A76-C4FFEB8848E6}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
+		{405A9ABB-E35C-4E98-8A76-C4FFEB8848E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{405A9ABB-E35C-4E98-8A76-C4FFEB8848E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{405A9ABB-E35C-4E98-8A76-C4FFEB8848E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{405A9ABB-E35C-4E98-8A76-C4FFEB8848E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14434CBC-3321-42BA-B4DF-8FE4420D3F1D}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
+		{14434CBC-3321-42BA-B4DF-8FE4420D3F1D}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
+		{14434CBC-3321-42BA-B4DF-8FE4420D3F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14434CBC-3321-42BA-B4DF-8FE4420D3F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14434CBC-3321-42BA-B4DF-8FE4420D3F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14434CBC-3321-42BA-B4DF-8FE4420D3F1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09A2520B-6482-43AD-989A-3E1106C83176}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
+		{09A2520B-6482-43AD-989A-3E1106C83176}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
+		{09A2520B-6482-43AD-989A-3E1106C83176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09A2520B-6482-43AD-989A-3E1106C83176}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09A2520B-6482-43AD-989A-3E1106C83176}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09A2520B-6482-43AD-989A-3E1106C83176}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
+		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
+		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +105,10 @@ Global
 		{90B53209-C60C-4655-B28D-A1B3E1044BA3} = {86AFA9E9-9F35-4D33-80F5-9B782C2E3AD4}
 		{F079FB0A-A8ED-4216-B6A5-345756751A04} = {86AFA9E9-9F35-4D33-80F5-9B782C2E3AD4}
 		{A91ADD02-6C31-4566-81D5-2E8170D02EA3} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
+		{405A9ABB-E35C-4E98-8A76-C4FFEB8848E6} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
+		{14434CBC-3321-42BA-B4DF-8FE4420D3F1D} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
+		{09A2520B-6482-43AD-989A-3E1106C83176} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
+		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {242F229E-E9BF-4DED-9237-326C7C9489A4}
