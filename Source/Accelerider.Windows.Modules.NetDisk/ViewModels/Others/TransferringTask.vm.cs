@@ -4,7 +4,7 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Prism.Mvvm;
 
-namespace Accelerider.Windows.ViewModels.Others
+namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
 {
     public class TransferringTaskViewModel : BindableBase
     {

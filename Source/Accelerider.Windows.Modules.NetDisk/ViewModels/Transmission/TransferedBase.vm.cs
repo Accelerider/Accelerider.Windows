@@ -2,7 +2,7 @@
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
 
-namespace Accelerider.Windows.ViewModels.Transmission
+namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transmission
 {
     public abstract class TransferredBaseViewModel : ViewModelBase
     {

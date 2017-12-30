@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure.Commands;
+using Accelerider.Windows.Modules.NetDisk.ViewModels;
 using Accelerider.Windows.Resources.I18N;
 using Microsoft.Practices.Unity;
 

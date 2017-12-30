@@ -1,7 +1,7 @@
 ﻿using System.Windows.Media.Imaging;
 using Prism.Mvvm;
 
-namespace Accelerider.Windows.ViewModels.Others
+namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
 {
     public class NetDiskTypeViewModel : BindableBase
     {

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
-namespace Accelerider.Windows.ViewModels.Others
+namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
 {
     public class TransferredFileList : ObservableCollection<ITransferredFile>
     {

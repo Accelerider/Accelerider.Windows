@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.MockData;
+using Accelerider.Windows.Modules.NetDisk.ViewModels;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels.SharingGroup

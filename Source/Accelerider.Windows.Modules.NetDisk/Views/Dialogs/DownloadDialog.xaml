@@ -1,10 +1,9 @@
-﻿<UserControl x:Class="Accelerider.Windows.Views.Dialogs.DownloadDialog"
+﻿<UserControl x:Class="Accelerider.Windows.Modules.NetDisk.Views.Dialogs.DownloadDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:res="clr-namespace:Accelerider.Windows.Assets"
              xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:i18N="clr-namespace:Accelerider.Windows.Resources.I18N;assembly=Accelerider.Windows.Resources"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              Style="{StaticResource AcceleriderDialogStyle}"
              Height="Auto" Width="500">
@@ -36,16 +35,8 @@
                 <materialDesign:PackIcon Kind="Folder"/>
             </Button>
         </Grid>
-        <CheckBox Grid.Row="2" IsChecked="{Binding NotDisplayDownloadDialog}" Content="{x:Static res:UiStrings.DownloadDialog_CheckBox}"/>
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{Binding DownloadCommand}" Content="{x:Static res:UiStrings.Download}"/>
-            <!--<Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Content="{x:Static res:UiStrings.Cancel}">
-                <Button.CommandParameter>
-                    <system:Boolean>False</system:Boolean>
-                </Button.CommandParameter>
-            </Button>-->
-        </StackPanel>
+        <CheckBox Grid.Row="2" IsChecked="{Binding NotDisplayDownloadDialog}" Content="{x:Static i18N:UiStrings.DownloadDialog_CheckBox}"/>
+        <Button Grid.Row="4" Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Center"
+                Command="{Binding DownloadCommand}" Content="{x:Static i18N:UiStrings.Download}"/>
     </Grid>
 </UserControl>

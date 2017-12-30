@@ -1,11 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-
 using Accelerider.Windows.Infrastructure.Interfaces;
-using Accelerider.Windows.ViewModels.Others;
-
+using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
 using Microsoft.Practices.Unity;
 
-namespace Accelerider.Windows.ViewModels.Transmission
+namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transmission
 {
     public class DownloadedViewModel : TransferredBaseViewModel
     {

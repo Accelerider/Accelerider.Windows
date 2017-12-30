@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using Accelerider.Windows.Modules.NetDisk.ViewModels;
+using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels.SharingGroup
 {

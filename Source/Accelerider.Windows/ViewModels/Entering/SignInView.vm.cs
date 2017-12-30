@@ -5,6 +5,7 @@ using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.ViewModels;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Entering;
 using Microsoft.Practices.Unity;

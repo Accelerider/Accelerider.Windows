@@ -87,18 +87,10 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Common\ConstStrings.cs" />
     <Compile Include="Common\ExceptionResolver.cs" />
-    <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
-    <Compile Include="ViewModels\Others\TransferredFileList.cs" />
-    <Compile Include="ViewModels\Others\TransferringTaskList.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
     <Compile Include="ViewModels\SharingGroup\ConversationsTab.vm.cs" />
-    <Compile Include="ViewModels\Transmission\TransferedBase.vm.cs" />
-    <Compile Include="ViewModels\Transmission\TransmissionComposite.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dialogs\AddOfflineTaskDialog.xaml.cs">
-      <DependentUpon>AddOfflineTaskDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\ProfileDialog.xaml.cs">
       <DependentUpon>ProfileDialog.xaml</DependentUpon>
@@ -115,12 +107,6 @@
     <Compile Include="Views\SharingGroup\GroupTabs.xaml.cs">
       <DependentUpon>GroupTabs.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\OfflineDownload.xaml.cs">
-      <DependentUpon>OfflineDownload.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Transmission\TaskProgressList.xaml.cs">
-      <DependentUpon>TaskProgressList.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Entering\EnteringWindow.xaml.cs">
       <DependentUpon>EnteringWindow.xaml</DependentUpon>
     </Compile>
@@ -128,50 +114,11 @@
     <Compile Include="Common\Events.cs" />
     <Compile Include="ViewModels\MainWindow.vm.cs" />
     <Compile Include="Common\SingletonProcess.cs" />
-    <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
-    <Compile Include="ViewModels\Dialogs\SelectNetDiskTypeDialog.vm.cs" />
-    <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
-    <Compile Include="ViewModels\Others\TransferringTask.vm.cs" />
-    <Compile Include="ViewModels\NetDisk\LoadingFilesBase.vm.cs" />
-    <Compile Include="ViewModels\NetDisk\Files.vm.cs" />
-    <Compile Include="ViewModels\NetDisk\Share.vm.cs" />
-    <Compile Include="ViewModels\NetDisk\NetDiskComposite.vm.cs" />
-    <Compile Include="ViewModels\NetDisk\RecycleBin.vm.cs" />
     <Compile Include="ViewModels\SharingGroup\SharingGroupComposite.vm.cs" />
     <Compile Include="ViewModels\Entering\SignInView.vm.cs" />
     <Compile Include="ViewModels\Entering\SignUpView.vm.cs" />
-    <Compile Include="ViewModels\Transmission\Downloaded.vm.cs" />
-    <Compile Include="ViewModels\Transmission\Downloading.vm.cs" />
-    <Compile Include="ViewModels\Transmission\TransferingBase.vm.cs" />
-    <Compile Include="ViewModels\Transmission\Uploaded.vm.cs" />
-    <Compile Include="ViewModels\Transmission\Uploading.vm.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="Views\Dialogs\AuthenticatorWindow.xaml.cs">
-      <DependentUpon>AuthenticatorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dialogs\DownloadDialog.xaml.cs">
-      <DependentUpon>DownloadDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dialogs\SelectNetDiskTypeDialog.xaml.cs">
-      <DependentUpon>SelectNetDiskTypeDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dialogs\ShareDialog.xaml.cs">
-      <DependentUpon>ShareDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NetDisk\Files.xaml.cs">
-      <DependentUpon>Files.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NetDisk\RecycleBin.xaml.cs">
-      <DependentUpon>RecycleBin.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NetDisk\Share.xaml.cs">
-      <DependentUpon>Share.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NetDisk\NetDiskComposite.xaml.cs">
-      <DependentUpon>NetDiskComposite.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SharingGroup\SharingGroupComposite.xaml.cs">
       <DependentUpon>SharingGroupComposite.xaml</DependentUpon>
@@ -182,27 +129,8 @@
     <Compile Include="Views\Entering\SignUpView.xaml.cs">
       <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\Downloaded.xaml.cs">
-      <DependentUpon>Downloaded.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Transmission\Downloading.xaml.cs">
-      <DependentUpon>Downloading.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Transmission\Uploaded.xaml.cs">
-      <DependentUpon>Uploaded.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Transmission\Uploading.xaml.cs">
-      <DependentUpon>Uploading.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Transmission\TransmissionComposite.xaml.cs">
-      <DependentUpon>TransmissionComposite.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Common\ShellController.cs" />
     <Page Include="Views\Dialogs\AboutDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Dialogs\AddOfflineTaskDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -226,14 +154,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Transmission\OfflineDownload.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Transmission\TaskProgressList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Entering\EnteringWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -250,39 +170,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Dialogs\AuthenticatorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Dialogs\DownloadDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Dialogs\SelectNetDiskTypeDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Dialogs\ShareDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Dialogs\SettingsDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NetDisk\Files.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NetDisk\RecycleBin.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NetDisk\Share.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NetDisk\NetDiskComposite.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -295,26 +183,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Entering\SignUpView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Transmission\Downloaded.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Transmission\Downloading.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Transmission\Uploaded.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Transmission\Uploading.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Transmission\TransmissionComposite.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -346,10 +214,6 @@
       <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
       <Name>MaterialDesignThemes.Wpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Components.Authenticator\Accelerider.Windows.Components.Authenticator.csproj">
-      <Project>{a91add02-6c31-4566-81d5-2e8170d02ea3}</Project>
-      <Name>Accelerider.Windows.Components.Authenticator</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Core\Accelerider.Windows.Core.csproj">
       <Project>{d30a6c14-b18d-4cbc-8df4-ff9640f33b9e}</Project>
       <Name>Accelerider.Windows.Core</Name>
@@ -357,6 +221,10 @@
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{f61839d1-6c54-4e70-b5cb-7ea02f54a664}</Project>
       <Name>Accelerider.Windows.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.Modules.NetDisk\Accelerider.Windows.Modules.NetDisk.csproj">
+      <Project>{ade42073-d964-4d4e-a58c-1e843abf1d31}</Project>
+      <Name>Accelerider.Windows.Modules.NetDisk</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj">
       <Project>{c4dbd55d-6c99-4a67-96ff-8b76baea2037}</Project>

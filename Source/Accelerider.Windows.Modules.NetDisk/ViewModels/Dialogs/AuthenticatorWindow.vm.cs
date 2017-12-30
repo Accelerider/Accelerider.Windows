@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Practices.Unity;
-using Accelerider.Windows.Infrastructure.Interfaces;
 using System.Windows;
+using Accelerider.Windows.Infrastructure.Interfaces;
+using Microsoft.Practices.Unity;
 
-namespace Accelerider.Windows.ViewModels.Dialogs
+namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
 {
     public class AuthenticatorWindowViewModel : ViewModelBase
     {
@@ -20,8 +17,8 @@ namespace Accelerider.Windows.ViewModels.Dialogs
 
         public object Content
         {
-            get { return _content; }
-            set { SetProperty(ref _content, value); }
+            get => _content;
+            set => SetProperty(ref _content, value);
         }
 
 
@@ -30,7 +27,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
             var window = view as Window;
             try
             {
-                window.DialogResult = await _authenticate?.Invoke();
+                if (window != null) window.DialogResult = _authenticate != null && await _authenticate?.Invoke();
             }
             catch (InvalidOperationException) { }
         }

@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.ViewModels;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Dialogs;
 using Accelerider.Windows.Views.Entering;

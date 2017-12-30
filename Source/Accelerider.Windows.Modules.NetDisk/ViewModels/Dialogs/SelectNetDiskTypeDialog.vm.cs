@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Views.Dialogs;
-using Microsoft.Practices.Unity;
 using Accelerider.Windows.Infrastructure.Interfaces;
-using Accelerider.Windows.ViewModels.Others;
+using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
+using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
+using Microsoft.Practices.Unity;
 
-namespace Accelerider.Windows.ViewModels.Dialogs
+namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
 {
     public class SelectNetDiskTypeDialogViewModel : ViewModelBase
     {
@@ -58,13 +58,13 @@ namespace Accelerider.Windows.ViewModels.Dialogs
             {
                 new NetDiskTypeViewModel
                 {
-                    Logo = new BitmapImage(new Uri(@"..\..\Assets\Images\BaiduCloudLogo.png", UriKind.Relative)),
+                    Logo = new BitmapImage(new Uri(@"..\..\Images\BaiduCloudLogo.png", UriKind.Relative)),
                     Name = "Baidu Cloud",
                     Description = "It is a stupid net-disk."
                 },
                 new NetDiskTypeViewModel
                 {
-                    Logo = new BitmapImage(new Uri(@"..\..\Assets\Images\OneDriveLogo.jpg", UriKind.Relative)),
+                    Logo = new BitmapImage(new Uri(@"..\..\Images\OneDriveLogo.jpg", UriKind.Relative)),
                     Name = "OneDrive",
                     Description = "It is a stupid net-disk."
                 },

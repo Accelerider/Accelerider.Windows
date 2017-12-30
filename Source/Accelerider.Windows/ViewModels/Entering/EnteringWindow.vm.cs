@@ -1,4 +1,5 @@
 ﻿using Accelerider.Windows.Common;
+using Accelerider.Windows.Modules.NetDisk.ViewModels;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels.Entering

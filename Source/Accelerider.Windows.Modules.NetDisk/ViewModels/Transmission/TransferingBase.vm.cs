@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
-using Accelerider.Windows.ViewModels.Others;
+using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
 using Microsoft.Practices.Unity;
 
-namespace Accelerider.Windows.ViewModels.Transmission
+namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transmission
 {
     public abstract class TransferringBaseViewModel : ViewModelBase
     {

@@ -1,15 +1,12 @@
 ﻿using System.Linq;
 using System.Windows.Input;
-
 using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.ViewModels.Others;
-using Accelerider.Windows.Views.Dialogs;
-
+using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
+using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
-
 using Microsoft.Practices.Unity;
 
-namespace Accelerider.Windows.ViewModels.Transmission
+namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transmission
 {
     public class TransmissionCompositeViewModel : ViewModelBase
     {

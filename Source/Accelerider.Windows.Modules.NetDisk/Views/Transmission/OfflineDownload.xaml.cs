@@ -1,4 +1,4 @@
-﻿namespace Accelerider.Windows.Views.Transmission
+﻿namespace Accelerider.Windows.Modules.NetDisk.Views.Transmission
 {
     /// <summary>
     /// Interaction logic for OfflineDownload.xaml

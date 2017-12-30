@@ -8,10 +8,11 @@
     <OutputType>library</OutputType>
     <RootNamespace>Accelerider.Windows.Modules.NetDisk</RootNamespace>
     <AssemblyName>Accelerider.Windows.Modules.NetDisk</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +52,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -87,11 +92,11 @@
     <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
     <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
     <Compile Include="ViewModels\Dialogs\SelectNetDiskTypeDialog.vm.cs" />
-    <Compile Include="ViewModels\NetDisk\Files.vm.cs" />
-    <Compile Include="ViewModels\NetDisk\LoadingFilesBase.vm.cs" />
-    <Compile Include="ViewModels\NetDisk\NetDiskComposite.vm.cs" />
-    <Compile Include="ViewModels\NetDisk\RecycleBin.vm.cs" />
-    <Compile Include="ViewModels\NetDisk\Share.vm.cs" />
+    <Compile Include="ViewModels\FileBrowser\Files.vm.cs" />
+    <Compile Include="ViewModels\FileBrowser\LoadingFilesBase.vm.cs" />
+    <Compile Include="ViewModels\FileBrowser\FileBrowserComposite.vm.cs" />
+    <Compile Include="ViewModels\FileBrowser\RecycleBin.vm.cs" />
+    <Compile Include="ViewModels\FileBrowser\Share.vm.cs" />
     <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
     <Compile Include="ViewModels\Others\TransferredFileList.cs" />
     <Compile Include="ViewModels\Others\TransferringTask.vm.cs" />
@@ -103,6 +108,10 @@
     <Compile Include="ViewModels\Transmission\TransmissionComposite.vm.cs" />
     <Compile Include="ViewModels\Transmission\Uploaded.vm.cs" />
     <Compile Include="ViewModels\Transmission\Uploading.vm.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
+      <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\AddOfflineTaskDialog.xaml.cs">
       <DependentUpon>AddOfflineTaskDialog.xaml</DependentUpon>
     </Compile>
@@ -115,19 +124,19 @@
     <Compile Include="Views\Dialogs\SelectNetDiskTypeDialog.xaml.cs">
       <DependentUpon>SelectNetDiskTypeDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dialogs\SettingsDialog.xaml.cs">
-      <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    <Compile Include="Views\Dialogs\ShareDialog.xaml.cs">
+      <DependentUpon>ShareDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NetDisk\Files.xaml.cs">
+    <Compile Include="Views\FileBrowser\Files.xaml.cs">
       <DependentUpon>Files.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NetDisk\NetDiskComposite.xaml.cs">
-      <DependentUpon>NetDiskComposite.xaml</DependentUpon>
+    <Compile Include="Views\FileBrowser\FileBrowserComposite.xaml.cs">
+      <DependentUpon>FileBrowserComposite.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NetDisk\RecycleBin.xaml.cs">
+    <Compile Include="Views\FileBrowser\RecycleBin.xaml.cs">
       <DependentUpon>RecycleBin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NetDisk\Share.xaml.cs">
+    <Compile Include="Views\FileBrowser\Share.xaml.cs">
       <DependentUpon>Share.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Transmission\Downloaded.xaml.cs">
@@ -162,15 +171,45 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignColors.Wpf\MaterialDesignColors.Wpf.csproj">
+      <Project>{90b53209-c60c-4655-b28d-a1b3e1044ba3}</Project>
+      <Name>MaterialDesignColors.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
+      <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
+      <Name>MaterialDesignThemes.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.Components.Authenticator\Accelerider.Windows.Components.Authenticator.csproj">
+      <Project>{a91add02-6c31-4566-81d5-2e8170d02ea3}</Project>
+      <Name>Accelerider.Windows.Components.Authenticator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.Core\Accelerider.Windows.Core.csproj">
+      <Project>{d30a6c14-b18d-4cbc-8df4-ff9640f33b9e}</Project>
+      <Name>Accelerider.Windows.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{F61839D1-6C54-4E70-B5CB-7EA02F54A664}</Project>
       <Name>Accelerider.Windows.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj">
+      <Project>{c4dbd55d-6c99-4a67-96ff-8b76baea2037}</Project>
+      <Name>Accelerider.Windows.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\OneDriveLogo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BaiduCloudLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\Dialogs\AboutDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Dialogs\AddOfflineTaskDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -187,23 +226,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Dialogs\SettingsDialog.xaml">
+    <Page Include="Views\Dialogs\ShareDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NetDisk\Files.xaml">
+    <Page Include="Views\FileBrowser\Files.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NetDisk\NetDiskComposite.xaml">
+    <Page Include="Views\FileBrowser\FileBrowserComposite.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NetDisk\RecycleBin.xaml">
+    <Page Include="Views\FileBrowser\RecycleBin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NetDisk\Share.xaml">
+    <Page Include="Views\FileBrowser\Share.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -235,12 +274,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\OneDriveLogo.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\BaiduCloudLogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

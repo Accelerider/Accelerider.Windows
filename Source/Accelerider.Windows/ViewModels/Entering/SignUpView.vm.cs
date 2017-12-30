@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Common;
+using Accelerider.Windows.Modules.NetDisk.ViewModels;
 using Accelerider.Windows.Views.Entering;
 using Microsoft.Practices.Unity;
 

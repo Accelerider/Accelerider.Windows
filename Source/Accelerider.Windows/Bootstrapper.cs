@@ -5,15 +5,11 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using System.Net;
 using Accelerider.Windows.Common;
-using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.ViewModels;
 using Prism.Mvvm;
 using Prism.Unity;
-using Prism.Regions;
-
-using Accelerider.Windows.Views.NetDisk;
-using Accelerider.Windows.Views.SharingGroup;
-using Accelerider.Windows.Views.Transmission;
+using Accelerider.Windows.Modules.NetDisk;
+using Accelerider.Windows.Modules.NetDisk.ViewModels;
+using Prism.Modularity;
 
 namespace Accelerider.Windows
 {
@@ -38,15 +34,12 @@ namespace Accelerider.Windows
             ShellController.Show((Window)Shell);
         }
 
-        protected override void InitializeModules()
+        protected override void ConfigureModuleCatalog()
         {
-            base.InitializeModules();
-            Container.Resolve<Components.Authenticator.Module>().Initialize();
-            var region = Container.Resolve<IRegionViewRegistry>();
-            region.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(NetDiskComposite));
-            region.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransmissionComposite));
-            region.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(SharingGroupComposite));
+            var catalog = (ModuleCatalog)ModuleCatalog;
+            catalog.AddModule(typeof(NetDiskModule));
         }
+
         #endregion
 
         #region Private methods

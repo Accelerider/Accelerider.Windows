@@ -6,7 +6,7 @@ using System.Windows;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
-namespace Accelerider.Windows.ViewModels.Others
+namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
 {
     public class TransferringTaskList : ObservableCollection<TransferringTaskViewModel>
     {

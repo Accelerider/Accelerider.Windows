@@ -1,4 +1,4 @@
-﻿namespace Accelerider.Windows.Views.Dialogs
+﻿namespace Accelerider.Windows.Modules.NetDisk.Views.Dialogs
 {
     /// <summary>
     /// Interaction logic for AuthenticatorWindow.xaml
