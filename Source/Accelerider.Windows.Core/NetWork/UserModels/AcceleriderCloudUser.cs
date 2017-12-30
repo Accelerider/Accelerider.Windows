@@ -75,9 +75,13 @@ namespace Accelerider.Windows.Core.NetWork.UserModels
             throw new NotImplementedException();
         }
 
-        public Task<IReadOnlyCollection<string>> GetDownloadUrls(string file)
+        public async Task<IReadOnlyCollection<string>> GetDownloadUrls(string file)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() =>
+            {
+                var json = JObject.Parse(new HttpClient().Get($"http://api.usmusic.cn/cloud/filelink?token={AccUser.Token}&path={file.UrlEncode()}"));
+                return json.Value<int>("errno") != 0 ? null : JsonConvert.DeserializeObject<List<string>>(json["links"].ToString());
+            });
         }
 
         public INetDiskFile GetNetDiskFileByPath(string path)

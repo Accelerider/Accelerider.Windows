@@ -25,6 +25,8 @@ namespace Accelerider.Windows.Core.DownloadEngine
         private bool _stop = false;
 
         private List<DownloadTask> _handles;
+        private List<string> _deleteList = new List<string>();
+
         private DownloadTaskManager()
         {
             var taskListFile = Path.Combine(Directory.GetCurrentDirectory(), "DownloadList.json");
@@ -56,6 +58,27 @@ namespace Accelerider.Windows.Core.DownloadEngine
                         await CheckFile();
                 }
             });
+            //删除循环
+            Task.Run(async () =>
+            {
+                while (!_stop)
+                {
+                    await Task.Delay(500);
+                    foreach (var path in _deleteList.ToArray())
+                    {
+                        if (!File.Exists(path)) _deleteList.Remove(path);
+                        try
+                        {
+                            File.Delete(path);
+                            _deleteList.Remove(path);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                    }
+                }
+            });
         }
 
         /// <summary>
@@ -76,6 +99,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
                     IReadOnlyCollection<string> urls;
                     if (creator == null || (urls = await creator.GetDownloadUrls(item.FilePath)) == null)
                     {
+                        Console.WriteLine("Get download link fail");
                         //TODO 在这里需要做任务失败的操作
                         return;
                     }
@@ -134,7 +158,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         private async void Task_DownloadStateChangedEvent(object sender, StateChangedArgs args)
         {
             var task = (HttpDownload)sender;
-            var item = Items.First(v => v.DownloadPath == task.DownloadPath);
+            var item = Items.FirstOrDefault(v => v.DownloadPath == task.DownloadPath);
             switch (args.NewState)
             {
                 case TransferTaskStatusEnum.Completed: // TODO: Please confirm this change.
@@ -168,9 +192,10 @@ namespace Accelerider.Windows.Core.DownloadEngine
                     task.Info.Save(task.DownloadPath + ".downloading");
                     break;
                 case TransferTaskStatusEnum.Canceled:
-                    if (File.Exists(task.DownloadPath + ".downloading"))
-                        File.Delete(task.DownloadPath + ".downloading");
+                    _deleteList.Add(task.DownloadPath);
+                    _deleteList.Add(task.DownloadPath + ".downloading");
                     Delete(item);
+                    Tasks.Remove(task);
                     Save();
                     return;
                 case TransferTaskStatusEnum.Waiting:
@@ -190,6 +215,7 @@ namespace Accelerider.Windows.Core.DownloadEngine
         {
             if (Items.All(v => v.DownloadPath != task.DownloadPath))
             {
+                task.DownloadPath=task.DownloadPath.Replace("?", " ");
                 Items.Add(task);
                 var downloadTask = new DownloadTask(task);
                 Handles.Add(downloadTask);
