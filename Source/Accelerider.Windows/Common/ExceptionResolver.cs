@@ -16,12 +16,12 @@ namespace Accelerider.Windows.Common
 
         public void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void DispatcherUnhandledExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

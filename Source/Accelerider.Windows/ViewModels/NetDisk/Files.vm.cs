@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 
-using Accelerider.Windows.Assets;
-using Accelerider.Windows.Commands;
+using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Resources.I18N;
 using Accelerider.Windows.ViewModels.Dialogs;
 using Accelerider.Windows.ViewModels.Others;
 using Accelerider.Windows.Views.Dialogs;

@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
-                <ctrls:ToolBarButton IconKind="DeleteForever" Label="Delete" />
+                <controls:ToolBarButton IconKind="DeleteForever" Label="Delete" />
             </StackPanel>
             <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
                     Command="{Binding RefreshFilesCommand}"
@@ -31,7 +31,7 @@
                 <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
             </Button>
         </Grid>
-        <ctrls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
+        <controls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
             <ListBox x:Name="ListboxFileList" SelectionMode="Extended" ItemsSource="{Binding Files}"
                      ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
 
@@ -73,7 +73,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </ctrls:SwitchLoadingViewContainer>
+        </controls:SwitchLoadingViewContainer>
     </Grid>
 </UserControl>
-

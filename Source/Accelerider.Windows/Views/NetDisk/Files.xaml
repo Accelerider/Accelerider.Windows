@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="Accelerider.Windows.Views.NetDisk.Files"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
              mvvm:ViewModelLocator.AutoWireViewModel="True">
     <Grid >
         <Grid.RowDefinitions>
@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <ctrls:FolderLocationBar Grid.Row="0" CurrentFolder="{Binding CurrentFolder}"/>
+        <controls:FolderLocationBar Grid.Row="0" CurrentFolder="{Binding CurrentFolder}"/>
         <Grid Grid.Row="1" Background="#DDDEF0">
 
             <Grid.ColumnDefinitions>
@@ -21,10 +21,10 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
-                <ctrls:ToolBarButton IconKind="Download" Label="Download" Command="{Binding DownloadCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
-                <ctrls:ToolBarButton IconKind="CloudUpload" Label="Upload" Command="{Binding UploadCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
-                <ctrls:ToolBarButton IconKind="Share" Label="Share" Command="{Binding ShareCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
-                <ctrls:ToolBarButton IconKind="DeleteForever" Label="Delete" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
+                <controls:ToolBarButton IconKind="Download" Label="Download" Command="{Binding DownloadCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
+                <controls:ToolBarButton IconKind="CloudUpload" Label="Upload" Command="{Binding UploadCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
+                <controls:ToolBarButton IconKind="Share" Label="Share" Command="{Binding ShareCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
+                <controls:ToolBarButton IconKind="DeleteForever" Label="Delete" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListboxFileList}"/>
             </StackPanel>
             <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
                     Command="{Binding RefreshFilesCommand}"
@@ -32,7 +32,7 @@
                 <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
             </Button>
         </Grid>
-        <ctrls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
+        <controls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
             <ListBox Name="ListboxFileList" SelectionMode="Extended"
                      ItemsSource="{Binding Files}"
                      ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
@@ -94,7 +94,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </ctrls:SwitchLoadingViewContainer>
+        </controls:SwitchLoadingViewContainer>
     </Grid>
 </UserControl>
-

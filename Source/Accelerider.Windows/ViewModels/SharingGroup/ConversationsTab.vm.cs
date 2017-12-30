@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Accelerider.Windows.Commands;
+using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.MockData;
 using Microsoft.Practices.Unity;
 

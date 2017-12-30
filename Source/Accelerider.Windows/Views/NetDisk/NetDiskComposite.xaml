@@ -3,8 +3,8 @@
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          xmlns:local="clr-namespace:Accelerider.Windows.Views.NetDisk"
-         xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
          xmlns:mvvm="http://prismlibrary.com/"
+         xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
          mvvm:ViewModelLocator.AutoWireViewModel="True">
     <TabItem.Header>
         <Grid >
@@ -138,14 +138,14 @@
             </Button>
         </Grid>
 
-        <ctrls:SwitchableViewContainer Grid.Column="1" Margin="25 50 25 0" Background="White"
+        <controls:SwitchableViewContainer Grid.Column="1" Margin="25 50 25 0" Background="White"
                                        Selector="{Binding ElementName=SelectViewListBox}">
-            <ctrls:SwitchableViewContainer.Resources>
+            <controls:SwitchableViewContainer.Resources>
                 <local:Files x:Key="0" Style="{StaticResource FloatInUpStyle}"/>
                 <local:Share x:Key="1" Style="{StaticResource FloatInUpStyle}" />
                 <local:RecycleBin x:Key="2" Style="{StaticResource FloatInUpStyle}" />
-            </ctrls:SwitchableViewContainer.Resources>
-        </ctrls:SwitchableViewContainer>
+            </controls:SwitchableViewContainer.Resources>
+        </controls:SwitchableViewContainer>
         <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>
     </Grid>
 </TabItem>

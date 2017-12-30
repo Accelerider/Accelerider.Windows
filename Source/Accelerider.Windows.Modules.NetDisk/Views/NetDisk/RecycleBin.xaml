@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="Accelerider.Windows.Views.NetDisk.RecycleBin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
+             xmlns:mvvm="http://prismlibrary.com/"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Background="#DDDEF0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
+                <ctrls:ToolBarButton IconKind="FileRestore" Label="Restore" />
+                <ctrls:ToolBarButton IconKind="DeleteForever" Label="Delete" />
+            </StackPanel>
+            <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
+                    Command="{Binding RefreshFilesCommand}"
+                    Margin="0 0 8 0" Width="20" Height="20" Padding="0">
+                <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
+            </Button>
+        </Grid>
+        <ctrls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
+            <ListBox x:Name="ListboxFileList" SelectionMode="Extended" ItemsSource="{Binding Files}"
+                     ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="20 10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="16"/>
+
+                                    <ColumnDefinition Width="45"/>
+                                    <ColumnDefinition Width="16"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="{Binding FileSize}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="6" Text="{Binding DeletedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="8" Text="{Binding LeftDays, StringFormat='{}{0} days'}" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ctrls:SwitchLoadingViewContainer>
+    </Grid>
+</UserControl>
+
+
+

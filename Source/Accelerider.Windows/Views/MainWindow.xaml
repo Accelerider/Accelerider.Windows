@@ -4,13 +4,12 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:views="clr-namespace:Accelerider.Windows.Views"
         xmlns:mvvm="http://prismlibrary.com/"
-        xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
         xmlns:infrastructure="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure"
         mvvm:ViewModelLocator.AutoWireViewModel="True"
         MinHeight="500" MinWidth="720" Height="700" Width="1100" 
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource MainWindowStyle}"
-        Icon="../Assets/Images/AcceleriderLogo.ico"
+        Icon="pack://application:,,,/Accelerider.Windows;component/logo.ico"
         Title="Accelerider" >
 
     <materialDesign:DialogHost Identifier="RootDialog">

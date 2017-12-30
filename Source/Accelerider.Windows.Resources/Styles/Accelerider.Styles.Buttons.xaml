@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
-                    xmlns:ctrls="clr-namespace:Accelerider.Windows.Resources.Controls">
+                    xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls">
 
     <ControlTemplate x:Key="FlatButtonTemplate" TargetType="Button">
         <Grid>
@@ -18,8 +18,8 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{Binding (ctrls:ControlHelper.MouseOverBackground), RelativeSource={RelativeSource Mode=Self}}" />
-                <Setter Property="Foreground" Value="{Binding (ctrls:ControlHelper.MouseOverForeground), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Background" Value="{Binding Path=(controls:ControlHelper.MouseOverBackground), RelativeSource={RelativeSource Mode=Self}}" />
+                <Setter Property="Foreground" Value="{Binding Path=(controls:ControlHelper.MouseOverForeground), RelativeSource={RelativeSource Mode=Self}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -35,8 +35,8 @@
     <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
         <Setter Property="Height" Value="42" />
         <Setter Property="Foreground" Value="#606060"/>
-        <Setter Property="ctrls:ControlHelper.MouseOverBackground" Value="#7679BE" />
-        <Setter Property="ctrls:ControlHelper.MouseOverForeground" Value="White" />
+        <Setter Property="controls:ControlHelper.MouseOverBackground" Value="#7679BE" />
+        <Setter Property="controls:ControlHelper.MouseOverForeground" Value="White" />
     </Style>
 
 

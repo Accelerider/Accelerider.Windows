@@ -1,10 +1,8 @@
 ﻿using System.Diagnostics;
-using System.Linq;
 using System.Windows.Input;
-using Accelerider.Windows.Assets;
-using Accelerider.Windows.Commands;
 using Accelerider.Windows.Common;
-using Accelerider.Windows.ViewModels.Others;
+using Accelerider.Windows.Infrastructure.Commands;
+using Accelerider.Windows.Resources.I18N;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels

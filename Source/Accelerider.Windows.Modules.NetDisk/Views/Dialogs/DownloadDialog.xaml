@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Accelerider.Windows.Views.Dialogs.DownloadDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:res="clr-namespace:Accelerider.Windows.Assets"
+             xmlns:mvvm="http://prismlibrary.com/"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             Style="{StaticResource AcceleriderDialogStyle}"
+             Height="Auto" Width="500">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="15"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox IsReadOnly="True" Text="{Binding DownloadItemsSummary, Mode=OneWay}" VerticalAlignment="Center"
+                     materialDesign:HintAssist.Hint="{Binding DownloadItemsHint}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
+            <ComboBox Grid.Row="2" SelectedItem="{Binding DownloadFolder}" ItemsSource="{Binding DefaultFolders}" IsReadOnly="True" VerticalAlignment="Center"
+                      materialDesign:HintAssist.Hint="To" Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
+            <Button Grid.Row="2" Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}" VerticalAlignment="Bottom"
+                    Command="{Binding OpenFolderDialogCommand}">
+                <materialDesign:PackIcon Kind="Folder"/>
+            </Button>
+        </Grid>
+        <CheckBox Grid.Row="2" IsChecked="{Binding NotDisplayDownloadDialog}" Content="{x:Static res:UiStrings.DownloadDialog_CheckBox}"/>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{Binding DownloadCommand}" Content="{x:Static res:UiStrings.Download}"/>
+            <!--<Button Width="120" Margin="10 0" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Content="{x:Static res:UiStrings.Cancel}">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+            </Button>-->
+        </StackPanel>
+    </Grid>
+</UserControl>

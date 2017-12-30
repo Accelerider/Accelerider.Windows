@@ -1,7 +1,6 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Input;
-using Accelerider.Windows.Assets;
-using Accelerider.Windows.Commands;
+using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
@@ -9,6 +8,7 @@ using Accelerider.Windows.Infrastructure;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Generic;
+using Accelerider.Windows.Resources.I18N;
 
 namespace Accelerider.Windows.ViewModels.Dialogs
 {

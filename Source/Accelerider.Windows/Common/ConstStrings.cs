@@ -2,9 +2,6 @@
 {
     public static class ConstStrings
     {
-        public const string NavigationBarRegion = "NavigationBarRegion";
-        public const string MainScreenRegion = "MainScreenRegion";
-
         public const string HelpUrl = "https://github.com/Accelerider/Accelerider.Windows/wiki";
         public const string ReleaseUrl = "https://github.com/Accelerider/Accelerider.Windows/releases";
         public const string WebSitePanUrl = "http://pan.accelerider.com";

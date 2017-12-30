@@ -69,6 +69,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events.cs" />
     <Compile Include="NetDiskModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -83,22 +84,72 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\Files.vm.cs" />
-    <Compile Include="ViewModels\LoadingFilesBase.vm.cs" />
-    <Compile Include="ViewModels\NetDiskComposite.vm.cs" />
-    <Compile Include="ViewModels\RecycleBin.vm.cs" />
-    <Compile Include="ViewModels\Share.vm.cs" />
-    <Compile Include="Views\Files.xaml.cs">
+    <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
+    <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
+    <Compile Include="ViewModels\Dialogs\SelectNetDiskTypeDialog.vm.cs" />
+    <Compile Include="ViewModels\NetDisk\Files.vm.cs" />
+    <Compile Include="ViewModels\NetDisk\LoadingFilesBase.vm.cs" />
+    <Compile Include="ViewModels\NetDisk\NetDiskComposite.vm.cs" />
+    <Compile Include="ViewModels\NetDisk\RecycleBin.vm.cs" />
+    <Compile Include="ViewModels\NetDisk\Share.vm.cs" />
+    <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
+    <Compile Include="ViewModels\Others\TransferredFileList.cs" />
+    <Compile Include="ViewModels\Others\TransferringTask.vm.cs" />
+    <Compile Include="ViewModels\Others\TransferringTaskList.cs" />
+    <Compile Include="ViewModels\Transmission\Downloaded.vm.cs" />
+    <Compile Include="ViewModels\Transmission\Downloading.vm.cs" />
+    <Compile Include="ViewModels\Transmission\TransferedBase.vm.cs" />
+    <Compile Include="ViewModels\Transmission\TransferingBase.vm.cs" />
+    <Compile Include="ViewModels\Transmission\TransmissionComposite.vm.cs" />
+    <Compile Include="ViewModels\Transmission\Uploaded.vm.cs" />
+    <Compile Include="ViewModels\Transmission\Uploading.vm.cs" />
+    <Compile Include="Views\Dialogs\AddOfflineTaskDialog.xaml.cs">
+      <DependentUpon>AddOfflineTaskDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\AuthenticatorWindow.xaml.cs">
+      <DependentUpon>AuthenticatorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\DownloadDialog.xaml.cs">
+      <DependentUpon>DownloadDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\SelectNetDiskTypeDialog.xaml.cs">
+      <DependentUpon>SelectNetDiskTypeDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\SettingsDialog.xaml.cs">
+      <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NetDisk\Files.xaml.cs">
       <DependentUpon>Files.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NetDiskComposite.xaml.cs">
+    <Compile Include="Views\NetDisk\NetDiskComposite.xaml.cs">
       <DependentUpon>NetDiskComposite.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RecycleBin.xaml.cs">
+    <Compile Include="Views\NetDisk\RecycleBin.xaml.cs">
       <DependentUpon>RecycleBin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Share.xaml.cs">
+    <Compile Include="Views\NetDisk\Share.xaml.cs">
       <DependentUpon>Share.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transmission\Downloaded.xaml.cs">
+      <DependentUpon>Downloaded.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transmission\Downloading.xaml.cs">
+      <DependentUpon>Downloading.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transmission\OfflineDownload.xaml.cs">
+      <DependentUpon>OfflineDownload.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transmission\TaskProgressList.xaml.cs">
+      <DependentUpon>TaskProgressList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transmission\TransmissionComposite.xaml.cs">
+      <DependentUpon>TransmissionComposite.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transmission\Uploaded.xaml.cs">
+      <DependentUpon>Uploaded.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transmission\Uploading.xaml.cs">
+      <DependentUpon>Uploading.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -117,22 +168,79 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\Files.xaml">
+    <Folder Include="Controls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\Dialogs\AddOfflineTaskDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NetDiskComposite.xaml">
+    <Page Include="Views\Dialogs\AuthenticatorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\RecycleBin.xaml">
+    <Page Include="Views\Dialogs\DownloadDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Share.xaml">
+    <Page Include="Views\Dialogs\SelectNetDiskTypeDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Dialogs\SettingsDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NetDisk\Files.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NetDisk\NetDiskComposite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NetDisk\RecycleBin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NetDisk\Share.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Transmission\Downloaded.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Transmission\Downloading.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Transmission\OfflineDownload.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Transmission\TaskProgressList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Transmission\TransmissionComposite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Transmission\Uploaded.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Transmission\Uploading.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OneDriveLogo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BaiduCloudLogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
