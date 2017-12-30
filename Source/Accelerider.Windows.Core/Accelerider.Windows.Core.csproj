@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceleriderUser.cs" />
+    <Compile Include="ConfigureFile.cs" />
     <Compile Include="DownloadEngine\DownloadCore\DownloadInfo.cs" />
     <Compile Include="DownloadEngine\DownloadCore\DownloadThread\CommonDownloadThread.cs" />
     <Compile Include="DownloadEngine\DownloadCore\HttpDownload.cs" />
