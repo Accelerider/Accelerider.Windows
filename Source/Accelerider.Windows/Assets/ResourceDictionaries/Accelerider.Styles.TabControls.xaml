@@ -111,7 +111,7 @@
                                     </TemplateBinding.Converter>
                                 </TemplateBinding>
                             </Border.Background>
-                        </Border>                        
+                        </Border>
                         <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center"
                                           Margin="0" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         <materialDesign:Ripple x:Name="Ripple" ContentTemplate="{TemplateBinding ContentTemplate}" Focusable="False" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
@@ -210,7 +210,7 @@
                                     </TemplateBinding>
                                 </materialDesign:Ripple.Feedback>
                             </materialDesign:Ripple>
-                            </Grid>
+                        </Grid>
                     </Border>
 
                     <ControlTemplate.Triggers>
@@ -262,7 +262,9 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <TabPanel Grid.Column="0" Background="Transparent" IsItemsHost="true" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" />
+                        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                            <TabPanel Background="Transparent" IsItemsHost="true" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" />
+                        </ScrollViewer>
                         <Border Grid.Column="1" BorderBrush="{TemplateBinding BorderBrush}"
                                 KeyboardNavigation.DirectionalNavigation="Contained" 
                                 KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">

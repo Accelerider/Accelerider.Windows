@@ -40,6 +40,8 @@
                         </Grid.RowDefinitions>
                         <materialDesign:PackIcon Kind="LightbulbOutline" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
                         <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
+                        <!--<materialDesign:PackIcon Kind="Apps" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>-->
+                        <!--<TextBlock Grid.Row="2" Text="App Store" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>-->
                     </Grid>
                 </Button>
                 <ToggleButton x:Name="SettingsToggleButton" 

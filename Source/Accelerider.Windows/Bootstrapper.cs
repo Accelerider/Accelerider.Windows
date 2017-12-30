@@ -9,15 +9,14 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.ViewModels;
 using Prism.Mvvm;
 using Prism.Unity;
+using Prism.Regions;
+
+using Accelerider.Windows.Views.NetDisk;
+using Accelerider.Windows.Views.SharingGroup;
+using Accelerider.Windows.Views.Transmission;
 
 namespace Accelerider.Windows
 {
-    using Accelerider.Windows.Views.NetDisk;
-    using Accelerider.Windows.Views.SharingGroup;
-    using Accelerider.Windows.Views.Transmission;
-
-    using Prism.Regions;
-
     public class Bootstrapper : UnityBootstrapper
     {
         #region Overridered methods
@@ -46,7 +45,7 @@ namespace Accelerider.Windows
             var region = Container.Resolve<IRegionViewRegistry>();
             region.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(NetDiskComposite));
             region.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransmissionComposite));
-            //region.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(SharingGroupComposite));
+            region.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(SharingGroupComposite));
         }
         #endregion
 
