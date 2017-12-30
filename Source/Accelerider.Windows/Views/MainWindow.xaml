@@ -3,16 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:views="clr-namespace:Accelerider.Windows.Views"
-        xmlns:netDiskViews="clr-namespace:Accelerider.Windows.Views.NetDisk"
-        xmlns:transferringViews="clr-namespace:Accelerider.Windows.Views.Transmission"
-        xmlns:sharingGroupViews="clr-namespace:Accelerider.Windows.Views.SharingGroup"
         xmlns:mvvm="http://prismlibrary.com/"
+        xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
+        xmlns:infrastructure="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure"
         mvvm:ViewModelLocator.AutoWireViewModel="True"
         MinHeight="500" MinWidth="720" Height="700" Width="1100" 
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource MainWindowStyle}"
         Icon="../Assets/Images/AcceleriderLogo.ico"
         Title="Accelerider" >
+
     <materialDesign:DialogHost Identifier="RootDialog">
         <Grid Background="{StaticResource LightGreyBackgroundBrush}" >
             <Grid.ColumnDefinitions>
@@ -22,11 +22,9 @@
 
             <Rectangle Fill="{StaticResource PrimaryHueDarkBrush}"/>
 
-            <TabControl Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource MainTabControlStyle}">
-                <netDiskViews:NetDiskComposite />
-                <transferringViews:TransmissionComposite />
-                <sharingGroupViews:SharingGroupComposite />
-            </TabControl>
+            <TabControl Grid.Column="0" Grid.ColumnSpan="2" 
+                        Style="{StaticResource LeftTabControlStyle}" ItemContainerStyle="{StaticResource MainTabItemStyle}"
+                        mvvm:RegionManager.RegionName="{x:Static infrastructure:RegionNames.MainTabRegion}"/>
 
             <StackPanel Grid.Column="0" VerticalAlignment="Bottom">
                 <Button Height="56" Padding="0" 
@@ -60,22 +58,6 @@
                                      PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" VerticalOffset="-354" PopupAnimation="Fade"
                                      Width="284" Height="Auto" />
             </StackPanel>
-
-            <!--<Grid Grid.Column="1" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" VerticalAlignment="Bottom">
-                    <Grid.Style>
-                        <Style TargetType="Grid" BasedOn="{StaticResource LeftTabListStyle}">
-                            <Setter Property="Visibility" Value="Hidden"/>
-                        </Style>
-                    </Grid.Style>
-                </Grid>
-                <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>
-            </Grid>-->
-
         </Grid>
     </materialDesign:DialogHost>
 </Window>

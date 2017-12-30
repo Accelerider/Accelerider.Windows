@@ -1,14 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-
 using Accelerider.Windows.Commands;
 using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure.Interfaces;
-using Accelerider.Windows.Views.Dialogs;
-
-using MaterialDesignThemes.Wpf;
-
 using Microsoft.Practices.Unity;
+using Accelerider.Windows.Views.Dialogs;
+using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.ViewModels.NetDisk
 {
@@ -21,7 +18,7 @@ namespace Accelerider.Windows.ViewModels.NetDisk
         public NetDiskCompositeViewModel(IUnityContainer container) : base(container)
         {
             NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.NetDiskUsers);
-            EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Subscribe(isLoadingFiles => CanSwitchUser = !isLoadingFiles);
+            EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Subscribe(isloadingFiles => CanSwitchUser = !isloadingFiles);
 
             AddNetDiskCommand = new RelayCommand(AddNetDiskCommandExecute);
         }

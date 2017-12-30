@@ -37,6 +37,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+            <!--<TextBlock Grid.Row="1" Text="Category" Margin="10 0 0 0" FontSize="14"/>-->
             <Border Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" Height="30" Margin="20 0" CornerRadius="3" ToolTip="Enter to search, ignore case">
                 <Grid>
                     <Grid.ColumnDefinitions>

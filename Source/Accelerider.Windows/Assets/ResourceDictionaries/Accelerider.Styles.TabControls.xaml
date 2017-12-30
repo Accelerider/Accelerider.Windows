@@ -3,6 +3,57 @@
                     xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
+    <Style TargetType="{x:Type TabItem}">
+        <Setter Property="Foreground" Value="{StaticResource PrimaryHueMidBrush}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid x:Name="Root" SnapsToDevicePixels="true" >
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.4" Storyboard="{x:Null}" To="{x:Null}">
+                                        <VisualTransition.GeneratedEasingFunction>
+                                            <CircleEase EasingMode="EaseOut"/>
+                                        </VisualTransition.GeneratedEasingFunction>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Unselected"/>
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <DoubleAnimation To="1" Storyboard.TargetName="selectedUnderline" Storyboard.TargetProperty="Opacity"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.4" GeneratedEasingFunction="{x:Null}" Storyboard="{x:Null}" To="{x:Null}"/>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver" >
+                                    <Storyboard>
+                                        <DoubleAnimation To="0.4" Storyboard.TargetName="mouseOverUnderline" Storyboard.TargetProperty="Opacity"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False"
+                                          Margin="8" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        <Rectangle x:Name="selectedUnderline" Margin="8 0" Opacity="0" Height="4" Focusable="False" VerticalAlignment="Bottom" Fill="{TemplateBinding Foreground}"/>
+                        <Rectangle x:Name="mouseOverUnderline" Margin="8 0" Opacity="0" Height="4" Focusable="False" VerticalAlignment="Bottom" Fill="{TemplateBinding Foreground}"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger SourceName="contentPresenter" Property="IsMouseOver" Value="True">
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="MainTabItemStyle" TargetType="{x:Type TabItem}">
         <Setter Property="Background" Value="{StaticResource PrimaryHueMidBrush}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -89,48 +140,83 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type TabItem}">
-        <Setter Property="Foreground" Value="{StaticResource PrimaryHueMidBrush}"/>
+    <Style x:Key="SecondaryTabItemStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="Background" Value="{StaticResource PrimaryHueMidBrush}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Grid x:Name="Root" SnapsToDevicePixels="true" >
+                <ControlTemplate TargetType="TabItem">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" ClipToBounds="{TemplateBinding ClipToBounds}" Margin="{TemplateBinding Margin}">
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="SelectionStates">
+                            <VisualStateGroup x:Name="CommonStates">
                                 <VisualStateGroup.Transitions>
-                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.4" Storyboard="{x:Null}" To="{x:Null}">
+                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.4" Storyboard="{x:Null}" To="Normal">
                                         <VisualTransition.GeneratedEasingFunction>
                                             <CircleEase EasingMode="EaseOut"/>
                                         </VisualTransition.GeneratedEasingFunction>
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
-                                <VisualState x:Name="Unselected"/>
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="MouseOverBorder"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.2" GeneratedEasingFunction="{x:Null}" Storyboard="{x:Null}" To="{x:Null}"/>
+                                </VisualStateGroup.Transitions>
                                 <VisualState x:Name="Selected">
                                     <Storyboard>
-                                        <DoubleAnimation To="1" Storyboard.TargetName="selectedUnderline" Storyboard.TargetProperty="Opacity"/>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SelectedBorder"/>
                                     </Storyboard>
                                 </VisualState>
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualStateGroup.Transitions>
-                                    <VisualTransition From="{x:Null}" GeneratedDuration="0:0:0.4" GeneratedEasingFunction="{x:Null}" Storyboard="{x:Null}" To="{x:Null}"/>
-                                </VisualStateGroup.Transitions>
-                                <VisualState x:Name="Normal"/>
-                                <VisualState x:Name="MouseOver" >
-                                    <Storyboard>
-                                        <DoubleAnimation To="0.4" Storyboard.TargetName="mouseOverUnderline" Storyboard.TargetProperty="Opacity"/>
-                                    </Storyboard>
-                                </VisualState>
+                                <VisualState x:Name="Unselected"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False"
-                                          Margin="8" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        <Rectangle x:Name="selectedUnderline" Margin="8 0" Opacity="0" Height="4" Focusable="False" VerticalAlignment="Bottom" Fill="{TemplateBinding Foreground}"/>
-                        <Rectangle x:Name="mouseOverUnderline" Margin="8 0" Opacity="0" Height="4" Focusable="False" VerticalAlignment="Bottom" Fill="{TemplateBinding Foreground}"/>
-                    </Grid>
+                        <Grid>
+                            <Border x:Name="MouseOverBorder" Opacity="0">
+                                <Border.Background>
+                                    <TemplateBinding Property="Foreground">
+                                        <TemplateBinding.Converter>
+                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource ListBoxItemMouseOverBackgroundBrush}"/>
+                                        </TemplateBinding.Converter>
+                                    </TemplateBinding>
+                                </Border.Background>
+                            </Border>
+                            <Border x:Name="SelectedBorder" Opacity="0" RenderTransformOrigin="0.5,0.5">
+                                <Border.Background>
+                                    <TemplateBinding Property="Foreground">
+                                        <TemplateBinding.Converter>
+                                            <converters:BrushRoundConverter HighValue="Black" LowValue="{StaticResource LightGreyBackgroundBrush}"/>
+                                        </TemplateBinding.Converter>
+                                    </TemplateBinding>
+                                </Border.Background>
+                                <Border.RenderTransform>
+                                    <ScaleTransform ScaleX="1"/>
+                                </Border.RenderTransform>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                              Margin="0" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <materialDesign:Ripple ContentTemplate="{TemplateBinding ContentTemplate}" Focusable="False" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <materialDesign:Ripple.Feedback>
+                                    <TemplateBinding Property="Foreground">
+                                        <TemplateBinding.Converter>
+                                            <converters:BrushRoundConverter HighValue="White" LowValue="LightGray"/>
+                                        </TemplateBinding.Converter>
+                                    </TemplateBinding>
+                                </materialDesign:Ripple.Feedback>
+                            </materialDesign:Ripple>
+                            </Grid>
+                    </Border>
+
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.56"/>
+                        </Trigger>
                         <Trigger SourceName="contentPresenter" Property="IsMouseOver" Value="True">
                             <Setter Property="Cursor" Value="Hand"/>
                         </Trigger>
@@ -164,15 +250,14 @@
         </Setter>
     </Style>
 
-    <Style x:Key="MainTabControlStyle" TargetType="{x:Type TabControl}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource MainTabItemStyle}"/>
+    <Style x:Key="LeftTabControlStyle" TargetType="{x:Type TabControl}">
         <Setter Property="TabStripPlacement" Value="Left"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
-                    <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+                    <Grid ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition />

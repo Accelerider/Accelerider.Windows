@@ -5,12 +5,19 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using System.Net;
 using Accelerider.Windows.Common;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.ViewModels;
 using Prism.Mvvm;
 using Prism.Unity;
 
 namespace Accelerider.Windows
 {
+    using Accelerider.Windows.Views.NetDisk;
+    using Accelerider.Windows.Views.SharingGroup;
+    using Accelerider.Windows.Views.Transmission;
+
+    using Prism.Regions;
+
     public class Bootstrapper : UnityBootstrapper
     {
         #region Overridered methods
@@ -36,6 +43,10 @@ namespace Accelerider.Windows
         {
             base.InitializeModules();
             Container.Resolve<Components.Authenticator.Module>().Initialize();
+            var region = Container.Resolve<IRegionViewRegistry>();
+            region.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(NetDiskComposite));
+            region.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransmissionComposite));
+            //region.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(SharingGroupComposite));
         }
         #endregion
 

@@ -30,8 +30,8 @@
                                        BadgeBackground="Red" BadgeForeground="White" >
                     <materialDesign:Badged.Badge>
                         <MultiBinding Converter="{StaticResource PlusConverter}">
-                            <Binding Path="DataContext.DownloadList.Count" RelativeSource="{RelativeSource AncestorType=Window}"/>
-                            <Binding Path="DataContext.UploadList.Count" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                            <Binding Path="DownloadList.Count" />
+                            <Binding Path="UploadList.Count" />
                         </MultiBinding>
                     </materialDesign:Badged.Badge>
                 </materialDesign:Badged>
@@ -164,6 +164,7 @@
                 <local:Uploaded x:Key="6" Style="{StaticResource FloatInUpStyle}" />
             </ctrls:SwitchableViewContainer.Resources>
         </ctrls:SwitchableViewContainer>
+        <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>
     </Grid>
 </TabItem>
 
