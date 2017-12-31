@@ -2,7 +2,7 @@
 {
     public interface IConfigureFile
     {
-        string this[string key] { get; set; }
+        object this[string key] { get; set; }
 
         bool Contains(string key);
 

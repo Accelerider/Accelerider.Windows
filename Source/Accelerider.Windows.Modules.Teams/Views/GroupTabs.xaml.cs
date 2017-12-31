@@ -1,4 +1,4 @@
-﻿namespace Accelerider.Windows.Views.SharingGroup
+﻿namespace Accelerider.Windows.Modules.Teams.Views
 {
     /// <summary>
     /// Interaction logic for SharingGroupScreen.xaml

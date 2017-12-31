@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.MockData;
-using Accelerider.Windows.Modules.NetDisk.ViewModels;
 using Microsoft.Practices.Unity;
 
-namespace Accelerider.Windows.ViewModels.SharingGroup
+namespace Accelerider.Windows.Modules.Teams.ViewModels
 {
     public class ConversationsTabViewModel : ViewModelBase
     {

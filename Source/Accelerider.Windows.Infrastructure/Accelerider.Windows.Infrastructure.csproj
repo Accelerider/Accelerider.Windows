@@ -88,9 +88,16 @@
     <Compile Include="Soil.cs" />
     <Compile Include="SystemFolder.cs" />
     <Compile Include="TransferTaskStatusChangedEventArgs.cs" />
+    <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
+      <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
+      <Name>MaterialDesignThemes.Wpf</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

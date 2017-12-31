@@ -5,10 +5,9 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using System.Net;
 using Accelerider.Windows.Common;
+using Accelerider.Windows.Infrastructure;
 using Prism.Mvvm;
 using Prism.Unity;
-using Accelerider.Windows.Modules.NetDisk;
-using Accelerider.Windows.Modules.NetDisk.ViewModels;
 using Prism.Modularity;
 
 namespace Accelerider.Windows
@@ -34,10 +33,16 @@ namespace Accelerider.Windows
             ShellController.Show((Window)Shell);
         }
 
-        protected override void ConfigureModuleCatalog()
+        //protected override void ConfigureModuleCatalog()
+        //{
+        //    var catalog = (ModuleCatalog)ModuleCatalog;
+        //    catalog.AddModule(typeof(NetDiskModule));
+        //    catalog.AddModule(typeof(TeamsModule));
+        //}
+
+        protected override IModuleCatalog CreateModuleCatalog()
         {
-            var catalog = (ModuleCatalog)ModuleCatalog;
-            catalog.AddModule(typeof(NetDiskModule));
+            return new DirectoryModuleCatalog() { ModulePath = @".\" };
         }
 
         #endregion

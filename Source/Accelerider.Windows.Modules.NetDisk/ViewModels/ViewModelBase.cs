@@ -7,17 +7,9 @@ using Prism.Mvvm;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels
 {
-    public abstract class ViewModelBase : BindableBase
+    public abstract class ViewModelBase : Infrastructure.ViewModelBase
     {
-        private SnackbarMessageQueue _globalMessageQueue;
-
-        protected ViewModelBase(IUnityContainer container)
-        {
-            Container = container;
-            EventAggregator = container.Resolve<IEventAggregator>();
-            AcceleriderUser = container.Resolve<IAcceleriderUser>();
-            GlobalMessageQueue = container.Resolve<SnackbarMessageQueue>();
-        }
+        protected ViewModelBase(IUnityContainer container) : base(container) { }
 
         public INetDiskUser NetDiskUser
         {
@@ -29,24 +21,6 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels
                 AcceleriderUser.CurrentNetDiskUser = temp;
                 EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Publish(temp);
             }
-        }
-
-        public SnackbarMessageQueue GlobalMessageQueue
-        {
-            get => _globalMessageQueue;
-            set => SetProperty(ref _globalMessageQueue, value);
-        }
-
-        protected IUnityContainer Container { get; }
-        protected IEventAggregator EventAggregator { get; }
-        protected IAcceleriderUser AcceleriderUser { get; }
-
-        public virtual void OnLoaded(object view)
-        {
-        }
-
-        public virtual void OnUnloaded(object view)
-        {
         }
     }
 }

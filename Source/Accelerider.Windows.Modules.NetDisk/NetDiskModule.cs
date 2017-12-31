@@ -2,26 +2,22 @@
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
 using Accelerider.Windows.Modules.NetDisk.Views.Transmission;
 using Microsoft.Practices.Unity;
-using Prism.Modularity;
 using Prism.Regions;
 
 namespace Accelerider.Windows.Modules.NetDisk
 {
-    public class NetDiskModule : IModule
+    public class NetDiskModule : ModuleBase
     {
         private readonly IRegionManager _regionManager;
-        private readonly IUnityContainer _container;
 
-        public NetDiskModule(RegionManager regionManager, IUnityContainer container)
+        public NetDiskModule(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
             _regionManager = regionManager;
-            _container = container;
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
-            _container.Resolve<Components.Authenticator.Module>().Initialize();
-
+            Container.Resolve<Components.Authenticator.Module>().Initialize();
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComposite));
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransmissionComposite));
         }

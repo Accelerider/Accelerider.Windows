@@ -86,9 +86,9 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Common\ConstStrings.cs" />
+    <Compile Include="Common\Events.cs" />
     <Compile Include="Common\ExceptionResolver.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
-    <Compile Include="ViewModels\SharingGroup\ConversationsTab.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
@@ -98,30 +98,16 @@
     <Compile Include="Views\SettingsPopup.xaml.cs">
       <DependentUpon>SettingsPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SharingGroup\ConversationsTab.xaml.cs">
-      <DependentUpon>ConversationsTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SharingGroup\FilesTab.xaml.cs">
-      <DependentUpon>FilesTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SharingGroup\GroupTabs.xaml.cs">
-      <DependentUpon>GroupTabs.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Entering\EnteringWindow.xaml.cs">
       <DependentUpon>EnteringWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Entering\EnteringWindow.vm.cs" />
-    <Compile Include="Common\Events.cs" />
     <Compile Include="ViewModels\MainWindow.vm.cs" />
     <Compile Include="Common\SingletonProcess.cs" />
-    <Compile Include="ViewModels\SharingGroup\SharingGroupComposite.vm.cs" />
     <Compile Include="ViewModels\Entering\SignInView.vm.cs" />
     <Compile Include="ViewModels\Entering\SignUpView.vm.cs" />
     <Compile Include="Views\Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SharingGroup\SharingGroupComposite.xaml.cs">
-      <DependentUpon>SharingGroupComposite.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Entering\SignInView.xaml.cs">
       <DependentUpon>SignInView.xaml</DependentUpon>
@@ -142,18 +128,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SharingGroup\ConversationsTab.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SharingGroup\FilesTab.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SharingGroup\GroupTabs.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Entering\EnteringWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -171,10 +145,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Dialogs\SettingsDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SharingGroup\SharingGroupComposite.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -221,10 +191,6 @@
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{f61839d1-6c54-4e70-b5cb-7ea02f54a664}</Project>
       <Name>Accelerider.Windows.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Modules.NetDisk\Accelerider.Windows.Modules.NetDisk.csproj">
-      <Project>{ade42073-d964-4d4e-a58c-1e843abf1d31}</Project>
-      <Name>Accelerider.Windows.Modules.NetDisk</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj">
       <Project>{c4dbd55d-6c99-4a67-96ff-8b76baea2037}</Project>

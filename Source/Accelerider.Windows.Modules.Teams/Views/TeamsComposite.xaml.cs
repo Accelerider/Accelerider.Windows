@@ -1,11 +1,11 @@
-﻿namespace Accelerider.Windows.Views.SharingGroup
+﻿namespace Accelerider.Windows.Modules.Teams.Views
 {
     /// <summary>
     /// Interaction logic for ShareView.xaml
     /// </summary>
-    public partial class SharingGroupComposite
+    public partial class TeamsComposite
     {
-        public SharingGroupComposite()
+        public TeamsComposite()
         {
             InitializeComponent();
         }
