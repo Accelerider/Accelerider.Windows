@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Accelerider.Windows.Commands;
+using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
@@ -81,12 +81,12 @@ namespace Accelerider.Windows.ViewModels.Entering
 
         private async Task SignInAsync(string username, string passwordEncrypted)
         {
-            EventAggregator.GetEvent<IsLoadingMainWindowEvent>().Publish(true);
+            EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(true);
             var message = await AcceleriderUser.SignInAsync(username, passwordEncrypted);
             if (!string.IsNullOrEmpty(message))
             {
                 GlobalMessageQueue.Enqueue(message, true);
-                EventAggregator.GetEvent<IsLoadingMainWindowEvent>().Publish(false);
+                EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(false);
                 LocalConfigureInfo.IsAutoSignIn = false;
                 return;
             }

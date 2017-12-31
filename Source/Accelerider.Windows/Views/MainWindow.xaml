@@ -3,17 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:views="clr-namespace:Accelerider.Windows.Views"
-        xmlns:netDiskViews="clr-namespace:Accelerider.Windows.Views.NetDisk"
-        xmlns:transferringViews="clr-namespace:Accelerider.Windows.Views.Transmission"
-        xmlns:sharingGroupViews="clr-namespace:Accelerider.Windows.Views.SharingGroup"
-        xmlns:ctrls="clr-namespace:Accelerider.Windows.Controls"
         xmlns:mvvm="http://prismlibrary.com/"
+        xmlns:infrastructure="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure"
         mvvm:ViewModelLocator.AutoWireViewModel="True"
         MinHeight="500" MinWidth="720" Height="700" Width="1100" 
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource MainWindowStyle}"
-        Icon="../Assets/Images/AcceleriderLogo.ico"
+        Icon="pack://application:,,,/Accelerider.Windows;component/logo.ico"
         Title="Accelerider" >
+
     <materialDesign:DialogHost Identifier="RootDialog">
         <Grid Background="{StaticResource LightGreyBackgroundBrush}" >
             <Grid.ColumnDefinitions>
@@ -21,104 +19,14 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <!--Right content-->
-            <Grid Grid.Column="1" >
-                <ctrls:SwitchableViewContainer Selector="{Binding ElementName=TabListBox}">
-                    <ctrls:SwitchableViewContainer.Resources>
-                        <netDiskViews:NetDiskComposite x:Key="0" Style="{StaticResource FloatInRightToLeftStyle}"/>
-                        <transferringViews:TransmissionComposite x:Key="1" Style="{StaticResource FloatInRightToLeftStyle}"/>
-                        <sharingGroupViews:SharingGroupComposite x:Key="2" Style="{StaticResource FloatInRightToLeftStyle}"/>
-                    </ctrls:SwitchableViewContainer.Resources>
-                </ctrls:SwitchableViewContainer>
-            </Grid>
+            <Rectangle Fill="{StaticResource PrimaryHueDarkBrush}"/>
 
-            <Grid Grid.Column="1" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" VerticalAlignment="Bottom">
-                    <Grid.Style>
-                        <Style TargetType="Grid" BasedOn="{StaticResource LeftTabListStyle}">
-                            <Setter Property="Visibility" Value="Hidden"/>
-                        </Style>
-                    </Grid.Style>
-                </Grid>
-                <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>
-            </Grid>
+            <TabControl Grid.Column="0" Grid.ColumnSpan="2" 
+                        Style="{StaticResource LeftTabControlStyle}" ItemContainerStyle="{StaticResource MainTabItemStyle}"
+                        mvvm:RegionManager.RegionName="{x:Static infrastructure:RegionNames.MainTabRegion}"/>
 
-            <!--Left side bar-->
-            <Grid Grid.Column="0" Background="{StaticResource PrimaryHueDarkBrush}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition />
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <!--Tab list-->
-                <ListBox x:Name="TabListBox" Grid.Row="0" 
-                     SelectionMode="Single" SelectedIndex="0"
-                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                     ItemContainerStyle="{StaticResource RightBarListBoxItemStyle}"
-                     HorizontalContentAlignment="Stretch">
-                    <ListBoxItem Height="56" Cursor="Hand">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="25"/>
-                                <RowDefinition Height="2"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <materialDesign:PackIcon Kind="FolderMultiple" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="18" Width="18"/>
-                            <TextBlock Grid.Row="2" Text="Net Disk" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
-                        </Grid>
-                    </ListBoxItem>
-                    <ListBoxItem Height="56" Cursor="Hand">
-                        <Grid>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="25"/>
-                                    <RowDefinition Height="2"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <materialDesign:PackIcon Kind="SwapVertical" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="25" Width="25"/>
-                                <TextBlock Grid.Row="2" Text="Transfer" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
-                            </Grid>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="10"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="6"/>
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <materialDesign:Badged BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
-                                                       BadgeBackground="Red" BadgeForeground="White">
-                                    <materialDesign:Badged.Badge>
-                                        <MultiBinding Converter="{StaticResource PlusConverter}">
-                                            <Binding Path="DownloadList.Count"/>
-                                            <Binding Path="UploadList.Count"/>
-                                        </MultiBinding>
-                                    </materialDesign:Badged.Badge>
-                                </materialDesign:Badged>
-                            </Grid>
-                        </Grid>
-                    </ListBoxItem>
-                    <ListBoxItem Height="56" Cursor="Hand" >
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="25"/>
-                                <RowDefinition Height="2"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <materialDesign:PackIcon Kind="AccountMultiple" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="22"/>
-                            <TextBlock Grid.Row="2" Text="Group" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
-                        </Grid>
-                    </ListBoxItem>
-                </ListBox>
-
-                <Button Grid.Row="2" Height="56" Padding="0" 
+            <StackPanel Grid.Column="0" VerticalAlignment="Bottom">
+                <Button Height="56" Padding="0" 
                         Command="{Binding FeedbackCommand}"
                         materialDesign:ShadowAssist.ShadowDepth="Depth0"
                         Background="{StaticResource PrimaryHueDarkBrush}"
@@ -131,9 +39,11 @@
                         </Grid.RowDefinitions>
                         <materialDesign:PackIcon Kind="LightbulbOutline" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
                         <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
+                        <!--<materialDesign:PackIcon Kind="Apps" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>-->
+                        <!--<TextBlock Grid.Row="2" Text="App Store" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>-->
                     </Grid>
                 </Button>
-                <ToggleButton x:Name="SettingsToggleButton" Grid.Row="3"
+                <ToggleButton x:Name="SettingsToggleButton" 
                               Height="56" Style="{StaticResource RightBarAndUnderlineToggleButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -148,7 +58,7 @@
                 <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}"  StaysOpen="False"
                                      PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" VerticalOffset="-354" PopupAnimation="Fade"
                                      Width="284" Height="Auto" />
-            </Grid>
+            </StackPanel>
         </Grid>
     </materialDesign:DialogHost>
 </Window>

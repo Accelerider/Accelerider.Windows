@@ -1,4 +1,5 @@
 ﻿using Accelerider.Windows.Common;
+using Accelerider.Windows.Infrastructure;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels.Entering
@@ -10,7 +11,7 @@ namespace Accelerider.Windows.ViewModels.Entering
 
         public EnteringWindowViewModel(IUnityContainer container) : base(container)
         {
-            EventAggregator.GetEvent<IsLoadingMainWindowEvent>().Subscribe(e => IsLoading = e);
+            EventAggregator.GetEvent<MainWindowLoadingEvent>().Subscribe(e => IsLoading = e);
         }
 
 

@@ -5,9 +5,10 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using System.Net;
 using Accelerider.Windows.Common;
-using Accelerider.Windows.ViewModels;
+using Accelerider.Windows.Infrastructure;
 using Prism.Mvvm;
 using Prism.Unity;
+using Prism.Modularity;
 
 namespace Accelerider.Windows
 {
@@ -32,24 +33,28 @@ namespace Accelerider.Windows
             ShellController.Show((Window)Shell);
         }
 
-        protected override void InitializeModules()
+        //protected override void ConfigureModuleCatalog()
+        //{
+        //    var catalog = (ModuleCatalog)ModuleCatalog;
+        //    catalog.AddModule(typeof(NetDiskModule));
+        //    catalog.AddModule(typeof(TeamsModule));
+        //}
+
+        protected override IModuleCatalog CreateModuleCatalog()
         {
-            base.InitializeModules();
-            Container.Resolve<Components.Authenticator.Module>().Initialize();
+            return new DirectoryModuleCatalog() { ModulePath = @".\" };
         }
+
         #endregion
 
         #region Private methods
         private void ConfigureApplicationEventHandlers()
         {
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) => OnUnhandledException(sender, (Exception)e.ExceptionObject);
-            Application.Current.DispatcherUnhandledException += (sender, e) => OnUnhandledException(sender, e.Exception);
+            var resolver = Container.Resolve<ExceptionResolver>();
+            AppDomain.CurrentDomain.UnhandledException += resolver.UnhandledExceptionHandler;
+            Application.Current.DispatcherUnhandledException += resolver.DispatcherUnhandledExceptionHandler;
+
             Application.Current.Exit += OnExit;
-        }
-
-        private void OnUnhandledException(object sender, Exception exception)
-        {
-
         }
 
         private void OnExit(object sender, ExitEventArgs e)

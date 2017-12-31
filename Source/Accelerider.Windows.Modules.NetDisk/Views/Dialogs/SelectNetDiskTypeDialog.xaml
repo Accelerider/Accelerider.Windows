@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Accelerider.Windows.Modules.NetDisk.Views.Dialogs.SelectNetDiskTypeDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mvvm="http://prismlibrary.com/"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             Style="{StaticResource AcceleriderDialogStyle}"
+             Width="400">
+    <Grid Margin="0 0 0 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Please select net-disk type" Margin="20 10"
+                   Foreground="{StaticResource PrimaryHueMidBrush}"
+                   FontWeight="Bold" FontSize="16"/>
+
+        <ListBox x:Name="NetDiskTypeListBox" Grid.Row="2" ItemsSource="{Binding NetDiskTypes}" SelectionMode="Single"
+                 ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}" >
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseUp">
+                    <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                        <i:InvokeCommandAction.CommandParameter>
+                            <system:Boolean>False</system:Boolean>
+                        </i:InvokeCommandAction.CommandParameter>
+                    </i:InvokeCommandAction>
+                </i:EventTrigger>
+                
+                <i:EventTrigger EventName="MouseUp">
+                    <i:InvokeCommandAction Command="{Binding SelectNetDiskCommand}" CommandParameter="{Binding SelectedItem, ElementName=NetDiskTypeListBox}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Logo}" Width="60" Height="60" Margin="20 10"/>
+                        <StackPanel Margin="20 10">
+                            <TextBlock Text="{Binding Name}" FontSize="14"/>
+                            <TextBlock Text="{Binding Description}" Foreground="Gray" TextWrapping="Wrap" Margin="0 10 0 0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>
