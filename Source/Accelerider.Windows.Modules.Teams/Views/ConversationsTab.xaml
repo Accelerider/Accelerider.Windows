@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mvvm="http://prismlibrary.com/"
-             xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
+             xmlns:controls="clr-namespace:Accelerider.Windows.Modules.Teams.Controls"
              mvvm:ViewModelLocator.AutoWireViewModel="True">
     <Grid >
         <Grid.RowDefinitions>

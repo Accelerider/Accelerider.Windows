@@ -1,5 +1,4 @@
-﻿using Accelerider.Windows.Common;
-using Accelerider.Windows.Infrastructure;
+﻿using Accelerider.Windows.Infrastructure;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels.Entering

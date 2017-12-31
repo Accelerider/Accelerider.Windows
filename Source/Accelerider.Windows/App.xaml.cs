@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Accelerider.Windows.Common;
 
 namespace Accelerider.Windows
 {

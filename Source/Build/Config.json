@@ -1,0 +1,11 @@
+{
+  "Theme": null,
+  "Language": 0,
+  "Username": "test_2017",
+  "PasswordEncrypted": "a12667c777688430eca13eee5f3f78ac",
+  "IsAutoSignIn": false,
+  "NotDisplayDownloadDialog": false,
+  "DownloadDirectory": null,
+  "ParallelTaskNumber": 2,
+  "SpeedLimit": 0.0
+}

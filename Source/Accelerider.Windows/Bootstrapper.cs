@@ -4,7 +4,6 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using System.Net;
-using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure;
 using Prism.Mvvm;
 using Prism.Unity;

@@ -53,9 +53,6 @@
     <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Refit, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Refit.4.0.1\lib\net45\Refit.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -86,7 +83,6 @@
     <Compile Include="Files\AcceleriderCloud\AcceleriderCloudSharedFile.cs" />
     <Compile Include="Files\BaiduNetDisk\BaiduNetDiskFile.cs" />
     <Compile Include="Files\OneDrive\OneDriveFile.cs" />
-    <Compile Include="IAcceleriderApi.cs" />
     <Compile Include="ITaskCreator.cs" />
     <Compile Include="NetWork\NetDiskUserBase.cs" />
     <Compile Include="NetWork\UserModels\AcceleriderCloudUser.cs" />
@@ -113,9 +109,7 @@
       <Name>Accelerider.Windows.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ApiInteraction\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

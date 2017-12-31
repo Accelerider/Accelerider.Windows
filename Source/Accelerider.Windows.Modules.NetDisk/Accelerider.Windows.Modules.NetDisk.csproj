@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -74,6 +74,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">
+      <DependentUpon>FolderLocationBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Events.cs" />
     <Compile Include="NetDiskModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -196,9 +199,7 @@
       <Name>Accelerider.Windows.Resources</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\OneDriveLogo.jpg" />
   </ItemGroup>
@@ -206,6 +207,10 @@
     <Resource Include="Images\BaiduCloudLogo.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\FileBrowser\FolderLocationBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Dialogs\AboutDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

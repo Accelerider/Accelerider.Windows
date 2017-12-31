@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -88,15 +88,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Common\ConstStrings.cs" />
-    <Compile Include="Common\Events.cs" />
-    <Compile Include="Common\ExceptionResolver.cs" />
+    <Compile Include="ConstStrings.cs" />
+    <Compile Include="Events.cs" />
+    <Compile Include="ExceptionResolver.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\ProfileDialog.xaml.cs">
       <DependentUpon>ProfileDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingItem.xaml.cs">
+      <DependentUpon>SettingItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPopup.xaml.cs">
       <DependentUpon>SettingsPopup.xaml</DependentUpon>
@@ -106,7 +109,7 @@
     </Compile>
     <Compile Include="ViewModels\Entering\EnteringWindow.vm.cs" />
     <Compile Include="ViewModels\MainWindow.vm.cs" />
-    <Compile Include="Common\SingletonProcess.cs" />
+    <Compile Include="SingletonProcess.cs" />
     <Compile Include="ViewModels\Entering\SignInView.vm.cs" />
     <Compile Include="ViewModels\Entering\SignUpView.vm.cs" />
     <Compile Include="Views\Dialogs\SettingsDialog.xaml.cs">
@@ -118,7 +121,7 @@
     <Compile Include="Views\Entering\SignUpView.xaml.cs">
       <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ShellController.cs" />
+    <Compile Include="ShellController.cs" />
     <Page Include="Views\Dialogs\AboutDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,6 +129,10 @@
     <Page Include="Views\Dialogs\ProfileDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPopup.xaml">
       <SubType>Designer</SubType>

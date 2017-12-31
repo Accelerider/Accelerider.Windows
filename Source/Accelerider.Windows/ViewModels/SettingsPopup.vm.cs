@@ -2,7 +2,6 @@
 using System.Windows.Input;
 
 using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Views;

@@ -5,6 +5,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
+             xmlns:local="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.FileBrowser"
              mvvm:ViewModelLocator.AutoWireViewModel="True">
     <Grid >
         <Grid.RowDefinitions>
@@ -12,7 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <controls:FolderLocationBar Grid.Row="0" CurrentFolder="{Binding CurrentFolder}"/>
+        <local:FolderLocationBar Grid.Row="0" CurrentFolder="{Binding CurrentFolder}"/>
         <Grid Grid.Row="1" Background="#DDDEF0">
 
             <Grid.ColumnDefinitions>
