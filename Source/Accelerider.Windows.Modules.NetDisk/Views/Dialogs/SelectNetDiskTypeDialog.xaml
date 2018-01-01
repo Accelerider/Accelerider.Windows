@@ -9,17 +9,7 @@
              Style="{StaticResource AcceleriderDialogStyle}"
              Width="400">
     <Grid Margin="0 0 0 10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-        <TextBlock Text="Please select net-disk type" Margin="20 10"
-                   Foreground="{StaticResource PrimaryHueMidBrush}"
-                   FontWeight="Bold" FontSize="16"/>
-
-        <ListBox x:Name="NetDiskTypeListBox" Grid.Row="2" ItemsSource="{Binding NetDiskTypes}" SelectionMode="Single"
+        <ListBox x:Name="NetDiskTypeListBox" ItemsSource="{Binding NetDiskTypes}" SelectionMode="Single"
                  ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}" >
 
             <i:Interaction.Triggers>

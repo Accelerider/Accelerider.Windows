@@ -15,7 +15,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <materialDesign:PackIcon Kind="SwapVertical" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="25" Width="25"/>
-                <TextBlock Grid.Row="2" Text="Transfer" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
+                <TextBlock Grid.Row="2" Text="Tasks" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -101,11 +101,10 @@
                             <ColumnDefinition Width="20"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Grid.Column="1" Kind="CheckAll" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" Text="Downloaded" VerticalAlignment="Center"/>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="CloudDownload" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="Offline Tasks" VerticalAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
-                <Separator/>
                 <ListBoxItem Height="45">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -114,8 +113,8 @@
                             <ColumnDefinition Width="20"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Grid.Column="1" Kind="CloudDownload" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" Text="Offline Tasks" VerticalAlignment="Center"/>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="CheckAll" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="Downloaded" VerticalAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
                 <Separator/>
@@ -158,10 +157,10 @@
                                        Selector="{Binding ElementName=SelectViewListBox}">
             <controls:SwitchableViewContainer.Resources>
                 <transmission:Downloading x:Key="0" Style="{StaticResource FloatInUpStyle}"/>
-                <transmission:Downloaded x:Key="1" Style="{StaticResource FloatInUpStyle}" />
-                <transmission:OfflineDownload x:Key="3" Style="{StaticResource FloatInUpStyle}" />
-                <transmission:Uploading x:Key="5" Style="{StaticResource FloatInUpStyle}" />
-                <transmission:Uploaded x:Key="6" Style="{StaticResource FloatInUpStyle}" />
+                <transmission:OfflineDownload x:Key="1" Style="{StaticResource FloatInUpStyle}" />
+                <transmission:Downloaded x:Key="2" Style="{StaticResource FloatInUpStyle}" />
+                <transmission:Uploading x:Key="4" Style="{StaticResource FloatInUpStyle}" />
+                <transmission:Uploaded x:Key="5" Style="{StaticResource FloatInUpStyle}" />
             </controls:SwitchableViewContainer.Resources>
         </controls:SwitchableViewContainer>
         <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>

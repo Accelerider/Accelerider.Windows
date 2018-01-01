@@ -194,7 +194,6 @@
       <Name>Accelerider.Windows.Resources</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\OneDriveLogo.jpg" />
   </ItemGroup>

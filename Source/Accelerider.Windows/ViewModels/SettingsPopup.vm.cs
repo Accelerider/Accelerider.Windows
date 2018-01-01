@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Input;
 
 using Accelerider.Windows.Infrastructure.Commands;
@@ -16,6 +18,8 @@ namespace Accelerider.Windows.ViewModels
 {
     public class SettingsPopupViewModel : ViewModelBase
     {
+        private readonly Dictionary<Type, object> _dialogDictionary = new Dictionary<Type, object>();
+
         private ICommand _changeProfileCommand;
         private ICommand _openSettingsPanelCommand;
         private ICommand _helpCommand;
@@ -25,20 +29,17 @@ namespace Accelerider.Windows.ViewModels
         private ICommand _signOutCommand;
 
         private SettingsPopup _view;
-        private ProfileDialog _profileDialog;
-        private SettingsDialog _settingsDialog;
-        private AboutDialog _aboutDialog;
 
         public SettingsPopupViewModel(IUnityContainer container) : base(container)
         {
-            ChangeProfileCommand = new RelayCommand(() => OpenDialog(_profileDialog ?? (_profileDialog = new ProfileDialog())));
+            ChangeProfileCommand = new RelayCommand(OpenDialog<ProfileDialog>);
 
-            OpenSettingsPanelCommand = new RelayCommand(() => OpenDialog(_settingsDialog ?? (_settingsDialog = new SettingsDialog())));
+            OpenSettingsPanelCommand = new RelayCommand(OpenDialog<SettingsDialog>);
 
-            HelpCommand = new RelayCommand(() => OpenWebPage(ConstStrings.HelpUrl));
-            OpenOfficialSiteCommand = new RelayCommand(() => OpenWebPage(ConstStrings.WebSitePanUrl));
-            CheckUpdateCommand = new RelayCommand(() => OpenWebPage(ConstStrings.ReleaseUrl));
-            AboutCommand = new RelayCommand(() => OpenDialog(_aboutDialog ?? (_aboutDialog = new AboutDialog())));
+            HelpCommand = new RelayCommand(() => Process.Start(ConstStrings.HelpUrl));
+            OpenOfficialSiteCommand = new RelayCommand(() => Process.Start(ConstStrings.WebSitePanUrl));
+            CheckUpdateCommand = new RelayCommand(() => Process.Start("mailto:dingpingzhang@outlook.com"));
+            AboutCommand = new RelayCommand(OpenDialog<AboutDialog>);
 
             SignOutCommand = new RelayCommand(() =>
             {
@@ -98,12 +99,15 @@ namespace Accelerider.Windows.ViewModels
             _view = view as SettingsPopup;
         }
 
-        private void OpenWebPage(string url) => Process.Start(url);
-
-        private async void OpenDialog(object dialog)
+        private async void OpenDialog<T>() where T : new()
         {
+            var type = typeof(T);
+
+            if (!_dialogDictionary.ContainsKey(type))
+                _dialogDictionary[type] = new T();
+
             _view.SetValue(System.Windows.Controls.Primitives.Popup.IsOpenProperty, false);
-            await DialogHost.Show(dialog, "RootDialog");
+            await DialogHost.Show(_dialogDictionary[type], "RootDialog");
         }
     }
 }

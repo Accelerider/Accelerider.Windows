@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
-             xmlns:transmission="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.Transmission"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mvvm:ViewModelLocator.AutoWireViewModel="True">
     <Grid >
         <Grid.RowDefinitions>
@@ -24,6 +24,81 @@
             </StackPanel>
         </Grid>
 
-        <transmission:TaskProgressList Grid.Row="2" ItemsSource="{Binding TransferTasks}"/>
+        <ListBox  SelectionMode="Single" Style="{StaticResource {x:Type ListBox}}" ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+            <ListBox.ContextMenu>
+                <ContextMenu x:Name="ContextMenu">
+                    <MenuItem Header="Next"
+                              Command="{Binding StartForceCommand}"
+                              CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ArrowUp" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Cancel"
+                              Command="{Binding CancelCommand}"
+                              CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Close" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid >
+                        <Border Padding="20 8">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="10"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Tag="{Binding FileSummary.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
+
+                                <Grid Grid.Column="2" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.ColumnSpan="7" Text="{Binding FileSummary.FilePath.FileName}" Foreground="{StaticResource PrimaryHueDarkBrush}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock x:Name="ProgressTextBox" Grid.Column="2" Grid.Row="2" Foreground="Gray" Text="{Binding Speed, StringFormat='{}{0}/s'}" />
+                                    <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray" Text="{Binding RemainingTime, TargetNullValue='∞'}"/>
+                                    <TextBlock Grid.Column="6" Grid.Row="2" TextTrimming="CharacterEllipsis">
+                                        <Run Text="Related User: " Foreground="Gray"/>
+                                        <Run Text="{Binding OwnerName}" Foreground="{StaticResource PrimaryHueMidBrush}"/>
+                                    </TextBlock>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding TransferTaskStatus}" Value="Created">
+                            <Setter TargetName="ProgressTextBox" Property="Text" Value="Waiting..."/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding TransferTaskStatus}" Value="Waiting">
+                            <Setter TargetName="ProgressTextBox" Property="Text" Value="Waiting..."/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding TransferTaskStatus}" Value="Transferring">
+                            <Setter TargetName="ProgressTextBox" Property="Text" Value="Downloading..."/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

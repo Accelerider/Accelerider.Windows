@@ -5,40 +5,6 @@
          SelectionMode="Single"
          Style="{StaticResource {x:Type ListBox}}"
          ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
-    <!--<ListBox.ItemContainerStyle>
-        <Style TargetType="ListBoxItem" BasedOn="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
-            <Setter Property="RenderTransformOrigin" Value="0.5 0.5"/>
-            <Setter Property="RenderTransform">
-                <Setter.Value>
-                    <ScaleTransform />
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <EventTrigger RoutedEvent="Loaded" >
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleX">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                                <EasingDoubleKeyFrame KeyTime="00:00:00.800" Value="1">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <CubicEase EasingMode="EaseOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleY">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                                <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="1">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <CubicEase EasingMode="EaseOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Style.Triggers>
-        </Style>
-    </ListBox.ItemContainerStyle>-->
 
     <ListBox.ContextMenu>
         <ContextMenu x:Name="ContextMenu">
@@ -97,7 +63,6 @@
                             <ColumnDefinition Width="20"/>
                             <ColumnDefinition />
                             <ColumnDefinition Width="10"/>
-                            <!--<ColumnDefinition Width="Auto"/>-->
                         </Grid.ColumnDefinitions>
 
                         <Image Tag="{Binding FileSummary.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
@@ -134,15 +99,6 @@
                                 <Run Text="{Binding OwnerName}" Foreground="{StaticResource PrimaryHueMidBrush}"/>
                             </TextBlock>
                         </Grid>
-
-                        <!--<StackPanel x:Name="Buttons" Grid.Column="4" Orientation="Horizontal" >
-                            <Button Style="{StaticResource MaterialDesignToolButton}" Foreground="Gray" Margin="5 0">
-                                <materialDesign:PackIcon Kind="Pause" Width="20" Height="20"/>
-                            </Button>
-                            <Button Style="{StaticResource MaterialDesignToolButton}" Foreground="Gray" Margin="5 0">
-                                <materialDesign:PackIcon Kind="Close" Width="20" Height="20"/>
-                            </Button>
-                        </StackPanel>-->
                     </Grid>
                 </Border>
             </Grid>
@@ -163,12 +119,6 @@
                     <Setter TargetName="ProgressBar" Property="IsIndeterminate" Value="True"/>
                     <Setter TargetName="ProgressBar" Property="Foreground" Value="Red"/>
                 </DataTrigger>
-                <!--<Trigger Property="IsMouseOver" Value="True">
-                    <Setter TargetName="Buttons" Property="Visibility" Value="Visible"></Setter>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="False">
-                    <Setter TargetName="Buttons" Property="Visibility" Value="Collapsed"></Setter>
-                </Trigger>-->
             </DataTemplate.Triggers>
         </DataTemplate>
     </ListBox.ItemTemplate>

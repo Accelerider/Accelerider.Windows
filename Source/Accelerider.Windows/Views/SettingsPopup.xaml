@@ -32,9 +32,7 @@
                 <!-- open web -->
                 <local:SettingItem IconKind="HelpCircleOutline" Label="Help" Command="{Binding HelpCommand}"/>
                 <!-- open web -->
-                <local:SettingItem IconKind="Web" Label="Official site" Command="{Binding OpenOfficialSiteCommand}"/>
-                <!-- message queue -->
-                <local:SettingItem IconKind="ArrowUpBoldCircleOutline" Label="Check for updates" Command="{Binding CheckUpdateCommand}"/>
+                <local:SettingItem IconKind="Web" Label="Accelerider for Web" Command="{Binding OpenOfficialSiteCommand}"/>
                 <!-- open menu -->
                 <local:SettingItem IconKind="InformationVariant" Label="About" Command="{Binding AboutCommand}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>

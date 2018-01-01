@@ -142,9 +142,6 @@
     <Resource Include="Images\head.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\logoSmall.png" />
   </ItemGroup>
   <ItemGroup>

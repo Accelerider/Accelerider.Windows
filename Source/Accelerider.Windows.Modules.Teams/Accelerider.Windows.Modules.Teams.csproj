@@ -51,17 +51,15 @@
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -98,6 +96,9 @@
     <Compile Include="Views\FilesTab.xaml.cs">
       <DependentUpon>FilesTab.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FolderLocationBar.xaml.cs">
+      <DependentUpon>FolderLocationBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GroupTabs.xaml.cs">
       <DependentUpon>GroupTabs.xaml</DependentUpon>
     </Compile>
@@ -131,6 +132,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\FolderLocationBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\GroupTabs.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -141,17 +146,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignColors.Wpf\MaterialDesignColors.Wpf.csproj">
-      <Project>{90b53209-c60c-4655-b28d-a1b3e1044ba3}</Project>
-      <Name>MaterialDesignColors.Wpf</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
       <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
       <Name>MaterialDesignThemes.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Core\Accelerider.Windows.Core.csproj">
-      <Project>{d30a6c14-b18d-4cbc-8df4-ff9640f33b9e}</Project>
-      <Name>Accelerider.Windows.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{f61839d1-6c54-4e70-b5cb-7ea02f54a664}</Project>

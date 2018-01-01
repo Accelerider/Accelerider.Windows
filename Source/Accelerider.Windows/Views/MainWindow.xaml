@@ -9,7 +9,7 @@
         MinHeight="500" MinWidth="720" Height="700" Width="1100" 
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource MainWindowStyle}"
-        Icon="pack://application:,,,/Accelerider.Windows;component/logo.ico"
+        Icon="pack://application:,,,/Images/logoIcon.ico"
         Title="Accelerider" >
 
     <materialDesign:DialogHost Identifier="RootDialog">
@@ -56,7 +56,7 @@
                     </Grid>
                 </ToggleButton>
                 <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}"  StaysOpen="False"
-                                     PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" VerticalOffset="-354" PopupAnimation="Fade"
+                                     PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" VerticalOffset="-318" PopupAnimation="Fade"
                                      Width="284" Height="Auto" />
             </StackPanel>
         </Grid>
