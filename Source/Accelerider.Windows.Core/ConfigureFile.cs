@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
@@ -25,7 +26,7 @@ namespace Accelerider.Windows.Core
 
         public void Delete()
         {
-            File.WriteAllText(_filePath, string.Empty);
+            WriteToLocal(_filePath, string.Empty);
             File.Delete(_filePath);
         }
 
@@ -41,6 +42,18 @@ namespace Accelerider.Windows.Core
             _storage = JObject.Parse(File.ReadAllText(_filePath).DecryptByRijndael());
         }
 
-        public void Save() => File.WriteAllText(_filePath, _storage.ToString().EncryptByRijndael());
+        public void Save() => WriteToLocal(_filePath, _storage.ToString().EncryptByRijndael());
+
+        private void WriteToLocal(string path, string text)
+        {
+            try
+            {
+                File.WriteAllText(path, text);
+            }
+            catch (IOException e)
+            {
+                WriteToLocal(path, text);
+            }
+        }
     }
 }

@@ -12,10 +12,10 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transmission
     public abstract class TransferringBaseViewModel : ViewModelBase
     {
         private TransferringTaskList _transferTasks;
-        private ICommand _pauseCommand;
-        private ICommand _startCommand;
-        private ICommand _startForceCommand;
-        private ICommand _cancelCommand;
+        private RelayCommand<TransferringTaskViewModel> _pauseCommand;
+        private RelayCommand<TransferringTaskViewModel> _startCommand;
+        private RelayCommand<TransferringTaskViewModel> _startForceCommand;
+        private RelayCommand<TransferringTaskViewModel> _cancelCommand;
 
 
         protected TransferringBaseViewModel(IUnityContainer container) : base(container)
@@ -33,25 +33,25 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transmission
         }
 
         #region Commands
-        public ICommand PauseCommand
+        public RelayCommand<TransferringTaskViewModel> PauseCommand
         {
             get => _pauseCommand;
             set => SetProperty(ref _pauseCommand, value);
         }
 
-        public ICommand StartCommand
+        public RelayCommand<TransferringTaskViewModel> StartCommand
         {
             get => _startCommand;
             set => SetProperty(ref _startCommand, value);
         }
 
-        public ICommand StartForceCommand
+        public RelayCommand<TransferringTaskViewModel> StartForceCommand
         {
             get => _startForceCommand;
             set => SetProperty(ref _startForceCommand, value);
         }
 
-        public ICommand CancelCommand
+        public RelayCommand<TransferringTaskViewModel> CancelCommand
         {
             get => _cancelCommand;
             set => SetProperty(ref _cancelCommand, value);
@@ -62,7 +62,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transmission
         {
             PauseCommand = new RelayCommand<TransferringTaskViewModel>(
                 taskToken => OperateTaskToken(taskToken, token => token.PauseAsync(), "Pause task failed."),
-                taskToken => !taskToken.IsBusy && 
+                taskToken => !taskToken.IsBusy &&
                 taskToken.Token.TaskStatus == TransferTaskStatusEnum.Transferring ||
                 taskToken.Token.TaskStatus == TransferTaskStatusEnum.Waiting);
             StartCommand = new RelayCommand<TransferringTaskViewModel>(

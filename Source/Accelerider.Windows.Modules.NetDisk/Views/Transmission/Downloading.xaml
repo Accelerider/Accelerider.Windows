@@ -20,8 +20,8 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
-                <controls:ToolBarButton IconKind="Pause" Label="Pause All"/>
-                <controls:ToolBarButton IconKind="Close" Label="Cancel All"/>
+                <controls:ToolBarButton IconKind="Pause" Label="Pause All" Command="{Binding PauseAllCommand}"/>
+                <controls:ToolBarButton IconKind="Close" Label="Cancel All" Command="{Binding CancelAllCommand}"/>
             </StackPanel>
         </Grid>
 
