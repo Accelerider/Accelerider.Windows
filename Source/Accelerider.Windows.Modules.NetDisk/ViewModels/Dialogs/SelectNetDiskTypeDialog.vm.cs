@@ -37,19 +37,6 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
 
         private void SelectNetDiskCommandExecute(NetDiskTypeViewModel netDiskType)
         {
-            var window = new AuthenticatorWindow();
-            switch (netDiskType.Name)
-            {
-                case "Baidu Cloud":
-                    var authBaiduCloud = Container.Resolve<IAuthenticator<IBaiduCloudUser>>();
-                    (window.DataContext as AuthenticatorWindowViewModel).SetAuthenticator(authBaiduCloud);
-                    break;
-                case "OneDrive":
-                    var authOneDrive = Container.Resolve<IAuthenticator<IOneDriveUser>>();
-                    (window.DataContext as AuthenticatorWindowViewModel).SetAuthenticator(authOneDrive);
-                    break;
-            }
-            var dialogResult = window.ShowDialog();
         }
 
         private IEnumerable<NetDiskTypeViewModel> InitializeNetDiskTypes()

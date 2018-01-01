@@ -17,7 +17,6 @@ namespace Accelerider.Windows.Modules.NetDisk
 
         public override void Initialize()
         {
-            Container.Resolve<Components.Authenticator.Module>().Initialize();
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComposite));
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransmissionComposite));
         }

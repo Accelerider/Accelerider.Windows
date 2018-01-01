@@ -9,7 +9,7 @@
         Topmost="True"
         Icon="pack://application:,,,/Accelerider.Windows;component/logo.ico"
         Title="EnteringWindow" Height="310" Width="430"
-        x:Name="OwnerWindow" Style="{StaticResource EnteringWindowStyle}">
+        x:Name="OwnerWindow" Style="{StaticResource AcceleriderWindowStyle}">
 
     <controls:SwitchLoadingViewContainer IsLoading="{Binding IsLoading}">
         <Grid Margin="60 40 60 30" VerticalAlignment="Top" HorizontalAlignment="Stretch">

@@ -21,7 +21,7 @@
 
             <Rectangle Fill="{StaticResource PrimaryHueDarkBrush}"/>
 
-            <TabControl Grid.Column="0" Grid.ColumnSpan="2" 
+            <TabControl Grid.Column="0" Grid.ColumnSpan="2" SelectedIndex="0"
                         Style="{StaticResource LeftTabControlStyle}" ItemContainerStyle="{StaticResource MainTabItemStyle}"
                         mvvm:RegionManager.RegionName="{x:Static infrastructure:RegionNames.MainTabRegion}"/>
 

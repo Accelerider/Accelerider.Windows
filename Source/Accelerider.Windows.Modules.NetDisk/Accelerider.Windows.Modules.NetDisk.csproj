@@ -92,7 +92,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
     <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
     <Compile Include="ViewModels\Dialogs\SelectNetDiskTypeDialog.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\Files.vm.cs" />
@@ -181,10 +180,6 @@
     <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
       <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
       <Name>MaterialDesignThemes.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Components.Authenticator\Accelerider.Windows.Components.Authenticator.csproj">
-      <Project>{a91add02-6c31-4566-81d5-2e8170d02ea3}</Project>
-      <Name>Accelerider.Windows.Components.Authenticator</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Core\Accelerider.Windows.Core.csproj">
       <Project>{d30a6c14-b18d-4cbc-8df4-ff9640f33b9e}</Project>
