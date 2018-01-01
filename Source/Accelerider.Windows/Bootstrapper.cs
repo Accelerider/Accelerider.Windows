@@ -29,7 +29,7 @@ namespace Accelerider.Windows
         {
             ServicePointManager.DefaultConnectionLimit = 99999;
             ConfigureApplicationEventHandlers();
-            ShellController.Show((Window)Shell);
+            WindowSwitcher.Show((Window)Shell);
         }
 
         //protected override void ConfigureModuleCatalog()

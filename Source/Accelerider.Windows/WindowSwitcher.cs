@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace Accelerider.Windows
 {
-    public static class ShellController
+    public static class WindowSwitcher
     {
         public static void Show<T>(T shell = null) where T : Window, new()
         {

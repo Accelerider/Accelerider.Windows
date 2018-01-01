@@ -124,7 +124,7 @@
     <Compile Include="Views\Entering\SignUpView.xaml.cs">
       <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShellController.cs" />
+    <Compile Include="WindowSwitcher.cs" />
     <Page Include="Views\Dialogs\AboutDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
