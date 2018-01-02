@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Accelerider.Windows.Properties;
+using System.Windows;
 
 namespace Accelerider.Windows
 {
@@ -9,6 +10,8 @@ namespace Accelerider.Windows
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            Settings.Default.PropertyChanged += (sender, eventArgs) => Settings.Default.Save();
+
             ProcessController.CheckSingleton();
 
             base.OnStartup(e);

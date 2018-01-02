@@ -42,13 +42,11 @@ namespace Accelerider.Windows
         {
             IntPtr hwnd = ((HwndSource)PresentationSource.FromVisual((Visual)sender)).Handle;
             Settings.Default.WindowHandle = (long)hwnd;
-            Settings.Default.Save();
         }
 
         public static void Restart()
         {
             Settings.Default.IsRestarting = true;
-            Settings.Default.Save();
             Process.Start($"{Directory.GetCurrentDirectory()}/{PROCESS_NAME}.exe");
             Application.Current.Shutdown();
         }
@@ -59,7 +57,6 @@ namespace Accelerider.Windows
             if (isNew || Settings.Default.IsRestarting)
             {
                 Settings.Default.IsRestarting = false;
-                Settings.Default.Save();
                 return;
             }
 
