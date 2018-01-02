@@ -5,15 +5,18 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Accelerider.Windows.Properties;
+using System.IO;
+using System.Diagnostics;
 
 namespace Accelerider.Windows
 {
-    public class SingletonProcess
+    public static class ProcessController
     {
         private const int SW_SHOW_NORMAL = 1;
         private const int SW_RESTORE = 9;
         private const string PROCESS_NAME = "Accelerider.Windows";
 
+        private static Mutex _mutex;
 
         #region Win32 API functions
         [DllImport("user32.dll")]
@@ -35,10 +38,6 @@ namespace Accelerider.Windows
         private static extern bool FlashWindow(IntPtr hWnd, bool bInvert);
         #endregion
 
-
-        private static Mutex _mutex;
-
-
         public static void OnWindowLoaded(object sender, RoutedEventArgs e)
         {
             IntPtr hwnd = ((HwndSource)PresentationSource.FromVisual((Visual)sender)).Handle;
@@ -46,17 +45,29 @@ namespace Accelerider.Windows
             Settings.Default.Save();
         }
 
-        public void Check()
+        public static void Restart()
         {
-            _mutex = new Mutex(true, PROCESS_NAME, out bool isNew);
-            if (!isNew)
-            {
-                ActivateExistedWindow();
-                Environment.Exit(0);
-            }
+            Settings.Default.IsRestarting = true;
+            Settings.Default.Save();
+            Process.Start($"{Directory.GetCurrentDirectory()}/{PROCESS_NAME}.exe");
+            Application.Current.Shutdown();
         }
 
-        private void ActivateExistedWindow()
+        public static void CheckSingleton()
+        {
+            _mutex = new Mutex(true, PROCESS_NAME, out bool isNew);
+            if (isNew || Settings.Default.IsRestarting)
+            {
+                Settings.Default.IsRestarting = false;
+                Settings.Default.Save();
+                return;
+            }
+
+            ActivateExistedWindow();
+            Application.Current.Shutdown();
+        }
+
+        private static void ActivateExistedWindow()
         {
             IntPtr windowHandle = (IntPtr)Settings.Default.WindowHandle;
 

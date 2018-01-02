@@ -8,7 +8,7 @@ namespace Accelerider.Windows
         public static void Show<T>(T shell = null) where T : Window, new()
         {
             Application.Current.MainWindow = shell ?? new T();
-            Application.Current.MainWindow.Loaded += SingletonProcess.OnWindowLoaded;
+            Application.Current.MainWindow.Loaded += ProcessController.OnWindowLoaded;
             Application.Current.MainWindow.Show();
         }
 

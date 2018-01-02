@@ -9,7 +9,7 @@ namespace Accelerider.Windows
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            new SingletonProcess().Check();
+            ProcessController.CheckSingleton();
 
             base.OnStartup(e);
 

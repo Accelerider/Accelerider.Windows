@@ -100,7 +100,7 @@
     </Compile>
     <Compile Include="ViewModels\Entering\EnteringWindow.vm.cs" />
     <Compile Include="ViewModels\MainWindow.vm.cs" />
-    <Compile Include="SingletonProcess.cs" />
+    <Compile Include="ProcessController.cs" />
     <Compile Include="ViewModels\Entering\SignInView.vm.cs" />
     <Compile Include="ViewModels\Entering\SignUpView.vm.cs" />
     <Compile Include="Views\Dialogs\SettingsDialog.xaml.cs">
@@ -174,7 +174,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
