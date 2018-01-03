@@ -3,13 +3,13 @@ using System.Windows;
 
 namespace Accelerider.Windows
 {
-    public static class WindowSwitcher
+    public static class ShellSwitcher
     {
-        public static void Show<T>(T shell = null) where T : Window, new()
+        public static void Show<T>(T window = null) where T : Window, new()
         {
-            Application.Current.MainWindow = shell ?? new T();
-            Application.Current.MainWindow.Loaded += ProcessController.OnWindowLoaded;
-            Application.Current.MainWindow.Show();
+            var shell = Application.Current.MainWindow = window ?? new T();
+            shell.Loaded += ProcessController.OnWindowLoaded;
+            shell.Show();
         }
 
         public static void Close<T>() where T : Window

@@ -5,6 +5,7 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using System.Net;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Views.Entering;
 using Prism.Mvvm;
 using Prism.Unity;
 using Prism.Modularity;
@@ -14,6 +15,25 @@ namespace Accelerider.Windows
     public class Bootstrapper : UnityBootstrapper
     {
         #region Overridered methods
+        //protected override IModuleCatalog CreateModuleCatalog() => new DirectoryModuleCatalog { ModulePath = @".\Modules" };
+        protected override void ConfigureModuleCatalog()
+        {
+            ModuleCatalog.AddModule(new ModuleInfo
+            {
+                ModuleName = "TeamsModule",
+                ModuleType = "Accelerider.Windows.Modules.Teams.TeamsModule, Accelerider.Windows.Modules.Teams, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                Ref = $"file://{Environment.CurrentDirectory}/Modules/Accelerider.Windows.Modules.Teams.dll",
+                InitializationMode = InitializationMode.WhenAvailable
+            });
+            ModuleCatalog.AddModule(new ModuleInfo
+            {
+                ModuleName = "NetDiskModule",
+                ModuleType = "Accelerider.Windows.Modules.NetDisk.NetDiskModule, Accelerider.Windows.Modules.NetDisk, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                Ref = $"file://{Environment.CurrentDirectory}/Modules/Accelerider.Windows.Modules.NetDisk.dll",
+                InitializationMode = InitializationMode.WhenAvailable
+            });
+        }
+
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
@@ -23,27 +43,14 @@ namespace Accelerider.Windows
 
         protected override void ConfigureViewModelLocator() => ViewModelLocationProvider.SetDefaultViewModelFactory(ResolveViewModel);
 
-        protected override DependencyObject CreateShell() => new Views.Entering.EnteringWindow();
+        protected override DependencyObject CreateShell() => new EnteringWindow();
 
         protected override void InitializeShell()
         {
             ServicePointManager.DefaultConnectionLimit = 99999;
             ConfigureApplicationEventHandlers();
-            WindowSwitcher.Show((Window)Shell);
+            ShellSwitcher.Show((Window)Shell);
         }
-
-        //protected override void ConfigureModuleCatalog()
-        //{
-        //    var catalog = (ModuleCatalog)ModuleCatalog;
-        //    catalog.AddModule(typeof(NetDiskModule));
-        //    catalog.AddModule(typeof(TeamsModule));
-        //}
-
-        protected override IModuleCatalog CreateModuleCatalog()
-        {
-            return new DirectoryModuleCatalog() { ModulePath = @".\" };
-        }
-
         #endregion
 
         #region Private methods

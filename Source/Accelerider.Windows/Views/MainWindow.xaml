@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:views="clr-namespace:Accelerider.Windows.Views"
-        xmlns:mvvm="http://prismlibrary.com/"
+        xmlns:prism="http://prismlibrary.com/"
         xmlns:infrastructure="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure"
         xmlns:settings="clr-namespace:Accelerider.Windows.Properties"
-        mvvm:ViewModelLocator.AutoWireViewModel="True"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        prism:RegionManager.RegionManager="{Binding RegionManager}"
         MinHeight="500" MinWidth="720" 
         Height="{Binding Path=MainWindowHeight, Source={x:Static settings:Settings.Default}, Mode=TwoWay}" 
         Width="{Binding Path=MainWindowWidth, Source={x:Static settings:Settings.Default}, Mode=TwoWay}" 
@@ -26,7 +27,7 @@
 
             <TabControl Grid.Column="0" Grid.ColumnSpan="2" SelectedIndex="0"
                         Style="{StaticResource LeftTabControlStyle}" ItemContainerStyle="{StaticResource MainTabItemStyle}"
-                        mvvm:RegionManager.RegionName="{x:Static infrastructure:RegionNames.MainTabRegion}"/>
+                        prism:RegionManager.RegionName="{x:Static infrastructure:RegionNames.MainTabRegion}"/>
 
             <StackPanel Grid.Column="0" VerticalAlignment="Bottom">
                 <Button Height="56" Padding="0" 

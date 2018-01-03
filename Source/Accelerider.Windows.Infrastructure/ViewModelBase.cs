@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Accelerider.Windows.Infrastructure.Interfaces;
+﻿using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using Prism.Events;

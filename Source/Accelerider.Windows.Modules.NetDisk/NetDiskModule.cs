@@ -1,4 +1,5 @@
 ﻿using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Views;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
 using Accelerider.Windows.Modules.NetDisk.Views.Transmission;
 using Microsoft.Practices.Unity;
@@ -19,6 +20,8 @@ namespace Accelerider.Windows.Modules.NetDisk
         {
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComposite));
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransmissionComposite));
+
+            _regionManager.RegisterViewWithRegion(RegionNames.SettingsTabRegion, typeof(TaskSettingsTabItem));
         }
     }
 }

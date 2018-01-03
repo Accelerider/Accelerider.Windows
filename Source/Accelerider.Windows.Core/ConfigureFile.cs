@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Core
@@ -16,17 +16,18 @@ namespace Accelerider.Windows.Core
 
         public object this[string key]
         {
-            get => _storage.Value<string>(key);
-            set => _storage[key] = value.ToString();
+            get => JsonConvert.DeserializeObject(_storage[key].ToString());
+            set => _storage[key] = JsonConvert.SerializeObject(value);
         }
 
         public bool Contains(string key) => _storage.Values().Any(token => token.Path == key);
 
-        public T GetValue<T>(string key) => _storage.Value<T>(key);
+        public T GetValue<T>(string key) => JsonConvert.DeserializeObject<T>(_storage[key].ToString());
 
         public void Delete()
         {
-            WriteToLocal(_filePath, string.Empty);
+            _storage = new JObject();
+            Save();
             File.Delete(_filePath);
         }
 
@@ -36,13 +37,16 @@ namespace Accelerider.Windows.Core
 
             if (!File.Exists(_filePath))
             {
-                _storage = new JObject();
+                _storage = new JObject(JObject.Parse("{}"));
                 Save();
             }
             _storage = JObject.Parse(File.ReadAllText(_filePath).DecryptByRijndael());
         }
 
-        public void Save() => WriteToLocal(_filePath, _storage.ToString().EncryptByRijndael());
+        public void Save()
+        {
+            WriteToLocal(_filePath, _storage.ToString().EncryptByRijndael());
+        }
 
         private void WriteToLocal(string path, string text)
         {

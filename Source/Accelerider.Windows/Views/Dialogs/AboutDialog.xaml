@@ -47,7 +47,7 @@
                 </Grid.ColumnDefinitions>
                 <Ellipse Width="50" Height="50">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="../../Images/Mrs4sHead.jpg"/>
+                        <ImageBrush ImageSource="https://avatars.githubusercontent.com/u/12137562"/>
                     </Ellipse.Fill>
                 </Ellipse>
 
@@ -78,7 +78,7 @@
                 </Grid.ColumnDefinitions>
                 <Ellipse Width="50" Height="50">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="../../Images/LD50Head.jpg"/>
+                        <ImageBrush ImageSource="https://avatars.githubusercontent.com/u/8541016"/>
                     </Ellipse.Fill>
                 </Ellipse>
 

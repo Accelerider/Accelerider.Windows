@@ -82,6 +82,7 @@
     <Compile Include="Events.cs" />
     <Compile Include="ExceptionResolver.cs" />
     <Compile Include="ViewModels\Dialogs\AboutDialog.vm.cs" />
+    <Compile Include="ViewModels\Dialogs\SettingsDialog.vm.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
@@ -112,7 +113,7 @@
     <Compile Include="Views\Entering\SignUpView.xaml.cs">
       <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowSwitcher.cs" />
+    <Compile Include="ShellSwitcher.cs" />
     <Page Include="Views\Dialogs\AboutDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -203,12 +204,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\LD50Head.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Mrs4sHead.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -97,7 +97,7 @@ namespace Accelerider.Windows.ViewModels.Entering
             LocalConfigureInfo.Save();
 
             // Launches main window and closes itself.
-            WindowSwitcher.Switch<EnteringWindow, MainWindow>();
+            ShellSwitcher.Switch<EnteringWindow, MainWindow>();
         }
 
         private bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);

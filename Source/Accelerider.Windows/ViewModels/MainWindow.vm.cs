@@ -4,6 +4,7 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Resources.I18N;
 using Microsoft.Practices.Unity;
+using Prism.Regions;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -12,12 +13,15 @@ namespace Accelerider.Windows.ViewModels
         private ICommand _feedbackCommand;
 
 
-        public MainWindowViewModel(IUnityContainer container) : base(container)
+        public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
+            RegionManager = regionManager;
             FeedbackCommand = new RelayCommand(() => Process.Start(ConstStrings.IssueUrl));
 
             GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
         }
+
+        public IRegionManager RegionManager { get; }
 
         public ICommand FeedbackCommand
         {
