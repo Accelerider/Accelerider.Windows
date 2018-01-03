@@ -8,13 +8,13 @@ using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FileBrowserCompositeViewModel : ViewModelBase
+    public class FileBrowserComponentViewModel : ViewModelBase
     {
         private bool _canSwitchUser;
         private ObservableCollection<INetDiskUser> _netDiskUsers;
         private ICommand _addNetDiskCommand;
 
-        public FileBrowserCompositeViewModel(IUnityContainer container) : base(container)
+        public FileBrowserComponentViewModel(IUnityContainer container) : base(container)
         {
             NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.NetDiskUsers);
             EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Subscribe(isLoadingFiles => CanSwitchUser = !isLoadingFiles);

@@ -91,7 +91,7 @@
     <Compile Include="ViewModels\Dialogs\SelectNetDiskTypeDialog.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\Files.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\LoadingFilesBase.vm.cs" />
-    <Compile Include="ViewModels\FileBrowser\FileBrowserComposite.vm.cs" />
+    <Compile Include="ViewModels\FileBrowser\FileBrowserComponent.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\RecycleBin.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\Share.vm.cs" />
     <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
