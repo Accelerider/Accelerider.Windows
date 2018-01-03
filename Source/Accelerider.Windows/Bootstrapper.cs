@@ -20,9 +20,9 @@ namespace Accelerider.Windows
         {
             ModuleCatalog.AddModule(new ModuleInfo
             {
-                ModuleName = "TeamsModule",
-                ModuleType = "Accelerider.Windows.Modules.Teams.TeamsModule, Accelerider.Windows.Modules.Teams, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-                Ref = $"file://{Environment.CurrentDirectory}/Modules/Accelerider.Windows.Modules.Teams.dll",
+                ModuleName = "GroupModule",
+                ModuleType = "Accelerider.Windows.Modules.Group.GroupModule, Accelerider.Windows.Modules.Group, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                Ref = $"file://{Environment.CurrentDirectory}/Modules/Accelerider.Windows.Modules.Group.dll",
                 InitializationMode = InitializationMode.WhenAvailable
             });
             ModuleCatalog.AddModule(new ModuleInfo

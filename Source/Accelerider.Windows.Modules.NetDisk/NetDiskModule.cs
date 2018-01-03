@@ -18,8 +18,8 @@ namespace Accelerider.Windows.Modules.NetDisk
 
         public override void Initialize()
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComposite));
-            _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransmissionComposite));
+            _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComponent));
+            _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransmissionComponent));
 
             _regionManager.RegisterViewWithRegion(RegionNames.SettingsTabRegion, typeof(TaskSettingsTabItem));
         }

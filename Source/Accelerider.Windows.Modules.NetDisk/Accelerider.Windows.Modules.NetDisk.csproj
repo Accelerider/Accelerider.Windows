@@ -102,7 +102,7 @@
     <Compile Include="ViewModels\Transmission\Downloading.vm.cs" />
     <Compile Include="ViewModels\Transmission\TransferedBase.vm.cs" />
     <Compile Include="ViewModels\Transmission\TransferingBase.vm.cs" />
-    <Compile Include="ViewModels\Transmission\TransmissionComposite.vm.cs" />
+    <Compile Include="ViewModels\Transmission\TransmissionComponent.vm.cs" />
     <Compile Include="ViewModels\Transmission\Uploaded.vm.cs" />
     <Compile Include="ViewModels\Transmission\Uploading.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -127,8 +127,8 @@
     <Compile Include="Views\FileBrowser\Files.xaml.cs">
       <DependentUpon>Files.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FileBrowser\FileBrowserComposite.xaml.cs">
-      <DependentUpon>FileBrowserComposite.xaml</DependentUpon>
+    <Compile Include="Views\FileBrowser\FileBrowserComponent.xaml.cs">
+      <DependentUpon>FileBrowserComponent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FileBrowser\RecycleBin.xaml.cs">
       <DependentUpon>RecycleBin.xaml</DependentUpon>
@@ -151,8 +151,8 @@
     <Compile Include="Views\Transmission\TaskProgressList.xaml.cs">
       <DependentUpon>TaskProgressList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\TransmissionComposite.xaml.cs">
-      <DependentUpon>TransmissionComposite.xaml</DependentUpon>
+    <Compile Include="Views\Transmission\TransmissionComponent.xaml.cs">
+      <DependentUpon>TransmissionComponent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Transmission\Uploaded.xaml.cs">
       <DependentUpon>Uploaded.xaml</DependentUpon>
@@ -223,7 +223,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\FileBrowser\FileBrowserComposite.xaml">
+    <Page Include="Views\FileBrowser\FileBrowserComponent.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -255,7 +255,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\TransmissionComposite.xaml">
+    <Page Include="Views\Transmission\TransmissionComponent.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

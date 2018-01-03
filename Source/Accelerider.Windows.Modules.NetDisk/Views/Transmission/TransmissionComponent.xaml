@@ -1,0 +1,168 @@
+﻿<TabItem x:Class="Accelerider.Windows.Modules.NetDisk.Views.Transmission.TransmissionComponent"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+         xmlns:mvvm="http://prismlibrary.com/"
+         xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
+         xmlns:transmission="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.Transmission"
+         mvvm:ViewModelLocator.AutoWireViewModel="True">
+    <TabItem.Header>
+        <Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="2"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <materialDesign:PackIcon Kind="SwapVertical" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="25" Width="25"/>
+                <TextBlock Grid.Row="2" Text="Tasks" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="4"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="6"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <materialDesign:Badged BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
+                                       BadgeBackground="Red" BadgeForeground="White" >
+                    <materialDesign:Badged.Badge>
+                        <MultiBinding Converter="{StaticResource PlusConverter}">
+                            <Binding Path="DownloadList.Count" />
+                            <Binding Path="UploadList.Count" />
+                        </MultiBinding>
+                    </materialDesign:Badged.Badge>
+                </materialDesign:Badged>
+            </Grid>
+        </Grid>
+    </TabItem.Header>
+
+    <Grid Style="{StaticResource FloatInRightToLeftStyle}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" Style="{StaticResource LeftTabListStyle}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!--<TextBlock Grid.Row="1" Text="Task Category" Margin="10 0 0 0" FontSize="14"/>-->
+            <Border Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" Height="30" Margin="20 0" CornerRadius="3" ToolTip="Enter to search, ignore case">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" Margin="5 0 0 0" 
+                             materialDesign:HintAssist.Hint="Search" x:Name="SearchBox"
+                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden" 
+                             BorderThickness="0"
+                             MinWidth="200" VerticalAlignment="Center" />
+                    <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" 
+                            Command="{Binding SearchCommand}" x:Name="SearchButton"
+                            CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
+                            Height="24" Width="24">
+                        <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                    </Button>
+                </Grid>
+            </Border>
+            <ListBox x:Name="SelectViewListBox" Grid.Row="3" 
+                     ItemContainerStyle="{StaticResource ListBoxItemStyle}"
+                     SelectionMode="Single" SelectedIndex="0"
+                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                     HorizontalContentAlignment="Stretch">
+                <ListBoxItem Height="45">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="Download" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="Downloading" VerticalAlignment="Center"/>
+                    </Grid>
+                </ListBoxItem>
+                <ListBoxItem Height="45">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="CloudDownload" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="Offline Tasks" VerticalAlignment="Center"/>
+                    </Grid>
+                </ListBoxItem>
+                <ListBoxItem Height="45">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="CheckAll" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="Downloaded" VerticalAlignment="Center"/>
+                    </Grid>
+                </ListBoxItem>
+                <Separator/>
+                <ListBoxItem Height="45">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="Upload" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="Uploading" VerticalAlignment="Center"/>
+                    </Grid>
+                </ListBoxItem>
+                <ListBoxItem Height="45">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:PackIcon Grid.Column="1" Kind="CheckAll" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="Uploaded" VerticalAlignment="Center"/>
+                    </Grid>
+                </ListBoxItem>
+            </ListBox>
+
+            <Button Grid.Row="5" Height="30" Margin="35 15" materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                    Command="{Binding AddOfflineTaskCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" VerticalAlignment="Center" Margin="0 0 10 0"/>
+                    <TextBlock Text="Add Offline Task" VerticalAlignment="Center" FontSize="12"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <controls:SwitchableViewContainer Grid.Column="1"  Margin="25 50 25 0" Background="White"
+                                       Selector="{Binding ElementName=SelectViewListBox}">
+            <controls:SwitchableViewContainer.Resources>
+                <transmission:Downloading x:Key="0" Style="{StaticResource FloatInUpStyle}"/>
+                <transmission:OfflineDownload x:Key="1" Style="{StaticResource FloatInUpStyle}" />
+                <transmission:Downloaded x:Key="2" Style="{StaticResource FloatInUpStyle}" />
+                <transmission:Uploading x:Key="4" Style="{StaticResource FloatInUpStyle}" />
+                <transmission:Uploaded x:Key="5" Style="{StaticResource FloatInUpStyle}" />
+            </controls:SwitchableViewContainer.Resources>
+        </controls:SwitchableViewContainer>
+        <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>
+    </Grid>
+</TabItem>
