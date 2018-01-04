@@ -6,6 +6,8 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:infrastructure="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure"
         xmlns:settings="clr-namespace:Accelerider.Windows.Properties"
+        xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
+        xmlns:appstore="clr-namespace:Accelerider.Windows.Views.AppStore"
         prism:ViewModelLocator.AutoWireViewModel="True"
         prism:RegionManager.RegionManager="{Binding RegionManager}"
         MinHeight="500" MinWidth="720" 
@@ -26,29 +28,24 @@
             <Rectangle Fill="{StaticResource PrimaryHueDarkBrush}"/>
 
             <TabControl Grid.Column="0" Grid.ColumnSpan="2" SelectedIndex="0"
-                        Style="{StaticResource LeftTabControlStyle}" ItemContainerStyle="{StaticResource MainTabItemStyle}"
+                        Style="{StaticResource MainTabControlStyle}" ItemContainerStyle="{StaticResource MainTabItemStyle}"
                         prism:RegionManager.RegionName="{x:Static infrastructure:RegionNames.MainTabRegion}"/>
 
             <StackPanel Grid.Column="0" VerticalAlignment="Bottom">
-                <Button Height="56" Padding="0" 
-                        Command="{Binding FeedbackCommand}"
-                        materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                        Background="{StaticResource PrimaryHueDarkBrush}"
-                        BorderThickness="0">
+                <ToggleButton x:Name="AppStoreToggleButton" Height="56" Style="{StaticResource LeftBarAndUnderlineToggleButtonStyle}"
+                              IsChecked="{Binding  }">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="2"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <materialDesign:PackIcon Kind="LightbulbOutline" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
-                        <TextBlock Grid.Row="2" Text="Feedback" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
-                        <!--<materialDesign:PackIcon Kind="Apps" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>-->
-                        <!--<TextBlock Grid.Row="2" Text="App Store" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>-->
+                        <materialDesign:PackIcon Kind="Apps" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                        <TextBlock Grid.Row="2" Text="App Store" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
                     </Grid>
-                </Button>
+                </ToggleButton>
                 <ToggleButton x:Name="SettingsToggleButton" 
-                              Height="56" Style="{StaticResource RightBarAndUnderlineToggleButtonStyle}">
+                              Height="56" Style="{StaticResource LeftBarAndUnderlineToggleButtonStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
@@ -63,6 +60,9 @@
                                      PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" VerticalOffset="-318" PopupAnimation="Fade"
                                      Width="284" Height="Auto" />
             </StackPanel>
+
+            <appstore:AppStoreComponent Grid.Column="1" Style="{StaticResource FloatInUpStyle}" 
+                                        Visibility="{Binding ElementName=AppStoreToggleButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Grid>
     </materialDesign:DialogHost>
 </Window>

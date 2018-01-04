@@ -10,7 +10,7 @@
              Width="400">
     <Grid Margin="0 0 0 10">
         <ListBox x:Name="NetDiskTypeListBox" ItemsSource="{Binding NetDiskTypes}" SelectionMode="Single"
-                 ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}" >
+                 ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}" >
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseUp">

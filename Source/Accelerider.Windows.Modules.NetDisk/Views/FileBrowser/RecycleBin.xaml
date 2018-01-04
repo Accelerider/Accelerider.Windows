@@ -30,7 +30,7 @@
         </Grid>
         <controls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
             <ListBox x:Name="ListboxFileList" SelectionMode="Extended" ItemsSource="{Binding Files}"
-                     ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+                     ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}">
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>

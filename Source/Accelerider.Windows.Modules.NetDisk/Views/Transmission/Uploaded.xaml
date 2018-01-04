@@ -23,7 +23,7 @@
             </StackPanel>
         </Grid>
         <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended" ItemsSource="{Binding TransferredFiles}"
-                 ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+                 ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}">
 
             <ListBox.ItemTemplate>
                 <DataTemplate>

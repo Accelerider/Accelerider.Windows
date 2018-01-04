@@ -4,7 +4,7 @@
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          SelectionMode="Single"
          Style="{StaticResource {x:Type ListBox}}"
-         ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+         ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}">
 
     <ListBox.ContextMenu>
         <ContextMenu x:Name="ContextMenu">

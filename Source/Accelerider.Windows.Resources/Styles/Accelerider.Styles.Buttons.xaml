@@ -77,7 +77,7 @@
     </Style>
 
     <!-- ToggleButton style -->
-    <Style x:Key="RightBarAndUnderlineToggleButtonStyle" TargetType="ToggleButton">
+    <Style x:Key="LeftBarAndUnderlineToggleButtonStyle" TargetType="ToggleButton">
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>

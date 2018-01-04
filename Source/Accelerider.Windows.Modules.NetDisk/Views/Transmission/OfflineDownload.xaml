@@ -24,7 +24,7 @@
             </StackPanel>
         </Grid>
 
-        <ListBox  SelectionMode="Single" Style="{StaticResource {x:Type ListBox}}" ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+        <ListBox  SelectionMode="Single" Style="{StaticResource {x:Type ListBox}}" ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}">
             <ListBox.ContextMenu>
                 <ContextMenu x:Name="ContextMenu">
                     <MenuItem Header="Next"

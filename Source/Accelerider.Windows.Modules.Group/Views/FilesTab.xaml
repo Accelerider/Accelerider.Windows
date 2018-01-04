@@ -38,7 +38,7 @@
         <controls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
             <ListBox Name="ListBoxFileList" SelectionMode="Extended"
                      ItemsSource="{Binding Files}"
-                     ItemContainerStyle="{StaticResource RightBarAndUnderlineListBoxItemStyle}">
+                     ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}">
                 <ListBox.ContextMenu>
                     <ContextMenu >
                         <MenuItem Header="Download" 

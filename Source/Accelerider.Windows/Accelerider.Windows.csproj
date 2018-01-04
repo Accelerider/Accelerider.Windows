@@ -81,9 +81,13 @@
     <Compile Include="ConstStrings.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="ExceptionResolver.cs" />
+    <Compile Include="ViewModels\AppStore\AppStoreComponent.vm.cs" />
     <Compile Include="ViewModels\Dialogs\AboutDialog.vm.cs" />
     <Compile Include="ViewModels\Dialogs\SettingsDialog.vm.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
+    <Compile Include="Views\AppStore\AppStoreComponent.xaml.cs">
+      <DependentUpon>AppStoreComponent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
@@ -114,6 +118,10 @@
       <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShellSwitcher.cs" />
+    <Page Include="Views\AppStore\AppStoreComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Dialogs\AboutDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -204,6 +212,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
