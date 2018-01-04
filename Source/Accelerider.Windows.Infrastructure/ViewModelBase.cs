@@ -2,6 +2,7 @@
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using Prism.Events;
+using Prism.Logging;
 using Prism.Mvvm;
 
 namespace Accelerider.Windows.Infrastructure
@@ -14,6 +15,7 @@ namespace Accelerider.Windows.Infrastructure
         {
             Container = container;
             EventAggregator = container.Resolve<IEventAggregator>();
+            Logger = container.Resolve<ILoggerFacade>();
             AcceleriderUser = container.Resolve<IAcceleriderUser>();
             GlobalMessageQueue = container.Resolve<SnackbarMessageQueue>();
         }
@@ -26,6 +28,8 @@ namespace Accelerider.Windows.Infrastructure
 
         protected IUnityContainer Container { get; }
         protected IEventAggregator EventAggregator { get; }
+        protected ILoggerFacade Logger { get; }
+
         protected IAcceleriderUser AcceleriderUser { get; }
 
         public virtual void OnLoaded(object view)

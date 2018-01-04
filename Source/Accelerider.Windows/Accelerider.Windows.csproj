@@ -81,6 +81,7 @@
     <Compile Include="ConstStrings.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="ExceptionResolver.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="ViewModels\Dialogs\AboutDialog.vm.cs" />
     <Compile Include="ViewModels\Dialogs\SettingsDialog.vm.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
