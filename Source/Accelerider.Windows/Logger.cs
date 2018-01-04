@@ -10,11 +10,15 @@ namespace Accelerider.Windows
     {
         private readonly TextWriter _writer;
         private readonly FileStream _fileStream;
+        private readonly string _logFilePath;
+
+        private int _exceptionCount;
 
 
         public Logger()
         {
-            _fileStream = new FileStream(GenerateLoggingPath(), FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            _logFilePath = GenerateLoggingPath();
+            _fileStream = new FileStream(_logFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
             _writer = new StreamWriter(_fileStream, Encoding.UTF8) { AutoFlush = true };
         }
 
@@ -25,6 +29,8 @@ namespace Accelerider.Windows
                 DateTime.Now, category.ToString().ToUpper(CultureInfo.InvariantCulture), message, priority.ToString());
 
             _writer.WriteLine(messageToLog);
+
+            if (category == Category.Exception || category == Category.Warn) _exceptionCount++;
         }
 
         protected virtual void Dispose(bool disposing)
@@ -33,6 +39,8 @@ namespace Accelerider.Windows
             {
                 _writer?.Dispose();
                 _fileStream?.Dispose();
+
+                if (_exceptionCount==0) File.Delete(_logFilePath);
             }
         }
 

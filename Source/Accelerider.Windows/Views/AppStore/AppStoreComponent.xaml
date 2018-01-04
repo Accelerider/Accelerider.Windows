@@ -1,12 +1,33 @@
 ﻿<UserControl x:Class="Accelerider.Windows.Views.AppStore.AppStoreComponent"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Accelerider.Windows.Views.AppStore"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:local="clr-namespace:Accelerider.Windows.Views.AppStore">
     <Grid>
-            <TextBlock Text="APP STORE PAGE" FontSize="50" Foreground="Red"></TextBlock>
+        <Image Source="MockData/dota2.jpg" Stretch="UniformToFill" />
+        <Rectangle Fill="#AAFFFFFF" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <WrapPanel Margin="16" >
+                <local:AppCard AppImageSource="MockData/cc.jpg" 
+                           AppName="Net Disk"
+                           AppDescription="Baidu net-disk download tool without speed limit."
+                           AppAuthors="C.C."
+                           AppDownloadCount="666" Margin="16 8 16 8"/>
+                <local:AppCard AppImageSource="MockData/luluxiu.jpg" 
+                           AppName="Group"
+                           AppDescription="Baidu net-disk download tool without speed limit."
+                           AppAuthors="ルルーシュ·ランペルージ"
+                           AppDownloadCount="666"  Margin="16 8 16 8"/>
+                <local:AppCard AppImageSource="MockData/dota2.jpg" 
+                           AppName="Net Disk"
+                           AppDescription="Baidu net-disk download tool without speed limit."
+                           AppAuthors="Parker"
+                           AppDownloadCount="666"  Margin="16 8 16 8"/>
+                <local:AppCard AppImageSource="MockData/fate.jpg" 
+                           AppName="Net Disk"
+                           AppDescription="Baidu net-disk download tool without speed limit."
+                           AppAuthors="Altria Pendragon"
+                           AppDownloadCount="666"  Margin="16 8 16 8"/>
+            </WrapPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Practices.Unity;
 using Prism.Logging;
@@ -33,6 +34,8 @@ namespace Accelerider.Windows
                           $"Message: {exception.Message}, " +
                           $"StackTrace: {Environment.NewLine}{exception.StackTrace}{Environment.NewLine}";
             _logger.Log(message, Category.Exception, Priority.High);
+
+            Application.Current.Shutdown(-1);
         }
     }
 }

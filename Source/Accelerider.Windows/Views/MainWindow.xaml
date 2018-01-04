@@ -33,7 +33,7 @@
 
             <StackPanel Grid.Column="0" VerticalAlignment="Bottom">
                 <ToggleButton x:Name="AppStoreToggleButton" Height="56" Style="{StaticResource LeftBarAndUnderlineToggleButtonStyle}"
-                              IsChecked="{Binding  }">
+                              IsChecked="{Binding AppStoreIsDisplayed}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>

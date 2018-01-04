@@ -86,6 +86,9 @@
     <Compile Include="ViewModels\Dialogs\AboutDialog.vm.cs" />
     <Compile Include="ViewModels\Dialogs\SettingsDialog.vm.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
+    <Compile Include="Views\AppStore\AppCard.xaml.cs">
+      <DependentUpon>AppCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AppStore\AppStoreComponent.xaml.cs">
       <DependentUpon>AppStoreComponent.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,10 @@
       <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShellSwitcher.cs" />
+    <Page Include="Views\AppStore\AppCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AppStore\AppStoreComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -216,6 +223,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\AppStore\MockData\cc.jpg" />
+    <Resource Include="Views\AppStore\MockData\luluxiu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\AppStore\MockData\dota2.jpg" />
+    <Resource Include="Views\AppStore\MockData\fate.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
