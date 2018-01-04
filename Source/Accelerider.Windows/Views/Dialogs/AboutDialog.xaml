@@ -39,7 +39,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Grid Margin="8">
+            <Grid Margin="8" Width="220">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="10"/>
@@ -51,26 +51,21 @@
                     </Ellipse.Fill>
                 </Ellipse>
 
-                <Grid Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0" Text="Contributor: Mrs4s" FontWeight="Bold"  VerticalAlignment="Center"/>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" >
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Mrs4s" FontWeight="Bold"  VerticalAlignment="Center"/>
+                    <TextBlock Text="Server Support &amp; Maintain" Foreground="Gray" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" >
                         <materialDesign:PackIcon Kind="GithubCircle" VerticalAlignment="Center" Margin="0 0 8 0"/>
                         <Button Content="Github Home" ToolTip="https://github.com/Mrs4s" Command="{Binding OpenMrs4SHomeCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" >
+                    <StackPanel Orientation="Horizontal" >
                         <materialDesign:PackIcon Kind="Email" VerticalAlignment="Center" Margin="0 0 8 0"/>
-                        <Button Content="mrs4sxiaoshi@gmail.com" Command="{Binding OpenMrs4sEmailCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
+                        <Button Content="Email" ToolTip="Send to: mrs4sxiaoshi@gmail.com" Command="{Binding OpenMrs4sEmailCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
                     </StackPanel>
-                </Grid>
+                </StackPanel>
             </Grid>
 
-            <Grid Margin="8">
+            <Grid Margin="8" Width="220">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="10"/>
@@ -82,23 +77,18 @@
                     </Ellipse.Fill>
                 </Ellipse>
 
-                <Grid Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0" Text="Contributor: LD50" FontWeight="Bold"  VerticalAlignment="Center"/>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" >
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="LD50" FontWeight="Bold"  VerticalAlignment="Center"/>
+                    <TextBlock Text="UI, Architecture Design" Foreground="Gray" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" >
                         <materialDesign:PackIcon Kind="GithubCircle" VerticalAlignment="Center" Margin="0 0 8 0"/>
                         <Button Content="Github Home" ToolTip="https://github.com/DingpingZhang" Command="{Binding OpenLd50HomeCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" >
+                    <StackPanel Orientation="Horizontal" >
                         <materialDesign:PackIcon Kind="Email" VerticalAlignment="Center" Margin="0 0 8 0"/>
-                        <Button Content="ld50.zhang@gmail.com" Command="{Binding OpenLd50EmailCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
+                        <Button Content="Email" ToolTip="Send to: ld50.zhang@gmail.com" Command="{Binding OpenLd50EmailCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
                     </StackPanel>
-                </Grid>
+                </StackPanel>
             </Grid>
         </StackPanel>
 

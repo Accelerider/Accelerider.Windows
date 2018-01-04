@@ -9,6 +9,7 @@ using Accelerider.Windows.Views.Entering;
 using Prism.Mvvm;
 using Prism.Unity;
 using Prism.Modularity;
+using Prism.Logging;
 
 namespace Accelerider.Windows
 {
@@ -16,6 +17,8 @@ namespace Accelerider.Windows
     {
         #region Overridered methods
         //protected override IModuleCatalog CreateModuleCatalog() => new DirectoryModuleCatalog { ModulePath = @".\Modules" };
+        protected override ILoggerFacade CreateLogger() => new Logger();
+
         protected override void ConfigureModuleCatalog()
         {
             ModuleCatalog.AddModule(new ModuleInfo
@@ -66,6 +69,7 @@ namespace Accelerider.Windows
         private void OnExit(object sender, ExitEventArgs e)
         {
             Container.Resolve<IAcceleriderUser>().OnExit();
+            (Logger as IDisposable)?.Dispose();
         }
 
         private object ResolveViewModel(object view, Type viewModelType)

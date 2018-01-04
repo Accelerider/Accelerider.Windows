@@ -35,8 +35,9 @@
     <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
         <Setter Property="Height" Value="42" />
         <Setter Property="Foreground" Value="#606060"/>
-        <Setter Property="controls:ControlHelper.MouseOverBackground" Value="#7679BE" />
-        <Setter Property="controls:ControlHelper.MouseOverForeground" Value="White" />
+        <!--<Setter Property="controls:ControlHelper.MouseOverBackground" Value="#7679BE" />-->
+        <!--<Setter Property="controls:ControlHelper.MouseOverForeground" Value="#5558AF" />-->
+        <Setter Property="controls:ControlHelper.MouseOverForeground" Value="#7679BE" />
     </Style>
 
     <Style x:Key="LinkButtonStyle" TargetType="ButtonBase">
