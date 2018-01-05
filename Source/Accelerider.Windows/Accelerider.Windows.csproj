@@ -212,6 +212,10 @@
       <Project>{c4dbd55d-6c99-4a67-96ff-8b76baea2037}</Project>
       <Name>Accelerider.Windows.Resources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.TransferEngine\Accelerider.Windows.TransferEngine.csproj">
+      <Project>{09a2520b-6482-43ad-989a-3e1106c83176}</Project>
+      <Name>Accelerider.Windows.TransferEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\logoIcon.ico">
