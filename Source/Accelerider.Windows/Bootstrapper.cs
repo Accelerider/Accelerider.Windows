@@ -4,17 +4,39 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using System.Net;
-using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Views.Entering;
 using Prism.Mvvm;
 using Prism.Unity;
 using Prism.Modularity;
+using Prism.Logging;
 
 namespace Accelerider.Windows
 {
     public class Bootstrapper : UnityBootstrapper
     {
         #region Overridered methods
+        //protected override IModuleCatalog CreateModuleCatalog() => new DirectoryModuleCatalog { ModulePath = @".\Modules" };
+        protected override ILoggerFacade CreateLogger() => new Logger();
+
+        protected override void ConfigureModuleCatalog()
+        {
+            ModuleCatalog.AddModule(new ModuleInfo
+            {
+                ModuleName = "GroupModule",
+                ModuleType = "Accelerider.Windows.Modules.Group.GroupModule, Accelerider.Windows.Modules.Group, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                Ref = $"file://{Environment.CurrentDirectory}/Modules/Accelerider.Windows.Modules.Group.dll",
+                InitializationMode = InitializationMode.WhenAvailable
+            });
+            ModuleCatalog.AddModule(new ModuleInfo
+            {
+                ModuleName = "NetDiskModule",
+                ModuleType = "Accelerider.Windows.Modules.NetDisk.NetDiskModule, Accelerider.Windows.Modules.NetDisk, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                Ref = $"file://{Environment.CurrentDirectory}/Modules/Accelerider.Windows.Modules.NetDisk.dll",
+                InitializationMode = InitializationMode.WhenAvailable
+            });
+        }
+
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
@@ -24,27 +46,14 @@ namespace Accelerider.Windows
 
         protected override void ConfigureViewModelLocator() => ViewModelLocationProvider.SetDefaultViewModelFactory(ResolveViewModel);
 
-        protected override DependencyObject CreateShell() => new Views.Entering.EnteringWindow();
+        protected override DependencyObject CreateShell() => new EnteringWindow();
 
         protected override void InitializeShell()
         {
             ServicePointManager.DefaultConnectionLimit = 99999;
             ConfigureApplicationEventHandlers();
-            ShellController.Show((Window)Shell);
+            ShellSwitcher.Show((Window)Shell);
         }
-
-        //protected override void ConfigureModuleCatalog()
-        //{
-        //    var catalog = (ModuleCatalog)ModuleCatalog;
-        //    catalog.AddModule(typeof(NetDiskModule));
-        //    catalog.AddModule(typeof(TeamsModule));
-        //}
-
-        protected override IModuleCatalog CreateModuleCatalog()
-        {
-            return new DirectoryModuleCatalog() { ModulePath = @".\" };
-        }
-
         #endregion
 
         #region Private methods
@@ -60,6 +69,7 @@ namespace Accelerider.Windows
         private void OnExit(object sender, ExitEventArgs e)
         {
             Container.Resolve<IAcceleriderUser>().OnExit();
+            (Logger as IDisposable)?.Dispose();
         }
 
         private object ResolveViewModel(object view, Type viewModelType)

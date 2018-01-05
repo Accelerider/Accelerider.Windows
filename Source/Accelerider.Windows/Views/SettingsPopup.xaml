@@ -3,7 +3,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf"
                     xmlns:mvvm="http://prismlibrary.com/"
-                    xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
+                    xmlns:local="clr-namespace:Accelerider.Windows.Views"
                     mvvm:ViewModelLocator.AutoWireViewModel="True"
                     AllowsTransparency="True">
     <Border Margin="2" Background="White" BorderThickness="1" CornerRadius="2"
@@ -24,22 +24,20 @@
             </Grid>
             <StackPanel Margin="0 0 0 8" >
                 <!-- open dialog -->
-                <controls:SettingItem IconKind="AccountSettings" Label="Change profile" Command="{Binding ChangeProfileCommand}"/>
+                <local:SettingItem IconKind="AccountSettings" Label="Change profile" Command="{Binding ChangeProfileCommand}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open dialog -->
-                <controls:SettingItem IconKind="Settings" Label="Open settings panel" Command="{Binding OpenSettingsPanelCommand}"/>
+                <local:SettingItem IconKind="Settings" Label="Open settings panel" Command="{Binding OpenSettingsPanelCommand}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open web -->
-                <controls:SettingItem IconKind="HelpCircleOutline" Label="Help" Command="{Binding HelpCommand}"/>
+                <local:SettingItem IconKind="HelpCircleOutline" Label="Help" Command="{Binding HelpCommand}"/>
                 <!-- open web -->
-                <controls:SettingItem IconKind="Web" Label="Official site" Command="{Binding OpenOfficialSiteCommand}"/>
-                <!-- message queue -->
-                <controls:SettingItem IconKind="ArrowUpBoldCircleOutline" Label="Check for updates" Command="{Binding CheckUpdateCommand}"/>
+                <local:SettingItem IconKind="Web" Label="Accelerider for Web" Command="{Binding OpenOfficialSiteCommand}"/>
                 <!-- open menu -->
-                <controls:SettingItem IconKind="InformationVariant" Label="About" Command="{Binding AboutCommand}"/>
+                <local:SettingItem IconKind="InformationVariant" Label="About" Command="{Binding AboutCommand}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open EnteringWindow and closes MainWindow -->
-                <controls:SettingItem IconKind="Logout" Label="Log out" Command="{Binding SignOutCommand}"/>
+                <local:SettingItem IconKind="Logout" Label="Log out" Command="{Binding SignOutCommand}"/>
             </StackPanel>
         </StackPanel>
     </Border>

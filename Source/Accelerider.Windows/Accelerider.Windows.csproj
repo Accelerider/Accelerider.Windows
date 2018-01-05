@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,11 +33,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\logoIcon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\temp\MC\MCLauncher\Microsoft.Expression.Interactions.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -60,21 +59,12 @@
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.ValueTuple.4.4.0-preview2-25405-01\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -88,15 +78,28 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Common\ConstStrings.cs" />
-    <Compile Include="Common\Events.cs" />
-    <Compile Include="Common\ExceptionResolver.cs" />
+    <Compile Include="ConstStrings.cs" />
+    <Compile Include="Events.cs" />
+    <Compile Include="ExceptionResolver.cs" />
+    <Compile Include="ViewModels\AppStore\AppStoreComponent.vm.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="ViewModels\Dialogs\AboutDialog.vm.cs" />
+    <Compile Include="ViewModels\Dialogs\SettingsDialog.vm.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
+    <Compile Include="Views\AppStore\AppCard.xaml.cs">
+      <DependentUpon>AppCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AppStore\AppStoreComponent.xaml.cs">
+      <DependentUpon>AppStoreComponent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\ProfileDialog.xaml.cs">
       <DependentUpon>ProfileDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingItem.xaml.cs">
+      <DependentUpon>SettingItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPopup.xaml.cs">
       <DependentUpon>SettingsPopup.xaml</DependentUpon>
@@ -106,7 +109,7 @@
     </Compile>
     <Compile Include="ViewModels\Entering\EnteringWindow.vm.cs" />
     <Compile Include="ViewModels\MainWindow.vm.cs" />
-    <Compile Include="Common\SingletonProcess.cs" />
+    <Compile Include="ProcessController.cs" />
     <Compile Include="ViewModels\Entering\SignInView.vm.cs" />
     <Compile Include="ViewModels\Entering\SignUpView.vm.cs" />
     <Compile Include="Views\Dialogs\SettingsDialog.xaml.cs">
@@ -118,7 +121,15 @@
     <Compile Include="Views\Entering\SignUpView.xaml.cs">
       <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ShellController.cs" />
+    <Compile Include="ShellSwitcher.cs" />
+    <Page Include="Views\AppStore\AppCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AppStore\AppStoreComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Dialogs\AboutDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,6 +137,10 @@
     <Page Include="Views\Dialogs\ProfileDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPopup.xaml">
       <SubType>Designer</SubType>
@@ -176,13 +191,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignColors.Wpf\MaterialDesignColors.Wpf.csproj">
-      <Project>{90b53209-c60c-4655-b28d-a1b3e1044ba3}</Project>
-      <Name>MaterialDesignColors.Wpf</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
       <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
       <Name>MaterialDesignThemes.Wpf</Name>
@@ -201,9 +214,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="logo.ico">
+    <Resource Include="Images\logoIcon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\AppStore\MockData\cc.jpg" />
+    <Resource Include="Views\AppStore\MockData\luluxiu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\AppStore\MockData\dota2.jpg" />
+    <Resource Include="Views\AppStore\MockData\fate.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

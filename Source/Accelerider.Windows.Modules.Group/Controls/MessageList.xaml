@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="Accelerider.Windows.Modules.Group.Controls.MessageList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.Resources>
+            <Style x:Key="BorderBaseStyle" TargetType="Border">
+                <Setter Property="Height" Value="2"/>
+                <Setter Property="Background" Value="LightGray"/>
+                <Setter Property="Opacity" Value="0.5"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="Visibility" Value="Visible"/>
+            </Style>
+            <Style x:Key="TopBorderSytle" TargetType="Border" BasedOn="{StaticResource BorderBaseStyle}">
+                <Style.Triggers>
+                    <DataTrigger Value="True" Binding="{Binding IsArrivedTop, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="BottomBorderSytle" TargetType="Border" BasedOn="{StaticResource BorderBaseStyle}">
+                <Style.Triggers>
+                    <DataTrigger Value="True" Binding="{Binding IsArrivedBottom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Style="{StaticResource TopBorderSytle}"/>
+        <ScrollViewer x:Name="PART_ScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
+            <StackPanel x:Name="PART_MessageStackPanel"/>
+        </ScrollViewer>
+        <Border Grid.Row="2" Style="{StaticResource BottomBorderSytle}"/>
+    </Grid>
+</UserControl>

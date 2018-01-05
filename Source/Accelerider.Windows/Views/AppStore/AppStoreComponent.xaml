@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Accelerider.Windows.Views.AppStore.AppStoreComponent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Accelerider.Windows.Views.AppStore">
+    <Grid>
+        <Image Source="MockData/dota2.jpg" Stretch="UniformToFill" />
+        <Rectangle Fill="#AAFFFFFF" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <WrapPanel Margin="16" >
+                <local:AppCard AppImageSource="MockData/cc.jpg" 
+                           AppName="Net Disk"
+                           AppDescription="Baidu net-disk download tool without speed limit."
+                           AppAuthors="C.C."
+                           AppDownloadCount="666" Margin="16 8 16 8"/>
+                <local:AppCard AppImageSource="MockData/luluxiu.jpg" 
+                           AppName="Group"
+                           AppDescription="Baidu net-disk download tool without speed limit."
+                           AppAuthors="ルルーシュ·ランペルージ"
+                           AppDownloadCount="666"  Margin="16 8 16 8"/>
+                <local:AppCard AppImageSource="MockData/dota2.jpg" 
+                           AppName="Net Disk"
+                           AppDescription="Baidu net-disk download tool without speed limit."
+                           AppAuthors="Parker"
+                           AppDownloadCount="666"  Margin="16 8 16 8"/>
+                <local:AppCard AppImageSource="MockData/fate.jpg" 
+                           AppName="Net Disk"
+                           AppDescription="Baidu net-disk download tool without speed limit."
+                           AppAuthors="Altria Pendragon"
+                           AppDownloadCount="666"  Margin="16 8 16 8"/>
+            </WrapPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

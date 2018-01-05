@@ -1,6 +1,7 @@
 ﻿using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Views;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
-using Accelerider.Windows.Modules.NetDisk.Views.Transmission;
+using Accelerider.Windows.Modules.NetDisk.Views.Transportation;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 
@@ -17,9 +18,10 @@ namespace Accelerider.Windows.Modules.NetDisk
 
         public override void Initialize()
         {
-            Container.Resolve<Components.Authenticator.Module>().Initialize();
-            _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComposite));
-            _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransmissionComposite));
+            _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComponent));
+            _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransportationComponent));
+
+            _regionManager.RegisterViewWithRegion(RegionNames.SettingsTabRegion, typeof(TaskSettingsTabItem));
         }
     }
 }

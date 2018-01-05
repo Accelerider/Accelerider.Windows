@@ -245,7 +245,14 @@ namespace Accelerider.Windows.Core.DownloadEngine
         public void Save()
         {
             var taskListFile = Path.Combine(Directory.GetCurrentDirectory(), "DownloadList.json");
-            File.WriteAllText(taskListFile, JsonConvert.SerializeObject(Items.ToArray(), Formatting.Indented));
+            try
+            {
+                File.WriteAllText(taskListFile, JsonConvert.SerializeObject(Items.ToArray(), Formatting.Indented));
+            }
+            catch (IOException exception)
+            {
+                Save();
+            }
         }
 
         public void Stop()

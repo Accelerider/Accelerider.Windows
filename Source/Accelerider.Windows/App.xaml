@@ -8,16 +8,6 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
 
-                <!--<ResourceDictionary Source="pack://application:,,,/Accelerider.Windows;component/Assets/ResourceDictionaries/Accelerider.Brushes.Navy.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows;component/Assets/ResourceDictionaries/Accelerider.Converters.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows;component/Assets/ResourceDictionaries/Accelerider.Animations.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows;component/Assets/ResourceDictionaries/Accelerider.Styles.Buttons.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows;component/Assets/ResourceDictionaries/Accelerider.Styles.Windows.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows;component/Assets/ResourceDictionaries/Accelerider.Styles.TabControls.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows;component/Assets/ResourceDictionaries/Accelerider.Styles.ListBoxes.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows;component/Assets/ResourceDictionaries/Accelerider.Styles.Others.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows;component/Assets/ResourceDictionaries/Accelerider.Styles.UserControls.xaml"/>-->
-
                 <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Brushes.Navy.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Converters.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Animations.xaml"/>

@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Common;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Views;
@@ -98,7 +97,7 @@ namespace Accelerider.Windows.ViewModels.Entering
             LocalConfigureInfo.Save();
 
             // Launches main window and closes itself.
-            ShellController.Switch<EnteringWindow, MainWindow>();
+            ShellSwitcher.Switch<EnteringWindow, MainWindow>();
         }
 
         private bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);

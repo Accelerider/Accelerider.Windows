@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -60,18 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\ControlHelper.cs" />
-    <Compile Include="Controls\FolderLocationBar.xaml.cs">
-      <DependentUpon>FolderLocationBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MessageCard.xaml.cs">
-      <DependentUpon>MessageCard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MessageList.xaml.cs">
-      <DependentUpon>MessageList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SettingItem.xaml.cs">
-      <DependentUpon>SettingItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\SwitchableViewContainer.cs" />
     <Compile Include="Controls\SwitchLoadingViewContainer.cs" />
     <Compile Include="Controls\ToolBarButton.xaml.cs">
@@ -88,7 +76,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UiStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="MockData\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -160,28 +147,9 @@
     <Resource Include="Images\head.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\logoSmall.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\FolderLocationBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\MessageCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\MessageList.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\SettingItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Controls\ToolBarButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

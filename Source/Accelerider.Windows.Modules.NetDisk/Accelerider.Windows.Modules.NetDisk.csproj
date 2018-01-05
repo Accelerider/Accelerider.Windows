@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\Modules\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -51,7 +51,6 @@
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -61,11 +60,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -74,6 +69,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">
+      <DependentUpon>FolderLocationBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Events.cs" />
     <Compile Include="NetDiskModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -89,25 +87,24 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\Dialogs\AuthenticatorWindow.vm.cs" />
     <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
     <Compile Include="ViewModels\Dialogs\SelectNetDiskTypeDialog.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\Files.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\LoadingFilesBase.vm.cs" />
-    <Compile Include="ViewModels\FileBrowser\FileBrowserComposite.vm.cs" />
+    <Compile Include="ViewModels\FileBrowser\FileBrowserComponent.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\RecycleBin.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\Share.vm.cs" />
     <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
     <Compile Include="ViewModels\Others\TransferredFileList.cs" />
     <Compile Include="ViewModels\Others\TransferringTask.vm.cs" />
     <Compile Include="ViewModels\Others\TransferringTaskList.cs" />
-    <Compile Include="ViewModels\Transmission\Downloaded.vm.cs" />
-    <Compile Include="ViewModels\Transmission\Downloading.vm.cs" />
-    <Compile Include="ViewModels\Transmission\TransferedBase.vm.cs" />
-    <Compile Include="ViewModels\Transmission\TransferingBase.vm.cs" />
-    <Compile Include="ViewModels\Transmission\TransmissionComposite.vm.cs" />
-    <Compile Include="ViewModels\Transmission\Uploaded.vm.cs" />
-    <Compile Include="ViewModels\Transmission\Uploading.vm.cs" />
+    <Compile Include="ViewModels\Transportation\Downloaded.vm.cs" />
+    <Compile Include="ViewModels\Transportation\Downloading.vm.cs" />
+    <Compile Include="ViewModels\Transportation\TransportedBase.vm.cs" />
+    <Compile Include="ViewModels\Transportation\TransportingBase.vm.cs" />
+    <Compile Include="ViewModels\Transportation\TransportationComponent.vm.cs" />
+    <Compile Include="ViewModels\Transportation\Uploaded.vm.cs" />
+    <Compile Include="ViewModels\Transportation\Uploading.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
@@ -130,8 +127,8 @@
     <Compile Include="Views\FileBrowser\Files.xaml.cs">
       <DependentUpon>Files.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FileBrowser\FileBrowserComposite.xaml.cs">
-      <DependentUpon>FileBrowserComposite.xaml</DependentUpon>
+    <Compile Include="Views\FileBrowser\FileBrowserComponent.xaml.cs">
+      <DependentUpon>FileBrowserComponent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FileBrowser\RecycleBin.xaml.cs">
       <DependentUpon>RecycleBin.xaml</DependentUpon>
@@ -139,25 +136,28 @@
     <Compile Include="Views\FileBrowser\Share.xaml.cs">
       <DependentUpon>Share.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\Downloaded.xaml.cs">
+    <Compile Include="Views\TaskSettingsTabItem.xaml.cs">
+      <DependentUpon>TaskSettingsTabItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transportation\Downloaded.xaml.cs">
       <DependentUpon>Downloaded.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\Downloading.xaml.cs">
+    <Compile Include="Views\Transportation\Downloading.xaml.cs">
       <DependentUpon>Downloading.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\OfflineDownload.xaml.cs">
+    <Compile Include="Views\Transportation\OfflineDownload.xaml.cs">
       <DependentUpon>OfflineDownload.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\TaskProgressList.xaml.cs">
+    <Compile Include="Views\Transportation\TaskProgressList.xaml.cs">
       <DependentUpon>TaskProgressList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\TransmissionComposite.xaml.cs">
-      <DependentUpon>TransmissionComposite.xaml</DependentUpon>
+    <Compile Include="Views\Transportation\TransportationComponent.xaml.cs">
+      <DependentUpon>TransportationComponent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\Uploaded.xaml.cs">
+    <Compile Include="Views\Transportation\Uploaded.xaml.cs">
       <DependentUpon>Uploaded.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\Uploading.xaml.cs">
+    <Compile Include="Views\Transportation\Uploading.xaml.cs">
       <DependentUpon>Uploading.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -171,21 +171,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignColors.Wpf\MaterialDesignColors.Wpf.csproj">
-      <Project>{90b53209-c60c-4655-b28d-a1b3e1044ba3}</Project>
-      <Name>MaterialDesignColors.Wpf</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
       <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
       <Name>MaterialDesignThemes.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Components.Authenticator\Accelerider.Windows.Components.Authenticator.csproj">
-      <Project>{a91add02-6c31-4566-81d5-2e8170d02ea3}</Project>
-      <Name>Accelerider.Windows.Components.Authenticator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Core\Accelerider.Windows.Core.csproj">
-      <Project>{d30a6c14-b18d-4cbc-8df4-ff9640f33b9e}</Project>
-      <Name>Accelerider.Windows.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{F61839D1-6C54-4E70-B5CB-7EA02F54A664}</Project>
@@ -197,15 +185,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\OneDriveLogo.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\BaiduCloudLogo.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\FileBrowser\FolderLocationBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Dialogs\AboutDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -234,7 +223,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\FileBrowser\FileBrowserComposite.xaml">
+    <Page Include="Views\FileBrowser\FileBrowserComponent.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -246,31 +235,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\Downloaded.xaml">
+    <Page Include="Views\TaskSettingsTabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Transportation\Downloaded.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\Downloading.xaml">
+    <Page Include="Views\Transportation\Downloading.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\OfflineDownload.xaml">
+    <Page Include="Views\Transportation\OfflineDownload.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\TaskProgressList.xaml">
+    <Page Include="Views\Transportation\TaskProgressList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\TransmissionComposite.xaml">
+    <Page Include="Views\Transportation\TransportationComponent.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\Uploaded.xaml">
+    <Page Include="Views\Transportation\Uploaded.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\Uploading.xaml">
+    <Page Include="Views\Transportation\Uploading.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

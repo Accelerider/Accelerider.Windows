@@ -12,6 +12,7 @@ namespace Accelerider.Windows.Core
         {
             RegisterTypeIfMissing<ILocalConfigureInfo, LocalConfigureInfo>(true);
             RegisterTypeIfMissing<IAcceleriderUser, AcceleriderUser>(true);
+            RegisterTypeIfMissing<IConfigureFile, ConfigureFile>(true);
         }
     }
 }

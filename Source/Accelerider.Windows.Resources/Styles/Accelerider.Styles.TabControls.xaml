@@ -163,7 +163,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="LeftTabControlStyle" TargetType="{x:Type TabControl}">
+    <Style x:Key="MainTabControlStyle" TargetType="{x:Type TabControl}">
         <Setter Property="TabStripPlacement" Value="Left"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
@@ -175,10 +175,14 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="112"/>
+                        </Grid.RowDefinitions>
+                        <ScrollViewer Grid.Column="0" Grid.Row="0" VerticalScrollBarVisibility="Auto">
                             <TabPanel Background="Transparent" IsItemsHost="true" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" />
                         </ScrollViewer>
-                        <Border Grid.Column="1" BorderBrush="{TemplateBinding BorderBrush}"
+                        <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" BorderBrush="{TemplateBinding BorderBrush}"
                                 KeyboardNavigation.DirectionalNavigation="Contained" 
                                 KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
                             <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
