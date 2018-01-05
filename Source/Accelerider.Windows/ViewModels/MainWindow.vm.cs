@@ -9,6 +9,7 @@ using Accelerider.Windows.Resources.I18N;
 using Accelerider.Windows.Views.AppStore;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
+using System.Linq;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -66,9 +67,15 @@ namespace Accelerider.Windows.ViewModels
 
         public override void OnUnloaded(object view)
         {
+            var regionNames = RegionManager.Regions.Select(item => item.Name).ToArray();
+            foreach (var regionName in regionNames)
+            {
+                RegionManager.Regions.Remove(regionName);
+            }
+
             AcceleriderUser.OnExit();
         }
 
-        
+
     }
 }
