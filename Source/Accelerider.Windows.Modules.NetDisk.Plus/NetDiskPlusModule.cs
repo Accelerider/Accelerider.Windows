@@ -4,11 +4,11 @@ using Prism.Regions;
 
 namespace Accelerider.Windows.Modules.NetDisk.Plus
 {
-    public class NetDiskModule : ModuleBase
+    public class NetDiskPlusModule : ModuleBase
     {
         private readonly IRegionManager _regionManager;
 
-        public NetDiskModule(IUnityContainer container, IRegionManager regionManager) : base(container)
+        public NetDiskPlusModule(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
             _regionManager = regionManager;
         }
