@@ -40,7 +40,7 @@ namespace Accelerider.Windows
                 _writer?.Dispose();
                 _fileStream?.Dispose();
 
-                if (_exceptionCount==0) File.Delete(_logFilePath);
+                if (_exceptionCount == 0) File.Delete(_logFilePath);
             }
         }
 

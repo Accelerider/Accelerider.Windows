@@ -55,27 +55,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!--<TextBlock Grid.Row="1" Text="Task Category" Margin="10 0 0 0" FontSize="14"/>-->
-            <Border Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" Height="30" Margin="20 0" CornerRadius="3" ToolTip="Enter to search, ignore case">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+            <controls:SearchBar Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" ToolTip="Enter to search, ignore case"/>
 
-                    <TextBox Grid.Column="0" Margin="5 0 0 0" 
-                             materialDesign:HintAssist.Hint="Search" x:Name="SearchBox"
-                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden" 
-                             BorderThickness="0"
-                             MinWidth="200" VerticalAlignment="Center" />
-                    <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" 
-                            Command="{Binding SearchCommand}" x:Name="SearchButton"
-                            CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
-                            Height="24" Width="24">
-                        <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
-                    </Button>
-                </Grid>
-            </Border>
             <ListBox x:Name="SelectViewListBox" Grid.Row="3" 
                      ItemContainerStyle="{StaticResource ListBoxItemStyle}"
                      SelectionMode="Single" SelectedIndex="0"

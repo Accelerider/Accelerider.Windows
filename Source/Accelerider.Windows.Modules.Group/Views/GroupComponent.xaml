@@ -5,6 +5,7 @@
          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          xmlns:views="clr-namespace:Accelerider.Windows.Modules.Group.Views"
+         xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
          mc:Ignorable="d" 
          d:DesignHeight="600" d:DesignWidth="800">
     <TabItem.Header>
@@ -34,26 +35,9 @@
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" Height="30" Margin="20 0" CornerRadius="3" ToolTip="Enter to search, ignore case">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
 
-                    <TextBox Grid.Column="0" Margin="5 0 0 0" 
-                             materialDesign:HintAssist.Hint="Search" x:Name="SearchBox"
-                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden" 
-                             BorderThickness="0"
-                             MinWidth="200" VerticalAlignment="Center" />
-                    <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" 
-                            Command="{Binding SearchCommand}" x:Name="SearchButton"
-                            CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
-                            Height="24" Width="24">
-                        <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
-                    </Button>
-                </Grid>
-            </Border>
+            <controls:SearchBar Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" ToolTip="Enter to search, ignore case"/>
+
         </Grid>
         <views:GroupTabs Grid.Column="1" Margin="30,20"/>
     </Grid>
