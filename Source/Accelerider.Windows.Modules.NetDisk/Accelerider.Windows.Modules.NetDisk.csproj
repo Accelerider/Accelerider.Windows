@@ -98,13 +98,13 @@
     <Compile Include="ViewModels\Others\TransferredFileList.cs" />
     <Compile Include="ViewModels\Others\TransferringTask.vm.cs" />
     <Compile Include="ViewModels\Others\TransferringTaskList.cs" />
-    <Compile Include="ViewModels\Transmission\Downloaded.vm.cs" />
-    <Compile Include="ViewModels\Transmission\Downloading.vm.cs" />
-    <Compile Include="ViewModels\Transmission\TransferedBase.vm.cs" />
-    <Compile Include="ViewModels\Transmission\TransferingBase.vm.cs" />
-    <Compile Include="ViewModels\Transmission\TransmissionComponent.vm.cs" />
-    <Compile Include="ViewModels\Transmission\Uploaded.vm.cs" />
-    <Compile Include="ViewModels\Transmission\Uploading.vm.cs" />
+    <Compile Include="ViewModels\Transportation\Downloaded.vm.cs" />
+    <Compile Include="ViewModels\Transportation\Downloading.vm.cs" />
+    <Compile Include="ViewModels\Transportation\TransportedBase.vm.cs" />
+    <Compile Include="ViewModels\Transportation\TransportingBase.vm.cs" />
+    <Compile Include="ViewModels\Transportation\TransportationComponent.vm.cs" />
+    <Compile Include="ViewModels\Transportation\Uploaded.vm.cs" />
+    <Compile Include="ViewModels\Transportation\Uploading.vm.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
@@ -139,25 +139,25 @@
     <Compile Include="Views\TaskSettingsTabItem.xaml.cs">
       <DependentUpon>TaskSettingsTabItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\Downloaded.xaml.cs">
+    <Compile Include="Views\Transportation\Downloaded.xaml.cs">
       <DependentUpon>Downloaded.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\Downloading.xaml.cs">
+    <Compile Include="Views\Transportation\Downloading.xaml.cs">
       <DependentUpon>Downloading.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\OfflineDownload.xaml.cs">
+    <Compile Include="Views\Transportation\OfflineDownload.xaml.cs">
       <DependentUpon>OfflineDownload.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\TaskProgressList.xaml.cs">
+    <Compile Include="Views\Transportation\TaskProgressList.xaml.cs">
       <DependentUpon>TaskProgressList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\TransmissionComponent.xaml.cs">
-      <DependentUpon>TransmissionComponent.xaml</DependentUpon>
+    <Compile Include="Views\Transportation\TransportationComponent.xaml.cs">
+      <DependentUpon>TransportationComponent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\Uploaded.xaml.cs">
+    <Compile Include="Views\Transportation\Uploaded.xaml.cs">
       <DependentUpon>Uploaded.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Transmission\Uploading.xaml.cs">
+    <Compile Include="Views\Transportation\Uploading.xaml.cs">
       <DependentUpon>Uploading.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -182,10 +182,6 @@
     <ProjectReference Include="..\Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj">
       <Project>{c4dbd55d-6c99-4a67-96ff-8b76baea2037}</Project>
       <Name>Accelerider.Windows.Resources</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.TransferEngine\Accelerider.Windows.TransferEngine.csproj">
-      <Project>{09a2520b-6482-43ad-989a-3e1106c83176}</Project>
-      <Name>Accelerider.Windows.TransferEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -243,31 +239,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Transmission\Downloaded.xaml">
+    <Page Include="Views\Transportation\Downloaded.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\Downloading.xaml">
+    <Page Include="Views\Transportation\Downloading.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\OfflineDownload.xaml">
+    <Page Include="Views\Transportation\OfflineDownload.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\TaskProgressList.xaml">
+    <Page Include="Views\Transportation\TaskProgressList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\TransmissionComponent.xaml">
+    <Page Include="Views\Transportation\TransportationComponent.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\Uploaded.xaml">
+    <Page Include="Views\Transportation\Uploaded.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Transmission\Uploading.xaml">
+    <Page Include="Views\Transportation\Uploading.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
