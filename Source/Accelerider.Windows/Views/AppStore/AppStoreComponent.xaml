@@ -12,29 +12,29 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Image Grid.Row="0" Grid.RowSpan="4" Source="MockData/cc.jpg" Stretch="UniformToFill" />
+        <Image Grid.Row="0" Grid.RowSpan="4" Source="..\..\MockData/qiegewala.png" Stretch="UniformToFill" />
         <Rectangle Grid.Row="0" Grid.RowSpan="4" Fill="#AAAAAAAA" />
 
         <controls:SearchBar Grid.Row="1" Width="400" Background="White"/>
 
         <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto">
             <WrapPanel Margin="16" >
-                <local:AppCard AppImageSource="MockData/cc.jpg" 
+                <local:AppCard AppImageSource="..\..\MockData/cc.jpg" 
                            AppName="Net Disk"
                            AppDescription="Baidu net-disk download tool without speed limit."
                            AppAuthors="C.C."
                            AppDownloadCount="666" Margin="16 8 16 8"/>
-                <local:AppCard AppImageSource="MockData/luluxiu.jpg" 
+                <local:AppCard AppImageSource="..\..\MockData/luluxiu.jpg" 
                            AppName="Group"
                            AppDescription="Baidu net-disk download tool without speed limit."
                            AppAuthors="ルルーシュ·ランペルージ"
                            AppDownloadCount="666"  Margin="16 8 16 8"/>
-                <local:AppCard AppImageSource="MockData/dota2.jpg" 
+                <local:AppCard AppImageSource="..\..\MockData/dota2.jpg" 
                            AppName="Net Disk"
                            AppDescription="Baidu net-disk download tool without speed limit."
                            AppAuthors="Parker"
                            AppDownloadCount="666"  Margin="16 8 16 8"/>
-                <local:AppCard AppImageSource="MockData/fate.jpg" 
+                <local:AppCard AppImageSource="..\..\MockData/fate.jpg" 
                            AppName="Net Disk"
                            AppDescription="Baidu net-disk download tool without speed limit."
                            AppAuthors="Altria Pendragon"
