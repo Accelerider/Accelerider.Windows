@@ -2,6 +2,9 @@
 {
     public static class ConstStrings
     {
+        public const string AcceleriderModules = "AcceleriderModules";
+        public const string ModuleInfos = "ModuleInfos";
+
         public const string HelpUrl = "https://github.com/Accelerider/Accelerider.Windows/wiki";
         public const string ReleaseUrl = "https://github.com/Accelerider/Accelerider.Windows/releases";
         public const string WebSitePanUrl = "http://pan.accelerider.com";

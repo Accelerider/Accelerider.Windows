@@ -1,12 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Models;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Entering;
 using Microsoft.Practices.Unity;
+using Prism.Modularity;
 
 namespace Accelerider.Windows.ViewModels.Entering
 {
@@ -90,6 +95,10 @@ namespace Accelerider.Windows.ViewModels.Entering
                 return;
             }
 
+            var moduleCatalog = Container.Resolve<IModuleCatalog>();
+            new ModuleResolver(moduleCatalog).Initialize();
+            Container.Resolve<IModuleManager>().Run();
+
             // Saves data.
             LocalConfigureInfo.Username = IsRememberPassword ? username : string.Empty;
             LocalConfigureInfo.PasswordEncrypted = IsRememberPassword ? passwordEncrypted : string.Empty;
@@ -98,6 +107,30 @@ namespace Accelerider.Windows.ViewModels.Entering
 
             // Launches main window and closes itself.
             ShellSwitcher.Switch<EnteringWindow, MainWindow>();
+        }
+
+        private async Task<bool> Authenticate(string username, string passwordEncrypted)
+        {
+            var message = await AcceleriderUser.SignInAsync(username, passwordEncrypted);
+            if (string.IsNullOrEmpty(message)) return true;
+            GlobalMessageQueue.Enqueue(message, true);
+            LocalConfigureInfo.IsAutoSignIn = false;
+            return false;
+        }
+
+        private async Task<IEnumerable<AcceleriderModule>> GetAcceleriderModules()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IEnumerable<ModuleInfo> LoadModuleInfos()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IEnumerable<ModuleInfo> ValidateModules()
+        {
+            throw new NotImplementedException();
         }
 
         private bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);
