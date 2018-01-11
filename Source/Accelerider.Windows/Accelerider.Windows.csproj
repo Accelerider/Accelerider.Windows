@@ -246,6 +246,9 @@
     <Resource Include="MockData\dota2.jpg" />
     <Resource Include="MockData\fate.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MockData\unknown.jpeg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Refit.4.0.1\build\net45\refit.targets" Condition="Exists('..\packages\Refit.4.0.1\build\net45\refit.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

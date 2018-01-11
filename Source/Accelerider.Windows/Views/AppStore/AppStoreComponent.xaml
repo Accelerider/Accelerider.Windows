@@ -12,7 +12,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Image Grid.Row="0" Grid.RowSpan="4" Source="..\..\MockData/qiegewala.png" Stretch="UniformToFill" />
+        <Image Grid.Row="0" Grid.RowSpan="4" Source="..\..\MockData/unknown.jpeg" Stretch="UniformToFill" />
         <Rectangle Grid.Row="0" Grid.RowSpan="4" Fill="#AAAAAAAA" />
 
         <controls:SearchBar Grid.Row="1" Width="400" Background="White"/>
