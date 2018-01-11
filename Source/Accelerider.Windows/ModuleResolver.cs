@@ -24,6 +24,9 @@ namespace Accelerider.Windows
         public IModuleCatalog Initialize()
         {
             var modules = ModuleConfigureFile.GetValue<IList<ModuleInfo>>(ConstStrings.ModuleInfos);
+
+            if (modules == null) return _moduleCatalog;
+
             foreach (var module in modules.Reverse())
             {
                 _moduleCatalog.AddModule(module);
