@@ -13,13 +13,14 @@ namespace Accelerider.Windows.Core
 
         public object this[string key]
         {
-            get => JsonConvert.DeserializeObject(_storage[key].ToString());
+            get => JsonConvert.DeserializeObject(_storage[key]?.ToString() ?? string.Empty);
             set => _storage[key] = JsonConvert.SerializeObject(value, Formatting.Indented);
         }
 
         public bool Contains(string key) => _storage.Values().Any(token => token.Path == key);
 
-        public T GetValue<T>(string key) => JsonConvert.DeserializeObject<T>(_storage[key].ToString());
+        public T GetValue<T>(string key) => JsonConvert.DeserializeObject<T>(_storage[key]?.ToString() ?? string.Empty);
+
         public IConfigureFile Clear()
         {
             _storage = new JObject();
