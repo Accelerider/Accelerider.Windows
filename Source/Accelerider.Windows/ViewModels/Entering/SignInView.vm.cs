@@ -95,9 +95,7 @@ namespace Accelerider.Windows.ViewModels.Entering
                 return;
             }
 
-            var moduleCatalog = Container.Resolve<IModuleCatalog>();
-            new ModuleResolver(moduleCatalog).Initialize();
-            Container.Resolve<IModuleManager>().Run();
+            Container.Resolve<ModuleResolver>().LoadModules();
 
             // Saves data.
             LocalConfigureInfo.Username = IsRememberPassword ? username : string.Empty;

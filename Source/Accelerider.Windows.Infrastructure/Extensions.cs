@@ -104,9 +104,11 @@ namespace Accelerider.Windows.Infrastructure
 
                 using (var msEncrypt = new MemoryStream())
                 using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                using (var swEncrypt = new StreamWriter(csEncrypt))
                 {
-                    swEncrypt.Write(text);
+                    using (var swEncrypt = new StreamWriter(csEncrypt))
+                    {
+                        swEncrypt.Write(text);
+                    }
                     encryptedInfo = msEncrypt.ToArray();
                 }
             }
@@ -141,9 +143,27 @@ namespace Accelerider.Windows.Infrastructure
 
         public static string EncryptByRsa(this string text, string publicKeyXml = null)
         {
-            if (RsaPublicKey == null) return text; // FOR OPEN SOURCE CODE.
+            if (RsaPublicKey == null) return text; 
             Rsa.FromXmlString(publicKeyXml ?? RsaPublicKey);
             return Convert.ToBase64String(Rsa.Encrypt(Encoding.UTF8.GetBytes(text), false));
+        }
+
+        public static string DecryptByRsa(this string text, string privateKeyXml = null)
+        {
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            byte[] cipherbytes;
+            rsa.FromXmlString(privateKeyXml ?? GetPrivateKey());
+            cipherbytes = rsa.Decrypt(Convert.FromBase64String(text), false);
+
+            return Encoding.UTF8.GetString(cipherbytes);
+        }
+
+        private static string GetPrivateKey()
+        {
+            var filePath = Path.Combine(@"C:\Users\Dingp\Desktop\New Folder", "privatekey.xml");
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException("privatekey.xml not found.");
+            return File.ReadAllText(filePath);
         }
     }
 
@@ -158,7 +178,7 @@ namespace Accelerider.Windows.Infrastructure
             { TransferTaskStatusEnum.Faulted, new []{ TransferTaskStatusEnum.Waiting } },
         };
 
-        public static bool CanConvertedTo(this TransferTaskStatusEnum self, TransferTaskStatusEnum other) => 
+        public static bool CanConvertedTo(this TransferTaskStatusEnum self, TransferTaskStatusEnum other) =>
             !self.IsEndStatus() && // The end status cannot be converted.
             (other == TransferTaskStatusEnum.Canceled || // Any status can be Canceled except the end status.
             StatusChangeMapping[self].Contains(other));

@@ -87,12 +87,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConfigureHeadersHttpClientHandler.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ConstStrings.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="ExceptionResolver.cs" />
     <Compile Include="Models\AcceleriderModule.cs" />
+    <Compile Include="Models\AcceleriderUser.cs" />
     <Compile Include="Models\IAcceleriderApi.cs" />
+    <Compile Include="Models\Bodies.cs" />
+    <Compile Include="Models\INonAuthenticationApi.cs" />
     <Compile Include="ModuleResolver.cs" />
     <Compile Include="ViewModels\AppStore\AppStoreComponent.vm.cs" />
     <Compile Include="Logger.cs" />
@@ -136,6 +140,9 @@
       <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShellSwitcher.cs" />
+    <Compile Include="Views\ShellSettingsTabItem.xaml.cs">
+      <DependentUpon>ShellSettingsTabItem.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\AppStore\AppCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -185,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Entering\SignUpView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShellSettingsTabItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

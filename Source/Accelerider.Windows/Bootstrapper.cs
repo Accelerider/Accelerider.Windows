@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using System.Net;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Models;
 using Accelerider.Windows.Views.Entering;
 using Prism.Mvvm;
 using Prism.Unity;
 using Prism.Logging;
+using Refit;
 
 namespace Accelerider.Windows
 {
@@ -18,16 +19,14 @@ namespace Accelerider.Windows
         #region Overridered methods
         protected override ILoggerFacade CreateLogger() => new Logger();
 
-        //protected override void ConfigureModuleCatalog()
-        //{
-        //    new ModuleResolver(ModuleCatalog).Initialize();
-        //}
-
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
             Container.Resolve<Core.Module>().Initialize();
-            Container.RegisterInstance(new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
+            Container.RegisterType<ModuleResolver, ModuleResolver>(new ContainerControlledLifetimeManager());
+            Container.RegisterInstance(typeof(ISnackbarMessageQueue), new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
+            Container.RegisterInstance(RestService.For<INonAuthenticationApi>("http://localhost:4656/api/v2"));
+            Container.RegisterInstance(RestService.For<IAcceleriderApi>("http://localhost:4656/api/v2"));
         }
 
         protected override void ConfigureViewModelLocator() => ViewModelLocationProvider.SetDefaultViewModelFactory(ResolveViewModel);
@@ -36,12 +35,11 @@ namespace Accelerider.Windows
 
         protected override void InitializeShell()
         {
-            ServicePointManager.DefaultConnectionLimit = 99999;
+            ServicePointManager.DefaultConnectionLimit = int.MaxValue;
             ConfigureApplicationEventHandlers();
             ShellSwitcher.Show((Window)Shell);
         }
         #endregion
-
 
         #region Private methods
         private void ConfigureApplicationEventHandlers()

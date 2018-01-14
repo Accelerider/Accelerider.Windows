@@ -63,7 +63,7 @@
 
             <UserControl Grid.Column="1" >
                 <UserControl.Resources>
-                    <appstore:AppStoreComponent x:Key="AppStoreComponent" Style="{StaticResource FloatInRightToLeftStyle}" />
+                    <appstore:AppStoreComponent x:Key="AppStoreComponent"/>
                 </UserControl.Resources>
                 <UserControl.Style>
                     <Style TargetType="UserControl">

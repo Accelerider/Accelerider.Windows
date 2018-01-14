@@ -77,8 +77,6 @@
     <Compile Include="DownloadEngine\DownloadCore\DownloadThread\CommonDownloadThread.cs" />
     <Compile Include="DownloadEngine\DownloadCore\HttpDownload.cs" />
     <Compile Include="DownloadEngine\DownloadCore\IDownloadThread.cs" />
-    <Compile Include="DownloadEngine\EngineV2\DownloadQueue.cs" />
-    <Compile Include="DownloadEngine\EngineV2\DownloadTask.cs" />
     <Compile Include="Files\AcceleriderCloud\AcceleriderCloudFile.cs" />
     <Compile Include="Files\AcceleriderCloud\AcceleriderCloudSharedFile.cs" />
     <Compile Include="Files\BaiduNetDisk\BaiduNetDiskFile.cs" />

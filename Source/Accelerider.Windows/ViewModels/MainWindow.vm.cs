@@ -23,8 +23,6 @@ namespace Accelerider.Windows.ViewModels
         {
             RegionManager = regionManager;
             FeedbackCommand = new RelayCommand(() => Process.Start(ConstStrings.IssueUrl));
-
-            GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
         }
 
         public IRegionManager RegionManager { get; }
@@ -56,6 +54,8 @@ namespace Accelerider.Windows.ViewModels
             var region = RegionManager.Regions[RegionNames.MainTabRegion];
             region.ActiveViews.CollectionChanged += OnActiveViewsChanged;
             if (!region.Views.Any()) AppStoreIsDisplayed = true;
+
+            GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
         }
 
         private void OnActiveViewsChanged(object sender, NotifyCollectionChangedEventArgs e)

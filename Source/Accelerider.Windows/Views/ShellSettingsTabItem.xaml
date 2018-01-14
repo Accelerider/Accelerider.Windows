@@ -1,7 +1,8 @@
-﻿<TabItem x:Class="Accelerider.Windows.Modules.NetDisk.Views.TaskSettingsTabItem"
+﻿<TabItem x:Class="Accelerider.Windows.Views.ShellSettingsTabItem"
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-         Header="Task">
+         Header="Basic">
     <Grid Width="500" Height="500">
-    </Grid>  
+            
+    </Grid>
 </TabItem>

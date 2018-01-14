@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Newtonsoft.Json;
@@ -14,25 +15,17 @@ namespace Accelerider.Windows.Core
         public object this[string key]
         {
             get => JsonConvert.DeserializeObject(_storage[key]?.ToString() ?? string.Empty);
-            set => _storage[key] = JsonConvert.SerializeObject(value, Formatting.Indented);
+            set
+            {
+                if (EqualityComparer<object>.Default.Equals(_storage[key], value)) return;
+                _storage[key] = JsonConvert.SerializeObject(value, Formatting.Indented);
+                Save();
+            }
         }
 
         public bool Contains(string key) => _storage.Values().Any(token => token.Path == key);
 
         public T GetValue<T>(string key) => JsonConvert.DeserializeObject<T>(_storage[key]?.ToString() ?? string.Empty);
-
-        public IConfigureFile Clear()
-        {
-            _storage = new JObject();
-            Save();
-            return this;
-        }
-
-        public void Delete()
-        {
-            Clear();
-            File.Delete(_filePath);
-        }
 
         public IConfigureFile Load(string filePath = null)
         {
@@ -48,11 +41,20 @@ namespace Accelerider.Windows.Core
             return this;
         }
 
-        public IConfigureFile Save()
+        public IConfigureFile Clear()
         {
-            WriteToLocal(_filePath, _storage.ToString(Formatting.Indented));
+            _storage = new JObject();
+            Save();
             return this;
         }
+
+        public void Delete()
+        {
+            Clear();
+            File.Delete(_filePath);
+        }
+
+        private void Save() => WriteToLocal(_filePath, _storage.ToString(Formatting.Indented));
 
         private void WriteToLocal(string path, string text)
         {

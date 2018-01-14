@@ -13,7 +13,5 @@
         void Delete();
 
         IConfigureFile Load(string filePath = null);
-
-        IConfigureFile Save();
     }
 }

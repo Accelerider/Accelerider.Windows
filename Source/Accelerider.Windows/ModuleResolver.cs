@@ -11,28 +11,33 @@ namespace Accelerider.Windows
     public class ModuleResolver
     {
         private readonly IModuleCatalog _moduleCatalog;
+        private readonly IModuleManager _moduleManager;
         private readonly string _moduleDirectory = $"{Environment.CurrentDirectory}/Modules";
 
-        public ModuleResolver(IModuleCatalog moduleCatalog)
+        public ModuleResolver(IModuleCatalog moduleCatalog, IModuleManager moduleManager)
         {
             _moduleCatalog = moduleCatalog;
+            _moduleManager = moduleManager;
             ModuleConfigureFile = new ConfigureFile().Load($"{Environment.CurrentDirectory}/Accelerider.Modules.info");
         }
 
         public IConfigureFile ModuleConfigureFile { get; }
 
-        public IModuleCatalog Initialize()
+        public void LoadModules()
         {
             var modules = ModuleConfigureFile.GetValue<IList<ModuleInfo>>(ConstStrings.ModuleInfos);
 
-            if (modules == null) return _moduleCatalog;
+            if (modules == null) return;
 
             foreach (var module in modules.Reverse())
             {
                 _moduleCatalog.AddModule(module);
             }
+            _moduleManager.Run();
+        }
 
-            return _moduleCatalog;
+        public void UnloadModules()
+        {
         }
 
         public void Save()

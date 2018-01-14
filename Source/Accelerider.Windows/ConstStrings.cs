@@ -2,9 +2,15 @@
 {
     public static class ConstStrings
     {
+        // Configure field keys
+        public const string UsernameKey = "Username";
+        public const string PasswordKey = "Password";
+        public const string IsAutoLoginKey = "IsAutoLogin";
+
         public const string AcceleriderModules = "AcceleriderModules";
         public const string ModuleInfos = "ModuleInfos";
 
+        // Urls
         public const string HelpUrl = "https://github.com/Accelerider/Accelerider.Windows/wiki";
         public const string ReleaseUrl = "https://github.com/Accelerider/Accelerider.Windows/releases";
         public const string WebSitePanUrl = "http://pan.accelerider.com";
