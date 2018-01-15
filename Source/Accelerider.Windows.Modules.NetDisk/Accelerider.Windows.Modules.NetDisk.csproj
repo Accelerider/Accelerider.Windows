@@ -79,13 +79,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\CloudTaskInfoBody.cs" />
+    <Compile Include="Models\Bodies.cs" />
     <Compile Include="Models\CloudTaskMetadata.cs" />
-    <Compile Include="Models\FileInfoBody.cs" />
-    <Compile Include="Models\FileMetadata.cs" />
     <Compile Include="Models\INetDiskApi.cs" />
-    <Compile Include="Models\NetDiskAuthInfoBody.cs" />
-    <Compile Include="Models\NetDiskMetaData.cs" />
+    <Compile Include="Models\Metadatas.cs" />
     <Compile Include="Models\SpecifiedFileType.cs" />
     <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>

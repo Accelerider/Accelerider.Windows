@@ -116,7 +116,7 @@ namespace Accelerider.Windows.ViewModels.Entering
             return false;
         }
 
-        private async Task<IEnumerable<AcceleriderModule>> GetAcceleriderModules()
+        private async Task<IEnumerable<ModuleMetadata>> GetAcceleriderModules()
         {
             throw new NotImplementedException();
         }

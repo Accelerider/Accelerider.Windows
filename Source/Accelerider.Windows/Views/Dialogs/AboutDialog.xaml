@@ -79,7 +79,7 @@
 
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="LD50" FontWeight="Bold"  VerticalAlignment="Center"/>
-                    <TextBlock Text="UI, Architecture Design" Foreground="Gray" VerticalAlignment="Center"/>
+                    <TextBlock Text="WPF UI, Architecture" Foreground="Gray" VerticalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" >
                         <materialDesign:PackIcon Kind="GithubCircle" VerticalAlignment="Center" Margin="0 0 8 0"/>
                         <Button Content="Github Home" ToolTip="https://github.com/DingpingZhang" Command="{Binding OpenLd50HomeCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>

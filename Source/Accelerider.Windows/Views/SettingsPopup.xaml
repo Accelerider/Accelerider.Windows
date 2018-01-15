@@ -24,10 +24,10 @@
             </Grid>
             <StackPanel Margin="0 0 0 8" >
                 <!-- open dialog -->
-                <local:SettingItem IconKind="AccountSettings" Label="Change profile" Command="{Binding ChangeProfileCommand}"/>
+                <local:SettingItem IconKind="AccountSettings" Label="Change Profile" Command="{Binding ChangeProfileCommand}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open dialog -->
-                <local:SettingItem IconKind="Settings" Label="Open settings panel" Command="{Binding OpenSettingsPanelCommand}"/>
+                <local:SettingItem IconKind="Settings" Label="Settings" Command="{Binding OpenSettingsPanelCommand}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open web -->
                 <local:SettingItem IconKind="HelpCircleOutline" Label="Help" Command="{Binding HelpCommand}"/>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Accelerider.Windows.Models
 {
-    public class AcceleriderModule
+    public class ModuleMetadata
     {
         public bool IsInstalled { get; set; }
 
