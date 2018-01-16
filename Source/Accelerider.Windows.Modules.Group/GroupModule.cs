@@ -18,6 +18,8 @@ namespace Accelerider.Windows.Modules.Group
         public override void Initialize()
         {
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(GroupComponent));
+
+            _regionManager.RegisterViewWithRegion(RegionNames.SettingsTabRegion, typeof(GroupSettingsTabItem));
         }
     }
 }

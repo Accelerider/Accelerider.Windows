@@ -12,14 +12,14 @@ namespace Accelerider.Windows.ViewModels.AppStore
 {
     public class AppStoreComponentViewModel : ViewModelBase
     {
-        private IEnumerable<AcceleriderModule> _modules;
+        private IEnumerable<ModuleMetadata> _modules;
 
         public AppStoreComponentViewModel(IUnityContainer container) : base(container)
         {
-            Modules = Container.Resolve<IConfigureFile>().GetValue<IEnumerable<AcceleriderModule>>("AcceleriderModules");
+            Modules = Container.Resolve<IConfigureFile>().GetValue<IEnumerable<ModuleMetadata>>("AcceleriderModules");
         }
 
-        public IEnumerable<AcceleriderModule> Modules
+        public IEnumerable<ModuleMetadata> Modules
         {
             get => _modules;
             set => SetProperty(ref _modules, value);

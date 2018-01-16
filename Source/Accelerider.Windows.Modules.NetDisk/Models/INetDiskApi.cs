@@ -34,13 +34,13 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         // Files --------------------------------------------------------------------------------------------
         [Post("/{netDiskId}/files")]
-        Task<FileMetadata> AddFileAsync(long netDiskId, string fromPath, string toPath);
+        Task<FileMetadata> AddFileAsync(long netDiskId, [Body] FileInfoBody fileInfo);
 
         [Delete("/{netDiskId}/files/{fileId}")]
         Task RemoveFileByIdAsync(long netDiskId, long fileId);
 
         [Patch("/{netDiskId}/files/{fileId}")]
-        Task UpdateFileAsync(long netDiskId, long fileId, [Body] FileInfoBody fileInfo);
+        Task UpdateFileAsync(long netDiskId, long fileId, [Body] FileUpdateInfoBody fileInfo);
 
         [Get("/{netDiskId}/files/{fileId}")]
         Task<FileMetadata> GetFileByIdAsync(long netDiskId, long fileId);

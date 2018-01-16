@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Refit;
@@ -12,20 +11,20 @@ namespace Accelerider.Windows.Models
     {
         // Accelerider account functions ------------------------------------------------
         [Get("/users/current")]
-        Task<AcceleriderUser> GetCurrentUser();
+        Task<UserMetadata> GetCurrentUser();
 
         [Patch("/users/current")]
-        Task UpdateUserInfoAsync([Body] AcceleriderUserUpdateInfo updateInfo);
+        Task UpdateUserInfoAsync([Body] UserUpdateInfoBody updateInfo);
 
         [Delete("/tokens/{id}")]
         Task SignOutAsync(long id);
 
         // App store functions ----------------------------------------------------------
         [Get("/apps/children")]
-        Task<IList<AcceleriderModule>> GetAllAppInfoAsync();
+        Task<IList<ModuleMetadata>> GetAllAppInfoAsync();
 
         [Get("/apps/{id}")]
-        Task<AcceleriderModule> GetAppInfoByIdAsync(long id);
+        Task<ModuleMetadata> GetAppInfoByIdAsync(long id);
 
         [Get("/apps/{id}/content")]
         Task<Stream> GetAppByIdAsync(long id);

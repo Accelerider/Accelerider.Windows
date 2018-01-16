@@ -79,7 +79,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Bodies.cs" />
+    <Compile Include="Models\CloudTaskMetadata.cs" />
     <Compile Include="Models\INetDiskApi.cs" />
+    <Compile Include="Models\Metadatas.cs" />
+    <Compile Include="Models\SpecifiedFileType.cs" />
     <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>

@@ -11,17 +11,27 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Image Grid.Row="0" Source="../Images/LogoSmall.png" Height="24" Width="24" Margin="8 5 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <Button Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Focusable="False"
-                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                Style="{StaticResource MaterialDesignToolButton}"
-                                WindowChrome.IsHitTestVisibleInChrome="True"
-                                Margin="0 2 5 0">
-                            <materialDesign:PackIcon Kind="WindowClose"/>
-                            <Button.CommandParameter>
-                                <system:Boolean>False</system:Boolean>
-                            </Button.CommandParameter>
-                        </Button>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="0" Source="../Images/LogoSmall.png" Height="24" Width="24" Margin="8 5 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <TextBlock Grid.Column="1" Text="{TemplateBinding Tag}" FontWeight="Bold" Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16 0 0 0" />
+                            <Button Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Focusable="False"
+                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                    Style="{StaticResource MaterialDesignToolButton}"
+                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                    Margin="0 2 5 0">
+                                <materialDesign:PackIcon Kind="WindowClose"/>
+                                <Button.CommandParameter>
+                                    <system:Boolean>False</system:Boolean>
+                                </Button.CommandParameter>
+                            </Button>
+                        </Grid>
                         <ContentPresenter Grid.Row="1"/>
                     </Grid>
                 </ControlTemplate>

@@ -6,9 +6,9 @@ namespace Accelerider.Windows.MockData
 {
     public static class AcceleriderModulesProvider
     {
-        public static IEnumerable<AcceleriderModule> GetData()
+        public static IEnumerable<ModuleMetadata> GetData()
         {
-            var temp1 = new AcceleriderModule
+            var temp1 = new ModuleMetadata
             {
                 Id = 1,
                 Authors = "Mrs4s, LD50",
@@ -27,7 +27,7 @@ namespace Accelerider.Windows.MockData
                 }
             };
 
-            var temp2 = new AcceleriderModule
+            var temp2 = new ModuleMetadata
             {
                 Id = 1,
                 Authors = "Mrs4s, LD50",

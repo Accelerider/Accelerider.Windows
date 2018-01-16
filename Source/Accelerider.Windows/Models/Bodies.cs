@@ -19,7 +19,7 @@ namespace Accelerider.Windows.Models
         public string Password { get; set; }
     }
 
-    internal class AcceleriderUserUpdateInfo
+    internal class UserUpdateInfoBody
     {
         public string Username { get; set; }
         public string Password { get; set; }

@@ -45,7 +45,7 @@ namespace Accelerider.Windows
 
         }
 
-        private ModuleInfo ConvertAcceleriderModuleToModuleInfo(AcceleriderModule module)
+        private ModuleInfo ConvertAcceleriderModuleToModuleInfo(ModuleMetadata module)
         {
             return new ModuleInfo
             {
