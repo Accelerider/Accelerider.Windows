@@ -4,7 +4,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              Style="{StaticResource AcceleriderDialogStyle}">
 
-    <Grid Margin="48 16 48 32">
+    <Grid Margin="48 16 24 32">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="24"/>
@@ -58,8 +58,8 @@
                 <TextBlock Grid.Column="0" Grid.Row="4" FontWeight="Bold" Text="Email Visibility: " VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="0" Grid.Row="6" FontWeight="Bold" Text="Multiple Online: " VerticalAlignment="Center"/>
 
-                <TextBox Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Text="Laplace's Demo"/>
-                <TextBox Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Text="Dingping.Zhang@outlook.com" IsReadOnly="True"/>
+                <TextBox Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Text="Laplace's Demon"/>
+                <TextBox Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Text="windows.wpf@accelerider.com" IsReadOnly="True"/>
                 <ComboBox Grid.Column="2" Grid.Row="4">
                     <ComboBoxItem IsSelected="True" Content="Public" VerticalAlignment="Center"/>
                     <ComboBoxItem Content="Internal"/>
