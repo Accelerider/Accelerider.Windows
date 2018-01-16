@@ -16,5 +16,7 @@
         public const string WebSitePanUrl = "http://pan.accelerider.com";
         public const string GithubHomeUrl = "https://github.com/Accelerider/Accelerider.Windows";
         public const string IssueUrl = "https://github.com/Accelerider/Accelerider.Windows/issues";
+
+        public const string BaseAddress = "http://api.accelerider.com/v2";
     }
 }

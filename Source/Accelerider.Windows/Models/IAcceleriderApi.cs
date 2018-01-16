@@ -11,7 +11,7 @@ namespace Accelerider.Windows.Models
     {
         // Accelerider account functions ------------------------------------------------
         [Get("/users/current")]
-        Task<UserMetadata> GetCurrentUser();
+        Task<UserMetadata> GetCurrentUserAsync();
 
         [Patch("/users/current")]
         Task UpdateUserInfoAsync([Body] UserUpdateInfoBody updateInfo);

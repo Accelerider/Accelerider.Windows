@@ -21,7 +21,7 @@ namespace Accelerider.Windows.Models
 
         public long DownloadCount { get; set; }
 
-        public string ModuleVersionId { get; set; }
+        public string Checksum { get; set; }
 
         public string ModuleName { get; set; }
 

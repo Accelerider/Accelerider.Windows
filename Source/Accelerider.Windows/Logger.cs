@@ -33,6 +33,12 @@ namespace Accelerider.Windows
             if (category == Category.Exception || category == Category.Warn) _exceptionCount++;
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -42,12 +48,6 @@ namespace Accelerider.Windows
 
                 if (_exceptionCount == 0) File.Delete(_logFilePath);
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         private string GenerateLoggingPath()

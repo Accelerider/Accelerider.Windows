@@ -2,59 +2,104 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Accelerider.Windows.Core;
-using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Models;
+using System.Security.Cryptography;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Accelerider.Windows
 {
-    public class ModuleResolver
+    internal class ModuleResolver
     {
+        private static readonly MD5 Md5Algorithm = MD5.Create();
+        private readonly UserMetadata _user;
+        private readonly IAcceleriderApi _acceleriderApi;
         private readonly IModuleCatalog _moduleCatalog;
         private readonly IModuleManager _moduleManager;
         private readonly string _moduleDirectory = $"{Environment.CurrentDirectory}/Modules";
 
-        public ModuleResolver(IModuleCatalog moduleCatalog, IModuleManager moduleManager)
+        public ModuleResolver(UserMetadata user, IAcceleriderApi acceleriderApi, IModuleCatalog moduleCatalog, IModuleManager moduleManager)
         {
+            _user = user;
+            _acceleriderApi = acceleriderApi;
             _moduleCatalog = moduleCatalog;
             _moduleManager = moduleManager;
-            ModuleConfigureFile = new ConfigureFile().Load($"{Environment.CurrentDirectory}/Accelerider.Modules.info");
         }
 
-        public IConfigureFile ModuleConfigureFile { get; }
-
-        public void LoadModules()
+        public async Task LoadAsync()
         {
-            var modules = ModuleConfigureFile.GetValue<IList<ModuleInfo>>(ConstStrings.ModuleInfos);
+            var tasks = _user.ModuleIds.Select(id => _acceleriderApi.GetAppInfoByIdAsync(id));
+            var moduleMetadatas = await Task.WhenAll(tasks);
 
-            if (modules == null) return;
+            var abnormaolModules = FindAbnormalModules(moduleMetadatas);
+            await DownloadModulesAsync(abnormaolModules);
 
-            foreach (var module in modules.Reverse())
+            LoadModules(moduleMetadatas);
+        }
+
+        private IEnumerable<ModuleMetadata> FindAbnormalModules(IEnumerable<ModuleMetadata> modules)
+        {
+            var md5s = Directory.GetFiles(_moduleDirectory).Select(filePath => GetFileMd5(filePath)).ToArray();
+            return modules.Where(module => md5s.Any(md5 => md5 == module.Checksum));
+        }
+
+        private async Task DownloadModulesAsync(IEnumerable<ModuleMetadata> abnormaolModules)
+        {
+            var modulePathTaskPairs = from module in abnormaolModules
+                                      select new
+                                      {
+                                          Path = $"{_moduleDirectory}/{GetFileNameFromModuleType(module.ModuleType)}",
+                                          Task = _acceleriderApi.GetAppByIdAsync(module.Id)
+                                      };
+
+            foreach (var item in modulePathTaskPairs)
             {
-                _moduleCatalog.AddModule(module);
+                if (File.Exists(item.Path)) File.Delete(item.Path);
+
+                using (var fileStream = new FileStream(item.Path, FileMode.CreateNew, FileAccess.Write, FileShare.Read))
+                {
+                    var buffer = new byte[1024];
+                    var offset = 0;
+                    var stream = await item.Task;
+                    while ((offset = stream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        fileStream.Write(buffer, 0, offset);
+                    }
+                }
+            }
+        }
+
+        private void LoadModules(IEnumerable<ModuleMetadata> modules)
+        {
+            foreach (var module in modules)
+            {
+                _moduleCatalog.AddModule(ConvertModuleMetadataToModuleInfo(module));
             }
             _moduleManager.Run();
         }
 
-        public void UnloadModules()
+
+        private string GetFileMd5(string filePath)
         {
+            var result = string.Empty;
+            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                result = BitConverter.ToString(Md5Algorithm.ComputeHash(fileStream)).ToLower().Replace("-", string.Empty);
+            }
+            return result;
         }
 
-        public void Save()
-        {
-
-        }
-
-        private ModuleInfo ConvertAcceleriderModuleToModuleInfo(ModuleMetadata module)
+        private ModuleInfo ConvertModuleMetadataToModuleInfo(ModuleMetadata module)
         {
             return new ModuleInfo
             {
                 ModuleName = module.ModuleName,
                 ModuleType = module.ModuleType,
-                Ref = $"file://{_moduleDirectory}/{module.ModuleType.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)[1]}.dll",
+                Ref = $"file://{_moduleDirectory}/{GetFileNameFromModuleType(module.ModuleType)}",
                 InitializationMode = InitializationMode.OnDemand
             };
         }
 
+        private string GetFileNameFromModuleType(string moduleType) => $"{moduleType.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)[1]}.dll";
     }
 }

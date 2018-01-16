@@ -12,11 +12,14 @@ using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Entering;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
+using Refit;
 
 namespace Accelerider.Windows.ViewModels.Entering
 {
     public class SignInViewModel : ViewModelBase
     {
+        private readonly INonAuthenticationApi _nonAuthenticationApi;
+
         private string _username;
         private bool _isRememberPassword;
         private bool _isAutoSignIn;
@@ -25,6 +28,7 @@ namespace Accelerider.Windows.ViewModels.Entering
 
         public SignInViewModel(IUnityContainer container) : base(container)
         {
+            _nonAuthenticationApi = Container.Resolve<INonAuthenticationApi>();
             LocalConfigureInfo = Container.Resolve<ILocalConfigureInfo>();
             SignInCommand = new RelayCommand<PasswordBox>(SignInCommandExecute, passwordBox => CanSignIn(Username, passwordBox.Password));
         }
@@ -86,16 +90,14 @@ namespace Accelerider.Windows.ViewModels.Entering
         private async Task SignInAsync(string username, string passwordEncrypted)
         {
             EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(true);
-            var message = await AcceleriderUser.SignInAsync(username, passwordEncrypted);
-            if (!string.IsNullOrEmpty(message))
+            if (!await AuthenticateAsync(username, passwordEncrypted))
             {
-                GlobalMessageQueue.Enqueue(message, true);
                 EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(false);
                 LocalConfigureInfo.IsAutoSignIn = false;
                 return;
             }
 
-            Container.Resolve<ModuleResolver>().LoadModules();
+            await Container.Resolve<ModuleResolver>().LoadAsync();
 
             // Saves data.
             LocalConfigureInfo.Username = IsRememberPassword ? username : string.Empty;
@@ -107,28 +109,23 @@ namespace Accelerider.Windows.ViewModels.Entering
             ShellSwitcher.Switch<EnteringWindow, MainWindow>();
         }
 
-        private async Task<bool> Authenticate(string username, string passwordEncrypted)
+        private async Task<bool> AuthenticateAsync(string username, string passwordEncrypted)
         {
-            var message = await AcceleriderUser.SignInAsync(username, passwordEncrypted);
-            if (string.IsNullOrEmpty(message)) return true;
-            GlobalMessageQueue.Enqueue(message, true);
-            LocalConfigureInfo.IsAutoSignIn = false;
+            try
+            {
+                var token = await _nonAuthenticationApi.LoginAsync(new LoginInfoBody { Username = username, Password = passwordEncrypted });
+                var acceleriderApi = RestService.For<IAcceleriderApi>(new System.Net.Http.HttpClient() { BaseAddress = new Uri(ConstStrings.BaseAddress) });
+                var user = await acceleriderApi.GetCurrentUserAsync();
+
+                Container.RegisterInstance(user);
+                Container.RegisterInstance(acceleriderApi);
+                return true;
+            }
+            catch (ApiException apiException)
+            {
+                GlobalMessageQueue.Enqueue(apiException.Content);
+            }
             return false;
-        }
-
-        private async Task<IEnumerable<ModuleMetadata>> GetAcceleriderModules()
-        {
-            throw new NotImplementedException();
-        }
-
-        private IEnumerable<ModuleInfo> LoadModuleInfos()
-        {
-            throw new NotImplementedException();
-        }
-
-        private IEnumerable<ModuleInfo> ValidateModules()
-        {
-            throw new NotImplementedException();
         }
 
         private bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);
