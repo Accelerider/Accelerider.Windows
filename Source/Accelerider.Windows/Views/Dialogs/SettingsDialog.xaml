@@ -6,6 +6,7 @@
              xmlns:views="clr-namespace:Accelerider.Windows.Views"
              prism:ViewModelLocator.AutoWireViewModel="True"
              prism:RegionManager.RegionManager="{Binding RegionManager}"
+             Tag="Settings"
              Style="{StaticResource AcceleriderDialogStyle}">
     <Grid Margin="10 0 10 10">
         <TabControl Style="{StaticResource {x:Type TabControl}}" 

@@ -9,5 +9,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
         Music = 1,
         Videos = 2,
         Pictures = 4,
+        Shared = 8,
+        RecycleBin = 16
     }
 }

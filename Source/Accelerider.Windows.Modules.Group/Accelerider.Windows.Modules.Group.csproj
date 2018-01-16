@@ -100,6 +100,9 @@
     <Compile Include="Views\FolderLocationBar.xaml.cs">
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GroupSettingsTabItem.xaml.cs">
+      <DependentUpon>GroupSettingsTabItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GroupTabs.xaml.cs">
       <DependentUpon>GroupTabs.xaml</DependentUpon>
     </Compile>
@@ -136,6 +139,10 @@
     <Page Include="Views\FolderLocationBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GroupSettingsTabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GroupTabs.xaml">
       <Generator>MSBuild:Compile</Generator>
