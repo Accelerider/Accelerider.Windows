@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,14 +17,12 @@ namespace Accelerider.Windows.ViewModels.Dialogs
     {
         private ICommand _openReleaseNotesCommand;
         private ICommand _openProjectHomeCommand;
-
         private ICommand _openMrs4sEmailCommand;
         private ICommand _openLd50EmailCommand;
-
         private ICommand _openMrs4SHomeCommand;
         private ICommand _openLd50HomeCommand;
-
         private ICommand _checkForUpdateCommand;
+
 
         public AboutDialogViewModel(IUnityContainer container) : base(container)
         {
@@ -33,7 +32,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
             OpenLd50EmailCommand = new RelayCommand(() => Process.Start("mailto:ld50.zhang@gmail.com"));
             OpenMrs4SHomeCommand = new RelayCommand(() => Process.Start("https://github.com/Mrs4s"));
             OpenLd50HomeCommand = new RelayCommand(() => Process.Start("https://github.com/DingpingZhang"));
-            CheckForUpdateCommand = new RelayCommand(() => Process.Start(ConstStrings.ReleaseUrl));
+            CheckForUpdateCommand = new RelayCommand(CheckForUpdateCommandExecute);
         }
 
 
@@ -77,6 +76,15 @@ namespace Accelerider.Windows.ViewModels.Dialogs
         {
             get => _checkForUpdateCommand;
             set => SetProperty(ref _checkForUpdateCommand, value);
+        }
+
+        private void CheckForUpdateCommandExecute()
+        {
+            var process = new Process();
+            process.StartInfo.FileName = Path.Combine(Environment.CurrentDirectory, "Update/Accelerider.Windows.Update.exe");
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            process.Start();
+            Application.Current.Shutdown(0);
         }
     }
 }
