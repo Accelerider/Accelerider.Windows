@@ -13,13 +13,13 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition />
+                <!--<RowDefinition />-->
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Column="0" Grid.Row="0" Text="Theme" FontWeight="Bold" VerticalAlignment="Center"/>
             <TextBlock Grid.Column="0" Grid.Row="1" Margin="0 24" Text="Application" FontWeight="Bold" />
             <TextBlock Grid.Column="0" Grid.Row="2" Margin="0 22" Text="Language" FontWeight="Bold" />
-            <TextBlock Grid.Column="0" Grid.Row="3" Text="Notification" FontWeight="Bold" />
+            <!--<TextBlock Grid.Column="0" Grid.Row="3" Text="Notification" FontWeight="Bold" />-->
 
             <ComboBox Grid.Column="2" Grid.Row="0" Margin="0 16">
                 <ComboBoxItem IsSelected="True">Default</ComboBoxItem>
@@ -39,12 +39,54 @@
                     <ComboBoxItem>中文(简体)</ComboBoxItem>
                     <ComboBoxItem>日本語</ComboBoxItem>
                 </ComboBox>
-                <TextBlock Margin="0 8" Text="Restart application to apply language settings"/>
+                <TextBlock Margin="0 8" Text="Restart application to apply language settings" FontSize="10"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="2" Grid.Row="3" Margin="0 16">
+            <!--<Grid Grid.Column="2" Grid.Row="3" Margin="0 16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-            </StackPanel>
+                <TextBlock Grid.Row="0" Text="The new version is available" VerticalAlignment="Center" Margin="0 8"/>
+                <TextBlock Grid.Row="1" Text="" VerticalAlignment="Center" Margin="0 8"/>
+                <TextBlock Grid.Row="2" Text="Create download task" VerticalAlignment="Center" Margin="0 8"/>
+                <TextBlock Grid.Row="3" Text="Task completion" VerticalAlignment="Center" Margin="0 8"/>
+
+                <ComboBox Grid.Column="2" Grid.Row="0" Margin="0 8">
+                    <ComboBoxItem>Banner</ComboBoxItem>
+                    <ComboBoxItem>Banner and email</ComboBoxItem>
+                    <ComboBoxItem>Only show in feed</ComboBoxItem>
+                    <ComboBoxItem>Off</ComboBoxItem>
+                </ComboBox>
+
+                <ComboBox Grid.Column="2" Grid.Row="1" Margin="0 8">
+                    <ComboBoxItem>Banner</ComboBoxItem>
+                    <ComboBoxItem>Banner and email</ComboBoxItem>
+                    <ComboBoxItem>Only show in feed</ComboBoxItem>
+                    <ComboBoxItem>Off</ComboBoxItem>
+                </ComboBox>
+
+                <ComboBox Grid.Column="2" Grid.Row="2" Margin="0 8">
+                    <ComboBoxItem>Banner</ComboBoxItem>
+                    <ComboBoxItem>Banner and email</ComboBoxItem>
+                    <ComboBoxItem>Only show in feed</ComboBoxItem>
+                    <ComboBoxItem>Off</ComboBoxItem>
+                </ComboBox>
+
+                <ComboBox Grid.Column="2" Grid.Row="3" Margin="0 8">
+                    <ComboBoxItem>Banner</ComboBoxItem>
+                    <ComboBoxItem>Banner and email</ComboBoxItem>
+                    <ComboBoxItem>Only show in feed</ComboBoxItem>
+                    <ComboBoxItem>Off</ComboBoxItem>
+                </ComboBox>
+            </Grid>-->
         </Grid>
     </UserControl>
 </TabItem>

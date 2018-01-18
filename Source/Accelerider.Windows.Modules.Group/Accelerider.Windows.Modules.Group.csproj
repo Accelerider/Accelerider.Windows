@@ -68,6 +68,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\GroupCard.xaml.cs">
+      <DependentUpon>GroupCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MessageCard.xaml.cs">
       <DependentUpon>MessageCard.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,9 @@
     <Compile Include="Views\FolderLocationBar.xaml.cs">
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GroupExplorer.xaml.cs">
+      <DependentUpon>GroupExplorer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GroupSettingsTabItem.xaml.cs">
       <DependentUpon>GroupSettingsTabItem.xaml</DependentUpon>
     </Compile>
@@ -120,6 +126,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\GroupCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\MessageCard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -139,6 +149,10 @@
     <Page Include="Views\FolderLocationBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GroupExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GroupSettingsTabItem.xaml">
       <SubType>Designer</SubType>
@@ -166,6 +180,18 @@
       <Project>{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}</Project>
       <Name>Accelerider.Windows.Resources</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cc.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\luluxiu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fate.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\dota2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
