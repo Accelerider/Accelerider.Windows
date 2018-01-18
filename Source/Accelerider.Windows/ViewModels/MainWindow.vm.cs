@@ -65,18 +65,5 @@ namespace Accelerider.Windows.ViewModels
             _appStoreIsDisplayed = false;
             RaisePropertyChanged(nameof(AppStoreIsDisplayed));
         }
-
-        public override void OnUnloaded(object view)
-        {
-            var regionNames = RegionManager.Regions.Select(item => item.Name).ToArray();
-            foreach (var regionName in regionNames)
-            {
-                RegionManager.Regions.Remove(regionName);
-            }
-
-            AcceleriderUser.OnExit();
-        }
-
-
     }
 }

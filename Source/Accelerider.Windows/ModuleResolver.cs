@@ -28,24 +28,24 @@ namespace Accelerider.Windows
 
         public async Task LoadAsync()
         {
-            var tasks = _user.ModuleIds.Select(id => _acceleriderApi.GetAppInfoByIdAsync(id));
+            var tasks = _user.ModuleIds?.Select(id => _acceleriderApi.GetAppInfoByIdAsync(id));
             var moduleMetadatas = await Task.WhenAll(tasks);
 
-            var abnormaolModules = FindAbnormalModules(moduleMetadatas);
-            await DownloadModulesAsync(abnormaolModules);
+            var abnormalModules = FindAbnormalModules(moduleMetadatas);
+            await DownloadModulesAsync(abnormalModules);
 
             LoadModules(moduleMetadatas);
         }
 
         private IEnumerable<ModuleMetadata> FindAbnormalModules(IEnumerable<ModuleMetadata> modules)
         {
-            var md5s = Directory.GetFiles(_moduleDirectory).Select(filePath => GetFileMd5(filePath)).ToArray();
+            var md5s = Directory.GetFiles(_moduleDirectory).Select(GetFileMd5).ToArray();
             return modules.Where(module => md5s.Any(md5 => md5 == module.Checksum));
         }
 
-        private async Task DownloadModulesAsync(IEnumerable<ModuleMetadata> abnormaolModules)
+        private async Task DownloadModulesAsync(IEnumerable<ModuleMetadata> abnormalModules)
         {
-            var modulePathTaskPairs = from module in abnormaolModules
+            var modulePathTaskPairs = from module in abnormalModules
                                       select new
                                       {
                                           Path = $"{_moduleDirectory}/{GetFileNameFromModuleType(module.ModuleType)}",
@@ -59,7 +59,7 @@ namespace Accelerider.Windows
                 using (var fileStream = new FileStream(item.Path, FileMode.CreateNew, FileAccess.Write, FileShare.Read))
                 {
                     var buffer = new byte[1024];
-                    var offset = 0;
+                    int offset;
                     var stream = await item.Task;
                     while ((offset = stream.Read(buffer, 0, buffer.Length)) > 0)
                     {
@@ -81,7 +81,7 @@ namespace Accelerider.Windows
 
         private string GetFileMd5(string filePath)
         {
-            var result = string.Empty;
+            string result;
             using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 result = BitConverter.ToString(Md5Algorithm.ComputeHash(fileStream)).ToLower().Replace("-", string.Empty);

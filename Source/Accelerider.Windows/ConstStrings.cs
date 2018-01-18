@@ -17,6 +17,6 @@
         public const string GithubHomeUrl = "https://github.com/Accelerider/Accelerider.Windows";
         public const string IssueUrl = "https://github.com/Accelerider/Accelerider.Windows/issues";
 
-        public const string BaseAddress = "http://api.accelerider.com/v2";
+        public const string BaseAddress = "http://localhost:4656/api/v2";
     }
 }
