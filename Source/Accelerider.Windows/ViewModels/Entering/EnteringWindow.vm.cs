@@ -1,4 +1,7 @@
-﻿using Accelerider.Windows.Infrastructure;
+﻿using System;
+using System.IO;
+using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Models;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels.Entering
@@ -18,6 +21,17 @@ namespace Accelerider.Windows.ViewModels.Entering
         {
             get => _isLoading;
             set => SetProperty(ref _isLoading, value);
+        }
+
+        public override async void OnLoaded(object view)
+        {
+            var publickeyPath = Path.Combine(Environment.CurrentDirectory, "publickey.xml");
+            if (!File.Exists(publickeyPath))
+            {
+                var nonAuthApi = Container.Resolve<INonAuthenticationApi>();
+                var publickey = await nonAuthApi.GetPublicKeyAsync();
+                File.WriteAllText(publickeyPath, publickey);
+            }
         }
     }
 }

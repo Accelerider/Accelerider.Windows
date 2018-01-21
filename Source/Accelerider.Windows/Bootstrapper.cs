@@ -35,6 +35,7 @@ namespace Accelerider.Windows
         protected override void InitializeShell()
         {
             ServicePointManager.DefaultConnectionLimit = int.MaxValue;
+            ApiExceptionResolverExtension.SetUnityContainer(Container);
             ConfigureApplicationEventHandlers();
             ShellSwitcher.Show((Window)Shell);
         }

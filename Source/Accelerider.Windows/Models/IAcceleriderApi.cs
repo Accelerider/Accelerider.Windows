@@ -6,7 +6,8 @@ using Refit;
 namespace Accelerider.Windows.Models
 {
     [Headers("User-Agent: Accelerider.Windows.Wpf: v1.0.0-pre",
-             "Accept-Language: en-US")]
+             "Accept-Language: en-US",
+             "Authorization: Bearer")]
     internal interface IAcceleriderApi
     {
         // Accelerider account functions ------------------------------------------------

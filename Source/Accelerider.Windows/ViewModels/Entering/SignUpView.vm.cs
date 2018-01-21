@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure;
@@ -14,7 +16,10 @@ namespace Accelerider.Windows.ViewModels.Entering
 {
     public class SignUpViewModel : ViewModelBase
     {
+        private string _emailAddress;
         private string _username;
+        private string _licenseCode;
+
         private ICommand _signUpCommand;
 
 
@@ -23,10 +28,38 @@ namespace Accelerider.Windows.ViewModels.Entering
             SignUpCommand = new RelayCommand<SignUpView>(SignUpCommandExecute, SignUpCommandCanExecute);
         }
 
-        private bool SignUpCommandCanExecute(SignUpView view) => !string.IsNullOrEmpty(Username) &&
-                                                                 !string.IsNullOrEmpty(view.PasswordBox.Password) &&
-                                                                 !string.IsNullOrEmpty(view.PasswordBoxRepeat.Password) &&
-                                                                 !string.IsNullOrEmpty(view.PasswordBoxCode.Password);
+        public string EmailAddress
+        {
+            get => _emailAddress;
+            set => SetProperty(ref _emailAddress, value);
+        }
+
+        public string Username
+        {
+            get => _username;
+            set => SetProperty(ref _username, value);
+        }
+
+        public string LicenseCode
+        {
+            get => _licenseCode;
+            set => SetProperty(ref _licenseCode, value);
+        }
+
+        public ICommand SignUpCommand
+        {
+            get => _signUpCommand;
+            set => SetProperty(ref _signUpCommand, value);
+        }
+
+        private bool SignUpCommandCanExecute(SignUpView view) => new[]
+        {
+            EmailAddress,
+            Username,
+            view.PasswordBox.Password,
+            view.PasswordBoxRepeat.Password,
+            LicenseCode
+        }.All(field => !string.IsNullOrEmpty(field));
 
         private async void SignUpCommandExecute(SignUpView view)
         {
@@ -37,66 +70,22 @@ namespace Accelerider.Windows.ViewModels.Entering
             }
             EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(true);
 
-
-
-            try
+            await SignUpAsync(new SignUpInfoBody
             {
-                var nonAuthApi = Container.Resolve<INonAuthenticationApi>();
+                Username = Username,
+                Password = view.PasswordBox.Password.ToMd5().EncryptByRsa()
+            });
 
-                var publickeyPath = Path.Combine(Environment.CurrentDirectory , "publickey.xml");
-                if (!File.Exists(publickeyPath))
-                {
-                    var publickey = await nonAuthApi.GetPublicKeyAsync();
-                    File.WriteAllText(publickeyPath, publickey);
-                }
-
-                var passwordEn1 = "My password".ToMd5();
-                var passwordEn2 = passwordEn1.EncryptByRijndael();
-                var passwordDe1 = passwordEn2.DecryptByRijndael();
-                var passwordEn3 = passwordDe1.EncryptByRsa();
-                var passwordDe2 = passwordEn3.DecryptByRsa();
-
-                var temp = await nonAuthApi.SignUpAsync(new SignUpInfoBody
-                {
-                    Email = "787673395@qq.com",
-                    Password = passwordEn3,
-                    Username = "No B Tree"
-                });
-                var temp1 = await nonAuthApi.LoginAsync(new LoginInfoBody {Username = "No B Tree", Password = passwordEn3 });
-            }
-            catch (ApiException e)
-            {
-                Debug.WriteLine(e.Content);
-            }
-            catch (HttpRequestException httpRequestException)
-            {
-                Debug.WriteLine(httpRequestException.Message);
-            }
-            //var message = await AcceleriderUser.SignUpAsync(Username, view.PasswordBox.Password, view.PasswordBoxCode.Pas sword);
-            //if (string.IsNullOrEmpty(message))
-            //{
-            //    GlobalMessageQueue.Enqueue("You have successfully registered!");
-
-            //}
-            //else
-            //{
-            //    GlobalMessageQueue.Enqueue(message);
-            //}
             EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(false);
         }
 
-
-        public string Username
+        private async Task SignUpAsync(SignUpInfoBody signUpInfo)
         {
-            get => _username;
-            set => SetProperty(ref _username, value);
-        }
-
-
-        public ICommand SignUpCommand
-        {
-            get => _signUpCommand;
-            set => SetProperty(ref _signUpCommand, value);
+            var nonAuthApi = Container.Resolve<INonAuthenticationApi>();
+            await nonAuthApi.SignUpAsync(signUpInfo).RunApi(() =>
+            {
+                GlobalMessageQueue.Enqueue("Registered successfully!");
+            });
         }
     }
 }

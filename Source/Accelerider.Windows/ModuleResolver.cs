@@ -28,8 +28,14 @@ namespace Accelerider.Windows
 
         public async Task LoadAsync()
         {
-            var tasks = _user.ModuleIds?.Select(id => _acceleriderApi.GetAppInfoByIdAsync(id));
+            var tasks = _user.ModuleIds?.Select(id => _acceleriderApi.GetAppInfoByIdAsync(id).RunApi());
             var moduleMetadatas = await Task.WhenAll(tasks);
+
+            if (moduleMetadatas.Any(item => item == null))
+            {
+                
+                return;
+            }
 
             var abnormalModules = FindAbnormalModules(moduleMetadatas);
             await DownloadModulesAsync(abnormalModules);
@@ -49,7 +55,7 @@ namespace Accelerider.Windows
                                       select new
                                       {
                                           Path = $"{_moduleDirectory}/{GetFileNameFromModuleType(module.ModuleType)}",
-                                          Task = _acceleriderApi.GetAppByIdAsync(module.Id)
+                                          Task = _acceleriderApi.GetAppByIdAsync(module.Id).RunApi()
                                       };
 
             foreach (var item in modulePathTaskPairs)
