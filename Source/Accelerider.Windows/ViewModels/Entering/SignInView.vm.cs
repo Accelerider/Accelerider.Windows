@@ -114,7 +114,7 @@ namespace Accelerider.Windows.ViewModels.Entering
 
         private async Task<bool> AuthenticateAsync(string username, string passwordMd5)
         {
-
+            // 1. Login: get token
             var token = await _nonAuthenticationApi.LoginAsync(new LoginInfoBody
             {
                 Username = username,
@@ -122,16 +122,16 @@ namespace Accelerider.Windows.ViewModels.Entering
             }).RunApi();
 
             if (token == null) return false;
-
+            // 2. Creates an instance of IAcceleriderApi with token. 
             var acceleriderApi = RestService.For<IAcceleriderApi>(new HttpClient(new ConfigureHeadersHttpClientHandler(token))
             {
                 BaseAddress = new Uri(ConstStrings.BaseAddress)
             });
-
+            // 3. Gets the metadata of current user.
             var user = await acceleriderApi.GetCurrentUserAsync().RunApi();
 
             if (user == null) return false;
-
+            // 4. Stores user metadata and acceleriderApi after all things have succeeded.
             Container.RegisterInstance(user);
             Container.RegisterInstance(acceleriderApi);
 
