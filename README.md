@@ -1,7 +1,36 @@
+# Notice - 2018.1.28
+
+旧版`BaiduPanDownloadWpf`已停止更新与维护，新版本更名为`Accelerider.Windows.Wpf`，正在开发中，敬请期待。
+
+源码暂不公布（~~良工不示人以璞，暂且示几张图~~）。
+
+## 0. Login & Waiting
+
+![login](docs/images/login.png)
+
+---
+
+## 1. Tabs
+
+![file-browser-tab](docs/images/file-browser-tab.png)
+![task-tab](docs/images/task-tab.png)
+![group-tab](docs/images/group-tab.png)
+![app-store-tab](docs/images/app-store-tab.png)
+
+---
+
+## 2. Dialogs
+
+![profile-dialog](docs/images/profile-dialog.png)
+![settings-dialog](docs/images/settings-dialog.png)
+![about-dialog](docs/images/about-dialog.png)
+
+---
+
 # Introduction ![version](https://img.shields.io/badge/BaiduPanDownloadWpf-v0.2.0.79-orange.svg) ![build state](https://img.shields.io/badge/build-passing-brightgreen.svg) ![available state](https://img.shields.io/badge/available-false-red.svg)
 百度网盘**不限速**下载客户端，此项目源于[BaiduPanDownloadWinform](https://github.com/ResourceHunter/BaiduPanDownloadWinform)，旨在使用[WPF](https://msdn.microsoft.com/en-us/library/mt149842.aspx)技术，为其编写一个更为美观的界面，并且重新设计了软件的架构，使之在应对度娘多变的和谐策略的同时，为UI部分代码的复用提供了可能。此项目基于[MUI](https://github.com/firstfloorsoftware/mui)进行开发，并借助[Prism](https://github.com/PrismLibrary/Prism)框架实现了[界面](https://github.com/ResourceHunter/BaiduPanDownloadWpf/tree/master/BaiduPanDownloadWpf)与[业务逻辑](https://github.com/ResourceHunter/BaiduPanDownloadWpf/tree/master/BaiduPanDownloadWpf.Core)的分离。
 
-![preview](/docs/images/preview.png)
+![preview](docs/images/preview.png)
 
 # Getting Started
 1. 下载代码，并使用Visual Studio（2015+）打开；
@@ -20,13 +49,13 @@
 
 # Screenshots
 
-![downloading page](/docs/images/downloading_page.jpg)
+![downloading page](docs/images/downloading_page.jpg)
 
-![configure page](/docs/images/configure_page.png)
+![configure page](docs/images/configure_page.png)
 
-![downloaded page](/docs/images/downloaded_page.png)
+![downloaded page](docs/images/downloaded_page.png)
 
-![login page](/docs/images/login_page.png)
+![login page](docs/images/login_page.png)
 
 <h1 id="Contributing">Contributing</h1>
 
