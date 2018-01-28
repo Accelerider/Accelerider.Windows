@@ -7,7 +7,7 @@ using Microsoft.Practices.Unity;
 
 namespace BaiduPanDownloadWpf.ViewModels
 {
-    internal class SharedPageViewModel : ViewModelBase
+    public class SharedPageViewModel : ViewModelBase
     {
         public SharedPageViewModel(IUnityContainer container) : base(container)
         {

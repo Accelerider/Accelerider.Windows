@@ -2,14 +2,13 @@
 using System.Diagnostics;
 using System.IO;
 using BaiduPanDownloadWpf.Commands;
-using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 
 namespace BaiduPanDownloadWpf.ViewModels.Items
 {
-    internal class DownloadedTaskItemViewModel : DownloadTaskItemViewModel
+    public class DownloadedTaskItemViewModel : DownloadTaskItemViewModel
     {
         private Command _openFileCommand;
         private Command _clearRecordCommand;

@@ -20,5 +20,6 @@ namespace BaiduPanDownloadWpf.Core.Test
                 }
             }
         }
+
     }
 }

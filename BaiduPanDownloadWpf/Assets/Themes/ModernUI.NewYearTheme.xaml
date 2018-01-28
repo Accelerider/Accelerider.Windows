@@ -9,7 +9,9 @@
 
     <!-- specify the accent color (optional) -->
     <Color x:Key="AccentColor">#C94626</Color>
-
+    <SolidColorBrush x:Key="WindowText" Color="#050505" />
+    <SolidColorBrush x:Key="WindowTextReadOnly" Color="Gray" />
+    
     <!-- custom theme resources-->
     <Rectangle x:Key="WindowBackgroundContent" x:Shared="false">
         <Rectangle.Fill>

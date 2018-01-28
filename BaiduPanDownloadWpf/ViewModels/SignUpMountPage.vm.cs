@@ -7,7 +7,7 @@ using Microsoft.Practices.Unity;
 
 namespace BaiduPanDownloadWpf.ViewModels
 {
-    internal class SignUpMountPageViewModel : ViewModelBase
+    public class SignUpMountPageViewModel : ViewModelBase
     {
         public SignUpMountPageViewModel(IUnityContainer container) : base(container)
         {

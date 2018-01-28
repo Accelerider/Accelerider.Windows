@@ -5,10 +5,11 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using BaiduPanDownloadWpf.Core.Download.DownloadCore;
+using BaiduPanDownloadWpf.Core.Download.DownloadCore.DownloadThread;
 using BaiduPanDownloadWpf.Infrastructure;
 
 
-namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
+namespace BaiduPanDownloadWpf.Core.Download.DownloadCore
 {
     /// <summary>
     /// HTTP下载
@@ -98,7 +99,7 @@ namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
         private float _percentage = -1F;
         private long _speed = 0L;
         private DownloadStateEnum _state = DownloadStateEnum.Waiting;
-        private DownloadThread[] _threads;
+        private IDownloadThread[] _threads;
         #endregion
 
         /// <summary>
@@ -134,7 +135,7 @@ namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
                     stream.SetLength(response.ContentLength);
                     stream.Close();
                 }
-                _threads = new DownloadThread[Info.DownloadBlockList.Count];
+                _threads = new IDownloadThread[Info.DownloadBlockList.Count];
                 new Thread(ReportDownloadProgress).Start();
                 var num = 0;
                 for (var i = 0; i < Info.DownloadBlockList.Count; i++)
@@ -144,7 +145,7 @@ namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
                     {
                         num = 0;
                     }
-                    _threads[i] = new DownloadThread()
+                    _threads[i] = new ApiDownloadThread()
                     {
                         ID = i,
                         DownloadUrl = Url[num],
@@ -194,7 +195,7 @@ namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
                 {
                     ContentLength = response.ContentLength,
                     BlockLength =
-                        response.ContentLength < 1024 ? response.ContentLength : response.ContentLength/ThreadNum,
+                        response.ContentLength < 1024 ? response.ContentLength : response.ContentLength/64, //TODO: 如果使用API需要64线程，在UI完成后请修改
                     DownloadUrl = Url,
                     DownloadPath = DownloadPath,
                     UserCookies = UserCookies,

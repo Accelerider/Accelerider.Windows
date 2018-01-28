@@ -63,16 +63,18 @@
                                     <RowDefinition Height="4"/>
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" Text="{Binding FilePath.FileName}" TextTrimming="WordEllipsis" />
-                                <TextBlock Grid.Row="2" Foreground="Gray" Text="{Binding FileSize, TargetNullValue='-'}"/>
+                                <TextBlock Grid.Row="0" Foreground="{DynamicResource WindowText}" Text="{Binding FilePath.FileName}" TextTrimming="WordEllipsis" />
+                                <TextBlock Grid.Row="2" Foreground="{DynamicResource WindowTextReadOnly}" Text="{Binding FileSize, TargetNullValue='-'}"/>
                             </Grid>
                             <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Margin="16 0 16 0" Foreground="Gray" VerticalAlignment="Center"
+                                <TextBlock Margin="16 0 16 0" Foreground="{DynamicResource WindowTextReadOnly}" VerticalAlignment="Center"
                                            Text="{Binding CompletedTime}"/>
-                                <Label Margin="16 0 2 0" VerticalAlignment="Center">
-                                    <Path Width="10" Height="14" Stretch="Fill" Fill="#1BA1E2" Data="F1 M 25,52L 51,52L 51,57L 25,57L 25,52 Z M 35,16L 41,16L 41,36.5L 49,27L 49,36.5L 38,49L 27,36.5L 27,27L 35,36.5L 35,16 Z "/>
-                                </Label>
-                                <TextBlock Margin="4 0 16 0" VerticalAlignment="Center" Foreground="Gray"
+                                <Path Width="10" Height="14" Margin="16 0 2 0" VerticalAlignment="Center" Stretch="Fill" Data="F1 M 25,52L 51,52L 51,57L 25,57L 25,52 Z M 35,16L 41,16L 41,36.5L 49,27L 49,36.5L 38,49L 27,36.5L 27,27L 35,36.5L 35,16 Z ">
+                                    <Path.Fill>
+                                        <SolidColorBrush Color="{DynamicResource AccentColor}"/>
+                                    </Path.Fill>
+                                </Path>
+                                <TextBlock Margin="4 0 16 0" VerticalAlignment="Center" Foreground="{DynamicResource WindowTextReadOnly}"
                                                Text="{x:Static res:UiStringResources.DownloadedPage_Completed}" />
                                 <mui:ModernButton Margin="8 0 4 0" IconWidth="14" IconHeight="14" IconData="F1 M 20,17L 44.25,17L 56,28.75L 56,59L 20,59L 20,17 Z M 24,21L 24,55L 52,55L 52,33L 40,33L 40,21L 24,21 Z M 44,22.25L 44,29L 50.75,29L 44,22.25 Z M 26,23L 38,23L 38,28L 26,28L 26,23 Z M 26,30L 38,30L 38,33L 26,33L 26,30 Z M 26,35L 50,35L 50,38L 26,38L 26,35 Z M 26,40L 50,40L 50,43L 26,43L 26,40 Z M 26,45L 50,45L 50,48L 26,48L 26,45 Z M 26,50L 50,50L 50,53L 26,53L 26,50 Z "
                                                       Command="{Binding OpenFileCommand}"/>

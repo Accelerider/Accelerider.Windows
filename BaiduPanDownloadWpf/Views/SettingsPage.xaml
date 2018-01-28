@@ -10,7 +10,6 @@
     <Grid Style="{StaticResource ContentRoot}">
         <mui:ModernTab Layout="List" SelectedSource="/Views/Settings/OptionPage.xaml">
             <mui:ModernTab.Links>
-                <!--<mui:Link DisplayName="{x:Static res:UiStringResources.SettingsPage_login}" Source="/Views/Settings/LoginPage.xaml"/>-->
                 <mui:Link DisplayName="{x:Static res:UiStringResources.SettingsPage_configure}" Source="/Views/Settings/OptionPage.xaml" />
                 <mui:Link DisplayName="{x:Static res:UiStringResources.SettingsPage_about}" Source="/Views/Settings/About.xaml" />
             </mui:ModernTab.Links>

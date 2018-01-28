@@ -13,10 +13,11 @@ using Prism.Logging;
 using BaiduPanDownloadWpf.Assets;
 using BaiduPanDownloadWpf.Core;
 using BaiduPanDownloadWpf.Views;
+using BaiduPanDownloadWpf.Infrastructure;
 
 namespace BaiduPanDownloadWpf.ViewModels
 {
-    internal class SignInMountPageViewModel : ViewModelBase
+    public class SignInMountPageViewModel : ViewModelBase
     {
         private readonly IMountUserRepository _mountUserRepository;
 

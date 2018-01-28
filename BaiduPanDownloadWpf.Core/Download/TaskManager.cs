@@ -5,13 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Timers;
-using BaiduPanDownloadWpf.Core.Download.DwonloadCore;
 using BaiduPanDownloadWpf.Infrastructure;
 using BaiduPanDownloadWpf.Infrastructure.Events;
 using Microsoft.Practices.Unity;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BaiduPanDownloadWpf.Core.Download.DownloadCore;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 
 namespace BaiduPanDownloadWpf.Core.Download

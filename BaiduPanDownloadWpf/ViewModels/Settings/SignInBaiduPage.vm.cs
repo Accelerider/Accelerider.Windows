@@ -9,14 +9,16 @@ using System.Windows.Media.Imaging;
 
 namespace BaiduPanDownloadWpf.ViewModels.Settings
 {
-    internal class SignInBaiduPageViewModel : ViewModelBase
+    public class SignInBaiduCardViewModel : ViewModelBase
     {
         private readonly BaiduServer _baiduServer = new BaiduServer();
 
-        public SignInBaiduPageViewModel(IUnityContainer container) : base(container)
+        public SignInBaiduCardViewModel(IUnityContainer container) : base(container)
         {
-            LoginCommand = new DelegateCommand<PasswordBox>(LoginCommandExecute, p => !string.IsNullOrEmpty(Username) && (_baiduServer.HasVerificationCode ? !string.IsNullOrEmpty(VCode) : true))
-                .ObservesProperty(() => Username).ObservesProperty(() => VCode);
+            LoginCommand = new DelegateCommand<PasswordBox>(LoginCommandExecute,
+                p => !string.IsNullOrEmpty(Username) && (_baiduServer.HasVerificationCode ? !string.IsNullOrEmpty(VCode) : true))
+                .ObservesProperty(() => Username)
+                .ObservesProperty(() => VCode);
             UpdateVerificationCodeCommand = new Command(UpdateVerificationCodeCommandExecute);
         }
 

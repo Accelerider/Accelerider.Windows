@@ -9,7 +9,6 @@ using BaiduPanDownloadWpf.Core.NetWork.Packets;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
 using Newtonsoft.Json.Linq;
-using BaiduPanDownloadWpf.Core.Download.DwonloadCore;
 using BaiduPanDownloadWpf.Core.ResultData;
 using BaiduPanDownloadWpf.Infrastructure;
 using BaiduPanDownloadWpf.Infrastructure.Exceptions;
@@ -17,12 +16,14 @@ using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using Prism.Logging;
 using System.Linq;
+using BaiduPanDownloadWpf.Core.Download.DownloadCore;
 
 namespace BaiduPanDownloadWpf.Core
 {
     public class MountUser : ModelBase, IMountUser
     {
         #region Public properties
+
         /// <summary>
         /// 账号Token
         /// </summary>
@@ -47,6 +48,7 @@ namespace BaiduPanDownloadWpf.Core
         /// 密码 
         /// </summary>
         public string PasswordEncrypted { get; set; }
+
         #endregion
 
         private List<DownloadInfo> _uncompletedList = new List<DownloadInfo>();
@@ -86,6 +88,7 @@ namespace BaiduPanDownloadWpf.Core
 
         private void FillNetDiskUsers()
         {
+            if (!_netDiskUsers.IsNullOrEmpty()) return;
             _netDiskUsers.Clear();
             _netDiskUsers.Add(new NetDiskUser(Container, this));
         }
@@ -167,7 +170,7 @@ namespace BaiduPanDownloadWpf.Core
         public async Task SignInAsync()
         {
             IsConnectedServer = false;
-            DataServer = Server.TestServer;
+            DataServer = Server.DefaultServer;
             var json = JObject.Parse(await DataServer.SendPacketAsync(new LoginPacket()
             {
                 Name = Username,
@@ -206,12 +209,12 @@ namespace BaiduPanDownloadWpf.Core
             // Clear user information.
             IsConnectedServer = false;
             Token = null;
-            _netDiskUsers = new List<INetDiskUser>();
+            _netDiskUsers.Clear();
         }
 
         public INetDiskUser GetCurrentNetDiskUser()
         {
-            if (_netDiskUsers == null || !_netDiskUsers.Any()) FillNetDiskUsers();
+            FillNetDiskUsers();
             return _netDiskUsers?.FirstOrDefault();
         }
 

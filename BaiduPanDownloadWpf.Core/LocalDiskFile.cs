@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using BaiduPanDownloadWpf.Infrastructure;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces.Files;
-using BaiduPanDownloadWpf.Core.Download.DwonloadCore;
 
 namespace BaiduPanDownloadWpf.Core
 {

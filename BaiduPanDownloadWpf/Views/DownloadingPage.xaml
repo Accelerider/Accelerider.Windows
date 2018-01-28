@@ -92,8 +92,8 @@
                                     <RowDefinition Height="4"/>
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding FilePath.FileName}" TextTrimming="WordEllipsis"/>
-                                <TextBlock Grid.Column="2" Grid.Row="0" Foreground="Gray">
+                                <TextBlock Grid.Column="0" Grid.Row="0" Foreground="{DynamicResource WindowText}" Text="{Binding FilePath.FileName}" TextTrimming="WordEllipsis"/>
+                                <TextBlock Grid.Column="2" Grid.Row="0" Foreground="{DynamicResource WindowTextReadOnly}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                                             <Setter Property="Text" Value="--" />
@@ -107,7 +107,7 @@
                                 </TextBlock>
                                 <ProgressBar Grid.Column="4" Grid.Row="0" Height="4"
                                              Value="{Binding DownloadProgress.BaseBValue, Mode=OneWay}" Maximum="{Binding FileSize.BaseBValue, Mode=OneWay}"/>
-                                <TextBlock Grid.Column="0" Grid.Row="2" Foreground="Gray">
+                                <TextBlock Grid.Column="0" Grid.Row="2" Foreground="{DynamicResource WindowTextReadOnly}">
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0}/{1}">
                                             <Binding Path="DownloadProgress"/>
@@ -115,7 +115,7 @@
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>
-                                <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray">
+                                <TextBlock Grid.Column="4" Grid.Row="2" Foreground="{DynamicResource WindowTextReadOnly}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                                             <Setter Property="Text" Value="{Binding DownloadSpeed, StringFormat='{}{0}/s'}"/>

@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using static System.Web.Security.FormsAuthentication;
 
-namespace BaiduPanDownloadWpf.Core.Download.DwonloadCore
+namespace BaiduPanDownloadWpf.Core.Download.DownloadCore
 {
     /// <summary>
     /// 下载数据

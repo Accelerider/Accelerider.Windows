@@ -6,7 +6,7 @@
                   IsTitleVisible="True"
                   ContentSource="/Views/Home.xaml"
                   MinWidth="1000" MinHeight="520"
-                  Width="1060" Height="660"
+                  Width="1060" Height="675"
                   WindowStartupLocation="CenterScreen"
                   Title="{x:Static res:UiStringResources.MWTitile}" 
                   Icon="Assets/Images/BaiduPanDownloadWpf.ico">

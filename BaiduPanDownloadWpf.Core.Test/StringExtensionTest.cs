@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BaiduPanDownloadWpf.Core;
 using System.Security.Cryptography;
 using System.IO;
+using BaiduPanDownloadWpf.Infrastructure;
 
 namespace BaiduPanDownloadWpf.Core.Test
 {

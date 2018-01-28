@@ -11,13 +11,12 @@ using System.Threading.Tasks;
 
 namespace BaiduPanDownloadWpf.ViewModels
 {
-    internal class HomeViewModel : ViewModelBase
+    public class HomeViewModel : ViewModelBase
     {
         private readonly IMountUserRepository _mountUserRepository;
         private INetDiskUser _netDiskUser;
         private NetDiskFileNodeViewModel _currentFile;
-        private bool _isRefreshing;
-
+        //private TreeNode<NetDiskFileNodeViewModel> _fileTree;
 
         public HomeViewModel(IUnityContainer container, IMountUserRepository mountUserRepository)
             : base(container)
@@ -25,17 +24,8 @@ namespace BaiduPanDownloadWpf.ViewModels
             _mountUserRepository = mountUserRepository;
 
             // TODO: Replace the Command to Prism.Commands.DelegateCommand.
-            ReturnFolderCommand = new Command(() =>
-            {
-                CurrentFile = CurrentFile.Parent;
-                IsRefreshing = false;
-            }, () => CurrentFile?.Parent != null);
-            EnterFolderCommand = new Command<NetDiskFileNodeViewModel>(async file =>
-            {
-                CurrentFile = file;
-                if (CurrentFile.Children == null) await RefreshFileListCommandExecuteAsync();
-            }, file => file?.FileType == FileTypeEnum.FolderType);
-            RefreshFileListCommand = new Command(async () => await RefreshFileListCommandExecuteAsync(), () => CurrentFile != null);
+            ReturnFolderCommand = new Command(() => CurrentFile = CurrentFile.Parent, () => CurrentFile?.Parent != null);
+            EnterFolderCommand = new Command<NetDiskFileNodeViewModel>(file => CurrentFile = file, file => file?.FileType == FileTypeEnum.FolderType);
             BatchDownloadFileCommand = new Command<IList>(BatchDownloadFileCommandExecute, param => GetSeletedItems(param).Any());
             BatchDeleteFileCommand = new Command<IList>(BatchDeleteFileCommandExecute, param => GetSeletedItems(param).Any());
         }
@@ -45,16 +35,10 @@ namespace BaiduPanDownloadWpf.ViewModels
             get { return _currentFile; }
             set { SetProperty(ref _currentFile, value); }
         }
-        public bool IsRefreshing
-        {
-            get { return _isRefreshing; }
-            set { SetProperty(ref _isRefreshing, value); }
-        }
 
         #region Commands and commands's logic
         private Command _returnFolderCommand;
         private Command<NetDiskFileNodeViewModel> _enterFolderCommand;
-        private Command _refreshFileListCommand;
         private Command<IList> _batchDownloadFileCommand;
         private Command<IList> _batchDeleteFileCommand;
 
@@ -68,11 +52,6 @@ namespace BaiduPanDownloadWpf.ViewModels
             get { return _enterFolderCommand; }
             set { SetProperty(ref _enterFolderCommand, value); }
         }
-        public Command RefreshFileListCommand
-        {
-            get { return _refreshFileListCommand; }
-            set { SetProperty(ref _refreshFileListCommand, value); }
-        }
         public Command<IList> BatchDownloadFileCommand
         {
             get { return _batchDownloadFileCommand; }
@@ -82,14 +61,6 @@ namespace BaiduPanDownloadWpf.ViewModels
         {
             get { return _batchDeleteFileCommand; }
             set { SetProperty(ref _batchDeleteFileCommand, value); }
-        }
-
-        private async Task RefreshFileListCommandExecuteAsync()
-        {
-            IsRefreshing = true;
-            var refreshChildren = CurrentFile.RefreshChildren();
-            if (refreshChildren != null) await refreshChildren;
-            IsRefreshing = false;
         }
         private void BatchDownloadFileCommandExecute(IList parameter)
         {
@@ -107,8 +78,6 @@ namespace BaiduPanDownloadWpf.ViewModels
                 if (item.DeleteFileCommand.CanExecute())
                     item.DeleteFileCommand.Execute();
             }
-            // TODO: Invokes function from model.
-
         }
 
         private IEnumerable<NetDiskFileNodeViewModel> GetSeletedItems(IList parameter)
@@ -124,13 +93,14 @@ namespace BaiduPanDownloadWpf.ViewModels
         }
         #endregion
 
-        protected override void OnLoaded()
+        protected override async void OnLoaded()
         {
-            if (SetProperty(ref _netDiskUser, _mountUserRepository?.FirstOrDefault()?.GetCurrentNetDiskUser()) && _netDiskUser != null)
-            {
-                CurrentFile = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<INetDiskFile>(_netDiskUser.RootFile));
-                if (RefreshFileListCommand.CanExecute()) RefreshFileListCommand.Execute();
-            }
+            if (!SetProperty(ref _netDiskUser, _mountUserRepository?.FirstOrDefault()?.GetCurrentNetDiskUser()) ||
+                _netDiskUser == null) return;
+
+            CurrentFile = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<INetDiskFile>(_netDiskUser.RootFile));
+            if (CurrentFile.RefreshChildrenCommandAsync.CanExecute())
+                await CurrentFile.RefreshChildrenCommandAsync.Execute();
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Windows.Media;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("BaiduPanDownloadWpf")]
-[assembly: AssemblyCopyright("Copyright © Mrs4s and Dingping Zhang 2017 ")]
+[assembly: AssemblyCopyright("Copyright ©  2017 ")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

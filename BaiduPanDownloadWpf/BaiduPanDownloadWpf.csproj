@@ -31,6 +31,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,7 +59,7 @@
   <ItemGroup>
     <Reference Include="FirstFloor.ModernUI, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\binaries\FirstFloor.ModernUI.dll</HintPath>
+      <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net45\FirstFloor.ModernUI.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0-alpha002\lib\net45\MahApps.Metro.dll</HintPath>
@@ -106,6 +108,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Assets\StaticResources.cs" />
     <Compile Include="Assets\UiStringResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -113,19 +116,29 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandAsync.cs" />
+    <Compile Include="Commands\CommandAsync{T}.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Controls\AsyncButton.xaml.cs">
       <DependentUpon>AsyncButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FolderLocationBar.xaml.cs">
+      <DependentUpon>FolderLocationBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FolderLocationItem.xaml.cs">
+      <DependentUpon>FolderLocationItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\LongToDataSizeConverter.cs" />
+    <Compile Include="Converters\SelectFoldersFromFilesConverter.cs" />
     <Compile Include="Converters\UriToImageSourceConverter.cs" />
     <Compile Include="SignWindow.xaml.cs">
       <DependentUpon>SignWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Dialogs\ShareFileDialog.vm.cs" />
     <Compile Include="ViewModels\RecycleBinPage.vm.cs" />
-    <Compile Include="ViewModels\Settings\ConfigurePage.vm.cs" />
-    <Compile Include="ViewModels\Settings\LoginPage.vm.cs" />
+    <Compile Include="ViewModels\Settings\AccountOptionArea.vm.cs" />
+    <Compile Include="ViewModels\Settings\AppearanceOptionArea.vm.cs" />
+    <Compile Include="ViewModels\Settings\DownloadOptionArea.vm.cs" />
     <Compile Include="ViewModels\Settings\OptionPage.vm.cs" />
     <Compile Include="ViewModels\SharedPage.vm.cs" />
     <Compile Include="ViewModels\Settings\SignInBaiduPage.vm.cs" />
@@ -141,14 +154,23 @@
     <Compile Include="Views\RecycleBinPage.xaml.cs">
       <DependentUpon>RecycleBinPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Settings\AccountOptionArea.xaml.cs">
+      <DependentUpon>AccountOptionArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\AppearanceOptionArea.xaml.cs">
+      <DependentUpon>AppearanceOptionArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\DownloadOptionArea.xaml.cs">
+      <DependentUpon>DownloadOptionArea.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings\OptionPage.xaml.cs">
       <DependentUpon>OptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SharedPage.xaml.cs">
       <DependentUpon>SharedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Settings\SignInBaiduPage.xaml.cs">
-      <DependentUpon>SignInBaiduPage.xaml</DependentUpon>
+    <Compile Include="Views\Settings\SignInBaiduCard.xaml.cs">
+      <DependentUpon>SignInBaiduCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SignInMountPage.xaml.cs">
       <DependentUpon>SignInMountPage.xaml</DependentUpon>
@@ -171,6 +193,14 @@
     <Page Include="Controls\AsyncButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FolderLocationBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FolderLocationItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -239,18 +269,16 @@
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Settings\LoginPage.xaml.cs">
-      <DependentUpon>LoginPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Settings\ConfigurePage.xaml.cs">
-      <DependentUpon>ConfigurePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Page Include="Views\Settings\LoginPage.xaml">
+    <Page Include="Views\Settings\AccountOptionArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Settings\ConfigurePage.xaml">
+    <Page Include="Views\Settings\AppearanceOptionArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings\DownloadOptionArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -262,7 +290,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Settings\SignInBaiduPage.xaml">
+    <Page Include="Views\Settings\SignInBaiduCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -346,6 +374,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BaiduPanDownloadWpf.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

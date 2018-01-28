@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 using BaiduPanDownloadWpf.Commands;
 using BaiduPanDownloadWpf.Infrastructure;
 using BaiduPanDownloadWpf.Infrastructure.Events;
@@ -12,7 +10,7 @@ using Prism.Events;
 
 namespace BaiduPanDownloadWpf.ViewModels.Items
 {
-    internal class DownloadingTaskItemViewModel : DownloadTaskItemViewModel
+    public class DownloadingTaskItemViewModel : DownloadTaskItemViewModel
     {
         // TODO: Temporary solution.
         private IMountUser _localDiskUser;

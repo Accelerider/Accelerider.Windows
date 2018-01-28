@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BaiduPanDownloadWpf.Core.Download.DwonloadCore;
+using BaiduPanDownloadWpf.Core.Download.DownloadCore;
 using BaiduPanDownloadWpf.Core.ResultData;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -158,7 +158,7 @@ namespace BaiduPanDownloadWpf.Core.Download
                 var r = await _user.DownloadFiles(new[] { info.FileInfo }, DownloadMethod.AppidDownload);
                 return await CreateData(info, r);
             }
-            var ret = await _user.DownloadFiles(new[] { info.FileInfo }, DownloadMethod.JumpDownload);
+            var ret = await _user.DownloadFiles(new[] { info.FileInfo }, DownloadMethod.AppidDownload);
             if (ret.ErrorCode != 0)
             {
                 ret = await _user.DownloadFiles(new[] { info.FileInfo }, DownloadMethod.AppidDownload);

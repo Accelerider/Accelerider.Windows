@@ -7,7 +7,7 @@ using Microsoft.Practices.Unity;
 
 namespace BaiduPanDownloadWpf.ViewModels.Dialogs
 {
-    internal class ShareFileDialogViewModel : ViewModelBase
+    public class ShareFileDialogViewModel : ViewModelBase
     {
         public ShareFileDialogViewModel(IUnityContainer container) : base(container)
         {

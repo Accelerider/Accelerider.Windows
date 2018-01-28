@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using BaiduPanDownloadWpf.Core.NetWork;
 using BaiduPanDownloadWpf.Core.NetWork.Packets;
@@ -9,6 +11,7 @@ using BaiduPanDownloadWpf.Infrastructure.Exceptions;
 using BaiduPanDownloadWpf.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json.Linq;
+using Prism.Logging;
 
 namespace BaiduPanDownloadWpf.Core
 {
@@ -85,21 +88,33 @@ namespace BaiduPanDownloadWpf.Core
 
         private void ReadLocalUserData()
         {
-            var directories = Directory.GetDirectories(Common.UserDataSavePath);
-            foreach (var item in directories)
+            try
             {
-                var filePath = Path.Combine(item, "Account.dat");
-                if (!File.Exists(filePath)) continue;
-                var userInfo = File.ReadAllText(filePath).DecryptByRijndael();
-                if (string.IsNullOrEmpty(userInfo)) continue;
-                var json = JObject.Parse(userInfo);
-                var username = json.Value<string>("Username");
-                var password = json.Value<string>("Password");
-                Add(username, password);
-                var temp = FindById(username);
-                temp.IsAutoSignIn = json.Value<bool>("IsAutoSignIn");
-                temp.IsRememberPassword = true;
+                var directories = Directory.GetDirectories(Common.UserDataSavePath);
+                foreach (var item in directories)
+                {
+                    var filePath = Path.Combine(item, "Account.dat");
+                    if (!File.Exists(filePath)) continue;
+                    Logger.Log(File.ReadAllText(filePath).DecryptByRijndael(),Category.Debug, Priority.High);
+                    Logger.Log("Key: "+Encoding.UTF8.GetString(StringExtensions.DefaultKey), Category.Debug, Priority.High);
+                    Logger.Log("lV: "+Encoding.UTF8.GetString(StringExtensions.DefaultIv), Category.Debug, Priority.High);
+                    var userInfo = File.ReadAllText(filePath).DecryptByRijndael();
+                    if (string.IsNullOrEmpty(userInfo)) continue;
+                    var json = JObject.Parse(userInfo);
+                    var username = json.Value<string>("Username");
+                    var password = json.Value<string>("Password");
+                    Add(username, password);
+                    var temp = FindById(username);
+                    temp.IsAutoSignIn = json.Value<bool>("IsAutoSignIn");
+                    temp.IsRememberPassword = true;
+                }
             }
+            catch (Exception ex)
+            {
+                Logger.Log("Error: "+ex.ToString(), Category.Debug, Priority.High);
+            }
+            
+
         }
         private async Task RegisterAsync(string username, string password)
         {

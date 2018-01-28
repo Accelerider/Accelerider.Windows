@@ -2,7 +2,7 @@
 
 namespace BaiduPanDownloadWpf.Commands
 {
-    internal class Command<T> : CommandBase
+    public class Command<T> : CommandBase
     {
         private readonly Action<T> _execute;
         private readonly Predicate<T> _canExecute;

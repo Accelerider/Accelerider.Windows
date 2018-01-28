@@ -118,12 +118,12 @@
 
     <Style TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}">
         <Setter Property="Background" Value="#90FFFFFF"/>
-        <Setter Property="SelectionBrush" Value="{DynamicResource AccentColorBrush}"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource AccentColorBrush}"/>
     </Style>
 
     <Style TargetType="PasswordBox" BasedOn="{StaticResource MetroPasswordBox}">
         <Setter Property="Background"  Value="#90FFFFFF"/>
-        <Setter Property="SelectionBrush" Value="{DynamicResource AccentColorBrush}"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource AccentColorBrush}"/>
     </Style>
 
     <Style TargetType="{x:Type mui:ModernButton}" BasedOn="{StaticResource {x:Type mui:ModernButton}}">
@@ -133,11 +133,11 @@
 
     <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource SelectedBackgroundStyle}" />
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource SelectedBackgroundStyle}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#30FFFFFF"></Setter>
+                <Setter Property="Background" Value="#30FFFFFF"/>
             </Trigger>
         </Style.Triggers>
     </Style>

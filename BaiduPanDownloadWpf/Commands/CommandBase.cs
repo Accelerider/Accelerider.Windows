@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace BaiduPanDownloadWpf.Commands
 {
-    internal abstract class CommandBase : ICommand
+    public abstract class CommandBase : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

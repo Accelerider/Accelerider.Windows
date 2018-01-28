@@ -12,7 +12,7 @@ using BaiduPanDownloadWpf.ViewModels.Items;
 
 namespace BaiduPanDownloadWpf.ViewModels
 {
-    internal class DownloadedPageViewModel : ViewModelBase
+    public class DownloadedPageViewModel : ViewModelBase
     {
         private readonly IMountUserRepository _mountUserRepository;
         private INetDiskUser _netDiskUser;

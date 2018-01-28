@@ -16,8 +16,8 @@ namespace BaiduPanDownloadWpf.Core
 
         public void Initialize()
         {
-            if (!Directory.Exists(Common.UserDataSavePath)) Directory.CreateDirectory(Common.UserDataSavePath);
-            _container.RegisterInstance(typeof(ILocalConfigInfo), LocalConfigInfo.Create());
+            //if (!Directory.Exists(Common.UserDataSavePath)) Directory.CreateDirectory(Common.UserDataSavePath);
+            //_container.RegisterInstance(typeof(ILocalConfigInfo), LocalConfigInfo.Create());
             RegisterTypeIfMissing<IMountUserRepository, MountUserRepository>(true);
         }
 

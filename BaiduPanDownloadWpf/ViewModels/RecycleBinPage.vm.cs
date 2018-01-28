@@ -7,7 +7,7 @@ using Microsoft.Practices.Unity;
 
 namespace BaiduPanDownloadWpf.ViewModels
 {
-    internal class RecycleBinPageViewModel : ViewModelBase
+    public class RecycleBinPageViewModel : ViewModelBase
     {
         public RecycleBinPageViewModel(IUnityContainer container) : base(container)
         {

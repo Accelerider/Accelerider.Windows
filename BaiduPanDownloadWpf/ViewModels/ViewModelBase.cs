@@ -8,7 +8,7 @@ using Prism.Mvvm;
 
 namespace BaiduPanDownloadWpf.ViewModels
 {
-    internal abstract class ViewModelBase : BindableBase
+    public abstract class ViewModelBase : BindableBase
     {
         private ICommand _loadedCommand;
         private ICommand _loadedCommandWithParam;

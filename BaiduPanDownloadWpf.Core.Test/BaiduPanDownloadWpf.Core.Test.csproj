@@ -57,12 +57,24 @@
     <Compile Include="BaiduServerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensionTest.cs" />
+    <Compile Include="TreeNodeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaiduPanDownloadWpf.Core\BaiduPanDownloadWpf.Core.csproj">
       <Project>{51154046-CBD6-4BF7-80AE-356FFF2EB1B8}</Project>
       <Name>BaiduPanDownloadWpf.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BaiduPanDownloadWpf.Infrastructure\BaiduPanDownloadWpf.Infrastructure.csproj">
+      <Project>{E66FD2A2-7398-471C-8B9F-62B4DD0A55FB}</Project>
+      <Name>BaiduPanDownloadWpf.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

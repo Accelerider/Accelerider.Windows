@@ -14,7 +14,7 @@
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="{x:Static res:UiStringResources.SW_MountSignIn}" Source="/Views/SignInMountPage.xaml" />
                 <mui:Link DisplayName="{x:Static res:UiStringResources.SW_MountSignUp}" Source="/Views/SignUpMountPage.xaml" />
-                <!--<mui:Link DisplayName="{x:Static res:UiStringResources.SW_BaiduSignIn}" Source="/Views/SignInBaiduPage.xaml" />-->
+                <!--<mui:Link DisplayName="{x:Static res:UiStringResources.SW_BaiduSignIn}" Source="/Views/SignInBaiduCard.xaml" />-->
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
     </mui:ModernWindow.MenuLinkGroups>

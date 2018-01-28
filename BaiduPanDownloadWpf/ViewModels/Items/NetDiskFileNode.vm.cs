@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace BaiduPanDownloadWpf.ViewModels.Items
 {
-    internal class NetDiskFileNodeViewModel : ViewModelBase
+    public class NetDiskFileNodeViewModel : ViewModelBase
     {
         private readonly IMountUserRepository _mountUserRepository;
         private readonly INetDiskFile _netDiskFile;
@@ -29,6 +29,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
 
             DeleteFileCommand = new Command(DeleteFileCommandExecuteAsync);
             DownloadFileCommand = new Command(DownloadFileCommandExecuteAsync);
+            RefreshChildrenCommandAsync = new CommandAsync(RefreshChildrenCommandExecuteAsync, () => !RefreshChildrenCommandAsync.IsWorking);
 
             EventAggregator.GetEvent<DownloadStateChangedEvent>().Subscribe(
                 OnDownloadStateChanged,
@@ -51,7 +52,8 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
         {
             get
             {
-                //if (_children == null) RefreshChildren();
+                if (_children == null && RefreshChildrenCommandAsync.CanExecute())
+                    RefreshChildrenCommandAsync.Execute();
                 return _children;
             }
             set { SetProperty(ref _children, value); }
@@ -75,6 +77,7 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
         #region Commands and their logic
         private Command _deleteFileCommand;
         private Command _downloadFileCommand;
+        private CommandAsync _refreshChildrenCommandAsync;
 
         public Command DeleteFileCommand
         {
@@ -86,36 +89,38 @@ namespace BaiduPanDownloadWpf.ViewModels.Items
             get { return _downloadFileCommand; }
             set { SetProperty(ref _downloadFileCommand, value); }
         }
+        public CommandAsync RefreshChildrenCommandAsync
+        {
+            get { return _refreshChildrenCommandAsync; }
+            set { SetProperty(ref _refreshChildrenCommandAsync, value); }
+        }
 
         private async void DeleteFileCommandExecuteAsync()
         {
             await _netDiskFile.DeleteAsync();
-            await Parent.RefreshChildren(); // The result of the deletion is obtained by refreshing the list.
+            if (RefreshChildrenCommandAsync.CanExecute())
+                await Parent.RefreshChildrenCommandAsync.Execute(); // The result of the deletion is obtained by refreshing the list.
         }
         private async void DownloadFileCommandExecuteAsync()
         {
             if (FileType != FileTypeEnum.FolderType) IsDownloading = true;
             await _netDiskFile.DownloadAsync();
         }
-        #endregion
-
-        public Task RefreshChildren()
+        private async Task RefreshChildrenCommandExecuteAsync()
         {
-            return Task.Run(async () =>
+            var children = new ObservableCollection<NetDiskFileNodeViewModel>();
+            var downloadingFiles = _mountUserRepository.FirstOrDefault().GetCurrentNetDiskUser().GetUncompletedFiles();
+            foreach (var item in await _netDiskFile.GetChildrenAsync())
             {
-                var children = new ObservableCollection<NetDiskFileNodeViewModel>();
-                var downloadingFiles = _mountUserRepository.FirstOrDefault().GetCurrentNetDiskUser().GetUncompletedFiles();
-                foreach (var item in await _netDiskFile.GetChildrenAsync())
-                {
-                    var child = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<INetDiskFile>(item));
-                    child.Parent = this;
-                    child.IsDownloading = downloadingFiles?.Any(element => element.FileId == child.FileId) ?? false;
-                    children.Add(child);
-                }
-                Children = children;
-                OnPropertyChanged(nameof(FilePath));
-            });
+                var child = Container.Resolve<NetDiskFileNodeViewModel>(new DependencyOverride<INetDiskFile>(item));
+                child.Parent = this;
+                child.IsDownloading = downloadingFiles?.Any(element => element.FileId == child.FileId) ?? false;
+                children.Add(child);
+            }
+            Children = children;
+            OnPropertyChanged(nameof(FilePath));
         }
+        #endregion
 
         private void OnDownloadStateChanged(DownloadStateChangedEventArgs e)
         {
