@@ -37,7 +37,7 @@
     - 加作者联系方式时，请注明 `参与Github项目开发`；
     - ***不符合以上要求者，均不会通过验证；***
     - 如果你是用户，请通过[Issues](https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues)与作者交流，感谢你的支持；
-- 在[Issues](https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues)板块进行留言，分享你的建议或需求；
+- 在[Issues](https://github.com/ResourceHunter/BaiduPanDownloadWpf/issues)板块进行留言，分享你的建议或需求(或者在[![Join the chat at https://gitter.im/ResourceHunter/Accelerider](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ResourceHunter/Accelerider)进行反馈)；
 - Fork此项目，并通过[Pull requests](https://github.com/ResourceHunter/BaiduPanDownloadWpf/pulls)贡献你的代码。
 
 # Acknowledgements
