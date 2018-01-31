@@ -89,15 +89,37 @@ namespace Accelerider.Windows.ViewModels.Entering
 
         private async Task SignInAsync(string username, string passwordEncrypted)
         {
-            EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(true);
-            if (!await AuthenticateAsync(username, passwordEncrypted))
+            var message = await AcceleriderUser.SignInAsync(username, passwordEncrypted);
+            if (!string.IsNullOrEmpty(message))
             {
+                GlobalMessageQueue.Enqueue(message, true);
                 EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(false);
                 LocalConfigureInfo.IsAutoSignIn = false;
                 return;
             }
+            //EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(true);
+            //if (!await AuthenticateAsync(username, passwordEncrypted))
+            //{
+            //    EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(false);
+            //    LocalConfigureInfo.IsAutoSignIn = false;
+            //    return;
+            //}
 
-            await Container.Resolve<ModuleResolver>().LoadAsync();
+            Container.Resolve<IModuleCatalog>().AddModule(new ModuleInfo
+            {
+                ModuleName = "Group",
+                ModuleType = "Accelerider.Windows.Modules.Group.GroupModule, Accelerider.Windows.Modules.Group, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                Ref = @"file://E:\VSTS\Accelerider\Source\Build\Modules\Accelerider.Windows.Modules.Group.dll",
+                InitializationMode = InitializationMode.WhenAvailable
+            });
+            Container.Resolve<IModuleCatalog>().AddModule(new ModuleInfo
+            {
+                ModuleName = "NetDisk",
+                ModuleType = "Accelerider.Windows.Modules.NetDisk.NetDiskModule, Accelerider.Windows.Modules.NetDisk, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                Ref = @"file://E:\VSTS\Accelerider\Source\Build\Modules\Accelerider.Windows.Modules.NetDisk.dll",
+                InitializationMode = InitializationMode.WhenAvailable
+            });
+            Container.Resolve<IModuleManager>().Run();
 
             // Saves data.
             LocalConfigureInfo.Username = IsRememberPassword ? username : string.Empty;

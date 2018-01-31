@@ -37,7 +37,28 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <controls:SearchBar Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" ToolTip="Enter to search, ignore case"/>
+            <controls:SearchBar Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" 
+                                SearchResults="{Binding NetDiskUsers}">
+                <controls:SearchBar.SearchResultItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="15 0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Ellipse Height="30" Width="30">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{Binding HeadImageUri, Converter={StaticResource UriToImageSourceConverter}}" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <TextBlock Grid.Column="2" Text="{Binding Username}" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </controls:SearchBar.SearchResultItemTemplate>
+            </controls:SearchBar>
 
             <ListBox x:Name="SelectViewListBox" Grid.Row="3"
                      ItemContainerStyle="{StaticResource ListBoxItemStyle}"
