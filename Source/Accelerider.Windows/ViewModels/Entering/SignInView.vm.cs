@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,14 +12,11 @@ using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Entering;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
-using Refit;
 
 namespace Accelerider.Windows.ViewModels.Entering
 {
     public class SignInViewModel : ViewModelBase
     {
-        private readonly INonAuthenticationApi _nonAuthenticationApi;
-
         private string _username;
         private bool _isRememberPassword;
         private bool _isAutoSignIn;
@@ -30,7 +25,6 @@ namespace Accelerider.Windows.ViewModels.Entering
 
         public SignInViewModel(IUnityContainer container) : base(container)
         {
-            _nonAuthenticationApi = Container.Resolve<INonAuthenticationApi>();
             LocalConfigureInfo = Container.Resolve<ILocalConfigureInfo>();
             SignInCommand = new RelayCommand<PasswordBox>(SignInCommandExecute, passwordBox => CanSignIn(Username, passwordBox.Password));
         }
@@ -72,7 +66,7 @@ namespace Accelerider.Windows.ViewModels.Entering
             IsRememberPassword = true;
             IsAutoSignIn = LocalConfigureInfo.IsAutoSignIn;
             Username = LocalConfigureInfo.Username;
-            password.Password = LocalConfigureInfo.PasswordEncrypted.DecryptByRijndael();
+            password.Password = LocalConfigureInfo.PasswordEncrypted;
 
             if (IsAutoSignIn)
             {
@@ -82,15 +76,16 @@ namespace Accelerider.Windows.ViewModels.Entering
 
         private async void SignInCommandExecute(PasswordBox password)
         {
-            var passwordMd5 = password.Password == LocalConfigureInfo.PasswordEncrypted.DecryptByRijndael()
-                            ? password.Password
-                            : password.Password.ToMd5();
+            var passwordEncrypted = password.Password == LocalConfigureInfo.PasswordEncrypted
+                ? password.Password
+                : password.Password.ToMd5();
 
-            await SignInAsync(Username, passwordMd5);
+            await SignInAsync(Username, passwordEncrypted);
         }
 
-        private async Task SignInAsync(string username, string passwordMd5)
+        private async Task SignInAsync(string username, string passwordEncrypted)
         {
+            EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(true);
             var message = await AcceleriderUser.SignInAsync(username, passwordEncrypted);
             if (!string.IsNullOrEmpty(message))
             {
@@ -107,25 +102,13 @@ namespace Accelerider.Windows.ViewModels.Entering
             //    return;
             //}
 
-            Container.Resolve<IModuleCatalog>().AddModule(new ModuleInfo
-            {
-                ModuleName = "Group",
-                ModuleType = "Accelerider.Windows.Modules.Group.GroupModule, Accelerider.Windows.Modules.Group, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-                Ref = @"file://E:\VSTS\Accelerider\Source\Build\Modules\Accelerider.Windows.Modules.Group.dll",
-                InitializationMode = InitializationMode.WhenAvailable
-            });
-            Container.Resolve<IModuleCatalog>().AddModule(new ModuleInfo
-            {
-                ModuleName = "NetDisk",
-                ModuleType = "Accelerider.Windows.Modules.NetDisk.NetDiskModule, Accelerider.Windows.Modules.NetDisk, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-                Ref = @"file://E:\VSTS\Accelerider\Source\Build\Modules\Accelerider.Windows.Modules.NetDisk.dll",
-                InitializationMode = InitializationMode.WhenAvailable
-            });
+            var moduleCatalog = Container.Resolve<IModuleCatalog>();
+            new ModuleResolver(moduleCatalog).Initialize();
             Container.Resolve<IModuleManager>().Run();
 
             // Saves data.
             LocalConfigureInfo.Username = IsRememberPassword ? username : string.Empty;
-            LocalConfigureInfo.PasswordEncrypted = IsRememberPassword ? passwordMd5.EncryptByRijndael() : string.Empty;
+            LocalConfigureInfo.PasswordEncrypted = IsRememberPassword ? passwordEncrypted : string.Empty;
             LocalConfigureInfo.IsAutoSignIn = IsAutoSignIn;
             LocalConfigureInfo.Save();
 
@@ -133,30 +116,13 @@ namespace Accelerider.Windows.ViewModels.Entering
             ShellSwitcher.Switch<EnteringWindow, MainWindow>();
         }
 
-        private async Task<bool> AuthenticateAsync(string username, string passwordMd5)
+        private async Task<bool> Authenticate(string username, string passwordEncrypted)
         {
-
-            var token = await _nonAuthenticationApi.LoginAsync(new LoginInfoBody
-            {
-                Username = username,
-                Password = passwordMd5.EncryptByRsa()
-            }).RunApi();
-
-            if (token == null) return false;
-
-            var acceleriderApi = RestService.For<IAcceleriderApi>(new HttpClient(new ConfigureHeadersHttpClientHandler(token))
-            {
-                BaseAddress = new Uri(ConstStrings.BaseAddress)
-            });
-
-            var user = await acceleriderApi.GetCurrentUserAsync().RunApi();
-
-            if (user == null) return false;
-
-            Container.RegisterInstance(user);
-            Container.RegisterInstance(acceleriderApi);
-
-            return true;
+            var message = await AcceleriderUser.SignInAsync(username, passwordEncrypted);
+            if (string.IsNullOrEmpty(message)) return true;
+            GlobalMessageQueue.Enqueue(message, true);
+            LocalConfigureInfo.IsAutoSignIn = false;
+            return false;
         }
 
         private bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);
