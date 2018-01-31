@@ -100,7 +100,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\DefaultAvatar.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\FileTypes\ApkType.png" />
   </ItemGroup>
