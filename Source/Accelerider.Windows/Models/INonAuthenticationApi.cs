@@ -11,7 +11,7 @@ namespace Accelerider.Windows.Models
         Task<string> GetPublicKeyAsync();
 
         [Post("/users")]
-        Task<UserMetadata> SignUpAsync([Body] SignUpInfoBody signUpInfo);
+        Task SignUpAsync([Body] SignUpInfoBody signUpInfo);
 
         [Post("/tokens")]
         Task<string> LoginAsync([Body] LoginInfoBody loginInfo);

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,11 +8,11 @@ namespace Accelerider.Windows
 {
     internal class ConfigureHeadersHttpClientHandler : HttpClientHandler
     {
-        private readonly Func<Task<string>> getToken;
+        private readonly string _token;
 
-        public ConfigureHeadersHttpClientHandler(Func<Task<string>> getToken)
+        public ConfigureHeadersHttpClientHandler(string token)
         {
-            this.getToken = getToken ?? throw new ArgumentNullException("getToken");
+            _token = token ?? throw new ArgumentNullException(nameof(token));
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -24,8 +21,7 @@ namespace Accelerider.Windows
             var auth = request.Headers.Authorization;
             if (auth != null)
             {
-                var token = await getToken().ConfigureAwait(false);
-                request.Headers.Authorization = new AuthenticationHeaderValue(auth.Scheme, token);
+                request.Headers.Authorization = new AuthenticationHeaderValue(auth.Scheme, _token);
             }
 
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);

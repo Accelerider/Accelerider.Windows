@@ -21,25 +21,32 @@
                 <RowDefinition />
                 <RowDefinition Height="16"/>
                 <RowDefinition />
+                <RowDefinition Height="16"/>
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <materialDesign:PackIcon Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
-            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Username"
-                     Text="{Binding Username}"
+            <materialDesign:PackIcon Kind="Email" VerticalAlignment="Bottom" Margin="6"/>
+            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Email Address"
+                     Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
-            <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
-            <PasswordBox Name="PasswordBox" Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Password" 
-                         Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+            <materialDesign:PackIcon Grid.Row="2" Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
+            <TextBox Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Username"
+                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="4" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
-            <PasswordBox Name="PasswordBoxRepeat" Grid.Column="1" Grid.Row="4" materialDesign:HintAssist.Hint="Confirm Password" 
+            <PasswordBox Name="PasswordBox" Grid.Column="1" Grid.Row="4" materialDesign:HintAssist.Hint="Password" 
                          Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
-            <materialDesign:PackIcon Grid.Column="0" Grid.Row="6" Kind="Check" VerticalAlignment="Bottom" Margin="6"/>
-            <PasswordBox Name="PasswordBoxCode" Grid.Column="1" Grid.Row="6" materialDesign:HintAssist.Hint="License" 
+            <materialDesign:PackIcon Grid.Column="0" Grid.Row="6" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
+            <PasswordBox Name="PasswordBoxRepeat" Grid.Column="1" Grid.Row="6" materialDesign:HintAssist.Hint="Confirm Password" 
                          Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+            <materialDesign:PackIcon Grid.Column="0" Grid.Row="8" Kind="Check" VerticalAlignment="Bottom" Margin="6"/>
+            <TextBox Grid.Column="1" Grid.Row="8" materialDesign:HintAssist.Hint="License" 
+                     Text="{Binding LicenseCode, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
         </Grid>
         <Button Grid.Row="2" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                 Command="{Binding SignUpCommand}" 

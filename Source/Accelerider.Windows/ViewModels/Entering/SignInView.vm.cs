@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -70,7 +72,7 @@ namespace Accelerider.Windows.ViewModels.Entering
             IsRememberPassword = true;
             IsAutoSignIn = LocalConfigureInfo.IsAutoSignIn;
             Username = LocalConfigureInfo.Username;
-            password.Password = LocalConfigureInfo.PasswordEncrypted;
+            password.Password = LocalConfigureInfo.PasswordEncrypted.DecryptByRijndael();
 
             if (IsAutoSignIn)
             {
@@ -80,14 +82,14 @@ namespace Accelerider.Windows.ViewModels.Entering
 
         private async void SignInCommandExecute(PasswordBox password)
         {
-            var passwordEncrypted = password.Password == LocalConfigureInfo.PasswordEncrypted
-                ? password.Password
-                : password.Password.ToMd5();
+            var passwordMd5 = password.Password == LocalConfigureInfo.PasswordEncrypted.DecryptByRijndael()
+                            ? password.Password
+                            : password.Password.ToMd5();
 
-            await SignInAsync(Username, passwordEncrypted);
+            await SignInAsync(Username, passwordMd5);
         }
 
-        private async Task SignInAsync(string username, string passwordEncrypted)
+        private async Task SignInAsync(string username, string passwordMd5)
         {
             var message = await AcceleriderUser.SignInAsync(username, passwordEncrypted);
             if (!string.IsNullOrEmpty(message))
@@ -123,7 +125,7 @@ namespace Accelerider.Windows.ViewModels.Entering
 
             // Saves data.
             LocalConfigureInfo.Username = IsRememberPassword ? username : string.Empty;
-            LocalConfigureInfo.PasswordEncrypted = IsRememberPassword ? passwordEncrypted : string.Empty;
+            LocalConfigureInfo.PasswordEncrypted = IsRememberPassword ? passwordMd5.EncryptByRijndael() : string.Empty;
             LocalConfigureInfo.IsAutoSignIn = IsAutoSignIn;
             LocalConfigureInfo.Save();
 
@@ -131,23 +133,30 @@ namespace Accelerider.Windows.ViewModels.Entering
             ShellSwitcher.Switch<EnteringWindow, MainWindow>();
         }
 
-        private async Task<bool> AuthenticateAsync(string username, string passwordEncrypted)
+        private async Task<bool> AuthenticateAsync(string username, string passwordMd5)
         {
-            try
-            {
-                var token = await _nonAuthenticationApi.LoginAsync(new LoginInfoBody { Username = username, Password = passwordEncrypted });
-                var acceleriderApi = RestService.For<IAcceleriderApi>(new System.Net.Http.HttpClient() { BaseAddress = new Uri(ConstStrings.BaseAddress) });
-                var user = await acceleriderApi.GetCurrentUserAsync();
 
-                Container.RegisterInstance(user);
-                Container.RegisterInstance(acceleriderApi);
-                return true;
-            }
-            catch (ApiException apiException)
+            var token = await _nonAuthenticationApi.LoginAsync(new LoginInfoBody
             {
-                GlobalMessageQueue.Enqueue(apiException.Content);
-            }
-            return false;
+                Username = username,
+                Password = passwordMd5.EncryptByRsa()
+            }).RunApi();
+
+            if (token == null) return false;
+
+            var acceleriderApi = RestService.For<IAcceleriderApi>(new HttpClient(new ConfigureHeadersHttpClientHandler(token))
+            {
+                BaseAddress = new Uri(ConstStrings.BaseAddress)
+            });
+
+            var user = await acceleriderApi.GetCurrentUserAsync().RunApi();
+
+            if (user == null) return false;
+
+            Container.RegisterInstance(user);
+            Container.RegisterInstance(acceleriderApi);
+
+            return true;
         }
 
         private bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);

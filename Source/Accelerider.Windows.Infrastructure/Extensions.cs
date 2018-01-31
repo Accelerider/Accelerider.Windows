@@ -130,12 +130,18 @@ namespace Accelerider.Windows.Infrastructure
                 {
                     cipherByte[i] = Convert.ToByte(text.Substring(i * 2, 2), 16);
                 }
-
-                using (var msDecrypt = new MemoryStream(cipherByte))
-                using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                using (var srDecrypt = new StreamReader(csDecrypt))
+                try
                 {
-                    plainText = srDecrypt.ReadToEnd();
+                    using (var msDecrypt = new MemoryStream(cipherByte))
+                    using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    using (var srDecrypt = new StreamReader(csDecrypt))
+                    {
+                        plainText = srDecrypt.ReadToEnd();
+                    }
+                }
+                catch (CryptographicException)
+                {
+                    return text;
                 }
             }
             return plainText;
@@ -143,7 +149,7 @@ namespace Accelerider.Windows.Infrastructure
 
         public static string EncryptByRsa(this string text, string publicKeyXml = null)
         {
-            if (RsaPublicKey == null) return text; 
+            if (RsaPublicKey == null) return text;
             Rsa.FromXmlString(publicKeyXml ?? RsaPublicKey);
             return Convert.ToBase64String(Rsa.Encrypt(Encoding.UTF8.GetBytes(text), false));
         }

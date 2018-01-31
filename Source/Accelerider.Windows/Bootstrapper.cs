@@ -25,8 +25,7 @@ namespace Accelerider.Windows
             Container.Resolve<Core.Module>().Initialize();
             Container.RegisterType<ModuleResolver, ModuleResolver>(new ContainerControlledLifetimeManager());
             Container.RegisterInstance(typeof(ISnackbarMessageQueue), new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
-            Container.RegisterInstance(RestService.For<INonAuthenticationApi>("http://localhost:4656/api/v2"));
-            Container.RegisterInstance(RestService.For<IAcceleriderApi>("http://localhost:4656/api/v2"));
+            Container.RegisterInstance(RestService.For<INonAuthenticationApi>(ConstStrings.BaseAddress));
         }
 
         protected override void ConfigureViewModelLocator() => ViewModelLocationProvider.SetDefaultViewModelFactory(ResolveViewModel);
@@ -36,6 +35,7 @@ namespace Accelerider.Windows
         protected override void InitializeShell()
         {
             ServicePointManager.DefaultConnectionLimit = int.MaxValue;
+            ApiExceptionResolverExtension.SetUnityContainer(Container);
             ConfigureApplicationEventHandlers();
             ShellSwitcher.Show((Window)Shell);
         }

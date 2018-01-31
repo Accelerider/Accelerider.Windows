@@ -87,6 +87,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApiExceptionResolverExtension.cs" />
     <Compile Include="ConfigureHeadersHttpClientHandler.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ConstStrings.cs" />
