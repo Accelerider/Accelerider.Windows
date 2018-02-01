@@ -36,6 +36,7 @@
         <controls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
             <ListBox Name="ListboxFileList" SelectionMode="Extended"
                      ItemsSource="{Binding Files}"
+                     SelectedItem="{Binding SelectedSearchResult}"
                      ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}">
                 <ListBox.ContextMenu>
                     <ContextMenu >

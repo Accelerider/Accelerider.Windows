@@ -25,6 +25,7 @@ namespace Accelerider.Windows.Resources.Controls
         {
             InitializeComponent();
             PART_SearchBox.IsKeyboardFocusedChanged += OnSearchBoxIsKeyboardFocusedChanged;
+            PART_SearchResultsPopup.Closed += (sender, e) => SetValue(SelectedSearchResultProperty, null);
         }
 
 
@@ -36,8 +37,8 @@ namespace Accelerider.Windows.Resources.Controls
 
         public IEnumerable<object> SearchResults
         {
-            get { return (IEnumerable<object>)GetValue(SearchResultsProperty); }
-            set { SetValue(SearchResultsProperty, value); }
+            get => (IEnumerable<object>)GetValue(SearchResultsProperty);
+            set => SetValue(SearchResultsProperty, value);
         }
 
         public ICommand SearchCommand
@@ -48,20 +49,20 @@ namespace Accelerider.Windows.Resources.Controls
 
         public bool IsRealTimeMode
         {
-            get { return (bool)GetValue(IsRealTimeModeProperty); }
-            set { SetValue(IsRealTimeModeProperty, value); }
+            get => (bool)GetValue(IsRealTimeModeProperty);
+            set => SetValue(IsRealTimeModeProperty, value);
         }
 
         public object SelectedSearchResult
         {
-            get { return GetValue(SelectedSearchResultProperty); }
-            set { SetValue(SelectedSearchResultProperty, value); }
+            get => GetValue(SelectedSearchResultProperty);
+            set => SetValue(SelectedSearchResultProperty, value);
         }
 
         public DataTemplate SearchResultItemTemplate
         {
-            get { return (DataTemplate)GetValue(SearchResultItemTemplateProperty); }
-            set { SetValue(SearchResultItemTemplateProperty, value); }
+            get => (DataTemplate)GetValue(SearchResultItemTemplateProperty);
+            set => SetValue(SearchResultItemTemplateProperty, value);
         }
 
 
@@ -85,8 +86,10 @@ namespace Accelerider.Windows.Resources.Controls
             }
             else
             {
-                PART_SearchBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-                PART_SearchResultsPopup.StaysOpen = false;
+                if (!PART_SearchResultsPopup.IsMouseOver)
+                    PART_SearchBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Down));
+
+                 PART_SearchResultsPopup.StaysOpen = false;
             }
         }
     }

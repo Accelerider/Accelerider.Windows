@@ -5,7 +5,8 @@
                     xmlns:mvvm="http://prismlibrary.com/"
                     xmlns:local="clr-namespace:Accelerider.Windows.Views"
                     mvvm:ViewModelLocator.AutoWireViewModel="True"
-                    AllowsTransparency="True">
+                    AllowsTransparency="True"
+                    UseLayoutRounding="True">
     <Border Margin="2" Background="White" BorderThickness="1" CornerRadius="2"
             Effect="{StaticResource MaterialDesignShadowDepth2}">
         <StackPanel>

@@ -8,7 +8,7 @@ namespace Accelerider.Windows.Modules.NetDisk
 
     public class IsLoadingFilesChangedEvent : PubSubEvent<bool> { }
 
-    public class SelectedSearchResultChangedEvent : PubSubEvent<INetDiskFile> { }
+    public class SelectedSearchResultChangedEvent : PubSubEvent<ILazyTreeNode<INetDiskFile>> { }
 
-    public class SearchResultsChangedEvent : PubSubEvent<IEnumerable<INetDiskFile>> { }
+    public class SearchResultsChangedEvent : PubSubEvent<IEnumerable<ILazyTreeNode<INetDiskFile>>> { }
 }
