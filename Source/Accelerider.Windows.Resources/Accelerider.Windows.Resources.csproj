@@ -169,11 +169,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Accelerider.Styles.Buttons.xaml">
+    <Page Include="Styles\Accelerider.Styles.Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Accelerider.Styles.ListBoxes.xaml">
+    <Page Include="Styles\Accelerider.Styles.ListBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -181,15 +181,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Accelerider.Styles.TabControls.xaml">
+    <Page Include="Styles\Accelerider.Styles.TabControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Accelerider.Styles.UserControls.xaml">
+    <Page Include="Styles\Accelerider.Styles.UserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Accelerider.Styles.Windows.xaml">
+    <Page Include="Styles\Accelerider.Styles.Window.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
