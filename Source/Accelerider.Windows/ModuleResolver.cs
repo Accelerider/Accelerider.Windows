@@ -23,14 +23,29 @@ namespace Accelerider.Windows
 
         public IModuleCatalog Initialize()
         {
-            var modules = ModuleConfigureFile.GetValue<IList<ModuleInfo>>(ConstStrings.ModuleInfos);
-
-            if (modules == null) return _moduleCatalog;
-
-            foreach (var module in modules.Reverse())
+            _moduleCatalog.AddModule(new ModuleInfo
             {
-                _moduleCatalog.AddModule(module);
-            }
+                ModuleName = "Group",
+                ModuleType = "Accelerider.Windows.Modules.Group.GroupModule, Accelerider.Windows.Modules.Group, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                Ref = @"file://E:\VSTS\Accelerider\Source\Build\Modules\Accelerider.Windows.Modules.Group.dll",
+                InitializationMode = InitializationMode.WhenAvailable
+            });
+            _moduleCatalog.AddModule(new ModuleInfo
+            {
+                ModuleName = "NetDisk",
+                ModuleType = "Accelerider.Windows.Modules.NetDisk.NetDiskModule, Accelerider.Windows.Modules.NetDisk, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                Ref = @"file://E:\VSTS\Accelerider\Source\Build\Modules\Accelerider.Windows.Modules.NetDisk.dll",
+                InitializationMode = InitializationMode.WhenAvailable
+            });
+
+            //var modules = ModuleConfigureFile.GetValue<IList<ModuleInfo>>(ConstStrings.ModuleInfos);
+
+            //if (modules == null) return _moduleCatalog;
+
+            //foreach (var module in modules.Reverse())
+            //{
+            //    _moduleCatalog.AddModule(module);
+            //}
 
             return _moduleCatalog;
         }

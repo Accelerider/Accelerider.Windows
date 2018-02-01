@@ -38,22 +38,18 @@
             </Grid.RowDefinitions>
 
             <controls:SearchBar Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" 
-                                SearchResults="{Binding NetDiskUsers}">
+                                SearchResults="{Binding SearchResults}" SelectedSearchResult="{Binding SelectedSearchResult, Mode=OneWayToSource}">
                 <controls:SearchBar.SearchResultItemTemplate>
                     <DataTemplate>
-                        <Border Padding="15 0">
+                        <Border Padding="10 0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Ellipse Height="30" Width="30">
-                                    <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding HeadImageUri, Converter={StaticResource UriToImageSourceConverter}}" />
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                                <TextBlock Grid.Column="2" Text="{Binding Username}" VerticalAlignment="Center"/>
+                                <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
                     </DataTemplate>

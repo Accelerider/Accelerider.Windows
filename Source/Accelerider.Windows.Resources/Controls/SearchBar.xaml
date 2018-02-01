@@ -29,12 +29,13 @@
                             Placement="Bottom" 
                             CloseOnMouseLeftButtonDown="False"
                             Height="Auto" Width="{Binding Path=ActualWidth, ElementName=Border}" 
-                            AllowsTransparency="True">
+                            AllowsTransparency="True"
+                            MaxHeight="400">
             <Border Margin="2" Background="White" BorderThickness="1" CornerRadius="2"
                     Effect="{StaticResource MaterialDesignShadowDepth2}">
-                <ListBox ItemsSource="{Binding Path=PlacementTarget.SearchResults, RelativeSource={RelativeSource AncestorType={x:Type controlzEx:PopupEx}, Mode=FindAncestor}}" 
-                         SelectedItem="{Binding Path=PlacementTarget.SelectedSearchResult, RelativeSource={RelativeSource AncestorType={x:Type controlzEx:PopupEx}, Mode=FindAncestor}}"
-                         ItemTemplate="{Binding Path=PlacementTarget.SearchResultItemTemplate, RelativeSource={RelativeSource AncestorType={x:Type controlzEx:PopupEx}, Mode=FindAncestor}}"
+                <ListBox ItemsSource="{Binding Path=PlacementTarget.SearchResults, RelativeSource={RelativeSource AncestorType={x:Type controlzEx:PopupEx}, Mode=FindAncestor}, Mode=OneWay}" 
+                         SelectedItem="{Binding Path=PlacementTarget.SelectedSearchResult, RelativeSource={RelativeSource AncestorType={x:Type controlzEx:PopupEx}, Mode=FindAncestor}, Mode=OneWayToSource}"
+                         ItemTemplate="{Binding Path=PlacementTarget.SearchResultItemTemplate, RelativeSource={RelativeSource AncestorType={x:Type controlzEx:PopupEx}, Mode=FindAncestor}, Mode=OneTime}"
                          Background="White">
                 </ListBox>
             </Border>

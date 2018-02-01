@@ -82,8 +82,8 @@
                     <Storyboard>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleX">
                             <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="00:00:00.800" Value="1">
+                            <!--<EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>-->
+                            <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="1">
                                 <EasingDoubleKeyFrame.EasingFunction>
                                     <CubicEase EasingMode="EaseOut"/>
                                 </EasingDoubleKeyFrame.EasingFunction>
@@ -91,8 +91,8 @@
                         </DoubleAnimationUsingKeyFrames>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleY">
                             <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="00:00:00.800" Value="1">
+                            <!--<EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>-->
+                            <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="1">
                                 <EasingDoubleKeyFrame.EasingFunction>
                                     <CubicEase EasingMode="EaseOut"/>
                                 </EasingDoubleKeyFrame.EasingFunction>
@@ -100,8 +100,8 @@
                         </DoubleAnimationUsingKeyFrames>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
                             <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="00:00:00.800" Value="1">
+                            <!--<EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>-->
+                            <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="1">
                                 <EasingDoubleKeyFrame.EasingFunction>
                                     <CubicEase EasingMode="EaseIn"/>
                                 </EasingDoubleKeyFrame.EasingFunction>

@@ -184,6 +184,8 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 await LoadingFilesAsync();
             else
                 Files = CurrentFolder.ChildrenCache;
+
+            EventAggregator.GetEvent<SearchResultsChangedEvent>().Publish(Files.Select(node => node.Content));
         }
 
         private async Task<(string folder, bool isDownload)> DisplayDownloadDialogAsync(IEnumerable<string> files)
