@@ -118,7 +118,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Height="30" Width="30">
                                     <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding HeadImageUri, Converter={StaticResource UriToImageSourceConverter}}" />
+                                        <ImageBrush ImageSource="{Binding HeadImageUri, Converter={StaticResource UriToImageSourceConverter}}" RenderOptions.BitmapScalingMode="HighQuality"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
                                 <TextBlock Grid.Column="2" Text="{Binding Username}" VerticalAlignment="Center"/>

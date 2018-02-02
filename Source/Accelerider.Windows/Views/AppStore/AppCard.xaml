@@ -11,7 +11,7 @@
         </Grid.RowDefinitions>
 
         <Image Grid.Row="0" Source="{Binding Path=AppImageSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=materialDesign:Card, AncestorLevel=1}}"
-               HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality"/>
 
         <Grid>
             <Grid.Style>

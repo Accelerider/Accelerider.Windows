@@ -50,7 +50,10 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 if (!SetProperty(ref _selectedSearchResult, value) || value == null) return;
 
                 EventAggregator.GetEvent<SelectedSearchResultChangedEvent>().Publish(value);
+
+#if DEBUG
                 Debug.WriteLine($"SelectedSearchResult {value.Content.FilePath.FileName}");
+#endif
             }
         }
 
