@@ -34,7 +34,7 @@
         </Grid>
         <StackPanel Grid.Row="2" Margin="6 0" Orientation="Horizontal">
             <CheckBox IsChecked="{Binding IsRememberPassword}" Focusable="False">Remember me</CheckBox>
-            <CheckBox IsChecked="{Binding IsAutoSignIn}" Focusable="False" Margin="16 0 0 0">Auto Login</CheckBox>
+            <CheckBox IsChecked="{Binding IsAutoSignIn}" Focusable="False" Margin="16 0 0 0">Automatic Login</CheckBox>
         </StackPanel>
         <Button Grid.Row="4" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                 Command="{Binding SignInCommand}" 
