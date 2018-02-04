@@ -11,12 +11,12 @@
                 <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Brushes.Navy.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Converters.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Animations.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.Buttons.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.Windows.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.TabControls.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.ListBoxes.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.Button.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.Window.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.TabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.ListBox.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.Others.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.UserControls.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.UserControl.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -11,33 +11,33 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Image Grid.Row="0" Grid.RowSpan="4" Source="..\..\MockData/unknown.jpeg" Stretch="UniformToFill" Style="{StaticResource FadeInStyle}"/>
+        <Image Grid.Row="0" Grid.RowSpan="4" Source="..\..\MockData\background1.jpg" Stretch="UniformToFill" Style="{StaticResource FadeInStyle}"/>
         <Rectangle Grid.Row="0" Grid.RowSpan="4" Fill="#AAAAAAAA" Style="{StaticResource FadeInStyle}"/>
 
         <controls:SearchBar Grid.Row="1" Width="400" Background="White" Style="{StaticResource FloatInRightToLeftStyle}"/>
 
         <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto" Style="{StaticResource FloatInRightToLeftStyle}" >
             <WrapPanel Margin="16" >
-                <local:AppCard AppImageSource="..\..\MockData/cc.jpg" 
-                           AppName="Net Disk"
-                           AppDescription="Baidu net-disk download tool without speed limit."
-                           AppAuthors="C.C."
-                           AppDownloadCount="666" Margin="16 8 16 8"/>
-                <local:AppCard AppImageSource="..\..\MockData/luluxiu.jpg" 
-                           AppName="Group"
-                           AppDescription="Baidu net-disk download tool without speed limit."
-                           AppAuthors="ルルーシュ·ランペルージ"
-                           AppDownloadCount="666"  Margin="16 8 16 8"/>
-                <local:AppCard AppImageSource="..\..\MockData/dota2.jpg" 
-                           AppName="Net Disk"
-                           AppDescription="Baidu net-disk download tool without speed limit."
-                           AppAuthors="Parker"
-                           AppDownloadCount="666"  Margin="16 8 16 8"/>
-                <local:AppCard AppImageSource="..\..\MockData/fate.jpg" 
-                           AppName="Net Disk"
-                           AppDescription="Baidu net-disk download tool without speed limit."
-                           AppAuthors="Altria Pendragon"
-                           AppDownloadCount="666"  Margin="16 8 16 8"/>
+                <local:AppCard AppImageSource="..\..\MockData\netdisk.png" 
+                               AppName="Net Disk"
+                               AppDescription="Network disk manage tool."
+                               AppAuthors="Mrs4s &amp; ZDP"
+                               AppDownloadCount="666" Margin="16 8 16 8"/>
+                <local:AppCard AppImageSource="..\..\MockData\group.png" 
+                               AppName="Group"
+                               AppDescription="Communicate what you want to share with others."
+                               AppAuthors="ZDP"
+                               AppDownloadCount="666"  Margin="16 8 16 8"/>
+                <local:AppCard AppImageSource="..\..\MockData\scrapylogo.png" 
+                               AppName="Scrapy Incubator"
+                               AppDescription="Deploy your scrapy application in a distributed manner."
+                               AppAuthors="Unknow"
+                               AppDownloadCount="666"  Margin="16 8 16 8"/>
+                <local:AppCard AppImageSource="..\..\MockData\dota2.jpg" 
+                               AppName="Empty"
+                               AppDescription="Description"
+                               AppAuthors="Unknow"
+                               AppDownloadCount="666"  Margin="16 8 16 8"/>
             </WrapPanel>
         </ScrollViewer>
     </Grid>

@@ -11,9 +11,9 @@
         </Grid.RowDefinitions>
 
         <Image Grid.Row="0" Source="{Binding Path=AppImageSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=materialDesign:Card, AncestorLevel=1}}"
-               HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality"/>
 
-        <Grid Cursor="Hand">
+        <Grid>
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Background" Value="Transparent"/>
@@ -24,13 +24,13 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            
-            <materialDesign:PackIcon Foreground="White" Kind="Download" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                     Width="60" Height="60"
-                                     Visibility="{Binding Path=IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid, AncestorLevel=1}, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                     />
-        </Grid>
 
+            <Button Cursor="Hand" Height="60" Width="60" Style="{StaticResource MaterialDesignToolButton}" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0" Margin="0">
+                <materialDesign:PackIcon Foreground="White" Kind="Download" 
+                                Width="60" Height="60"
+                                Visibility="{Binding Path=IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid, AncestorLevel=1}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </Button>
+        </Grid>
 
         <Grid Grid.Row="1" Margin="8">
             <Grid.RowDefinitions>

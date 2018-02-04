@@ -37,7 +37,24 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <controls:SearchBar Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" ToolTip="Enter to search, ignore case"/>
+            <controls:SearchBar Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" 
+                                SearchResults="{Binding SearchResults}" SelectedSearchResult="{Binding SelectedSearchResult, Mode=OneWayToSource}">
+                <controls:SearchBar.SearchResultItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="10 0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Tag="{Binding Content.FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </controls:SearchBar.SearchResultItemTemplate>
+            </controls:SearchBar>
 
             <ListBox x:Name="SelectViewListBox" Grid.Row="3"
                      ItemContainerStyle="{StaticResource ListBoxItemStyle}"
@@ -101,7 +118,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Height="30" Width="30">
                                     <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding HeadImageUri, Converter={StaticResource UriToImageSourceConverter}}" />
+                                        <ImageBrush ImageSource="{Binding HeadImageUri, Converter={StaticResource UriToImageSourceConverter}}" RenderOptions.BitmapScalingMode="HighQuality"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
                                 <TextBlock Grid.Column="2" Text="{Binding Username}" VerticalAlignment="Center"/>

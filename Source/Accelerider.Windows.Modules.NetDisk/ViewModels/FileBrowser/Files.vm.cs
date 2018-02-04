@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
@@ -10,6 +12,7 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
+using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
 using Accelerider.Windows.Resources.I18N;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
@@ -21,6 +24,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         private readonly TransferringTaskList _downloadList;
         private readonly TransferringTaskList _uploadList;
 
+        private ILazyTreeNode<INetDiskFile> _selectedSearchResult;
         private ILazyTreeNode<INetDiskFile> _currentFolder;
 
         private ICommand _enterFolderCommand;
@@ -35,6 +39,14 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
             _downloadList = Container.Resolve<TransferringTaskList>(TransferringTaskList.DownloadKey);
             _uploadList = Container.Resolve<TransferringTaskList>(TransferringTaskList.UploadKey);
+
+            EventAggregator.GetEvent<SelectedSearchResultChangedEvent>().Subscribe(selectedSearchResult => SelectedSearchResult = selectedSearchResult);
+        }
+
+        public ILazyTreeNode<INetDiskFile> SelectedSearchResult
+        {
+            get => _selectedSearchResult;
+            set => SetProperty(ref _selectedSearchResult, value);
         }
 
         public ILazyTreeNode<INetDiskFile> CurrentFolder
@@ -184,6 +196,8 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 await LoadingFilesAsync();
             else
                 Files = CurrentFolder.ChildrenCache;
+
+            EventAggregator.GetEvent<SearchResultsChangedEvent>().Publish(Files);
         }
 
         private async Task<(string folder, bool isDownload)> DisplayDownloadDialogAsync(IEnumerable<string> files)
@@ -213,6 +227,28 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                     ? fileLocation.FolderPath.Substring(0, folderNameLength) + "...\\" + fileLocation.FileName
                     : fileLocation.FileName
                 : fileName;
+        }
+
+        public override void OnLoaded(object view)
+        {
+            base.OnLoaded(view);
+
+            var fileView = (Files)view;
+            fileView.ListboxFileList.SelectionChanged += OnSelectedFileItemChanged;
+        } 
+
+        public override void OnUnloaded(object view)
+        {
+            base.OnUnloaded(view);
+
+            var fileView = (Files)view;
+            fileView.ListboxFileList.SelectionChanged -= OnSelectedFileItemChanged;
+        }
+
+        private void OnSelectedFileItemChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var fileList = (System.Windows.Controls.ListBox)sender;
+            fileList.ScrollIntoView(SelectedSearchResult);
         }
     }
 }
