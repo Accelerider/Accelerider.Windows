@@ -17,3 +17,4 @@ namespace Accelerider.Windows.Infrastructure.Interfaces2
         Uri AvatarUrl { get; }
     }
 }
+ 
