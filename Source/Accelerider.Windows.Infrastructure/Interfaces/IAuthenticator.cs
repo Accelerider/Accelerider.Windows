@@ -3,10 +3,10 @@ using System.Windows.Controls;
 
 namespace Accelerider.Windows.Infrastructure.Interfaces
 {
-    public interface IAuthenticator<T> where T : INetDiskUser
+    public interface IAuthenticator
     {
-        UserControl GetAuthenticatorView();
+        string GetToken();
 
-        Task<T> Authenticate();
+
     }
 }

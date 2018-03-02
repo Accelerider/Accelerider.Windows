@@ -55,6 +55,7 @@ namespace Accelerider.Windows.ViewModels
         {
             var region = RegionManager.Regions[RegionNames.MainTabRegion];
             region.ActiveViews.CollectionChanged += OnActiveViewsChanged;
+            if (!region.Views.Any()) AppStoreIsDisplayed = true;
         }
 
         private void OnActiveViewsChanged(object sender, NotifyCollectionChangedEventArgs e)

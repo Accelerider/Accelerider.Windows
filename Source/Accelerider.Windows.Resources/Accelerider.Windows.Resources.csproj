@@ -60,6 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\ControlHelper.cs" />
+    <Compile Include="Controls\SearchBar.xaml.cs">
+      <DependentUpon>SearchBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SwitchableViewContainer.cs" />
     <Compile Include="Controls\SwitchLoadingViewContainer.cs" />
     <Compile Include="Controls\ToolBarButton.xaml.cs">
@@ -150,6 +153,10 @@
     <Resource Include="Images\logoSmall.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\SearchBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ToolBarButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

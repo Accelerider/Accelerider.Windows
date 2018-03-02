@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
@@ -8,7 +9,6 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Views.Entering;
 using Prism.Mvvm;
 using Prism.Unity;
-using Prism.Modularity;
 using Prism.Logging;
 
 namespace Accelerider.Windows
@@ -16,26 +16,12 @@ namespace Accelerider.Windows
     public class Bootstrapper : UnityBootstrapper
     {
         #region Overridered methods
-        //protected override IModuleCatalog CreateModuleCatalog() => new DirectoryModuleCatalog { ModulePath = @".\Modules" };
         protected override ILoggerFacade CreateLogger() => new Logger();
 
-        protected override void ConfigureModuleCatalog()
-        {
-            ModuleCatalog.AddModule(new ModuleInfo
-            {
-                ModuleName = "GroupModule",
-                ModuleType = "Accelerider.Windows.Modules.Group.GroupModule, Accelerider.Windows.Modules.Group, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-                Ref = $"file://{Environment.CurrentDirectory}/Modules/Accelerider.Windows.Modules.Group.dll",
-                InitializationMode = InitializationMode.WhenAvailable
-            });
-            ModuleCatalog.AddModule(new ModuleInfo
-            {
-                ModuleName = "NetDiskModule",
-                ModuleType = "Accelerider.Windows.Modules.NetDisk.NetDiskModule, Accelerider.Windows.Modules.NetDisk, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-                Ref = $"file://{Environment.CurrentDirectory}/Modules/Accelerider.Windows.Modules.NetDisk.dll",
-                InitializationMode = InitializationMode.WhenAvailable
-            });
-        }
+        //protected override void ConfigureModuleCatalog()
+        //{
+        //    new ModuleResolver(ModuleCatalog).Initialize();
+        //}
 
         protected override void ConfigureContainer()
         {
@@ -55,6 +41,7 @@ namespace Accelerider.Windows
             ShellSwitcher.Show((Window)Shell);
         }
         #endregion
+
 
         #region Private methods
         private void ConfigureApplicationEventHandlers()

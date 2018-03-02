@@ -61,8 +61,21 @@
                                      Width="284" Height="Auto" />
             </StackPanel>
 
-            <appstore:AppStoreComponent Grid.Column="1" Style="{StaticResource FloatInUpStyle}" 
-                                        Visibility="{Binding ElementName=AppStoreToggleButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <UserControl Grid.Column="1" >
+                <UserControl.Resources>
+                    <appstore:AppStoreComponent x:Key="AppStoreComponent" Style="{StaticResource FloatInRightToLeftStyle}" />
+                </UserControl.Resources>
+                <UserControl.Style>
+                    <Style TargetType="UserControl">
+                        <Setter Property="Content" Value="{x:Null}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=AppStoreToggleButton, Path=IsChecked}" Value="True">
+                                <Setter Property="Content" Value="{StaticResource AppStoreComponent}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </UserControl.Style>
+            </UserControl>
         </Grid>
     </materialDesign:DialogHost>
 </Window>

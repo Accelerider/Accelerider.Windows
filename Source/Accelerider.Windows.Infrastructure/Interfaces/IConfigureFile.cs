@@ -8,10 +8,12 @@
 
         T GetValue<T>(string key);
 
+        IConfigureFile Clear();
+
         void Delete();
 
-        void Load(string filePath = null);
+        IConfigureFile Load(string filePath = null);
 
-        void Save();
+        IConfigureFile Save();
     }
 }
