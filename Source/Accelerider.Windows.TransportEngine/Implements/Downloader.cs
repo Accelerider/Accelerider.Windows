@@ -8,10 +8,5 @@ namespace Accelerider.Windows.TransportEngine.Implements
         {
             throw new NotImplementedException();
         }
-
-        public IDownloader CreateChildDownloader()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

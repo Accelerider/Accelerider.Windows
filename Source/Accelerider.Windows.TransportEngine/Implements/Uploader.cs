@@ -8,10 +8,5 @@ namespace Accelerider.Windows.TransportEngine.Implements
         {
             throw new NotImplementedException();
         }
-
-        public IUploader CreateChildUploader()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Accelerider.Windows.Infrastructure.Interfaces;
@@ -10,22 +11,24 @@ namespace Accelerider.Windows.Core
     public class ConfigureFile : IConfigureFile
     {
         private JObject _storage;
-        private string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Accelerider.info");
+        private string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Accelerider.conf");
 
-        public object this[string key]
-        {
-            get => JsonConvert.DeserializeObject(_storage[key]?.ToString() ?? string.Empty);
-            set
-            {
-                if (EqualityComparer<object>.Default.Equals(_storage[key], value)) return;
-                _storage[key] = JsonConvert.SerializeObject(value, Formatting.Indented);
-                Save();
-            }
-        }
+        public event ValueChangedEventHandler ValueChanged;
 
         public bool Contains(string key) => _storage.Values().Any(token => token.Path == key);
 
         public T GetValue<T>(string key) => JsonConvert.DeserializeObject<T>(_storage[key]?.ToString() ?? string.Empty);
+
+        public IConfigureFile SetValue<T>(string key, T value)
+        {
+            if (EqualityComparer<object>.Default.Equals(_storage[key], value)) return this;
+
+            _storage[key] = JsonConvert.SerializeObject(value, Formatting.Indented);
+            Save();
+            ValueChanged?.Invoke(this, key);
+
+            return this;
+        }
 
         public IConfigureFile Load(string filePath = null)
         {
@@ -53,6 +56,7 @@ namespace Accelerider.Windows.Core
             Clear();
             File.Delete(_filePath);
         }
+
 
         private void Save() => WriteToLocal(_filePath, _storage.ToString(Formatting.Indented));
 

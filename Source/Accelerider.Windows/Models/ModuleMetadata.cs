@@ -5,8 +5,6 @@ namespace Accelerider.Windows.Models
 {
     public class ModuleMetadata
     {
-        public bool IsInstalled { get; set; }
-
         public long Id { get; set; }
 
         public string TargetPlatform { get; set; }

@@ -4,9 +4,9 @@ namespace Accelerider.Windows.TransportEngine
 {
     public interface ITaskMetadata : IEquatable<ITaskMetadata>
     {
-        Uri Uri { get; }
+        Uri FromPath { get; }
 
-        string LocalPath { get; }
+        string ToPath { get; }
 
         TransportTaskStatus Status { get; }
 

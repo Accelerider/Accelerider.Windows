@@ -34,14 +34,10 @@ namespace Accelerider.Windows.TransportEngine
     public interface IDownloader : ITransporter
     {
         ITaskMetadata Add(DownloadTaskInfo taskInfo);
-
-        IDownloader CreateChildDownloader();
     }
 
     public interface IUploader : ITransporter
     {
         ITaskMetadata Add(UploadTaskInfo taskInfo);
-
-        IUploader CreateChildUploader();
     }
 }
