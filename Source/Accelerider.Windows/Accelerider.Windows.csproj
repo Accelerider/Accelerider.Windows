@@ -110,7 +110,6 @@
     <Compile Include="Views\AppStore\AppStoreComponent.xaml.cs">
       <DependentUpon>AppStoreComponent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MockData\AcceleriderModulesProvider.cs" />
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>

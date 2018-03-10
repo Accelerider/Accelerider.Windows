@@ -18,7 +18,7 @@ namespace Accelerider.Windows.ViewModels.Entering
     {
         private string _emailAddress;
         private string _username;
-        private string _licenseCode;
+        //private string _licenseCode;
 
         private ICommand _signUpCommand;
 
@@ -40,11 +40,11 @@ namespace Accelerider.Windows.ViewModels.Entering
             set => SetProperty(ref _username, value);
         }
 
-        public string LicenseCode
-        {
-            get => _licenseCode;
-            set => SetProperty(ref _licenseCode, value);
-        }
+        //public string LicenseCode
+        //{
+        //    get => _licenseCode;
+        //    set => SetProperty(ref _licenseCode, value);
+        //}
 
         public ICommand SignUpCommand
         {
@@ -58,7 +58,7 @@ namespace Accelerider.Windows.ViewModels.Entering
             Username,
             view.PasswordBox.Password,
             view.PasswordBoxRepeat.Password,
-            LicenseCode
+            //LicenseCode
         }.All(field => !string.IsNullOrEmpty(field));
 
         private async void SignUpCommandExecute(SignUpView view)

@@ -35,7 +35,7 @@
                             <EventTrigger RoutedEvent="ListBoxItem.Selected">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="426" To="310">
+                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="390" To="310">
                                             <DoubleAnimation.EasingFunction>
                                                 <BackEase  EasingMode="EaseOut"/>
                                             </DoubleAnimation.EasingFunction>
@@ -51,7 +51,7 @@
                             <EventTrigger RoutedEvent="ListBoxItem.Selected">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="310" To="426">
+                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="310" To="390">
                                             <DoubleAnimation.EasingFunction>
                                                 <BackEase  EasingMode="EaseOut"/>
                                             </DoubleAnimation.EasingFunction>

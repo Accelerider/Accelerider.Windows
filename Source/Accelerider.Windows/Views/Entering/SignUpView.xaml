@@ -43,10 +43,10 @@
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="6" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
             <PasswordBox Name="PasswordBoxRepeat" Grid.Column="1" Grid.Row="6" materialDesign:HintAssist.Hint="Confirm Password" 
                          Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
-            <materialDesign:PackIcon Grid.Column="0" Grid.Row="8" Kind="Check" VerticalAlignment="Bottom" Margin="6"/>
+            <!--<materialDesign:PackIcon Grid.Column="0" Grid.Row="8" Kind="Check" VerticalAlignment="Bottom" Margin="6"/>
             <TextBox Grid.Column="1" Grid.Row="8" materialDesign:HintAssist.Hint="License" 
                      Text="{Binding LicenseCode, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>-->
         </Grid>
         <Button Grid.Row="2" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                 Command="{Binding SignUpCommand}" 
