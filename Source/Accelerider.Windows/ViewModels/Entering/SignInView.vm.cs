@@ -18,6 +18,7 @@ namespace Accelerider.Windows.ViewModels.Entering
     {
         private readonly INonAuthenticationApi _nonAuthenticationApi;
 
+        private SignUpInfoBody _signUpInfo;
         private string _username;
         private bool _isRememberPassword;
         private bool _isAutoSignIn;
@@ -29,6 +30,8 @@ namespace Accelerider.Windows.ViewModels.Entering
             _nonAuthenticationApi = Container.Resolve<INonAuthenticationApi>();
             LocalConfigureInfo = Container.Resolve<ILocalConfigureInfo>();
             SignInCommand = new RelayCommand<PasswordBox>(SignInCommandExecute, passwordBox => CanSignIn(Username, passwordBox.Password));
+
+            EventAggregator.GetEvent<SignUpSuccessEvent>().Subscribe(signUpInfo => _signUpInfo = signUpInfo);
         }
 
 
@@ -61,18 +64,36 @@ namespace Accelerider.Windows.ViewModels.Entering
 
         public override void OnLoaded(object view)
         {
-            var password = ((SignInView)view).PasswordBox;
+            var passwordBox = ((SignInView)view).PasswordBox;
 
+            // 1. Login info from SignUpView
+            if (_signUpInfo != null)
+            {
+                IsRememberPassword = false;
+                IsAutoSignIn = false;
+                Username = _signUpInfo.Username;
+                passwordBox.Password = _signUpInfo.Password;
+
+                SignInCommand.Execute(passwordBox);
+                _signUpInfo = null;
+                return;
+            }
+
+            // 2. If there is some residual information on username or password text box, no login information is loaded from elsewhere.
+            if (!string.IsNullOrEmpty(Username) || !string.IsNullOrEmpty(passwordBox.Password)) return;
+
+            // 3. No login info from config file.
             if (!CanSignIn(LocalConfigureInfo.Username, LocalConfigureInfo.PasswordEncrypted)) return;
 
+            // 4. Login info from config file.
             IsRememberPassword = true;
             IsAutoSignIn = LocalConfigureInfo.IsAutoSignIn;
             Username = LocalConfigureInfo.Username;
-            password.Password = LocalConfigureInfo.PasswordEncrypted.DecryptByRijndael();
+            passwordBox.Password = LocalConfigureInfo.PasswordEncrypted.DecryptByRijndael();
 
             if (IsAutoSignIn)
             {
-                SignInCommand.Execute(password);
+                SignInCommand.Execute(passwordBox);
             }
         }
 

@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views.Entering;
 using Microsoft.Practices.Unity;
-using Refit;
 
 namespace Accelerider.Windows.ViewModels.Entering
 {
@@ -18,7 +15,6 @@ namespace Accelerider.Windows.ViewModels.Entering
     {
         private string _emailAddress;
         private string _username;
-        //private string _licenseCode;
 
         private ICommand _signUpCommand;
 
@@ -40,17 +36,12 @@ namespace Accelerider.Windows.ViewModels.Entering
             set => SetProperty(ref _username, value);
         }
 
-        //public string LicenseCode
-        //{
-        //    get => _licenseCode;
-        //    set => SetProperty(ref _licenseCode, value);
-        //}
-
         public ICommand SignUpCommand
         {
             get => _signUpCommand;
             set => SetProperty(ref _signUpCommand, value);
         }
+
 
         private bool SignUpCommandCanExecute(SignUpView view) => new[]
         {
@@ -58,7 +49,6 @@ namespace Accelerider.Windows.ViewModels.Entering
             Username,
             view.PasswordBox.Password,
             view.PasswordBoxRepeat.Password,
-            //LicenseCode
         }.All(field => !string.IsNullOrEmpty(field));
 
         private async void SignUpCommandExecute(SignUpView view)
@@ -68,24 +58,31 @@ namespace Accelerider.Windows.ViewModels.Entering
                 GlobalMessageQueue.Enqueue("Password does not match the confirm password.");
                 return;
             }
-            EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(true);
 
             await SignUpAsync(new SignUpInfoBody
             {
                 Username = Username,
                 Password = view.PasswordBox.Password.ToMd5().EncryptByRsa()
+            }, () =>
+            {
+                EmailAddress = string.Empty;
+                Username = string.Empty;
+                view.PasswordBox.Password = string.Empty;
+                view.PasswordBoxRepeat.Password = string.Empty;
             });
-
-            EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(false);
         }
 
-        private async Task SignUpAsync(SignUpInfoBody signUpInfo)
+        private async Task SignUpAsync(SignUpInfoBody signUpInfo, Action successAction)
         {
+            EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(true);
             var nonAuthApi = Container.Resolve<INonAuthenticationApi>();
             await nonAuthApi.SignUpAsync(signUpInfo).RunApi(() =>
             {
+                successAction?.Invoke();
                 GlobalMessageQueue.Enqueue("Registered successfully!");
+                EventAggregator.GetEvent<SignUpSuccessEvent>().Publish(signUpInfo);
             });
+            EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(false);
         }
     }
 }

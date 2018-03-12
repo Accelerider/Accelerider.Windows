@@ -21,8 +21,8 @@
                 <RowDefinition />
                 <RowDefinition Height="16"/>
                 <RowDefinition />
-                <RowDefinition Height="16"/>
-                <RowDefinition />
+                <!--<RowDefinition Height="16"/>
+                <RowDefinition />-->
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

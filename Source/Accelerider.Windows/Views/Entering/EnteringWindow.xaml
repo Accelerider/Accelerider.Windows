@@ -12,65 +12,40 @@
         x:Name="OwnerWindow" Style="{StaticResource AcceleriderWindowStyle}">
 
     <controls:SwitchLoadingViewContainer IsLoading="{Binding IsLoading}">
-        <Grid Margin="60 40 60 30" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="21"/>
-                <RowDefinition Height="24"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <ListBox x:Name="SwitchViewListBox" WindowChrome.IsHitTestVisibleInChrome="True" SelectedIndex="0" 
-                         ItemContainerStyle="{StaticResource TextListBoxItemStyle}"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-
-                    <ListBoxItem Content="LOGIN">
-                        <ListBoxItem.Triggers>
-                            <EventTrigger RoutedEvent="ListBoxItem.Selected">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="390" To="310">
-                                            <DoubleAnimation.EasingFunction>
-                                                <BackEase  EasingMode="EaseOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </ListBoxItem.Triggers>
-                    </ListBoxItem>
-
-                    <ListBoxItem Content="REGISTER">
-                        <ListBoxItem.Triggers>
-                            <EventTrigger RoutedEvent="ListBoxItem.Selected">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="310" To="390">
-                                            <DoubleAnimation.EasingFunction>
-                                                <BackEase  EasingMode="EaseOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </ListBoxItem.Triggers>
-                    </ListBoxItem>
-                </ListBox>
-            </StackPanel>
-
-            <controls:SwitchableViewContainer Grid.Row="2" Selector="{Binding ElementName=SwitchViewListBox}">
-                <controls:SwitchableViewContainer.Resources>
-                    <enteringViews:SignInView x:Key="0" Style="{StaticResource TranslateToRightStyle}"/>
-                    <enteringViews:SignUpView x:Key="1" Style="{StaticResource TranslateToLeftStyle}"/>
-                </controls:SwitchableViewContainer.Resources>
-            </controls:SwitchableViewContainer>
-        </Grid>
+        <TabControl Margin="60 40 60 30" WindowChrome.IsHitTestVisibleInChrome="True">
+            <TabItem x:Name="SignInTabItem" Header="LOGIN" IsSelected="True">
+                <enteringViews:SignInView Style="{StaticResource TranslateToRightStyle}" Margin="0 16 0 0"/>
+                <TabItem.Triggers>
+                    <EventTrigger RoutedEvent="Selector.Selected">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="374" To="310">
+                                    <DoubleAnimation.EasingFunction>
+                                        <BackEase  EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TabItem.Triggers>
+            </TabItem>
+            <TabItem Header="REGISTER" >
+                <enteringViews:SignUpView Style="{StaticResource TranslateToLeftStyle}" Margin="0 16 0 0"/>
+                <TabItem.Triggers>
+                    <EventTrigger RoutedEvent="Selector.Selected">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="310" To="374">
+                                    <DoubleAnimation.EasingFunction>
+                                        <BackEase  EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TabItem.Triggers>
+            </TabItem>
+        </TabControl>
         <controls:SwitchLoadingViewContainer.LoadingContent>
             <Grid Background="#5458AF" Style="{StaticResource FadeInStyle}">
                 <Grid.RowDefinitions>
