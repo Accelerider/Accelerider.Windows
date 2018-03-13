@@ -155,14 +155,19 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False"
-                                          Margin="8" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        <!--<ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False"
+                                          Margin="8" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>-->
+                        <TextBlock x:Name="contentPresenter" Text="{TemplateBinding Header}"  Focusable="False" Margin="8"
+                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         <Rectangle x:Name="selectedUnderline" Margin="8 0" Opacity="0" Height="4" Focusable="False" VerticalAlignment="Bottom" Fill="{TemplateBinding Foreground}"/>
                         <Rectangle x:Name="mouseOverUnderline" Margin="8 0" Opacity="0" Height="4" Focusable="False" VerticalAlignment="Bottom" Fill="{TemplateBinding Foreground}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger SourceName="contentPresenter" Property="IsMouseOver" Value="True">
+                        <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="contentPresenter" Property="TextBlock.FontWeight" Value="Bold"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
