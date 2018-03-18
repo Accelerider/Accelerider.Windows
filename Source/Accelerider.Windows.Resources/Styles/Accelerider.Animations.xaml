@@ -82,7 +82,6 @@
                     <Storyboard>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleX">
                             <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <!--<EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>-->
                             <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="1">
                                 <EasingDoubleKeyFrame.EasingFunction>
                                     <CubicEase EasingMode="EaseOut"/>
@@ -91,7 +90,6 @@
                         </DoubleAnimationUsingKeyFrames>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleY">
                             <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <!--<EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>-->
                             <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="1">
                                 <EasingDoubleKeyFrame.EasingFunction>
                                     <CubicEase EasingMode="EaseOut"/>
@@ -100,7 +98,6 @@
                         </DoubleAnimationUsingKeyFrames>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
                             <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <!--<EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="0"/>-->
                             <EasingDoubleKeyFrame KeyTime="00:00:00.400" Value="1">
                                 <EasingDoubleKeyFrame.EasingFunction>
                                     <CubicEase EasingMode="EaseIn"/>
@@ -131,7 +128,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="TranslateToLeftStyle" TargetType="FrameworkElement">
+    <!--<Style x:Key="TranslateToLeftStyle" TargetType="FrameworkElement">
         <Setter Property="RenderTransform">
             <Setter.Value>
                 <TranslateTransform />
@@ -141,12 +138,12 @@
             <EventTrigger RoutedEvent="Loaded" >
                 <BeginStoryboard>
                     <Storyboard>
-                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.400" Storyboard.TargetProperty="RenderTransform.X" From="310" To="0">
+                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.600" Storyboard.TargetProperty="RenderTransform.X" From="200" To="0">
                             <DoubleAnimation.EasingFunction>
                                 <CubicEase  EasingMode="EaseOut"/>
                             </DoubleAnimation.EasingFunction>
                         </DoubleAnimation>
-                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.400" Storyboard.TargetProperty="Opacity" From="0" To="1">
+                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.600" Storyboard.TargetProperty="Opacity" From="0" To="1">
                             <DoubleAnimation.EasingFunction>
                                 <CircleEase  EasingMode="EaseIn"/>
                             </DoubleAnimation.EasingFunction>
@@ -167,12 +164,12 @@
             <EventTrigger RoutedEvent="Loaded" >
                 <BeginStoryboard>
                     <Storyboard>
-                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.TargetProperty="RenderTransform.X" From="-310" To="0">
+                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.600" Storyboard.TargetProperty="RenderTransform.X" From="-200" To="0">
                             <DoubleAnimation.EasingFunction>
                                 <CubicEase  EasingMode="EaseOut"/>
                             </DoubleAnimation.EasingFunction>
                         </DoubleAnimation>
-                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.TargetProperty="Opacity" From="0" To="1">
+                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.600" Storyboard.TargetProperty="Opacity" From="0" To="1">
                             <DoubleAnimation.EasingFunction>
                                 <CircleEase  EasingMode="EaseIn"/>
                             </DoubleAnimation.EasingFunction>
@@ -181,5 +178,6 @@
                 </BeginStoryboard>
             </EventTrigger>
         </Style.Triggers>
-    </Style>
+    </Style>-->
+
 </ResourceDictionary>

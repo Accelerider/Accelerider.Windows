@@ -8,18 +8,18 @@
         WindowStartupLocation="CenterScreen"
         Topmost="True"
         Icon="pack://application:,,,/Images/logoIcon.ico"
-        Title="EnteringWindow" Height="310" Width="430"
+        Title="EnteringWindow" Height="321" Width="430"
         x:Name="OwnerWindow" Style="{StaticResource AcceleriderWindowStyle}">
 
     <controls:SwitchLoadingViewContainer IsLoading="{Binding IsLoading}">
         <TabControl Margin="60 40 60 30" WindowChrome.IsHitTestVisibleInChrome="True">
             <TabItem x:Name="SignInTabItem" Header="LOGIN" IsSelected="True">
-                <enteringViews:SignInView Style="{StaticResource TranslateToRightStyle}" Margin="0 16 0 0"/>
+                <enteringViews:SignInView Margin="0 16 0 0" />
                 <TabItem.Triggers>
                     <EventTrigger RoutedEvent="Selector.Selected">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="374" To="310">
+                                <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="384" To="321">
                                     <DoubleAnimation.EasingFunction>
                                         <BackEase  EasingMode="EaseOut"/>
                                     </DoubleAnimation.EasingFunction>
@@ -30,12 +30,12 @@
                 </TabItem.Triggers>
             </TabItem>
             <TabItem Header="REGISTER" >
-                <enteringViews:SignUpView Style="{StaticResource TranslateToLeftStyle}" Margin="0 16 0 0"/>
+                <enteringViews:SignUpView Margin="0 16 0 0" />
                 <TabItem.Triggers>
                     <EventTrigger RoutedEvent="Selector.Selected">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="310" To="374">
+                                <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="321" To="384">
                                     <DoubleAnimation.EasingFunction>
                                         <BackEase  EasingMode="EaseOut"/>
                                     </DoubleAnimation.EasingFunction>

@@ -26,10 +26,10 @@
 
         <TabControl Grid.Row="1">
             <TabItem Header="Conversations">
-                <views:ConversationsTab Style="{StaticResource TranslateToRightStyle}"/>
+                <views:ConversationsTab />
             </TabItem>
             <TabItem Header="Files">
-                <views:FilesTab Style="{StaticResource TranslateToLeftStyle}"/>
+                <views:FilesTab />
             </TabItem>
         </TabControl>
     </Grid>
