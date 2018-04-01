@@ -10,13 +10,14 @@ namespace Accelerider.Windows.Infrastructure
     public abstract class ViewModelBase : BindableBase
     {
         private ISnackbarMessageQueue _globalMessageQueue;
+        private IAcceleriderUser _acceleriderUser;
 
         protected ViewModelBase(IUnityContainer container)
         {
             Container = container;
             EventAggregator = container.Resolve<IEventAggregator>();
             Logger = container.Resolve<ILoggerFacade>();
-            AcceleriderUser = container.Resolve<IAcceleriderUser>();
+            //AcceleriderUser = container.Resolve<IAcceleriderUser>();
             GlobalMessageQueue = container.Resolve<ISnackbarMessageQueue>();
         }
 
@@ -30,7 +31,7 @@ namespace Accelerider.Windows.Infrastructure
         protected IEventAggregator EventAggregator { get; }
         protected ILoggerFacade Logger { get; }
 
-        protected IAcceleriderUser AcceleriderUser { get; }
+        protected IAcceleriderUser AcceleriderUser => _acceleriderUser ?? (_acceleriderUser = Container.Resolve<IAcceleriderUser>());
 
         public virtual void OnLoaded(object view)
         {

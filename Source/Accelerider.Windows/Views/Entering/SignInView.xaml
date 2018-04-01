@@ -25,8 +25,8 @@
             </Grid.ColumnDefinitions>
 
             <materialDesign:PackIcon Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
-            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Username"
-                     Text="{Binding Username}"
+            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Email"
+                     Text="{Binding Email}"
                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
             <PasswordBox Name="PasswordBox" Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Password" 

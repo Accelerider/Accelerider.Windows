@@ -1,39 +1,13 @@
-﻿using Accelerider.Windows.Infrastructure.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Management;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace Accelerider.Windows.Infrastructure
+namespace Accelerider.Windows.Infrastructure.Extensions
 {
-    public static class LazyTreeNodeExtensions
-    {
-        //public static async Task ForEachAsync<T>(this ILazyTreeNode<T> self, Action<T> action)
-        //{
-        //    await new Soil<T>(self).ForEachAsync(action);
-        //}
-
-        public static async Task<IEnumerable<ILazyTreeNode<T>>> FlattenAsync<T>(this ILazyTreeNode<T> self)
-        {
-            return await new Soil<T>(self).FlattenAsync();
-        }
-
-        public static async Task<IReadOnlyList<ILazyTreeNode<T>>> GetChildrenAsync<T>(this ILazyTreeNode<T> self, bool force = false)
-        {
-            return await new Soil<T>(self).GetChildrenAsync(force);
-        }
-
-        public static int Count<T>(this ILazyTreeNode<T> self)
-        {
-            return new Soil<T>(self).Count();
-        }
-    }
-
     public static class StringExtensions
     {
         #region Private members
@@ -171,25 +145,5 @@ namespace Accelerider.Windows.Infrastructure
                 throw new FileNotFoundException("privatekey.xml not found.");
             return File.ReadAllText(filePath);
         }
-    }
-
-    public static class TransferTaskStatusEnumExtensions
-    {
-        private static readonly Dictionary<TransferTaskStatusEnum, TransferTaskStatusEnum[]> StatusChangeMapping = new Dictionary<TransferTaskStatusEnum, TransferTaskStatusEnum[]>
-        {
-            { TransferTaskStatusEnum.Created, new []{ TransferTaskStatusEnum.Waiting } },
-            { TransferTaskStatusEnum.Waiting, new []{ TransferTaskStatusEnum.Transferring, TransferTaskStatusEnum.Paused, TransferTaskStatusEnum.Faulted } },
-            { TransferTaskStatusEnum.Transferring, new []{ TransferTaskStatusEnum.Paused, TransferTaskStatusEnum.Completed, TransferTaskStatusEnum.Faulted } },
-            { TransferTaskStatusEnum.Paused, new []{ TransferTaskStatusEnum.Waiting, } },
-            { TransferTaskStatusEnum.Faulted, new []{ TransferTaskStatusEnum.Waiting } },
-        };
-
-        public static bool CanConvertedTo(this TransferTaskStatusEnum self, TransferTaskStatusEnum other) =>
-            !self.IsEndStatus() && // The end status cannot be converted.
-            (other == TransferTaskStatusEnum.Canceled || // Any status can be Canceled except the end status.
-            StatusChangeMapping[self].Contains(other));
-
-        public static bool IsEndStatus(this TransferTaskStatusEnum self) => self == TransferTaskStatusEnum.Completed ||
-                                                                            self == TransferTaskStatusEnum.Canceled;
     }
 }

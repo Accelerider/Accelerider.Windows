@@ -7,11 +7,13 @@ namespace Accelerider.Windows.Models
     {
         public long Id { get; set; }
 
+        public string AliasName { get; set; }
+
         public string TargetPlatform { get; set; }
 
-        public string Authors { get; set; }
+        public IList<string> Authors { get; set; }
 
-        public Uri LogoUrl { get; set; }
+        public IList<string> Keywords { get; set; }
 
         public string Description { get; set; }
 
@@ -19,9 +21,17 @@ namespace Accelerider.Windows.Models
 
         public long DownloadCount { get; set; }
 
-        public string Checksum { get; set; }
+        public DateTime ReleaseTime { get; set; }
+
+        public DateTime CreatedTime { get; set; }
+
+        public string Version { get; set; }
+
+        public Uri LogoUrl { get; set; }
 
         public string ModuleName { get; set; }
+
+        public string Checksum { get; set; }
 
         public string ModuleType { get; set; }
 

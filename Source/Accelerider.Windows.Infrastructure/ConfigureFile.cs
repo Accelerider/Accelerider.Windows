@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Accelerider.Windows.Core
+namespace Accelerider.Windows.Infrastructure
 {
     public class ConfigureFile : IConfigureFile
     {

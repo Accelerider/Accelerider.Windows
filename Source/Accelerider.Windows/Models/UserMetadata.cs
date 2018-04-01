@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Interfaces2;
-using MaterialDesignThemes.Wpf;
+using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Models
 {
@@ -10,7 +8,7 @@ namespace Accelerider.Windows.Models
     {
         public string Token { get; set; }
 
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         public string Email { get; set; }
 

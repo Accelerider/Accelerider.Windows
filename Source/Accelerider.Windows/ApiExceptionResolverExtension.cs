@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
+using Newtonsoft.Json.Linq;
 using Refit;
 
 namespace Accelerider.Windows
@@ -27,7 +28,7 @@ namespace Accelerider.Windows
                 }
                 catch (ApiException e)
                 {
-                    _snackbarMessageQueue.Enqueue(e.Content);
+                    _snackbarMessageQueue.Enqueue(JObject.Parse(e.Content).Value<string>("message"));
                 }
                 catch (HttpRequestException httpRequestException)
                 {
@@ -43,7 +44,7 @@ namespace Accelerider.Windows
                 }
                 catch (ApiException apiException)
                 {
-                    _snackbarMessageQueue.Enqueue(apiException.Content);
+                    _snackbarMessageQueue.Enqueue(apiException.StatusCode);
                 }
                 catch (HttpRequestException httpRequestException)
                 {

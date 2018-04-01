@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Extensions;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views;
@@ -19,7 +20,7 @@ namespace Accelerider.Windows.ViewModels.Entering
         private readonly INonAuthenticationApi _nonAuthenticationApi;
 
         private SignUpInfoBody _signUpInfo;
-        private string _username;
+        private string _email;
         private bool _isRememberPassword;
         private bool _isAutoSignIn;
         private ICommand _signInCommand;
@@ -28,19 +29,19 @@ namespace Accelerider.Windows.ViewModels.Entering
         public SignInViewModel(IUnityContainer container) : base(container)
         {
             _nonAuthenticationApi = Container.Resolve<INonAuthenticationApi>();
-            LocalConfigureInfo = Container.Resolve<ILocalConfigureInfo>();
-            SignInCommand = new RelayCommand<PasswordBox>(SignInCommandExecute, passwordBox => CanSignIn(Username, passwordBox.Password));
+            ConfigureFile = Container.Resolve<IConfigureFile>();
+            SignInCommand = new RelayCommand<PasswordBox>(SignInCommandExecute, passwordBox => CanSignIn(Email, passwordBox.Password));
 
             EventAggregator.GetEvent<SignUpSuccessEvent>().Subscribe(signUpInfo => _signUpInfo = signUpInfo);
         }
 
 
-        protected ILocalConfigureInfo LocalConfigureInfo { get; }
+        protected IConfigureFile ConfigureFile { get; }
 
-        public string Username
+        public string Email
         {
-            get => _username;
-            set => SetProperty(ref _username, value);
+            get => _email;
+            set => SetProperty(ref _email, value);
         }
 
         public bool IsRememberPassword
@@ -71,7 +72,7 @@ namespace Accelerider.Windows.ViewModels.Entering
             {
                 IsRememberPassword = false;
                 IsAutoSignIn = false;
-                Username = _signUpInfo.Username;
+                Email = _signUpInfo.Username;
                 passwordBox.Password = _signUpInfo.Password;
 
                 SignInCommand.Execute(passwordBox);
@@ -80,16 +81,16 @@ namespace Accelerider.Windows.ViewModels.Entering
             }
 
             // 2. If there is some residual information on username or password text box, no login information is loaded from elsewhere.
-            if (!string.IsNullOrEmpty(Username) || !string.IsNullOrEmpty(passwordBox.Password)) return;
+            if (!string.IsNullOrEmpty(Email) || !string.IsNullOrEmpty(passwordBox.Password)) return;
 
             // 3. No login info from config file.
-            if (!CanSignIn(LocalConfigureInfo.Username, LocalConfigureInfo.PasswordEncrypted)) return;
+            if (!CanSignIn(ConfigureFile.GetValue<string>(ConfigureKeys.Username), ConfigureFile.GetValue<string>(ConfigureKeys.Password))) return;
 
             // 4. Login info from config file.
             IsRememberPassword = true;
-            IsAutoSignIn = LocalConfigureInfo.IsAutoSignIn;
-            Username = LocalConfigureInfo.Username;
-            passwordBox.Password = LocalConfigureInfo.PasswordEncrypted.DecryptByRijndael();
+            IsAutoSignIn = ConfigureFile.GetValue<bool>(ConfigureKeys.AutoSignIn);
+            Email = ConfigureFile.GetValue<string>(ConfigureKeys.Username);
+            passwordBox.Password = ConfigureFile.GetValue<string>(ConfigureKeys.Password).DecryptByRijndael();
 
             if (IsAutoSignIn)
             {
@@ -99,11 +100,11 @@ namespace Accelerider.Windows.ViewModels.Entering
 
         private async void SignInCommandExecute(PasswordBox password)
         {
-            var passwordMd5 = password.Password == LocalConfigureInfo.PasswordEncrypted.DecryptByRijndael()
+            var passwordMd5 = password.Password == ConfigureFile.GetValue<string>(ConfigureKeys.Password).DecryptByRijndael()
                             ? password.Password
                             : password.Password.ToMd5();
 
-            await SignInAsync(Username, passwordMd5);
+            await SignInAsync(Email, passwordMd5);
         }
 
         private async Task SignInAsync(string username, string passwordMd5)
@@ -113,17 +114,16 @@ namespace Accelerider.Windows.ViewModels.Entering
             if (!await AuthenticateAsync(username, passwordMd5))
             {
                 EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(false);
-                LocalConfigureInfo.IsAutoSignIn = false;
+                ConfigureFile.SetValue(ConfigureKeys.AutoSignIn, false);
                 return;
             }
 
             await Container.Resolve<ModuleResolver>().LoadAsync();
 
             // Saves data.
-            LocalConfigureInfo.Username = IsRememberPassword ? username : string.Empty;
-            LocalConfigureInfo.PasswordEncrypted = IsRememberPassword ? passwordMd5.EncryptByRijndael() : string.Empty;
-            LocalConfigureInfo.IsAutoSignIn = IsAutoSignIn;
-            LocalConfigureInfo.Save();
+            ConfigureFile.SetValue(ConfigureKeys.Username, IsRememberPassword ? username : string.Empty);
+            ConfigureFile.SetValue(ConfigureKeys.Password, IsRememberPassword ? passwordMd5.EncryptByRijndael() : string.Empty);
+            ConfigureFile.SetValue(ConfigureKeys.AutoSignIn, IsAutoSignIn);
 
             // Launches main window and closes itself.
             ShellSwitcher.Switch<EnteringWindow, MainWindow>();
@@ -133,7 +133,7 @@ namespace Accelerider.Windows.ViewModels.Entering
         {
             var token = await _nonAuthenticationApi.LoginAsync(new LoginInfoBody
             {
-                Username = username,
+                Email = username,
                 Password = passwordMd5.EncryptByRsa()
             }).RunApi();
 
@@ -148,7 +148,7 @@ namespace Accelerider.Windows.ViewModels.Entering
 
             if (user == null) return false;
 
-            Container.RegisterInstance(user);
+            Container.RegisterInstance<IAcceleriderUser>(user);
             Container.RegisterInstance(acceleriderApi);
 
             return true;

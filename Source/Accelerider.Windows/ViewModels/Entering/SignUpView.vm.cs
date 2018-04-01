@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Extensions;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views.Entering;
 using Microsoft.Practices.Unity;
@@ -61,6 +61,7 @@ namespace Accelerider.Windows.ViewModels.Entering
 
             await SignUpAsync(new SignUpInfoBody
             {
+                Email = EmailAddress,
                 Username = Username,
                 Password = view.PasswordBox.Password.ToMd5().EncryptByRsa()
             }, () =>

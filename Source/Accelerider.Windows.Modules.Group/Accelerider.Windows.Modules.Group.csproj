@@ -168,10 +168,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
-      <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
-      <Name>MaterialDesignThemes.Wpf</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{F61839D1-6C54-4E70-B5CB-7EA02F54A664}</Project>
       <Name>Accelerider.Windows.Infrastructure</Name>

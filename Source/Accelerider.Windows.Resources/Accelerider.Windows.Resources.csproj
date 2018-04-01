@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.4.0.1044, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MaterialDesignThemes.2.4.0.1044\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -73,6 +77,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UiStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="ImageHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -194,20 +199,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignColors.Wpf\MaterialDesignColors.Wpf.csproj">
-      <Project>{90b53209-c60c-4655-b28d-a1b3e1044ba3}</Project>
-      <Name>MaterialDesignColors.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MaterialDesignInXamlToolkit\MaterialDesignThemes.Wpf\MaterialDesignThemes.Wpf.csproj">
-      <Project>{f079fb0a-a8ed-4216-b6a5-345756751a04}</Project>
-      <Name>MaterialDesignThemes.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
-      <Project>{f61839d1-6c54-4e70-b5cb-7ea02f54a664}</Project>
-      <Name>Accelerider.Windows.Infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

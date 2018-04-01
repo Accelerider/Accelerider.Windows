@@ -1,4 +1,5 @@
 ﻿using System;
+using Accelerider.Windows.Infrastructure.Extensions;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure

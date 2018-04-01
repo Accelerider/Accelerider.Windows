@@ -1,43 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.Interfaces
 {
     public interface IAcceleriderUser
     {
-        // Accelerider account system -----------------------------------------------------------
-        Task<string> SignUpAsync(string username, string password, string licenseCode);
+        string Token { get; }
 
-        Task<string> SignInAsync(string username, string password);
+        string Email { get; }
 
-        Task<bool> SignOutAsync();
+        string Username { get; }
 
-        void OnExit();
+        Uri AvatarUrl { get; }
 
-        // Accelerider Services -----------------------------------------------------------------
-        ITransferTaskToken Upload(FileLocation from, FileLocation to);
 
-        Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null);
+        //// Accelerider account system -----------------------------------------------------------
+        //Task<string> SignUpAsync(string username, string password, string licenseCode);
 
-        //Task<ILazyTreeNode<INetDiskFile>> GetSharedFileRootAsync(ISharedFile shareSummary);
+        //Task<string> SignInAsync(string username, string password);
 
-        // Operates sub-account (cloud account) -------------------------------------------------
-        INetDiskUser CurrentNetDiskUser { get; set; }
+        //Task<bool> SignOutAsync();
 
-        IReadOnlyList<INetDiskUser> NetDiskUsers { get; }
+        //void OnExit();
 
-        Task<bool> AddNetDiskUserAsync(INetDiskUser user);
+        //// Accelerider services -----------------------------------------------------------------
+        //ITransferTaskToken Upload(FileLocation from, FileLocation to);
 
-        Task<bool> RemoveNetDiskUserAsync(INetDiskUser user);
+        //Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null);
 
-        // Gets transfer tasks or files ---------------------------------------------------------------------
-        IReadOnlyCollection<ITransferTaskToken> GetDownloadingTasks();
+        ////Task<ILazyTreeNode<INetDiskFile>> GetSharedFileRootAsync(ISharedFile shareSummary);
 
-        IReadOnlyCollection<ITransferTaskToken> GetUploadingTasks();
+        //// Operates sub-account (cloud account) -------------------------------------------------
+        //INetDiskUser CurrentNetDiskUser { get; set; }
 
-        IReadOnlyCollection<ITransferredFile> GetDownloadedFiles();
+        //IReadOnlyList<INetDiskUser> NetDiskUsers { get; }
 
-        IReadOnlyCollection<ITransferredFile> GetUploadedFiles();
+        //Task<bool> AddNetDiskUserAsync(INetDiskUser user);
+
+        //Task<bool> RemoveNetDiskUserAsync(INetDiskUser user);
+
+        //// Gets transfer tasks or files ---------------------------------------------------------------------
+        //IReadOnlyCollection<ITransferTaskToken> GetDownloadingTasks();
+
+        //IReadOnlyCollection<ITransferTaskToken> GetUploadingTasks();
+
+        //IReadOnlyCollection<ITransferredFile> GetDownloadedFiles();
+
+        //IReadOnlyCollection<ITransferredFile> GetUploadedFiles();
     }
 }

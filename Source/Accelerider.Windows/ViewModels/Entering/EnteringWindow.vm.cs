@@ -42,8 +42,8 @@ namespace Accelerider.Windows.ViewModels.Entering
             if (!File.Exists(publickeyPath))
             {
                 var nonAuthApi = Container.Resolve<INonAuthenticationApi>();
-                //var publickey = await nonAuthApi.GetPublicKeyAsync();
-                //File.WriteAllText(publickeyPath, publickey);
+                var publickey = await nonAuthApi.GetPublicKeyAsync();
+                File.WriteAllText(publickeyPath, publickey);
             }
         }
     }

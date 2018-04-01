@@ -22,9 +22,10 @@ namespace Accelerider.Windows
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
-            Container.Resolve<Core.Module>().Initialize();
-            Container.RegisterType<ModuleResolver, ModuleResolver>(new ContainerControlledLifetimeManager());
+            //Container.Resolve<Core.Module>().Initialize(); // TODO: [Obsolete] TO DELETE.
+            //Container.RegisterType<ModuleResolver, ModuleResolver>(new ContainerControlledLifetimeManager());
             Container.RegisterInstance(typeof(ISnackbarMessageQueue), new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
+            Container.RegisterInstance(new ConfigureFile().Load());
             Container.RegisterInstance(RestService.For<INonAuthenticationApi>(ConstStrings.BaseAddress));
         }
 
@@ -53,7 +54,7 @@ namespace Accelerider.Windows
 
         private void OnExit(object sender, ExitEventArgs e)
         {
-            Container.Resolve<IAcceleriderUser>().OnExit();
+            //Container.Resolve<IAcceleriderUser>().OnExit();
             (Logger as IDisposable)?.Dispose();
         }
 
