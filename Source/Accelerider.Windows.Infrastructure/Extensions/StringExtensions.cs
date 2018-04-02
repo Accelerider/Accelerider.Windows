@@ -14,38 +14,22 @@ namespace Accelerider.Windows.Infrastructure.Extensions
         private static readonly MD5 Md5Algorithm = MD5.Create();
         private static readonly RSACryptoServiceProvider Rsa = new RSACryptoServiceProvider();
         private static readonly string RsaPublicKey = SuppressException(GetPublicKey);
-        private static readonly string SystemInfo = GetSystemInfo();
-        private static readonly byte[] DefaultKey = ExtractSystemInfoAsBytes(SystemInfo, "InstallDate");
-        private static readonly byte[] DefaultIv = ExtractSystemInfoAsBytes(SystemInfo, "SerialNumber").Take(16).ToArray();
-
-        private static string GetSystemInfo()
-        {
-            var result = new ManagementObjectSearcher(new ObjectQuery("SELECT * FROM Win32_OperatingSystem"));
-            var strInfo = string.Empty;
-            using (var collection = result.Get())
-            {
-                foreach (var item in collection)
-                {
-                    var managementObject = item as ManagementObject;
-                    strInfo = managementObject?.GetText(TextFormat.Mof);
-                    if (!string.IsNullOrEmpty(strInfo)) break;
-                }
-            }
-            return strInfo;
-        }
-
-        private static byte[] ExtractSystemInfoAsBytes(string systemInfo, string infoKey)
-        {
-            var match = Regex.Match(systemInfo, $"{infoKey} ?= ?\"(.+?)\";");
-            var md5 = match.Groups[1].Value.ToMd5();
-            return Encoding.UTF8.GetBytes(md5);
-        }
+        private static readonly byte[] DefaultKey = SystemInfo.InstallDate.ToMd5().ToBaseUTF8Bytes();
+        private static readonly byte[] DefaultIv = SystemInfo.SerialNumber.ToMd5().ToBaseUTF8Bytes().Take(16).ToArray();
 
         private static string GetPublicKey()
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "publickey.xml");
             if (!File.Exists(filePath))
                 throw new FileNotFoundException("publickey.xml not found.");
+            return File.ReadAllText(filePath);
+        }
+
+        private static string GetPrivateKey()
+        {
+            var filePath = Path.Combine(@"C:\Users\Dingp\Desktop\New Folder", "privatekey.xml");
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException("privatekey.xml not found.");
             return File.ReadAllText(filePath);
         }
 
@@ -66,6 +50,8 @@ namespace Accelerider.Windows.Infrastructure.Extensions
         {
             return BitConverter.ToString(Md5Algorithm.ComputeHash(Encoding.UTF8.GetBytes(text))).Replace("-", string.Empty).ToLower();
         }
+
+        public static byte[] ToBaseUTF8Bytes(this string text) => Encoding.UTF8.GetBytes(text);
 
         public static string EncryptByRijndael(this string text, byte[] key = null, byte[] iv = null)
         {
@@ -136,14 +122,6 @@ namespace Accelerider.Windows.Infrastructure.Extensions
             cipherbytes = rsa.Decrypt(Convert.FromBase64String(text), false);
 
             return Encoding.UTF8.GetString(cipherbytes);
-        }
-
-        private static string GetPrivateKey()
-        {
-            var filePath = Path.Combine(@"C:\Users\Dingp\Desktop\New Folder", "privatekey.xml");
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException("privatekey.xml not found.");
-            return File.ReadAllText(filePath);
         }
     }
 }

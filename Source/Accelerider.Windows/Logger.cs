@@ -1,4 +1,5 @@
-﻿using Prism.Logging;
+﻿using Accelerider.Windows.Infrastructure;
+using Prism.Logging;
 using System;
 using System.Globalization;
 using System.IO;
@@ -20,6 +21,8 @@ namespace Accelerider.Windows
             _logFilePath = GenerateLoggingPath();
             _fileStream = new FileStream(_logFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
             _writer = new StreamWriter(_fileStream, Encoding.UTF8) { AutoFlush = true };
+
+            WriteBasicInfo();
         }
 
 
@@ -31,6 +34,21 @@ namespace Accelerider.Windows
             _writer.WriteLine(messageToLog);
 
             if (category == Category.Exception || category == Category.Warn) _exceptionCount++;
+        }
+
+        private void WriteBasicInfo()
+        {
+            _writer.WriteLine($"{SystemInfo.Caption}: [{SystemInfo.Version}] {SystemInfo.OSArchitecture}");
+        }
+
+        private string GenerateLoggingPath()
+        {
+            var directoryPath = $"{Environment.CurrentDirectory}/Logs";
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            return $"{directoryPath}/Accelerider.Windows.{DateTime.Now.ToString("yyyyMMddHHmmssff")}.log";
         }
 
         public void Dispose()
@@ -48,16 +66,6 @@ namespace Accelerider.Windows
 
                 if (_exceptionCount == 0) File.Delete(_logFilePath);
             }
-        }
-
-        private string GenerateLoggingPath()
-        {
-            var directoryPath = $"{Environment.CurrentDirectory}/Logs";
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-            return $"{directoryPath}/Accelerider.Windows.{DateTime.Now.ToString("yyyyMMddHHmmssff")}.log";
         }
     }
 }
