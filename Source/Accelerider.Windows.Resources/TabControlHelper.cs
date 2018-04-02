@@ -120,7 +120,7 @@ namespace Accelerider.Windows.Resources
                 // 2. Add animation to EventTrigger property.
                 var resourceDictionary = new ResourceDictionary
                 {
-                    Source = new Uri("pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.TabControl.xaml")
+                    Source = new Uri("pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.TabControl.xaml")
                 };
                 content.Triggers.Add(resourceDictionary["LeftToRightMovedEventTrigger"] as TriggerBase);
                 content.Triggers.Add(resourceDictionary["RightToLeftMovedEventTrigger"] as TriggerBase);

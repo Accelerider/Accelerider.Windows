@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows", "Acce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Infrastructure", "Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj", "{F61839D1-6C54-4E70-B5CB-7EA02F54A664}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Core", "Accelerider.Windows.Core\Accelerider.Windows.Core.csproj", "{D30A6C14-B18D-4CBC-8DF4-FF9640F33B9E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Resources", "Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj", "{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}"
@@ -17,15 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Modules.Group", "Accelerider.Windows.Modules.Group\Accelerider.Windows.Modules.Group.csproj", "{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Modules.NetDisk.Plus", "Accelerider.Windows.Modules.NetDisk.Plus\Accelerider.Windows.Modules.NetDisk.Plus.csproj", "{95A5301A-6A43-4492-BB0D-7F0850EC9372}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.TransportEngine", "Accelerider.Windows.TransportEngine\Accelerider.Windows.TransportEngine.csproj", "{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Update", "Accelerider.Windows.Update\Accelerider.Windows.Update.csproj", "{A671996A-A460-4187-80C6-35BB9979A142}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{C0C7A583-0631-421E-9443-165BAA4A9512}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.WindowsTests", "Accelerider.WindowsTests\Accelerider.WindowsTests.csproj", "{44382CE8-FE5A-4A97-87A8-83B74829E42D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,12 +38,6 @@ Global
 		{F61839D1-6C54-4E70-B5CB-7EA02F54A664}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F61839D1-6C54-4E70-B5CB-7EA02F54A664}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F61839D1-6C54-4E70-B5CB-7EA02F54A664}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D30A6C14-B18D-4CBC-8DF4-FF9640F33B9E}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
-		{D30A6C14-B18D-4CBC-8DF4-FF9640F33B9E}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
-		{D30A6C14-B18D-4CBC-8DF4-FF9640F33B9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D30A6C14-B18D-4CBC-8DF4-FF9640F33B9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D30A6C14-B18D-4CBC-8DF4-FF9640F33B9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D30A6C14-B18D-4CBC-8DF4-FF9640F33B9E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
 		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
 		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -70,12 +56,6 @@ Global
 		{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95A5301A-6A43-4492-BB0D-7F0850EC9372}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
-		{95A5301A-6A43-4492-BB0D-7F0850EC9372}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
-		{95A5301A-6A43-4492-BB0D-7F0850EC9372}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95A5301A-6A43-4492-BB0D-7F0850EC9372}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95A5301A-6A43-4492-BB0D-7F0850EC9372}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95A5301A-6A43-4492-BB0D-7F0850EC9372}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
 		{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
 		{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -88,12 +68,6 @@ Global
 		{A671996A-A460-4187-80C6-35BB9979A142}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A671996A-A460-4187-80C6-35BB9979A142}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A671996A-A460-4187-80C6-35BB9979A142}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44382CE8-FE5A-4A97-87A8-83B74829E42D}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
-		{44382CE8-FE5A-4A97-87A8-83B74829E42D}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
-		{44382CE8-FE5A-4A97-87A8-83B74829E42D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44382CE8-FE5A-4A97-87A8-83B74829E42D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44382CE8-FE5A-4A97-87A8-83B74829E42D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44382CE8-FE5A-4A97-87A8-83B74829E42D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,14 +75,11 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{BE5FC83A-43A0-41C5-9E3A-1EC4B6946F39} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 		{F61839D1-6C54-4E70-B5CB-7EA02F54A664} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
-		{D30A6C14-B18D-4CBC-8DF4-FF9640F33B9E} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 		{ADE42073-D964-4D4E-A58C-1E843ABF1D31} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 		{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
-		{95A5301A-6A43-4492-BB0D-7F0850EC9372} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 		{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 		{A671996A-A460-4187-80C6-35BB9979A142} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
-		{44382CE8-FE5A-4A97-87A8-83B74829E42D} = {C0C7A583-0631-421E-9443-165BAA4A9512}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {242F229E-E9BF-4DED-9237-326C7C9489A4}
