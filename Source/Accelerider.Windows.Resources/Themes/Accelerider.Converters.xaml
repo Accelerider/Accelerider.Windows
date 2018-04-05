@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Accelerider.Windows.Resources.Converters">
+    
+    <converters:IsLessThanConverter x:Key="IsLessThanConverter"/>
+    <converters:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>
+    <converters:LessThan1000Converter x:Key="LessThan1000Converter"/>
+    <converters:UriToImageSourceConverter x:Key="UriToImageSourceConverter"/>
+    <converters:StringToImageConverter x:Key="StringToImageConverter"/>
+    <converters:PlusConverter x:Key="PlusConverter"/>
+</ResourceDictionary>

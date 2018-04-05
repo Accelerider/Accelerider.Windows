@@ -1,0 +1,80 @@
+﻿<Window x:Class="Accelerider.Windows.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:views="clr-namespace:Accelerider.Windows.Views"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:infrastructure="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure"
+        xmlns:settings="clr-namespace:Accelerider.Windows.Properties"
+        xmlns:appstore="clr-namespace:Accelerider.Windows.Views.AppStore"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        prism:RegionManager.RegionManager="{Binding RegionManager}"
+        MinHeight="500" MinWidth="720" 
+        Height="{Binding Path=MainWindowHeight, Source={x:Static settings:Settings.Default}, Mode=TwoWay}" 
+        Width="{Binding Path=MainWindowWidth, Source={x:Static settings:Settings.Default}, Mode=TwoWay}" 
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource MainWindowStyle}"
+        Icon="pack://application:,,,/Images/logoIcon.ico"
+        Title="Accelerider" >
+
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <Grid Background="{StaticResource LightGreyBackgroundBrush}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="68"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Rectangle Fill="{StaticResource PrimaryHueDarkBrush}"/>
+
+            <TabControl Grid.Column="0" Grid.ColumnSpan="2" SelectedIndex="0"
+                        Style="{StaticResource MainTabControlStyle}" ItemContainerStyle="{StaticResource MainTabItemStyle}"
+                        prism:RegionManager.RegionName="{x:Static infrastructure:RegionNames.MainTabRegion}"/>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Bottom">
+                <ToggleButton x:Name="AppStoreToggleButton" Height="56" Style="{StaticResource LeftBarAndUnderlineToggleButtonStyle}"
+                              IsChecked="{Binding AppStoreIsDisplayed}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="Apps" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                        <TextBlock Grid.Row="2" Text="App Store" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
+                    </Grid>
+                </ToggleButton>
+                <ToggleButton x:Name="SettingsToggleButton" 
+                              Height="56" Style="{StaticResource LeftBarAndUnderlineToggleButtonStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="Menu" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
+                        <TextBlock Grid.Row="2" Text="Menu" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
+                    </Grid>
+                </ToggleButton>
+                <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}"  StaysOpen="False"
+                                     PlacementTarget="{Binding ElementName=SettingsToggleButton}" Placement="Right" VerticalOffset="-318" PopupAnimation="Fade"
+                                     Width="284" Height="Auto" />
+            </StackPanel>
+
+            <UserControl Grid.Column="1" >
+                <UserControl.Resources>
+                    <appstore:AppStoreComponent x:Key="AppStoreComponent"/>
+                </UserControl.Resources>
+                <UserControl.Style>
+                    <Style TargetType="UserControl">
+                        <Setter Property="Content" Value="{x:Null}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=AppStoreToggleButton, Path=IsChecked}" Value="True">
+                                <Setter Property="Content" Value="{StaticResource AppStoreComponent}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </UserControl.Style>
+            </UserControl>
+        </Grid>
+    </materialDesign:DialogHost>
+</Window>

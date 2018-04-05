@@ -1,0 +1,8 @@
+﻿<TabItem x:Class="Accelerider.Windows.Modules.Group.Views.GroupSettingsTabItem"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         Header="Group">
+    <Grid Width="500" Height="500">
+    </Grid>
+</TabItem>
+
