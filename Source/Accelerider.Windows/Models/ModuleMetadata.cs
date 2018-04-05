@@ -5,7 +5,7 @@ namespace Accelerider.Windows.Models
 {
     public class ModuleMetadata
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         public string AliasName { get; set; }
 

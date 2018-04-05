@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Accelerider.Windows.Infrastructure.Interfaces
 {
@@ -12,6 +13,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         Uri AvatarUrl { get; }
 
+        IList<string> Apps { get; set; }
 
         //// Accelerider account system -----------------------------------------------------------
         //Task<string> SignUpAsync(string username, string password, string licenseCode);

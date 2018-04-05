@@ -96,7 +96,6 @@
     <Compile Include="Interfaces\IAuthenticator.cs" />
     <Compile Include="Interfaces\IBaiduCloudUser.cs" />
     <Compile Include="Interfaces\IConfigureFile.cs" />
-    <Compile Include="Interfaces\ILocalConfigureInfo.cs" />
     <Compile Include="Interfaces\INetDiskUser.cs" />
     <Compile Include="Interfaces\IOneDriveUser.cs" />
     <Compile Include="Interfaces\ITransferTaskToken.cs" />

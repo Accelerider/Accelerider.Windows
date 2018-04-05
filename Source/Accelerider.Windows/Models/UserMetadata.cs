@@ -22,6 +22,6 @@ namespace Accelerider.Windows.Models
 
         public IList<string> Roles { get; set; }
 
-        public IList<long> ModuleIds { get; set; }
+        public IList<string> Apps { get; set; }
     }
 }

@@ -6,19 +6,20 @@ using Accelerider.Windows.Models;
 using System.Security.Cryptography;
 using System.IO;
 using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows
 {
     internal class ModuleResolver
     {
         private static readonly MD5 Md5Algorithm = MD5.Create();
-        private readonly UserMetadata _user;
+        private readonly IAcceleriderUser _user;
         private readonly IAcceleriderApi _acceleriderApi;
         private readonly IModuleCatalog _moduleCatalog;
         private readonly IModuleManager _moduleManager;
         private readonly string _moduleDirectory = $"{Environment.CurrentDirectory}/Modules";
 
-        public ModuleResolver(UserMetadata user, IAcceleriderApi acceleriderApi, IModuleCatalog moduleCatalog, IModuleManager moduleManager)
+        public ModuleResolver(IAcceleriderUser user, IAcceleriderApi acceleriderApi, IModuleCatalog moduleCatalog, IModuleManager moduleManager)
         {
             _user = user;
             _acceleriderApi = acceleriderApi;
@@ -28,7 +29,10 @@ namespace Accelerider.Windows
 
         public async Task LoadAsync()
         {
-            var tasks = _user.ModuleIds?.Select(id => _acceleriderApi.GetAppInfoByIdAsync(id).RunApi());
+            var tasks = _user.Apps?.Select(id => _acceleriderApi.GetAppInfoByIdAsync(id).RunApi());
+
+            if (tasks == null) return;
+
             var moduleMetadatas = await Task.WhenAll(tasks);
 
             if (moduleMetadatas.Any(item => item == null))

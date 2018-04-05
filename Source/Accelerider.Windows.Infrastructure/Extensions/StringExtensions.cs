@@ -5,6 +5,9 @@ using System.Management;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace Accelerider.Windows.Infrastructure.Extensions
 {
@@ -45,6 +48,10 @@ namespace Accelerider.Windows.Infrastructure.Extensions
             }
         }
         #endregion
+
+        public static string GetJsonValue(this string text, string key) => JObject.Parse(text)?[key]?.Value<string>();
+
+        public static T GetJsonValue<T>(this string text, string key) => JsonConvert.DeserializeObject<T>(JObject.Parse(text)?[key]?.Value<string>() ?? string.Empty);
 
         public static string ToMd5(this string text)
         {

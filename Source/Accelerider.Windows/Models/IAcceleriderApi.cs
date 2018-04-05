@@ -25,9 +25,9 @@ namespace Accelerider.Windows.Models
         Task<IList<ModuleMetadata>> GetAllAppInfoAsync();
 
         [Get("/apps/{id}")]
-        Task<ModuleMetadata> GetAppInfoByIdAsync(long id);
+        Task<ModuleMetadata> GetAppInfoByIdAsync(string id);
 
         [Get("/apps/{id}/content")]
-        Task<Stream> GetAppByIdAsync(long id);
+        Task<Stream> GetAppByIdAsync(string id);
     }
 }

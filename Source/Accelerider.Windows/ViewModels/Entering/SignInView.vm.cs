@@ -137,6 +137,7 @@ namespace Accelerider.Windows.ViewModels.Entering
                 Password = passwordMd5.EncryptByRsa()
             }).RunApi();
 
+            token = token.GetJsonValue("accessToken");
             if (token == null) return false;
 
             var acceleriderApi = RestService.For<IAcceleriderApi>(new HttpClient(new ConfigureHeadersHttpClientHandler(token))
