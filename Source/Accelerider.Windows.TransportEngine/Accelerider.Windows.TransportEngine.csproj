@@ -57,10 +57,12 @@
     <Compile Include="Implements\TransfererBase.cs" />
     <Compile Include="Implements\Uploader.cs" />
     <Compile Include="ITaskMetadata.cs" />
+    <Compile Include="ITransferTaskToken.cs" />
     <Compile Include="ITransporters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskInfos.cs" />
     <Compile Include="TransferEngineModule.cs" />
+    <Compile Include="TransferTaskStatusChangedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -15,12 +16,8 @@ namespace Accelerider.Windows.Infrastructure
         public static readonly FileLocation Favorites = GetSystemFolder("{1777F761-68AD-4D8A-87BD-30B759FA33DD}");
 
 
-        public static FileLocation[] GetAvailableFolders()
-        {
-            return (from path in new[] { Desktop, Downloads, Videos, Music, Pictures, Documents, Favorites }
-                    where path != null
-                    select path).ToArray();
-        }
+        public static IEnumerable<FileLocation> GetAvailableFolders() =>
+            new[] { Desktop, Downloads, Videos, Music, Pictures, Documents, Favorites }.Where(item => item != null);
 
 
         [DllImport("Shell32.dll")]

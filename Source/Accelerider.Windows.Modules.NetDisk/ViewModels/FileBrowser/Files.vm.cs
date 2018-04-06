@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +8,7 @@ using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Constants;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
@@ -202,8 +202,9 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         private async Task<(string folder, bool isDownload)> DisplayDownloadDialogAsync(IEnumerable<string> files)
         {
-            var configure = Container.Resolve<ILocalConfigureInfo>();
-            if (configure.NotDisplayDownloadDialog) return (configure.DownloadDirectory, true);
+            var configure = Container.Resolve<IConfigureFile>();
+            if (configure.GetValue<bool>(ConfigureKeys.NotDisplayDownloadDialog))
+                return (configure.GetValue<string>(ConfigureKeys.DownloadDirectory), true);
 
             var dialog = new DownloadDialog();
             var vm = dialog.DataContext as DownloadDialogViewModel;
@@ -211,9 +212,10 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
             if (!(bool)await DialogHost.Show(dialog, "RootDialog")) return (null, false);
 
-            if (configure.NotDisplayDownloadDialog = vm.NotDisplayDownloadDialog)
+            configure.SetValue(ConfigureKeys.NotDisplayDownloadDialog, vm.NotDisplayDownloadDialog);
+            if (vm.NotDisplayDownloadDialog)
             {
-                configure.DownloadDirectory = vm.DownloadFolder;
+                configure.SetValue(ConfigureKeys.DownloadDirectory, vm.DownloadFolder);
             }
             return (vm.DownloadFolder, true);
         }

@@ -85,8 +85,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\ConfigureKeys.cs" />
+    <Compile Include="Interfaces\Files.cs" />
+    <Compile Include="Interfaces\IBaiduCloudUser.cs" />
+    <Compile Include="Interfaces\INetDiskUser.cs" />
+    <Compile Include="Interfaces\IOneDriveUser.cs" />
     <Compile Include="Models\Bodies.cs" />
-    <Compile Include="Models\INetDiskApi.cs" />
+    <Compile Include="Interfaces\INetDiskApi.cs" />
     <Compile Include="Models\Metadatas.cs" />
     <Compile Include="Models\SpecifiedFileType.cs" />
     <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">
@@ -289,6 +294,7 @@
   <ItemGroup>
     <Resource Include="Images\DefaultAvatar.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Refit.4.0.1\build\net45\refit.targets" Condition="Exists('..\packages\Refit.4.0.1\build\net45\refit.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

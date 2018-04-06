@@ -1,9 +1,10 @@
-﻿using Refit;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Accelerider.Windows.Modules.NetDisk.Models;
+using Refit;
 
-namespace Accelerider.Windows.Modules.NetDisk.Models
+namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 {
     internal interface INetDiskApi
     {

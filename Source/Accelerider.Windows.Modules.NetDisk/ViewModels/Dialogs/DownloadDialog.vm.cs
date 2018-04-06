@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Constants;
 using Accelerider.Windows.Resources.I18N;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
@@ -24,7 +25,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
 
         public DownloadDialogViewModel(IUnityContainer container) : base(container)
         {
-            var downloadDirectory = Container.Resolve<ILocalConfigureInfo>().DownloadDirectory;
+            var downloadDirectory = Container.Resolve<IConfigureFile>().GetValue<FileLocation>(ConfigureKeys.DownloadDirectory);
 
             DefaultFolders = new ObservableCollection<FileLocation>(SystemFolder.GetAvailableFolders());
             DownloadFolder = string.IsNullOrEmpty(downloadDirectory) ? DefaultFolders.FirstOrDefault() : downloadDirectory;
