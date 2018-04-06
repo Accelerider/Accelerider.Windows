@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
-
+using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Dialogs;
-using Accelerider.Windows.Views.Entering;
 
 using MaterialDesignThemes.Wpf;
 
@@ -24,7 +23,6 @@ namespace Accelerider.Windows.ViewModels
         private ICommand _openSettingsPanelCommand;
         private ICommand _helpCommand;
         private ICommand _aboutCommand;
-        private ICommand _checkUpdateCommand;
         private ICommand _openOfficialSiteCommand;
         private ICommand _signOutCommand;
 
@@ -36,9 +34,8 @@ namespace Accelerider.Windows.ViewModels
 
             OpenSettingsPanelCommand = new RelayCommand(OpenDialog<SettingsDialog>);
 
-            HelpCommand = new RelayCommand(() => Process.Start(ConstStrings.HelpUrl));
-            OpenOfficialSiteCommand = new RelayCommand(() => Process.Start(ConstStrings.WebSitePanUrl));
-            CheckUpdateCommand = new RelayCommand(() => Process.Start("mailto:dingpingzhang@outlook.com"));
+            HelpCommand = new RelayCommand(() => Process.Start(Hyperlinks.Help));
+            OpenOfficialSiteCommand = new RelayCommand(() => Process.Start(Hyperlinks.WebSite));
             AboutCommand = new RelayCommand(OpenDialog<AboutDialog>);
 
             SignOutCommand = new RelayCommand(() =>
@@ -72,12 +69,6 @@ namespace Accelerider.Windows.ViewModels
         {
             get => _openOfficialSiteCommand;
             set => SetProperty(ref _openOfficialSiteCommand, value);
-        }
-
-        public ICommand CheckUpdateCommand
-        {
-            get => _checkUpdateCommand;
-            set => SetProperty(ref _checkUpdateCommand, value);
         }
 
         public ICommand AboutCommand

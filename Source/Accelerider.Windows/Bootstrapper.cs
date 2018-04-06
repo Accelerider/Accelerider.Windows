@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows;
-using Accelerider.Windows.Infrastructure.Interfaces;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 using System.Net;
+using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Models;
-using Accelerider.Windows.Views.Entering;
+using Accelerider.Windows.Views.Authentication;
 using Prism.Mvvm;
 using Prism.Unity;
 using Prism.Logging;
@@ -26,12 +26,12 @@ namespace Accelerider.Windows
             //Container.RegisterType<ModuleResolver, ModuleResolver>(new ContainerControlledLifetimeManager());
             Container.RegisterInstance(typeof(ISnackbarMessageQueue), new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
             Container.RegisterInstance(new ConfigureFile().Load());
-            Container.RegisterInstance(RestService.For<INonAuthenticationApi>(ConstStrings.BaseAddress));
+            Container.RegisterInstance(RestService.For<INonAuthenticationApi>(Hyperlinks.ApiBaseAddress));
         }
 
         protected override void ConfigureViewModelLocator() => ViewModelLocationProvider.SetDefaultViewModelFactory(ResolveViewModel);
 
-        protected override DependencyObject CreateShell() => new EnteringWindow();
+        protected override DependencyObject CreateShell() => new AuthenticationWindow();
 
         protected override void InitializeShell()
         {

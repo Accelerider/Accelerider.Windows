@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Microsoft.Practices.Unity;
@@ -26,12 +27,12 @@ namespace Accelerider.Windows.ViewModels.Dialogs
 
         public AboutDialogViewModel(IUnityContainer container) : base(container)
         {
-            OpenReleaseNotesCommand = new RelayCommand(() => Process.Start(ConstStrings.ReleaseUrl));
-            OpenProjectHomeCommand = new RelayCommand(() => Process.Start(ConstStrings.GithubHomeUrl));
-            OpenMrs4sEmailCommand = new RelayCommand(() => Process.Start("mailto:mrs4sxiaoshi@gmail.com"));
-            OpenLd50EmailCommand = new RelayCommand(() => Process.Start("mailto:ld50.zhang@gmail.com"));
-            OpenMrs4SHomeCommand = new RelayCommand(() => Process.Start("https://github.com/Mrs4s"));
-            OpenLd50HomeCommand = new RelayCommand(() => Process.Start("https://github.com/DingpingZhang"));
+            OpenReleaseNotesCommand = new RelayCommand(() => Process.Start(Hyperlinks.Release));
+            OpenProjectHomeCommand = new RelayCommand(() => Process.Start(Hyperlinks.ProjectGithubHome));
+            OpenMrs4sEmailCommand = new RelayCommand(() => Process.Start(Hyperlinks.Mrs4sEmail));
+            OpenLd50EmailCommand = new RelayCommand(() => Process.Start(Hyperlinks.ZdpEmail));
+            OpenMrs4SHomeCommand = new RelayCommand(() => Process.Start(Hyperlinks.Mrs4sGithubHome));
+            OpenLd50HomeCommand = new RelayCommand(() => Process.Start(Hyperlinks.ZdpGithubHome));
             CheckForUpdateCommand = new RelayCommand(CheckForUpdateCommandExecute);
         }
 
@@ -80,9 +81,14 @@ namespace Accelerider.Windows.ViewModels.Dialogs
 
         private void CheckForUpdateCommandExecute()
         {
-            var process = new Process();
-            process.StartInfo.FileName = Path.Combine(Environment.CurrentDirectory, "Update/Accelerider.Windows.Update.exe");
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            var process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = Path.Combine(Environment.CurrentDirectory, "Update/Accelerider.Windows.Update.exe"),
+                    WindowStyle = ProcessWindowStyle.Hidden
+                }
+            };
             process.Start();
             Application.Current.Shutdown(0);
         }

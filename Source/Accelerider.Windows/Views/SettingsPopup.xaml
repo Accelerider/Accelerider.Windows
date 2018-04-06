@@ -37,7 +37,7 @@
                 <!-- open menu -->
                 <local:SettingItem IconKind="InformationVariant" Label="About" Command="{Binding AboutCommand}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
-                <!-- open EnteringWindow and closes MainWindow -->
+                <!-- open AuthenticationWindow and closes MainWindow -->
                 <local:SettingItem IconKind="Logout" Label="Log out" Command="{Binding SignOutCommand}"/>
             </StackPanel>
         </StackPanel>

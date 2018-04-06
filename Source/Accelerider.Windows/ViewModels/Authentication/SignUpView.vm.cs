@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Extensions;
 using Accelerider.Windows.Models;
-using Accelerider.Windows.Views.Entering;
 using Microsoft.Practices.Unity;
+using SignUpView = Accelerider.Windows.Views.Authentication.SignUpView;
 
-namespace Accelerider.Windows.ViewModels.Entering
+namespace Accelerider.Windows.ViewModels.Authentication
 {
     public class SignUpViewModel : ViewModelBase
     {
