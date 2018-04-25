@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Accelerider.Windows.Infrastructure
+﻿namespace Accelerider.Windows.Infrastructure
 {
     public static class RegionNames
     {
         /// <summary>
-        /// MainTabRegion: All view that is registered for MainTabRegion will be add into a TabControl.
+        /// The region of the main user interface.
         /// </summary>
         public const string MainTabRegion = "MainTabRegion";
 
         /// <summary>
-        /// SettingsTabRegion: 
+        /// The region of the user setting interface.
         /// </summary>
         public const string SettingsTabRegion = "SettingsTabRegion";
     }

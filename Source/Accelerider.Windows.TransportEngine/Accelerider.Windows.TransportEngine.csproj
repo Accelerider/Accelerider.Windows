@@ -52,15 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enumerations.cs" />
-    <Compile Include="Implements\Downloader.cs" />
-    <Compile Include="Implements\TransfererBase.cs" />
-    <Compile Include="Implements\Uploader.cs" />
-    <Compile Include="ITaskMetadata.cs" />
-    <Compile Include="ITransporters.cs" />
+    <Compile Include="IDownloader.cs" />
+    <Compile Include="ITransporter.cs" />
+    <Compile Include="IUploader.cs" />
+    <Compile Include="TransportStatus.cs" />
+    <Compile Include="ITaskReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskInfos.cs" />
-    <Compile Include="TransferEngineModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

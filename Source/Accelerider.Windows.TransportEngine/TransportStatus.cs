@@ -3,7 +3,7 @@
     /// <summary>
     /// Indicates the status of a file which is in the transfer (download or upload) cycle.
     /// </summary>
-    public enum TransportTaskStatus
+    public enum TransportStatus
     {
         /// <summary>
         /// The task is waiting to start. Can be converted to <see cref="Transporting"/>, <see cref="Paused"/>, <see cref="Canceled"/> or <see cref="Faulted"/>.

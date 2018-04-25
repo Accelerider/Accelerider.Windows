@@ -3,17 +3,19 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Accelerider.Windows.Infrastructure.Commands;
+using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Extensions;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views;
-using Accelerider.Windows.Views.Entering;
+using Accelerider.Windows.Views.Authentication;
 using Microsoft.Practices.Unity;
 using Refit;
+using SignInView = Accelerider.Windows.Views.Authentication.SignInView;
 
-namespace Accelerider.Windows.ViewModels.Entering
+namespace Accelerider.Windows.ViewModels.Authentication
 {
     public class SignInViewModel : ViewModelBase
     {
@@ -126,7 +128,7 @@ namespace Accelerider.Windows.ViewModels.Entering
             ConfigureFile.SetValue(ConfigureKeys.AutoSignIn, IsAutoSignIn);
 
             // Launches main window and closes itself.
-            ShellSwitcher.Switch<EnteringWindow, MainWindow>();
+            ShellSwitcher.Switch<AuthenticationWindow, MainWindow>();
         }
 
         private async Task<bool> AuthenticateAsync(string username, string passwordMd5)
@@ -137,12 +139,12 @@ namespace Accelerider.Windows.ViewModels.Entering
                 Password = passwordMd5.EncryptByRsa()
             }).RunApi();
 
-            token = token.GetJsonValue("accessToken");
+            token = token?.GetJsonValue("accessToken");
             if (token == null) return false;
 
             var acceleriderApi = RestService.For<IAcceleriderApi>(new HttpClient(new ConfigureHeadersHttpClientHandler(token))
             {
-                BaseAddress = new Uri(ConstStrings.BaseAddress)
+                BaseAddress = new Uri(Hyperlinks.ApiBaseAddress)
             });
 
             var user = await acceleriderApi.GetCurrentUserAsync().RunApi();

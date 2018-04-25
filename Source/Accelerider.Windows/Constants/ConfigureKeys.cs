@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Accelerider.Windows
+﻿namespace Accelerider.Windows.Constants
 {
     public static class ConfigureKeys
     {

@@ -10,6 +10,7 @@ using Accelerider.Windows.Views.AppStore;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 using System.Linq;
+using Accelerider.Windows.Constants;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -22,7 +23,7 @@ namespace Accelerider.Windows.ViewModels
         public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
             RegionManager = regionManager;
-            FeedbackCommand = new RelayCommand(() => Process.Start(ConstStrings.IssueUrl));
+            FeedbackCommand = new RelayCommand(() => Process.Start(Hyperlinks.Issue));
         }
 
         public IRegionManager RegionManager { get; }

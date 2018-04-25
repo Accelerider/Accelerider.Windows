@@ -2,13 +2,13 @@
 
 namespace Accelerider.Windows.TransportEngine
 {
-    public interface ITaskMetadata : IEquatable<ITaskMetadata>
+    public interface ITaskReference : IEquatable<ITaskReference>
     {
-        Uri FromPath { get; }
+        string FromPath { get; }
 
         string ToPath { get; }
 
-        TransportTaskStatus Status { get; }
+        TransportStatus Status { get; }
 
         long CompletedSize { get; }
 

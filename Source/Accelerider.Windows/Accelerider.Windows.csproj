@@ -96,8 +96,8 @@
     <Compile Include="ApiExceptionResolverExtension.cs" />
     <Compile Include="ConfigureHeadersHttpClientHandler.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="ConfigureKeys.cs" />
-    <Compile Include="ConstStrings.cs" />
+    <Compile Include="Constants\ConfigureKeys.cs" />
+    <Compile Include="Constants\Hyperlinks.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="ExceptionResolver.cs" />
     <Compile Include="Models\ModuleMetadata.cs" />
@@ -129,21 +129,21 @@
     <Compile Include="Views\SettingsPopup.xaml.cs">
       <DependentUpon>SettingsPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Entering\EnteringWindow.xaml.cs">
-      <DependentUpon>EnteringWindow.xaml</DependentUpon>
+    <Compile Include="Views\Authentication\AuthenticationWindow.xaml.cs">
+      <DependentUpon>AuthenticationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Entering\EnteringWindow.vm.cs" />
+    <Compile Include="ViewModels\Authentication\AuthenticationWindow.vm.cs" />
     <Compile Include="ViewModels\MainWindow.vm.cs" />
     <Compile Include="ProcessController.cs" />
-    <Compile Include="ViewModels\Entering\SignInView.vm.cs" />
-    <Compile Include="ViewModels\Entering\SignUpView.vm.cs" />
+    <Compile Include="ViewModels\Authentication\SignInView.vm.cs" />
+    <Compile Include="ViewModels\Authentication\SignUpView.vm.cs" />
     <Compile Include="Views\Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Entering\SignInView.xaml.cs">
+    <Compile Include="Views\Authentication\SignInView.xaml.cs">
       <DependentUpon>SignInView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Entering\SignUpView.xaml.cs">
+    <Compile Include="Views\Authentication\SignUpView.xaml.cs">
       <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShellSwitcher.cs" />
@@ -174,7 +174,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Entering\EnteringWindow.xaml">
+    <Page Include="Views\Authentication\AuthenticationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -194,11 +194,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Entering\SignInView.xaml">
+    <Page Include="Views\Authentication\SignInView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Entering\SignUpView.xaml">
+    <Page Include="Views\Authentication\SignUpView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

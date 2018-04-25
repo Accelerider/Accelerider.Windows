@@ -1,4 +1,4 @@
-﻿namespace Accelerider.Windows.Views.Entering
+﻿namespace Accelerider.Windows.Views.Authentication
 {
     /// <summary>
     /// Interaction logic for SignUpView.xaml

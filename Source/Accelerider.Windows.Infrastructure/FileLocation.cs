@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Accelerider.Windows.Infrastructure
 {
-    [DebuggerDisplay("{FullPath}")]
+    [DebuggerDisplay("{" + nameof(FullPath) + "}")]
     public class FileLocation
     {
         /// <summary>
