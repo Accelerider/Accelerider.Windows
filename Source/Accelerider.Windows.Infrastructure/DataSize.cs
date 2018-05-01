@@ -9,131 +9,73 @@ namespace Accelerider.Windows.Infrastructure
     {
         public const double ConversionFactor = 1024;
 
-        private SizeUnitEnum _unit;
+        private SizeUnit _unit;
 
         public long BaseBValue { get; }
+
         public double Value { get; private set; }
-        public SizeUnitEnum Unit
+
+        public SizeUnit Unit
         {
-            get { return _unit; }
+            get => _unit;
             set
             {
                 if (value == _unit) return;
-                var loopNumber = value - _unit;
-                if (loopNumber > 0)
-                {
-                    for (int i = 0; i < loopNumber; i++) Value /= ConversionFactor;
-                }
-                else
-                {
-                    loopNumber = -loopNumber;
-                    for (int i = 0; i < loopNumber; i++) Value *= ConversionFactor;
-                }
+
+                Value *= Math.Pow(ConversionFactor, _unit - value);
                 _unit = value;
             }
         }
 
-        public DataSize(long size)
+        private DataSize(long size)
         {
             BaseBValue = size;
             Value = size;
-            _unit = SizeUnitEnum.B;
-            while (Value >= ConversionFactor)
+            _unit = SizeUnit.B;
+            while (Value >= ConversionFactor) // long.MaxValue = 8 EB. 
             {
                 Value /= ConversionFactor;
                 _unit++;
             }
         }
-        public DataSize(double size, SizeUnitEnum sizeUnit = SizeUnitEnum.B)
-        {
-            var temp = size;
-            for (int i = 0; i < sizeUnit - SizeUnitEnum.B; i++)
-            {
-                temp *= ConversionFactor;
-            }
-            BaseBValue = (long)temp;
-            while (size >= ConversionFactor && sizeUnit < SizeUnitEnum.P)
-            {
-                size /= ConversionFactor;
-                sizeUnit++;
-            }
-            Value = size;
-            _unit = sizeUnit;
-        }
 
 
-        public bool Equals(DataSize other)
-        {
-            return this == other;
-        }
         public override string ToString()
         {
-            return (Unit < SizeUnitEnum.M ? $"{Value:N0} " : $"{Value:N2} ") + (Unit == SizeUnitEnum.B ? $"{Unit}" : $"{Unit}B");
+            return (Unit < SizeUnit.M ? $"{Value:N0} " : $"{Value:N2} ") + (Unit == SizeUnit.B ? $"{Unit}" : $"{Unit}B");
         }
+
+        public bool Equals(DataSize other) => this == other;
+
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is DataSize && Equals((DataSize)obj);
+            if (obj is null) return false;
+            return obj is DataSize size && Equals(size);
         }
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ((int)_unit * 397) ^ Value.GetHashCode();
-            }
-        }
+
+        public override int GetHashCode() => BaseBValue.GetHashCode();
 
         #region Operators
-        public static DataSize operator +(DataSize left, DataSize right)
-        {
-            return new DataSize(left.BaseBValue + right.BaseBValue);
-        }
-        public static DataSize operator +(DataSize left, long right)
-        {
-            return new DataSize(left.BaseBValue + right);
-        }
-        public static DataSize operator -(DataSize value)
-        {
-            return new DataSize(-value.BaseBValue);
-        }
-        public static DataSize operator -(DataSize left, DataSize right)
-        {
-            return left + -right;
-        }
-        public static DataSize operator -(DataSize left, long right)
-        {
-            return left + -right;
-        }
-        public static DataSize operator *(DataSize left, double right)
-        {
-            return new DataSize(left.BaseBValue * right);
-        }
-        public static DataSize operator /(DataSize left, double right)
-        {
-            return new DataSize(left.BaseBValue / right);
-        }
-        public static double operator /(DataSize left, DataSize right)
-        {
-            return 1.0 * left.BaseBValue / right.BaseBValue;
-        }
-        public static bool operator ==(DataSize left, DataSize right)
-        {
-            return left.BaseBValue == right.BaseBValue;
-        }
-        public static bool operator !=(DataSize left, DataSize right)
-        {
-            return !(left == right);
-        }
 
-        public static bool operator >(DataSize left, DataSize right)
-        {
-            return left.BaseBValue > right.BaseBValue;
-        }
+        public static DataSize operator +(DataSize left, DataSize right) => new DataSize(left.BaseBValue + right.BaseBValue);
 
-        public static bool operator <(DataSize left, DataSize right)
-        {
-            return left.BaseBValue < right.BaseBValue;
-        }
+        public static DataSize operator -(DataSize value) => new DataSize(-value.BaseBValue);
+
+        public static DataSize operator -(DataSize left, DataSize right) => left + -right;
+
+        public static double operator /(DataSize left, DataSize right) => 1.0 * left.BaseBValue / right.BaseBValue;
+
+        public static bool operator ==(DataSize left, DataSize right) => left.BaseBValue == right.BaseBValue;
+
+        public static bool operator !=(DataSize left, DataSize right) => !(left == right);
+
+        public static bool operator >(DataSize left, DataSize right) => left.BaseBValue > right.BaseBValue;
+
+        public static bool operator <(DataSize left, DataSize right) => left.BaseBValue < right.BaseBValue;
+
+        public static implicit operator long(DataSize dataSize) => dataSize.BaseBValue;
+
+        public static implicit operator DataSize(long @long) => new DataSize(@long);
 
         #endregion
     }

@@ -29,7 +29,7 @@ namespace Accelerider.Windows.Infrastructure
         public string FolderPath { get; }
 
         /// <summary>
-        /// Gets a stirng representing the file name. 
+        /// Gets a string representing the file name. 
         /// </summary>
         public string FileName { get; }
 
@@ -46,7 +46,8 @@ namespace Accelerider.Windows.Infrastructure
         {
             var matchResult = RegexFileLocation.Match(fileFullPath);
 
-            if (matchResult.Groups == null || matchResult.Groups.Count != 4) throw new ArgumentException($"The file path is not valid: {fileFullPath}", fileFullPath);
+            if (matchResult.Groups == null || matchResult.Groups.Count != 4)
+                throw new ArgumentException($"The file path is not valid: {fileFullPath}", fileFullPath);
 
             FullPath = matchResult.Groups[0].Value;
             var temp = matchResult.Groups[1].Value;
@@ -66,7 +67,7 @@ namespace Accelerider.Windows.Infrastructure
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals(obj as FileLocation);
         }

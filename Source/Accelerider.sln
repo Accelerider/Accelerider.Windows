@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Modules.Group", "Accelerider.Windows.Modules.Group\Accelerider.Windows.Modules.Group.csproj", "{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.TransportEngine", "Accelerider.Windows.TransportEngine\Accelerider.Windows.TransportEngine.csproj", "{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Update", "Accelerider.Windows.Update\Accelerider.Windows.Update.csproj", "{A671996A-A460-4187-80C6-35BB9979A142}"
 EndProject
 Global
@@ -56,12 +54,6 @@ Global
 		{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
-		{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
-		{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A671996A-A460-4187-80C6-35BB9979A142}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
 		{A671996A-A460-4187-80C6-35BB9979A142}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
 		{A671996A-A460-4187-80C6-35BB9979A142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -78,7 +70,6 @@ Global
 		{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 		{ADE42073-D964-4D4E-A58C-1E843ABF1D31} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 		{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
-		{9C3E99E9-A002-4DFC-8BF2-91F29A6B686D} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 		{A671996A-A460-4187-80C6-35BB9979A142} = {591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
