@@ -96,7 +96,6 @@
     <Compile Include="Interfaces\IAcceleriderUser.cs" />
     <Compile Include="Interfaces\IConfigureFile.cs" />
     <Compile Include="Interfaces\ITaskBuilder.cs" />
-    <Compile Include="Interfaces\ITaskBuilderCreator.cs" />
     <Compile Include="Interfaces\ITransportEngine.cs" />
     <Compile Include="Interfaces\ITransportTask.cs" />
     <Compile Include="Implements\ModuleBase.cs" />

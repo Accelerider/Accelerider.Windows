@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure
 {
-    public abstract class DownloadTaskBuilderBase : TaskBuilderBase<IDownloadTask, Uri, FileLocation>
+    public abstract class DownloadTaskBuilderBase : TaskBuilderBase
     {
-        protected readonly ICollection<Uri> FromPaths = new Collection<Uri>();
+        protected readonly List<Uri> FromPaths = new List<Uri>();
         protected FileLocation ToPath;
 
 
-        public override ITaskBuilder<IDownloadTask, Uri, FileLocation> From(Uri path)
+        public override ITaskBuilder From(string path)
         {
-            FromPaths.Add(path);
+            FromPaths.Add(new Uri(path));
             return this;
         }
 
-        public override ITaskBuilder<IDownloadTask, Uri, FileLocation> To(FileLocation path)
+        public override ITaskBuilder To(string path)
         {
             ToPath = path;
             return this;

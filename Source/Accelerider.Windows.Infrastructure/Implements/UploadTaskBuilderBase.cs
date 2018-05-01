@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure
 {
-    public abstract class UploadTaskBuilderBase : TaskBuilderBase<IUploadTask, FileLocation, Uri>
+    public abstract class UploadTaskBuilderBase : TaskBuilderBase
     {
-        protected readonly ICollection<FileLocation> FromPaths = new Collection<FileLocation>();
-        protected Uri ToPath;
+        protected FileLocation FromPath;
+        protected readonly List<Uri> ToPaths = new List<Uri>();
 
 
-        public override ITaskBuilder<IUploadTask, FileLocation, Uri> From(FileLocation path)
+        public override ITaskBuilder From(string path)
         {
-            FromPaths.Add(path);
+            FromPath = path;
             return this;
         }
 
-        public override ITaskBuilder<IUploadTask, FileLocation, Uri> To(Uri path)
+        public override ITaskBuilder To(string path)
         {
-            ToPath = path;
+            ToPaths.Add(new Uri(path));
             return this;
         }
     }

@@ -3,27 +3,31 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure
 {
-    public abstract class TaskBuilderBase<TTask, TFromPath, TToPath> : ITaskBuilder<TTask, TFromPath, TToPath> where TTask : ITransportTask
+    public abstract class TaskBuilderBase : ITaskBuilder
     {
         protected TransportSettings Settings = new TransportSettings();
 
 
-        public abstract ITaskBuilder<TTask, TFromPath, TToPath> From(TFromPath path);
+        public abstract ITaskBuilder From(string path);
 
-        public abstract ITaskBuilder<TTask, TFromPath, TToPath> To(TToPath path);
+        public abstract ITaskBuilder To(string path);
 
-        public ITaskBuilder<TTask, TFromPath, TToPath> Configure(Action<TransportSettings> settings)
+        public ITaskBuilder Configure(Action<TransportSettings> settings)
         {
             settings?.Invoke(Settings);
             return this;
         }
 
-        public ITaskBuilder<TTask, TFromPath, TToPath> Configure(TransportSettings settings)
+        public ITaskBuilder Configure(TransportSettings settings)
         {
             Settings = settings;
             return this;
         }
 
-        public abstract TTask Build();
+        public abstract ITaskBuilder Clone();
+
+        public abstract ITransportTask Build();
+
+        public abstract ITransportTask Update(ITransportTask task);
     }
 }

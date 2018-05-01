@@ -2,16 +2,33 @@
 
 namespace Accelerider.Windows.Infrastructure.Interfaces
 {
-    public interface ITaskBuilder<out TTask, in TFromPath, in TToPath> where TTask : ITransportTask
+    public interface ITaskBuilder
     {
-        ITaskBuilder<TTask, TFromPath, TToPath> From(TFromPath path);
+        ITaskBuilder From(string path);
 
-        ITaskBuilder<TTask, TFromPath, TToPath> To(TToPath path);
+        ITaskBuilder To(string path);
 
-        ITaskBuilder<TTask, TFromPath, TToPath> Configure(Action<TransportSettings> settings);
+        ITaskBuilder Configure(Action<TransportSettings> settings);
 
-        ITaskBuilder<TTask, TFromPath, TToPath> Configure(TransportSettings settings);
+        ITaskBuilder Configure(TransportSettings settings);
 
-        TTask Build();
+        ITaskBuilder Clone();
+
+        ITransportTask Build();
+
+        ITransportTask Update(ITransportTask task);
     }
+
+    //public static class ITaskBuilderExtensions
+    //{
+    //    public static IDownloadTask Update(this ITaskBuilder<IDownloadTask> @this, IDownloadTask task)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public static IUploadTask Update(this ITaskBuilder<IUploadTask> @this, IUploadTask task)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 }

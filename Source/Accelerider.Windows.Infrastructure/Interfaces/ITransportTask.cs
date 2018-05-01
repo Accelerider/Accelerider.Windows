@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.Interfaces
@@ -18,6 +17,8 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         DataSize TotalSize { get; }
 
+        FileLocation LocalPath { get; }
+
 
         Task StartAsync();
 
@@ -26,19 +27,5 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         Task RestartAsync();
 
         Task CancelAsync();
-    }
-
-    public interface IDownloadTask : ITransportTask
-    {
-        IReadOnlyCollection<Uri> FromPaths { get; }
-
-        FileLocation ToPath { get; }
-    }
-
-    public interface IUploadTask : ITransportTask
-    {
-        FileLocation FromPath { get; }
-
-        IReadOnlyCollection<Uri> ToPaths { get; }
     }
 }
