@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.Interfaces
 {
+    /// <summary>
+    /// Represents an transport engine that is used to manage the life cycle of the <see cref="ITransportTask"/> and <see cref="ITaskBuilder"/> instance. 
+    /// </summary>
     public interface ITransportEngine
     {
         /// <summary>
@@ -25,10 +28,10 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         Task<IConfigureFile> ShutdownAsync();
 
         /// <summary>
-        /// 
+        /// Gets a <see cref="ITaskBuilder"/> instance with the specified type.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">The specified type. </typeparam>
+        /// <returns>An instance of the specified type. </returns>
         T Use<T>() where T : ITaskBuilder;
 
         /// <summary>
