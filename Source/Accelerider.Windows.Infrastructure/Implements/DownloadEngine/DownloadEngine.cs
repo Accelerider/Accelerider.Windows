@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure.Interfaces;
+
+namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
+{
+    public class DownloadEngine : ITransportEngine
+    {
+        private IConfigureFile _progressFile;
+
+        public async Task InitializeAsync(string configFilePath)
+        {
+            await Task.Run(() =>
+            {
+                _progressFile = new ConfigureFile().Load(configFilePath);
+            });
+        }
+
+        public Task InitializeAsync(IConfigureFile configFile)
+        {
+            _progressFile = configFile;
+            return new Task(() => { });
+        }
+
+        public Task<IConfigureFile> ShutdownAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public T Use<T>() where T : ITaskBuilder
+        {
+            
+        }
+
+        public IEnumerable<ITransportTask> FindAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ITransportTask> FindAll(TransportStatus status)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

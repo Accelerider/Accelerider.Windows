@@ -90,6 +90,10 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TransportStatusExtensions.cs" />
     <Compile Include="FileLocation.cs" />
+    <Compile Include="Implements\DownloadEngine\DownloadEngine.cs" />
+    <Compile Include="Implements\DownloadEngine\DownloadTask.cs" />
+    <Compile Include="Implements\DownloadEngine\DownloadTaskBuilder.cs" />
+    <Compile Include="Implements\DownloadEngine\DownloadTaskManager.cs" />
     <Compile Include="Implements\DownloadTaskBuilderBase.cs" />
     <Compile Include="Implements\TaskBuilderBase.cs" />
     <Compile Include="Implements\UploadTaskBuilderBase.cs" />
@@ -110,6 +114,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Refit.4.0.1\build\net45\refit.targets" Condition="Exists('..\packages\Refit.4.0.1\build\net45\refit.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
