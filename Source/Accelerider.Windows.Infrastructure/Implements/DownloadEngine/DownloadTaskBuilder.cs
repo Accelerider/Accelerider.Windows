@@ -18,7 +18,8 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
 
         public override ITransportTask Build()
         {
-            throw new NotImplementedException();
+            var result=new DownloadTask();
+            return result;
         }
 
         public override ITransportTask Update(ITransportTask task)

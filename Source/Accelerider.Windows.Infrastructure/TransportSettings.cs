@@ -21,6 +21,11 @@ namespace Accelerider.Windows.Infrastructure
 
         public long BlockSize { get; set; } = 1024 * 1024 * 4L; //4MB
 
+        public string LinkHandlerType { get; set; }
+
+        public string LinkGetterInfo { get; set; }
+
+
 
         internal TransportSettings() { }
     }

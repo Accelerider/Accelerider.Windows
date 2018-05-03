@@ -101,6 +101,7 @@
     <Compile Include="Interfaces\IConfigureFile.cs" />
     <Compile Include="Interfaces\ITaskBuilder.cs" />
     <Compile Include="Interfaces\ITransportEngine.cs" />
+    <Compile Include="Interfaces\ITransportLinkHandler.cs" />
     <Compile Include="Interfaces\ITransportTask.cs" />
     <Compile Include="Implements\ModuleBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

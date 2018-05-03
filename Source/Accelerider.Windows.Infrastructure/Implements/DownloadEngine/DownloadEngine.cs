@@ -32,7 +32,10 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
 
         public T Use<T>() where T : ITaskBuilder
         {
-            
+            if (typeof(T) != typeof(DownloadTaskBuilder))
+                throw new TypeAccessException("Can not use this type");
+            return (T) typeof(T).Assembly.CreateInstance(typeof(T).Name);
+
         }
 
         public IEnumerable<ITransportTask> FindAll()
