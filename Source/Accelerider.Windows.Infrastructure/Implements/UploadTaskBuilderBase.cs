@@ -5,7 +5,7 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure
 {
-    public abstract class UploadTaskBuilderBase : TaskBuilderBase
+    public abstract class UploadTaskBuilderBase : TaskBuilderBase, IUploadTaskBuilder
     {
         protected FileLocation FromPath;
         protected readonly List<Uri> ToPaths = new List<Uri>();
@@ -34,5 +34,9 @@ namespace Accelerider.Windows.Infrastructure
             ToPaths.AddRange(paths.Select(item => new Uri(item)));
             return this;
         }
+
+        public abstract IUploadTask Build();
+
+        public abstract IUploadTask Update(IUploadTask task);
     }
 }

@@ -38,12 +38,12 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
 
         }
 
-        public IEnumerable<ITransportTask> FindAll()
+        public IEnumerable<T> FindAll<T>() where T : ITransportTask
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ITransportTask> FindAll(TransportStatus status)
+        public IEnumerable<T> FindAll<T>(Func<T, bool> predicate) where T : ITransportTask
         {
             throw new NotImplementedException();
         }

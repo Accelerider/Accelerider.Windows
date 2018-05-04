@@ -30,9 +30,5 @@ namespace Accelerider.Windows.Infrastructure
         }
 
         public abstract ITaskBuilder Clone();
-
-        public abstract ITransportTask Build();
-
-        public abstract ITransportTask Update(ITransportTask task);
     }
 }

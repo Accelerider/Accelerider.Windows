@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
 {
-    public class DownloadTask : ITransportTask
+    public class DownloadTask : IDownloadTask
     {
         public bool Equals(ITransportTask other)
         {

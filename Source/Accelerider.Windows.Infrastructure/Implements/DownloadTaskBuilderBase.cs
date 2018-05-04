@@ -5,7 +5,7 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure
 {
-    public abstract class DownloadTaskBuilderBase : TaskBuilderBase
+    public abstract class DownloadTaskBuilderBase : TaskBuilderBase, IDownloadTaskBuilder
     {
         protected readonly List<Uri> FromPaths = new List<Uri>();
         protected FileLocation ToPath;
@@ -34,5 +34,9 @@ namespace Accelerider.Windows.Infrastructure
             ToPath = paths.Last();
             return this;
         }
+
+        public abstract IDownloadTask Build();
+
+        public abstract IDownloadTask Update(IDownloadTask task);
     }
 }

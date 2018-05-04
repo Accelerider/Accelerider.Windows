@@ -9,8 +9,6 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
 {
     public class DownloadTaskBuilder : DownloadTaskBuilderBase
     {
-        
-
         public override ITaskBuilder Clone()
         {
             var result = new DownloadTaskBuilder();
@@ -18,14 +16,14 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
             return result;
         }
 
-        public override ITransportTask Build()
+        public override IDownloadTask Build()
         {
             var result = new DownloadTask();
             result.Update(FromPaths, ToPath, Settings);
             return result;
         }
 
-        public override ITransportTask Update(ITransportTask task)
+        public override IDownloadTask Update(IDownloadTask task)
         {
             if (task is DownloadTask downloadTask)
             {
