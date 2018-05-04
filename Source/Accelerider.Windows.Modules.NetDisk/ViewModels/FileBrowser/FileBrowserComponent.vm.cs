@@ -2,9 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
-using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Extensions;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
@@ -22,9 +23,9 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         public FileBrowserComponentViewModel(IUnityContainer container) : base(container)
         {
-            NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.NetDiskUsers);
+            NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
 
-            SubscrubeEvents();
+            SubscribeEvents();
 
             AddNetDiskCommand = new RelayCommand(AddNetDiskCommandExecute);
         }
@@ -75,7 +76,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             await DialogHost.Show(new SelectNetDiskTypeDialog(), "RootDialog");
         }
 
-        private void SubscrubeEvents()
+        private void SubscribeEvents()
         {
             EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Subscribe(isLoadingFiles => CanSwitchUser = !isLoadingFiles);
             EventAggregator.GetEvent<SearchResultsChangedEvent>().Subscribe(searchResults => SearchResults = searchResults);

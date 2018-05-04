@@ -86,14 +86,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\ConfigureKeys.cs" />
+    <Compile Include="Enumerations\FileQueries.cs" />
+    <Compile Include="Enumerations\FileType.cs" />
+    <Compile Include="Enumerations\TransportedFileStatus.cs" />
+    <Compile Include="Extensions\IAcceleriderUserExtensions.cs" />
+    <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
     <Compile Include="Interfaces\Files.cs" />
     <Compile Include="Interfaces\IBaiduCloudUser.cs" />
     <Compile Include="Interfaces\INetDiskUser.cs" />
-    <Compile Include="Interfaces\IOneDriveUser.cs" />
     <Compile Include="Models\Bodies.cs" />
     <Compile Include="Interfaces\INetDiskApi.cs" />
     <Compile Include="Models\Metadatas.cs" />
-    <Compile Include="Models\SpecifiedFileType.cs" />
     <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>
@@ -121,7 +124,7 @@
     <Compile Include="ViewModels\FileBrowser\Share.vm.cs" />
     <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
     <Compile Include="ViewModels\Others\TransferredFileList.cs" />
-    <Compile Include="ViewModels\Others\TransferringTask.vm.cs" />
+    <Compile Include="ViewModels\Others\TransportingTaskItem.cs" />
     <Compile Include="ViewModels\Others\TransferringTaskList.cs" />
     <Compile Include="ViewModels\Transportation\Downloaded.vm.cs" />
     <Compile Include="ViewModels\Transportation\Downloading.vm.cs" />

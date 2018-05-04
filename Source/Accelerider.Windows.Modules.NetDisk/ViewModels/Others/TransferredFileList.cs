@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using System.Collections.Specialized;
+using Accelerider.Windows.Modules.NetDisk.Enumerations;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
 {
@@ -27,10 +28,11 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
             base.RemoveItem(index);
         }
 
-        private void OnChecked(object sender, FileCheckStatusEnum e)
+        private void OnChecked(object sender, TransportedFileStatus e)
         {
-            var file = (ITransferredFile)sender;
-            SetItem(IndexOf(file), file);
+            //var file = (ITransferredFile)sender;
+            //SetItem(IndexOf(file), file);
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, sender));
         }
 
         private int GetAppropriateIndex(ITransferredFile other)

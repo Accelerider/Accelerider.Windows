@@ -9,11 +9,14 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Constants;
+using Accelerider.Windows.Modules.NetDisk.Enumerations;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
 using Accelerider.Windows.Resources.I18N;
+using Accelerider.Windows.TransportEngine;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 
@@ -85,7 +88,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         private void InitializeCommands()
         {
-            EnterFolderCommand = new RelayCommand<ILazyTreeNode<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.FileType == FileTypeEnum.FolderType);
+            EnterFolderCommand = new RelayCommand<ILazyTreeNode<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.FileType == FileType.FolderType);
             DownloadCommand = new RelayCommand<IList>(DownloadCommandExecute, files => files != null && files.Count > 0);
             UploadCommand = new RelayCommand(UploadCommandExecute);
             ShareCommand = new RelayCommand<IList>(ShareCommandExecute, files => files != null && files.Count > 0);
@@ -100,13 +103,13 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
             if (!isDownload) return;
 
-            var tokens = new List<ITransferTaskToken>();
+            var tokens = new List<ITaskReference>();
             foreach (var file in fileArray)
             {
                 await NetDiskUser.DownloadAsync(file, folder, token =>
                 {
                     // Add new task to download list.
-                    _downloadList.Add(new TransferringTaskViewModel(token));
+                    _downloadList.Add(new TransportingTaskItem(token));
                     // Records tokens
                     tokens.Add(token);
                 });
@@ -124,7 +127,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             var dialog = new System.Windows.Forms.OpenFileDialog { Multiselect = true };
             if (dialog.ShowDialog() != DialogResult.OK || dialog.FileNames.Length <= 0) return;
 
-            var tokens = new List<ITransferTaskToken>();
+            var tokens = new List<ITaskReference>();
             await Task.Run(() =>
             {
                 foreach (var fromPath in dialog.FileNames)
@@ -132,7 +135,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                     var toPath = CurrentFolder.Content.FilePath;
                     var token = NetDiskUser.UploadAsync(fromPath, toPath);
                     // Add new task to download list.
-                    _uploadList.Add(new TransferringTaskViewModel(token));
+                    _uploadList.Add(new TransportingTaskItem(token));
                     // Records tokens
                     tokens.Add(token);
                 }

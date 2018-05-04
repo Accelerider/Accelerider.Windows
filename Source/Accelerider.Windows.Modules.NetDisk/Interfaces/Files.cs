@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Enumerations;
 
-namespace Accelerider.Windows.Infrastructure.Interfaces
+namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 {
     public interface IDeletable
     {
@@ -10,7 +12,7 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
     public interface IFile
     {
-        FileTypeEnum FileType { get; }
+        FileType FileType { get; }
     }
 
     public interface ISharedFile : IFile, IDeletable
@@ -37,9 +39,9 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
     public interface ITransferredFile : IDiskFile
     {
-        event EventHandler<FileCheckStatusEnum> FileChecked;
+        event EventHandler<TransportedFileStatus> FileChecked;
 
-        FileCheckStatusEnum CheckStatus { get; }
+        TransportedFileStatus CheckStatus { get; }
 
         DateTime CompletedTime { get; }
     }

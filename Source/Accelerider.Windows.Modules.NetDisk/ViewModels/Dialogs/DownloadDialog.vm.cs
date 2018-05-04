@@ -68,11 +68,10 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
             get => _downloadItems;
             set
             {
-                if (SetProperty(ref _downloadItems, value))
-                {
-                    OnPropertyChanged(nameof(DownloadItemsHint));
-                    OnPropertyChanged(nameof(DownloadItemsSummary));
-                }
+                if (!SetProperty(ref _downloadItems, value)) return;
+
+                RaisePropertyChanged(nameof(DownloadItemsHint));
+                RaisePropertyChanged(nameof(DownloadItemsSummary));
             }
         }
 

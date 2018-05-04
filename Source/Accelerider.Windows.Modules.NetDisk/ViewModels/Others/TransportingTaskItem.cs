@@ -1,26 +1,31 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Prism.Mvvm;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
 {
-    public class TransferringTaskViewModel : BindableBase
+    public class TransportingTaskItem : BindableBase
     {
+        private readonly DispatcherTimer _timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 1) };
+
         private string _ownerName;
         private DataSize _progress;
         private TimeSpan? _remainingTime;
         private DataSize _speed;
         private bool _isBusy;
 
-        public TransferringTaskViewModel(ITransferTaskToken token)
+        public TransportingTaskItem(ITransportTask token)
         {
             OwnerName = token.OwnerName;
             Token = token;
-            Token.TransferTaskStatusChanged += (sender, e) => OnPropertyChanged(nameof(TransferTaskStatus));
+            Token.StatusChanged += (sender, e) => RaisePropertyChanged(nameof(TransferTaskStatus));
 
-            RefreshTransferTaskStatusCycle();
+            _timer.Tick += RefreshTransferTaskStatus;
+            _timer.Start();
         }
 
         public string OwnerName
@@ -29,11 +34,11 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
             set => SetProperty(ref _ownerName, value);
         }
 
-        public ITransferTaskToken Token { get; }
+        public ITransportTask Token { get; }
 
         public IFileSummary FileSummary => Token.FileSummary;
 
-        public TransferTaskStatusEnum TransferTaskStatus => Token.TaskStatus;
+        public TransportStatus TransferTaskStatus => Token.Status;
 
         public DataSize Progress
         {
@@ -59,23 +64,14 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
             set => SetProperty(ref _isBusy, value);
         }
 
-        private async void RefreshTransferTaskStatusCycle()
+        private void RefreshTransferTaskStatus(object sender, EventArgs e)
         {
-            while (true)
-            {
-                await Task.Delay(1000);
-                UpdateTransferTaskStatus();
-            }
-        }
-
-        private void UpdateTransferTaskStatus()
-        {
-            Speed = Token.Progress - Progress;
-            Progress = Token.Progress;
+            Speed = Token.CompletedSize - Progress;
+            Progress = Token.CompletedSize;
             if (Speed.BaseBValue == 0)
                 RemainingTime = null;
             else
-                RemainingTime = TimeSpan.FromSeconds(Math.Round((Token.FileSummary.FileSize - Progress) / Speed));
+                RemainingTime = TimeSpan.FromSeconds(Math.Round((Token.Size - Progress) / Speed));
         }
     }
 }

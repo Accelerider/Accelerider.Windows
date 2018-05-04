@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
-using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
@@ -39,6 +37,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
         {
         }
 
+        // HACK: Mock data.
         private IEnumerable<NetDiskTypeViewModel> InitializeNetDiskTypes()
         {
             return new[]

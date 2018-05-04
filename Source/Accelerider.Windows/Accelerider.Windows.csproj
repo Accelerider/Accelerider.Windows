@@ -94,7 +94,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApiExceptionResolverExtension.cs" />
-    <Compile Include="ConfigureHeadersHttpClientHandler.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Constants\ConfigureKeys.cs" />
     <Compile Include="Constants\Hyperlinks.cs" />

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Refit;
 
@@ -9,7 +10,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
     internal interface INetDiskApi
     {
         [Post("")]
-        Task AddNetDiskAsync([Body] NetDiskAuthInfoBody netDiskInfo);
+        Task AddNetDiskAsync([Body] NetDiskAuthPayload netDiskInfo);
 
         [Delete("/{id}")]
         Task RemoveNetDiskByIdAsync(long id);
@@ -22,7 +23,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
         // Accelerider Cloud tasks --------------------------------------------------------------------------
         [Post("/0/tasks")]
-        Task AddCloudTaskAsync([Body] CloudTaskInfoBody cloudTaskInfo);
+        Task AddCloudTaskAsync([Body] CloudTaskPayload cloudTaskInfo);
 
         [Delete("/0/tasks/{id}")]
         Task<CloudTaskMetadata> RemoveCloudTaskByIdAsync(long id);
@@ -35,13 +36,13 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
         // Files --------------------------------------------------------------------------------------------
         [Post("/{netDiskId}/files")]
-        Task<FileMetadata> AddFileAsync(long netDiskId, [Body] FileInfoBody fileInfo);
+        Task<FileMetadata> AddFileAsync(long netDiskId, [Body] FilePayload fileInfo);
 
         [Delete("/{netDiskId}/files/{fileId}")]
         Task RemoveFileByIdAsync(long netDiskId, long fileId);
 
         [Patch("/{netDiskId}/files/{fileId}")]
-        Task UpdateFileAsync(long netDiskId, long fileId, [Body] FileUpdateInfoBody fileInfo);
+        Task UpdateFileAsync(long netDiskId, long fileId, [Body] FileUpdatePayload fileInfo);
 
         [Get("/{netDiskId}/files/{fileId}")]
         Task<FileMetadata> GetFileByIdAsync(long netDiskId, long fileId);
@@ -50,7 +51,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
         Task<IList<FileMetadata>> GetFileChildrenByIdAsync(long netDiskId, long fileId);
 
         [Get("/{netDiskId}/files/{fileType}")]
-        Task<IList<FileMetadata>> GetAllFilesByTypeAsync(long netDiskId, SpecifiedFileType fileType);
+        Task<IList<FileMetadata>> GetAllFilesByTypeAsync(long netDiskId, FileQueries fileType);
 
         [Put("/{netDiskId}/files/{fileId}/content")]
         Task UploadFileAsync(long netDiskId, long fileId, [Body] Stream fileStream);

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser

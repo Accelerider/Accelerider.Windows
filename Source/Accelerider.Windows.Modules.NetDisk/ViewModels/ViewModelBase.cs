@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using MaterialDesignThemes.Wpf;
+using Accelerider.Windows.Modules.NetDisk.Extensions;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Microsoft.Practices.Unity;
-using Prism.Events;
-using Prism.Mvvm;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels
 {
@@ -13,12 +11,12 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels
 
         public INetDiskUser NetDiskUser
         {
-            get => AcceleriderUser.CurrentNetDiskUser ?? AcceleriderUser.NetDiskUsers.FirstOrDefault();
+            get => AcceleriderUser.GetCurrentNetDiskUser() ?? AcceleriderUser.GetNetDiskUsers().FirstOrDefault();
             set
             {
-                var temp = AcceleriderUser.CurrentNetDiskUser;
+                var temp = AcceleriderUser.GetCurrentNetDiskUser();
                 if (!SetProperty(ref temp, value)) return;
-                AcceleriderUser.CurrentNetDiskUser = temp;
+                AcceleriderUser.SetCurrentNetDiskUser(temp);
                 EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Publish(temp);
             }
         }

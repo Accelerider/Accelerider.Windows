@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Enumerations;
 
 namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 {
     public interface INetDiskUser
     {
-        // User Information ---------------------------------------------------------------
+        // User Information ----------------------------------------------------------------
+
         string Username { get; }
 
         DataSize TotalCapacity { get; }
@@ -17,20 +18,18 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
         Task<bool> RefreshUserInfoAsync();
 
-        // Operates net-disk file ---------------------------------------------------------
-        ITransferTaskToken UploadAsync(FileLocation from, FileLocation to);
+        // Gets net-disk files -------------------------------------------------------------
 
-        //Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null);
-
-        Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action); // TODO: Changes it to IAsyncEnumerable<T> when the C# 8.0 is released.
-
-        Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null);
-
-        // Gets net-disk files ------------------------------------------------------------
-        Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync();
+        Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
 
         Task<IEnumerable<ISharedFile>> GetSharedFilesAsync();
 
         Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync();
+
+        Task<Dictionary<FileQueries, IEnumerable<IFile>>> GetFileCategoryDictionaryAsync();
+
+        // Transport operations ------------------------------------------------------------
+
+
     }
 }

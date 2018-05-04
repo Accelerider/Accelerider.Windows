@@ -3,29 +3,28 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
+using Accelerider.Windows.TransportEngine;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
 {
-    public class TransferringTaskList : ObservableCollection<TransferringTaskViewModel>
+    public class TransferringTaskList : ObservableCollection<TransportingTaskItem>
     {
         public const string DownloadKey = "DownloadList";
         public const string UploadKey = "UploadList";
         private const int NotAvailable = -1;
 
-        private readonly Dictionary<TransferTaskStatusEnum, int> _orderMapping = new Dictionary<TransferTaskStatusEnum, int>
+        private readonly Dictionary<TransportStatus, int> _orderMapping = new Dictionary<TransportStatus, int>
         {
-            { TransferTaskStatusEnum.Transferring, 0 },
-            { TransferTaskStatusEnum.Waiting, 1 },
-            { TransferTaskStatusEnum.Created, 1 },
-            { TransferTaskStatusEnum.Faulted, 2 },
-            { TransferTaskStatusEnum.Paused, 3 },
+            { TransportStatus.Transporting, 0 },
+            { TransportStatus.Ready, 1 },
+            { TransportStatus.Faulted, 2 },
+            { TransportStatus.Suspended, 3 },
         };
 
         private TransferredFileList _transferredFileList;
 
-        public TransferringTaskList(IEnumerable<TransferringTaskViewModel> collection)
+        public TransferringTaskList(IEnumerable<TransportingTaskItem> collection)
         {
             foreach (var item in collection)
             {
@@ -44,7 +43,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
             }
         }
 
-        protected override void InsertItem(int index, TransferringTaskViewModel item)
+        protected override void InsertItem(int index, TransportingTaskItem item)
         {
             index = GetAppropriateIndex(item);
             if (index == NotAvailable)
@@ -53,27 +52,27 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
                 return;
             }
 
-            item.Token.TransferTaskStatusChanged += OnTaskStatusChanged;
+            item.Token.StatusChanged += OnTaskStatusChanged;
             Application.Current.Dispatcher.Invoke(() => base.InsertItem(index, item));
         }
 
         protected override void RemoveItem(int index)
         {
-            base[index].Token.TransferTaskStatusChanged -= OnTaskStatusChanged;
+            base[index].Token.StatusChanged -= OnTaskStatusChanged;
             Application.Current.Dispatcher.Invoke(() => base.RemoveItem(index));
         }
 
-        private void OnTaskStatusChanged(object sender, TransferTaskStatusChangedEventArgs e)
+        private void OnTaskStatusChanged(object sender, TransportStatus e)
         {
-            var token = (ITransferTaskToken)sender;
-            var task = Items.First(item => EqualityComparer<ITransferTaskToken>.Default.Equals(item.Token, token));
+            var token = (ITaskReference)sender;
+            var task = Items.First(item => EqualityComparer<ITaskReference>.Default.Equals(item.Token, token));
             lock (task)
             {
                 var appropriateIndex = GetAppropriateIndex(task);
                 if (appropriateIndex == NotAvailable)
                 {
                     Remove(task);
-                    this.AddToTransferredList(task);
+                    AddToTransferredList(task);
                     return;
                 }
 
@@ -89,15 +88,15 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
             }
         }
 
-        private void AddToTransferredList(TransferringTaskViewModel task)
+        private void AddToTransferredList(TransportingTaskItem task)
         {
-            if (task.TransferTaskStatus == TransferTaskStatusEnum.Completed)
+            if (task.TransferTaskStatus == TransportStatus.Completed)
             {
                 Application.Current.Dispatcher.Invoke(() => TransferredFileList.Insert(0, task.Token.GetTransferredFile()));
             }
         }
 
-        private int GetAppropriateIndex(TransferringTaskViewModel other)
+        private int GetAppropriateIndex(TransportingTaskItem other)
         {
             if (!_orderMapping.ContainsKey(other.TransferTaskStatus)) return NotAvailable;
 

@@ -1,27 +1,27 @@
 ﻿namespace Accelerider.Windows.Modules.NetDisk.Models
 {
-    internal class CloudTaskInfoBody
+    internal class CloudTaskPayload
     {
     }
 
-    internal class FileUpdateInfoBody
+    internal class FileUpdatePayload
     {
     }
 
-    internal class FileInfoBody : FileUpdateInfoBody
+    internal class FilePayload : FileUpdatePayload
     {
     }
 
-    internal abstract class NetDiskAuthInfoBody
+    internal abstract class NetDiskAuthPayload
     {
     }
 
-    internal class BaiduNetDiskAuthInfoBody : NetDiskAuthInfoBody
+    internal class BaiduNetDiskAuthPayload : NetDiskAuthPayload
     {
 
     }
 
-    internal class OneDriveAuthInfoBody : NetDiskAuthInfoBody
+    internal class OneDriveAuthPayload : NetDiskAuthPayload
     {
 
     }

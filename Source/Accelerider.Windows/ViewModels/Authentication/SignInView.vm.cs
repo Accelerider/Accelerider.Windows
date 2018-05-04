@@ -142,9 +142,9 @@ namespace Accelerider.Windows.ViewModels.Authentication
             token = token?.GetJsonValue("accessToken");
             if (token == null) return false;
 
-            var acceleriderApi = RestService.For<IAcceleriderApi>(new HttpClient(new ConfigureHeadersHttpClientHandler(token))
+            var acceleriderApi = RestService.For<IAcceleriderApi>(Hyperlinks.ApiBaseAddress, new RefitSettings
             {
-                BaseAddress = new Uri(Hyperlinks.ApiBaseAddress)
+                AuthorizationHeaderValueGetter = () => Task.FromResult(token)
             });
 
             var user = await acceleriderApi.GetCurrentUserAsync().RunApi();

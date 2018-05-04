@@ -11,6 +11,11 @@ namespace Accelerider.Windows.Resources
 {
     public class TabControlHelper
     {
+        private const string LeftToRightMovedEventTriggerResourceKey = "LeftToRightMovedEventTrigger";
+        private const string RightToLeftMovedEventTriggerResourceKey = "RightToLeftMovedEventTrigger";
+
+        private static readonly Uri TabControlResourceDictionaryUri = new Uri("pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.TabControl.xaml");
+
         public static readonly DependencyProperty LeftToRightAnimationProperty = DependencyProperty.RegisterAttached("LeftToRightAnimation", typeof(Storyboard), typeof(TabControlHelper), new PropertyMetadata(null, OnLeftToRightAnimationChanged));
         public static Storyboard GetLeftToRightAnimation(DependencyObject obj)
         {
@@ -118,12 +123,9 @@ namespace Accelerider.Windows.Resources
                 }
 
                 // 2. Add animation to EventTrigger property.
-                var resourceDictionary = new ResourceDictionary
-                {
-                    Source = new Uri("pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.TabControl.xaml")
-                };
-                content.Triggers.Add(resourceDictionary["LeftToRightMovedEventTrigger"] as TriggerBase);
-                content.Triggers.Add(resourceDictionary["RightToLeftMovedEventTrigger"] as TriggerBase);
+                var resourceDictionary = new ResourceDictionary { Source = TabControlResourceDictionaryUri };
+                content.Triggers.Add(resourceDictionary[LeftToRightMovedEventTriggerResourceKey] as TriggerBase);
+                content.Triggers.Add(resourceDictionary[RightToLeftMovedEventTriggerResourceKey] as TriggerBase);
             }
             tabControl.Loaded -= OnLoaded;
         }
