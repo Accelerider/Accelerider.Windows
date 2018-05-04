@@ -13,22 +13,19 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         ITaskBuilder Configure(TransportSettings settings);
 
         ITaskBuilder Clone();
-
-        ITransportTask Build();
-
-        ITransportTask Update(ITransportTask task);
     }
 
-    //public static class ITaskBuilderExtensions
-    //{
-    //    public static IDownloadTask Update(this ITaskBuilder<IDownloadTask> @this, IDownloadTask task)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
+    public interface IDownloadTaskBuilder : ITaskBuilder
+    {
+        IDownloadTask Build();
 
-    //    public static IUploadTask Update(this ITaskBuilder<IUploadTask> @this, IUploadTask task)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
+        IDownloadTask Update(IDownloadTask task);
+    }
+
+    public interface IUploadTaskBuilder : ITaskBuilder
+    {
+        IUploadTask Build();
+
+        IUploadTask Update(IUploadTask task);
+    }
 }

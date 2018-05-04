@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.Interfaces
@@ -34,14 +36,17 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         /// <summary>
         /// Gets all tasks in all status.
         /// </summary>
-        /// <returns>A sequence of <see cref="ITransportTask"/> type.</returns>
-        IEnumerable<ITransportTask> FindAll();
+        /// <typeparam name="T">The specified task type, which is <see cref="IDownloadTask"/> or <see cref="IUploadTask"/>.</typeparam>
+        /// <returns>A sequence of download or upload task.</returns>
+        IEnumerable<T> FindAll<T>() where T : ITransportTask;
+
 
         /// <summary>
-        /// Gets all tasks in the specified status.
+        /// Gets all tasks with the specified predicate.
         /// </summary>
-        /// <param name="status">The specified task status.</param>
-        /// <returns>A sequence of <see cref="ITransportTask"/> type.</returns>
-        IEnumerable<ITransportTask> FindAll(TransportStatus status);
+        /// <typeparam name="T">The specified task type, which is <see cref="IDownloadTask"/> or <see cref="IUploadTask"/>.</typeparam>
+        /// <param name="predicate">A function to test each element for a condition. </param>
+        /// <returns>A sequence of download or upload task that passes the test in the specified predicate function.</returns>
+        IEnumerable<T> FindAll<T>(Func<T, bool> predicate) where T : ITransportTask;
     }
 }

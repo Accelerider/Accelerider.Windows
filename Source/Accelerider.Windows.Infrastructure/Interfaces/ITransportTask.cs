@@ -28,4 +28,8 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
 
         Task CancelAsync();
     }
+
+    public interface IDownloadTask : ITransportTask { }
+
+    public interface IUploadTask : ITransportTask { }
 }
