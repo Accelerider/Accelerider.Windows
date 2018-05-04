@@ -25,7 +25,14 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
                 while (true)
                 {
                     await Task.Delay(1000);
-                    
+                    if (TaskList.Count(v => v.Status == TransportStatus.Transporting) < 5) //TODO: Use config option.
+                    {
+                        var task = TaskList.FirstOrDefault(v => v.Status == TransportStatus.Ready);
+                        if (task != null)
+                        {
+                            
+                        }
+                    }
                 }
             }).Start();
         }

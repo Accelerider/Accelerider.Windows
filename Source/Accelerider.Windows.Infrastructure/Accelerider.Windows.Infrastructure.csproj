@@ -81,6 +81,7 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Commands\RelayCommand{T}.cs" />
+    <Compile Include="Extensions\WebRequestExtensions.cs" />
     <Compile Include="Implements\ConfigureFile.cs" />
     <Compile Include="DataSize.cs" />
     <Compile Include="Enumerations\Language.cs" />

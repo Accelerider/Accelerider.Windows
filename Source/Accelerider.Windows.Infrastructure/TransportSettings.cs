@@ -19,7 +19,7 @@ namespace Accelerider.Windows.Infrastructure
 
         public int ThreadCount { get; set; } = 16;
 
-        public long BlockSize { get; set; } = 1024 * 1024 * 4L; //4MB
+        public long BlockSize { get; set; } = 1024 * 1024 * 10L; //10MB
 
         public string LinkHandlerType { get; set; }
 
