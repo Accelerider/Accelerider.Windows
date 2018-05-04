@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure
@@ -16,9 +17,21 @@ namespace Accelerider.Windows.Infrastructure
             return this;
         }
 
+        public override ITaskBuilder From(IEnumerable<string> paths)
+        {
+            FromPath = paths.Last();
+            return this;
+        }
+
         public override ITaskBuilder To(string path)
         {
             ToPaths.Add(new Uri(path));
+            return this;
+        }
+
+        public override ITaskBuilder To(IEnumerable<string> paths)
+        {
+            ToPaths.AddRange(paths.Select(item => new Uri(item)));
             return this;
         }
     }
