@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Extensions;
 using Accelerider.Windows.Infrastructure.Interfaces;
@@ -13,42 +12,71 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
 {
     public class DownloadTask : IDownloadTask
     {
-        public bool Equals(ITransportTask other)
-        {
-            if (!(other is DownloadTask)) return false;
-            return other.LocalPath.Equals(LocalPath) && other.Status == Status && other.TotalSize == TotalSize;
-        }
-
-
-
+        private TransportStatus _status = TransportStatus.Ready;
 
         public IEnumerable<Uri> Uris { get; private set; } = new Uri[0];
-        public FileLocation ToFile { get; private set; }
+
         public TransportSettings Setting { get; private set; }
+
         public List<DownloadBlock> DownloadBlocks { get; private set; } = new List<DownloadBlock>();
+
+        public event StatusChangedEventHandler StatusChanged;
+
+        public bool IsDisposed { get; private set; }
+
+        public TransportStatus Status
+        {
+            get => _status;
+            private set
+            {
+                if (value == _status) return;
+
+                var oldStatus = _status;
+                _status = value;
+                StatusChanged?.Invoke(this, new StatusChangedEventArgs(oldStatus, _status));
+            }
+        }
+
+        public DataSize CompletedSize { get; private set; }
+
+        public DataSize TotalSize { get; private set; }
+
+        public FileLocation LocalPath { get; private set; }
+
 
         public void Update(IEnumerable<Uri> uris, FileLocation file, TransportSettings setting)
         {
             Uris = uris;
-            ToFile = file;
+            LocalPath = file;
             Setting = setting;
         }
-
-
-        public event StatusChangedEventHandler StatusChanged;
-        public bool IsDisposed { get; private set; }
-        public TransportStatus Status { get; private set; } = TransportStatus.Ready;
-        public DataSize CompletedSize { get; private set; }
-        public DataSize TotalSize { get; private set; }
-        public FileLocation LocalPath { get; private set; }
 
         public async Task StartAsync()
         {
             await Task.Run(() =>
             {
-                if (!Init())
+                if (!Initialize())
                     throw new IOException("Init blocks failed.");
+                Status = TransportStatus.Transporting;
+                if (DownloadBlocks.All(v => v.Completed))
+                {
+                    Status = TransportStatus.Completed;
+                    return;
+                }
+                var response = GetResponse();
+                if (response == null)
+                {
+                    Status = TransportStatus.Faulted;
+                    return;
+                }
 
+                if (!File.Exists(LocalPath))
+                {
+                    using (var stream = new FileStream(LocalPath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite, 1024 * 1024 * 5))
+                        stream.SetLength(response.ContentLength);
+                }
+
+                TotalSize = response.ContentLength;
             });
 
 
@@ -59,21 +87,22 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
             throw new NotImplementedException();
         }
 
-        public Task RestartAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task DisposeAsync()
         {
             throw new NotImplementedException();
         }
 
+        public bool Equals(ITransportTask other)
+        {
+            if (!(other is DownloadTask)) return false;
+            return other.LocalPath.Equals(LocalPath) && other.Status == Status && other.TotalSize == TotalSize;
+        }
+
         //Init blocks information
-        private bool Init()
+        private bool Initialize()
         {
             if (DownloadBlocks.Count > 0) return true;
-            var blockFile = ToFile.FullPath + ".block";
+            var blockFile = LocalPath + ".block";
             if (File.Exists(blockFile))
             {
                 DownloadBlocks = JsonConvert.DeserializeObject<List<DownloadBlock>>(File.ReadAllText(blockFile));
@@ -84,7 +113,7 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
                 return false;
             var contentLength = response.ContentLength;
             var temp = 0L;
-            while (temp+Setting.BlockSize < contentLength)
+            while (temp + Setting.BlockSize < contentLength)
             {
                 DownloadBlocks.Add(new DownloadBlock()
                 {
@@ -110,7 +139,7 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
                     var request = WebRequest.CreateHttp(uri);
                     request.Headers = Setting.Headers.ToWebHeaderCollection();
                     request.Method = "GET";
-                    return (HttpWebResponse) request.GetResponse();
+                    return (HttpWebResponse)request.GetResponse();
                 }
                 catch
                 {
