@@ -6,15 +6,18 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure.TransportImpls
 {
-    internal class TransportScheduler
+    internal class TransportScheduler<T> where T : ITransportTask
     {
         private class Listener
         {
-            private readonly TransportScheduler _scheduler;
+            private readonly TransportScheduler<T> _scheduler;
 
-            public Listener(TransportScheduler scheduler) => _scheduler = scheduler;
+            public Listener(TransportScheduler<T> scheduler) => _scheduler = scheduler;
 
-            public async void OnStatusChanged(ITransportTask task, StatusChangedEventArgs e)
+            public async void OnStatusChanged(ITransportTask sender, StatusChangedEventArgs e) =>
+                await OnStatusChangedInternal((T)sender, e);
+
+            private async Task OnStatusChangedInternal(T task, StatusChangedEventArgs e)
             {
                 if (e.NewStatus == TransportStatus.Completed)
                 {
@@ -40,9 +43,9 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls
 
         private const int MaxParallelTaskCount = 4; // TODO: Move to configure file.
 
-        private readonly ConcurrentTaskQueue _pendingQueue = new ConcurrentTaskQueue();
-        private readonly ConcurrentTaskQueue _transportingQueue = new ConcurrentTaskQueue();
-        private readonly ConcurrentTaskQueue _completedQueue = new ConcurrentTaskQueue();
+        private readonly ConcurrentTaskQueue<T> _pendingQueue = new ConcurrentTaskQueue<T>();
+        private readonly ConcurrentTaskQueue<T> _transportingQueue = new ConcurrentTaskQueue<T>();
+        private readonly ConcurrentTaskQueue<T> _completedQueue = new ConcurrentTaskQueue<T>();
 
         private bool _isActived;
         private bool _isPromoting;
@@ -53,7 +56,7 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls
             await PromoteAsync();
         }
 
-        public async Task RecordAsync(ITransportTask task)
+        public async Task RecordAsync(T task)
         {
             task.StatusChanged += new Listener(this).OnStatusChanged;
             switch (task.Status)
@@ -77,9 +80,9 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls
             }
         }
 
-        public IEnumerable<ITransportTask> GetAllTasks() => _pendingQueue.Union(_transportingQueue).Union(_completedQueue);
+        public IEnumerable<T> GetAllTasks() => _pendingQueue.Union(_transportingQueue).Union(_completedQueue);
 
-        public async Task<(IEnumerable<ITransportTask> uncompletedTasks, IEnumerable<ITransportTask> completedTasks)> ShutdownAsync()
+        public async Task<(IEnumerable<T> uncompletedTasks, IEnumerable<T> completedTasks)> ShutdownAsync()
         {
             while (_transportingQueue.Any())
             {
@@ -94,7 +97,7 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls
             if (!_isActived || _isPromoting) return;
 
             _isPromoting = true;
-            while (_transportingQueue.Count <= MaxParallelTaskCount)
+            while (_transportingQueue.Count < MaxParallelTaskCount)
             {
                 var pendingTask = _pendingQueue.Dequeue(task => task.Status == TransportStatus.Ready);
                 if (pendingTask == null) return;
