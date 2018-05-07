@@ -23,24 +23,37 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
 
 
         public IEnumerable<Uri> Uris { get; private set; } = new Uri[0];
-        public FileLocation ToFile { get; private set; }
         public TransportSettings Setting { get; private set; }
         public List<DownloadBlock> DownloadBlocks { get; private set; } = new List<DownloadBlock>();
 
         public void Update(IEnumerable<Uri> uris, FileLocation file, TransportSettings setting)
         {
             Uris = uris;
-            ToFile = file;
+            LocalPath = file;
             Setting = setting;
         }
 
 
         public event StatusChangedEventHandler StatusChanged;
         public bool IsCanceled { get; private set; }
-        public TransportStatus Status { get; private set; } = TransportStatus.Ready;
+        public TransportStatus Status
+        {
+            get => _status;
+            private set
+            {
+                if (value != _status)
+                {
+                    var old = _status;
+                    _status = value;
+                    StatusChanged?.Invoke(this, value);
+                }
+            }
+        }
         public DataSize CompletedSize { get; private set; }
         public DataSize TotalSize { get; private set; }
         public FileLocation LocalPath { get; private set; }
+
+        private TransportStatus _status=TransportStatus.Ready;
 
         public async Task StartAsync()
         {
@@ -48,7 +61,26 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
             {
                 if (!Init())
                     throw new IOException("Init blocks failed.");
+                Status = TransportStatus.Transporting;
+                if (DownloadBlocks.All(v => v.Completed))
+                {
+                    Status = TransportStatus.Completed;
+                    return;
+                }
+                var response = GetResponse();
+                if (response == null)
+                {
+                    Status = TransportStatus.Faulted;
+                    return;
+                }
 
+                if (!File.Exists(LocalPath))
+                {
+                    using (var stream = new FileStream(LocalPath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite, 1024 * 1024 * 5))
+                        stream.SetLength(response.ContentLength);
+                }
+
+                TotalSize = response.ContentLength;
             });
 
 
@@ -73,7 +105,7 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
         private bool Init()
         {
             if (DownloadBlocks.Count > 0) return true;
-            var blockFile = ToFile.FullPath + ".block";
+            var blockFile = LocalPath + ".block";
             if (File.Exists(blockFile))
             {
                 DownloadBlocks = JsonConvert.DeserializeObject<List<DownloadBlock>>(File.ReadAllText(blockFile));
