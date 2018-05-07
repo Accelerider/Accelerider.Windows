@@ -16,9 +16,9 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    public class LinkHandler : Attribute
+    public class LinkHandlerAttribute : Attribute
     {
-        public LinkHandler(string type)
+        public LinkHandlerAttribute(string type)
         {
             Type = type;
         }

@@ -39,7 +39,7 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
 
         public void RegisterLinkHandler(ITransportLinkHandler handler)
         {
-            if (handler.GetType().GetCustomAttributes(typeof(LinkHandler)).FirstOrDefault() == null)
+            if (handler.GetType().GetCustomAttributes(typeof(LinkHandlerAttribute)).FirstOrDefault() == null)
                 throw new ArgumentException("Attribute 'LinkHandler' not found.");
             _handlers.Add(handler);
         }

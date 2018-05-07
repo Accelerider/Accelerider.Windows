@@ -36,7 +36,7 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
 
 
         public event StatusChangedEventHandler StatusChanged;
-        public bool IsCanceled { get; private set; }
+        public bool IsDisposed { get; private set; }
         public TransportStatus Status { get; private set; } = TransportStatus.Ready;
         public DataSize CompletedSize { get; private set; }
         public DataSize TotalSize { get; private set; }
@@ -64,7 +64,7 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
             throw new NotImplementedException();
         }
 
-        public Task CancelAsync()
+        public Task DisposeAsync()
         {
             throw new NotImplementedException();
         }

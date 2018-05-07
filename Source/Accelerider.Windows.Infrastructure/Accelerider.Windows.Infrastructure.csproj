@@ -69,6 +69,9 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -81,6 +84,7 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Commands\RelayCommand{T}.cs" />
+    <Compile Include="Exceptions\InvalidTransportStatusTransitionException.cs" />
     <Compile Include="Extensions\WebRequestExtensions.cs" />
     <Compile Include="Implements\ConfigureFile.cs" />
     <Compile Include="DataSize.cs" />
@@ -97,12 +101,17 @@
     <Compile Include="Implements\DownloadEngine\DownloadTaskManager.cs" />
     <Compile Include="Implements\DownloadTaskBuilderBase.cs" />
     <Compile Include="Implements\TaskBuilderBase.cs" />
+    <Compile Include="TransportImpls\TaskContext.cs" />
+    <Compile Include="TransportImpls\TaskPipeline.cs" />
+    <Compile Include="TransportImpls\ConcurrentTaskQueue.cs" />
+    <Compile Include="TransportImpls\TransportScheduler.cs" />
+    <Compile Include="TransportImpls\ITransportContainerImpl.cs" />
     <Compile Include="Implements\UploadTaskBuilderBase.cs" />
     <Compile Include="Interfaces\IAcceleriderUser.cs" />
     <Compile Include="Interfaces\IConfigureFile.cs" />
     <Compile Include="Interfaces\ILazyTreeNode{T}.cs" />
     <Compile Include="Interfaces\ITaskBuilder.cs" />
-    <Compile Include="Interfaces\ITransportEngine.cs" />
+    <Compile Include="Interfaces\ITransportContainer.cs" />
     <Compile Include="Interfaces\ITransportLinkHandler.cs" />
     <Compile Include="Interfaces\ITransportTask.cs" />
     <Compile Include="Implements\ModuleBase.cs" />
@@ -115,7 +124,9 @@
     <Compile Include="Implements\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

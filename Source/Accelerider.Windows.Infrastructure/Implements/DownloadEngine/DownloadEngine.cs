@@ -7,22 +7,19 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
 {
-    public class DownloadEngine : ITransportEngine
+    public class DownloadEngine : ITransportContainer
     {
         private IConfigureFile _progressFile;
 
-        public async Task InitializeAsync(string configFilePath)
-        {
-            await Task.Run(() =>
-            {
-                _progressFile = new ConfigureFile().Load(configFilePath);
-            });
-        }
-
-        public Task InitializeAsync(IConfigureFile configFile)
+        public ITransportContainer Initialize(IConfigureFile configFile)
         {
             _progressFile = configFile;
-            return new Task(() => { });
+            return this;
+        }
+
+        public ITransportContainer Configure(Action<TransportSettings> settings)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<IConfigureFile> ShutdownAsync()
@@ -38,12 +35,7 @@ namespace Accelerider.Windows.Infrastructure.Implements.DownloadEngine
 
         }
 
-        public IEnumerable<T> FindAll<T>() where T : ITransportTask
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<T> FindAll<T>(Func<T, bool> predicate) where T : ITransportTask
+        public IEnumerable<T> GetAllTasks<T>() where T : ITransportTask
         {
             throw new NotImplementedException();
         }

@@ -71,7 +71,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
                 taskToken => OperateTaskToken(taskToken, token => token.StartAsync(true), "Jump queue failed."),
                 taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus != TransferTaskStatusEnum.Transferring);
             CancelCommand = new RelayCommand<TransportingTaskItem>(
-                taskToken => OperateTaskToken(taskToken, token => token.CancelAsync(), "Cancel task failed."),
+                taskToken => OperateTaskToken(taskToken, token => token.DisposeAsync(), "Cancel task failed."),
                 taskToken => !taskToken.IsBusy);
         }
 

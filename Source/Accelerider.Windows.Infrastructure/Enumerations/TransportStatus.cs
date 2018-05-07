@@ -17,7 +17,7 @@
         Transporting,
 
         /// <summary>
-        /// The task is suspended. Can be converted to <see cref="Ready"/>.
+        /// The task is suspended. Can be converted to <see cref="Ready"/> or <see cref="Faulted"/>.
         /// </summary>
         Suspended,
 

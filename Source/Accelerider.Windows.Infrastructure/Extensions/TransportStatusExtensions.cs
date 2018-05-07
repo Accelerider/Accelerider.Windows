@@ -9,7 +9,7 @@ namespace Accelerider.Windows.Infrastructure.Extensions
         {
             { TransportStatus.Ready, new []{ TransportStatus.Transporting, TransportStatus.Suspended, TransportStatus.Faulted } },
             { TransportStatus.Transporting, new []{ TransportStatus.Suspended, TransportStatus.Completed, TransportStatus.Faulted } },
-            { TransportStatus.Suspended, new []{ TransportStatus.Ready } },
+            { TransportStatus.Suspended, new []{ TransportStatus.Ready, TransportStatus.Faulted } },
             { TransportStatus.Faulted, new []{ TransportStatus.Ready } }
         };
 
