@@ -15,7 +15,7 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls.Tests
     {
         private const int TaskCount = 1000;
 
-        private readonly ConcurrentTaskQueue _queue = new ConcurrentTaskQueue();
+        private readonly ConcurrentTaskQueue<ITransportTask> _queue = new ConcurrentTaskQueue<ITransportTask>();
         private readonly List<ITransportTask> _tasks = GenerateTasks().ToList();
 
         private static IEnumerable<ITransportTask> GenerateTasks()

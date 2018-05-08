@@ -6,13 +6,14 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure.TransportImpls
 {
-    internal class ConcurrentTaskQueue : IEnumerable<ITransportTask>
+    internal class ConcurrentTaskQueue<T> : IEnumerable<T>
+        where T : ITransportTask
     {
-        private readonly List<ITransportTask> _storage = new List<ITransportTask>();
+        private readonly List<T> _storage = new List<T>();
 
         public int Count => _storage.Count;
 
-        public void Enqueue(ITransportTask task)
+        public void Enqueue(T task)
         {
             lock (_storage)
             {
@@ -20,7 +21,7 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls
             }
         }
 
-        public ITransportTask Dequeue(Func<ITransportTask, bool> predicate = null)
+        public T Dequeue(Func<T, bool> predicate = null)
         {
             lock (_storage)
             {
@@ -30,7 +31,7 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls
             }
         }
 
-        public ITransportTask Peek(Func<ITransportTask, bool> predicate = null)
+        public T Peek(Func<T, bool> predicate = null)
         {
             lock (_storage)
             {
@@ -38,7 +39,7 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls
             }
         }
 
-        public void Top(ITransportTask task)
+        public void Top(T task)
         {
             lock (_storage)
             {
@@ -50,7 +51,7 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls
             }
         }
 
-        public bool Remove(ITransportTask task)
+        public bool Remove(T task)
         {
             lock (_storage)
             {
@@ -67,7 +68,7 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls
         }
 
         #region Implements IEnumerable<T> interface
-        public IEnumerator<ITransportTask> GetEnumerator() => _storage.GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => _storage.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         #endregion
