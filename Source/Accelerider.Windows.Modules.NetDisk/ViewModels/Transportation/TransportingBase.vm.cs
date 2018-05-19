@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
+using Accelerider.Windows.Infrastructure.FileTransferService;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
 using Microsoft.Practices.Unity;
@@ -62,20 +63,20 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             PauseCommand = new RelayCommand<TransportingTaskItem>(
                 taskToken => OperateTaskToken(taskToken, token => token.PauseAsync(), "Pause task failed."),
                 taskToken => !taskToken.IsBusy &&
-                taskToken.Token.TaskStatus == TransportStatus.Transferring ||
-                taskToken.Token.TaskStatus == TransportStatus.Waiting);
+                taskToken.Token.TaskStatus == TransferStatus.Transferring ||
+                taskToken.Token.TaskStatus == TransferStatus.Waiting);
             StartCommand = new RelayCommand<TransportingTaskItem>(
-                taskToken => OperateTaskToken(taskToken, token => token.StartAsync(), "Restart task failed."),
+                taskToken => OperateTaskToken(taskToken, token => token.Start(), "Restart task failed."),
                 taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus == TransferTaskStatusEnum.Paused);
             StartForceCommand = new RelayCommand<TransportingTaskItem>(
-                taskToken => OperateTaskToken(taskToken, token => token.StartAsync(true), "Jump queue failed."),
+                taskToken => OperateTaskToken(taskToken, token => token.Start(true), "Jump queue failed."),
                 taskToken => !taskToken.IsBusy && taskToken.Token.TaskStatus != TransferTaskStatusEnum.Transferring);
             CancelCommand = new RelayCommand<TransportingTaskItem>(
                 taskToken => OperateTaskToken(taskToken, token => token.DisposeAsync(), "Cancel task failed."),
                 taskToken => !taskToken.IsBusy);
         }
 
-        private async void OperateTaskToken(TransportingTaskItem taskToken, Func<ITransportTask, Task<bool>> operation, string errorMessage)
+        private async void OperateTaskToken(TransportingTaskItem taskToken, Func<ITransporter, Task<bool>> operation, string errorMessage)
         {
             taskToken.IsBusy = true;
             if (!await operation(taskToken.Token)) GlobalMessageQueue.Enqueue(errorMessage);

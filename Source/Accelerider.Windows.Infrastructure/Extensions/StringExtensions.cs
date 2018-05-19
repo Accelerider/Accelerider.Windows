@@ -1,13 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 
 namespace Accelerider.Windows.Infrastructure.Extensions
 {

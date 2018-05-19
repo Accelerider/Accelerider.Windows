@@ -28,7 +28,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
     public interface IFileSummary : IFile
     {
-        FileLocation FilePath { get; }
+        FileLocator FilePath { get; }
 
         DataSize FileSize { get; }
     }

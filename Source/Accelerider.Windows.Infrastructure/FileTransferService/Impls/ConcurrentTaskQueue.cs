@@ -2,16 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Accelerider.Windows.Infrastructure.Interfaces;
 
-namespace Accelerider.Windows.Infrastructure.TransportImpls
+namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 {
     internal class ConcurrentTaskQueue<T> : IEnumerable<T>
-        where T : ITransportTask
     {
         private readonly List<T> _storage = new List<T>();
 
-        public int Count => _storage.Count;
+        public int Count
+        {
+            get
+            {
+                lock (_storage)
+                {
+                    return _storage.Count;
+                }
+            }
+        }
 
         public void Enqueue(T task)
         {
@@ -25,17 +32,19 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls
         {
             lock (_storage)
             {
-                var result = Peek(predicate);
+                var result = predicate == null ? _storage.FirstOrDefault() : _storage.FirstOrDefault(predicate);
                 _storage.Remove(result);
                 return result;
             }
         }
 
-        public T Peek(Func<T, bool> predicate = null)
+        public T Pop(Func<T, bool> predicate = null)
         {
             lock (_storage)
             {
-                return predicate == null ? _storage.FirstOrDefault() : _storage.FirstOrDefault(predicate);
+                var result = predicate == null ? _storage.LastOrDefault() : _storage.LastOrDefault(predicate);
+                _storage.Remove(result);
+                return result;
             }
         }
 
@@ -68,7 +77,15 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls
         }
 
         #region Implements IEnumerable<T> interface
-        public IEnumerator<T> GetEnumerator() => _storage.GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            lock (_storage)
+            {
+                var temp = new T[_storage.Count];
+                _storage.CopyTo(temp, 0);
+                return temp.Cast<T>().GetEnumerator();
+            }
+        }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         #endregion

@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace Accelerider.Windows.Infrastructure
 {
     [DebuggerDisplay("{" + nameof(FullPath) + "}")]
-    public class FileLocation
+    public class FileLocator
     {
         /// <summary>
         /// Gets a regular expression for splitting the file full path string.
@@ -39,10 +39,10 @@ namespace Accelerider.Windows.Infrastructure
         public string FileExtension { get; }
 
         /// <summary>
-        /// Initializes a instance of <see cref="FileLocation"/> with specified file full path.
+        /// Initializes a instance of <see cref="FileLocator"/> with specified file full path.
         /// </summary>
         /// <param name="fileFullPath">A string representing the full path of the file. </param>
-        public FileLocation(string fileFullPath)
+        public FileLocator(string fileFullPath)
         {
             var matchResult = RegexFileLocation.Match(fileFullPath);
 
@@ -59,24 +59,24 @@ namespace Accelerider.Windows.Infrastructure
         public override string ToString() => FullPath;
 
         #region Equals
-        public static bool operator ==(FileLocation left, FileLocation right) => left?.FullPath == right?.FullPath;
+        public static bool operator ==(FileLocator left, FileLocator right) => left?.FullPath == right?.FullPath;
 
-        public static bool operator !=(FileLocation left, FileLocation right) => !(left == right);
+        public static bool operator !=(FileLocator left, FileLocator right) => !(left == right);
 
-        protected bool Equals(FileLocation other) => string.Equals(FullPath, other.FullPath);
+        protected bool Equals(FileLocator other) => string.Equals(FullPath, other.FullPath);
 
         public override bool Equals(object obj)
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals(obj as FileLocation);
+            return obj.GetType() == GetType() && Equals(obj as FileLocator);
         }
 
         public override int GetHashCode() => FullPath != null ? FullPath.GetHashCode() : 0;
         #endregion
 
-        public static implicit operator FileLocation(string filePath) => string.IsNullOrEmpty(filePath) ? null : new FileLocation(filePath);
+        public static implicit operator FileLocator(string filePath) => string.IsNullOrEmpty(filePath) ? null : new FileLocator(filePath);
 
-        public static implicit operator string(FileLocation fileLocation) => fileLocation?.FullPath;
+        public static implicit operator string(FileLocator fileLocation) => fileLocation?.FullPath;
     }
 }

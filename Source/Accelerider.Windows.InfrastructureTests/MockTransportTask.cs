@@ -4,24 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.FileTransferService;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.InfrastructureTests
 {
-    public class MockTransportTask : ITransportTask
+    public class MockTransportTask : ITransporter
     {
-        private TransportStatus _status;
+        private TransferStatus _status;
 
-        public bool Equals(ITransportTask other)
+        public bool Equals(ITransporter other)
         {
             return Equals(this, other);
         }
 
         public event StatusChangedEventHandler StatusChanged;
 
-        public bool IsDisposed { get; }
-
-        public TransportStatus Status
+        public TransferStatus Status
         {
             get => _status;
             set
@@ -38,29 +37,28 @@ namespace Accelerider.Windows.InfrastructureTests
 
         public DataSize TotalSize { get; }
 
-        public FileLocation LocalPath { get; }
+        public FileLocator LocalPath { get; }
 
-        public Task StartAsync()
+        public void Start()
         {
-            Status = TransportStatus.Transporting;
-            return Task.CompletedTask;
+            Status = TransferStatus.Transferring;
         }
 
-        public Task SuspendAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DisposeAsync()
+        public void Suspend()
         {
             throw new NotImplementedException();
         }
 
-        protected virtual void OnStatusChanged(TransportStatus oldStatus, TransportStatus newStatus) =>
-            StatusChanged?.Invoke(this, new StatusChangedEventArgs(oldStatus, newStatus));
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void OnStatusChanged(TransferStatus oldStatus, TransferStatus newStatus) =>
+            StatusChanged?.Invoke(this, new TransferStatusChangedEventArgs(oldStatus, newStatus));
     }
 
-    public class MockDownloadTask : MockTransportTask, IDownloadTask { }
+    public class MockDownloadTask : MockTransportTask, IDownloader { }
 
-    public class MockUploadTask : MockTransportTask, IUploadTask { }
+    public class MockUploadTask : MockTransportTask, IUploader { }
 }

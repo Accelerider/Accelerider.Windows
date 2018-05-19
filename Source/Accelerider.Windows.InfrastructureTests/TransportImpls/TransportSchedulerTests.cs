@@ -6,6 +6,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure.FileTransferService;
+using Accelerider.Windows.Infrastructure.FileTransferService.Impls;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.InfrastructureTests;
 
@@ -16,11 +18,11 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls.Tests
     {
         private const int TaskCount = 1000;
 
-        private readonly TransportScheduler<IDownloadTask> _downloadScheduler = new TransportScheduler<IDownloadTask>();
-        private readonly TransportScheduler<IUploadTask> _uploadScheduler = new TransportScheduler<IUploadTask>();
-        private readonly List<IDownloadTask> _tasks = GenerateTasks().ToList();
+        private readonly TransferContext<IDownloader> _downloadScheduler = new TransferContext<IDownloader>();
+        private readonly TransferContext<IUploader> _uploadScheduler = new TransferContext<IUploader>();
+        private readonly List<IDownloader> _tasks = GenerateTasks().ToList();
 
-        private static IEnumerable<IDownloadTask> GenerateTasks()
+        private static IEnumerable<IDownloader> GenerateTasks()
         {
             for (int i = 0; i < TaskCount; i++)
             {
@@ -35,13 +37,13 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls.Tests
         }
 
         [TestMethod()]
-        public async Task RecordAsyncTestAsync()
+        public void RecordAsyncTestAsync()
         {
-            Parallel.ForEach(_tasks, async item => await _downloadScheduler.RecordAsync(item));
+            Parallel.ForEach(_tasks, item => _downloadScheduler.Record(item));
 
             var tasks = _downloadScheduler.GetAllTasks();
 
-            await _downloadScheduler.StartAsync();
+            _downloadScheduler.Start();
         }
 
         [TestMethod()]

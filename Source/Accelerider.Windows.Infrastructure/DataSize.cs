@@ -7,7 +7,13 @@ namespace Accelerider.Windows.Infrastructure
     /// </summary>
     public struct DataSize : IEquatable<DataSize>
     {
-        public const double ConversionFactor = 1024;
+        public const int OneB = 1;
+        public const int OneKB = 1024 * OneB;
+        public const int OneMB = 1024 * OneKB;
+        public const long OneGB = 1024 * OneMB;
+        public const long OneTB = 1024 * OneGB;
+        public const long OnePB = 1024 * OneTB;
+        public const long OneEB = 1024 * OnePB;
 
         private SizeUnit _unit;
 
@@ -22,7 +28,7 @@ namespace Accelerider.Windows.Infrastructure
             {
                 if (value == _unit) return;
 
-                Value *= Math.Pow(ConversionFactor, _unit - value);
+                Value *= Math.Pow(OneKB, _unit - value);
                 _unit = value;
             }
         }
@@ -32,18 +38,15 @@ namespace Accelerider.Windows.Infrastructure
             BaseBValue = size;
             Value = size;
             _unit = SizeUnit.B;
-            while (Value >= ConversionFactor) // long.MaxValue = 8 EB. 
+            while (Value >= OneKB) // long.MaxValue = 8 EB. 
             {
-                Value /= ConversionFactor;
+                Value /= OneKB;
                 _unit++;
             }
         }
 
 
-        public override string ToString()
-        {
-            return (Unit < SizeUnit.M ? $"{Value:N0} " : $"{Value:N2} ") + (Unit == SizeUnit.B ? $"{Unit}" : $"{Unit}B");
-        }
+        public override string ToString() => (Unit < SizeUnit.M ? $"{Value:N0} " : $"{Value:N2} ") + (Unit == SizeUnit.B ? $"{Unit}" : $"{Unit}B");
 
         public bool Equals(DataSize other) => this == other;
 

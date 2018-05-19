@@ -225,7 +225,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         private string TrimFileName(string fileName, int length)
         {
-            FileLocation fileLocation = fileName;
+            FileLocator fileLocation = fileName;
             var folderNameLength = length - fileLocation.FileName.Length - 5;
             return fileName.Length > length
                 ? folderNameLength > 0

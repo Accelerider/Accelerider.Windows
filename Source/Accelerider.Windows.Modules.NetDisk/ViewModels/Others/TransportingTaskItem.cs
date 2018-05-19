@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.FileTransferService;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Prism.Mvvm;
@@ -18,7 +19,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
         private DataSize _speed;
         private bool _isBusy;
 
-        public TransportingTaskItem(ITransportTask token)
+        public TransportingTaskItem(ITransporter token)
         {
             OwnerName = token.OwnerName;
             Token = token;
@@ -34,11 +35,11 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
             set => SetProperty(ref _ownerName, value);
         }
 
-        public ITransportTask Token { get; }
+        public ITransporter Token { get; }
 
         public IFileSummary FileSummary => Token.FileSummary;
 
-        public TransportStatus TransferTaskStatus => Token.Status;
+        public TransferStatus TransferTaskStatus => Token.Status;
 
         public DataSize Progress
         {
