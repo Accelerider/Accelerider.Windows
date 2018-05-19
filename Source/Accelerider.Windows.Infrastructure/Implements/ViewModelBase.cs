@@ -9,7 +9,6 @@ namespace Accelerider.Windows.Infrastructure
 {
     public abstract class ViewModelBase : BindableBase
     {
-        private ISnackbarMessageQueue _globalMessageQueue;
         private IAcceleriderUser _acceleriderUser;
 
         protected ViewModelBase(IUnityContainer container)
@@ -21,14 +20,12 @@ namespace Accelerider.Windows.Infrastructure
             GlobalMessageQueue = container.Resolve<ISnackbarMessageQueue>();
         }
 
-        public ISnackbarMessageQueue GlobalMessageQueue
-        {
-            get => _globalMessageQueue;
-            set => SetProperty(ref _globalMessageQueue, value);
-        }
+        public ISnackbarMessageQueue GlobalMessageQueue { get; }
 
         protected IUnityContainer Container { get; }
+
         protected IEventAggregator EventAggregator { get; }
+
         protected ILoggerFacade Logger { get; }
 
         protected IAcceleriderUser AcceleriderUser => _acceleriderUser ?? (_acceleriderUser = Container.Resolve<IAcceleriderUser>());

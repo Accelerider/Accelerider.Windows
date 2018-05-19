@@ -24,7 +24,7 @@ namespace Accelerider.Windows.Infrastructure
 
             _storage[key] = JsonConvert.SerializeObject(value, Formatting.Indented);
             Save();
-            ValueChanged?.Invoke(this, key);
+            ValueChanged?.Invoke(this, new ValueChangedEventArgs(key));
 
             return this;
         }

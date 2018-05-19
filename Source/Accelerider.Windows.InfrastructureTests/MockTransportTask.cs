@@ -18,7 +18,10 @@ namespace Accelerider.Windows.InfrastructureTests
             return Equals(this, other);
         }
 
-        public event StatusChangedEventHandler StatusChanged;
+
+        public event EventHandler<TransferStatusChangedEventArgs> StatusChanged;
+
+        public TransporterToken Token { get; }
 
         public TransferStatus Status
         {

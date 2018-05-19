@@ -2,7 +2,14 @@
 
 namespace Accelerider.Windows.Infrastructure.Interfaces
 {
-    public delegate void ValueChangedEventHandler(IConfigureFile sender, string keyName);
+    public delegate void ValueChangedEventHandler(object sender, ValueChangedEventArgs e);
+
+    public class ValueChangedEventArgs : EventArgs
+    {
+        public string KeyName { get; }
+
+        public ValueChangedEventArgs(string keyName) => KeyName = keyName;
+    }
 
     public interface IConfigureFile
     {
