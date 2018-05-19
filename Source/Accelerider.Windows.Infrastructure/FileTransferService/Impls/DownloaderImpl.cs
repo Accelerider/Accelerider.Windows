@@ -265,6 +265,23 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
         public void SaveBlock() => File.WriteAllText(LocalPath + ".block", JsonConvert.SerializeObject(_downloadBlocks));
 
 
+        protected override void Dispose(bool disposing)
+        {
+            if (_disposed) return;
+
+            if (disposing)
+            {
+                // Free any other managed objects here.
+
+            }
+
+            // Free any unmanaged objects here.
+
+
+            _disposed = true;
+        }
+
+
         //Init blocks information
         private bool Initialize()
         {
@@ -350,28 +367,6 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
             }
         }
-
-        #region Implements IDisposable pattern
-
-        private bool _disposed;
-
-        protected override void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-
-            if (disposing)
-            {
-                // Free any other managed objects here.
-
-            }
-
-            // Free any unmanaged objects here.
-
-
-            _disposed = true;
-        }
-
-        #endregion
 
     }
 

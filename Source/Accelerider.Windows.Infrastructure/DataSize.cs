@@ -48,16 +48,6 @@ namespace Accelerider.Windows.Infrastructure
 
         public override string ToString() => (Unit < SizeUnit.M ? $"{Value:N0} " : $"{Value:N2} ") + (Unit == SizeUnit.B ? $"{Unit}" : $"{Unit}B");
 
-        public bool Equals(DataSize other) => this == other;
-
-        public override bool Equals(object obj)
-        {
-            if (obj is null) return false;
-            return obj is DataSize size && Equals(size);
-        }
-
-        public override int GetHashCode() => BaseBValue.GetHashCode();
-
         #region Operators
 
         public static DataSize operator +(DataSize left, DataSize right) => new DataSize(left.BaseBValue + right.BaseBValue);
@@ -68,10 +58,6 @@ namespace Accelerider.Windows.Infrastructure
 
         public static double operator /(DataSize left, DataSize right) => 1.0 * left.BaseBValue / right.BaseBValue;
 
-        public static bool operator ==(DataSize left, DataSize right) => left.BaseBValue == right.BaseBValue;
-
-        public static bool operator !=(DataSize left, DataSize right) => !(left == right);
-
         public static bool operator >(DataSize left, DataSize right) => left.BaseBValue > right.BaseBValue;
 
         public static bool operator <(DataSize left, DataSize right) => left.BaseBValue < right.BaseBValue;
@@ -79,6 +65,20 @@ namespace Accelerider.Windows.Infrastructure
         public static implicit operator long(DataSize dataSize) => dataSize.BaseBValue;
 
         public static implicit operator DataSize(long @long) => new DataSize(@long);
+
+        #endregion
+
+        #region Implements Equals 
+
+        public bool Equals(DataSize other) => BaseBValue.Equals(other.BaseBValue);
+
+        public override bool Equals(object obj) => obj != null && obj is DataSize size && Equals(size);
+
+        public override int GetHashCode() => BaseBValue.GetHashCode();
+
+        public static bool operator ==(DataSize left, DataSize right) => left.Equals(right);
+
+        public static bool operator !=(DataSize left, DataSize right) => !(left == right);
 
         #endregion
     }

@@ -4,8 +4,6 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 {
     internal abstract class TransporterBaseImpl : ITransporter
     {
-        private readonly Guid _token = Guid.NewGuid();
-
         private TransferStatus _status;
 
         public event EventHandler<TransferStatusChangedEventArgs> StatusChanged;
@@ -28,11 +26,15 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         public FileLocator LocalPath { get; protected set; }
 
-        ~TransporterBaseImpl() => Dispose(false);
-
         public abstract void Start();
 
         public abstract void Suspend();
+
+        #region Implements IDisposable interface
+
+        protected bool _disposed;
+
+        ~TransporterBaseImpl() => Dispose(false);
 
         public void Dispose()
         {
@@ -41,6 +43,8 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
         }
 
         protected abstract void Dispose(bool disposing);
+
+        #endregion
 
         protected virtual void OnStatusChanged(TransferStatus oldStatus, TransferStatus newStatus) =>
             StatusChanged?.Invoke(this, new TransferStatusChangedEventArgs(oldStatus, newStatus));

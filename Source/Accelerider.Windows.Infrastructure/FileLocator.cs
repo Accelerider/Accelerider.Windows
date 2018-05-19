@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace Accelerider.Windows.Infrastructure
 {
     [DebuggerDisplay("{" + nameof(FullPath) + "}")]
-    public class FileLocator
+    public class FileLocator : IEquatable<FileLocator>
     {
         /// <summary>
         /// Gets a regular expression for splitting the file full path string.
@@ -58,21 +58,24 @@ namespace Accelerider.Windows.Infrastructure
 
         public override string ToString() => FullPath;
 
-        #region Equals
-        public static bool operator ==(FileLocator left, FileLocator right) => left?.FullPath == right?.FullPath;
+        #region Implements Equals
+
+        public bool Equals(FileLocator other) => !Equals(other, null) && string.Equals(FullPath, other.FullPath);
+
+        public override bool Equals(object obj) => ReferenceEquals(this, obj) || Equals(obj as FileLocator);
+
+        public static bool operator ==(FileLocator left, FileLocator right)
+        {
+            if ((object)left == null || (object)right == null)
+                return Equals(left, right);
+
+            return left.Equals(right);
+        }
 
         public static bool operator !=(FileLocator left, FileLocator right) => !(left == right);
 
-        protected bool Equals(FileLocator other) => string.Equals(FullPath, other.FullPath);
-
-        public override bool Equals(object obj)
-        {
-            if (obj is null) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals(obj as FileLocator);
-        }
-
         public override int GetHashCode() => FullPath != null ? FullPath.GetHashCode() : 0;
+
         #endregion
 
         public static implicit operator FileLocator(string filePath) => string.IsNullOrEmpty(filePath) ? null : new FileLocator(filePath);
