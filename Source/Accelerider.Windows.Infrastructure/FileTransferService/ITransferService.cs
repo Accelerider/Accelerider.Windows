@@ -10,6 +10,10 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService
     /// </summary>
     public interface ITransferService
     {
+        IEnumerable<IDownloader> Downloaders { get; }
+
+        IEnumerable<IUploader> Uploaders { get; }
+
         /// <summary>
         /// Initializes an instance of <see cref="ITransferService"/> with the specified <see cref="IConfigureFile"/> instance.
         /// </summary>
@@ -23,6 +27,8 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService
         /// <param name="settings">The delegate method that is used to expose a <see cref="TransporterSettings"/> instance. </param>
         /// <returns>Returns the current instance. </returns>
         ITransferService Configure(Action<TransporterSettings> settings);
+
+        void Run();
 
         /// <summary>
         /// Destroy a <see cref="ITransferService"/> instance, which will pause all uncompleted tasks 
@@ -38,13 +44,6 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService
         /// <returns>An instance of the specified type. </returns>
         T Use<T>() where T : ITransporterBuilder<ITransporter>;
 
-        /// <summary>
-        /// Gets all transporters with the specified task type.
-        /// </summary>
-        /// <typeparam name="T">The specified task type, which is <see cref="IDownloader"/> or <see cref="IUploader"/>.</typeparam>
-        /// <returns>A sequence of download or upload task.</returns>
-        IEnumerable<T> GetAll<T>() where T : ITransporter;
-
-        ITransferCommand Command(TransporterToken token);
+        ITransporterRegistry Register(ITransporter transporter);
     }
 }

@@ -19,7 +19,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService
 
         public int ThreadCount { get; set; } = 16;
 
-        public DataSize BlockSize { get; set; } = 1024 * 1024 * 10L; //10MB
+        public DataSize BlockSize { get; set; } = 10 * DataSize.OneMB; //10MB
 
         public string LinkHandlerType { get; set; }
 

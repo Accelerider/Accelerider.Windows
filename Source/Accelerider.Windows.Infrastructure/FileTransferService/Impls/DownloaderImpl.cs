@@ -232,7 +232,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
             if (!File.Exists(LocalPath))
             {
-                using (var stream = new FileStream(LocalPath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite, 1024 * 1024 * 5))
+                using (var stream = new FileStream(LocalPath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite, 5 * DataSize.OneMB))
                     stream.SetLength(response.ContentLength);
             }
 
@@ -321,7 +321,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                 try
                 {
                     var request = WebRequest.CreateHttp(uri);
-                    request.Headers = Setting.Headers.ToWebHeaderCollection();
+                    request.Headers = new WebHeaderCollection(); //Setting.Headers.ToWebHeaderCollection();
                     request.Method = "GET";
                     return (HttpWebResponse)request.GetResponse();
                 }

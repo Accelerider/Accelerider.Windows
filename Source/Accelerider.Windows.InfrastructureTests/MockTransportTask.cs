@@ -21,7 +21,7 @@ namespace Accelerider.Windows.InfrastructureTests
 
         public event EventHandler<TransferStatusChangedEventArgs> StatusChanged;
 
-        public TransporterToken Token { get; }
+        public TransporterId Id { get; }
 
         public TransferStatus Status
         {

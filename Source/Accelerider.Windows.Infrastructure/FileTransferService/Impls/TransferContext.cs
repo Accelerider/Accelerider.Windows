@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 {
-    internal class TransferContext<T> where T : TransporterBaseImpl
+    internal class TransferContext
     {
         private class Listener
         {
@@ -15,13 +15,13 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                 Remove
             }
 
-            private readonly TransferContext<T> _scheduler;
+            private readonly TransferContext _scheduler;
 
-            public Listener(TransferContext<T> scheduler) => _scheduler = scheduler;
+            public Listener(TransferContext scheduler) => _scheduler = scheduler;
 
             public void OnStatusChanged(object sender, TransferStatusChangedEventArgs e)
             {
-                var task = (T)sender;
+                var task = (TransporterBaseImpl)sender;
 
                 switch (GetMoveDirection(e.OldStatus, e.NewStatus))
                 {
@@ -34,6 +34,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                         _scheduler._completedQueue.Enqueue(task);
                         break;
                     case MoveDirection.Remove:
+                        task.StatusChanged -= OnStatusChanged;
                         var _ = _scheduler._pendingQueue.Remove(task) ||
                                 _scheduler._completedQueue.Remove(task);
                         break;
@@ -65,41 +66,50 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         private const int MaxParallelTaskCount = 4; // TODO: Move to configure file.
 
-        private readonly ConcurrentTaskQueue<T> _pendingQueue = new ConcurrentTaskQueue<T>();
-        private readonly ConcurrentTaskQueue<T> _transportingQueue = new ConcurrentTaskQueue<T>();
-        private readonly ConcurrentTaskQueue<T> _completedQueue = new ConcurrentTaskQueue<T>();
+        private readonly ConcurrentTransporterQueue<TransporterBaseImpl> _pendingQueue = new ConcurrentTransporterQueue<TransporterBaseImpl>();
+        private readonly ConcurrentTransporterQueue<TransporterBaseImpl> _transportingQueue = new ConcurrentTransporterQueue<TransporterBaseImpl>();
+        private readonly ConcurrentTransporterQueue<TransporterBaseImpl> _completedQueue = new ConcurrentTransporterQueue<TransporterBaseImpl>();
 
         private bool _isActived;
         private bool _isPromoting;
 
-        public void Start()
+        public void Add(TransporterBaseImpl transporter)
+        {
+            switch (transporter.Status)
+            {
+                case TransferStatus.Ready:
+                case TransferStatus.Suspended:
+                case TransferStatus.Faulted:
+                    if (!_pendingQueue.Contains(transporter))
+                    {
+                        transporter.StatusChanged += new Listener(this).OnStatusChanged;
+                        _pendingQueue.Enqueue(transporter);
+                        PromoteAsync();
+                    }
+                    break;
+                case TransferStatus.Completed:
+                    if (!_pendingQueue.Contains(transporter))
+                    {
+                        transporter.StatusChanged += new Listener(this).OnStatusChanged;
+                        _completedQueue.Enqueue(transporter);
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(transporter.Status));
+            }
+        }
+
+        public void AsNext(TransporterBaseImpl transporter) => _pendingQueue.Top(transporter);
+
+        public IEnumerable<ITransporter> GetAllTasks() => _pendingQueue.Union(_transportingQueue).Union(_completedQueue);
+
+        public void Run()
         {
             _isActived = true;
             PromoteAsync();
         }
 
-        public void Record(T task)
-        {
-            task.StatusChanged += new Listener(this).OnStatusChanged;
-            switch (task.Status)
-            {
-                case TransferStatus.Ready:
-                case TransferStatus.Suspended:
-                case TransferStatus.Faulted:
-                    _pendingQueue.Enqueue(task);
-                    PromoteAsync();
-                    break;
-                case TransferStatus.Completed:
-                    _completedQueue.Enqueue(task);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(task));
-            }
-        }
-
-        public IEnumerable<T> GetAllTasks() => _pendingQueue.Union(_transportingQueue).Union(_completedQueue);
-
-        public (IEnumerable<T> uncompletedTasks, IEnumerable<T> completedTasks) Shutdown()
+        public (IEnumerable<ITransporter> uncompletedTasks, IEnumerable<ITransporter> completedTasks) Shutdown()
         {
             while (_transportingQueue.Any())
             {

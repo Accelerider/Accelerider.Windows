@@ -18,8 +18,8 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls.Tests
     {
         private const int TaskCount = 1000;
 
-        private readonly TransferContext<IDownloader> _downloadScheduler = new TransferContext<IDownloader>();
-        private readonly TransferContext<IUploader> _uploadScheduler = new TransferContext<IUploader>();
+        //private readonly TransferContext<IDownloader> _downloadScheduler = new TransferContext<IDownloader>();
+        //private readonly TransferContext<IUploader> _uploadScheduler = new TransferContext<IUploader>();
         private readonly List<IDownloader> _tasks = GenerateTasks().ToList();
 
         private static IEnumerable<IDownloader> GenerateTasks()
@@ -33,17 +33,23 @@ namespace Accelerider.Windows.Infrastructure.TransportImpls.Tests
         [TestMethod()]
         public void StartAsyncTest()
         {
-
+            TransporterId token1 = new TransporterId();
+            TransporterId token2 = new TransporterId();
+          
+            var r1 = Equals(token1, token2);
+            var r2 = EqualityComparer<TransporterId>.Default.Equals(token1, token2);
+            var r3 = token1.Equals(token2);
+            var r4 = token1 == token2;
         }
 
         [TestMethod()]
         public void RecordAsyncTestAsync()
         {
-            Parallel.ForEach(_tasks, item => _downloadScheduler.Record(item));
+            //Parallel.ForEach(_tasks, item => _downloadScheduler.Add(item));
 
-            var tasks = _downloadScheduler.GetAllTasks();
+            //var tasks = _downloadScheduler.GetAllTasks();
 
-            _downloadScheduler.Start();
+            //_downloadScheduler.Run();
         }
 
         [TestMethod()]

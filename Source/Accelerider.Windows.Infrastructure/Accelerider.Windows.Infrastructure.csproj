@@ -17,7 +17,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -86,11 +86,11 @@
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="Extensions\WebRequestExtensions.cs" />
-    <Compile Include="FileTransferService\Impls\TransferCommandImpl.cs" />
+    <Compile Include="FileTransferService\DefaultDownloaderBuilder.cs" />
     <Compile Include="FileTransferService\Impls\TransporterBaseImpl.cs" />
-    <Compile Include="FileTransferService\ITransferCommand.cs" />
+    <Compile Include="FileTransferService\Impls\TransporterRegistryImpl.cs" />
     <Compile Include="FileTransferService\TransferStatusChangedEventArgs.cs" />
-    <Compile Include="FileTransferService\TransporterToken.cs" />
+    <Compile Include="FileTransferService\TransporterId.cs" />
     <Compile Include="Implements\ConfigureFile.cs" />
     <Compile Include="DataSize.cs" />
     <Compile Include="Enumerations\Language.cs" />
@@ -101,7 +101,7 @@
     <Compile Include="FileLocator.cs" />
     <Compile Include="FileTransferService\Impls\DownloaderImpl.cs" />
     <Compile Include="FileTransferService\TransporterReporter.cs" />
-    <Compile Include="FileTransferService\Impls\ConcurrentTaskQueue.cs" />
+    <Compile Include="FileTransferService\Impls\ConcurrentTransporterQueue.cs" />
     <Compile Include="FileTransferService\Impls\TransferContext.cs" />
     <Compile Include="FileTransferService\Impls\TransferServiceImpl.cs" />
     <Compile Include="Interfaces\IAcceleriderUser.cs" />
@@ -111,6 +111,7 @@
     <Compile Include="FileTransferService\ITransferService.cs" />
     <Compile Include="FileTransferService\ITransporter.cs" />
     <Compile Include="Implements\ModuleBase.cs" />
+    <Compile Include="FileTransferService\ITransporterRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Extensions\SecureStringExtensions.cs" />

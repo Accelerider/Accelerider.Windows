@@ -6,14 +6,14 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService
     /// <summary>
     /// Represents a download or upload task, and it should not be implemented.
     /// </summary>
-    public interface ITransporter : IDisposable
+    public interface ITransporter
     {
         /// <summary>
         /// Occurs when the task status changed.
         /// </summary>
         event EventHandler<TransferStatusChangedEventArgs> StatusChanged;
 
-        TransporterToken Token { get; }
+        TransporterId Id { get; }
 
         /// <summary>
         /// Gets the current status of the task.

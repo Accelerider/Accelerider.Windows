@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 {
-    internal class ConcurrentTaskQueue<T> : IEnumerable<T>
+    internal class ConcurrentTransporterQueue<T> : IEnumerable<T> where T : ITransporter
     {
         private readonly List<T> _storage = new List<T>();
 
@@ -19,6 +19,8 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                 }
             }
         }
+
+        public bool Contains(T transporter) => Peek(item => item.Id == transporter.Id) != null;
 
         public void Enqueue(T task)
         {
@@ -38,6 +40,14 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
             }
         }
 
+        public T Peek(Func<T, bool> predicate = null)
+        {
+            lock (_storage)
+            {
+                return predicate == null ? _storage.FirstOrDefault() : _storage.FirstOrDefault(predicate);
+            }
+        }
+
         public T Pop(Func<T, bool> predicate = null)
         {
             lock (_storage)
@@ -52,8 +62,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
         {
             lock (_storage)
             {
-                if (!_storage.Contains(task))
-                    throw new ArgumentException();
+                if (!_storage.Contains(task)) return;
 
                 _storage.Remove(task);
                 _storage.Insert(0, task);

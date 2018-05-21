@@ -2,18 +2,18 @@
 
 namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 {
-    internal abstract class TransporterBaseImpl : ITransporter
+    internal abstract class TransporterBaseImpl : ITransporter, IDisposable
     {
         private TransferStatus _status;
 
         public event EventHandler<TransferStatusChangedEventArgs> StatusChanged;
 
-        public TransporterToken Token { get; } = new TransporterToken();
+        public TransporterId Id { get; } = new TransporterId();
 
         public TransferStatus Status
         {
             get => _status;
-            protected set
+            internal set
             {
                 if (_status == value) return;
                 OnStatusChanged(_status, _status = value);
