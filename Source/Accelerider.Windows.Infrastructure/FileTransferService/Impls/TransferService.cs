@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 {
-    internal class TransferServiceImpl : ITransferService
+    internal class TransferService : ITransferService
     {
         private readonly IUnityContainer _container;
         private readonly TransporterSettings _settings = new TransporterSettings();
@@ -15,7 +16,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
         private readonly TransferContext _uploaderContext = new TransferContext();
         private readonly HashSet<string> _registeredTransporterIds = new HashSet<string>();
 
-        public TransferServiceImpl(IUnityContainer container)
+        public TransferService(IUnityContainer container)
         {
             _container = container.CreateChildContainer();
         }
@@ -81,7 +82,17 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
             }
 
             _registeredTransporterIds.Add(id);
-            return new TransporterRegistryImpl((TransporterBaseImpl)transporter, context, () => _registeredTransporterIds.Remove(id));
+            transporter.StatusChanged += OnTransporterDisposed;
+            return new TransporterRegistry((TransporterBase)transporter, context);
+        }
+
+        private void OnTransporterDisposed(object sender, TransferStatusChangedEventArgs e)
+        {
+            if (e.NewStatus != TransferStatus.Disposed) return;
+
+            var transporter = (ITransporter)sender;
+            _registeredTransporterIds.Remove(transporter.Id.ToString());
+            transporter.StatusChanged -= OnTransporterDisposed;
         }
     }
 }

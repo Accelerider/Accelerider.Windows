@@ -21,7 +21,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
             public void OnStatusChanged(object sender, TransferStatusChangedEventArgs e)
             {
-                var task = (TransporterBaseImpl)sender;
+                var task = (TransporterBase)sender;
 
                 switch (GetMoveDirection(e.OldStatus, e.NewStatus))
                 {
@@ -66,14 +66,14 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         private const int MaxParallelTaskCount = 4; // TODO: Move to configure file.
 
-        private readonly ConcurrentTransporterQueue<TransporterBaseImpl> _pendingQueue = new ConcurrentTransporterQueue<TransporterBaseImpl>();
-        private readonly ConcurrentTransporterQueue<TransporterBaseImpl> _transportingQueue = new ConcurrentTransporterQueue<TransporterBaseImpl>();
-        private readonly ConcurrentTransporterQueue<TransporterBaseImpl> _completedQueue = new ConcurrentTransporterQueue<TransporterBaseImpl>();
+        private readonly ConcurrentTransporterQueue<TransporterBase> _pendingQueue = new ConcurrentTransporterQueue<TransporterBase>();
+        private readonly ConcurrentTransporterQueue<TransporterBase> _transportingQueue = new ConcurrentTransporterQueue<TransporterBase>();
+        private readonly ConcurrentTransporterQueue<TransporterBase> _completedQueue = new ConcurrentTransporterQueue<TransporterBase>();
 
         private bool _isActived;
         private bool _isPromoting;
 
-        public void Add(TransporterBaseImpl transporter)
+        public void Add(TransporterBase transporter)
         {
             switch (transporter.Status)
             {
@@ -99,7 +99,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
             }
         }
 
-        public void AsNext(TransporterBaseImpl transporter) => _pendingQueue.Top(transporter);
+        public void AsNext(TransporterBase transporter) => _pendingQueue.Top(transporter);
 
         public IEnumerable<ITransporter> GetAllTasks() => _pendingQueue.Union(_transportingQueue).Union(_completedQueue);
 

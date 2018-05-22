@@ -2,7 +2,6 @@
 
 namespace Accelerider.Windows.Infrastructure.FileTransferService
 {
-    /// <inheritdoc />
     /// <summary>
     /// Represents a download or upload task, and it should not be implemented.
     /// </summary>

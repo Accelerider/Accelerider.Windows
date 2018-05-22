@@ -64,7 +64,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService
 
         public IDownloader Build()
         {
-            var result = new DownloaderImpl();
+            var result = new Downloader();
             result.Update(_fromPaths.Select(item => new Uri(item)), _toPath, _settings);
             return result;
         }

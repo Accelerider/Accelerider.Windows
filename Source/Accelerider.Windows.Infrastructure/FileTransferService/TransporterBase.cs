@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
+namespace Accelerider.Windows.Infrastructure.FileTransferService
 {
-    internal abstract class TransporterBaseImpl : ITransporter, IDisposable
+    public abstract class TransporterBase : ITransporter, IDisposable
     {
         private TransferStatus _status;
 
@@ -22,7 +22,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         public virtual DataSize CompletedSize { get; protected set; }
 
-        public DataSize TotalSize { get; protected set; }
+        public virtual DataSize TotalSize { get; protected set; }
 
         public FileLocator LocalPath { get; protected set; }
 
@@ -32,9 +32,9 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         #region Implements IDisposable interface
 
-        protected bool _disposed;
+        protected bool Disposed;
 
-        ~TransporterBaseImpl() => Dispose(false);
+        ~TransporterBase() => Dispose(false);
 
         public void Dispose()
         {

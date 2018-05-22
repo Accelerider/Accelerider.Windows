@@ -87,8 +87,8 @@
     <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="Extensions\WebRequestExtensions.cs" />
     <Compile Include="FileTransferService\DefaultDownloaderBuilder.cs" />
-    <Compile Include="FileTransferService\Impls\TransporterBaseImpl.cs" />
-    <Compile Include="FileTransferService\Impls\TransporterRegistryImpl.cs" />
+    <Compile Include="FileTransferService\TransporterBase.cs" />
+    <Compile Include="FileTransferService\Impls\TransporterRegistry.cs" />
     <Compile Include="FileTransferService\TransferStatusChangedEventArgs.cs" />
     <Compile Include="FileTransferService\TransporterId.cs" />
     <Compile Include="Implements\ConfigureFile.cs" />
@@ -99,11 +99,11 @@
     <Compile Include="FileTransferService\TransferStatus.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileLocator.cs" />
-    <Compile Include="FileTransferService\Impls\DownloaderImpl.cs" />
+    <Compile Include="FileTransferService\Impls\Downloader.cs" />
     <Compile Include="FileTransferService\TransporterReporter.cs" />
     <Compile Include="FileTransferService\Impls\ConcurrentTransporterQueue.cs" />
     <Compile Include="FileTransferService\Impls\TransferContext.cs" />
-    <Compile Include="FileTransferService\Impls\TransferServiceImpl.cs" />
+    <Compile Include="FileTransferService\Impls\TransferService.cs" />
     <Compile Include="Interfaces\IAcceleriderUser.cs" />
     <Compile Include="Interfaces\IConfigureFile.cs" />
     <Compile Include="Interfaces\ILazyTreeNode{T}.cs" />

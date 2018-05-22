@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 {
-    internal class DownloaderImpl : TransporterBaseImpl, IDownloader
+    internal class Downloader : TransporterBase, IDownloader
     {
         private class DownloadThread
         {
@@ -267,7 +267,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         protected override void Dispose(bool disposing)
         {
-            if (_disposed) return;
+            if (Disposed) return;
 
             if (disposing)
             {
@@ -278,7 +278,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
             // Free any unmanaged objects here.
 
 
-            _disposed = true;
+            Disposed = true;
         }
 
 
