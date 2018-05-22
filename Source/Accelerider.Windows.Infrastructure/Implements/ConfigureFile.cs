@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Accelerider.Windows.Infrastructure.Interfaces;
@@ -12,7 +13,7 @@ namespace Accelerider.Windows.Infrastructure
         private JObject _storage;
         private string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Accelerider.conf");
 
-        public event ValueChangedEventHandler ValueChanged;
+        public event EventHandler<ValueChangedEventArgs> ValueChanged;
 
         public bool Contains(string key) => _storage.Values().Any(token => token.Path == key);
 
@@ -20,7 +21,7 @@ namespace Accelerider.Windows.Infrastructure
 
         public IConfigureFile SetValue<T>(string key, T value)
         {
-            if (EqualityComparer<object>.Default.Equals(_storage[key], value)) return this;
+            if (EqualityComparer<T>.Default.Equals(GetValue<T>(key), value)) return this;
 
             _storage[key] = JsonConvert.SerializeObject(value, Formatting.Indented);
             Save();

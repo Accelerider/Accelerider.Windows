@@ -6,72 +6,14 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 {
     internal class TransferContext
     {
-        private class Listener
-        {
-            private enum MoveDirection
-            {
-                TransportingToPending,
-                TransportingToCompleted,
-                Remove
-            }
-
-            private readonly TransferContext _scheduler;
-
-            public Listener(TransferContext scheduler) => _scheduler = scheduler;
-
-            public void OnStatusChanged(object sender, TransferStatusChangedEventArgs e)
-            {
-                var task = (TransporterBase)sender;
-
-                switch (GetMoveDirection(e.OldStatus, e.NewStatus))
-                {
-                    case MoveDirection.TransportingToPending:
-                        _scheduler._transportingQueue.Remove(task);
-                        _scheduler._pendingQueue.Enqueue(task);
-                        break;
-                    case MoveDirection.TransportingToCompleted:
-                        _scheduler._transportingQueue.Remove(task);
-                        _scheduler._completedQueue.Enqueue(task);
-                        break;
-                    case MoveDirection.Remove:
-                        task.StatusChanged -= OnStatusChanged;
-                        var _ = _scheduler._pendingQueue.Remove(task) ||
-                                _scheduler._completedQueue.Remove(task);
-                        break;
-                    default:
-                        return;
-                }
-
-                _scheduler.PromoteAsync();
-            }
-
-            private MoveDirection GetMoveDirection(TransferStatus from, TransferStatus to)
-            {
-                if (from == TransferStatus.Transferring &&
-                    (to == TransferStatus.Suspended ||
-                     to == TransferStatus.Faulted))
-                    return MoveDirection.TransportingToPending;
-
-                if (from == TransferStatus.Transferring &&
-                    to == TransferStatus.Completed)
-                    return MoveDirection.TransportingToCompleted;
-
-                if (from != TransferStatus.Transferring &&
-                    to == TransferStatus.Disposed)
-                    return MoveDirection.Remove;
-
-                throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private const int MaxParallelTaskCount = 4; // TODO: Move to configure file.
-
         private readonly ConcurrentTransporterQueue<TransporterBase> _pendingQueue = new ConcurrentTransporterQueue<TransporterBase>();
         private readonly ConcurrentTransporterQueue<TransporterBase> _transportingQueue = new ConcurrentTransporterQueue<TransporterBase>();
         private readonly ConcurrentTransporterQueue<TransporterBase> _completedQueue = new ConcurrentTransporterQueue<TransporterBase>();
 
         private bool _isActived;
         private bool _isPromoting;
+
+        public TransferContextSettings Settings { get; set; } 
 
         public void Add(TransporterBase transporter)
         {
@@ -82,15 +24,15 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                 case TransferStatus.Faulted:
                     if (!_pendingQueue.Contains(transporter))
                     {
-                        transporter.StatusChanged += new Listener(this).OnStatusChanged;
+                        transporter.StatusChanged += OnStatusChanged;
                         _pendingQueue.Enqueue(transporter);
                         PromoteAsync();
                     }
                     break;
                 case TransferStatus.Completed:
-                    if (!_pendingQueue.Contains(transporter))
+                    if (!_completedQueue.Contains(transporter))
                     {
-                        transporter.StatusChanged += new Listener(this).OnStatusChanged;
+                        transporter.StatusChanged += OnStatusChanged;
                         _completedQueue.Enqueue(transporter);
                     }
                     break;
@@ -101,7 +43,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         public void AsNext(TransporterBase transporter) => _pendingQueue.Top(transporter);
 
-        public IEnumerable<ITransporter> GetAllTasks() => _pendingQueue.Union(_transportingQueue).Union(_completedQueue);
+        public IEnumerable<ITransporter> GetAll() => _pendingQueue.Union(_transportingQueue).Union(_completedQueue);
 
         public void Run()
         {
@@ -123,10 +65,10 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         private void PromoteAsync()
         {
-            if (!_isActived || _isPromoting || _transportingQueue.Count == MaxParallelTaskCount) return;
+            if (!_isActived || _isPromoting || _transportingQueue.Count == Settings.MaxParallelTranspoterCount) return;
 
             _isPromoting = true;
-            if (_transportingQueue.Count < MaxParallelTaskCount)
+            if (_transportingQueue.Count < Settings.MaxParallelTranspoterCount)
                 IncreaseTransportingTaskAnync();
             else
                 DecreaseTransportingTaskAnync();
@@ -135,7 +77,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         private void IncreaseTransportingTaskAnync()
         {
-            while (_transportingQueue.Count < MaxParallelTaskCount)
+            while (_transportingQueue.Count < Settings.MaxParallelTranspoterCount)
             {
                 var pendingTask = _pendingQueue.Dequeue(task => task.Status == TransferStatus.Ready);
                 if (pendingTask == null) return;
@@ -154,7 +96,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         private void DecreaseTransportingTaskAnync()
         {
-            while (_transportingQueue.Count > MaxParallelTaskCount)
+            while (_transportingQueue.Count > Settings.MaxParallelTranspoterCount)
             {
                 var transportingTask = _transportingQueue.Dequeue();
                 if (transportingTask == null) return;
@@ -169,6 +111,37 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                     PromoteAsync();
                 }
             }
+        }
+
+        public void OnStatusChanged(object sender, TransferStatusChangedEventArgs e)
+        {
+            var task = (TransporterBase)sender;
+
+            if (e.OldStatus == TransferStatus.Transferring)
+            {
+                switch (e.NewStatus)
+                {
+                    case TransferStatus.Suspended:
+                    case TransferStatus.Faulted:
+                        _transportingQueue.Remove(task);
+                        _pendingQueue.Enqueue(task);
+                        break;
+                    case TransferStatus.Completed:
+                        _transportingQueue.Remove(task);
+                        _completedQueue.Enqueue(task);
+                        break;
+                }
+            }
+
+            if (e.NewStatus == TransferStatus.Disposed)
+            {
+                task.StatusChanged -= OnStatusChanged;
+                var _ = _pendingQueue.Remove(task) ||
+                        _completedQueue.Remove(task) ||
+                        _transportingQueue.Remove(task);
+            }
+
+            PromoteAsync();
         }
     }
 }

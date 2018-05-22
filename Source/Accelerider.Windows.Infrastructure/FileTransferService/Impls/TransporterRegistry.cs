@@ -57,8 +57,8 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         public override void Dispose()
         {
-            base.Dispose();
             _context = null;
+            base.Dispose();
         }
     }
 
@@ -66,15 +66,15 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
     {
         protected TransporterBase Transpoter;
 
-        public TransporterTokenBase(TransporterBase transpoter)
-        {
-            Transpoter = transpoter;
-        }
+        public TransporterTokenBase(TransporterBase transpoter) => Transpoter = transpoter;
 
         public void Suspend() => Transpoter.Suspend();
 
         public virtual void Dispose()
         {
+            if (Transpoter.Status == TransferStatus.Transferring)
+                Transpoter.Suspend();
+
             Transpoter.Dispose();
             Transpoter = null;
         }

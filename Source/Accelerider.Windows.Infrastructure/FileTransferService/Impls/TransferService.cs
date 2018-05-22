@@ -1,63 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Channels;
+using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 {
     internal class TransferService : ITransferService
     {
-        private readonly IUnityContainer _container;
-        private readonly TransporterSettings _settings = new TransporterSettings();
+        #region Configure Keys
 
-        private readonly TransferContext _downloaderContext = new TransferContext();
-        private readonly TransferContext _uploaderContext = new TransferContext();
+        public const string DownloaderContextSettings = nameof(DownloaderContextSettings);
+        public const string UploaderContextSettings = nameof(UploaderContextSettings);
+        public const string UncompletedDownloaders = nameof(UncompletedDownloaders);
+        public const string UncompletedUploaders = nameof(UncompletedUploaders);
+        public const string CompletedDownloaders = nameof(CompletedDownloaders);
+        public const string CompletedUploaders = nameof(CompletedUploaders);
+
+        #endregion
+
+        public const string DownloaderContextKey = "DownloaderContext";
+        public const string UploaderContextKey = "UploaderContext";
+
+
+        private readonly IUnityContainer _container;
+        private readonly TransporterSettings _globalSettings = new TransporterSettings();
+
+        private readonly TransferContext _downloaderContext;
+        private readonly TransferContext _uploaderContext;
         private readonly HashSet<string> _registeredTransporterIds = new HashSet<string>();
+
 
         public TransferService(IUnityContainer container)
         {
             _container = container.CreateChildContainer();
+
+            _downloaderContext = new TransferContext();
+            _uploaderContext = new TransferContext();
+
+            _container.RegisterInstance(DownloaderContextKey, _downloaderContext);
+            _container.RegisterInstance(UploaderContextKey, _uploaderContext);
         }
 
 
-        public IEnumerable<IDownloader> Downloaders => _downloaderContext.GetAllTasks().Cast<IDownloader>();
+        public IEnumerable<IDownloader> Downloaders => _downloaderContext.GetAll().Cast<IDownloader>();
 
-        public IEnumerable<IUploader> Uploaders => _uploaderContext.GetAllTasks().Cast<IUploader>();
+        public IEnumerable<IUploader> Uploaders => _uploaderContext.GetAll().Cast<IUploader>();
 
         public ITransferService Initialize(IConfigureFile configFile)
         {
-            // 1. restore tasks from configure file, which contain completed and uncompleted tasks. add them to task container.
+            _downloaderContext.Settings = configFile.GetValue<TransferContextSettings>(DownloaderContextSettings);
+            _uploaderContext.Settings = configFile.GetValue<TransferContextSettings>(UploaderContextSettings);
 
-            // 2. all uncompleted tasks will be suspended, rather than ready. 
+            var uncompletedDownloaders = configFile.GetValue<List<Downloader>>(UncompletedDownloaders);
+            var completedDownloaders = configFile.GetValue<List<Downloader>>(CompletedDownloaders);
+            var uncompletedUploaders = configFile.GetValue<List<TransporterBase>>(UncompletedUploaders);
+            var completedUploaders = configFile.GetValue<List<TransporterBase>>(CompletedUploaders);
+
+            uncompletedDownloaders.Concat(completedDownloaders).ForEach(_downloaderContext.Add);
+            uncompletedUploaders.Concat(completedUploaders).ForEach(_uploaderContext.Add);
 
             return this;
         }
 
         public ITransferService Configure(Action<TransporterSettings> settings)
         {
-            settings?.Invoke(_settings);
+            settings?.Invoke(_globalSettings);
             return this;
         }
 
         public void Run()
         {
-            _downloaderContext.Run();
+            Parallel.Invoke(_downloaderContext.Run, _uploaderContext.Run);
         }
 
         public IConfigureFile Shutdown()
         {
-            // 1. all uncompleted tasks will be suspended.
+            var (uncompletedDownloaders, completedDownloaders) = _downloaderContext.Shutdown();
+            var (uncompletedUploaders, completedUploaders) = _uploaderContext.Shutdown();
 
-            // 2. configure info and task info should be stored in a IConfigureFile instance and returned. 
-            throw new NotImplementedException();
+            var result = new ConfigureFile();
+            result.SetValue(DownloaderContextSettings, _downloaderContext.Settings);
+            result.SetValue(UploaderContextSettings, _uploaderContext.Settings);
+            result.SetValue(UncompletedDownloaders, uncompletedDownloaders);
+            result.SetValue(CompletedDownloaders, completedDownloaders);
+            result.SetValue(UncompletedUploaders, uncompletedUploaders);
+            result.SetValue(CompletedUploaders, completedUploaders);
+
+            return result;
         }
 
         public T Use<T>() where T : ITransporterBuilder<ITransporter>
         {
             var builder = _container.Resolve<T>();
-            builder.Configure(_settings.CopyTo);
+            builder.Configure(_globalSettings.CopyTo);
             return builder;
         }
 

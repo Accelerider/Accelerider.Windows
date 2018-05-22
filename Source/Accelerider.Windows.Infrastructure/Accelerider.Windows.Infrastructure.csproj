@@ -87,6 +87,7 @@
     <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="Extensions\WebRequestExtensions.cs" />
     <Compile Include="FileTransferService\DefaultDownloaderBuilder.cs" />
+    <Compile Include="FileTransferService\Impls\TransferContextSettings.cs" />
     <Compile Include="FileTransferService\TransporterBase.cs" />
     <Compile Include="FileTransferService\Impls\TransporterRegistry.cs" />
     <Compile Include="FileTransferService\TransferStatusChangedEventArgs.cs" />

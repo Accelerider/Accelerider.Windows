@@ -21,18 +21,12 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService
 
         public DataSize BlockSize { get; set; } = 10 * DataSize.OneMB; //10MB
 
-        public string LinkHandlerType { get; set; }
-
-        public string LinkGetterInfo { get; set; }
-
         public void CopyTo(TransporterSettings settings)
         {
             settings.AutoSwitchUri = AutoSwitchUri;
             settings.BlockSize = BlockSize;
             settings.ConnectTimeout = ConnectTimeout;
             settings.Headers = Headers;
-            settings.LinkGetterInfo = LinkGetterInfo;
-            settings.LinkHandlerType = LinkHandlerType;
             settings.MaxErrorCount = MaxErrorCount;
             settings.ReadWriteTimeout = ReadWriteTimeout;
             settings.ThreadCount = ThreadCount;
