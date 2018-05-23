@@ -70,4 +70,10 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService
             return downloader;
         }
     }
+
+    public static class DefaultDownloaderBuilderExtensions
+    {
+        public static IDownloader Update(this ITransporterBuilder<IDownloader> @this, IDownloader downloader) =>
+            ((DefaultDownloaderBuilder)@this).Update(downloader);
+    }
 }

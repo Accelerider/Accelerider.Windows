@@ -13,7 +13,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
         private bool _isActived;
         private bool _isPromoting;
 
-        public TransferContextSettings Settings { get; set; } 
+        public TransferContextSettings Settings { get; set; }
 
         public void Add(TransporterBase transporter)
         {
@@ -41,7 +41,17 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
             }
         }
 
-        public void AsNext(TransporterBase transporter) => _pendingQueue.Top(transporter);
+        public void AsNext(TransporterBase transporter)
+        {
+            if (!_pendingQueue.Contains(transporter)) return;
+
+            if (transporter.Status != TransferStatus.Ready)
+            {
+                transporter.Status = TransferStatus.Ready;
+            }
+
+            _pendingQueue.Top(transporter);
+        }
 
         public IEnumerable<ITransporter> GetAll() => _pendingQueue.Union(_transportingQueue).Union(_completedQueue);
 
