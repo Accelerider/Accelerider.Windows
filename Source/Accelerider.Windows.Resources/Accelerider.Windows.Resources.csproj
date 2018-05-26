@@ -71,6 +71,7 @@
     <Compile Include="Converters\CompareConverters.cs" />
     <Compile Include="Converters\LessThan1000Converter.cs" />
     <Compile Include="Converters\MinusConverter.cs" />
+    <Compile Include="Converters\PipelineExtension.cs" />
     <Compile Include="Converters\PlusConverter.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="Converters\UriToImageSourceConverter.cs" />
