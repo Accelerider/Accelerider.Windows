@@ -17,7 +17,7 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
             IUnityContainer container = new UnityContainer();
             container.RegisterInstance<ILoggerFacade>(new Logger());
 
-            IConfigureFile configure = new ConfigureFile().Load(@"C:\Users\Dingp\Desktop\transfer-configure.json");
+            IConfigureFile configure = new ConfigureFile().Load(@"D:\transfer-configure.json");
             configure.SetValue(TransferService.DownloaderContextKey, new TransferContextSettings { MaxParallelTranspoterCount = 4 });
 
             ITransferService service = new TransferService(container).Initialize(configure);
@@ -26,7 +26,7 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
 
             var downloader = service.Use<DefaultDownloaderBuilder>()
                 .From("http://download.accelerider.com:888/纸上的魔法使.rar")
-                .To(@"D:\Resources\Downloads\test-file.rar")
+                .To(@"D:\test-file.rar")
                 .Configure(settings =>
                 {
                     settings.MaxErrorCount = 3;
