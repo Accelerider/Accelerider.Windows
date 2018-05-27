@@ -49,6 +49,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
             : base(transpoter)
         {
             _context = context;
+            context.Add(transpoter);
         }
 
         public void Ready() => Transpoter.Status = TransferStatus.Ready;

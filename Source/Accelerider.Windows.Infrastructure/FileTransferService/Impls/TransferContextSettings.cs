@@ -8,6 +8,6 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 {
     internal class TransferContextSettings
     {
-        public int MaxParallelTranspoterCount { get; set; }
+        public int MaxParallelTranspoterCount { get; set; } = 4;
     }
 }

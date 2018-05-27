@@ -1,11 +1,10 @@
-﻿using Accelerider.Windows.Infrastructure;
-using Prism.Logging;
+﻿using Prism.Logging;
 using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace Accelerider.Windows
+namespace Accelerider.Windows.Infrastructure
 {
     public class Logger : ILoggerFacade, IDisposable
     {

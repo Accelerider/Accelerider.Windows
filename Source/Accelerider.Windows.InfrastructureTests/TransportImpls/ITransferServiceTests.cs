@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.FileTransferService;
 using Accelerider.Windows.Infrastructure.FileTransferService.Impls;
+using Accelerider.Windows.Infrastructure.Interfaces;
+using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Prism.Logging;
 
 namespace Accelerider.Windows.InfrastructureTests.TransportImpls
 {
@@ -16,40 +14,32 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
         [TestMethod]
         public void UseTest()
         {
-            //ITransferService service = null;
+            IUnityContainer container = new UnityContainer();
+            container.RegisterInstance<ILoggerFacade>(new Logger());
 
-            //var downloader = service.Use<ITransporterBuilder<IDownloader>>()
-            //    .Configure(settings => { settings.AutoSwitchUri = true; })
-            //    .From("http://download-link1/file1.rmvb")
-            //    .From("http://download-link1/file2.rmvb")
-            //    .From("http://download-link1/file3.rmvb")
-            //    .From("http://download-link1/file4.rmvb")
-            //    .To("D:/Users/Download/file.rmvb")
-            //    .Build();
+            IConfigureFile configure = new ConfigureFile().Load(@"C:\Users\Dingp\Desktop\transfer-configure.json");
+            configure.SetValue(TransferService.DownloaderContextKey, new TransferContextSettings { MaxParallelTranspoterCount = 4 });
 
-            //var token = downloader.Id;
+            ITransferService service = new TransferService(container).Initialize(configure);
 
-            //service.Register(downloader).AsUnmanaged().Start();
-            //service.Register(downloader).AsUnmanaged().Suspend();
+            service.Run();
 
-            //service.Register(downloader).AsManaged().Suspend();
-            //service.Register(downloader).AsManaged().AsNext();
-            //service.Register(downloader).AsManaged().Ready();
-            //service.Register(downloader).AsManaged().Cancel();
-
-            var downloaderImpl = new DownloaderImpl();
-
-            downloaderImpl.Update(
-                new[] { new Uri("http://119.90.49.10/%E7%BA%B8%E4%B8%8A%E7%9A%84%E9%AD%94%E6%B3%95%E4%BD%BF.rar") },
-                @"D:\Resources\Downloads\test.rar",
-                new TransporterSettings
+            var downloader = service.Use<DefaultDownloaderBuilder>()
+                .From("http://download.accelerider.com:888/纸上的魔法使.rar")
+                .To(@"D:\Resources\Downloads\test-file.rar")
+                .Configure(settings =>
                 {
-                    //Headers = new h()
-                });
+                    settings.MaxErrorCount = 3;
+                    settings.AutoSwitchUri = true;
+                    settings.ThreadCount = 1;
+                })
+                .Build();
 
-            downloaderImpl.StatusChanged += OnStatusChanged;
-            downloaderImpl.Start();
+            var managedToken = service.Register(downloader).AsManaged();
 
+            managedToken.Ready();
+            managedToken.Suspend();
+            var configureFile = service.Shutdown();
         }
 
         private void OnStatusChanged(object sender, TransferStatusChangedEventArgs e)
