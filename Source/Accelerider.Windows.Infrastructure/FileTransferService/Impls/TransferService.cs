@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity;
+using Prism.Logging;
 
 namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 {
@@ -26,16 +27,19 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
 
         private readonly IUnityContainer _container;
+        private readonly ILoggerFacade _logger;
         private readonly TransporterSettings _globalSettings = new TransporterSettings();
-
         private readonly TransferContext _downloaderContext;
         private readonly TransferContext _uploaderContext;
         private readonly HashSet<string> _registeredTransporterIds = new HashSet<string>();
+
+        private IConfigureFile _configureFile;
 
 
         public TransferService(IUnityContainer container)
         {
             _container = container.CreateChildContainer();
+            _logger = container.Resolve<ILoggerFacade>();
 
             _downloaderContext = new TransferContext();
             _uploaderContext = new TransferContext();
@@ -49,18 +53,30 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         public IEnumerable<IUploader> Uploaders => _uploaderContext.GetAll().Cast<IUploader>();
 
-        public ITransferService Initialize(IConfigureFile configFile)
+        public ITransferService Initialize(IConfigureFile configureFile = null)
         {
-            _downloaderContext.Settings = configFile.GetValue<TransferContextSettings>(DownloaderContextSettings);
-            _uploaderContext.Settings = configFile.GetValue<TransferContextSettings>(UploaderContextSettings);
+            _logger.Log($"Initializing {nameof(TransferService)} based on a " +
+                        (configureFile == null ? string.Empty : "not") +
+                        " null configure file. ", Category.Info, Priority.Low);
 
-            var uncompletedDownloaders = configFile.GetValue<List<Downloader>>(UncompletedDownloaders);
-            var completedDownloaders = configFile.GetValue<List<Downloader>>(CompletedDownloaders);
-            var uncompletedUploaders = configFile.GetValue<List<TransporterBase>>(UncompletedUploaders);
-            var completedUploaders = configFile.GetValue<List<TransporterBase>>(CompletedUploaders);
+            _configureFile = configureFile ?? new ConfigureFile();
+
+            _downloaderContext.Settings = _configureFile.GetValue<TransferContextSettings>(DownloaderContextSettings) ?? new TransferContextSettings();
+            _uploaderContext.Settings = _configureFile.GetValue<TransferContextSettings>(UploaderContextSettings) ?? new TransferContextSettings();
+
+            var uncompletedDownloaders = _configureFile.GetValue<List<Downloader>>(UncompletedDownloaders) ?? new List<Downloader>();
+            _logger.Log($"Added {uncompletedDownloaders.Count} uncompleted downloader from configure.", Category.Info, Priority.Low);
+            var completedDownloaders = _configureFile.GetValue<List<Downloader>>(CompletedDownloaders) ?? new List<Downloader>();
+            _logger.Log($"Added {completedDownloaders.Count} completed downloader from configure.", Category.Info, Priority.Low);
+            var uncompletedUploaders = _configureFile.GetValue<List<TransporterBase>>(UncompletedUploaders) ?? new List<TransporterBase>();
+            _logger.Log($"Added {uncompletedUploaders.Count} uncompleted uploader from configure.", Category.Info, Priority.Low);
+            var completedUploaders = _configureFile.GetValue<List<TransporterBase>>(CompletedUploaders) ?? new List<TransporterBase>();
+            _logger.Log($"Added {completedUploaders.Count} completed uploader from configure.", Category.Info, Priority.Low);
 
             uncompletedDownloaders.Concat(completedDownloaders).ForEach(_downloaderContext.Add);
+            _logger.Log("Successfully added all downloaders to the downloader context.", Category.Info, Priority.Low);
             uncompletedUploaders.Concat(completedUploaders).ForEach(_uploaderContext.Add);
+            _logger.Log("Successfully added all uploaders to the uploader context.", Category.Info, Priority.Low);
 
             return this;
         }
@@ -74,22 +90,26 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
         public void Run()
         {
             Parallel.Invoke(_downloaderContext.Run, _uploaderContext.Run);
+            _logger.Log($"Running the {nameof(TransferService)}...", Category.Info, Priority.Low);
         }
 
         public IConfigureFile Shutdown()
         {
             var (uncompletedDownloaders, completedDownloaders) = _downloaderContext.Shutdown();
-            var (uncompletedUploaders, completedUploaders) = _uploaderContext.Shutdown();
+            _logger.Log($"Shutdown the downloader context, " +
+                        $"which contains {uncompletedDownloaders.Count()} uncompleted downloader " +
+                        $"and {completedDownloaders.Count()}", Category.Info, Priority.Low);
+            //var (uncompletedUploaders, completedUploaders) = _uploaderContext.Shutdown();
 
-            var result = new ConfigureFile();
-            result.SetValue(DownloaderContextSettings, _downloaderContext.Settings);
-            result.SetValue(UploaderContextSettings, _uploaderContext.Settings);
-            result.SetValue(UncompletedDownloaders, uncompletedDownloaders);
-            result.SetValue(CompletedDownloaders, completedDownloaders);
-            result.SetValue(UncompletedUploaders, uncompletedUploaders);
-            result.SetValue(CompletedUploaders, completedUploaders);
+            _configureFile.SetValue(DownloaderContextSettings, _downloaderContext.Settings);
+            _configureFile.SetValue(UploaderContextSettings, _uploaderContext.Settings);
+            _configureFile.SetValue(UncompletedDownloaders, (IEnumerable<Downloader>)uncompletedDownloaders);
+            _configureFile.SetValue(CompletedDownloaders, (IEnumerable<Downloader>)completedDownloaders);
+            //_configureFile.SetValue(UncompletedUploaders, (IEnumerable<TransporterBase>)uncompletedUploaders);
+            //_configureFile.SetValue(CompletedUploaders, (IEnumerable<TransporterBase>)completedUploaders);
 
-            return result;
+            _logger.Log($"Shutdown the {nameof(TransferService)}.", Category.Info, Priority.Low);
+            return _configureFile;
         }
 
         public T Use<T>() where T : ITransporterBuilder<ITransporter>
@@ -131,6 +151,8 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
             var transporter = (ITransporter)sender;
             _registeredTransporterIds.Remove(transporter.Id.ToString());
             transporter.StatusChanged -= OnTransporterDisposed;
+
+            _logger.Log($"A transporter was disposed: Id = {transporter.Id}", Category.Info, Priority.Low);
         }
     }
 }

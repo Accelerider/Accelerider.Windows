@@ -1,10 +1,14 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net;
+using System.Net.Http.Headers;
 
 namespace Accelerider.Windows.Infrastructure.FileTransferService
 {
     public class TransporterSettings
     {
-        public HttpHeaders Headers { get; set; }
+        public WebHeaderCollection Headers { get; set; }=new WebHeaderCollection()
+        {
+            ["User-Agent"]="Accelerider.Windows.DownloadEngine"
+        };
 
         public int MaxErrorCount { get; set; }
 

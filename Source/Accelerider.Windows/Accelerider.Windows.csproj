@@ -106,7 +106,6 @@
     <Compile Include="Models\INonAuthenticationApi.cs" />
     <Compile Include="ModuleResolver.cs" />
     <Compile Include="ViewModels\AppStore\AppStoreComponent.vm.cs" />
-    <Compile Include="Logger.cs" />
     <Compile Include="ViewModels\Dialogs\AboutDialog.vm.cs" />
     <Compile Include="ViewModels\Dialogs\SettingsDialog.vm.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
