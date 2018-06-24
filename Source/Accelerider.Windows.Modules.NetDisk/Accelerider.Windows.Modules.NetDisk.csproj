@@ -86,14 +86,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\ConfigureKeys.cs" />
-    <Compile Include="Enumerations\FileQueries.cs" />
+    <Compile Include="Enumerations\FileCategory.cs" />
     <Compile Include="Enumerations\FileType.cs" />
     <Compile Include="Enumerations\TransportedFileStatus.cs" />
-    <Compile Include="Extensions\IAcceleriderUserExtensions.cs" />
+    <Compile Include="Extensions\AcceleriderUserExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
     <Compile Include="Interfaces\Files.cs" />
-    <Compile Include="Interfaces\IBaiduCloudUser.cs" />
     <Compile Include="Interfaces\INetDiskUser.cs" />
+    <Compile Include="Models\TransferItem.cs" />
     <Compile Include="Models\Bodies.cs" />
     <Compile Include="Interfaces\INetDiskApi.cs" />
     <Compile Include="Models\Metadatas.cs" />
@@ -123,13 +123,10 @@
     <Compile Include="ViewModels\FileBrowser\RecycleBin.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\Share.vm.cs" />
     <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
-    <Compile Include="ViewModels\Others\TransferredFileList.cs" />
-    <Compile Include="ViewModels\Others\TransportingTaskItem.cs" />
-    <Compile Include="ViewModels\Others\TransferringTaskList.cs" />
     <Compile Include="ViewModels\Transportation\Downloaded.vm.cs" />
     <Compile Include="ViewModels\Transportation\Downloading.vm.cs" />
-    <Compile Include="ViewModels\Transportation\TransportedBase.vm.cs" />
-    <Compile Include="ViewModels\Transportation\TransportingBase.vm.cs" />
+    <Compile Include="ViewModels\Transportation\TransferredBase.vm.cs" />
+    <Compile Include="ViewModels\Transportation\TransferringBase.vm.cs" />
     <Compile Include="ViewModels\Transportation\TransportationComponent.vm.cs" />
     <Compile Include="ViewModels\Transportation\Uploaded.vm.cs" />
     <Compile Include="ViewModels\Transportation\Uploading.vm.cs" />

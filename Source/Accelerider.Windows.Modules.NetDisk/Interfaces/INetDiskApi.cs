@@ -51,7 +51,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
         Task<IList<FileMetadata>> GetFileChildrenByIdAsync(long netDiskId, long fileId);
 
         [Get("/{netDiskId}/files/{fileType}")]
-        Task<IList<FileMetadata>> GetAllFilesByTypeAsync(long netDiskId, FileQueries fileType);
+        Task<IList<FileMetadata>> GetAllFilesByTypeAsync(long netDiskId, FileCategory fileType);
 
         [Put("/{netDiskId}/files/{fileId}/content")]
         Task UploadFileAsync(long netDiskId, long fileId, [Body] Stream fileStream);

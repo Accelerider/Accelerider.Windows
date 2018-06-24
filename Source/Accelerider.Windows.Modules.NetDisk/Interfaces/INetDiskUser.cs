@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
+using Accelerider.Windows.Modules.NetDisk.Models;
 
 namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 {
     public interface INetDiskUser
     {
-        // User Information ----------------------------------------------------------------
+        // The user info ----------------------------------------------------------------------
 
         string Username { get; }
 
@@ -16,20 +18,21 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
         DataSize UsedCapacity { get; }
 
-        Task<bool> RefreshUserInfoAsync();
+        Task RefreshUserInfoAsync();
 
-        // Gets net-disk files -------------------------------------------------------------
+        // Gets files info from server --------------------------------------------------------
 
         Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
 
-        Task<IEnumerable<ISharedFile>> GetSharedFilesAsync();
+        Task<IReadOnlyCollection<FileCategory>> GetAvailableCategoriesAsync();
 
-        Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync();
+        Task<IList<T>> GetFilesAsync<T>(FileCategory category) where T : IFile;
 
-        Task<Dictionary<FileQueries, IEnumerable<IFile>>> GetFileCategoryDictionaryAsync();
+        // Transfer operations ----------------------------------------------------------------
 
-        // Transport operations ------------------------------------------------------------
+        Task DownloadAsync(ILazyTreeNode<INetDiskFile> from, FileLocator to, Action<TransferItem> callback);
 
-
+        // It will be throw an exception if the to.FileType is not folder type.
+        Task UploadAsync(FileLocator from, INetDiskFile to, Action<TransferItem> callback);
     }
 }

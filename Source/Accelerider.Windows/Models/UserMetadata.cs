@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Models
@@ -23,5 +24,16 @@ namespace Accelerider.Windows.Models
         public IList<string> Roles { get; set; }
 
         public IList<string> Apps { get; set; }
+        public Task<bool> SignOutAsync()
+        {
+            throw new NotImplementedException();
+            // do something
+            Exit();
+        }
+
+        public void Exit()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

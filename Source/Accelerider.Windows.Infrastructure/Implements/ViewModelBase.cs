@@ -16,7 +16,6 @@ namespace Accelerider.Windows.Infrastructure
             Container = container;
             EventAggregator = container.Resolve<IEventAggregator>();
             Logger = container.Resolve<ILoggerFacade>();
-            //AcceleriderUser = container.Resolve<IAcceleriderUser>();
             GlobalMessageQueue = container.Resolve<ISnackbarMessageQueue>();
         }
 

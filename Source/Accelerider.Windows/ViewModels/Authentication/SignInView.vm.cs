@@ -120,7 +120,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
                 return;
             }
 
-            await Container.Resolve<ModuleResolver>().LoadAsync();
+            //await Container.Resolve<ModuleResolver>().LoadAsync();
 
             // Saves data.
             ConfigureFile.SetValue(ConfigureKeys.Username, IsRememberPassword ? username : string.Empty);

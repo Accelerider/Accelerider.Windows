@@ -21,16 +21,16 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
         DateTime SharedTime { get; }
 
-        Uri ShareLink { get; }
+        Uri AccessLink { get; }
 
         string AccessCode { get; }
     }
 
     public interface IFileSummary : IFile
     {
-        FileLocator FilePath { get; }
+        FileLocator Path { get; }
 
-        DataSize FileSize { get; }
+        DataSize Size { get; }
     }
 
     public interface IDiskFile : IFileSummary, IDeletable

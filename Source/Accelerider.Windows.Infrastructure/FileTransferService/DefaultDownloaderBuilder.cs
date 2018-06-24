@@ -5,7 +5,7 @@ using Accelerider.Windows.Infrastructure.FileTransferService.Impls;
 
 namespace Accelerider.Windows.Infrastructure.FileTransferService
 {
-    public class DefaultDownloaderBuilder : ITransporterBuilder<IDownloader>
+    internal class DefaultDownloaderBuilder : ITransporterBuilder<IDownloader>
     {
         private List<string> _fromPaths = new List<string>();
         private TransporterSettings _settings = new TransporterSettings();
@@ -68,6 +68,19 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService
         {
             ((Downloader)downloader).Update(_fromPaths.Select(item => new Uri(item)), _toPath, _settings);
             return downloader;
+        }
+    }
+
+    public static class DefaultDownloaderBuilderExtensions
+    {
+        public static ITransporterBuilder<IDownloader> UseDefaultDownloaderBuilder(this ITransferService @this)
+        {
+            return @this.Use<DefaultDownloaderBuilder>();
+        }
+
+        public static IDownloader Update(this ITransporterBuilder<IDownloader> @this, IDownloader downloader)
+        {
+            return ((DefaultDownloaderBuilder)@this).Update(downloader);
         }
     }
 }

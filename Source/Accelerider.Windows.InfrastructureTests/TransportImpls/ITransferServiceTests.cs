@@ -1,4 +1,8 @@
-﻿using Accelerider.Windows.Infrastructure;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.FileTransferService;
 using Accelerider.Windows.Infrastructure.FileTransferService.Impls;
 using Accelerider.Windows.Infrastructure.Interfaces;
@@ -14,6 +18,7 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
         [TestMethod]
         public void UseTest()
         {
+            ServicePointManager.DefaultConnectionLimit = 99999;
             IUnityContainer container = new UnityContainer();
             container.RegisterInstance<ILoggerFacade>(new Logger());
 
@@ -24,7 +29,7 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
 
             service.Run();
 
-            var downloader = service.Use<DefaultDownloaderBuilder>()
+            var downloader = service.UseDefaultDownloaderBuilder()
                 .From("http://download.accelerider.com:888/纸上的魔法使.rar")
                 .To(@"D:\Resources\Downloads\test-file.rar")
                 .Configure(settings =>
@@ -37,9 +42,12 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
 
             var managedToken = service.Register(downloader).AsManaged();
 
-            managedToken.Ready();
-            managedToken.Suspend();
-            var configureFile = service.Shutdown();
+            //managedToken.Ready();
+            //managedToken.Suspend();
+            //var configureFile = service.Shutdown();
+
+
+            Thread.Sleep(100000);
         }
 
         private void OnStatusChanged(object sender, TransferStatusChangedEventArgs e)

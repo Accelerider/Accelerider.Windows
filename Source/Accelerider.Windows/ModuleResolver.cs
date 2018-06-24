@@ -29,6 +29,8 @@ namespace Accelerider.Windows
 
         public async Task LoadAsync()
         {
+
+
             var tasks = _user.Apps?.Select(id => _acceleriderApi.GetAppInfoByIdAsync(id).RunApi());
 
             if (tasks == null) return;

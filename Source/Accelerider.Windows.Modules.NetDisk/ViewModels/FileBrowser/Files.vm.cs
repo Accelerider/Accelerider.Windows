@@ -11,12 +11,12 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Constants;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
 using Accelerider.Windows.Resources.I18N;
-using Accelerider.Windows.TransportEngine;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Practices.Unity;
 
@@ -24,9 +24,6 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
     public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>
     {
-        private readonly TransferringTaskList _downloadList;
-        private readonly TransferringTaskList _uploadList;
-
         private ILazyTreeNode<INetDiskFile> _selectedSearchResult;
         private ILazyTreeNode<INetDiskFile> _currentFolder;
 
@@ -39,9 +36,6 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         public FilesViewModel(IUnityContainer container) : base(container)
         {
             InitializeCommands();
-
-            _downloadList = Container.Resolve<TransferringTaskList>(TransferringTaskList.DownloadKey);
-            _uploadList = Container.Resolve<TransferringTaskList>(TransferringTaskList.UploadKey);
 
             EventAggregator.GetEvent<SelectedSearchResultChangedEvent>().Subscribe(selectedSearchResult => SelectedSearchResult = selectedSearchResult);
         }
@@ -64,21 +58,25 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             get => _enterFolderCommand;
             set => SetProperty(ref _enterFolderCommand, value);
         }
+
         public ICommand DownloadCommand
         {
             get => _downloadCommand;
             set => SetProperty(ref _downloadCommand, value);
         }
+
         public ICommand UploadCommand
         {
             get => _uploadCommand;
             set => SetProperty(ref _uploadCommand, value);
         }
+
         public ICommand ShareCommand
         {
             get => _shareCommand;
             set => SetProperty(ref _shareCommand, value);
         }
+
         public ICommand DeleteCommand
         {
             get => _deleteCommand;
@@ -99,45 +97,47 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         {
             var fileArray = files.Cast<ILazyTreeNode<INetDiskFile>>().ToArray();
 
-            var (folder, isDownload) = await DisplayDownloadDialogAsync(fileArray.Select(item => item.Content.FilePath.FileName));
+            var (to, isDownload) = await DisplayDownloadDialogAsync(fileArray.Select(item => item.Content.Path.FileName));
 
             if (!isDownload) return;
 
-            var tokens = new List<ITaskReference>();
-            foreach (var file in fileArray)
+            var downloadItemList = new List<TransferItem>();
+            foreach (var from in fileArray)
             {
-                await NetDiskUser.DownloadAsync(file, folder, token =>
+                await NetDiskUser.DownloadAsync(from, to, item =>
                 {
-                    // Add new task to download list.
-                    _downloadList.Add(new TransportingTaskItem(token));
+                    // Add new task to download list. ??
+
                     // Records tokens
-                    tokens.Add(token);
+                    downloadItemList.Add(item);
                 });
             }
 
-            var fileName = TrimFileName(tokens.First().FileSummary.FilePath.FileName, 40);
-            var message = tokens.Count == 1
+            var fileName = TrimFileName(downloadItemList.First().File.Path.FileName, 40);
+            var message = downloadItemList.Count == 1
                 ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)
-                : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, tokens.Count);
+                : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, downloadItemList.Count);
             GlobalMessageQueue.Enqueue(message);
         }
 
         private async void UploadCommandExecute()
         {
-            var dialog = new System.Windows.Forms.OpenFileDialog { Multiselect = true };
+            var dialog = new OpenFileDialog { Multiselect = true };
             if (dialog.ShowDialog() != DialogResult.OK || dialog.FileNames.Length <= 0) return;
 
-            var tokens = new List<ITaskReference>();
+            var uploadItemList = new List<TransferItem>();
             await Task.Run(() =>
             {
-                foreach (var fromPath in dialog.FileNames)
+                foreach (var from in dialog.FileNames)
                 {
-                    var toPath = CurrentFolder.Content.FilePath;
-                    var token = NetDiskUser.UploadAsync(fromPath, toPath);
-                    // Add new task to download list.
-                    _uploadList.Add(new TransportingTaskItem(token));
-                    // Records tokens
-                    tokens.Add(token);
+                    var to = CurrentFolder.Content;
+                    var token = NetDiskUser.UploadAsync(from, to, item =>
+                    {
+                        // Add new task to download list. ??
+
+                        // Records tokens
+                        uploadItemList.Add(item);
+                    });
                 }
             });
 
@@ -148,13 +148,11 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             GlobalMessageQueue.Enqueue(message);
         }
 
-        private async void ShareCommandExecute(IList files)
+        private void ShareCommandExecute(IList files)
         {
             // 1. Display dialog.
 
             // 2. Determines whether to share based on the return value of dialog.
-
-            var (code, shareSummary) = await NetDiskUser.ShareAsync(files.Cast<ILazyTreeNode<INetDiskFile>>().Select(node => node.Content));
 
             // 3. Sends the GlobalMessageQueue for reporting result.
         }
@@ -181,24 +179,21 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         }
         #endregion
 
-        protected override async Task<IEnumerable<ILazyTreeNode<INetDiskFile>>> GetFilesAsync()
+        protected override async Task<IList<ILazyTreeNode<INetDiskFile>>> GetFilesAsync()
         {
             if (PreviousNetDiskUser != NetDiskUser)
             {
                 PreviousNetDiskUser = NetDiskUser;
-                _currentFolder = await NetDiskUser.GetNetDiskFileRootAsync();
-                OnPropertyChanged(nameof(CurrentFolder));
+                _currentFolder = await NetDiskUser.GetFileRootAsync();
+                RaisePropertyChanged(nameof(CurrentFolder));
             }
             await CurrentFolder.RefreshChildrenCacheAsync();
-            return CurrentFolder.ChildrenCache;
+            return CurrentFolder.ChildrenCache?.ToList();
         }
 
         private async void RefreshFiles()
         {
-            if (CurrentFolder.ChildrenCache == null)
-                await LoadingFilesAsync();
-            else
-                Files = CurrentFolder.ChildrenCache;
+            await LoadingFilesAsync(CurrentFolder.ChildrenCache?.ToList());
 
             EventAggregator.GetEvent<SearchResultsChangedEvent>().Publish(Files);
         }
@@ -240,7 +235,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
             var fileView = (Files)view;
             fileView.ListboxFileList.SelectionChanged += OnSelectedFileItemChanged;
-        } 
+        }
 
         public override void OnUnloaded(object view)
         {

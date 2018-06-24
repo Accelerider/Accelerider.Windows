@@ -10,6 +10,7 @@ using Accelerider.Windows.Views.Authentication;
 using Prism.Mvvm;
 using Prism.Unity;
 using Prism.Logging;
+using Prism.Modularity;
 using Refit;
 
 namespace Accelerider.Windows
@@ -19,10 +20,14 @@ namespace Accelerider.Windows
         #region Overridered methods
         protected override ILoggerFacade CreateLogger() => new Logger();
 
+        protected override IModuleCatalog CreateModuleCatalog()
+        {
+            return new DirectoryModuleCatalog { ModulePath = @".\Modules" };
+        }
+
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
-            //Container.Resolve<Core.Module>().Initialize(); // TODO: [Obsolete] TO DELETE.
             //Container.RegisterType<ModuleResolver, ModuleResolver>(new ContainerControlledLifetimeManager());
             Container.RegisterInstance(typeof(ISnackbarMessageQueue), new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
             Container.RegisterInstance(new ConfigureFile().Load());

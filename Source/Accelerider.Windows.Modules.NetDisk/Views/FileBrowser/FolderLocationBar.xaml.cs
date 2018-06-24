@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
 
 namespace Accelerider.Windows.Modules.NetDisk.Views.FileBrowser
 {

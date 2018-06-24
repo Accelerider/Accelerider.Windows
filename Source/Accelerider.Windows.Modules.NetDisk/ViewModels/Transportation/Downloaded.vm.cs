@@ -1,16 +1,18 @@
-﻿using System.Collections.ObjectModel;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
+﻿using System.Collections.Generic;
+using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Extensions;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
-    public class DownloadedViewModel : TransportedBaseViewModel
-    {
+    public class DownloadedViewModel : TransferredBaseViewModel
+    { 
         public DownloadedViewModel(IUnityContainer container) : base(container)
         {
         }
 
-        protected override ObservableCollection<ITransferredFile> GetTransferredFiles() => Container.Resolve<TransferringTaskList>(TransferringTaskList.DownloadKey).TransferredFileList;
+        protected override IEnumerable<ITransferredFile> GetTransferredFiles() => 
+            new ObservableSortedCollection<ITransferredFile>(AcceleriderUser.GetDownloadedFiles(), DefaultTransferredFileComparer);
     }
 }

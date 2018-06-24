@@ -53,7 +53,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 EventAggregator.GetEvent<SelectedSearchResultChangedEvent>().Publish(value);
 
 #if DEBUG
-                Debug.WriteLine($"SelectedSearchResult {value.Content.FilePath.FileName}");
+                Debug.WriteLine($"SelectedSearchResult {value.Content.Path.FileName}");
 #endif
             }
         }

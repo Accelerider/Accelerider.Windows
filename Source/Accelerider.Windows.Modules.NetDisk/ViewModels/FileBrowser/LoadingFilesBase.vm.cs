@@ -11,7 +11,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
     {
         private bool _isLoadingFiles;
         private ICommand _refreshFilesCommand;
-        private IEnumerable<T> _files;
+        private IList<T> _files;
 
         protected LoadingFilesBaseViewModel(IUnityContainer container) : base(container)
         {
@@ -30,14 +30,10 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             set { if (SetProperty(ref _isLoadingFiles, value)) EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Publish(_isLoadingFiles); }
         }
 
-        public IEnumerable<T> Files
+        public IList<T> Files
         {
             get => _files;
-            set
-            {
-                SetProperty(ref _files, value);
-                IsLoadingFiles = false;
-            }
+            private set => SetProperty(ref _files, value);
         }
 
         protected INetDiskUser PreviousNetDiskUser { get; set; }
@@ -59,16 +55,24 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             PreviousNetDiskUser = NetDiskUser;
         }
 
-        protected async Task LoadingFilesAsync()
+        protected async Task LoadingFilesAsync(IList<T> files = null)
         {
             if (IsLoadingFiles) return;
 
             IsLoadingFiles = true;
-            var task = GetFilesAsync();
-            if (task != null) Files = await task;
+            if (files == null)
+            {
+                var task = GetFilesAsync();
+                if (task != null) Files = await task;
+            }
+            else
+            {
+                Files = files;
+            }
+            IsLoadingFiles = false;
         }
 
-        protected abstract Task<IEnumerable<T>> GetFilesAsync();
+        protected abstract Task<IList<T>> GetFilesAsync();
 
         private async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
         {
