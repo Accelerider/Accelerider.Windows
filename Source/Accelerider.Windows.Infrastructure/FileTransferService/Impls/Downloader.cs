@@ -67,7 +67,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                     }
 
                     request = WebRequest.CreateHttp(_downloadUri);
-                    request.Headers = _settings.Headers.ToWebHeaderCollection();
+                    request.Headers = _settings.Headers;
                     request.Method = "GET";
                     request.Timeout = _settings.ConnectTimeout;
                     request.ReadWriteTimeout = _settings.ReadWriteTimeout;
@@ -321,7 +321,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                 try
                 {
                     var request = WebRequest.CreateHttp(uri);
-                    request.Headers = new WebHeaderCollection(); //Setting.Headers.ToWebHeaderCollection();
+                    request.Headers = Setting.Headers;
                     request.Method = "GET";
                     return (HttpWebResponse)request.GetResponse();
                 }
