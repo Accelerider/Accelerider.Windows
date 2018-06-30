@@ -18,13 +18,13 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
         DataSize UsedCapacity { get; }
 
+        IReadOnlyCollection<FileCategory> AvailableFileCategories { get; }
+
         Task RefreshUserInfoAsync();
 
         // Gets files info from server --------------------------------------------------------
 
         Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
-
-        Task<IReadOnlyCollection<FileCategory>> GetAvailableCategoriesAsync();
 
         Task<IList<T>> GetFilesAsync<T>(FileCategory category) where T : IFile;
 

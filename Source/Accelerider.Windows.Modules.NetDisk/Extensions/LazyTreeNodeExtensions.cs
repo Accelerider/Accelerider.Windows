@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Interfaces;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
 
 namespace Accelerider.Windows.Modules.NetDisk.Extensions
 {
@@ -36,7 +35,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
             public async Task<IReadOnlyList<ILazyTreeNode<T>>> GetChildrenAsync(bool force = false)
             {
                 if (force || _seed.ChildrenCache == null)
-                    await _seed.RefreshChildrenCacheAsync();
+                    await _seed.RefreshAsync();
 
                 return _seed.ChildrenCache;
             }
@@ -52,7 +51,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
             private async Task FlourishAsync(ILazyTreeNode<T> seed) // TODO: Tail recursion / CPS
             {
                 _action?.Invoke(seed.Content);
-                if (await seed.RefreshChildrenCacheAsync() && seed.ChildrenCache != null)
+                if (await seed.RefreshAsync() && seed.ChildrenCache != null)
                 {
                     foreach (var item in seed.ChildrenCache)
                     {

@@ -42,9 +42,9 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         {
             EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
 
-            if (PreviousNetDiskUser != NetDiskUser)
+            if (PreviousNetDiskUser != CurrentNetDiskUser)
             {
-                OnCurrentNetDiskUserChanged(NetDiskUser);
+                OnCurrentNetDiskUserChanged(CurrentNetDiskUser);
             }
         }
 
@@ -52,7 +52,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         {
             EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Unsubscribe(OnCurrentNetDiskUserChanged);
 
-            PreviousNetDiskUser = NetDiskUser;
+            PreviousNetDiskUser = CurrentNetDiskUser;
         }
 
         protected async Task LoadingFilesAsync(IList<T> files = null)

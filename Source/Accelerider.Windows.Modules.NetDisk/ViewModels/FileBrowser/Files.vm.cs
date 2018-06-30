@@ -104,7 +104,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             var downloadItemList = new List<TransferItem>();
             foreach (var from in fileArray)
             {
-                await NetDiskUser.DownloadAsync(from, to, item =>
+                await CurrentNetDiskUser.DownloadAsync(from, to, item =>
                 {
                     // Add new task to download list. ??
 
@@ -131,7 +131,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 foreach (var from in dialog.FileNames)
                 {
                     var to = CurrentFolder.Content;
-                    var token = NetDiskUser.UploadAsync(from, to, item =>
+                    var token = CurrentNetDiskUser.UploadAsync(from, to, item =>
                     {
                         // Add new task to download list. ??
 
@@ -169,7 +169,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             }
             if (errorFileCount < fileArray.Length)
             {
-                await currentFolder.RefreshChildrenCacheAsync();
+                await currentFolder.RefreshAsync();
                 if (currentFolder == CurrentFolder)
                 {
                     OnPropertyChanged(nameof(CurrentFolder));
@@ -181,13 +181,13 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         protected override async Task<IList<ILazyTreeNode<INetDiskFile>>> GetFilesAsync()
         {
-            if (PreviousNetDiskUser != NetDiskUser)
+            if (PreviousNetDiskUser != CurrentNetDiskUser)
             {
-                PreviousNetDiskUser = NetDiskUser;
-                _currentFolder = await NetDiskUser.GetFileRootAsync();
+                PreviousNetDiskUser = CurrentNetDiskUser;
+                _currentFolder = await CurrentNetDiskUser.GetFileRootAsync();
                 RaisePropertyChanged(nameof(CurrentFolder));
             }
-            await CurrentFolder.RefreshChildrenCacheAsync();
+            await CurrentFolder.RefreshAsync();
             return CurrentFolder.ChildrenCache?.ToList();
         }
 

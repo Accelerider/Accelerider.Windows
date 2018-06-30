@@ -113,6 +113,7 @@
     <Compile Include="FileTransferService\ITransporter.cs" />
     <Compile Include="Implements\ModuleBase.cs" />
     <Compile Include="FileTransferService\ITransporterRegistry.cs" />
+    <Compile Include="Interfaces\IRefreshable.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="ObservableSortedCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

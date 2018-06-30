@@ -12,6 +12,6 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         {
         }
 
-        protected override async Task<IList<IDeletedFile>> GetFilesAsync() => await NetDiskUser.GetFilesAsync<IDeletedFile>(FileCategory.RecycleBin);
+        protected override async Task<IList<IDeletedFile>> GetFilesAsync() => await CurrentNetDiskUser.GetFilesAsync<IDeletedFile>(FileCategory.RecycleBin);
     }
 }

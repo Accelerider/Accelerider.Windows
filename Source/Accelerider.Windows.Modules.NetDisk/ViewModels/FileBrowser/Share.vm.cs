@@ -12,6 +12,6 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         {
         }
 
-        protected override async Task<IList<ISharedFile>> GetFilesAsync() => await NetDiskUser.GetFilesAsync<ISharedFile>(FileCategory.Shared);
+        protected override async Task<IList<ISharedFile>> GetFilesAsync() => await CurrentNetDiskUser.GetFilesAsync<ISharedFile>(FileCategory.Shared);
     }
 }

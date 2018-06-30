@@ -30,7 +30,7 @@ namespace Accelerider.Windows.Infrastructure.Tests
             var temp2 = new[] { "aba", "zzz", "aac", "aaa ", "aca", "abb", "aab", "abc", "acb", "acc", "jhgj"};
 
 
-            var testObject = new ObservableSortedCollection<string>(temp, Comparer<string>.Default);
+            var testObject = new ObservableSortedCollection<string>(temp, Comparer<string>.Default.Compare);
             foreach (var item in temp2)
             {
                 testObject.Add(item);

@@ -4,54 +4,55 @@ using System.Threading.Tasks;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Refit;
+using FileInfo = Accelerider.Windows.Modules.NetDisk.Models.FileInfo;
 
 namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 {
     internal interface INetDiskApi
     {
         [Post("")]
-        Task AddNetDiskAsync([Body] NetDiskAuthPayload netDiskInfo);
+        Task AddNetDiskAsync([Body] NetDiskUserData netDiskInfo);
 
         [Delete("/{id}")]
         Task RemoveNetDiskByIdAsync(long id);
 
         [Get("/{id}")]
-        Task<NetDiskMetaData> GetNetDiskByIdAsync(long id);
+        Task<NetDiskInfo> GetNetDiskByIdAsync(long id);
 
         [Get("/children")]
-        Task<IList<NetDiskMetaData>> GetAllNetDisksAsync();
+        Task<IList<NetDiskInfo>> GetAllNetDisksAsync();
 
         // Accelerider Cloud tasks --------------------------------------------------------------------------
         [Post("/0/tasks")]
-        Task AddCloudTaskAsync([Body] CloudTaskPayload cloudTaskInfo);
+        Task AddCloudTaskAsync([Body] CloudTaskData cloudTaskInfo);
 
         [Delete("/0/tasks/{id}")]
-        Task<CloudTaskMetadata> RemoveCloudTaskByIdAsync(long id);
+        Task<CloudTaskInfo> RemoveCloudTaskByIdAsync(long id);
 
         [Get("/0/tasks/{id}")]
-        Task<CloudTaskMetadata> GetCloudTaskByIdAsync(long id);
+        Task<CloudTaskInfo> GetCloudTaskByIdAsync(long id);
 
         [Get("/0/tasks/children")]
-        Task<CloudTaskMetadata> GetAllCloudTasksAsync();
+        Task<CloudTaskInfo> GetAllCloudTasksAsync();
 
         // Files --------------------------------------------------------------------------------------------
         [Post("/{netDiskId}/files")]
-        Task<FileMetadata> AddFileAsync(long netDiskId, [Body] FilePayload fileInfo);
+        Task<FileInfo> AddFileAsync(long netDiskId, [Body] FileData fileInfo);
 
         [Delete("/{netDiskId}/files/{fileId}")]
         Task RemoveFileByIdAsync(long netDiskId, long fileId);
 
         [Patch("/{netDiskId}/files/{fileId}")]
-        Task UpdateFileAsync(long netDiskId, long fileId, [Body] FileUpdatePayload fileInfo);
+        Task UpdateFileAsync(long netDiskId, long fileId, [Body] FileUpdateData fileInfo);
 
         [Get("/{netDiskId}/files/{fileId}")]
-        Task<FileMetadata> GetFileByIdAsync(long netDiskId, long fileId);
+        Task<FileInfo> GetFileByIdAsync(long netDiskId, long fileId);
 
         [Get("/{netDiskId}/files/{fileId}/children")]
-        Task<IList<FileMetadata>> GetFileChildrenByIdAsync(long netDiskId, long fileId);
+        Task<IList<FileInfo>> GetFileChildrenByIdAsync(long netDiskId, long fileId);
 
         [Get("/{netDiskId}/files/{fileType}")]
-        Task<IList<FileMetadata>> GetAllFilesByTypeAsync(long netDiskId, FileCategory fileType);
+        Task<IList<FileInfo>> GetAllFilesByTypeAsync(long netDiskId, FileCategory fileType);
 
         [Put("/{netDiskId}/files/{fileId}/content")]
         Task UploadFileAsync(long netDiskId, long fileId, [Body] Stream fileStream);

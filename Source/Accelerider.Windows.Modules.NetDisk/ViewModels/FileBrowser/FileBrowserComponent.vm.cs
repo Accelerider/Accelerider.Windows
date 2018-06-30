@@ -23,13 +23,16 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         public FileBrowserComponentViewModel(IUnityContainer container) : base(container)
         {
-            NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
-
             SubscribeEvents();
 
             AddNetDiskCommand = new RelayCommand(AddNetDiskCommandExecute);
         }
 
+        public override async void OnLoaded(object view)
+        {
+            await AcceleriderUser.RefreshAsyncExtension();
+            NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
+        }
 
         public bool CanSwitchUser
         {

@@ -5,7 +5,7 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Models
 {
-    internal class UserMetadata : IAcceleriderUser
+    internal class AcceleriderUser : IAcceleriderUser
     {
         public string Token { get; set; }
 
@@ -24,6 +24,7 @@ namespace Accelerider.Windows.Models
         public IList<string> Roles { get; set; }
 
         public IList<string> Apps { get; set; }
+
         public Task<bool> SignOutAsync()
         {
             throw new NotImplementedException();
@@ -31,9 +32,13 @@ namespace Accelerider.Windows.Models
             Exit();
         }
 
-        public void Exit()
+        public virtual void Exit()
         {
-            throw new NotImplementedException();
+        }
+
+        public virtual Task<bool> RefreshAsync()
+        {
+            return Task.FromResult(true);
         }
     }
 }

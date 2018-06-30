@@ -9,15 +9,15 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels
     {
         protected ViewModelBase(IUnityContainer container) : base(container) { }
 
-        public INetDiskUser NetDiskUser
+        public INetDiskUser CurrentNetDiskUser
         {
             get => AcceleriderUser.GetCurrentNetDiskUser() ?? AcceleriderUser.GetNetDiskUsers().FirstOrDefault();
             set
             {
                 var temp = AcceleriderUser.GetCurrentNetDiskUser();
                 if (!SetProperty(ref temp, value)) return;
-                AcceleriderUser.SetCurrentNetDiskUser(temp);
-                EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Publish(temp);
+                AcceleriderUser.SetCurrentNetDiskUser(value);
+                EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Publish(value);
             }
         }
     }

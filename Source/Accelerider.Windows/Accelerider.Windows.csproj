@@ -100,7 +100,7 @@
     <Compile Include="Events.cs" />
     <Compile Include="ExceptionResolver.cs" />
     <Compile Include="Models\ModuleMetadata.cs" />
-    <Compile Include="Models\UserMetadata.cs" />
+    <Compile Include="Models\AcceleriderUser.cs" />
     <Compile Include="Models\IAcceleriderApi.cs" />
     <Compile Include="Models\Bodies.cs" />
     <Compile Include="Models\INonAuthenticationApi.cs" />

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.Interfaces
 {
-    public interface IAcceleriderUser
+    public interface IAcceleriderUser : IRefreshable
     {
         string Token { get; }
 

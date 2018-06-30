@@ -42,9 +42,18 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
 
             var managedToken = service.Register(downloader).AsManaged();
 
-            //managedToken.Ready();
-            //managedToken.Suspend();
-            //var configureFile = service.Shutdown();
+            managedToken.Ready();
+            managedToken.Suspend();
+            managedToken.AsNext();
+
+            var unmangedToken = service.Register(downloader).AsUnmanaged();
+
+            unmangedToken.Start();
+            unmangedToken.Suspend();
+            unmangedToken.Dispose();
+
+
+            var configureFile = service.Shutdown();
 
 
             Thread.Sleep(100000);

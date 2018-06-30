@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
-    internal class FileMetadata
+    internal class FileInfo
     {
     }
 
-    internal class NetDiskMetaData
+    internal class NetDiskInfo
     {
     }
 
-    internal class CloudTaskMetadata
+    internal class CloudTaskInfo
     {
     }
 }
