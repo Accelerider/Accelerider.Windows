@@ -30,5 +30,11 @@ namespace Accelerider.Windows.Infrastructure.Extensions
             return result;
         }
 
+	    public static void SetHeaders(this WebHeaderCollection target, WebHeaderCollection headers)
+	    {
+		    foreach (var key in headers.AllKeys)
+			    target.SetHeaderValue(key,headers.Get(key));
+	    }
+
     }
 }
