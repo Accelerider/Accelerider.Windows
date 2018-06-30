@@ -5,10 +5,10 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService
 {
     public class TransporterSettings
     {
-        public WebHeaderCollection Headers { get; set; }=new WebHeaderCollection()
-        {
-            ["User-Agent"]="Accelerider.Windows.DownloadEngine"
-        };
+	    public WebHeaderCollection Headers { get; set; } = new WebHeaderCollection()
+	    {
+		    ["User-Agent"] = "Accelerider.Windows.DownloadEngine"
+	    };
 
         public int MaxErrorCount { get; set; }
 

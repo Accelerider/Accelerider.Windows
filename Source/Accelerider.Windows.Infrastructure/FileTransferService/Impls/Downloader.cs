@@ -67,7 +67,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                     }
 
                     request = WebRequest.CreateHttp(_downloadUri);
-                    request.Headers = _settings.Headers;
+                    request.Headers.SetHeaders(_settings.Headers);
                     request.Method = "GET";
                     request.Timeout = _settings.ConnectTimeout;
                     request.ReadWriteTimeout = _settings.ReadWriteTimeout;
@@ -92,7 +92,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                                 }
 
                                 //Miss bytes
-                                if (length <= 0 || _block.BeginOffset - 1 != _block.EndOffset)
+                                if (length <= 0 && _block.BeginOffset - 1 != _block.EndOffset)
                                 {
                                     new Thread(Start) { IsBackground = true }.Start();
                                     return;
@@ -290,6 +290,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
             if (File.Exists(blockFile))
             {
                 _downloadBlocks = JsonConvert.DeserializeObject<List<DownloadBlock>>(File.ReadAllText(blockFile));
+	            _downloadBlocks.Capacity = _downloadBlocks.Count;				
                 return true;
             }
             var response = GetResponse();
@@ -311,6 +312,8 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                 BeginOffset = temp,
                 EndOffset = contentLength
             });
+	        _downloadBlocks.Capacity = _downloadBlocks.Count;
+	        SaveBlock();
             return true;
         }
 
@@ -321,7 +324,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                 try
                 {
                     var request = WebRequest.CreateHttp(uri);
-                    request.Headers = Setting.Headers;
+                    request.Headers.SetHeaders(Setting.Headers);
                     request.Method = "GET";
                     return (HttpWebResponse)request.GetResponse();
                 }

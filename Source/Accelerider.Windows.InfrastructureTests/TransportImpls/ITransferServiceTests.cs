@@ -30,21 +30,20 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
             service.Run();
 
             var downloader = service.UseDefaultDownloaderBuilder()
-                .From("http://download.accelerider.com:888/纸上的魔法使.rar")
-                .To(@"D:\test-file.rar")
+                .From("http://download.accelerider.com:888/%E7%BA%B8%E4%B8%8A%E7%9A%84%E9%AD%94%E6%B3%95%E4%BD%BF.rar")
+                .To(@"F:\test-file.rar")
                 .Configure(settings =>
                 {
                     settings.MaxErrorCount = 3;
                     settings.AutoSwitchUri = true;
-                    settings.ThreadCount = 1;
+	                settings.BlockSize = DataSize.OneMB * 50;
+                    settings.ThreadCount = 16;
                 })
                 .Build();
 
-            var managedToken = service.Register(downloader).AsManaged();
-
-            //managedToken.Ready();
-            //managedToken.Suspend();
-            //var configureFile = service.Shutdown();
+            var managedToken = service.Register(downloader).AsUnmanaged();
+			managedToken.Start();
+	        
 
 
             Thread.Sleep(100000);
