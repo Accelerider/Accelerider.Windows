@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using Accelerider.Windows.Infrastructure;
@@ -30,8 +31,8 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
             service.Run();
 
             var downloader = service.UseDefaultDownloaderBuilder()
-                .From("http://download.accelerider.com:888/%E7%BA%B8%E4%B8%8A%E7%9A%84%E9%AD%94%E6%B3%95%E4%BD%BF.rar")
-                .To(@"F:\test-file.rar")
+                .From("http://download.accelerider.com:888/Made%20in%20Abyss.mkv")
+                .To(@"D:\test-file2.rar")
                 .Configure(settings =>
                 {
                     settings.MaxErrorCount = 3;
@@ -43,10 +44,13 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
 
             var managedToken = service.Register(downloader).AsUnmanaged();
 			managedToken.Start();
-	        
 
 
-            Thread.Sleep(100000);
+            while (downloader.Status != TransferStatus.Completed)
+            {
+                Thread.Sleep(1000);
+                Debug.WriteLine($"{downloader.Id}: {downloader.Status} - {downloader.CompletedSize}/{downloader.TotalSize} ");
+            }
         }
 
         private void OnStatusChanged(object sender, TransferStatusChangedEventArgs e)

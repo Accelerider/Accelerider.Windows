@@ -11,6 +11,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
     public interface INetDiskUser
     {
         // The user info ----------------------------------------------------------------------
+        long Id { get; }
 
         string Username { get; }
 

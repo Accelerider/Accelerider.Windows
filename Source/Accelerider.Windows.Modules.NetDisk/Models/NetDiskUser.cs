@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
@@ -12,6 +10,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 {
     internal class NetDiskUser : INetDiskUser
     {
+        public long Id { get; set; }
+
         public string Username { get; set; }
 
         public DataSize TotalCapacity { get; set; }

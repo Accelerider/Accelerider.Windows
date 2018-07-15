@@ -78,6 +78,7 @@
     <Compile Include="TransportImpls\ConcurrentTaskQueueTests.cs" />
     <Compile Include="TransportImpls\ITransferServiceTests.cs" />
     <Compile Include="TransportImpls\TransportSchedulerTests.cs" />
+    <Compile Include="UpdateService\UpdaterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

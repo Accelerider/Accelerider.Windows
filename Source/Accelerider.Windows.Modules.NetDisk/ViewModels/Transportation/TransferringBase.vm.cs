@@ -65,7 +65,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         private void InitializeCommands()
         {
             PauseCommand = new RelayCommand<TransferItem>(
-                item => OperateTaskToken(item, token => token.Suspend(), "Pause task failed."),
+                item => OperateTaskToken(item, token => token.Suspend(), "Pause task failed."), // TODO: [I18N]
                 item => item.Reporter.Transporter.Status == TransferStatus.Transferring ||
                         item.Reporter.Transporter.Status == TransferStatus.Ready);
             StartCommand = new RelayCommand<TransferItem>(
@@ -82,7 +82,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         {
             try
             {
-                operation(item.ManagedToken);
+                operation?.Invoke(item.ManagedToken);
             }
             catch
             {
