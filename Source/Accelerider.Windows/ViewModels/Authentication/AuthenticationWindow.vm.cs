@@ -36,14 +36,6 @@ namespace Accelerider.Windows.ViewModels.Authentication
         public override async void OnLoaded(object view)
         {
             _signInTabItem = ((AuthenticationWindow) view).SignInTabItem;
-
-            var publickeyPath = Path.Combine(Environment.CurrentDirectory, "publickey.xml");
-            if (!File.Exists(publickeyPath))
-            {
-                var nonAuthApi = Container.Resolve<INonAuthenticationApi>();
-                var publickey = await nonAuthApi.GetPublicKeyAsync().RunApi();
-                File.WriteAllText(publickeyPath, publickey);
-            }
         }
     }
 }

@@ -8,6 +8,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Constants
 {
     public static class Hyperlinks
     {
-        public const string ApiBaseAddress = "http://localhost:4656/api/v2";
+        public const string ApiBaseAddress = "https://api.accelerider.com/v2";
     }
 }

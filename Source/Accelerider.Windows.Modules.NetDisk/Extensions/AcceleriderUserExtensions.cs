@@ -6,6 +6,7 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Microsoft.Practices.Unity;
+using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Modules.NetDisk.Extensions
 {
@@ -15,6 +16,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
         {
             public IEnumerable<INetDiskUser> NetDiskUsers { get; set; }
 
+			[JsonIgnore]
             public INetDiskUser CurrentNetDiskUser { get; set; }
         }
 

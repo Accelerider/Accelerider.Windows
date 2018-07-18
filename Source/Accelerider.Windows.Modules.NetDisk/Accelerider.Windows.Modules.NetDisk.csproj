@@ -94,7 +94,16 @@
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
     <Compile Include="Interfaces\Files.cs" />
     <Compile Include="Interfaces\INetDiskUser.cs" />
+    <Compile Include="Models\BaiduNetdisk\BaiduNetdiskFile.cs" />
+    <Compile Include="Models\BaiduNetdisk\BaiduNetdiskUser.cs" />
+    <Compile Include="Models\BaiduNetdisk\IBaiduNetdiskApi.cs" />
+    <Compile Include="Models\Onedrive\OnedriveFile.cs" />
+    <Compile Include="Models\Results\Bodies.cs" />
+    <Compile Include="Models\Results\ResultBase.cs" />
+    <Compile Include="Models\LazyTreeNode.cs" />
     <Compile Include="Models\NetDiskUser.cs" />
+    <Compile Include="Models\Onedrive\IMicrosoftGraphApi.cs" />
+    <Compile Include="Models\Onedrive\OnedriveUser.cs" />
     <Compile Include="Models\TransferItem.cs" />
     <Compile Include="Models\Datas.cs" />
     <Compile Include="Interfaces\INetDiskApi.cs" />

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -118,7 +119,29 @@ namespace Accelerider.Windows.Infrastructure.Extensions
             return Convert.ToBase64String(Rsa.Encrypt(Encoding.UTF8.GetBytes(text), false));
         }
 
-        public static string DecryptByRsa(this string text, string privateKeyXml = null)
+	    public static string RandomString(int length)
+	    {
+		    var b = new byte[4];
+		    new RNGCryptoServiceProvider().GetBytes(b);
+		    var r = new Random(BitConverter.ToInt32(b, 0));
+		    var ret = string.Empty;
+		    const string str = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		    for (var i = 0; i < length; i++)
+			    ret += str.Substring(r.Next(0, str.Length - 1), 1);
+		    return ret;
+	    }
+
+	    public static string Logid => RandomString(48);
+
+	    public static string GetMatch(this string text, string p1, string p2)
+	    {
+		    var rg = new Regex("(?<=(" + p1 + "))[.\\s\\S]*?(?=(" + p2 + "))",
+			    RegexOptions.Multiline | RegexOptions.Singleline);
+		    return rg.Match(text).Value;
+	    }
+
+
+		public static string DecryptByRsa(this string text, string privateKeyXml = null)
         {
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
             byte[] cipherbytes;
