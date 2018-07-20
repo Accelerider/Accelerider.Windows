@@ -79,6 +79,7 @@
     <Compile Include="TransportImpls\ITransferServiceTests.cs" />
     <Compile Include="TransportImpls\NetdiskAppTests.cs" />
     <Compile Include="TransportImpls\TransportSchedulerTests.cs" />
+    <Compile Include="UpdateService\UpdaterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

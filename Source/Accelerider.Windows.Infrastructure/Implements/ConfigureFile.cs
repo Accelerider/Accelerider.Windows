@@ -10,6 +10,11 @@ namespace Accelerider.Windows.Infrastructure
 {
     public class ConfigureFile : IConfigureFile
     {
+        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Objects,
+        };
+
         private JObject _storage;
         private string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Accelerider.conf");
 
@@ -17,13 +22,13 @@ namespace Accelerider.Windows.Infrastructure
 
         public bool Contains(string key) => _storage.Values().Any(token => token.Path == key);
 
-        public T GetValue<T>(string key) => JsonConvert.DeserializeObject<T>(_storage[key]?.ToString() ?? string.Empty);
+        public T GetValue<T>(string key) => JsonConvert.DeserializeObject<T>(_storage[key]?.ToString() ?? string.Empty, JsonSerializerSettings);
 
         public IConfigureFile SetValue<T>(string key, T value)
         {
             if (EqualityComparer<T>.Default.Equals(GetValue<T>(key), value)) return this;
 
-            _storage[key] = JsonConvert.SerializeObject(value, Formatting.Indented);
+            _storage[key] = JsonConvert.SerializeObject(value, Formatting.Indented, JsonSerializerSettings);
             Save();
             ValueChanged?.Invoke(this, new ValueChangedEventArgs(key));
 

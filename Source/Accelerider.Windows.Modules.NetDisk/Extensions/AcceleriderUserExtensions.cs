@@ -38,7 +38,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
 
         // -------------------------------------------------------------------------------------
 
-        public static async Task<bool> RefreshAsyncExtension(this IAcceleriderUser @this)
+        public static async Task<bool> RefreshAsyncEx(this IAcceleriderUser @this)
         {
             CheckNullObject(@this);
 
@@ -58,13 +58,23 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
         public static Task<bool> AddNetDiskUserAsync(this IAcceleriderUser @this, INetDiskUser user)
         {
             CheckNullObject(@this);
+            //_netDiskApi.AddNetDiskAsync()
             throw new NotImplementedException();
         }
 
-        public static Task<bool> RemoveNetDiskUserAsync(this IAcceleriderUser @this, INetDiskUser user)
+        public static async Task<bool> RemoveNetDiskUserAsync(this IAcceleriderUser @this, INetDiskUser user)
         {
             CheckNullObject(@this);
-            throw new NotImplementedException();
+            try
+            {
+                await _netDiskApi.RemoveNetDiskByIdAsync(user.Id);
+                return true;
+            }
+            catch (Exception e)
+            {
+                // TODO: Logging
+                return false;
+            }
         }
 
         public static INetDiskUser GetCurrentNetDiskUser(this IAcceleriderUser @this)

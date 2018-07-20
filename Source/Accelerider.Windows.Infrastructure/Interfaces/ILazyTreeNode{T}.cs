@@ -38,13 +38,6 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         IReadOnlyList<ILazyTreeNode<T>> ChildrenCache { get; }
 
         /// <summary>
-        /// Try to refresh the children of the node, 
-        /// if true is returned, the data in <see cref="ChildrenCache"/> is up-to-date.
-        /// </summary>
-        /// <returns>Returns a <see cref="bool"/> type indicating whether the data was successfully fetched.</returns>
-        //Task<bool> RefreshAsync();
-
-        /// <summary>
         /// Applies action to the content of this node and its children.
         /// </summary>
         /// <param name="action">A operation to the content of nodes.</param>
