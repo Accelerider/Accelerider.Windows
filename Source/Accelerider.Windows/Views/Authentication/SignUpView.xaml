@@ -30,23 +30,33 @@
             </Grid.ColumnDefinitions>
 
             <materialDesign:PackIcon Kind="Email" VerticalAlignment="Bottom" Margin="6"/>
-            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Email Address"
+            <TextBox Grid.Column="1" Grid.Row="0" materialDesign:HintAssist.Hint="Email Address"
                      Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
-            <materialDesign:PackIcon Grid.Row="2" Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
-            <TextBox Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Username"
+
+            <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="6"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <materialDesign:PackIcon Grid.Column="0" Kind="Check" VerticalAlignment="Bottom" Margin="6"/>
+                <TextBox Grid.Column="1" 
+                         materialDesign:HintAssist.Hint="Verification Code" 
+                         Text="{Binding LicenseCode, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <Button Grid.Column="3" Style="{DynamicResource MaterialDesignFlatButton}" Width="110" 
+                        Command="{Binding SendVerificationCodeCommand}">SEND</Button>
+            </Grid>
+            <materialDesign:PackIcon Grid.Column="0" Grid.Row="4" Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
+            <TextBox Grid.Column="1" Grid.Row="4" materialDesign:HintAssist.Hint="Username"
                      Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
-            <materialDesign:PackIcon Grid.Column="0" Grid.Row="4" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
-            <PasswordBox Name="PasswordBox" Grid.Column="1" Grid.Row="4" materialDesign:HintAssist.Hint="Password" 
-                         Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="6" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
-            <PasswordBox Name="PasswordBoxRepeat" Grid.Column="1" Grid.Row="6" materialDesign:HintAssist.Hint="Confirm Password" 
+            <PasswordBox Name="PasswordBox" Grid.Column="1" Grid.Row="6" materialDesign:HintAssist.Hint="Password" 
                          Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
-            <!--<materialDesign:PackIcon Grid.Column="0" Grid.Row="8" Kind="Check" VerticalAlignment="Bottom" Margin="6"/>
-            <TextBox Grid.Column="1" Grid.Row="8" materialDesign:HintAssist.Hint="License" 
-                     Text="{Binding LicenseCode, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>-->
         </Grid>
         <Button Grid.Row="2" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                 Command="{Binding SignUpCommand}" 
