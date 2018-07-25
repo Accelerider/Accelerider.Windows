@@ -127,5 +127,10 @@ namespace Accelerider.Windows.Infrastructure.Extensions
 
             return Encoding.UTF8.GetString(cipherbytes);
         }
+
+        public static bool IsEmailAddress(this string @this)
+        {
+            return !string.IsNullOrEmpty(@this) && !string.IsNullOrWhiteSpace(@this); // TODO
+        }
     }
 }

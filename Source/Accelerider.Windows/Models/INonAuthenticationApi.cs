@@ -10,6 +10,9 @@ namespace Accelerider.Windows.Models
         [Get("/publickey")]
         Task<string> GetPublicKeyAsync();
 
+        //[]
+        //Task SendVerificationCodeAsync(string emailAddress);
+
         [Post("/users")]
         Task SignUpAsync([Body] SignUpInfoBody signUpInfo);
 
