@@ -33,6 +33,14 @@ namespace Accelerider.Windows.Infrastructure
             }
         }
 
+        public void ForEach(Action<T> action)
+        {
+            foreach (T item in Items)
+            {
+                action?.Invoke(item);
+            }
+        }
+
         protected override void InsertItem(int index, T item)
         {
             index = GetAppropriateIndex(item);

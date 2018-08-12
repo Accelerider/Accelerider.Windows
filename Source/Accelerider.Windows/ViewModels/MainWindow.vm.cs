@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.ComponentModel;
+﻿using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Resources.I18N;
-using Accelerider.Windows.Views.AppStore;
-using Microsoft.Practices.Unity;
 using Prism.Regions;
 using System.Linq;
 using Accelerider.Windows.Constants;
+using Autofac;
+
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -20,7 +18,7 @@ namespace Accelerider.Windows.ViewModels
         private bool _appStoreIsDisplayed;
 
 
-        public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager) : base(container)
+        public MainWindowViewModel(IContainer container, IRegionManager regionManager) : base(container)
         {
             RegionManager = regionManager;
             FeedbackCommand = new RelayCommand(() => Process.Start(Hyperlinks.Issue));

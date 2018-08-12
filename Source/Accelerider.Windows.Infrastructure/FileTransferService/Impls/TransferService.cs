@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Interfaces;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity;
+using Autofac;
 using Prism.Logging;
 
 namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
@@ -26,7 +25,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
         public const string UploaderContextKey = "UploaderContext";
 
 
-        private readonly IUnityContainer _container;
+        private readonly IContainer _container;
         private readonly ILoggerFacade _logger;
         private readonly TransporterSettings _globalSettings = new TransporterSettings();
         private readonly TransferContext _downloaderContext;
@@ -36,16 +35,18 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
         private IConfigureFile _configureFile;
 
 
-        public TransferService(IUnityContainer container)
+        public TransferService(IContainer container)
         {
-            _container = container.CreateChildContainer();
             _logger = container.Resolve<ILoggerFacade>();
 
             _downloaderContext = new TransferContext();
             _uploaderContext = new TransferContext();
 
-            _container.RegisterInstance(DownloaderContextKey, _downloaderContext);
-            _container.RegisterInstance(UploaderContextKey, _uploaderContext);
+            var builder = new ContainerBuilder();
+            builder.RegisterInstance(_downloaderContext).Named<DataContext>(DownloaderContextKey);
+            builder.RegisterInstance(_uploaderContext).Named<DataContext>(UploaderContextKey);
+            builder.Update(container);
+            _container = container;
         }
 
 
@@ -73,9 +74,9 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
             var completedUploaders = _configureFile.GetValue<List<TransporterBase>>(CompletedUploaders) ?? new List<TransporterBase>();
             _logger.Log($"Added {completedUploaders.Count} completed uploader from configure.", Category.Info, Priority.Low);
 
-            uncompletedDownloaders.Concat(completedDownloaders).ForEach(_downloaderContext.Add);
+            uncompletedDownloaders.Concat(completedDownloaders).ToList().ForEach(_downloaderContext.Add);
             _logger.Log("Successfully added all downloaders to the downloader context.", Category.Info, Priority.Low);
-            uncompletedUploaders.Concat(completedUploaders).ForEach(_uploaderContext.Add);
+            uncompletedUploaders.Concat(completedUploaders).ToList().ForEach(_uploaderContext.Add);
             _logger.Log("Successfully added all uploaders to the uploader context.", Category.Info, Priority.Low);
 
             return this;
@@ -95,7 +96,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
 
         public IConfigureFile Shutdown()
         {
-            var (uncompletedDownloaders, completedDownloaders) = _downloaderContext.Shutdown();
+            (IEnumerable<ITransporter> uncompletedDownloaders, IEnumerable<ITransporter> completedDownloaders) = _downloaderContext.Shutdown();
             _logger.Log($"Shutdown the downloader context, " +
                         $"which contains {uncompletedDownloaders.Count()} uncompleted downloader " +
                         $"and {completedDownloaders.Count()}", Category.Info, Priority.Low);

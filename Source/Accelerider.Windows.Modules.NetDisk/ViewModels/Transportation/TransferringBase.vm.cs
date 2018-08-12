@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.FileTransferService;
 using Accelerider.Windows.Modules.NetDisk.Models;
-using Microsoft.Practices.Unity;
+using Autofac;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
@@ -17,7 +17,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         private RelayCommand<TransferItem> _cancelCommand;
 
 
-        protected TransferringBaseViewModel(IUnityContainer container) : base(container)
+        protected TransferringBaseViewModel(IContainer container) : base(container)
         {
             InitializeCommands();
         }

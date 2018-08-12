@@ -2,13 +2,14 @@
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Extensions;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
-using Microsoft.Practices.Unity;
+using Autofac;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
     public class UploadedViewModel : TransferredBaseViewModel
     {
-        public UploadedViewModel(IUnityContainer container) : base(container)
+        public UploadedViewModel(IContainer container) : base(container)
         {
         }
 

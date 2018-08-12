@@ -13,12 +13,12 @@ using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs;
-using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
 using Accelerider.Windows.Resources.I18N;
+using Autofac;
 using MaterialDesignThemes.Wpf;
-using Microsoft.Practices.Unity;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
@@ -33,7 +33,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         private ICommand _shareCommand;
         private ICommand _deleteCommand;
 
-        public FilesViewModel(IUnityContainer container) : base(container)
+        public FilesViewModel(IContainer container) : base(container)
         {
             InitializeCommands();
 

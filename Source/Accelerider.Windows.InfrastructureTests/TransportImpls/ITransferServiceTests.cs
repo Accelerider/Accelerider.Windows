@@ -7,7 +7,7 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.FileTransferService;
 using Accelerider.Windows.Infrastructure.FileTransferService.Impls;
 using Accelerider.Windows.Infrastructure.Interfaces;
-using Microsoft.Practices.Unity;
+using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Logging;
 
@@ -20,8 +20,10 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
         public void UseTest()
         {
             ServicePointManager.DefaultConnectionLimit = 99999;
-            IUnityContainer container = new UnityContainer();
-            container.RegisterInstance<ILoggerFacade>(new Logger());
+
+            var builder = new ContainerBuilder();
+            builder.RegisterInstance(new Logger()).As<ILoggerFacade>();
+            IContainer container = builder.Build();
 
             IConfigureFile configure = new ConfigureFile().Load(@"D:\transfer-configure.json");
             configure.SetValue(TransferService.DownloaderContextKey, new TransferContextSettings { MaxParallelTranspoterCount = 4 });

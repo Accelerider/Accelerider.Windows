@@ -1,6 +1,6 @@
 ﻿using Accelerider.Windows.Infrastructure.Interfaces;
+using Autofac;
 using MaterialDesignThemes.Wpf;
-using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Mvvm;
@@ -11,7 +11,7 @@ namespace Accelerider.Windows.Infrastructure
     {
         private IAcceleriderUser _acceleriderUser;
 
-        protected ViewModelBase(IUnityContainer container)
+        protected ViewModelBase(IContainer container)
         {
             Container = container;
             EventAggregator = container.Resolve<IEventAggregator>();
@@ -21,7 +21,7 @@ namespace Accelerider.Windows.Infrastructure
 
         public ISnackbarMessageQueue GlobalMessageQueue { get; }
 
-        protected IUnityContainer Container { get; }
+        protected IContainer Container { get; }
 
         protected IEventAggregator EventAggregator { get; }
 

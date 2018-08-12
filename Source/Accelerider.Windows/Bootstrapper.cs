@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
-using Microsoft.Practices.Unity;
 using System.Net;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views.Authentication;
+using Autofac;
+using Prism.Autofac;
 using Prism.Mvvm;
-using Prism.Unity;
 using Prism.Logging;
 using Prism.Modularity;
 using Refit;
 
 namespace Accelerider.Windows
 {
-    public class Bootstrapper : UnityBootstrapper
+    public class Bootstrapper : AutofacBootstrapper
     {
         #region Overridered methods
         protected override ILoggerFacade CreateLogger() => new Logger();
@@ -25,13 +26,12 @@ namespace Accelerider.Windows
             return new DirectoryModuleCatalog { ModulePath = @".\Modules" };
         }
 
-        protected override void ConfigureContainer()
+        protected override void ConfigureContainerBuilder(ContainerBuilder builder)
         {
-            base.ConfigureContainer();
-            //Container.RegisterType<ModuleResolver, ModuleResolver>(new ContainerControlledLifetimeManager());
-            Container.RegisterInstance(typeof(ISnackbarMessageQueue), new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
-            Container.RegisterInstance(new ConfigureFile().Load());
-            Container.RegisterInstance(RestService.For<INonAuthenticationApi>(Hyperlinks.ApiBaseAddress));
+            base.ConfigureContainerBuilder(builder);
+            builder.RegisterInstance(new SnackbarMessageQueue(TimeSpan.FromSeconds(2))).As<ISnackbarMessageQueue>();
+            builder.RegisterInstance(new ConfigureFile().Load()).As<IConfigureFile>();
+            builder.RegisterInstance(RestService.For<INonAuthenticationApi>(Hyperlinks.ApiBaseAddress)).As<INonAuthenticationApi>();
         }
 
         protected override void ConfigureViewModelLocator() => ViewModelLocationProvider.SetDefaultViewModelFactory(ResolveViewModel);

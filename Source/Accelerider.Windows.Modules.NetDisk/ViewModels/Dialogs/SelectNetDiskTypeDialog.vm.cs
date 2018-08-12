@@ -4,7 +4,8 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
-using Microsoft.Practices.Unity;
+using Autofac;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
 {
@@ -14,7 +15,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
         private ICommand _selectNetDiskCommand;
 
 
-        public SelectNetDiskTypeDialogViewModel(IUnityContainer container) : base(container)
+        public SelectNetDiskTypeDialogViewModel(IContainer container) : base(container)
         {
             NetDiskTypes = InitializeNetDiskTypes();
             SelectNetDiskCommand = new RelayCommand<NetDiskTypeViewModel>(SelectNetDiskCommandExecute);

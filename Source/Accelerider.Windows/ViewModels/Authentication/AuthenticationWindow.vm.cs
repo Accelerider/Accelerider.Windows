@@ -4,7 +4,8 @@ using System.Windows.Controls;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views.Authentication;
-using Microsoft.Practices.Unity;
+using Autofac;
+
 
 namespace Accelerider.Windows.ViewModels.Authentication
 {
@@ -14,7 +15,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
         private TabItem _signInTabItem;
 
 
-        public AuthenticationWindowViewModel(IUnityContainer container) : base(container)
+        public AuthenticationWindowViewModel(IContainer container) : base(container)
         {
             EventAggregator.GetEvent<MainWindowLoadingEvent>().Subscribe(e => IsLoading = e);
             EventAggregator.GetEvent<SignUpSuccessEvent>().Subscribe(signUpInfo => _signInTabItem.IsSelected = true); // It cannot be done by binding the IsSelected property, it will cause an animation error.

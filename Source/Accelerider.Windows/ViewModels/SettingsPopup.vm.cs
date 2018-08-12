@@ -8,10 +8,9 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Dialogs;
-
+using Autofac;
 using MaterialDesignThemes.Wpf;
 
-using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -28,7 +27,7 @@ namespace Accelerider.Windows.ViewModels
 
         private SettingsPopup _view;
 
-        public SettingsPopupViewModel(IUnityContainer container) : base(container)
+        public SettingsPopupViewModel(IContainer container) : base(container)
         {
             ChangeProfileCommand = new RelayCommand(OpenDialog<ProfileDialog>);
 

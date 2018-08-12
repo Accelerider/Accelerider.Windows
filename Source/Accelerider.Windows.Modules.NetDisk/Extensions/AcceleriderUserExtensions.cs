@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
-using Microsoft.Practices.Unity;
+using Autofac;
 
 namespace Accelerider.Windows.Modules.NetDisk.Extensions
 {
@@ -18,11 +18,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
             public INetDiskUser CurrentNetDiskUser { get; set; }
         }
 
-        private static IUnityContainer _container;
+        private static IContainer _container;
         private static INetDiskApi _netDiskApi;
         private static ExtensionCache _cache;
 
-        public static void Initialize(IUnityContainer container)
+        public static void Initialize(IContainer container)
         {
             _container = container;
             _netDiskApi = container.Resolve<INetDiskApi>();
@@ -42,7 +42,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
 
             var result = await @this.RefreshAsync();
             var netDiskInfos = await _netDiskApi.GetAllNetDisksAsync();
-            _cache.NetDiskUsers = netDiskInfos?.Select(item => _container.Resolve<NetDiskUser>(new DependencyOverride<NetDiskInfo>(item)));
+            _cache.NetDiskUsers = netDiskInfos?.Select(item => _container.Resolve<NetDiskUser>(new TypedParameter(typeof(NetDiskInfo), item)));
             _cache.CurrentNetDiskUser = _cache.NetDiskUsers?.FirstOrDefault();
             return result;
         }

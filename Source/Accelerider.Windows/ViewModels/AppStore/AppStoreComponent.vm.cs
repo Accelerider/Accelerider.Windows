@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Models;
-using Microsoft.Practices.Unity;
+using Autofac;
+
 
 namespace Accelerider.Windows.ViewModels.AppStore
 {
@@ -14,7 +11,7 @@ namespace Accelerider.Windows.ViewModels.AppStore
     {
         private IEnumerable<ModuleMetadata> _modules;
 
-        public AppStoreComponentViewModel(IUnityContainer container) : base(container)
+        public AppStoreComponentViewModel(IContainer container) : base(container)
         {
             Modules = Container.Resolve<IConfigureFile>().GetValue<IEnumerable<ModuleMetadata>>("AcceleriderModules");
         }

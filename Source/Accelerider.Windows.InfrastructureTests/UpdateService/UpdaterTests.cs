@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.FileTransferService;
 using Accelerider.Windows.Infrastructure.FileTransferService.Impls;
 using Accelerider.Windows.Infrastructure.Interfaces;
-using Microsoft.Practices.Unity;
+using Autofac;
 using Prism.Logging;
 
 namespace Accelerider.Windows.Infrastructure.UpdateService.Tests
@@ -25,8 +25,9 @@ namespace Accelerider.Windows.Infrastructure.UpdateService.Tests
         [TestMethod()]
         public async Task AddTest()
         {
-            IUnityContainer container = new UnityContainer();
-            container.RegisterInstance<ILoggerFacade>(new Logger());
+            var builder = new ContainerBuilder();
+            builder.RegisterInstance(new Logger()).As<ILoggerFacade>();
+            var container = builder.Build();
 
             IConfigureFile configure = new ConfigureFile().Load(@"D:\transfer-configure.json");
             configure.SetValue(TransferService.DownloaderContextKey, new TransferContextSettings { MaxParallelTranspoterCount = 4 });

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Constants;
@@ -11,7 +9,7 @@ using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Authentication;
-using Microsoft.Practices.Unity;
+using Autofac;
 using Refit;
 using SignInView = Accelerider.Windows.Views.Authentication.SignInView;
 
@@ -28,7 +26,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
         private ICommand _signInCommand;
 
 
-        public SignInViewModel(IUnityContainer container) : base(container)
+        public SignInViewModel(IContainer container) : base(container)
         {
             _nonAuthenticationApi = Container.Resolve<INonAuthenticationApi>();
             ConfigureFile = Container.Resolve<IConfigureFile>();
@@ -151,12 +149,20 @@ namespace Accelerider.Windows.ViewModels.Authentication
 
             if (user == null) return false;
 
-            Container.RegisterInstance<IAcceleriderUser>(user);
-            Container.RegisterInstance(acceleriderApi);
+            RegisterInstance(user, acceleriderApi);
 
             return true;
         }
 
-        private bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);
+        private void RegisterInstance(AcceleriderUser user, IAcceleriderApi acceleriderApi)
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterInstance(user).As<IAcceleriderUser>();
+            builder.RegisterInstance(acceleriderApi).As<IAcceleriderApi>();
+            builder.Update(Container);
+        }
+
+
+        private static bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);
     }
 }

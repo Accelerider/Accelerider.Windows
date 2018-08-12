@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Modules.NetDisk.Extensions;
 using Accelerider.Windows.Modules.NetDisk.Models;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity;
+using Autofac;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
@@ -14,7 +15,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         private ICommand _pauseAllCommand;
         private ICommand _cancelAllCommand;
 
-        public DownloadingViewModel(IUnityContainer container) : base(container)
+        public DownloadingViewModel(IContainer container) : base(container)
         {
             PauseAllCommand = new RelayCommand(() => TransferTasks.ForEach(item =>
             {
