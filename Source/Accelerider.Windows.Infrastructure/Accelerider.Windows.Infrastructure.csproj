@@ -74,6 +74,7 @@
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -91,6 +92,9 @@
     <Compile Include="FileTransferService\Impls\TransporterRegistry.cs" />
     <Compile Include="FileTransferService\TransferStatusChangedEventArgs.cs" />
     <Compile Include="FileTransferService\TransporterId.cs" />
+    <Compile Include="I18n\I18nExtensions.cs" />
+    <Compile Include="I18n\I18nSource.cs" />
+    <Compile Include="I18n\LanguageManager.cs" />
     <Compile Include="Implements\ConfigureFile.cs" />
     <Compile Include="DataSize.cs" />
     <Compile Include="Enumerations\Language.cs" />
