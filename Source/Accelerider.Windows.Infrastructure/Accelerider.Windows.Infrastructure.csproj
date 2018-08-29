@@ -79,8 +79,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\RelayAsyncCommand.cs" />
-    <Compile Include="Commands\RelayAsyncCommand{T}.cs" />
+    <Compile Include="Commands\CommandExtensions.cs" />
+    <Compile Include="Commands\RelayCommandAsync.cs" />
+    <Compile Include="Commands\RelayCommandAsync{T}.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Commands\RelayCommand{T}.cs" />
@@ -95,7 +96,7 @@
     <Compile Include="I18n\I18nExtensions.cs" />
     <Compile Include="I18n\I18nSource.cs" />
     <Compile Include="I18n\LanguageManager.cs" />
-    <Compile Include="Implements\ConfigureFile.cs" />
+    <Compile Include="ConfigureFile.cs" />
     <Compile Include="DataSize.cs" />
     <Compile Include="Enumerations\Language.cs" />
     <Compile Include="Enumerations\ShareStatus.cs" />
@@ -114,7 +115,7 @@
     <Compile Include="FileTransferService\ITransporterBuilder.cs" />
     <Compile Include="FileTransferService\ITransferService.cs" />
     <Compile Include="FileTransferService\ITransporter.cs" />
-    <Compile Include="Implements\ModuleBase.cs" />
+    <Compile Include="Modularity\ModuleBase.cs" />
     <Compile Include="FileTransferService\ITransporterRegistry.cs" />
     <Compile Include="Interfaces\IRefreshable.cs" />
     <Compile Include="Logger.cs" />
@@ -132,10 +133,14 @@
     <Compile Include="SystemFolder.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="FileTransferService\TransporterSettings.cs" />
-    <Compile Include="Implements\ViewModelBase.cs" />
+    <Compile Include="ViewModels\DialogViewModel.cs" />
+    <Compile Include="ViewModels\IAwareViewLoadedAndUnloaded.cs" />
+    <Compile Include="ViewModels\ILocalizable.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="UpdateService\AppIdAttribute.cs" />
     <Compile Include="UpdateService\AppInfo.cs" />
     <Compile Include="UpdateService\Updater.cs" />
+    <Compile Include="ViewModels\ViewModelResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -148,6 +153,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Refit.4.6.30\build\net461\refit.targets" Condition="Exists('..\packages\Refit.4.6.30\build\net461\refit.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

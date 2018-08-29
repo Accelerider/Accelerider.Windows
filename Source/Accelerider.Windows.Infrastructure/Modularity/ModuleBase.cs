@@ -1,8 +1,8 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using Prism.Modularity;
 
-namespace Accelerider.Windows.Infrastructure
+// ReSharper disable once CheckNamespace
+namespace Accelerider.Windows.Infrastructure.Modularity
 {
     public abstract class ModuleBase : IModule
     {

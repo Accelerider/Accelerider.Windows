@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Controls;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views.Authentication;
 using Autofac;

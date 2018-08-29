@@ -1,4 +1,5 @@
 ﻿using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.ViewModels;
 using Autofac;
 using Prism.Regions;
 

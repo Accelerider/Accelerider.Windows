@@ -6,6 +6,7 @@ using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Dialogs;
 using Autofac;

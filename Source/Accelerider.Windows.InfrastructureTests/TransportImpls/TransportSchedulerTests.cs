@@ -1,17 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Accelerider.Windows.Infrastructure.TransportImpls;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.FileTransferService;
-using Accelerider.Windows.Infrastructure.FileTransferService.Impls;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using Accelerider.Windows.InfrastructureTests;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Accelerider.Windows.Infrastructure.TransportImpls.Tests
+namespace Accelerider.Windows.InfrastructureTests.TransportImpls
 {
     [TestClass()]
     public class TransportSchedulerTests

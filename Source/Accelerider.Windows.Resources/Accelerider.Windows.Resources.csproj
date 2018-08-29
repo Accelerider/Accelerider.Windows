@@ -69,6 +69,11 @@
     <Compile Include="Controls\ToolBarButton.xaml.cs">
       <DependentUpon>ToolBarButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Wizard\IWizardable.cs" />
+    <Compile Include="Controls\Wizard\WizardablePanel.cs" />
+    <Compile Include="Controls\Wizard\WizardableViewCollection.cs" />
+    <Compile Include="Controls\Wizard\WizardBuilder.cs" />
+    <Compile Include="Controls\Wizard\WizardOptions.cs" />
     <Compile Include="Converters\CompareConverters.cs" />
     <Compile Include="Converters\LessThan1000Converter.cs" />
     <Compile Include="Converters\MinusConverter.cs" />
@@ -217,6 +222,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
+      <Project>{F61839D1-6C54-4E70-B5CB-7EA02F54A664}</Project>
+      <Name>Accelerider.Windows.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

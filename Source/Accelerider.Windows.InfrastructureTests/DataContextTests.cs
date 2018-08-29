@@ -1,13 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Accelerider.Windows.Infrastructure;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Mvvm;
 
-namespace Accelerider.Windows.Infrastructure.Tests
+namespace Accelerider.Windows.InfrastructureTests
 {
     [TestClass()]
     public class DataContextTests : BindableBase

@@ -1,4 +1,4 @@
-﻿namespace Accelerider.Windows.Infrastructure
+﻿namespace Accelerider.Windows.Infrastructure.Enumerations
 {
     public enum Language
     {

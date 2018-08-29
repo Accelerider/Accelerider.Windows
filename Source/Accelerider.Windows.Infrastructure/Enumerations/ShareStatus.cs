@@ -1,4 +1,4 @@
-﻿namespace Accelerider.Windows.Infrastructure
+﻿namespace Accelerider.Windows.Infrastructure.Enumerations
 {
     /// <summary>
     /// Represents the result of the sharing.

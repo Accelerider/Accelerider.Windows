@@ -1,12 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
 using Accelerider.Windows.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Accelerider.Windows.Infrastructure.Tests
+namespace Accelerider.Windows.InfrastructureTests
 {
     [TestClass()]
     public class ObservableSortedCollectionTests

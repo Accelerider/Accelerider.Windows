@@ -5,7 +5,7 @@ using Prism.Events;
 using Prism.Logging;
 using Prism.Mvvm;
 
-namespace Accelerider.Windows.Infrastructure
+namespace Accelerider.Windows.Infrastructure.ViewModels
 {
     public abstract class ViewModelBase : BindableBase
     {

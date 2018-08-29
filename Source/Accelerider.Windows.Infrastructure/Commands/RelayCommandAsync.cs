@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.Commands
 {
-    public class RelayAsyncCommand<T> : RelayCommandBase, INotifyPropertyChanged
+    public class RelayCommandAsync : RelayCommandBase, INotifyPropertyChanged
     {
-        private readonly Func<T, Task> _execute;
-        private readonly Func<T, bool> _canExecute;
+        private readonly Func<Task> _execute;
+        private readonly Func<bool> _canExecute;
         private bool _isExecuting;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -24,23 +24,23 @@ namespace Accelerider.Windows.Infrastructure.Commands
         }
 
 
-        public RelayAsyncCommand(Func<T, Task> execute, Func<T, bool> canExecute = null)
+        public RelayCommandAsync(Func<Task> execute, Func<bool> canExecute = null)
         {
             _execute = execute;
             _canExecute = canExecute;
         }
 
 
-        protected override bool CanExecute(object parameter) => CanExecute((T)parameter) && !IsExecuting;
+        protected override bool CanExecute(object parameter) => CanExecute() && !IsExecuting;
 
-        protected override async void Execute(object parameter) => await Execute((T)parameter);
+        protected override async void Execute(object parameter) => await Execute();
 
-        public bool CanExecute(T parameter) => _canExecute?.Invoke(parameter) ?? true;
+        public bool CanExecute() => _canExecute?.Invoke() ?? true;
 
-        public async Task Execute(T parameter)
+        public async Task Execute()
         {
             IsExecuting = true;
-            var invoke = _execute?.Invoke(parameter);
+            var invoke = _execute?.Invoke();
             if (invoke != null) await invoke;
             IsExecuting = false;
         }

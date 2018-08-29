@@ -1,17 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Accelerider.Windows.Infrastructure.UpdateService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.FileTransferService;
 using Accelerider.Windows.Infrastructure.FileTransferService.Impls;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Autofac;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Logging;
 
-namespace Accelerider.Windows.Infrastructure.UpdateService.Tests
+namespace Accelerider.Windows.InfrastructureTests.UpdateService
 {
     [TestClass()]
     public class UpdaterTests

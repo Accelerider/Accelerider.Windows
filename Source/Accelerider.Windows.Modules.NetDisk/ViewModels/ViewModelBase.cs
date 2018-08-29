@@ -6,7 +6,7 @@ using Autofac;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels
 {
-    public abstract class ViewModelBase : Infrastructure.ViewModelBase
+    public abstract class ViewModelBase : Infrastructure.ViewModels.ViewModelBase
     {
         protected ViewModelBase(IContainer container) : base(container) { }
 
