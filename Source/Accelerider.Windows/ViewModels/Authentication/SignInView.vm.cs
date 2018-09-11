@@ -135,7 +135,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
             var token = await _nonAuthenticationApi.LoginAsync(new LoginInfoBody
             {
                 Email = username,
-                Password = passwordMd5.EncryptByRsa()
+                Password = passwordMd5
             }).RunApi();
 
             token = token?.GetJsonValue("accessToken");

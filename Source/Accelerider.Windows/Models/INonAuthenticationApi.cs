@@ -7,12 +7,6 @@ namespace Accelerider.Windows.Models
              "Accept-Language: en-US")]
     internal interface INonAuthenticationApi
     {
-        [Get("/publickey")]
-        Task<string> GetPublicKeyAsync();
-
-        //[]
-        //Task SendVerificationCodeAsync(string emailAddress);
-
         [Post("/users")]
         Task SignUpAsync([Body] SignUpInfoBody signUpInfo);
 

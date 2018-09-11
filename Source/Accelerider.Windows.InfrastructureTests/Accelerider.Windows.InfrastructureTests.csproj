@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="TransportImpls\ConcurrentTaskQueueTests.cs" />
     <Compile Include="TransportImpls\ITransferServiceTests.cs" />
+    <Compile Include="TransportImpls\NetdiskAppTests.cs" />
     <Compile Include="TransportImpls\TransportSchedulerTests.cs" />
     <Compile Include="UpdateService\UpdaterTests.cs" />
   </ItemGroup>
@@ -84,6 +85,10 @@
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{F61839D1-6C54-4E70-B5CB-7EA02F54A664}</Project>
       <Name>Accelerider.Windows.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.Modules.NetDisk\Accelerider.Windows.Modules.NetDisk.csproj">
+      <Project>{ade42073-d964-4d4e-a58c-1e843abf1d31}</Project>
+      <Name>Accelerider.Windows.Modules.NetDisk</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ using Accelerider.Windows.Modules.NetDisk.Interfaces;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
-    internal class NetDiskUser : INetDiskUser
+    public abstract class NetDiskUser : INetDiskUser
     {
         public long Id { get; set; }
 
@@ -20,29 +20,10 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public IReadOnlyCollection<FileCategory> AvailableFileCategories { get; set; }
 
-        public Task RefreshUserInfoAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<T>> GetFilesAsync<T>(FileCategory category) where T : IFile
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DownloadAsync(ILazyTreeNode<INetDiskFile> @from, FileLocator to, Action<TransferItem> callback)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UploadAsync(FileLocator @from, INetDiskFile to, Action<TransferItem> callback)
-        {
-            throw new NotImplementedException();
-        }
+	    public abstract Task RefreshUserInfoAsync();
+	    public abstract Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
+	    public abstract Task<IList<T>> GetFilesAsync<T>(FileCategory category) where T : IFile;
+	    public abstract Task DownloadAsync(ILazyTreeNode<INetDiskFile> @from, FileLocator to, Action<TransferItem> callback);
+	    public abstract Task UploadAsync(FileLocator @from, INetDiskFile to, Action<TransferItem> callback);
     }
 }
