@@ -88,6 +88,16 @@
     <Compile Include="Enumerations\TransportedFileStatus.cs" />
     <Compile Include="Extensions\AcceleriderUserExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
+    <Compile Include="I18nResources\ResKeys.cs">
+      <DependentUpon>ResKeys.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="I18nResources\UiResources.Designer.cs">
+      <DependentUpon>UiResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Interfaces\Files.cs" />
     <Compile Include="Interfaces\INetDiskUser.cs" />
     <Compile Include="Models\BaiduNetdisk\BaiduNetdiskFile.cs" />
@@ -192,6 +202,11 @@
     <Compile Include="Views\Transportation\Uploading.xaml.cs">
       <DependentUpon>Uploading.xaml</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="I18nResources\UiResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UiResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="I18nResources\UiResources.zh-CN.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -301,7 +316,15 @@
   <ItemGroup>
     <Resource Include="Images\DefaultAvatar.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="I18nResources\ResKeys.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ResKeys.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Refit.4.6.30\build\net461\refit.targets" Condition="Exists('..\packages\Refit.4.6.30\build\net461\refit.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

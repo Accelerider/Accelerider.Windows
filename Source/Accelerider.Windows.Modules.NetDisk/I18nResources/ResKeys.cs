@@ -10,7 +10,7 @@
 using System.Windows;
 
 
-namespace Accelerider.Windows.I18nResources
+namespace Accelerider.Windows.Modules.NetDisk.I18nResources
 {
 	public static class ResKeys
 	{

@@ -153,6 +153,16 @@
     <Compile Include="Controls\MessageList.xaml.cs">
       <DependentUpon>MessageList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="I18nResources\ResKeys.cs">
+      <DependentUpon>ResKeys.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="I18nResources\UiResources.Designer.cs">
+      <DependentUpon>UiResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="MockData\Message.cs" />
     <Compile Include="MockData\SignalRTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -192,6 +202,11 @@
     <Compile Include="Views\GroupComponent.xaml.cs">
       <DependentUpon>GroupComponent.xaml</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="I18nResources\UiResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UiResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="I18nResources\UiResources.zh-CN.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -268,6 +283,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\dota2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="I18nResources\ResKeys.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ResKeys.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
