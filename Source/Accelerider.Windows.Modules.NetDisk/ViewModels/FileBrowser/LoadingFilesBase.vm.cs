@@ -2,13 +2,14 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
+using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Autofac;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public abstract class LoadingFilesBaseViewModel<T> : ViewModelBase
+    public abstract class LoadingFilesBaseViewModel<T> : ViewModelBase, IAwareViewLoadedAndUnloaded
     {
         private bool _isLoadingFiles;
         private ICommand _refreshFilesCommand;
@@ -39,7 +40,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         protected INetDiskUser PreviousNetDiskUser { get; set; }
 
-        public override void OnLoaded(object view)
+        public virtual void OnLoaded(object view)
         {
             EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
 
@@ -49,7 +50,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             }
         }
 
-        public override void OnUnloaded(object view)
+        public virtual void OnUnloaded(object view)
         {
             EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Unsubscribe(OnCurrentNetDiskUserChanged);
 

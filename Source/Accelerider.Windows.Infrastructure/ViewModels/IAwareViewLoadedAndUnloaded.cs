@@ -1,4 +1,4 @@
-﻿namespace Nutstore.Client.Wpf.Infrastructure.ViewModels
+﻿namespace Accelerider.Windows.Infrastructure.ViewModels
 {
     public interface IAwareViewLoadedAndUnloaded
     {

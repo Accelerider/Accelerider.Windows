@@ -136,6 +136,7 @@
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\IAwareViewLoadedAndUnloaded.cs" />
     <Compile Include="ViewModels\ILocalizable.cs" />
+    <Compile Include="ViewModels\IViewModelResolver.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="UpdateService\AppIdAttribute.cs" />
     <Compile Include="UpdateService\AppInfo.cs" />

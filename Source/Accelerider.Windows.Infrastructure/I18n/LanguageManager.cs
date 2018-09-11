@@ -13,7 +13,7 @@ namespace Accelerider.Windows.Infrastructure.I18n
     {
         private readonly ConcurrentDictionary<string, ResourceManager> _resourceManagerStorage = new ConcurrentDictionary<string, ResourceManager>();
 
-        public event EventHandler CurrentUICultureChanged;
+        public event Action CurrentUICultureChanged;
 
         public static LanguageManager Instance { get; } = new LanguageManager();
 
@@ -46,7 +46,7 @@ namespace Accelerider.Windows.Infrastructure.I18n
             _resourceManagerStorage[Assembly.GetCallingAssembly().FullName] = resourceManager;
         }
 
-        private void OnCurrentUICultureChanged() => CurrentUICultureChanged?.Invoke(this, EventArgs.Empty);
+        private void OnCurrentUICultureChanged() => CurrentUICultureChanged?.Invoke();
 
         public object Translate(ComponentResourceKey key)
         {

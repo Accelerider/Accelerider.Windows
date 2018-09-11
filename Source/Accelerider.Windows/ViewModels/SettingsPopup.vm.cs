@@ -15,7 +15,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class SettingsPopupViewModel : ViewModelBase
+    public class SettingsPopupViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
     {
         private readonly Dictionary<Type, object> _dialogDictionary = new Dictionary<Type, object>();
 
@@ -84,10 +84,13 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _signOutCommand, value);
         }
 
-        public override void OnLoaded(object view)
+        public void OnLoaded(object view)
         {
-            base.OnLoaded(view);
             _view = view as SettingsPopup;
+        }
+
+        public void OnUnloaded(object view)
+        {
         }
 
         private async void OpenDialog<T>() where T : new()

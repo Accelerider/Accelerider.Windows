@@ -10,7 +10,7 @@ using Autofac;
 
 namespace Accelerider.Windows.ViewModels.Authentication
 {
-    public class AuthenticationWindowViewModel : ViewModelBase
+    public class AuthenticationWindowViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
     {
         private bool _isLoading;
         private TabItem _signInTabItem;
@@ -35,9 +35,11 @@ namespace Accelerider.Windows.ViewModels.Authentication
             set => SetProperty(ref _isLoading, value);
         }
 
-        public override async void OnLoaded(object view)
+        public void OnLoaded(object view)
         {
-            _signInTabItem = ((AuthenticationWindow) view).SignInTabItem;
+            _signInTabItem = ((AuthenticationWindow)view).SignInTabItem;
         }
+
+        public void OnUnloaded(object view) { }
     }
 }

@@ -30,12 +30,14 @@ namespace Accelerider.Windows
         protected override void ConfigureContainerBuilder(ContainerBuilder builder)
         {
             base.ConfigureContainerBuilder(builder);
+            RegisterTypeIfMissing<IViewModelResolver, ViewModelResolver>(builder, registerAsSingleton: true);
             builder.RegisterInstance(new SnackbarMessageQueue(TimeSpan.FromSeconds(2))).As<ISnackbarMessageQueue>();
             builder.RegisterInstance(new ConfigureFile().Load()).As<IConfigureFile>();
             builder.RegisterInstance(RestService.For<INonAuthenticationApi>(Hyperlinks.ApiBaseAddress)).As<INonAuthenticationApi>();
         }
 
-        protected override void ConfigureViewModelLocator() => ViewModelLocationProvider.SetDefaultViewModelFactory(ResolveViewModel);
+        protected override void ConfigureViewModelLocator() => 
+            ViewModelLocationProvider.SetDefaultViewModelFactory(Container.Resolve<IViewModelResolver>().ApplyDefaultConfigure().Resolve);
 
         protected override DependencyObject CreateShell() => new AuthenticationWindow();
 
@@ -62,18 +64,6 @@ namespace Accelerider.Windows
         {
             //Container.Resolve<IAcceleriderUser>().OnExit();
             (Logger as IDisposable)?.Dispose();
-        }
-
-        private object ResolveViewModel(object view, Type viewModelType)
-        {
-            var viewModel = Container.Resolve(viewModelType);
-            if (view is FrameworkElement frameworkElement &&
-                viewModel is ViewModelBase viewModelBase)
-            {
-                frameworkElement.Loaded += (sender, e) => viewModelBase.OnLoaded(sender);
-                frameworkElement.Unloaded += (sender, e) => viewModelBase.OnUnloaded(sender);
-            }
-            return viewModel;
         }
         #endregion
     }

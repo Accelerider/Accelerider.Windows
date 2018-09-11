@@ -13,7 +13,7 @@ using Autofac;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
     {
         private ICommand _feedbackCommand;
         private bool _appStoreIsDisplayed;
@@ -49,13 +49,17 @@ namespace Accelerider.Windows.ViewModels
             }
         }
 
-        public override void OnLoaded(object view)
+        public void OnLoaded(object view)
         {
             var region = RegionManager.Regions[RegionNames.MainTabRegion];
             region.ActiveViews.CollectionChanged += OnActiveViewsChanged;
             if (!region.Views.Any()) AppStoreIsDisplayed = true;
 
             GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
+        }
+
+        public void OnUnloaded(object view)
+        {
         }
 
         private void OnActiveViewsChanged(object sender, NotifyCollectionChangedEventArgs e)

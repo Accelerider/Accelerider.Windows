@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 
 namespace Accelerider.Windows.Infrastructure.I18n
@@ -19,7 +18,7 @@ namespace Accelerider.Windows.Infrastructure.I18n
 
         public object Value => LanguageManager.Instance.Translate(_key);
 
-        private void OnCurrentUICultureChanged(object sender, EventArgs e)
+        private void OnCurrentUICultureChanged()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
         }

@@ -1,27 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using Accelerider.Windows.Infrastructure.I18n;
 using Autofac;
 
 namespace Accelerider.Windows.Infrastructure.ViewModels
 {
-    public class ViewModelResolver
+    public class ViewModelResolver : IViewModelResolver
     {
         private Action<FrameworkElement, object> _configureViewAndViewModel;
 
-        private readonly IContainer _container;
+        public IContainer Container { get; }
 
         public ViewModelResolver(IContainer container)
         {
-            _container = container;
+            Container = container;
         }
 
         public object Resolve(object view, Type viewModelType)
         {
-            var viewModel = _container.Resolve(viewModelType);
+            var viewModel = Container.Resolve(viewModelType);
             if (view is FrameworkElement frameworkElement)
             {
                 _configureViewAndViewModel?.Invoke(frameworkElement, viewModel);
@@ -47,6 +44,30 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
                 }
             };
             return this;
+        }
+    }
+
+    public static class ViewModelResolverExtensions
+    {
+        public static IViewModelResolver ApplyDefaultConfigure(this IViewModelResolver @this)
+        {
+            @this
+                .IfInheritsFrom<ViewModelBase>((view, viewModel) =>
+                {
+                    viewModel.Dispatcher = view.Dispatcher;
+                })
+                .IfInheritsFrom<IAwareViewLoadedAndUnloaded>((view, viewModel) =>
+                {
+                    view.Loaded += (sender, e) => viewModel.OnLoaded(sender);
+                    view.Unloaded += (sender, e) => viewModel.OnUnloaded(sender);
+                })
+                .IfInheritsFrom<ILocalizable>((view, viewModel) =>
+                {
+                    view.Loaded += (sender, args) => LanguageManager.Instance.CurrentUICultureChanged += viewModel.OnCurrentUICultureChanged;
+                    view.Unloaded += (sender, args) => LanguageManager.Instance.CurrentUICultureChanged -= viewModel.OnCurrentUICultureChanged;
+                });
+
+            return @this;
         }
     }
 }

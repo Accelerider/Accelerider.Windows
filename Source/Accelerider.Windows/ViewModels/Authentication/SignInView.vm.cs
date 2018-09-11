@@ -16,7 +16,7 @@ using SignInView = Accelerider.Windows.Views.Authentication.SignInView;
 
 namespace Accelerider.Windows.ViewModels.Authentication
 {
-    public class SignInViewModel : ViewModelBase
+    public class SignInViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
     {
         private readonly INonAuthenticationApi _nonAuthenticationApi;
 
@@ -64,7 +64,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
         }
 
 
-        public override void OnLoaded(object view)
+        public void OnLoaded(object view)
         {
             var passwordBox = ((SignInView)view).PasswordBox;
 
@@ -97,6 +97,10 @@ namespace Accelerider.Windows.ViewModels.Authentication
             {
                 SignInCommand.Execute(passwordBox);
             }
+        }
+
+        public void OnUnloaded(object view)
+        {
         }
 
         private async void SignInCommandExecute(PasswordBox password)

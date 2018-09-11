@@ -1,9 +1,9 @@
-﻿using System.Globalization;
+﻿using System;
 
 namespace Accelerider.Windows.Infrastructure.ViewModels
 {
     public interface ILocalizable
     {
-        void OnCurrentUICultureChanged(CultureInfo currentCultureInfo);
+        void OnCurrentUICultureChanged();
     }
 }
