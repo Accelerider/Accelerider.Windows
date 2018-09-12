@@ -49,7 +49,7 @@ namespace Accelerider.Windows.ViewModels
             }
         }
 
-        public void OnLoaded(object view)
+        public void OnLoaded()
         {
             var region = RegionManager.Regions[RegionNames.MainTabRegion];
             region.ActiveViews.CollectionChanged += OnActiveViewsChanged;
@@ -58,7 +58,7 @@ namespace Accelerider.Windows.ViewModels
             GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
         }
 
-        public void OnUnloaded(object view)
+        public void OnUnloaded()
         {
         }
 

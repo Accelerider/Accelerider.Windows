@@ -9,14 +9,18 @@ namespace Accelerider.Windows.Infrastructure.I18n
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public I18nSource(FrameworkElement element, ComponentResourceKey key)
+        public I18nSource(ComponentResourceKey key, FrameworkElement element = null)
         {
             _key = key;
-            element.Loaded += OnLoaded;
-            element.Unloaded += OnUnloaded;
+
+            if (element != null)
+            {
+                element.Loaded += OnLoaded;
+                element.Unloaded += OnUnloaded;
+            }
         }
 
-        public object Value => LanguageManager.Instance.Translate(_key);
+        public object Value => I18nManager.Instance.Get(_key);
 
         private void OnCurrentUICultureChanged()
         {
@@ -25,12 +29,12 @@ namespace Accelerider.Windows.Infrastructure.I18n
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            LanguageManager.Instance.CurrentUICultureChanged += OnCurrentUICultureChanged;
+            I18nManager.Instance.CurrentUICultureChanged += OnCurrentUICultureChanged;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            LanguageManager.Instance.CurrentUICultureChanged -= OnCurrentUICultureChanged;
+            I18nManager.Instance.CurrentUICultureChanged -= OnCurrentUICultureChanged;
         }
     }
 }

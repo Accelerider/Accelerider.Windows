@@ -40,7 +40,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         protected INetDiskUser PreviousNetDiskUser { get; set; }
 
-        public virtual void OnLoaded(object view)
+        public virtual void OnLoaded()
         {
             EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
 
@@ -50,7 +50,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             }
         }
 
-        public virtual void OnUnloaded(object view)
+        public virtual void OnUnloaded()
         {
             EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Unsubscribe(OnCurrentNetDiskUserChanged);
 

@@ -23,13 +23,13 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             InitializeCommands();
         }
 
-        public void OnLoaded(object view)
+        public void OnLoaded()
         {
             if (TransferTasks == null)
                 TransferTasks = GetTaskList();
         }
 
-        public void OnUnloaded(object view)
+        public void OnUnloaded()
         {
         }
 

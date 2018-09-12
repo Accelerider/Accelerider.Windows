@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Modules.NetDisk.Constants;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
@@ -22,7 +23,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>
+    public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>, IAwareViewLoadedAndUnloaded<Files>
     {
         private ILazyTreeNode<INetDiskFile> _selectedSearchResult;
         private ILazyTreeNode<INetDiskFile> _currentFolder;
@@ -229,20 +230,18 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 : fileName;
         }
 
-        public override void OnLoaded(object view)
+        public void OnLoaded(Files view)
         {
-            base.OnLoaded(view);
+            base.OnLoaded();
 
-            var fileView = (Files)view;
-            fileView.ListboxFileList.SelectionChanged += OnSelectedFileItemChanged;
+            view.ListboxFileList.SelectionChanged += OnSelectedFileItemChanged;
         }
 
-        public override void OnUnloaded(object view)
+        public void OnUnloaded(Files view)
         {
-            base.OnUnloaded(view);
+            base.OnUnloaded();
 
-            var fileView = (Files)view;
-            fileView.ListboxFileList.SelectionChanged -= OnSelectedFileItemChanged;
+            view.ListboxFileList.SelectionChanged -= OnSelectedFileItemChanged;
         }
 
         private void OnSelectedFileItemChanged(object sender, SelectionChangedEventArgs e)

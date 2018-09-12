@@ -30,13 +30,13 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             AddNetDiskCommand = new RelayCommand(AddNetDiskCommandExecute);
         }
 
-        public async void OnLoaded(object view)
+        public async void OnLoaded()
         {
             await AcceleriderUser.RefreshAsyncEx();
             NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
         }
 
-        public void OnUnloaded(object view)
+        public void OnUnloaded()
         {
         }
 

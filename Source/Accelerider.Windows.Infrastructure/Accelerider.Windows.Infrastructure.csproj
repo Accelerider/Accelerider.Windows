@@ -93,9 +93,10 @@
     <Compile Include="FileTransferService\Impls\TransporterRegistry.cs" />
     <Compile Include="FileTransferService\TransferStatusChangedEventArgs.cs" />
     <Compile Include="FileTransferService\TransporterId.cs" />
+    <Compile Include="GenericInterface.cs" />
     <Compile Include="I18n\I18nExtensions.cs" />
     <Compile Include="I18n\I18nSource.cs" />
-    <Compile Include="I18n\LanguageManager.cs" />
+    <Compile Include="I18n\I18nManager.cs" />
     <Compile Include="ConfigureFile.cs" />
     <Compile Include="DataSize.cs" />
     <Compile Include="Enumerations\Language.cs" />

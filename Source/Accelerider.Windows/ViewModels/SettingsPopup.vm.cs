@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Windows.Input;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Views;
@@ -15,7 +14,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class SettingsPopupViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
+    public class SettingsPopupViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded<SettingsPopup>
     {
         private readonly Dictionary<Type, object> _dialogDictionary = new Dictionary<Type, object>();
 
@@ -84,12 +83,12 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _signOutCommand, value);
         }
 
-        public void OnLoaded(object view)
+        public void OnLoaded(SettingsPopup view)
         {
-            _view = view as SettingsPopup;
+            _view = view;
         }
 
-        public void OnUnloaded(object view)
+        public void OnUnloaded(SettingsPopup view)
         {
         }
 

@@ -19,12 +19,12 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         {
         }
 
-        public void OnLoaded(object view)
+        public void OnLoaded()
         {
             TransferredFiles = GetTransferredFiles();
         }
 
-        public void OnUnloaded(object view)
+        public void OnUnloaded()
         {
         }
 

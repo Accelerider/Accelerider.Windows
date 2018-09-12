@@ -7,8 +7,10 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
     {
         object Resolve(object view, Type viewModelType);
 
-        ViewModelResolver IfInheritsFrom<TViewModel>(Action<FrameworkElement, TViewModel> configuration);
+        IViewModelResolver IfInheritsFrom<TViewModel>(Action<FrameworkElement, TViewModel> configuration);
 
-        ViewModelResolver IfInheritsFrom<TView, TViewModel>(Action<TView, TViewModel> configuration) where TView : FrameworkElement;
+        IViewModelResolver IfInheritsFrom<TView, TViewModel>(Action<TView, TViewModel> configuration) where TView : FrameworkElement;
+
+        IViewModelResolver IfInheritsFrom(Action<FrameworkElement, object> configuration);
     }
 }

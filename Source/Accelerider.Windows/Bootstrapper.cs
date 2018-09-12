@@ -22,21 +22,22 @@ namespace Accelerider.Windows
         #region Overridered methods
         protected override ILoggerFacade CreateLogger() => new Logger();
 
-        protected override IModuleCatalog CreateModuleCatalog()
-        {
-            return new DirectoryModuleCatalog { ModulePath = @".\Modules" };
-        }
+        //protected override IModuleCatalog CreateModuleCatalog()
+        //{
+        //    return new DirectoryModuleCatalog { ModulePath = @".\Modules" };
+        //}
 
         protected override void ConfigureContainerBuilder(ContainerBuilder builder)
         {
             base.ConfigureContainerBuilder(builder);
-            RegisterTypeIfMissing<IViewModelResolver, ViewModelResolver>(builder, registerAsSingleton: true);
+
             builder.RegisterInstance(new SnackbarMessageQueue(TimeSpan.FromSeconds(2))).As<ISnackbarMessageQueue>();
             builder.RegisterInstance(new ConfigureFile().Load()).As<IConfigureFile>();
             builder.RegisterInstance(RestService.For<INonAuthenticationApi>(Hyperlinks.ApiBaseAddress)).As<INonAuthenticationApi>();
+            RegisterTypeIfMissing<IViewModelResolver, ViewModelResolver>(builder, registerAsSingleton: true);
         }
 
-        protected override void ConfigureViewModelLocator() => 
+        protected override void ConfigureViewModelLocator() =>
             ViewModelLocationProvider.SetDefaultViewModelFactory(Container.Resolve<IViewModelResolver>().ApplyDefaultConfigure().Resolve);
 
         protected override DependencyObject CreateShell() => new AuthenticationWindow();
