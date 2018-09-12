@@ -47,13 +47,17 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
             return this;
         }
 
-        public IViewModelResolver IfInheritsFrom(Action<FrameworkElement, object> configuration)
+        public IViewModelResolver IfInheritsFrom(Type genericInterfaceType, Action<FrameworkElement, object, IGenericInterface> configuration)
         {
             var previousAction = _configureViewAndViewModel;
             _configureViewAndViewModel = (view, viewModel) =>
             {
                 previousAction?.Invoke(view, viewModel);
-                configuration?.Invoke(view, viewModel);
+                var interfaceInstance = viewModel.AsGenericInterface(typeof(IAwareViewLoadedAndUnloaded<>));
+                if (interfaceInstance != null)
+                {
+                    configuration?.Invoke(view, viewModel, interfaceInstance);
+                }
             };
             return this;
         }
@@ -73,12 +77,8 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
                     view.Loaded += (sender, e) => viewModel.OnLoaded();
                     view.Unloaded += (sender, e) => viewModel.OnUnloaded();
                 })
-                .IfInheritsFrom((view, viewModel) =>
+                .IfInheritsFrom(typeof(IAwareViewLoadedAndUnloaded<>), (view, viewModel, interfaceInstance) =>
                 {
-                    var interfaceInstance = viewModel.AsGenericInterface(typeof(IAwareViewLoadedAndUnloaded<>));
-
-                    if (interfaceInstance == null) return;
-
                     var viewType = view.GetType();
                     if (interfaceInstance.GenericArguments.Single() != viewType)
                     {
