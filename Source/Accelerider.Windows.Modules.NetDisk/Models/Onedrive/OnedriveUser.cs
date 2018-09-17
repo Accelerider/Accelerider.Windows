@@ -97,7 +97,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
 
 		public override Task<IList<T>> GetFilesAsync<T>(FileCategory category)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException("Onedrive not supported this method.");
 		}
 
 		public override Task DownloadAsync(ILazyTreeNode<INetDiskFile> @from, FileLocator to, Action<TransferItem> callback)

@@ -37,9 +37,9 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
 
 		public OnedriveUser Owner { get; set; }
 
-		public Task<bool> DeleteAsync()
+		public async Task<bool> DeleteAsync()
 		{
-			throw new NotImplementedException();
+			return (await Owner.Api.DeleteFileAsync(Path)).Error == null;
 		}
 	}
 }

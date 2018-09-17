@@ -20,5 +20,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
 
 		[Get("/v1.0/me/drive/root:{path}:/children")]
 		Task<OnedriveListFileResult> GetFilesAsync(string path);
+
+		[Delete("/v1.0/me/drive/root:{path}")]
+		Task<ResultBase> DeleteFileAsync(string path);
 	}
 }
