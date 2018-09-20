@@ -10,7 +10,7 @@ namespace Accelerider.Windows.Infrastructure
 {
     public class ConfigureFile : IConfigureFile
     {
-        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
+        public static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Objects,
         };

@@ -104,6 +104,7 @@
     <Compile Include="Models\BaiduNetdisk\BaiduNetdiskUser.cs" />
     <Compile Include="Models\BaiduNetdisk\IBaiduNetdiskApi.cs" />
     <Compile Include="Models\Onedrive\OnedriveFile.cs" />
+    <Compile Include="Models\Onedrive\OnedriveUser.cs" />
     <Compile Include="Models\Results\Bodies.cs" />
     <Compile Include="Models\Results\ResultBase.cs" />
     <Compile Include="Models\LazyTreeNode.cs" />
@@ -335,6 +336,6 @@
   <PropertyGroup>
     <PostBuildEvent>mkdir $(SolutionDir)Build\Modules\$(ProjectName)\zh-CHS
 
-copy $(TargetPath) $(SolutionDir)Build\Modules\$(ProjectName)</PostBuildEvent>
+copy $(TargetPath) $(SolutionDir)Build\Modules\</PostBuildEvent>
   </PropertyGroup>
 </Project>
