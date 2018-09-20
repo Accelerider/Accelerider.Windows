@@ -2,13 +2,14 @@
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.FileTransferService;
+using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Autofac;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
-    public abstract class TransferringBaseViewModel : ViewModelBase
+    public abstract class TransferringBaseViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
     {
         private ObservableSortedCollection<TransferItem> _transferTasks;
         private RelayCommand<TransferItem> _pauseCommand;
@@ -22,10 +23,14 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             InitializeCommands();
         }
 
-        public override void OnLoaded(object view)
+        public void OnLoaded()
         {
             if (TransferTasks == null)
                 TransferTasks = GetTaskList();
+        }
+
+        public void OnUnloaded()
+        {
         }
 
         protected Comparison<TransferItem> DefaultTransferItemComparer { get; } // TODO

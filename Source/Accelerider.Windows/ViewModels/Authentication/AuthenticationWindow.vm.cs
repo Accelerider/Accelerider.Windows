@@ -1,16 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Windows.Controls;
-using Accelerider.Windows.Infrastructure;
+﻿using System.Windows.Controls;
 using Accelerider.Windows.Infrastructure.ViewModels;
-using Accelerider.Windows.Models;
 using Accelerider.Windows.Views.Authentication;
 using Autofac;
 
 
 namespace Accelerider.Windows.ViewModels.Authentication
 {
-    public class AuthenticationWindowViewModel : ViewModelBase
+    public class AuthenticationWindowViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded<AuthenticationWindow>
     {
         private bool _isLoading;
         private TabItem _signInTabItem;
@@ -35,9 +31,11 @@ namespace Accelerider.Windows.ViewModels.Authentication
             set => SetProperty(ref _isLoading, value);
         }
 
-        public override async void OnLoaded(object view)
+        public void OnLoaded(AuthenticationWindow view)
         {
-            _signInTabItem = ((AuthenticationWindow) view).SignInTabItem;
+            _signInTabItem = view.SignInTabItem;
         }
+
+        public void OnUnloaded(AuthenticationWindow view) { }
     }
 }

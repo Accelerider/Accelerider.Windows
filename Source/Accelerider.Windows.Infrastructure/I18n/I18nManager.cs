@@ -9,15 +9,15 @@ using System.Windows;
 
 namespace Accelerider.Windows.Infrastructure.I18n
 {
-    public class LanguageManager
+    public class I18nManager
     {
         private readonly ConcurrentDictionary<string, ResourceManager> _resourceManagerStorage = new ConcurrentDictionary<string, ResourceManager>();
 
-        public event EventHandler CurrentUICultureChanged;
+        public event Action CurrentUICultureChanged;
 
-        public static LanguageManager Instance { get; } = new LanguageManager();
+        public static I18nManager Instance { get; } = new I18nManager();
 
-        private LanguageManager() { }
+        private I18nManager() { }
 
         public CultureInfo CurrentUICulture
         {
@@ -46,9 +46,9 @@ namespace Accelerider.Windows.Infrastructure.I18n
             _resourceManagerStorage[Assembly.GetCallingAssembly().FullName] = resourceManager;
         }
 
-        private void OnCurrentUICultureChanged() => CurrentUICultureChanged?.Invoke(this, EventArgs.Empty);
+        private void OnCurrentUICultureChanged() => CurrentUICultureChanged?.Invoke();
 
-        public object Translate(ComponentResourceKey key)
+        public object Get(ComponentResourceKey key)
         {
             return GetCurrentResoureManager(key.Assembly)?.GetString(key.ResourceId.ToString(), CurrentUICulture)
                    ?? $"<MISSING: {key}>";

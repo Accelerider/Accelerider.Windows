@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Accelerider.Windows.Infrastructure.Commands;
+using Accelerider.Windows.Infrastructure.ViewModels;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,13 +53,13 @@ namespace Accelerider.Windows.Controls.Wizard
         {
             var parameter = await CurrentViewModel.OnLeavingAsync();
 
-            if (ReferenceEquals(parameter, Wizard.Break) &&
+            if (ReferenceEquals(parameter, WizardOptions.Break) &&
                 CurrentViewModel is DialogViewModel dialogViewModel)
             {
                 dialogViewModel.CloseCommand.Invoke();
             }
 
-            if (ReferenceEquals(parameter, Wizard.Cancel)) return;
+            if (ReferenceEquals(parameter, WizardOptions.Cancel)) return;
 
             SetCurrentView(Items.IndexOf(CurrentView) + 1);
             CurrentViewModel.OnEntering(parameter);

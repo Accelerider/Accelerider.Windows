@@ -1,4 +1,6 @@
-﻿using Accelerider.Windows.Infrastructure.Interfaces;
+﻿using System;
+using System.Windows.Threading;
+using Accelerider.Windows.Infrastructure.Interfaces;
 using Autofac;
 using MaterialDesignThemes.Wpf;
 using Prism.Events;
@@ -21,20 +23,16 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
 
         public ISnackbarMessageQueue GlobalMessageQueue { get; }
 
+        public Dispatcher Dispatcher { get; set; }
+
         protected IContainer Container { get; }
 
         protected IEventAggregator EventAggregator { get; }
 
         protected ILoggerFacade Logger { get; }
 
-        protected IAcceleriderUser AcceleriderUser => _acceleriderUser ?? (_acceleriderUser = Container.Resolve<IAcceleriderUser>());
+        public IAcceleriderUser AcceleriderUser => _acceleriderUser ?? (_acceleriderUser = Container.Resolve<IAcceleriderUser>());
 
-        public virtual void OnLoaded(object view)
-        {
-        }
-
-        public virtual void OnUnloaded(object view)
-        {
-        }
+        protected virtual void Invoke(Action action) => Dispatcher.Invoke(action);
     }
 }

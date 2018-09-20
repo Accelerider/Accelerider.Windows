@@ -9,6 +9,7 @@
 
 using System.Windows;
 
+
 namespace Accelerider.Windows.I18nResources
 {
 	public static class ResKeys

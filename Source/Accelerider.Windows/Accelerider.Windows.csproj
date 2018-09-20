@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Images\logoIcon.ico</ApplicationIcon>
@@ -112,6 +114,7 @@
     <Compile Include="ModuleResolver.cs" />
     <Compile Include="ViewModels\AppStore\AppStoreComponent.vm.cs" />
     <Compile Include="ViewModels\Dialogs\AboutDialog.vm.cs" />
+    <Compile Include="ViewModels\Dialogs\ProfileDialog.vm.cs" />
     <Compile Include="ViewModels\Dialogs\SettingsDialog.vm.cs" />
     <Compile Include="ViewModels\SettingsPopup.vm.cs" />
     <Compile Include="Views\AppStore\AppCard.xaml.cs">

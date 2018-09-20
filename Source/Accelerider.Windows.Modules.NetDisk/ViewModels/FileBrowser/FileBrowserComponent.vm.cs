@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Modules.NetDisk.Extensions;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
@@ -13,7 +14,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FileBrowserComponentViewModel : ViewModelBase
+    public class FileBrowserComponentViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
     {
         private bool _canSwitchUser;
         private IEnumerable<ILazyTreeNode<INetDiskFile>> _searchResults;
@@ -29,10 +30,14 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             AddNetDiskCommand = new RelayCommand(AddNetDiskCommandExecute);
         }
 
-        public override async void OnLoaded(object view)
+        public async void OnLoaded()
         {
             await AcceleriderUser.RefreshAsyncEx();
             NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
+        }
+
+        public void OnUnloaded()
+        {
         }
 
         public bool CanSwitchUser

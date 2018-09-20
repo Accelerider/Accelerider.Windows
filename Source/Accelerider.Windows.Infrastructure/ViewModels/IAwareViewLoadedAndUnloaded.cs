@@ -1,9 +1,16 @@
-﻿namespace Nutstore.Client.Wpf.Infrastructure.ViewModels
+﻿namespace Accelerider.Windows.Infrastructure.ViewModels
 {
     public interface IAwareViewLoadedAndUnloaded
     {
-        void OnLoaded(object view);
+        void OnLoaded();
 
-        void OnUnloaded(object view);
+        void OnUnloaded();
+    }
+
+    public interface IAwareViewLoadedAndUnloaded<in TView>
+    {
+        void OnLoaded(TView view);
+
+        void OnUnloaded(TView view);
     }
 }

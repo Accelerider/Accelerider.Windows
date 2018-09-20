@@ -5,6 +5,7 @@ using System.Windows.Markup;
 
 namespace Accelerider.Windows.Infrastructure.I18n
 {
+    [MarkupExtensionReturnType(typeof(object))]
     public class I18nExtensions : MarkupExtension
     {
         [ConstructorArgument(nameof(Key))]
@@ -35,7 +36,7 @@ namespace Accelerider.Windows.Infrastructure.I18n
 
             return new Binding(nameof(I18nSource.Value))
             {
-                Source = new I18nSource(frameworkElement, key),
+                Source = new I18nSource(key, frameworkElement),
                 Mode = BindingMode.OneWay
             }.ProvideValue(serviceProvider);
         }

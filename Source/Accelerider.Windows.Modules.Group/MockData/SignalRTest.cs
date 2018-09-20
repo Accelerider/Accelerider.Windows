@@ -15,7 +15,6 @@ namespace Accelerider.Windows.Modules.Group.MockData
                         options.AccessTokenProvider = () => Task.FromResult("753951");
                     }).Build();
 
-            connection.
         }
     }
 }

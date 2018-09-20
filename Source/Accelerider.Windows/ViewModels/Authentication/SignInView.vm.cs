@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Constants;
-using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.Extensions;
 using Accelerider.Windows.Infrastructure.Interfaces;
@@ -12,11 +11,10 @@ using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Authentication;
 using Autofac;
 using Refit;
-using SignInView = Accelerider.Windows.Views.Authentication.SignInView;
 
 namespace Accelerider.Windows.ViewModels.Authentication
 {
-    public class SignInViewModel : ViewModelBase
+    public class SignInViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded<SignInView>
     {
         private readonly INonAuthenticationApi _nonAuthenticationApi;
 
@@ -64,9 +62,9 @@ namespace Accelerider.Windows.ViewModels.Authentication
         }
 
 
-        public override void OnLoaded(object view)
+        public void OnLoaded(SignInView view)
         {
-            var passwordBox = ((SignInView)view).PasswordBox;
+            var passwordBox = view.PasswordBox;
 
             // 1. Login info from SignUpView
             if (_signUpInfo != null)
@@ -97,6 +95,10 @@ namespace Accelerider.Windows.ViewModels.Authentication
             {
                 SignInCommand.Execute(passwordBox);
             }
+        }
+
+        public void OnUnloaded(SignInView view)
+        {
         }
 
         private async void SignInCommandExecute(PasswordBox password)

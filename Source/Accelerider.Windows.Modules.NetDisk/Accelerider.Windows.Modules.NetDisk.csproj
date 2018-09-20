@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Build\Modules\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -88,6 +88,16 @@
     <Compile Include="Enumerations\TransportedFileStatus.cs" />
     <Compile Include="Extensions\AcceleriderUserExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
+    <Compile Include="I18nResources\ResKeys.cs">
+      <DependentUpon>ResKeys.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="I18nResources\UiResources.Designer.cs">
+      <DependentUpon>UiResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Interfaces\Files.cs" />
     <Compile Include="Interfaces\INetDiskUser.cs" />
     <Compile Include="Models\BaiduNetdisk\BaiduNetdiskFile.cs" />
@@ -99,7 +109,6 @@
     <Compile Include="Models\LazyTreeNode.cs" />
     <Compile Include="Models\NetDiskUser.cs" />
     <Compile Include="Models\Onedrive\IMicrosoftGraphApi.cs" />
-    <Compile Include="Models\Onedrive\OnedriveUser.cs" />
     <Compile Include="Models\TransferItem.cs" />
     <Compile Include="Models\Datas.cs" />
     <Compile Include="Interfaces\INetDiskApi.cs" />
@@ -192,6 +201,11 @@
     <Compile Include="Views\Transportation\Uploading.xaml.cs">
       <DependentUpon>Uploading.xaml</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="I18nResources\UiResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UiResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="I18nResources\UiResources.zh-CN.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -301,7 +315,15 @@
   <ItemGroup>
     <Resource Include="Images\DefaultAvatar.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="I18nResources\ResKeys.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ResKeys.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Refit.4.6.30\build\net461\refit.targets" Condition="Exists('..\packages\Refit.4.6.30\build\net461\refit.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -310,4 +332,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Refit.4.6.30\build\net461\refit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Refit.4.6.30\build\net461\refit.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>mkdir $(SolutionDir)Build\Modules\$(ProjectName)\zh-CHS
+
+copy $(TargetPath) $(SolutionDir)Build\Modules\$(ProjectName)</PostBuildEvent>
+  </PropertyGroup>
 </Project>
