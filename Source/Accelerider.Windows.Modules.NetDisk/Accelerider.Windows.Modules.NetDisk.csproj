@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Build\Modules\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -109,7 +109,6 @@
     <Compile Include="Models\LazyTreeNode.cs" />
     <Compile Include="Models\NetDiskUser.cs" />
     <Compile Include="Models\Onedrive\IMicrosoftGraphApi.cs" />
-    <Compile Include="Models\Onedrive\OnedriveUser.cs" />
     <Compile Include="Models\TransferItem.cs" />
     <Compile Include="Models\Datas.cs" />
     <Compile Include="Interfaces\INetDiskApi.cs" />
@@ -333,4 +332,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Refit.4.6.30\build\net461\refit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Refit.4.6.30\build\net461\refit.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>mkdir $(SolutionDir)Build\Modules\$(ProjectName)\zh-CHS
+
+copy $(TargetPath) $(SolutionDir)Build\Modules\$(ProjectName)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

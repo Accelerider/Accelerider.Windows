@@ -47,7 +47,7 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
             return this;
         }
 
-        public IViewModelResolver IfInheritsFrom(Type genericInterfaceType, Action<FrameworkElement, object, IGenericInterface> configuration)
+        public IViewModelResolver IfInheritsFrom(Type genericInterfaceType, Action<IGenericInterface, FrameworkElement, object> configuration)
         {
             var previousAction = _configureViewAndViewModel;
             _configureViewAndViewModel = (view, viewModel) =>
@@ -56,7 +56,7 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
                 var interfaceInstance = viewModel.AsGenericInterface(typeof(IAwareViewLoadedAndUnloaded<>));
                 if (interfaceInstance != null)
                 {
-                    configuration?.Invoke(view, viewModel, interfaceInstance);
+                    configuration?.Invoke(interfaceInstance, view, viewModel);
                 }
             };
             return this;
@@ -77,7 +77,7 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
                     view.Loaded += (sender, e) => viewModel.OnLoaded();
                     view.Unloaded += (sender, e) => viewModel.OnUnloaded();
                 })
-                .IfInheritsFrom(typeof(IAwareViewLoadedAndUnloaded<>), (view, viewModel, interfaceInstance) =>
+                .IfInheritsFrom(typeof(IAwareViewLoadedAndUnloaded<>), (interfaceInstance, view, viewModel) =>
                 {
                     var viewType = view.GetType();
                     if (interfaceInstance.GenericArguments.Single() != viewType)
@@ -97,6 +97,10 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
                     view.Loaded += (sender, args) => I18nManager.Instance.CurrentUICultureChanged += viewModel.OnCurrentUICultureChanged;
                     view.Unloaded += (sender, args) => I18nManager.Instance.CurrentUICultureChanged -= viewModel.OnCurrentUICultureChanged;
                 });
+                //.IfInheritsFrom<IAwareTabItemSelectionChanged>((view, viewModel) =>
+                //{
+                //    TabControlHelper.SetAwareSelectionChanged(view, true);
+                //});
 
             return @this;
         }

@@ -31,7 +31,7 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
 
         protected ILoggerFacade Logger { get; }
 
-        protected IAcceleriderUser AcceleriderUser => _acceleriderUser ?? (_acceleriderUser = Container.Resolve<IAcceleriderUser>());
+        public IAcceleriderUser AcceleriderUser => _acceleriderUser ?? (_acceleriderUser = Container.Resolve<IAcceleriderUser>());
 
         protected virtual void Invoke(Action action) => Dispatcher.Invoke(action);
     }

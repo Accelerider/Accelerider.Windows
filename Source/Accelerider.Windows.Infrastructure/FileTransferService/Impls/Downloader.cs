@@ -73,42 +73,41 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                     request.ReadWriteTimeout = _settings.ReadWriteTimeout;
                     request.AddRange(_block.BeginOffset, _block.EndOffset);
                     var response = (HttpWebResponse)request.GetResponse();
+
                     using (var responseStream = response.GetResponseStream())
+                    using (var fileStream = new FileStream(_localFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite, DataSize.OneMB))
                     {
-                        using (var fileStream = new FileStream(_localFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite, DataSize.OneMB))
+                        fileStream.Seek(_block.BeginOffset, SeekOrigin.Begin);
+                        var array = new byte[4 * DataSize.OneKB]; //4KB
+
+                        Debug.Assert(responseStream != null, nameof(responseStream) + " != null");
+                        var length = responseStream.Read(array, 0, array.Length);
+                        while (true)
                         {
-                            fileStream.Seek(_block.BeginOffset, SeekOrigin.Begin);
-                            var array = new byte[4 * DataSize.OneKB]; //4KB
-
-                            Debug.Assert(responseStream != null, nameof(responseStream) + " != null");
-                            var length = responseStream.Read(array, 0, array.Length);
-                            while (true)
+                            if (_stoped)
                             {
-                                if (_stoped)
-                                {
-                                    fileStream.Flush();
-                                    _block.Downloading = false;
-                                    return;
-                                }
-
-                                //Miss bytes
-                                if (length <= 0 && _block.BeginOffset - 1 != _block.EndOffset)
-                                {
-                                    new Thread(Start) { IsBackground = true }.Start();
-                                    return;
-                                }
-
-                                //Block download completed
-                                if (length <= 0 || _block.BeginOffset > _block.EndOffset) break;
-
-                                fileStream.Write(array, 0, length);
-                                _block.BeginOffset += length;
-                                _block.DownloadedSize += length;
-                                length = responseStream.Read(array, 0, array.Length);
+                                fileStream.Flush();
+                                _block.Downloading = false;
+                                return;
                             }
 
-                            fileStream.Flush();
+                            //Miss bytes
+                            if (length <= 0 && _block.BeginOffset - 1 != _block.EndOffset)
+                            {
+                                new Thread(Start) { IsBackground = true }.Start();
+                                return;
+                            }
+
+                            //Block download completed
+                            if (length <= 0 || _block.BeginOffset > _block.EndOffset) break;
+
+                            fileStream.Write(array, 0, length);
+                            _block.BeginOffset += length;
+                            _block.DownloadedSize += length;
+                            length = responseStream.Read(array, 0, array.Length);
                         }
+
+                        fileStream.Flush();
                     }
 
                     _block.Completed = true;
@@ -290,7 +289,7 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
             if (File.Exists(blockFile))
             {
                 _downloadBlocks = JsonConvert.DeserializeObject<List<DownloadBlock>>(File.ReadAllText(blockFile));
-	            _downloadBlocks.Capacity = _downloadBlocks.Count;				
+                _downloadBlocks.Capacity = _downloadBlocks.Count;
                 return true;
             }
             var response = GetResponse();
@@ -312,8 +311,8 @@ namespace Accelerider.Windows.Infrastructure.FileTransferService.Impls
                 BeginOffset = temp,
                 EndOffset = contentLength
             });
-	        _downloadBlocks.Capacity = _downloadBlocks.Count;
-	        SaveBlock();
+            _downloadBlocks.Capacity = _downloadBlocks.Count;
+            SaveBlock();
             return true;
         }
 

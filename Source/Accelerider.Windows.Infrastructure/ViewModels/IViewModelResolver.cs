@@ -11,6 +11,6 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
 
         IViewModelResolver IfInheritsFrom<TView, TViewModel>(Action<TView, TViewModel> configuration) where TView : FrameworkElement;
 
-        IViewModelResolver IfInheritsFrom(Type genericInterfaceType, Action<FrameworkElement, object, IGenericInterface> configuration);
+        IViewModelResolver IfInheritsFrom(Type genericInterfaceType, Action<IGenericInterface, FrameworkElement, object> configuration);
     }
 }

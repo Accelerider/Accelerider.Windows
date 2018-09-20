@@ -22,10 +22,10 @@ namespace Accelerider.Windows
         #region Overridered methods
         protected override ILoggerFacade CreateLogger() => new Logger();
 
-        //protected override IModuleCatalog CreateModuleCatalog()
-        //{
-        //    return new DirectoryModuleCatalog { ModulePath = @".\Modules" };
-        //}
+        protected override IModuleCatalog CreateModuleCatalog()
+        {
+            return new DirectoryModuleCatalog { ModulePath = @".\Modules" };
+        }
 
         protected override void ConfigureContainerBuilder(ContainerBuilder builder)
         {
