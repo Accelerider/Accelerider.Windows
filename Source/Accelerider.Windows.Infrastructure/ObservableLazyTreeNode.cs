@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.Infrastructure
 {

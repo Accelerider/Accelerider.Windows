@@ -10,7 +10,6 @@ namespace Accelerider.Windows.Infrastructure
     {
         private bool _isRefreshing;
         private Func<T, Task<IEnumerable<T>>> _childrenProvider;
-        private LazyTreeNode<T> _parent;
 
         public LazyTreeNode(T content) => Content = content;
 
@@ -26,7 +25,7 @@ namespace Accelerider.Windows.Infrastructure
             }
         }
 
-        public virtual ILazyTreeNode<T> Parent => _parent;
+        public virtual ILazyTreeNode<T> Parent { get; protected set; }
 
         public IReadOnlyList<ILazyTreeNode<T>> Ancestors
         {
@@ -43,7 +42,7 @@ namespace Accelerider.Windows.Infrastructure
 
         public virtual Func<T, Task<IEnumerable<T>>> ChildrenProvider
         {
-            get => _childrenProvider ?? (_childrenProvider = _parent?.ChildrenProvider);
+            get => _childrenProvider ?? (_childrenProvider = ((LazyTreeNode<T>)Parent)?.ChildrenProvider);
             set => _childrenProvider = value;
         }
 
@@ -60,7 +59,7 @@ namespace Accelerider.Windows.Infrastructure
             if (!collection.Any()) return AbortRefresh();
 
             var children = collection.Select(GenerateLazyTreeNode).ToList();
-            children.ForEach(item => item._parent = this);
+            children.ForEach(item => item.Parent = this);
 
             SetChildrenCache(children.AsReadOnly());
 
@@ -80,8 +79,11 @@ namespace Accelerider.Windows.Infrastructure
         private static async Task ForEachAsync(ILazyTreeNode<T> node, Action<T> callback, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested) return;
-            if (node?.ChildrenCache == null) return;
 
+            if (node == null) return;
+            await node.RefreshAsync();
+
+            if (node.ChildrenCache == null) return;
             foreach (var child in node.ChildrenCache)
             {
                 if (cancellationToken.IsCancellationRequested) return;
