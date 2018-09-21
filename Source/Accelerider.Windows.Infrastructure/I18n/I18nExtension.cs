@@ -3,17 +3,17 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Accelerider.Windows.Infrastructure.I18n
+namespace Accelerider.Windows.Infrastructure
 {
     [MarkupExtensionReturnType(typeof(object))]
-    public class I18nExtensions : MarkupExtension
+    public class I18nExtension : MarkupExtension
     {
         [ConstructorArgument(nameof(Key))]
         public ComponentResourceKey Key { get; set; }
 
-        public I18nExtensions() { }
+        public I18nExtension() { }
 
-        public I18nExtensions(ComponentResourceKey key) => Key = key;
+        public I18nExtension(ComponentResourceKey key) => Key = key;
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {

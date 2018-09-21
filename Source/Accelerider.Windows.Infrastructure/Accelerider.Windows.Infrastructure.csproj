@@ -115,7 +115,7 @@
     <Compile Include="FileTransferService\TransporterId.cs" />
     <Compile Include="FunctionalExtensions.cs" />
     <Compile Include="GenericInterface.cs" />
-    <Compile Include="I18n\I18nExtensions.cs" />
+    <Compile Include="I18n\I18nExtension.cs" />
     <Compile Include="I18n\I18nSource.cs" />
     <Compile Include="I18n\I18nManager.cs" />
     <Compile Include="ConfigureFile.cs" />
