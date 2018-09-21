@@ -106,6 +106,7 @@
     <Compile Include="DataContext.cs" />
     <Compile Include="Extensions\AwaitExtensions.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
     <Compile Include="Extensions\WebRequestExtensions.cs" />
     <Compile Include="FileTransferService\DefaultDownloaderBuilder.cs" />
     <Compile Include="FileTransferService\Impls\TransferContextSettings.cs" />
