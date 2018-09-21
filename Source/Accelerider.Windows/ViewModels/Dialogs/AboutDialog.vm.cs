@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Input;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure.ViewModels;
 using Autofac;
 

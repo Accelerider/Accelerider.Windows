@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Interfaces;
 using Autofac;
 using Prism.Logging;
 

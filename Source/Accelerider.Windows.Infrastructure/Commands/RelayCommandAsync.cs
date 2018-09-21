@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace Accelerider.Windows.Infrastructure.Commands
+namespace Accelerider.Windows.Infrastructure
 {
     public class RelayCommandAsync : RelayCommandBase, INotifyPropertyChanged
     {

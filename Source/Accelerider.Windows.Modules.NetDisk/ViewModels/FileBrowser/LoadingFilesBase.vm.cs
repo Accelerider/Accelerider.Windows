@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Accelerider.Windows.Infrastructure.Commands;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Autofac;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Accelerider.Windows.Infrastructure.Interfaces
+namespace Accelerider.Windows.Infrastructure
 {
     public interface IAcceleriderUser : IRefreshable
     {

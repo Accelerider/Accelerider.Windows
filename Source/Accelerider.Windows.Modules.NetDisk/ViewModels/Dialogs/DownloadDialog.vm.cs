@@ -4,8 +4,6 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Constants;
 using Accelerider.Windows.Resources.I18N;
 using Autofac;

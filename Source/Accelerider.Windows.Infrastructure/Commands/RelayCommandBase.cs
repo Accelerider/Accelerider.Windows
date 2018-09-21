@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Accelerider.Windows.Infrastructure.Commands
+namespace Accelerider.Windows.Infrastructure
 {
     public abstract class RelayCommandBase : ICommand
     {

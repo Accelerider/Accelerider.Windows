@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
@@ -67,7 +67,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
 		public ILazyTreeNode<T> Parent => _parent;
 		
-		public IReadOnlyList<ILazyTreeNode<T>> Parents
+		public IReadOnlyList<ILazyTreeNode<T>> Ancestors
 		{
 			get
 			{
@@ -139,5 +139,10 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 			}
 			List<LazyTreeNode<T>>.Enumerator enumerator = new List<LazyTreeNode<T>>.Enumerator();
 		}
-	}
+
+        public Task ForEachAsync(Action<T> action, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

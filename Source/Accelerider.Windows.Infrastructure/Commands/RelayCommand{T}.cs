@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Accelerider.Windows.Infrastructure.Commands
+namespace Accelerider.Windows.Infrastructure
 {
     public class RelayCommand<T> : RelayCommandBase
     {

@@ -6,7 +6,7 @@ using Accelerider.Windows.Models;
 using System.Security.Cryptography;
 using System.IO;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows
 {

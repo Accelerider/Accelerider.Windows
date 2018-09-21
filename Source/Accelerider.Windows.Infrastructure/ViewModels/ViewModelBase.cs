@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Threading;
-using Accelerider.Windows.Infrastructure.Interfaces;
 using Autofac;
 using MaterialDesignThemes.Wpf;
 using Prism.Events;

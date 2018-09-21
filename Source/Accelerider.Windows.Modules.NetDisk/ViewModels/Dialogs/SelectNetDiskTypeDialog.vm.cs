@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using Accelerider.Windows.Infrastructure.Commands;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
 using Autofac;
 

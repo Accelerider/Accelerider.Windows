@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-
-namespace Accelerider.Windows.Infrastructure.Commands
+﻿namespace System.Windows.Input
 {
     public static class CommandExtensions
     {

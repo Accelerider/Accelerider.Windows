@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Resources.I18N;
 using Prism.Regions;
 using System.Linq;
