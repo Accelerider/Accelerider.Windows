@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceleriderPaths.cs" />
+    <Compile Include="AsyncLocker.cs" />
     <Compile Include="Commands\CommandExtensions.cs" />
     <Compile Include="Commands\RelayCommandAsync.cs" />
     <Compile Include="Commands\RelayCommandAsync{T}.cs" />
@@ -167,8 +168,9 @@
     <Compile Include="SystemFolder.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="FileTransferService\TransporterSettings.cs" />
-    <Compile Include="TransferService\FileTransferService2.cs" />
+    <Compile Include="TransferService\FileTransferService.cs" />
     <Compile Include="TransferService\ObserverList.cs" />
+    <Compile Include="TransferService\RemotePathProvider.cs" />
     <Compile Include="TransferService\TransferContext.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\IAwareTabItemSelectionChanged.cs" />

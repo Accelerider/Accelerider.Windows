@@ -10,66 +10,100 @@ using Accelerider.Windows.Infrastructure.FileTransferService;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public class FileTransferService2
+    public class FileTransferService
     {
         private const long BlockLength = 1024 * 1024 * 20;
 
-        static FileTransferService2()
+        static FileTransferService()
         {
             ServicePointManager.DefaultConnectionLimit = 99999;
         }
 
-        public static async Task<IObservable<TransferContext>> CreateDownloadTaskAsync(string remotePath, string localPath, CancellationToken cancellationToken, int maxConcurrent = 4)
+        public static async Task<(IObservable<BlockTransferContext> observable, TransferContext context)> DownloadAsync(List<string> remotePaths, string localPath, CancellationToken cancellationToken, int maxConcurrent = 4)
         {
             var context = new TransferContext
             {
-                RemotePath = remotePath,
+                RemotePathProvider = new RemotePathProvider(remotePaths),
                 LocalPath = localPath
             };
-            cancellationToken.Register(() => context.Status = TransferStatus.Disposed);
 
-            if (cancellationToken.IsCancellationRequested) return Observable.Empty<TransferContext>();
-            using (var response = await GetResponseAsync(CreateRequest(remotePath)))
-            {
-                context.TotalSize = response.ContentLength;
-            }
+            var blockDownloadTasksFactory = BuildBlockDownloadTasksFactory(context, cancellationToken);
 
-            if (cancellationToken.IsCancellationRequested) return Observable.Empty<TransferContext>();
-            var observable = Split(context.TotalSize)
-                .Select(interval =>
+            var blockDownloadTasks = await CreateBlockDownloadTasksAsync(blockDownloadTasksFactory, context.RemotePathProvider);
+
+            var downloadTaskObservable = CreateBlockDownloadObservable(blockDownloadTasks.Merge(maxConcurrent), cancellationToken);
+
+            return (downloadTaskObservable, context);
+        }
+
+        private static Func<IRemotePathProvider, Task<IEnumerable<IObservable<BlockTransferContext>>>> BuildBlockDownloadTasksFactory(
+            TransferContext context,
+            CancellationToken cancellationToken)
+        {
+            return new Func<IRemotePathProvider, string>(provider => provider.GetRemotePath())
+                .Then(CreateRequest)
+                .Then(GetResponseAsync)
+                .ThenAsync(response =>
+                {
+                    using (response)
+                    {
+                        return context.TotalSize = response.ContentLength;
+                    }
+                }, cancellationToken)
+                .ThenAsync(GetBlockIntervals, cancellationToken)
+                .ThenAsync(interval =>
                 {
                     var streamPairFactory = new Func<Task<(HttpWebResponse response, Stream localStream)>>(async () =>
                     {
-                        var request = GetBlockRequest(CreateRequest(remotePath), interval);
+                        var request = GetBlockRequest(CreateRequest(context.RemotePathProvider.GetRemotePath()), interval);
                         var response = await GetResponseAsync(request);
 
-                        var localStream = CreateStream(localPath, interval);
+                        var localStream = CreateStream(context.LocalPath, interval);
 
                         return (response, localStream);
                     });
 
                     return (streamPairFactory, interval);
-                })
-                .Select(parameter => CreateBlockDownloadTask(parameter.streamPairFactory, parameter.interval))
-                .Merge(maxConcurrent)
-                .Select(blockContext =>
-                {
-                    context.Status = TransferStatus.Transferring;
-                    context.CompletedSize += blockContext.Bytes;
-                    return context;
-                });
-
-            return CreateDownloadObservable(observable, cancellationToken);
+                }, cancellationToken)
+                .ThenAsync(parameter => CreateBlockDownloadTask(parameter.streamPairFactory, parameter.interval), cancellationToken);
         }
 
-        private static IObservable<TransferContext> CreateDownloadObservable(IObservable<TransferContext> observable, CancellationToken cancellationToken)
+        private static async Task<IEnumerable<IObservable<BlockTransferContext>>> CreateBlockDownloadTasksAsync(
+            Func<IRemotePathProvider, Task<IEnumerable<IObservable<BlockTransferContext>>>> createBlockDownloadTasks,
+            IRemotePathProvider remotePathProvider)
         {
-            var observerList = new ObserverList<TransferContext>();
+            var observables = Enumerable.Empty<IObservable<BlockTransferContext>>();
+            try
+            {
+                observables = await createBlockDownloadTasks(remotePathProvider);
+            }
+            catch (OperationCanceledException)
+            {
+                // ignored
+            }
+            catch (WebException e)
+            {
+                var remotePath = e.Response.ResponseUri.OriginalString;
+                remotePathProvider.Vote(remotePath, -3);
+                return await CreateBlockDownloadTasksAsync(createBlockDownloadTasks, remotePathProvider);
+                // Retry with changing remote path.
+            }
+            catch (Exception)
+            {
+                // Logging
+            }
+
+            return observables;
+        }
+
+        private static IObservable<BlockTransferContext> CreateBlockDownloadObservable(IObservable<BlockTransferContext> observable, CancellationToken cancellationToken)
+        {
+            var observerList = new ObserverList<BlockTransferContext>();
 
             var disposable = observable.Subscribe(observerList);
             cancellationToken.Register(disposable.Dispose);
 
-            return Observable.Create<TransferContext>(o =>
+            return Observable.Create<BlockTransferContext>(o =>
             {
                 observerList.Add(o);
                 return () => observerList.Remove(o);
@@ -157,7 +191,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return () => source.Cancel();
         });
 
-        public static IEnumerable<(long Offset, long Length)> Split(long totalLength)
+        public static IEnumerable<(long Offset, long Length)> GetBlockIntervals(long totalLength)
         {
             long offset = 0;
             while (offset + BlockLength < totalLength)
