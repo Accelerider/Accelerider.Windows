@@ -114,7 +114,7 @@
     <Compile Include="FileTransferService\Impls\TransporterRegistry.cs" />
     <Compile Include="FileTransferService\TransferStatusChangedEventArgs.cs" />
     <Compile Include="FileTransferService\TransporterId.cs" />
-    <Compile Include="FunctionalExtensions.cs" />
+    <Compile Include="Extensions\FunctionalExtensions.cs" />
     <Compile Include="GenericInterface.cs" />
     <Compile Include="I18n\I18nExtension.cs" />
     <Compile Include="I18n\I18nSource.cs" />
@@ -167,13 +167,9 @@
     <Compile Include="SystemFolder.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="FileTransferService\TransporterSettings.cs" />
-    <Compile Include="TransferService\FileTransferService.cs" />
     <Compile Include="TransferService\FileTransferService2.cs" />
-    <Compile Include="TransferService\ITransferContext.cs" />
-    <Compile Include="TransferService\ITransferTask.cs" />
+    <Compile Include="TransferService\ObserverList.cs" />
     <Compile Include="TransferService\TransferContext.cs" />
-    <Compile Include="TransferService\TransferStatus.cs" />
-    <Compile Include="TransferService\TransferTask.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\IAwareTabItemSelectionChanged.cs" />
     <Compile Include="ViewModels\IAwareViewLoadedAndUnloaded.cs" />

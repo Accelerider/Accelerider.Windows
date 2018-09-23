@@ -1,40 +1,37 @@
 ﻿using System;
-using System.Net;
-using System.Threading;
+using Accelerider.Windows.Infrastructure.FileTransferService;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public class TransferContext : ITransferContext
+    public class TransferContext
     {
-        public CancellationToken CancellationToken { get; set; }
+        public Guid Id { get; } = Guid.NewGuid();
 
-        public TransferStatus Status { get; set; }
+        public TransferStatus Status { get; internal set; }
 
-        public object this[string key]
+        public long CompletedSize { get; internal set; }
+
+        public long TotalSize { get; internal set; }
+
+        public string LocalPath { get; internal set; }
+
+        public string RemotePath { get; internal set; }
+    }
+
+    public class BlockTransferContext : TransferContext
+    {
+        private int _bytes;
+
+        public long Offset { get; internal set; }
+
+        public int Bytes
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-
-        public long CompletedSize { get; set; }
-
-        public long TotalSize { get; set; }
-
-        public string LocalPath { get; set; }
-
-        public string RemotePath { get; set; }
-
-        public HttpWebResponse Response { get; set; }
-
-        public ITransferContext Clone()
-        {
-            var result = new TransferContext();
-            CancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CancellationToken, result.CancellationToken).Token;
-            result.Status = Status;
-            result.RemotePath = RemotePath;
-            result.LocalPath = LocalPath;
-            result.Response = Response;
-            return result;
+            get => _bytes;
+            internal set
+            {
+                _bytes = value;
+                CompletedSize += value;
+            }
         }
     }
 }

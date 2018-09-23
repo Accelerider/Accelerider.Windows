@@ -6,76 +6,74 @@ using System.Net;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure.FileTransferService;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public static class FileTransferService2
+    public class FileTransferService2
     {
-        private const long BlockLength = 1024 * 1024 * 10;
+        private const long BlockLength = 1024 * 1024 * 20;
 
         static FileTransferService2()
         {
             ServicePointManager.DefaultConnectionLimit = 99999;
         }
 
-        public static async Task BlockDownloadAsync(string remotePath, string localPath, CancellationToken token)
+        public static async Task<IObservable<TransferContext>> CreateDownloadTaskAsync(string remotePath, string localPath, CancellationToken cancellationToken, int maxConcurrent = 4)
         {
-            if (token.IsCancellationRequested) return;
-            var totalSize = (await GetResponseAsync(CreateRequest(remotePath))).ContentLength;
-            var blocks = Split(totalSize, BlockLength).ToArray();
+            var context = new TransferContext
+            {
+                RemotePath = remotePath,
+                LocalPath = localPath
+            };
+            cancellationToken.Register(() => context.Status = TransferStatus.Disposed);
 
-            if (token.IsCancellationRequested) return;
-            long completedSize = 0;
-            var observables = blocks
-                .Select(item => GetBlockRequest(CreateRequest(remotePath), item))
-                .Select(GetResponseAsync)
-                .Select(async item => GetStream(await item))
-                .Zip(blocks.Select(item => CreateStream(localPath, item)), (remoteStream, localStream) => (remoteStream, localStream))
-                .Select(item => CopyStream(item.remoteStream, item.localStream, token));
+            if (cancellationToken.IsCancellationRequested) return Observable.Empty<TransferContext>();
+            using (var response = await GetResponseAsync(CreateRequest(remotePath)))
+            {
+                context.TotalSize = response.ContentLength;
+            }
 
-            var task = observables
-                .Merge(2)
-                .Select(item => new
+            if (cancellationToken.IsCancellationRequested) return Observable.Empty<TransferContext>();
+            var observable = Split(context.TotalSize)
+                .Select(interval =>
                 {
-                    Flag = item.flag,
-                    CompletedSize = completedSize += item.size,
-                    TotalSize = totalSize,
-                    RemotePath = remotePath,
-                    LocalPath = localPath
+                    var streamPairFactory = new Func<Task<(HttpWebResponse response, Stream localStream)>>(async () =>
+                    {
+                        var request = GetBlockRequest(CreateRequest(remotePath), interval);
+                        var response = await GetResponseAsync(request);
+
+                        var localStream = CreateStream(localPath, interval);
+
+                        return (response, localStream);
+                    });
+
+                    return (streamPairFactory, interval);
+                })
+                .Select(parameter => CreateBlockDownloadTask(parameter.streamPairFactory, parameter.interval))
+                .Merge(maxConcurrent)
+                .Select(blockContext =>
+                {
+                    context.Status = TransferStatus.Transferring;
+                    context.CompletedSize += blockContext.Bytes;
+                    return context;
                 });
 
-            // --------------------------------------------------------------------------------------------
+            return CreateDownloadObservable(observable, cancellationToken);
+        }
 
-            long previousCompletedSize = 0;
-            var previousDateTime = DateTimeOffset.Now;
-            const double period = 1000;
+        private static IObservable<TransferContext> CreateDownloadObservable(IObservable<TransferContext> observable, CancellationToken cancellationToken)
+        {
+            var observerList = new ObserverList<TransferContext>();
 
-            task
-                //.ObserveOn(Scheduler.CurrentThread)
-                //.SubscribeOn(NewThreadScheduler.Default)
-                .Timestamp()
-                .Sample(TimeSpan.FromMilliseconds(period))
-                .Subscribe(
-                    timestampedContext =>
-                    {
-                        var timestamp = timestampedContext.Timestamp;
-                        var context = timestampedContext.Value;
+            var disposable = observable.Subscribe(observerList);
+            cancellationToken.Register(disposable.Dispose);
 
-                        Console.WriteLine($"{context.Flag}, " +
-                                          $"Id: {Thread.CurrentThread.ManagedThreadId:00}, " +
-                                          $"{((context.CompletedSize - previousCompletedSize) / (timestamp - previousDateTime).TotalSeconds) / (1024 * 1024): 00.000} Mb/s, " +
-                                          $"{100.0 * context.CompletedSize / context.TotalSize: 00.00}%, " +
-                                          $"Delta Time: {(timestamp - previousDateTime).TotalSeconds}" /*+ $"Time: {DateTime.Now:O}"*/);
-
-                        previousCompletedSize = context.CompletedSize;
-                        previousDateTime = timestamp;
-                    },
-                    () =>
-                    {
-                        Console.WriteLine($"======= Completed! Time: {DateTimeOffset.Now:yyyy-MM-dd HH:mm:ss} =======");
-                    }
-                );
-
+            return Observable.Create<TransferContext>(o =>
+            {
+                observerList.Add(o);
+                return () => observerList.Remove(o);
+            });
         }
 
         public static HttpWebRequest CreateRequest(string remotePath)
@@ -106,53 +104,69 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return request;
         }
 
-        public static IObservable<(string flag, int size)> CopyStream(Task<Stream> outputStream, Stream inputStream, CancellationToken token)
+        public static IObservable<BlockTransferContext> CreateBlockDownloadTask(
+            Func<Task<(HttpWebResponse response, Stream inputStream)>> streamPairFactory,
+            (long offset, long length) blockInterval) => Observable.Create<BlockTransferContext>(o =>
         {
-            return Observable.Create<(string flag, int size)>(async o =>
+            // 1. Initialize context.
+            var context = new BlockTransferContext
+            {
+                Offset = blockInterval.offset,
+                TotalSize = blockInterval.length
+            };
+            var source = new CancellationTokenSource();
+            var token = source.Token;
+
+            // 2. Execute copy stream by async.
+            Task.Run(async () =>
             {
                 try
                 {
-                    byte[] buffer = new byte[128 * 1024];
-                    int count;
-                    var flag = $"BLOCK - {(inputStream.Position / BlockLength):000}";
-                    Console.WriteLine($"Enter Id: {Thread.CurrentThread.ManagedThreadId}");
-                    while ((count = await (await outputStream).ReadAsync(buffer, 0, buffer.Length, token)) > 0)
+                    (HttpWebResponse response, Stream inputStream) = await streamPairFactory();
+
+                    using (response)
+                    using (var outputStream = GetStream(response))
+                    using (inputStream)
                     {
-                        if (token.IsCancellationRequested) break;
-                        await inputStream.WriteAsync(buffer, 0, count, token);
-                        o.OnNext((flag, count));
+                        byte[] buffer = new byte[128 * 1024];
+                        int count;
+                        context.Status = TransferStatus.Transferring;
+                        o.OnNext(context);
+                        while ((count = await outputStream.ReadAsync(buffer, 0, buffer.Length, token)) > 0)
+                        {
+                            if (token.IsCancellationRequested) break;
+                            await inputStream.WriteAsync(buffer, 0, count, token);
+                            context.Bytes = count;
+                            o.OnNext(context);
+                        }
                     }
-                    Console.WriteLine($"{flag} Completed Id: {Thread.CurrentThread.ManagedThreadId} {inputStream.Position}");
+
                     o.OnCompleted();
                 }
-                catch (Exception e)
+                catch (TaskCanceledException)
                 {
-                    o.OnError(e);
+                    o.OnCompleted();
                 }
-
-                return () =>
+                catch (Exception)
                 {
-                    inputStream.Dispose();
-                    outputStream.Dispose();
-                };
-            });
-        }
+                    context.Status = TransferStatus.Faulted;
+                    o.OnNext(context);
+                }
+            }, token);
 
-        public static IEnumerable<(long Offset, long Length)> Split(long totalLength, long blockLength)
+            return () => source.Cancel();
+        });
+
+        public static IEnumerable<(long Offset, long Length)> Split(long totalLength)
         {
             long offset = 0;
-            while (offset + blockLength < totalLength)
+            while (offset + BlockLength < totalLength)
             {
-                yield return (offset, blockLength);
-                offset += blockLength;
+                yield return (offset, BlockLength);
+                offset += BlockLength;
             }
 
             yield return (offset, totalLength - offset);
-        }
-
-        public static void AddRangeBasedOffsetLength(this HttpWebRequest @this, long offset, long length)
-        {
-            @this.AddRange(offset, offset + length - 1);
         }
     }
 }
