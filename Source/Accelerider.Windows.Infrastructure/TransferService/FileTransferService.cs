@@ -84,18 +84,16 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
 
             return generateBlockContext.ThenAsync(blockContext => CreateBlockDownloadItem(blockContext)
-                .Catch<BlockTransferContext, BlockTransferException>(e => HandleBlockDownloadItemException(e, context.RemotePathProvider)));
+                .Catch<BlockTransferContext, BlockTransferException>(e => HandleBlockDownloadItemException(e, context.RemotePathProvider)), cancellationToken);
         }
 
         private static IObservable<BlockTransferContext> HandleBlockDownloadItemException(BlockTransferException exception, IRemotePathProvider remotePathProvider)
         {
-            Console.WriteLine($"[Error] {exception.Context.Id:B}, CompletedSize: {exception.Context.CompletedSize}, Ex: {exception.InnerException.GetType().Name}");
             exception.Context.Bytes = 0;
             exception.Context.RemotePath = remotePathProvider.GetRemotePath();
             return CreateBlockDownloadItem(exception.Context)
                 .Catch<BlockTransferContext, BlockTransferException>(e => HandleBlockDownloadItemException(e, remotePathProvider));
         }
-
 
         private static IObservable<BlockTransferContext> CreateBlockDownloadItem(BlockTransferContext blockContext)
         {
@@ -155,8 +153,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return request;
         }
 
-        private static int _count = 0;
-
         public static IObservable<BlockTransferContext> CreateBlockDownloadItem(
             Func<Task<(HttpWebResponse response, Stream inputStream)>> streamPairFactory,
             BlockTransferContext context) => Observable.Create<BlockTransferContext>(o =>
@@ -185,20 +181,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                             await inputStream.WriteAsync(buffer, 0, count, cancellationToken);
                             context.Bytes = count;
                             o.OnNext(context);
-
-                            if (context.Offset / BlockLength == 1)
-                            {
-                                if (_count == 0)
-                                {
-                                    _count++;
-                                    throw new WebException();
-                                }
-                                if (_count == 1)
-                                {
-                                    _count++;
-                                    Console.WriteLine($"[Restart] {context.Id:B}");
-                                }
-                            }
                         }
                     }
 
