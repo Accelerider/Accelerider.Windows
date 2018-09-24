@@ -51,6 +51,9 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Polly, Version=6.0.0.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.6.1.0\lib\netstandard2.0\Polly.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
@@ -168,6 +171,8 @@
     <Compile Include="SystemFolder.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="FileTransferService\TransporterSettings.cs" />
+    <Compile Include="TransferService\BlockTransferException.cs" />
+    <Compile Include="TransferService\FileDownloader.cs" />
     <Compile Include="TransferService\FileTransferService.cs" />
     <Compile Include="TransferService\ObserverList.cs" />
     <Compile Include="TransferService\RemotePathProvider.cs" />

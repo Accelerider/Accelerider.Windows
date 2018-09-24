@@ -7,7 +7,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 {
     public interface IRemotePathProvider
     {
-        void Vote(string remotePath, double score);
+        IReadOnlyList<string> RemotePaths { get; }
+
+        void Vote(string remotePath, double score, bool isAccumulate = true);
 
         string GetRemotePath();
     }
@@ -16,19 +18,23 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     {
         private readonly ConcurrentDictionary<string, double> _remotePathDictionary;
 
-        public RemotePathProvider(IList<string> remotePaths)
+        public RemotePathProvider(List<string> remotePaths)
         {
-            if(remotePaths == null) throw new ArgumentNullException(nameof(remotePaths));
-            if(!remotePaths.Any()) throw new ArgumentException();
+            if (remotePaths == null) throw new ArgumentNullException(nameof(remotePaths));
+            if (!remotePaths.Any()) throw new ArgumentException();
 
+            RemotePaths = remotePaths.AsReadOnly();
             _remotePathDictionary = new ConcurrentDictionary<string, double>(remotePaths.ToDictionary(item => item, item => 0.0));
         }
 
 
-        public void Vote(string remotePath, double score)
+        public IReadOnlyList<string> RemotePaths { get; }
+
+
+        public void Vote(string remotePath, double score, bool isAccumulate = true)
         {
             if (_remotePathDictionary.ContainsKey(remotePath))
-                _remotePathDictionary[remotePath] += score;
+                _remotePathDictionary[remotePath] = isAccumulate ? _remotePathDictionary[remotePath] + score : score;
         }
 
         public string GetRemotePath()

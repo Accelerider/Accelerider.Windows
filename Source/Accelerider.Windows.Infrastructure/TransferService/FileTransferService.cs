@@ -6,11 +6,13 @@ using System.Net;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xaml;
 using Accelerider.Windows.Infrastructure.FileTransferService;
+using Polly;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public class FileTransferService
+    public static class FileTransferService
     {
         private const long BlockLength = 1024 * 1024 * 20;
 
@@ -19,7 +21,12 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             ServicePointManager.DefaultConnectionLimit = 99999;
         }
 
-        public static async Task<(IObservable<BlockTransferContext> observable, TransferContext context)> DownloadAsync(List<string> remotePaths, string localPath, CancellationToken cancellationToken, int maxConcurrent = 4)
+        public static async Task<(IObservable<BlockTransferContext> observable, TransferContext context)> DownloadAsync(
+            List<string> remotePaths,
+            string localPath,
+            CancellationToken cancellationToken,
+            IAsyncPolicy<IEnumerable<IObservable<BlockTransferContext>>> runPolicy = null,
+            int maxConcurrent = 4)
         {
             var context = new TransferContext
             {
@@ -27,20 +34,36 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 LocalPath = localPath
             };
 
-            var blockDownloadTasksFactory = BuildBlockDownloadTasksFactory(context, cancellationToken);
+            var blockDownloadTasksFactory = BuildBlockDownloadItemsFactory(context, cancellationToken);
 
-            var blockDownloadTasks = await CreateBlockDownloadTasksAsync(blockDownloadTasksFactory, context.RemotePathProvider);
+            runPolicy = runPolicy ?? BuildRunPolicy(context);
+            var blockDownloadTasks = await runPolicy.ExecuteAsync(policyContext => blockDownloadTasksFactory(policyContext.GetRemotePathProvider()), new Dictionary<string, object>
+            {
+                { nameof(IRemotePathProvider), context.RemotePathProvider }
+            });
 
-            var downloadTaskObservable = CreateBlockDownloadObservable(blockDownloadTasks.Merge(maxConcurrent), cancellationToken);
+            var observable = RunBlockDownloadItems(blockDownloadTasks.Merge(maxConcurrent), cancellationToken);
 
-            return (downloadTaskObservable, context);
+            return (observable, context);
         }
 
-        private static Func<IRemotePathProvider, Task<IEnumerable<IObservable<BlockTransferContext>>>> BuildBlockDownloadTasksFactory(
+        private static IAsyncPolicy<IEnumerable<IObservable<BlockTransferContext>>> BuildRunPolicy(TransferContext context)
+        {
+            return Policy<IEnumerable<IObservable<BlockTransferContext>>>
+                .Handle<WebException>()
+                .RetryAsync(context.RemotePathProvider.RemotePaths.Count, (delegateResult, retryCount, policyContext) =>
+                {
+                    var remotePath = ((WebException)delegateResult.Exception).Response.ResponseUri.OriginalString;
+                    var provider = policyContext.GetRemotePathProvider();
+                    provider.Vote(remotePath, -3);
+                });
+        }
+
+        private static Func<IRemotePathProvider, Task<IEnumerable<IObservable<BlockTransferContext>>>> BuildBlockDownloadItemsFactory(
             TransferContext context,
             CancellationToken cancellationToken)
         {
-            return new Func<IRemotePathProvider, string>(provider => provider.GetRemotePath())
+            var generateBlockContext = new Func<IRemotePathProvider, string>(provider => provider.GetRemotePath())
                 .Then(CreateRequest)
                 .Then(GetResponseAsync)
                 .ThenAsync(response =>
@@ -51,52 +74,46 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     }
                 }, cancellationToken)
                 .ThenAsync(GetBlockIntervals, cancellationToken)
-                .ThenAsync(interval =>
+                .ThenAsync(((long offset, long length) interval) => new BlockTransferContext
                 {
-                    var streamPairFactory = new Func<Task<(HttpWebResponse response, Stream localStream)>>(async () =>
-                    {
-                        var request = GetBlockRequest(CreateRequest(context.RemotePathProvider.GetRemotePath()), interval);
-                        var response = await GetResponseAsync(request);
+                    Offset = interval.offset,
+                    TotalSize = interval.length,
+                    RemotePath = context.RemotePathProvider.GetRemotePath(),
+                    LocalPath = context.LocalPath
+                }, cancellationToken);
 
-                        var localStream = CreateStream(context.LocalPath, interval);
 
-                        return (response, localStream);
-                    });
-
-                    return (streamPairFactory, interval);
-                }, cancellationToken)
-                .ThenAsync(parameter => CreateBlockDownloadTask(parameter.streamPairFactory, parameter.interval), cancellationToken);
+            return generateBlockContext.ThenAsync(blockContext => CreateBlockDownloadItem(blockContext)
+                .Catch<BlockTransferContext, BlockTransferException>(e => HandleBlockDownloadItemException(e, context.RemotePathProvider)));
         }
 
-        private static async Task<IEnumerable<IObservable<BlockTransferContext>>> CreateBlockDownloadTasksAsync(
-            Func<IRemotePathProvider, Task<IEnumerable<IObservable<BlockTransferContext>>>> createBlockDownloadTasks,
-            IRemotePathProvider remotePathProvider)
+        private static IObservable<BlockTransferContext> HandleBlockDownloadItemException(BlockTransferException exception, IRemotePathProvider remotePathProvider)
         {
-            var observables = Enumerable.Empty<IObservable<BlockTransferContext>>();
-            try
-            {
-                observables = await createBlockDownloadTasks(remotePathProvider);
-            }
-            catch (OperationCanceledException)
-            {
-                // ignored
-            }
-            catch (WebException e)
-            {
-                var remotePath = e.Response.ResponseUri.OriginalString;
-                remotePathProvider.Vote(remotePath, -3);
-                return await CreateBlockDownloadTasksAsync(createBlockDownloadTasks, remotePathProvider);
-                // Retry with changing remote path.
-            }
-            catch (Exception)
-            {
-                // Logging
-            }
-
-            return observables;
+            Console.WriteLine($"[Error] {exception.Context.Id:B}, CompletedSize: {exception.Context.CompletedSize}, Ex: {exception.InnerException.GetType().Name}");
+            exception.Context.Bytes = 0;
+            exception.Context.RemotePath = remotePathProvider.GetRemotePath();
+            return CreateBlockDownloadItem(exception.Context)
+                .Catch<BlockTransferContext, BlockTransferException>(e => HandleBlockDownloadItemException(e, remotePathProvider));
         }
 
-        private static IObservable<BlockTransferContext> CreateBlockDownloadObservable(IObservable<BlockTransferContext> observable, CancellationToken cancellationToken)
+
+        private static IObservable<BlockTransferContext> CreateBlockDownloadItem(BlockTransferContext blockContext)
+        {
+            var streamPairFatory = new Func<Task<(HttpWebResponse response, Stream inputStream)>>(async () =>
+            {
+                var interval = (blockContext.Offset + blockContext.CompletedSize, blockContext.TotalSize - blockContext.CompletedSize);
+                var request = GetBlockRequest(CreateRequest(blockContext.RemotePath), interval);
+                var response = await GetResponseAsync(request);
+
+                var localStream = CreateBlockLocalStream(blockContext.LocalPath, interval);
+
+                return (response, localStream);
+            });
+
+            return CreateBlockDownloadItem(streamPairFatory, blockContext);
+        }
+
+        private static IObservable<BlockTransferContext> RunBlockDownloadItems(IObservable<BlockTransferContext> observable, CancellationToken cancellationToken)
         {
             var observerList = new ObserverList<BlockTransferContext>();
 
@@ -120,12 +137,12 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return (HttpWebResponse)await request.GetResponseAsync();
         }
 
-        public static Stream GetStream(HttpWebResponse response)
+        public static Stream GetRemoteStream(HttpWebResponse response)
         {
             return response.GetResponseStream();
         }
 
-        public static Stream CreateStream(string localPath, (long offset, long length) block = default)
+        public static Stream CreateBlockLocalStream(string localPath, (long offset, long length) block = default)
         {
             var stream = File.Open(localPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
             stream.Position = block.offset;
@@ -138,18 +155,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return request;
         }
 
-        public static IObservable<BlockTransferContext> CreateBlockDownloadTask(
+        private static int _count = 0;
+
+        public static IObservable<BlockTransferContext> CreateBlockDownloadItem(
             Func<Task<(HttpWebResponse response, Stream inputStream)>> streamPairFactory,
-            (long offset, long length) blockInterval) => Observable.Create<BlockTransferContext>(o =>
+            BlockTransferContext context) => Observable.Create<BlockTransferContext>(o =>
         {
-            // 1. Initialize context.
-            var context = new BlockTransferContext
-            {
-                Offset = blockInterval.offset,
-                TotalSize = blockInterval.length
-            };
-            var source = new CancellationTokenSource();
-            var token = source.Token;
+            var cancellationTokenSource = new CancellationTokenSource();
+            var cancellationToken = cancellationTokenSource.Token;
 
             // 2. Execute copy stream by async.
             Task.Run(async () =>
@@ -159,36 +172,45 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     (HttpWebResponse response, Stream inputStream) = await streamPairFactory();
 
                     using (response)
-                    using (var outputStream = GetStream(response))
+                    using (var outputStream = GetRemoteStream(response))
                     using (inputStream)
                     {
                         byte[] buffer = new byte[128 * 1024];
                         int count;
                         context.Status = TransferStatus.Transferring;
                         o.OnNext(context);
-                        while ((count = await outputStream.ReadAsync(buffer, 0, buffer.Length, token)) > 0)
+                        while ((count = await outputStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
                         {
-                            if (token.IsCancellationRequested) break;
-                            await inputStream.WriteAsync(buffer, 0, count, token);
+                            cancellationToken.ThrowIfCancellationRequested();
+                            await inputStream.WriteAsync(buffer, 0, count, cancellationToken);
                             context.Bytes = count;
                             o.OnNext(context);
+
+                            if (context.Offset / BlockLength == 1)
+                            {
+                                if (_count == 0)
+                                {
+                                    _count++;
+                                    throw new WebException();
+                                }
+                                if (_count == 1)
+                                {
+                                    _count++;
+                                    Console.WriteLine($"[Restart] {context.Id:B}");
+                                }
+                            }
                         }
                     }
 
                     o.OnCompleted();
                 }
-                catch (TaskCanceledException)
+                catch (Exception e)
                 {
-                    o.OnCompleted();
+                    o.OnError(new BlockTransferException(context, e));
                 }
-                catch (Exception)
-                {
-                    context.Status = TransferStatus.Faulted;
-                    o.OnNext(context);
-                }
-            }, token);
+            }, cancellationToken);
 
-            return () => source.Cancel();
+            return () => cancellationTokenSource.Cancel();
         });
 
         public static IEnumerable<(long Offset, long Length)> GetBlockIntervals(long totalLength)
@@ -201,6 +223,11 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             }
 
             yield return (offset, totalLength - offset);
+        }
+
+        public static IRemotePathProvider GetRemotePathProvider(this Context @this)
+        {
+            return (IRemotePathProvider)@this[nameof(IRemotePathProvider)];
         }
     }
 }
