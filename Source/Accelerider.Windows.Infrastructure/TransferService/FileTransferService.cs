@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xaml;
@@ -21,7 +22,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             ServicePointManager.DefaultConnectionLimit = 99999;
         }
 
-        public static async Task<(IObservable<BlockTransferContext> observable, TransferContext context)> DownloadAsync(
+        public static async Task<(IConnectableObservable<BlockTransferContext> observable, TransferContext context)> DownloadAsync(
             List<string> remotePaths,
             string localPath,
             CancellationToken cancellationToken,
@@ -42,9 +43,10 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 { nameof(IRemotePathProvider), context.RemotePathProvider }
             });
 
-            var observable = RunBlockDownloadItems(blockDownloadTasks.Merge(maxConcurrent), cancellationToken);
+            //var observable = RunBlockDownloadItems(blockDownloadTasks.Merge(maxConcurrent), cancellationToken);
 
-            return (observable, context);
+            //return (observable, context);
+            return (blockDownloadTasks.Merge(maxConcurrent).Publish(), context);
         }
 
         private static IAsyncPolicy<IEnumerable<IObservable<BlockTransferContext>>> BuildRunPolicy(TransferContext context)
@@ -192,7 +194,11 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 }
             }, cancellationToken);
 
-            return () => cancellationTokenSource.Cancel();
+            return () =>
+            {
+                Console.WriteLine($"{context.Id} has been disposed. ");
+                cancellationTokenSource.Cancel();
+            };
         });
 
         public static IEnumerable<(long Offset, long Length)> GetBlockIntervals(long totalLength)

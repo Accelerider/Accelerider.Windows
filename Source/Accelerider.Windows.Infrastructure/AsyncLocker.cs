@@ -4,7 +4,7 @@ namespace Accelerider.Windows.Infrastructure
 {
     public class AsyncLocker
     {
-        private event Action Unlock;
+        private event Action Unlocked;
 
         private bool _isLocked;
 
@@ -15,7 +15,7 @@ namespace Accelerider.Windows.Infrastructure
             {
                 if (_isLocked == value) return;
                 _isLocked = value;
-                if (!value) Unlock?.Invoke();
+                if (!value) Unlocked?.Invoke();
             }
         }
 
@@ -23,7 +23,7 @@ namespace Accelerider.Windows.Infrastructure
         {
             if (IsLocked)
             {
-                Unlock += OnUnlock;
+                Unlocked += OnUnlocked;
             }
             else
             {
@@ -32,9 +32,9 @@ namespace Accelerider.Windows.Infrastructure
                 IsLocked = false;
             }
 
-            void OnUnlock()
+            void OnUnlocked()
             {
-                Unlock -= OnUnlock;
+                Unlocked -= OnUnlocked;
                 action?.Invoke();
             }
         }
