@@ -175,6 +175,7 @@
     <Compile Include="TransferService\FileDownloader.cs" />
     <Compile Include="TransferService\FileTransferService.cs" />
     <Compile Include="TransferService\ObserverList.cs" />
+    <Compile Include="TransferService\RemotePathExhaustedException.cs" />
     <Compile Include="TransferService\RemotePathProvider.cs" />
     <Compile Include="TransferService\TransferContext.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />

@@ -1,5 +1,5 @@
 ﻿using System;
-using Accelerider.Windows.Infrastructure.FileTransferService;
+//using Accelerider.Windows.Infrastructure.FileTransferService;
 using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
@@ -7,8 +7,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     public class TransferContextBase
     {
         public Guid Id { get; } = Guid.NewGuid();
-
-        public TransferStatus Status { get; internal set; }
 
         public long TotalSize { get; internal set; }
 
