@@ -120,6 +120,7 @@
     <Compile Include="FileTransferService\TransporterId.cs" />
     <Compile Include="Extensions\FunctionalExtensions.cs" />
     <Compile Include="GenericInterface.cs" />
+    <Compile Include="Guards.cs" />
     <Compile Include="I18n\I18nExtension.cs" />
     <Compile Include="I18n\I18nSource.cs" />
     <Compile Include="I18n\I18nManager.cs" />
@@ -173,13 +174,16 @@
     <Compile Include="FileTransferService\TransporterSettings.cs" />
     <Compile Include="TransferService\BlockTransferException.cs" />
     <Compile Include="TransferService\FileDownloader.cs" />
+    <Compile Include="TransferService\DownloaderBuilder.cs" />
     <Compile Include="TransferService\FileTransferService.cs" />
-    <Compile Include="TransferService\FileTransferTask.cs" />
-    <Compile Include="TransferService\IFileTransferTask.cs" />
+    <Compile Include="TransferService\IDownloader.cs" />
+    <Compile Include="TransferService\IDownloaderBuilder.cs" />
     <Compile Include="TransferService\ObserverList.cs" />
+    <Compile Include="TransferService\Primitives.cs" />
     <Compile Include="TransferService\RemotePathExhaustedException.cs" />
     <Compile Include="TransferService\RemotePathProvider.cs" />
     <Compile Include="TransferService\TransferContext.cs" />
+    <Compile Include="TransferService\TransferSettings.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\IAwareTabItemSelectionChanged.cs" />
     <Compile Include="ViewModels\IAwareViewLoadedAndUnloaded.cs" />

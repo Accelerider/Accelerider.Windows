@@ -4,7 +4,7 @@ using Accelerider.Windows.Infrastructure.FileTransferService;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public interface ITransporter : IObservable<BlockTransferContext>, IDisposable, INotifyPropertyChanged
+    public interface IDownloader : IObservable<BlockTransferContext>, IDisposable, INotifyPropertyChanged
     {
         TransferStatus Status { get; }
 

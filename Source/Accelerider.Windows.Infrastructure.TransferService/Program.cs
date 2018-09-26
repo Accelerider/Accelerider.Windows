@@ -40,14 +40,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .Select(item =>
                 {
                     var TotalCompleted = totalCompleted += item.Bytes;
-                    return (item.Id, item.Status, TotalCompleted, item.Offset, item.TotalSize);
+                    return (item.Id, /*item.Status,*/ TotalCompleted, item.Offset, item.TotalSize);
                 })
                 .Sample(TimeSpan.FromMilliseconds(500))
                 .Timestamp()
                 .Subscribe(timestampedContext =>
                 {
                     var timestamp = timestampedContext.Timestamp;
-                    var (Id, Status, TotalCompleted, Offset, TotalSize) = timestampedContext.Value;
+                    var (Id, /*Status,*/ TotalCompleted, Offset, TotalSize) = timestampedContext.Value;
 
                     WriteLine($"{Id:B}: " +
                               $"{Offset:D10} --> {Offset + TotalSize:D10} " +

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static Accelerider.Windows.Infrastructure.Guards;
 
 // ReSharper disable once CheckNamespace
 namespace System
@@ -12,6 +13,8 @@ namespace System
             this Func<TInput, IEnumerable<TOutput>> @this,
             Func<TOutput, T> function)
         {
+            ThrowIfNullReference(function);
+
             return input => @this(input).Select(function);
         }
 
@@ -19,6 +22,8 @@ namespace System
             this Func<TInput, TOutput> @this,
             Func<TOutput, T> function)
         {
+            ThrowIfNullReference(function);
+
             return input => function(@this(input));
         }
 
@@ -27,6 +32,8 @@ namespace System
             Func<TOutput, T> function,
             CancellationToken cancellationToken = default)
         {
+            ThrowIfNullReference(function);
+
             return async input =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -39,6 +46,8 @@ namespace System
             Func<TOutput, T> function,
             CancellationToken cancellationToken = default)
         {
+            ThrowIfNullReference(function);
+
             return async input =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
