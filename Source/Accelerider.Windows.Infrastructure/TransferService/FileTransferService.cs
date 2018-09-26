@@ -98,6 +98,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .Catch<BlockTransferException>(e => HandleBlockDownloadItemException(e, remotePathProvider));
         }
 
+        // [Primitive]
         private static IObservable<BlockTransferContext> CreateBlockDownloadItem(BlockTransferContext blockContext)
         {
             var streamPairFatory = new Func<Task<(HttpWebResponse response, Stream inputStream)>>(async () =>

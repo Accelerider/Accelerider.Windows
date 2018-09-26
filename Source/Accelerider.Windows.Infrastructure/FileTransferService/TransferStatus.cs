@@ -14,6 +14,16 @@
      * [Suspend()]: Ready     | Transferring  |           |         |           --> Suspended
      */
 
+    /*
+     *              | Ready | Transferring | Suspended | Faulted | Completed | Disposed |
+     * Ready        |       | ■■■■■■■■■■■■ |           | ■■■■■■■ |           | ■■■■■■■■ |
+     * Transferring |       |              |           |         |           |          |
+     * Suspended    |       | ■■■■■■■■■■■■ |           |         |           |          |
+     * Faulted      |       | ■■■■■■■■■■■■ |           |         |           | ■■■■■■■■ |
+     * Completed    |       |              |           |         |           |          |
+     * Disposed     |       |              |           |         |           |          |
+     */
+
     /// <summary>
     /// Indicates the status of a file which is in the transfer (download or upload) cycle.
     /// </summary>

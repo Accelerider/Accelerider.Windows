@@ -1,5 +1,4 @@
 ﻿using System;
-//using Accelerider.Windows.Infrastructure.FileTransferService;
 using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure.TransferService

@@ -27,9 +27,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             _remotePathDictionary = new ConcurrentDictionary<string, double>(remotePaths.ToDictionary(item => item, item => 0.0));
         }
 
-
         public IReadOnlyList<string> RemotePaths { get; }
-
 
         public void Vote(string remotePath, double score, bool isAccumulate = true)
         {
