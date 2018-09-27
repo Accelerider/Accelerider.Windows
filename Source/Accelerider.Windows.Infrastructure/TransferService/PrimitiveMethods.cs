@@ -9,42 +9,35 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public static class Primitives
+    public static class PrimitiveMethods
     {
-        [Pure]
-        public static HttpWebRequest GetRequest(this string remotePath)
+        public static HttpWebRequest ToRequest(this string remotePath)
         {
             return WebRequest.CreateHttp(remotePath);
         }
 
-        [Pure]
-        public static HttpWebRequest GetRequest(this HttpWebRequest request, (long offset, long length) block)
+        public static HttpWebRequest Slice(this HttpWebRequest request, (long offset, long length) block)
         {
             request.AddRangeBasedOffsetLength(block.offset, block.length);
             return request;
         }
 
-        [Pure]
         public static async Task<HttpWebResponse> GetResponseAsync(HttpWebRequest request)
         {
             return (HttpWebResponse)await request.GetResponseAsync();
         }
 
-        [Pure]
-        public static Stream GetStream(this HttpWebResponse response)
+        public static FileStream ToStream(this string localPath)
         {
-            return response.GetResponseStream();
+            return File.Open(localPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write); ;
         }
 
-        [Pure]
-        public static Stream GetStream(this string localPath, (long offset, long length) block = default)
+        public static FileStream Slice(this FileStream stream, (long offset, long length) block)
         {
-            var stream = File.Open(localPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
             stream.Position = block.offset;
             return stream;
         }
 
-        [Pure]
         public static IObservable<BlockTransferContext> CreateBlockDownloadItem(Func<Task<(HttpWebResponse response, Stream inputStream)>> streamPairFactory, BlockTransferContext context) => Observable.Create<BlockTransferContext>(o =>
         {
             var cancellationTokenSource = new CancellationTokenSource();
@@ -58,14 +51,12 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     (HttpWebResponse response, Stream inputStream) = await streamPairFactory();
 
                     using (response)
-                    using (var outputStream = response.GetStream())
+                    using (var outputStream = response.GetResponseStream())
                     using (inputStream)
                     {
-                        //context.Status = TransferStatus.Transferring;
-                        //o.OnNext(context);
-
                         byte[] buffer = new byte[128 * 1024];
-                        int count;
+                        int count = 0;
+                        context.Bytes = count;
                         while ((count = await outputStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
                         {
                             cancellationToken.ThrowIfCancellationRequested();
@@ -75,6 +66,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                         }
                     }
 
+                    context.Bytes = 0;
+                    o.OnNext(context);
                     o.OnCompleted();
                 }
                 catch (OperationCanceledException e)

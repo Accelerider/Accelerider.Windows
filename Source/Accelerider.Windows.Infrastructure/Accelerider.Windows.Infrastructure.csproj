@@ -175,11 +175,10 @@
     <Compile Include="TransferService\BlockTransferException.cs" />
     <Compile Include="TransferService\FileDownloader.cs" />
     <Compile Include="TransferService\DownloaderBuilder.cs" />
-    <Compile Include="TransferService\FileTransferService.cs" />
     <Compile Include="TransferService\IDownloader.cs" />
     <Compile Include="TransferService\IDownloaderBuilder.cs" />
     <Compile Include="TransferService\ObserverList.cs" />
-    <Compile Include="TransferService\Primitives.cs" />
+    <Compile Include="TransferService\PrimitiveMethods.cs" />
     <Compile Include="TransferService\RemotePathExhaustedException.cs" />
     <Compile Include="TransferService\RemotePathProvider.cs" />
     <Compile Include="TransferService\TransferContext.cs" />

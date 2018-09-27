@@ -155,14 +155,12 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 LocalPath = _localPath
             };
 
-            var blockDownloadItemsFactory = BuildBlockDownloadItemsFactory(context, cancellationToken);
-
             var setting = GetTransferSettings(context);
 
-            var blockDownloadTasks = await setting.BuildPolicy.ExecuteAsync(policyContext => blockDownloadItemsFactory(policyContext.GetRemotePathProvider()), new Dictionary<string, object>
-            {
-                { nameof(IRemotePathProvider), context.RemotePathProvider }
-            });
+            var blockDownloadItemsFactory = BuildBlockDownloadItemsFactory(context, setting, cancellationToken);
+
+            var blockDownloadTasks = await setting.BuildPolicy.ExecuteAsync(() =>
+                blockDownloadItemsFactory(context.RemotePathProvider));
 
             return blockDownloadTasks.Merge(setting.MaxConcurrent).Publish();
         }
@@ -172,19 +170,20 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             var setting = new TransferSettings
             {
                 BuildPolicy = BuildRunPolicy(context),
-                MaxConcurrent = 16
+                MaxConcurrent = 16,
+                Handlers = new BlockDownloadItemExceptionHandlers(CreateBlockDownloadItem)
             };
             _settingsConfigurator(setting, context);
 
             return setting;
         }
 
-        private Func<IRemotePathProvider, Task<IEnumerable<IObservable<BlockTransferContext>>>> BuildBlockDownloadItemsFactory(TransferContext context, CancellationToken cancellationToken)
+        private Func<IRemotePathProvider, Task<IEnumerable<IObservable<BlockTransferContext>>>> BuildBlockDownloadItemsFactory(TransferContext context, TransferSettings settings, CancellationToken cancellationToken)
         {
             return new Func<IRemotePathProvider, string>(provider => provider.GetRemotePath())
-                .Then(Primitives.GetRequest)
+                .Then(PrimitiveMethods.ToRequest)
                 .Then(_requestInterceptor)
-                .Then(Primitives.GetResponseAsync)
+                .Then(PrimitiveMethods.GetResponseAsync)
                 .ThenAsync(response =>
                 {
                     using (response)
@@ -201,12 +200,34 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     LocalPath = context.LocalPath
                 }, cancellationToken)
                 .ThenAsync(CreateBlockDownloadItem, cancellationToken)
+                .ThenAsync(settings.Handlers.ToInterceptor())
                 .ThenAsync(item => _blockTransferItemInterceptor(item, context));
             //.ThenAsync(item => item
             //        .Catch<BlockTransferException>(e => HandleBlockDownloadItemException(e, context.RemotePathProvider))
             //        .Catch<RemotePathExhaustedException>(e => Observable.Empty<BlockTransferContext>())
             //        .Catch<OperationCanceledException>(e => Observable.Empty<BlockTransferContext>()),
             //    cancellationToken);
+        }
+
+        private Func<Task<(HttpWebResponse response, Stream inputStream)>> BuildStreamPairFatory(BlockTransferContext context)
+        {
+            return async () =>
+            {
+                var interval = (context.Offset + context.CompletedSize, context.TotalSize - context.CompletedSize);
+                var request = context.RemotePath.ToRequest().Slice(interval);
+                var response = await PrimitiveMethods.GetResponseAsync(request);
+
+                var localStream = _localPathInterceptor(context.LocalPath).ToStream().Slice(interval);
+
+                return (response, localStream);
+            };
+        }
+
+        private IObservable<BlockTransferContext> CreateBlockDownloadItem(BlockTransferContext context)
+        {
+            return context.CompletedSize < context.TotalSize
+                ? PrimitiveMethods.CreateBlockDownloadItem(BuildStreamPairFatory(context), context)
+                : Observable.Empty<BlockTransferContext>();
         }
 
         private static IAsyncPolicy<IEnumerable<IObservable<BlockTransferContext>>> BuildRunPolicy(TransferContext context)
@@ -216,38 +237,22 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .RetryAsync(context.RemotePathProvider.RemotePaths.Count, (delegateResult, retryCount, policyContext) =>
                 {
                     var remotePath = ((WebException)delegateResult.Exception).Response.ResponseUri.OriginalString;
-                    var provider = policyContext.GetRemotePathProvider();
-                    provider.Vote(remotePath, -3);
+                    context.RemotePathProvider.Vote(remotePath, -3);
                 });
         }
 
-        public static IEnumerable<(long Offset, long Length)> GetBlockIntervals(long totalLength)
+        private static IEnumerable<(long Offset, long Length)> GetBlockIntervals(long totalLength)
         {
-            const long BlockLength = 1024 * 1024 * 20;
+            const long blockLength = 1024 * 1024 * 20;
+
             long offset = 0;
-            while (offset + BlockLength < totalLength)
+            while (offset + blockLength < totalLength)
             {
-                yield return (offset, BlockLength);
-                offset += BlockLength;
+                yield return (offset, blockLength);
+                offset += blockLength;
             }
 
             yield return (offset, totalLength - offset);
-        }
-
-        public IObservable<BlockTransferContext> CreateBlockDownloadItem(BlockTransferContext blockContext)
-        {
-            var streamPairFatory = new Func<Task<(HttpWebResponse response, Stream inputStream)>>(async () =>
-            {
-                var interval = (blockContext.Offset + blockContext.CompletedSize, blockContext.TotalSize - blockContext.CompletedSize);
-                var request = blockContext.RemotePath.GetRequest().GetRequest(interval);
-                var response = await Primitives.GetResponseAsync(request);
-
-                var localStream = _localPathInterceptor(blockContext.LocalPath).GetStream(interval);
-
-                return (response, localStream);
-            });
-
-            return Primitives.CreateBlockDownloadItem(streamPairFatory, blockContext);
         }
     }
 }
