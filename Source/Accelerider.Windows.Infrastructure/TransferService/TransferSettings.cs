@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using Polly;
@@ -11,9 +10,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     {
         internal TransferSettings() { }
 
-        public IAsyncPolicy<IEnumerable<IObservable<BlockTransferContext>>> BuildPolicy { get; set; }
+        public IAsyncPolicy BuildPolicy { get; set; }
 
-        public BlockDownloadItemExceptionHandlers Handlers { get; internal set; }
+        public BlockDownloadItemPolicy DownloadPolicy { get; internal set; }
 
         public int MaxConcurrent { get; set; }
     }
@@ -27,14 +26,19 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
     public delegate HandleCommand BlockDownloadItemExceptionHandler<in TException>(TException exception, int retryCount, BlockTransferContext context) where TException : Exception;
 
-    public class BlockDownloadItemExceptionHandlers
+    public class BlockDownloadItemPolicy
     {
         private readonly ConcurrentDictionary<Guid, int> _retryStatistics = new ConcurrentDictionary<Guid, int>();
         private readonly ConcurrentDictionary<Type, BlockDownloadItemExceptionHandler<Exception>> _handlers = new ConcurrentDictionary<Type, BlockDownloadItemExceptionHandler<Exception>>();
 
-        internal Func<BlockTransferContext, IObservable<BlockTransferContext>> BlockDownloadItemFactory { get; set; }
+        private readonly Func<BlockTransferContext, IObservable<BlockTransferContext>> _blockDownloadItemFactory;
 
-        public BlockDownloadItemExceptionHandlers Catch<TException>(BlockDownloadItemExceptionHandler<TException> handler)
+        public BlockDownloadItemPolicy(Func<BlockTransferContext, IObservable<BlockTransferContext>> blockDownloadItemFactory)
+        {
+            _blockDownloadItemFactory = blockDownloadItemFactory;
+        }
+
+        public BlockDownloadItemPolicy Catch<TException>(BlockDownloadItemExceptionHandler<TException> handler)
             where TException : Exception
         {
             var type = typeof(TException);
@@ -45,9 +49,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return this;
         }
 
-        public Func<IObservable<BlockTransferContext>, IObservable<BlockTransferContext>> ToInterceptor()
+        internal Func<IObservable<BlockTransferContext>, IObservable<BlockTransferContext>> ToInterceptor()
         {
-            return observable => observable.Catch<BlockTransferContext, BlockTransferException>(e =>
+            return ExceptionInterceptor;
+        }
+
+        private IObservable<BlockTransferContext> ExceptionInterceptor(IObservable<BlockTransferContext> observable)
+        {
+            return observable.Catch<BlockTransferContext, BlockTransferException>(e =>
             {
                 var handler = _handlers.FirstOrDefault(item => item.Key.IsInstanceOfType(e.InnerException)).Value;
                 if (handler != null)
@@ -58,7 +67,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                             return Observable.Throw<BlockTransferContext>(e.InnerException ?? e);
                         case HandleCommand.Retry:
                             SetRetryCount(e.Context.Id);
-                            return BlockDownloadItemFactory(e.Context);
+                            return _blockDownloadItemFactory.Then(ExceptionInterceptor)(e.Context);
                         case HandleCommand.Break:
                             return Observable.Empty<BlockTransferContext>();
                     }
@@ -68,9 +77,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             });
         }
 
-        public int GetRetryCount(Guid id) => _retryStatistics.ContainsKey(id) ? _retryStatistics[id] : 0;
+        private int GetRetryCount(Guid id) => _retryStatistics.ContainsKey(id) ? _retryStatistics[id] : 0;
 
-        public void SetRetryCount(Guid id)
+        private void SetRetryCount(Guid id)
         {
             if (!_retryStatistics.ContainsKey(id))
             {

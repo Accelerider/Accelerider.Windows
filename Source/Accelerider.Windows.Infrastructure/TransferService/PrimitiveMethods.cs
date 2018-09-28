@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Net;
 using System.Reactive.Linq;
@@ -29,6 +28,11 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public static FileStream ToStream(this string localPath)
         {
+            var folderPath = Path.GetDirectoryName(localPath) ?? throw new InvalidOperationException();
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
             return File.Open(localPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write); ;
         }
 

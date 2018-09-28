@@ -4,8 +4,6 @@ using System.Net;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public delegate T Interceptor<T>(T input, TransferContext context);
-
     /// <summary>
     /// Represents an download or upload task builder.
     /// </summary>
@@ -42,7 +40,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         IDownloaderBuilder Configure(Func<long, IEnumerable<(long offset, long length)>> blockIntervalGenerator);
 
-        IDownloaderBuilder Configure(Interceptor<IObservable<BlockTransferContext>> blockTransferItemInterceptor);
+        IDownloaderBuilder Configure(Func<IObservable<BlockTransferContext>, IObservable<BlockTransferContext>> blockTransferItemInterceptor);
 
         /// <summary>
         /// Get a snapshot copy of the current instance. 

@@ -1,22 +1,27 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
-using System.Reactive.Subjects;
+using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.FileTransferService;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
     internal class FileDownloader : ObservableBase<BlockTransferContext>, IDownloader
     {
-        private readonly Func<CancellationToken, Task<IObservable<BlockTransferContext>>> _observableFactory;
         private readonly ObserverList<BlockTransferContext> _observerList = new ObserverList<BlockTransferContext>();
+        private readonly Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>> _blockTransferContextGenerator;
+        private readonly Func<BlockTransferContext, IObservable<BlockTransferContext>> _blockDownloadItemFactory;
+        private readonly TransferSettings _settings;
 
+        private ConcurrentDictionary<Guid, BlockTransferContext> _blockTransferContextCache;
         private IDisposable _disposable;
+
         private TransferStatus _status;
         private TransferContext _context;
 
@@ -32,9 +37,16 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             internal set => SetProperty(ref _context, value);
         }
 
-        public FileDownloader(Func<CancellationToken, Task<IObservable<BlockTransferContext>>> observableFactory)
+        public FileDownloader(
+            Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>> blockTransferContextGenerator,
+            Func<BlockTransferContext, IObservable<BlockTransferContext>> blockDownloadItemFactory,
+            TransferContext context,
+            TransferSettings settings)
         {
-            _observableFactory = observableFactory ?? throw new ArgumentNullException(nameof(observableFactory));
+            Context = context;
+            _settings = settings;
+            _blockTransferContextGenerator = blockTransferContextGenerator;
+            _blockDownloadItemFactory = blockDownloadItemFactory;
         }
 
         protected override IDisposable SubscribeCore(IObserver<BlockTransferContext> observer)
@@ -53,13 +65,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             switch (Status)
             {
                 case TransferStatus.Ready: // [Start]
-                    _disposable = (await _observableFactory(cancellationToken)).Subscribe(_observerList);
+                    await _settings.BuildPolicy.ExecuteAsync(async () => _disposable = await Start(cancellationToken));
                     break;
                 case TransferStatus.Suspended: // [Restart]
+                    _disposable = Resume();
                     break;
                 case TransferStatus.Faulted: // [Retry]
                     Dispose(true);
-                    _disposable = (await _observableFactory(cancellationToken)).Subscribe(_observerList);
+                    await _settings.BuildPolicy.ExecuteAsync(async () => _disposable = await Start(cancellationToken));
                     break;
                 default:
                     return;
@@ -73,12 +86,35 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             ThrowIfDisposed();
             if (Status != TransferStatus.Transferring) return;
 
-            // 1. Dispose this instance to stop downloding.
             Dispose(true);
-            // 2. Persist block transfer context.
-
 
             Status = TransferStatus.Suspended;
+        }
+
+        private async Task<IDisposable> Start(CancellationToken cancellationToken)
+        {
+            var blockContexts = (await _blockTransferContextGenerator(cancellationToken)).ToArray();
+
+            _blockTransferContextCache = new ConcurrentDictionary<Guid, BlockTransferContext>(
+                blockContexts.ToDictionary(item => item.Id));
+
+            return CreateAndRunBlockDownloadItems(blockContexts);
+        }
+
+        private IDisposable Resume()
+        {
+            var blockContexts = _blockTransferContextCache.Values;
+
+            return CreateAndRunBlockDownloadItems(blockContexts);
+        }
+
+        private IDisposable CreateAndRunBlockDownloadItems(IEnumerable<BlockTransferContext> blockContexts)
+        {
+            return blockContexts
+                .Select(item => _blockDownloadItemFactory(item))
+                .Merge(_settings.MaxConcurrent)
+                .Do(context => _blockTransferContextCache[context.Id] = context)
+                .Subscribe(_observerList);
         }
 
         #region Implements IDisposable
@@ -90,7 +126,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             if (disposing)
             {
                 _disposable?.Dispose();
-                _disposable = null;
             }
         }
 

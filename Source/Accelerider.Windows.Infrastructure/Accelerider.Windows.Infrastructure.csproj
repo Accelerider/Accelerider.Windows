@@ -114,6 +114,7 @@
     <Compile Include="Extensions\WebRequestExtensions.cs" />
     <Compile Include="FileTransferService\DefaultDownloaderBuilder.cs" />
     <Compile Include="FileTransferService\Impls\TransferContextSettings.cs" />
+    <Compile Include="FileTransferService\TransferStatus.cs" />
     <Compile Include="FileTransferService\TransporterBase.cs" />
     <Compile Include="FileTransferService\Impls\TransporterRegistry.cs" />
     <Compile Include="FileTransferService\TransferStatusChangedEventArgs.cs" />
@@ -129,7 +130,7 @@
     <Compile Include="Enumerations\Language.cs" />
     <Compile Include="Enumerations\ShareStatus.cs" />
     <Compile Include="Enumerations\SizeUnit.cs" />
-    <Compile Include="FileTransferService\TransferStatus.cs" />
+    <Compile Include="TransferService\TransferStatus.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileLocator.cs" />
     <Compile Include="FileTransferService\Impls\Downloader.cs" />
@@ -174,7 +175,8 @@
     <Compile Include="FileTransferService\TransporterSettings.cs" />
     <Compile Include="TransferService\BlockTransferException.cs" />
     <Compile Include="TransferService\FileDownloader.cs" />
-    <Compile Include="TransferService\DownloaderBuilder.cs" />
+    <Compile Include="TransferService\FileDownloaderBuilder.cs" />
+    <Compile Include="TransferService\FileTransferService.cs" />
     <Compile Include="TransferService\IDownloader.cs" />
     <Compile Include="TransferService\IDownloaderBuilder.cs" />
     <Compile Include="TransferService\ObserverList.cs" />
