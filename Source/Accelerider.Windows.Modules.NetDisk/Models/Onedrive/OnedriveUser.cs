@@ -28,7 +28,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
 				new HttpClient(new AuthenticatedHttpClientHandler(() => AccessToken))
 				{
 					BaseAddress = new Uri("https://graph.microsoft.com")
-				},new RefitSettings() { JsonSerializerSettings = new JsonSerializerSettings() });
+				}, new RefitSettings() { JsonSerializerSettings = new JsonSerializerSettings() });
 		}
 
 		public override async Task RefreshUserInfoAsync()
