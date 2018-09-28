@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using Accelerider.Windows.Infrastructure.Commands;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
 using Autofac;
 using MaterialDesignThemes.Wpf;

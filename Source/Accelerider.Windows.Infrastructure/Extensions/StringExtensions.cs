@@ -1,13 +1,13 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Accelerider.Windows.Infrastructure;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Accelerider.Windows.Infrastructure.Extensions
+namespace System
 {
     public static class StringExtensions
     {
@@ -144,9 +144,8 @@ namespace Accelerider.Windows.Infrastructure.Extensions
 		public static string DecryptByRsa(this string text, string privateKeyXml = null)
         {
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-            byte[] cipherbytes;
             rsa.FromXmlString(privateKeyXml ?? GetPrivateKey());
-            cipherbytes = rsa.Decrypt(Convert.FromBase64String(text), false);
+            var cipherbytes = rsa.Decrypt(Convert.FromBase64String(text), false);
 
             return Encoding.UTF8.GetString(cipherbytes);
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Accelerider.Windows.Infrastructure.Interfaces
+namespace Accelerider.Windows.Infrastructure
 {
     public class ValueChangedEventArgs : EventArgs
     {

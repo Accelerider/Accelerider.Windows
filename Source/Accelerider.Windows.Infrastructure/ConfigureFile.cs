@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Accelerider.Windows.Infrastructure.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

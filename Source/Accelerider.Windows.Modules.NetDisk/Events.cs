@@ -1,6 +1,6 @@
 ﻿using Prism.Events;
 using System.Collections.Generic;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 
 namespace Accelerider.Windows.Modules.NetDisk

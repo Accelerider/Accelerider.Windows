@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.Modules.NetDisk.Extensions
 {

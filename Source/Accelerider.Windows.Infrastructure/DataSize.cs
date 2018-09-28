@@ -1,5 +1,4 @@
 ﻿using System;
-using Accelerider.Windows.Infrastructure.Enumerations;
 
 namespace Accelerider.Windows.Infrastructure
 {

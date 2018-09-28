@@ -1,40 +1,63 @@
 ﻿using System;
-using System.Net;
-using System.Threading;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public class TransferContext : ITransferContext
+    public class TransferContextBase
     {
-        public CancellationToken CancellationToken { get; set; }
+        public Guid Id { get; } = Guid.NewGuid();
 
-        public TransferStatus Status { get; set; }
+        public virtual long TotalSize { get; internal set; }
 
-        public object this[string key]
+        public string LocalPath { get; internal set; }
+    }
+
+    public class TransferContext : TransferContextBase, INotifyPropertyChanged
+    {
+        private long _totalSize;
+
+        public override long TotalSize
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            get => _totalSize;
+            internal set
+            {
+                if (_totalSize == value) return;
+                _totalSize = value;
+                OnPropertyChanged();
+            }
         }
 
-        public long CompletedSize { get; set; }
+        public IRemotePathProvider RemotePathProvider { get; internal set; }
 
-        public long TotalSize { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public string LocalPath { get; set; }
-
-        public string RemotePath { get; set; }
-
-        public HttpWebResponse Response { get; set; }
-
-        public ITransferContext Clone()
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var result = new TransferContext();
-            CancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CancellationToken, result.CancellationToken).Token;
-            result.Status = Status;
-            result.RemotePath = RemotePath;
-            result.LocalPath = LocalPath;
-            result.Response = Response;
-            return result;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    public class BlockTransferContext : TransferContextBase
+    {
+        private int _bytes;
+
+        public long Offset { get; internal set; }
+
+        public long CompletedSize { get; internal set; }
+
+        [JsonIgnore]
+        public int Bytes
+        {
+            get => _bytes;
+            internal set
+            {
+                _bytes = value;
+                CompletedSize += value;
+            }
+        }
+
+        public string RemotePath { get; internal set; }
     }
 }

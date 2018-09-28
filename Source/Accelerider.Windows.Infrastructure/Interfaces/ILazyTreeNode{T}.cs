@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace Accelerider.Windows.Infrastructure.Interfaces
+namespace Accelerider.Windows.Infrastructure
 {
     /// <summary>
     /// Represents a tree structure whose <see cref="ChildrenCache"/> will be fetched or refreshed 
@@ -27,10 +28,10 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         ILazyTreeNode<T> Parent { get; }
 
         /// <summary>
-        /// Get all the parents of the node, the order of the sequence is from the root to the parent of the node.
+        /// Get ancestors of the node, the order of the sequence is from the root to the parent of the node.
         /// (<see cref="Root"/> --> <see cref="Parent"/>)
         /// </summary>
-        IReadOnlyList<ILazyTreeNode<T>> Parents { get; }
+        IReadOnlyList<ILazyTreeNode<T>> Ancestors { get; }
 
         /// <summary>
         /// Gets the cache of the child's node for the node.
@@ -42,6 +43,6 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         /// </summary>
         /// <param name="action">A operation to the content of nodes.</param>
         /// <returns>Returns a <see cref="Task"/> to wait.</returns>
-        Task ForEachAsync(Action<T> action);
+        Task ForEachAsync(Action<T> action, CancellationToken cancellationToken);
     }
 }

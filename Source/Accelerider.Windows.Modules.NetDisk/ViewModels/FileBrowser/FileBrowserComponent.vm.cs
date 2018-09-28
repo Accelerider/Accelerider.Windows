@@ -2,8 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
-using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Modules.NetDisk.Extensions;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;

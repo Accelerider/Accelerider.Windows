@@ -1,5 +1,32 @@
 ﻿namespace Accelerider.Windows.Infrastructure.TransferService
 {
+    /*
+     * * UI layer operations: (Operates the transporter queue)
+     * [Restart()]:           |               | Suspended | Faulted |           --> Ready*
+     * [Cancel()]:  Ready     | Transferring* | Suspended | Faulted | Completed --> Disposed
+     * [AsNext()]:  Any Ready |               |           |         |           --> Top Ready
+     * 
+     * * Transporter operations: (Operates itself)
+     * [Start()]:   Ready*    |               | Suspended | Faulted |           --> Transferring*
+     * [Dispose()]: Ready     |               | Suspended | Faulted | Completed --> Disposed
+     *
+     * * Common operations:
+     * [Suspend()]: Ready     | Transferring  |           |         |           --> Suspended
+     */
+
+    /*
+     *              | Ready | Transferring | Suspended | Faulted | Completed | Disposed |
+     * Ready        |       | ■■■■■■■■■■■■ |           | ■■■■■■■ |           | ■■■■■■■■ |
+     * Transferring |       |              |           |         |           |          |
+     * Suspended    |       | ■■■■■■■■■■■■ |           |         |           |          |
+     * Faulted      |       | ■■■■■■■■■■■■ |           |         |           | ■■■■■■■■ |
+     * Completed    |       |              |           |         |           |          |
+     * Disposed     |       |              |           |         |           |          |
+     */
+
+    /// <summary>
+    /// Indicates the status of a file which is in the transfer (download or upload) cycle.
+    /// </summary>
     public enum TransferStatus
     {
         /// <summary>
@@ -26,5 +53,10 @@
         /// The task has been completed. End state.
         /// </summary>
         Completed,
+
+        /// <summary>
+        /// The task has been disposed. End state.
+        /// </summary>
+        Disposed
     }
 }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Net;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Accelerider.Windows.Infrastructure.Extensions
+namespace System.Net
 {
     public static class WebRequestExtensions
     {
@@ -54,5 +50,9 @@ namespace Accelerider.Windows.Infrastructure.Extensions
 		    return result;
 	    }
 
-	}
+        public static void AddRangeBasedOffsetLength(this HttpWebRequest @this, long offset, long length)
+        {
+            @this.AddRange(offset, offset + length - 1);
+        }
+    }
 }

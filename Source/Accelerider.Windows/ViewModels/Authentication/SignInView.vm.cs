@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Constants;
-using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Extensions;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views;

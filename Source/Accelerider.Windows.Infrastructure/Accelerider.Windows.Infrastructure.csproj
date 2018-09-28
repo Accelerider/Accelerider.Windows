@@ -51,6 +51,9 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Polly, Version=6.0.0.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.6.1.0\lib\netstandard2.0\Polly.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
@@ -97,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceleriderPaths.cs" />
+    <Compile Include="AsyncLocker.cs" />
     <Compile Include="Commands\CommandExtensions.cs" />
     <Compile Include="Commands\RelayCommandAsync.cs" />
     <Compile Include="Commands\RelayCommandAsync{T}.cs" />
@@ -104,17 +108,21 @@
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="DataContext.cs" />
+    <Compile Include="Extensions\AwaitExtensions.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
     <Compile Include="Extensions\WebRequestExtensions.cs" />
     <Compile Include="FileTransferService\DefaultDownloaderBuilder.cs" />
     <Compile Include="FileTransferService\Impls\TransferContextSettings.cs" />
+    <Compile Include="FileTransferService\TransferStatus.cs" />
     <Compile Include="FileTransferService\TransporterBase.cs" />
     <Compile Include="FileTransferService\Impls\TransporterRegistry.cs" />
     <Compile Include="FileTransferService\TransferStatusChangedEventArgs.cs" />
     <Compile Include="FileTransferService\TransporterId.cs" />
-    <Compile Include="FunctionalExtensions.cs" />
+    <Compile Include="Extensions\FunctionalExtensions.cs" />
     <Compile Include="GenericInterface.cs" />
-    <Compile Include="I18n\I18nExtensions.cs" />
+    <Compile Include="Guards.cs" />
+    <Compile Include="I18n\I18nExtension.cs" />
     <Compile Include="I18n\I18nSource.cs" />
     <Compile Include="I18n\I18nManager.cs" />
     <Compile Include="ConfigureFile.cs" />
@@ -122,7 +130,7 @@
     <Compile Include="Enumerations\Language.cs" />
     <Compile Include="Enumerations\ShareStatus.cs" />
     <Compile Include="Enumerations\SizeUnit.cs" />
-    <Compile Include="FileTransferService\TransferStatus.cs" />
+    <Compile Include="TransferService\TransferStatus.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileLocator.cs" />
     <Compile Include="FileTransferService\Impls\Downloader.cs" />
@@ -137,6 +145,7 @@
     <Compile Include="FileTransferService\ITransporterBuilder.cs" />
     <Compile Include="FileTransferService\ITransferService.cs" />
     <Compile Include="FileTransferService\ITransporter.cs" />
+    <Compile Include="LazyTreeNode.cs" />
     <Compile Include="Modularity\ModuleBase.cs" />
     <Compile Include="FileTransferService\ITransporterRegistry.cs" />
     <Compile Include="Interfaces\IRefreshable.cs" />
@@ -144,6 +153,7 @@
     <Compile Include="Modularity\ModuleCatalogHelper.cs" />
     <Compile Include="Modularity\RemoteModuleInfo.cs" />
     <Compile Include="Modularity\RemoteModuleTypeLoader.cs" />
+    <Compile Include="ObservableLazyTreeNode.cs" />
     <Compile Include="ObservableSortedCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -163,13 +173,18 @@
     <Compile Include="SystemFolder.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="FileTransferService\TransporterSettings.cs" />
+    <Compile Include="TransferService\BlockTransferException.cs" />
+    <Compile Include="TransferService\FileDownloader.cs" />
+    <Compile Include="TransferService\FileDownloaderBuilder.cs" />
     <Compile Include="TransferService\FileTransferService.cs" />
-    <Compile Include="TransferService\FileTransferService2.cs" />
-    <Compile Include="TransferService\ITransferContext.cs" />
-    <Compile Include="TransferService\ITransferTask.cs" />
+    <Compile Include="TransferService\IDownloader.cs" />
+    <Compile Include="TransferService\IDownloaderBuilder.cs" />
+    <Compile Include="TransferService\ObserverList.cs" />
+    <Compile Include="TransferService\PrimitiveMethods.cs" />
+    <Compile Include="TransferService\RemotePathExhaustedException.cs" />
+    <Compile Include="TransferService\RemotePathProvider.cs" />
     <Compile Include="TransferService\TransferContext.cs" />
-    <Compile Include="TransferService\TransferStatus.cs" />
-    <Compile Include="TransferService\TransferTask.cs" />
+    <Compile Include="TransferService\TransferSettings.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\IAwareTabItemSelectionChanged.cs" />
     <Compile Include="ViewModels\IAwareViewLoadedAndUnloaded.cs" />

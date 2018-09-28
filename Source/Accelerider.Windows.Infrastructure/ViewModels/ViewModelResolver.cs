@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using Accelerider.Windows.Infrastructure.I18n;
 using Autofac;
 
 namespace Accelerider.Windows.Infrastructure.ViewModels

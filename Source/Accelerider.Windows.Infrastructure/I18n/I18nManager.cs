@@ -7,7 +7,7 @@ using System.Resources;
 using System.Threading;
 using System.Windows;
 
-namespace Accelerider.Windows.Infrastructure.I18n
+namespace Accelerider.Windows.Infrastructure
 {
     public class I18nManager
     {

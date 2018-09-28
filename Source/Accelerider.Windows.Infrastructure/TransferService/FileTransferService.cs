@@ -1,132 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Reactive.Linq;
-using System.Threading;
+using Polly;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
     public static class FileTransferService
     {
-        public const long BlockLength = 1024 * 1024 * 50;
-
-        public static HttpWebRequest CreateRequest(string remotePath, ITransferContext context)
+        public static IDownloaderBuilder GetFileDownloaderBuilder()
         {
-            ((TransferContext)context).RemotePath = remotePath;
-            return WebRequest.CreateHttp(remotePath);
+            return new FileDownloaderBuilder();
         }
 
-        public static HttpWebResponse GetResponse(HttpWebRequest request, ITransferContext context)
+        public static IDownloaderBuilder UseDefaultConfigure(this IDownloaderBuilder @this)
         {
-            var response = (HttpWebResponse)request.GetResponse();
-            ((TransferContext)context).Response = response;
-            ((TransferContext)context).TotalSize = response.ContentLength;
-            return response;
-        }
-
-        public static HttpWebRequest ConfigureRequestDefault(HttpWebRequest request, ITransferContext context)
-        {
-            request.Headers = new WebHeaderCollection();
-            request.Method = "GET";
-            request.AddRange(100, 300);
-            return request;
-        }
-
-        public static Stream GetStream(HttpWebResponse response, ITransferContext context)
-        {
-            return response.GetResponseStream();
-        }
-
-        public static Stream GetStream(string localPath, ITransferContext context)
-        {
-            ((TransferContext)context).LocalPath = localPath;
-            return File.Open(localPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
-        }
-
-        public static IEnumerable<HttpWebRequest> GetBlockRequests(HttpWebResponse response, ITransferContext context)
-        {
-            if (string.IsNullOrEmpty(context.RemotePath))
-                throw new InvalidOperationException();
-
-            return Split(response.ContentLength, BlockLength).Select(item =>
-            {
-                var result = WebRequest.CreateHttp(context.RemotePath);
-                result.AddRange(item.From, item.To);
-                return result;
-            });
-        }
-
-        public static Func<(string remotePath, string localPath), ITransferTask> GetDownloader(
-            Func<string, ITransferContext, Stream> getRemoteStream,
-            Func<string, ITransferContext, Stream> getLocalStream,
-            ITransferContext context)
-        {
-            return pathPair =>
-            {
-                var outputStream = getRemoteStream(pathPair.remotePath, context);
-                var inputStream = getLocalStream(pathPair.localPath, context);
-                return CopyStream(outputStream, inputStream, (TransferContext)context);
-            };
-        }
-
-        //private static Func<(string remotePath, string localPath), ITransferTask> GetDownloader(
-        //    Func<string, ITransferContext, IEnumerable<Stream>> getRemoteStreams,
-        //    Func<string, ITransferContext, Stream> getLocalStream,
-        //    ITransferContext context)
-        //{
-        //    return pathPair =>
-        //    {
-        //        var outputStreams = getRemoteStreams(pathPair.remotePath, context);
-        //        var inputStream = getLocalStream(pathPair.localPath, context);
-
-        //    }
-        //}
-
-        //private static void DispatchStream()
-
-        public static ITransferTask CopyStream(Stream outputStream, Stream inputStream, TransferContext context)
-        {
-            return new TransferTask(Observable.Create<ITransferContext>(async o =>
-            {
-                try
+            return @this
+                .Configure(request =>
                 {
-                    Console.WriteLine($"Enter Id: {Thread.CurrentThread.ManagedThreadId}");
-                    byte[] buffer = new byte[128 * 1024];
-                    int count;
-                    while ((count = await outputStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                    request.Headers.SetHeaders(new WebHeaderCollection { ["User-Agent"] = "Accelerider.Windows.DownloadEngine" });
+                    request.Method = "GET";
+                    request.Timeout = 1000 * 30;
+                    request.ReadWriteTimeout = 1000 * 30;
+                    return request;
+                })
+                .Configure(localPath =>
+                {
+                    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(localPath);
+                    var extension = Path.GetExtension(localPath);
+                    for (int i = 1; File.Exists(localPath); i++)
                     {
-                        await inputStream.WriteAsync(buffer, 0, count);
-                        context.CompletedSize += count;
-                        o.OnNext(context);
+                        localPath = $"{fileNameWithoutExtension} ({i}){extension}";
                     }
-                    o.OnCompleted();
-                }
-                catch (Exception e)
+
+                    return localPath;
+                })
+                .Configure(DefaultBlockIntervalGenerator)
+                .Configure((settings, context) =>
                 {
-                    o.OnError(e);
-                }
-                return () =>
-                {
-                    inputStream.Dispose();
-                    context.Response.Dispose();
-                    outputStream.Dispose();
-                };
-            }));
+                    settings.MaxConcurrent = 16;
+
+                    settings.BuildPolicy = Policy
+                        .Handle<WebException>()
+                        .RetryAsync(context.RemotePathProvider.RemotePaths.Count, (e, retryCount, policyContext) =>
+                        {
+                            var remotePath = ((WebException)e).Response.ResponseUri.OriginalString;
+                            context.RemotePathProvider.Vote(remotePath, -3);
+                        });
+
+                    settings.DownloadPolicy
+                        .Catch<OperationCanceledException>((e, retryCount, blockContext) => HandleCommand.Break)
+                        .Catch<WebException>((e, retryCount, blockContext) => retryCount < 3 ? HandleCommand.Retry : HandleCommand.Throw);
+                });
         }
 
-        public static IEnumerable<(long From, long To)> Split(long totalLength, long blockLength)
+        private static IEnumerable<(long Offset, long Length)> DefaultBlockIntervalGenerator(long totalLength)
         {
-            long from = 0;
-            while (from + blockLength < totalLength)
+            const long blockLength = 1024 * 1024 * 20;
+
+            long offset = 0;
+            while (offset + blockLength < totalLength)
             {
-                yield return (from, from + blockLength);
-                from += blockLength;
+                yield return (offset, blockLength);
+                offset += blockLength;
             }
 
-            yield return (from, totalLength);
+            yield return (offset, totalLength - offset);
         }
-
     }
 }

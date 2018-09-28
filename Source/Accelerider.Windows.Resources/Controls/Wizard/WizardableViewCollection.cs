@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Accelerider.Windows.Infrastructure.Commands;
+using System.Windows.Input;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.ViewModels;
 
 namespace Accelerider.Windows.Resources.Controls.Wizard

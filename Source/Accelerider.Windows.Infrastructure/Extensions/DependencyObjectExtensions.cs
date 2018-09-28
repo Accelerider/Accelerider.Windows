@@ -1,7 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
-namespace Accelerider.Windows.Infrastructure.Extensions
+namespace System.Windows
 {
     public static class DependencyObjectExtensions 
     {
