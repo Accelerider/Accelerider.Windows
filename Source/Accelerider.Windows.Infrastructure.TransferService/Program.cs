@@ -19,28 +19,23 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             const long oneM = 1024 * 1024;
             var previousDateTimeOffset = DateTimeOffset.Now;
             var previousCompletedSize = 0L;
-            var totalCompleted = 0L;
 
             var disposable1 = downloader
-                .Select(item =>
-                {
-                    var TotalCompleted = totalCompleted += item.Bytes;
-                    return (item.Id, /*item.Status,*/ TotalCompleted, item.Offset, item.TotalSize);
-                })
                 .Sample(TimeSpan.FromMilliseconds(500))
                 .Timestamp()
                 .Subscribe(timestampedContext =>
                 {
                     var timestamp = timestampedContext.Timestamp;
-                    var (Id, /*Status,*/ TotalCompleted, Offset, TotalSize) = timestampedContext.Value;
+                    var context = timestampedContext.Value;
+                    var completedSize = downloader.CompletedSize;
 
-                    WriteLine($"{Id:B}: " +
-                              $"{Offset:D10} --> {Offset + TotalSize:D10} " +
-                              $"{1.0 * (TotalCompleted - previousCompletedSize) / (timestamp - previousDateTimeOffset).TotalSeconds / oneM:00.00} MB/s " +
-                              $"{100.0 * TotalCompleted / downloader.Context.TotalSize: 00.00}% " +
-                              $"{TotalCompleted:D9}/{downloader.Context.TotalSize}");
+                    WriteLine($"{context.Id:B}: " +
+                              $"{context.Offset:D10} --> {context.Offset + context.TotalSize:D10} " +
+                              $"{1.0 * (completedSize - previousCompletedSize) / (timestamp - previousDateTimeOffset).TotalSeconds / oneM:00.00} MB/s " +
+                              $"{100.0 * completedSize / downloader.Context.TotalSize: 00.00}% " +
+                              $"{completedSize:D9}/{downloader.Context.TotalSize}");
 
-                    previousCompletedSize = TotalCompleted;
+                    previousCompletedSize = completedSize;
                     previousDateTimeOffset = timestamp;
                 }, () =>
                 {
@@ -64,7 +59,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             var cancellationTokenSource = new CancellationTokenSource();
             await downloader.ActivateAsync(cancellationTokenSource.Token);
 
-            await TimeSpan.FromMilliseconds(20000);
+            await TimeSpan.FromMilliseconds(30000);
             downloader.Suspend();
             var json = downloader.ToJson();
 
@@ -72,7 +67,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             previousDateTimeOffset = DateTimeOffset.Now;
             previousCompletedSize = 0L;
-            totalCompleted = 0L;
 
             await downloader.ActivateAsync(cancellationTokenSource.Token);
 

@@ -59,19 +59,16 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     using (inputStream)
                     {
                         byte[] buffer = new byte[128 * 1024];
-                        int count = 0;
-                        context.Bytes = count;
+                        int count;
                         while ((count = await outputStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
                         {
                             cancellationToken.ThrowIfCancellationRequested();
                             await inputStream.WriteAsync(buffer, 0, count, cancellationToken);
-                            context.Bytes = count;
+                            context.CompletedSize += count;
                             o.OnNext(context);
                         }
                     }
 
-                    context.Bytes = 0;
-                    o.OnNext(context);
                     o.OnCompleted();
                 }
                 catch (Exception e)

@@ -12,6 +12,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         TransferContext Context { get; }
 
+        long CompletedSize { get; }
+
         /// <summary>
         /// Sets a uri that represents the file source, it can be url or local disk path.
         /// </summary>

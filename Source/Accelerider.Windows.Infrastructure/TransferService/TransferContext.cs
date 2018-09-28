@@ -45,24 +45,11 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
     public class BlockTransferContext : TransferContextBase
     {
-        private int _bytes;
-
         [JsonProperty]
         public long Offset { get; internal set; }
 
         [JsonProperty]
         public long CompletedSize { get; internal set; }
-
-        [JsonIgnore]
-        public int Bytes
-        {
-            get => _bytes;
-            internal set
-            {
-                _bytes = value;
-                CompletedSize += value;
-            }
-        }
 
         [JsonProperty]
         public string RemotePath { get; internal set; }

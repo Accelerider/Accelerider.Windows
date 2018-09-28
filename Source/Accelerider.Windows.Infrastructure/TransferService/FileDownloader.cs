@@ -30,7 +30,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         }
 
 
-
         private readonly ObserverList<BlockTransferContext> _observerList = new ObserverList<BlockTransferContext>();
         private readonly Builders _builders;
 
@@ -55,6 +54,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             get => _context;
             internal set => SetProperty(ref _context, value);
         }
+
+        public long CompletedSize => _blockTransferContextCache.Values.Sum(item => item.CompletedSize);
 
         public FileDownloader(Builders builders)
         {
