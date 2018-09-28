@@ -8,9 +8,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 {
     public static class FileTransferService
     {
-        public static IDownloaderBuilder GetDefaultFileDownloaderBuilder()
+        public static IDownloaderBuilder GetFileDownloaderBuilder()
         {
-            return GetFileDownloaderBuilder()
+            return new FileDownloaderBuilder();
+        }
+
+        public static IDownloaderBuilder UseDefaultConfigure(this IDownloaderBuilder @this)
+        {
+            return @this
                 .Configure(request =>
                 {
                     request.Headers.SetHeaders(new WebHeaderCollection { ["User-Agent"] = "Accelerider.Windows.DownloadEngine" });
@@ -47,11 +52,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                         .Catch<OperationCanceledException>((e, retryCount, blockContext) => HandleCommand.Break)
                         .Catch<WebException>((e, retryCount, blockContext) => retryCount < 3 ? HandleCommand.Retry : HandleCommand.Throw);
                 });
-        }
-
-        public static IDownloaderBuilder GetFileDownloaderBuilder()
-        {
-            return new FileDownloaderBuilder();
         }
 
         private static IEnumerable<(long Offset, long Length)> DefaultBlockIntervalGenerator(long totalLength)
