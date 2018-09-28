@@ -7,10 +7,13 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 {
     public class TransferContextBase
     {
-        public Guid Id { get; } = Guid.NewGuid();
+        [JsonProperty]
+        public Guid Id { get; private set; } = Guid.NewGuid();
 
+        [JsonProperty]
         public virtual long TotalSize { get; internal set; }
 
+        [JsonProperty]
         public string LocalPath { get; internal set; }
     }
 
@@ -29,6 +32,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             }
         }
 
+        [JsonProperty]
         public IRemotePathProvider RemotePathProvider { get; internal set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -43,8 +47,10 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     {
         private int _bytes;
 
+        [JsonProperty]
         public long Offset { get; internal set; }
 
+        [JsonProperty]
         public long CompletedSize { get; internal set; }
 
         [JsonIgnore]
@@ -58,6 +64,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             }
         }
 
+        [JsonProperty]
         public string RemotePath { get; internal set; }
     }
 }

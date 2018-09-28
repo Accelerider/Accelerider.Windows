@@ -2,12 +2,13 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
     public interface IRemotePathProvider
     {
-        IReadOnlyList<string> RemotePaths { get; }
+        IDictionary<string, double> RemotePaths { get; }
 
         void Vote(string remotePath, double score, bool isAccumulate = true);
 
@@ -16,29 +17,30 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
     internal class RemotePathProvider : IRemotePathProvider
     {
-        private readonly ConcurrentDictionary<string, double> _remotePathDictionary;
+        [JsonProperty]
+        public IDictionary<string, double> RemotePaths { get; private set; }
 
-        public RemotePathProvider(List<string> remotePaths)
+        [JsonConstructor]
+        private RemotePathProvider() { }
+
+        public RemotePathProvider(ICollection<string> remotePaths)
         {
             if (remotePaths == null) throw new ArgumentNullException(nameof(remotePaths));
             if (!remotePaths.Any()) throw new ArgumentException();
 
-            RemotePaths = remotePaths.AsReadOnly();
-            _remotePathDictionary = new ConcurrentDictionary<string, double>(remotePaths.ToDictionary(item => item, item => 0.0));
+            RemotePaths = new ConcurrentDictionary<string, double>(remotePaths.ToDictionary(item => item, item => 0.0));
         }
-
-        public IReadOnlyList<string> RemotePaths { get; }
 
         public void Vote(string remotePath, double score, bool isAccumulate = true)
         {
-            if (_remotePathDictionary.ContainsKey(remotePath))
-                _remotePathDictionary[remotePath] = isAccumulate ? _remotePathDictionary[remotePath] + score : score;
+            if (RemotePaths.ContainsKey(remotePath))
+                RemotePaths[remotePath] = isAccumulate ? RemotePaths[remotePath] + score : score;
         }
 
         public string GetRemotePath()
         {
-            var theBestItem = _remotePathDictionary.FirstOrDefault();
-            foreach (var item in _remotePathDictionary)
+            var theBestItem = RemotePaths.FirstOrDefault();
+            foreach (var item in RemotePaths)
             {
                 if (item.Value > theBestItem.Value) theBestItem = item;
             }

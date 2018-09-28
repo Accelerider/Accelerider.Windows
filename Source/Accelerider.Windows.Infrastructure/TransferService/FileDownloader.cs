@@ -29,6 +29,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             public Func<TransferContext, TransferSettings> TransferSettingsBuilder { get; set; }
         }
 
+
+
         private readonly ObserverList<BlockTransferContext> _observerList = new ObserverList<BlockTransferContext>();
         private readonly Builders _builders;
 
@@ -64,7 +66,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             Guards.ThrowIfNullReference(path);
 
             _remotePaths.Add(path);
-            Status = TransferStatus.Created;
+            Context = null;
             return this;
         }
 
@@ -73,7 +75,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             Guards.ThrowIfNullReference(paths);
 
             _remotePaths.UnionWith(paths);
-            Status = TransferStatus.Created;
+            Context = null;
             return this;
         }
 
@@ -82,7 +84,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             Guards.ThrowIfNullReference(path);
 
             _localPath = path;
-            Status = TransferStatus.Created;
+            Context = null;
             return this;
         }
 
@@ -100,7 +102,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             ThrowIfDisposed();
 
-            if (Status == TransferStatus.Created)
+            if (Context == null && !string.IsNullOrEmpty(_localPath) && _remotePaths.Any(item => !string.IsNullOrEmpty(item)))
             {
                 Context = new TransferContext
                 {
@@ -108,8 +110,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     LocalPath = _builders.LocalPathInterceptor(_localPath)
                 };
                 _settings = _builders.TransferSettingsBuilder(Context);
-
-                Status = TransferStatus.Ready;
             }
 
             switch (Status)
@@ -141,20 +141,22 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             Status = TransferStatus.Suspended;
         }
 
+        private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
+
         public string ToJson()
         {
-            return JsonConvert.SerializeObject(new
-            {
-                Context,
-                BlockContexts = _blockTransferContextCache.Values
-            });
+            return JsonConvert.SerializeObject((Context, _blockTransferContextCache.Values.ToList()), _jsonSerializerSettings);
         }
 
         public void FromJson(string json)
         {
-            Status = TransferStatus.Created;
+            if (Status == TransferStatus.Transferring) throw new InvalidOperationException();
 
             Status = TransferStatus.Ready;
+            var(context, blockContexts) = JsonConvert.DeserializeObject<(TransferContext, List<BlockTransferContext>)>(json, _jsonSerializerSettings);
+            Context = context;
+            _blockTransferContextCache = new ConcurrentDictionary<Guid, BlockTransferContext>(blockContexts.ToDictionary(item => item.Id));
+            Status = TransferStatus.Suspended;
         }
 
         private async Task<IDisposable> Start(CancellationToken cancellationToken)
