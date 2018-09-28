@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.FileTransferService;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
@@ -10,7 +12,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         TransferContext Context { get; }
 
-        void Activate();
+        Task ActivateAsync(CancellationToken cancellationToken = default);
 
         void Suspend();
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -12,9 +13,10 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 {
     internal class FileDownloader : ObservableBase<BlockTransferContext>, IDownloader
     {
-        private readonly Func<CancellationToken, Task<IConnectableObservable<BlockTransferContext>>> _observableFactory;
+        private readonly Func<CancellationToken, Task<IObservable<BlockTransferContext>>> _observableFactory;
+        private readonly ObserverList<BlockTransferContext> _observerList = new ObserverList<BlockTransferContext>();
 
-        private IDisposable _connectableObservableDisposable;
+        private IDisposable _disposable;
         private TransferStatus _status;
         private TransferContext _context;
 
@@ -30,7 +32,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             internal set => SetProperty(ref _context, value);
         }
 
-        public FileDownloader(Func<CancellationToken, Task<IConnectableObservable<BlockTransferContext>>> observableFactory)
+        public FileDownloader(Func<CancellationToken, Task<IObservable<BlockTransferContext>>> observableFactory)
         {
             _observableFactory = observableFactory ?? throw new ArgumentNullException(nameof(observableFactory));
         }
@@ -38,32 +40,26 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         protected override IDisposable SubscribeCore(IObserver<BlockTransferContext> observer)
         {
             ThrowIfDisposed();
-            throw new NotImplementedException();
-            //return _connectableObservable.Subscribe(
-            //    observer.OnNext,
-            //    error =>
-            //    {
-            //        Status = TransferStatus.Faulted;
-            //        observer.OnError(error);
-            //    },
-            //    () =>
-            //    {
-            //        Status = TransferStatus.Completed;
-            //        observer.OnCompleted();
-            //    });
+
+            _observerList.Add(observer);
+
+            return Disposable.Create(() => _observerList.Remove(observer));
         }
 
-        public void Activate()
+        public async Task ActivateAsync(CancellationToken cancellationToken = default)
         {
             ThrowIfDisposed();
 
             switch (Status)
             {
                 case TransferStatus.Ready: // [Start]
+                    _disposable = (await _observableFactory(cancellationToken)).Subscribe(_observerList);
                     break;
                 case TransferStatus.Suspended: // [Restart]
                     break;
                 case TransferStatus.Faulted: // [Retry]
+                    Dispose(true);
+                    _disposable = (await _observableFactory(cancellationToken)).Subscribe(_observerList);
                     break;
                 default:
                     return;
@@ -93,8 +89,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             if (disposing)
             {
-                _connectableObservableDisposable?.Dispose();
-                _connectableObservableDisposable = null;
+                _disposable?.Dispose();
+                _disposable = null;
             }
         }
 

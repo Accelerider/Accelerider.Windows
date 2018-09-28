@@ -70,10 +70,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     o.OnNext(context);
                     o.OnCompleted();
                 }
-                catch (OperationCanceledException e)
-                {
-                    o.OnError(e);
-                }
                 catch (Exception e)
                 {
                     o.OnError(new BlockTransferException(context, e));

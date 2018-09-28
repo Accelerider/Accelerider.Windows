@@ -31,12 +31,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     {
         private readonly ConcurrentDictionary<Guid, int> _retryStatistics = new ConcurrentDictionary<Guid, int>();
         private readonly ConcurrentDictionary<Type, BlockDownloadItemExceptionHandler<Exception>> _handlers = new ConcurrentDictionary<Type, BlockDownloadItemExceptionHandler<Exception>>();
-        private readonly Func<BlockTransferContext, IObservable<BlockTransferContext>> _blockDownloadItemFactory;
 
-        internal BlockDownloadItemExceptionHandlers(Func<BlockTransferContext, IObservable<BlockTransferContext>> blockDownloadItemFactory)
-        {
-            _blockDownloadItemFactory = blockDownloadItemFactory ?? throw new ArgumentNullException(nameof(blockDownloadItemFactory));
-        }
+        internal Func<BlockTransferContext, IObservable<BlockTransferContext>> BlockDownloadItemFactory { get; set; }
 
         public BlockDownloadItemExceptionHandlers Catch<TException>(BlockDownloadItemExceptionHandler<TException> handler)
             where TException : Exception
@@ -62,7 +58,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                             return Observable.Throw<BlockTransferContext>(e.InnerException ?? e);
                         case HandleCommand.Retry:
                             SetRetryCount(e.Context.Id);
-                            return _blockDownloadItemFactory(e.Context);
+                            return BlockDownloadItemFactory(e.Context);
                         case HandleCommand.Break:
                             return Observable.Empty<BlockTransferContext>();
                     }

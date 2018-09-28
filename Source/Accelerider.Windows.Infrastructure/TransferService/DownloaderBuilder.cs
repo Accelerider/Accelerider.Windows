@@ -147,7 +147,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return new FileDownloader(BuildInternalAsync);
         }
 
-        private async Task<IConnectableObservable<BlockTransferContext>> BuildInternalAsync(CancellationToken cancellationToken)
+        private async Task<IObservable<BlockTransferContext>> BuildInternalAsync(CancellationToken cancellationToken)
         {
             var context = new TransferContext
             {
@@ -155,32 +155,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 LocalPath = _localPath
             };
 
-            var setting = GetTransferSettings(context);
+            var settings = GetTransferSettings(context);
 
-            var blockDownloadItemsFactory = BuildBlockDownloadItemsFactory(context, setting, cancellationToken);
-
-            var blockDownloadTasks = await setting.BuildPolicy.ExecuteAsync(() =>
-                blockDownloadItemsFactory(context.RemotePathProvider));
-
-            return blockDownloadTasks.Merge(setting.MaxConcurrent).Publish();
-        }
-
-        private TransferSettings GetTransferSettings(TransferContext context)
-        {
-            var setting = new TransferSettings
-            {
-                BuildPolicy = BuildRunPolicy(context),
-                MaxConcurrent = 16,
-                Handlers = new BlockDownloadItemExceptionHandlers(CreateBlockDownloadItem)
-            };
-            _settingsConfigurator(setting, context);
-
-            return setting;
-        }
-
-        private Func<IRemotePathProvider, Task<IEnumerable<IObservable<BlockTransferContext>>>> BuildBlockDownloadItemsFactory(TransferContext context, TransferSettings settings, CancellationToken cancellationToken)
-        {
-            return new Func<IRemotePathProvider, string>(provider => provider.GetRemotePath())
+            var blockTransferContextGenerator = new Func<IRemotePathProvider, string>(provider => provider.GetRemotePath())
                 .Then(PrimitiveMethods.ToRequest)
                 .Then(_requestInterceptor)
                 .Then(PrimitiveMethods.GetResponseAsync)
@@ -198,15 +175,32 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     TotalSize = interval.length,
                     RemotePath = context.RemotePathProvider.GetRemotePath(),
                     LocalPath = context.LocalPath
-                }, cancellationToken)
-                .ThenAsync(CreateBlockDownloadItem, cancellationToken)
-                .ThenAsync(settings.Handlers.ToInterceptor())
-                .ThenAsync(item => _blockTransferItemInterceptor(item, context));
-            //.ThenAsync(item => item
-            //        .Catch<BlockTransferException>(e => HandleBlockDownloadItemException(e, context.RemotePathProvider))
-            //        .Catch<RemotePathExhaustedException>(e => Observable.Empty<BlockTransferContext>())
-            //        .Catch<OperationCanceledException>(e => Observable.Empty<BlockTransferContext>()),
-            //    cancellationToken);
+                }, cancellationToken);
+
+            var blockDownloadItemFactory = new Func<BlockTransferContext, IObservable<BlockTransferContext>>(CreateBlockDownloadItem)
+                .Then(item => _blockTransferItemInterceptor(item, context))
+                .Then(settings.Handlers.ToInterceptor());
+
+            settings.Handlers.BlockDownloadItemFactory = blockDownloadItemFactory;
+            var blockDownloadItemsFactory = blockTransferContextGenerator.ThenAsync(blockDownloadItemFactory, cancellationToken);
+
+            var blockDownloadTasks = await settings.BuildPolicy.ExecuteAsync(() =>
+                blockDownloadItemsFactory(context.RemotePathProvider));
+
+            return blockDownloadTasks.Merge(settings.MaxConcurrent);
+        }
+
+        private TransferSettings GetTransferSettings(TransferContext context)
+        {
+            var setting = new TransferSettings
+            {
+                BuildPolicy = BuildRunPolicy(context),
+                MaxConcurrent = 16,
+                Handlers = new BlockDownloadItemExceptionHandlers()
+            };
+            _settingsConfigurator(setting, context);
+
+            return setting;
         }
 
         private Func<Task<(HttpWebResponse response, Stream inputStream)>> BuildStreamPairFatory(BlockTransferContext context)
