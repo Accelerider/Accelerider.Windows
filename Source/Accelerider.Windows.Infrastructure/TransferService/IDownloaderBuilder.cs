@@ -9,27 +9,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     /// </summary>
     public interface IDownloaderBuilder
     {
-        /// <summary>
-        /// Sets a uri that represents the file source, it can be url or local disk path.
-        /// </summary>
-        /// <param name="path">The uri that represents the file source. </param>
-        /// <returns>Returns the current instance. </returns>
-        IDownloaderBuilder From(string path);
-
-        /// <summary>
-        /// Sets a uri sequence that represents the file source, it can be url or local disk path.
-        /// </summary>
-        /// <param name="paths">The uri sequence that represents the file source. </param>
-        /// <returns>Returns the current instance. </returns>
-        IDownloaderBuilder From(IEnumerable<string> paths);
-
-        /// <summary>
-        /// Sets a uri that represents the file destination, it can be url or local disk path.
-        /// </summary>
-        /// <param name="path">The uri that represents the file destination. </param>
-        /// <returns>Returns the current instance. </returns>
-        IDownloaderBuilder To(string path);
-
         IDownloaderBuilder Configure(Action<TransferSettings, TransferContext> settingsConfigurator);
 
         IDownloaderBuilder Configure(Func<IEnumerable<string>, IRemotePathProvider> remotePathProviderBuilder);

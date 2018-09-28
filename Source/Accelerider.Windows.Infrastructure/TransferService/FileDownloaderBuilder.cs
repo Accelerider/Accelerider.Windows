@@ -15,9 +15,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     {
         #region Configure parameters
 
-        private readonly HashSet<string> _remotePaths = new HashSet<string>();
-        private string _localPath;
-
         private Action<TransferSettings, TransferContext> _settingsConfigurator;
         private Func<IEnumerable<string>, IRemotePathProvider> _remotePathProviderBuilder;
         private Func<long, IEnumerable<(long offset, long length)>> _blockIntervalGenerator;
@@ -43,30 +40,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         }
 
         #region Configure methods
-
-        public IDownloaderBuilder From(string path)
-        {
-            ThrowIfNullReference(path);
-
-            _remotePaths.Add(path);
-            return this;
-        }
-
-        public IDownloaderBuilder From(IEnumerable<string> paths)
-        {
-            ThrowIfNullReference(paths);
-
-            _remotePaths.UnionWith(paths);
-            return this;
-        }
-
-        public IDownloaderBuilder To(string path)
-        {
-            ThrowIfNullReference(path);
-
-            _localPath = path;
-            return this;
-        }
 
         public IDownloaderBuilder Configure(Action<TransferSettings, TransferContext> settingsConfigurator)
         {
@@ -122,8 +95,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             var result = new FileDownloaderBuilder
             {
-                _localPath = _localPath,
-
                 _settingsConfigurator = _settingsConfigurator,
                 _remotePathProviderBuilder = _remotePathProviderBuilder,
                 _blockTransferItemInterceptor = _blockTransferItemInterceptor,
@@ -132,25 +103,19 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 _localPathInterceptor = _localPathInterceptor
             };
 
-            result.From(_remotePaths);
-
             return result;
         }
 
         public IDownloader Build()
         {
-            var context = new TransferContext
+            return new FileDownloader(new FileDownloader.Builders
             {
-                RemotePathProvider = _remotePathProviderBuilder(_remotePaths),
-                LocalPath = _localPathInterceptor(_localPath)
-            };
-            var settings = GetTransferSettings(context);
-
-            return new FileDownloader(
-                GetBlockTransferContextGenerator(context),
-                GetBlockDownloadItemFactory(settings),
-                context,
-                settings);
+                BlockTransferContextGeneratorBuilder = GetBlockTransferContextGenerator,
+                BlockDownloadItemFactoryBuilder = GetBlockDownloadItemFactory,
+                RemotePathProviderBuilder = _remotePathProviderBuilder,
+                LocalPathInterceptor = _localPathInterceptor,
+                TransferSettingsBuilder = GetTransferSettings
+            });
         }
 
         private Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>> GetBlockTransferContextGenerator(TransferContext context)
@@ -196,7 +161,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return setting;
         }
 
-        private Func<Task<(HttpWebResponse response, Stream inputStream)>> BuildStreamPairFatory(BlockTransferContext context)
+        private static Func<Task<(HttpWebResponse response, Stream inputStream)>> BuildStreamPairFatory(BlockTransferContext context)
         {
             return async () =>
             {

@@ -9,16 +9,33 @@ using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
     internal class FileDownloader : ObservableBase<BlockTransferContext>, IDownloader
     {
-        private readonly ObserverList<BlockTransferContext> _observerList = new ObserverList<BlockTransferContext>();
-        private readonly Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>> _blockTransferContextGenerator;
-        private readonly Func<BlockTransferContext, IObservable<BlockTransferContext>> _blockDownloadItemFactory;
-        private readonly TransferSettings _settings;
+        internal class Builders
+        {
+            public Func<TransferContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> BlockTransferContextGeneratorBuilder { get; set; }
 
+            public Func<TransferSettings, Func<BlockTransferContext, IObservable<BlockTransferContext>>> BlockDownloadItemFactoryBuilder { get; set; }
+
+            public Func<IEnumerable<string>, IRemotePathProvider> RemotePathProviderBuilder { get; set; }
+
+            public Func<string, string> LocalPathInterceptor { get; set; }
+
+            public Func<TransferContext, TransferSettings> TransferSettingsBuilder { get; set; }
+        }
+
+        private readonly ObserverList<BlockTransferContext> _observerList = new ObserverList<BlockTransferContext>();
+        private readonly Builders _builders;
+
+        private readonly HashSet<string> _remotePaths = new HashSet<string>();
+        private string _localPath;
+
+        private TransferSettings _settings;
         private ConcurrentDictionary<Guid, BlockTransferContext> _blockTransferContextCache;
         private IDisposable _disposable;
 
@@ -37,17 +54,38 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             internal set => SetProperty(ref _context, value);
         }
 
-        public FileDownloader(
-            Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>> blockTransferContextGenerator,
-            Func<BlockTransferContext, IObservable<BlockTransferContext>> blockDownloadItemFactory,
-            TransferContext context,
-            TransferSettings settings)
+        public FileDownloader(Builders builders)
         {
-            Context = context;
-            _settings = settings;
-            _blockTransferContextGenerator = blockTransferContextGenerator;
-            _blockDownloadItemFactory = blockDownloadItemFactory;
+            _builders = builders;
         }
+
+        public IDownloader From(string path)
+        {
+            Guards.ThrowIfNullReference(path);
+
+            _remotePaths.Add(path);
+            Status = TransferStatus.Created;
+            return this;
+        }
+
+        public IDownloader From(IEnumerable<string> paths)
+        {
+            Guards.ThrowIfNullReference(paths);
+
+            _remotePaths.UnionWith(paths);
+            Status = TransferStatus.Created;
+            return this;
+        }
+
+        public IDownloader To(string path)
+        {
+            Guards.ThrowIfNullReference(path);
+
+            _localPath = path;
+            Status = TransferStatus.Created;
+            return this;
+        }
+
 
         protected override IDisposable SubscribeCore(IObserver<BlockTransferContext> observer)
         {
@@ -61,6 +99,18 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         public async Task ActivateAsync(CancellationToken cancellationToken = default)
         {
             ThrowIfDisposed();
+
+            if (Status == TransferStatus.Created)
+            {
+                Context = new TransferContext
+                {
+                    RemotePathProvider = _builders.RemotePathProviderBuilder(_remotePaths),
+                    LocalPath = _builders.LocalPathInterceptor(_localPath)
+                };
+                _settings = _builders.TransferSettingsBuilder(Context);
+
+                Status = TransferStatus.Ready;
+            }
 
             switch (Status)
             {
@@ -91,9 +141,25 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             Status = TransferStatus.Suspended;
         }
 
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(new
+            {
+                Context,
+                BlockContexts = _blockTransferContextCache.Values
+            });
+        }
+
+        public void FromJson(string json)
+        {
+            Status = TransferStatus.Created;
+
+            Status = TransferStatus.Ready;
+        }
+
         private async Task<IDisposable> Start(CancellationToken cancellationToken)
         {
-            var blockContexts = (await _blockTransferContextGenerator(cancellationToken)).ToArray();
+            var blockContexts = (await _builders.BlockTransferContextGeneratorBuilder(Context).Invoke(cancellationToken)).ToArray();
 
             _blockTransferContextCache = new ConcurrentDictionary<Guid, BlockTransferContext>(
                 blockContexts.ToDictionary(item => item.Id));
@@ -111,10 +177,21 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private IDisposable CreateAndRunBlockDownloadItems(IEnumerable<BlockTransferContext> blockContexts)
         {
             return blockContexts
-                .Select(item => _blockDownloadItemFactory(item))
+                .Select(item => _builders.BlockDownloadItemFactoryBuilder(_settings).Invoke(item))
                 .Merge(_settings.MaxConcurrent)
                 .Do(context => _blockTransferContextCache[context.Id] = context)
-                .Subscribe(_observerList);
+                .Subscribe(
+                    value => _observerList.OnNext(value),
+                    error =>
+                    {
+                        Status = TransferStatus.Faulted;
+                        _observerList.OnError(error);
+                    },
+                    () =>
+                    {
+                        Status = TransferStatus.Completed;
+                        _observerList.OnCompleted();
+                    });
         }
 
         #region Implements IDisposable

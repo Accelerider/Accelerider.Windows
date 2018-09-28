@@ -29,6 +29,8 @@
     /// </summary>
     public enum TransferStatus
     {
+        Created,
+
         /// <summary>
         /// The task is ready. Pending status.
         /// </summary>
