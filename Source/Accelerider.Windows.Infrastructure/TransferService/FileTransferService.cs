@@ -26,11 +26,12 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 })
                 .Configure(localPath =>
                 {
-                    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(localPath);
+                    var directoryName = Path.GetDirectoryName(localPath) ?? throw new InvalidOperationException();
+                    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(localPath) ?? throw new InvalidOperationException();
                     var extension = Path.GetExtension(localPath);
                     for (int i = 1; File.Exists(localPath); i++)
                     {
-                        localPath = $"{fileNameWithoutExtension} ({i}){extension}";
+                        localPath = $"{Path.Combine(directoryName, fileNameWithoutExtension)} ({i}){extension}";
                     }
 
                     return localPath;
