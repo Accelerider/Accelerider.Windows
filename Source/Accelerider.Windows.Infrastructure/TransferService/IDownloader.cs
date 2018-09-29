@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         TransferContext Context { get; }
 
-        long CompletedSize { get; }
+        ICollection<BlockTransferContext> BlockContexts { get; }
 
         /// <summary>
         /// Sets a uri that represents the file source, it can be url or local disk path.
@@ -42,5 +43,13 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         string ToJson();
 
         void FromJson(string json);
+    }
+
+    public static class DownloaderExtensions
+    {
+        public static long GetCompletedSize(this IDownloader @this)
+        {
+            return @this.BlockContexts.Sum(item => item.CompletedSize);
+        }
     }
 }

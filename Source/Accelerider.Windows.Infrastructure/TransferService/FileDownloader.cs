@@ -10,7 +10,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
@@ -55,7 +54,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             internal set => SetProperty(ref _context, value);
         }
 
-        public long CompletedSize => _blockTransferContextCache.Values.Sum(item => item.CompletedSize);
+        public ICollection<BlockTransferContext> BlockContexts => _blockTransferContextCache.Values;
 
         public FileDownloader(Builders builders)
         {
@@ -146,6 +145,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public string ToJson()
         {
+            if (Status == TransferStatus.Transferring) throw new InvalidOperationException();
+
             return JsonConvert.SerializeObject((Context, _blockTransferContextCache.Values.ToList()), _jsonSerializerSettings);
         }
 

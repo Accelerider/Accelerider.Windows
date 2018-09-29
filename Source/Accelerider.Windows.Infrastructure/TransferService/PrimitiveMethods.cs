@@ -33,7 +33,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             {
                 Directory.CreateDirectory(folderPath);
             }
-            return File.Open(localPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write); ;
+            return File.Open(localPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
         }
 
         public static FileStream Slice(this FileStream stream, (long offset, long length) block)

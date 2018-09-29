@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +29,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 {
                     var timestamp = timestampedContext.Timestamp;
                     var context = timestampedContext.Value;
-                    var completedSize = downloader.CompletedSize;
+                    var completedSize = downloader.GetCompletedSize();
 
                     WriteLine($"{context.Id:B}: " +
                               $"{context.Offset:D10} --> {context.Offset + context.TotalSize:D10} " +
@@ -64,9 +66,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             var json = downloader.ToJson();
 
             downloader.FromJson(json);
-
-            previousDateTimeOffset = DateTimeOffset.Now;
-            previousCompletedSize = 0L;
 
             await downloader.ActivateAsync(cancellationTokenSource.Token);
 
