@@ -39,6 +39,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public string GetRemotePath()
         {
+            if (RemotePaths.Values.All(item => item < 0))
+                throw new RemotePathExhaustedException(this);
+
             var theBestItem = RemotePaths.FirstOrDefault();
             foreach (var item in RemotePaths)
             {

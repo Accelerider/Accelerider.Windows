@@ -56,7 +56,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
                     settings.DownloadPolicy
                         .Catch<OperationCanceledException>((e, retryCount, blockContext) => HandleCommand.Break)
-                        .Catch<WebException>((e, retryCount, blockContext) => retryCount < 3 ? HandleCommand.Retry : HandleCommand.Throw);
+                        .Catch<WebException>((e, retryCount, blockContext) => retryCount < 3 ? HandleCommand.Retry : HandleCommand.Throw)
+                        .Catch<RemotePathExhaustedException>((e, retryCount, blockContext) => HandleCommand.Throw);
                 });
         }
 
