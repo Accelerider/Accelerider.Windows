@@ -9,7 +9,6 @@ using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
@@ -17,15 +16,15 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     {
         internal class Builders
         {
-            public Func<TransferContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> BlockTransferContextGeneratorBuilder { get; set; }
+            public Func<DownloadContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> BlockTransferContextGeneratorBuilder { get; set; }
 
             public Func<TransferSettings, Func<BlockTransferContext, IObservable<BlockTransferContext>>> BlockDownloadItemFactoryBuilder { get; set; }
 
-            public Func<IEnumerable<string>, IRemotePathProvider> RemotePathProviderBuilder { get; set; }
+            public Func<HashSet<string>, IRemotePathProvider> RemotePathProviderBuilder { get; set; }
 
             public Func<string, string> LocalPathInterceptor { get; set; }
 
-            public Func<TransferContext, TransferSettings> TransferSettingsBuilder { get; set; }
+            public Func<DownloadContext, TransferSettings> TransferSettingsBuilder { get; set; }
         }
 
 
@@ -40,7 +39,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private IDisposable _disposable;
 
         private TransferStatus _status;
-        private TransferContext _context;
+        private DownloadContext _context;
 
         public TransferStatus Status
         {
@@ -48,13 +47,13 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             private set => SetProperty(ref _status, value);
         }
 
-        public TransferContext Context
+        public DownloadContext Context
         {
             get => _context;
-            internal set => SetProperty(ref _context, value);
+            private set => SetProperty(ref _context, value);
         }
 
-        public ICollection<BlockTransferContext> BlockContexts => _blockTransferContextCache.Values;
+        public IReadOnlyCollection<BlockTransferContext> BlockContexts => _blockTransferContextCache.Values.ToList().AsReadOnly();
 
         public FileDownloader(Builders builders)
         {
@@ -102,15 +101,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             ThrowIfDisposed();
 
-            if (Context == null && !string.IsNullOrEmpty(_localPath) && _remotePaths.Any(item => !string.IsNullOrEmpty(item)))
-            {
-                Context = new TransferContext
-                {
-                    RemotePathProvider = _builders.RemotePathProviderBuilder(_remotePaths),
-                    LocalPath = _builders.LocalPathInterceptor(_localPath)
-                };
-                _settings = _builders.TransferSettingsBuilder(Context);
-            }
+            InitializeContext();
 
             switch (Status)
             {
@@ -141,23 +132,35 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             Status = TransferStatus.Suspended;
         }
 
-        private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
+        private void InitializeContext()
+        {
+            if (Context == null && !string.IsNullOrEmpty(_localPath) && _remotePaths.Any(item => !string.IsNullOrEmpty(item)))
+            {
+                Context = new DownloadContext
+                {
+                    RemotePathProvider = _builders.RemotePathProviderBuilder(_remotePaths),
+                    LocalPath = _builders.LocalPathInterceptor(_localPath)
+                };
+                _settings = _builders.TransferSettingsBuilder(Context);
+            }
+        }
 
         public string ToJson()
         {
-            if (Status == TransferStatus.Transferring) throw new InvalidOperationException();
+            ThrowIfTransferring();
 
-            return JsonConvert.SerializeObject((Context, _blockTransferContextCache.Values.ToList()), _jsonSerializerSettings);
+            return (Context, _blockTransferContextCache.Values.ToList()).ToJson();
         }
 
         public void FromJson(string json)
         {
-            if (Status == TransferStatus.Transferring) throw new InvalidOperationException();
+            ThrowIfTransferring();
 
             Status = TransferStatus.Ready;
-            var(context, blockContexts) = JsonConvert.DeserializeObject<(TransferContext, List<BlockTransferContext>)>(json, _jsonSerializerSettings);
+            var (context, blockContexts) = json.ToObject<(DownloadContext, List<BlockTransferContext>)>();
             Context = context;
-            _blockTransferContextCache = new ConcurrentDictionary<Guid, BlockTransferContext>(blockContexts.ToDictionary(item => item.Id));
+            _blockTransferContextCache = new ConcurrentDictionary<Guid, BlockTransferContext>(
+                blockContexts.ToDictionary(item => item.Id));
             Status = TransferStatus.Suspended;
         }
 
@@ -225,6 +228,11 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     "This transfer task has been disposed, please re-create a task by FileTransferService if it needs to be re-downloaded.");
         }
 
+        private void ThrowIfTransferring()
+        {
+            if (Status == TransferStatus.Transferring)
+                throw new InvalidOperationException("This operation cannot be executed during transferring. ");
+        }
         #endregion
 
         #region Implements INotifyPropertyChanged

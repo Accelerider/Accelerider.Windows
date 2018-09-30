@@ -62,7 +62,11 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         private static IEnumerable<(long Offset, long Length)> DefaultBlockIntervalGenerator(long totalLength)
         {
-            const long blockLength = 1024 * 1024 * 20;
+            const long defaultBlockLength = 1024 * 1024 * 20;
+
+            var preCount = totalLength / defaultBlockLength;
+
+            var blockLength = preCount > 100 ? (totalLength / 99) : defaultBlockLength;
 
             long offset = 0;
             while (offset + blockLength < totalLength)

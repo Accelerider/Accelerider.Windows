@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public interface IDownloader : IObservable<BlockTransferContext>, IDisposable, INotifyPropertyChanged
+    public interface IDownloader : IObservable<BlockTransferContext>, IDisposable, INotifyPropertyChanged, IJsonable
     {
         TransferStatus Status { get; }
 
-        TransferContext Context { get; }
+        DownloadContext Context { get; }
 
-        ICollection<BlockTransferContext> BlockContexts { get; }
+        IReadOnlyCollection<BlockTransferContext> BlockContexts { get; }
 
         /// <summary>
         /// Sets a uri that represents the file source, it can be url or local disk path.
@@ -39,10 +39,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         Task ActivateAsync(CancellationToken cancellationToken = default);
 
         void Suspend();
-
-        string ToJson();
-
-        void FromJson(string json);
     }
 
     public static class DownloaderExtensions

@@ -9,9 +9,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     /// </summary>
     public interface IDownloaderBuilder
     {
-        IDownloaderBuilder Configure(Action<TransferSettings, TransferContext> settingsConfigurator);
+        IDownloaderBuilder Configure(Action<TransferSettings, DownloadContext> settingsConfigurator);
 
-        IDownloaderBuilder Configure(Func<IEnumerable<string>, IRemotePathProvider> remotePathProviderBuilder);
+        IDownloaderBuilder Configure(Func<HashSet<string>, IRemotePathProvider> remotePathProviderBuilder);
 
         IDownloaderBuilder Configure(Func<HttpWebRequest, HttpWebRequest> requestInterceptor);
 

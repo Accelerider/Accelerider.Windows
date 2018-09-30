@@ -23,7 +23,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         [JsonConstructor]
         private RemotePathProvider() { }
 
-        public RemotePathProvider(ICollection<string> remotePaths)
+        public RemotePathProvider(HashSet<string> remotePaths)
         {
             if (remotePaths == null) throw new ArgumentNullException(nameof(remotePaths));
             if (!remotePaths.Any()) throw new ArgumentException();

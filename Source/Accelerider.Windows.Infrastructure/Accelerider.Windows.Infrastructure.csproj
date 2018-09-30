@@ -110,6 +110,7 @@
     <Compile Include="DataContext.cs" />
     <Compile Include="Extensions\AwaitExtensions.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="Extensions\JsonExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
     <Compile Include="Extensions\WebRequestExtensions.cs" />
     <Compile Include="FileTransferService\DefaultDownloaderBuilder.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Enumerations\Language.cs" />
     <Compile Include="Enumerations\ShareStatus.cs" />
     <Compile Include="Enumerations\SizeUnit.cs" />
+    <Compile Include="Interfaces\IJsonable.cs" />
     <Compile Include="TransferService\TransferStatus.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileLocator.cs" />

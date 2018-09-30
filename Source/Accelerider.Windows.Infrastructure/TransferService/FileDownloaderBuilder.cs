@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
 using System.Threading;
@@ -15,8 +14,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     {
         #region Configure parameters
 
-        private Action<TransferSettings, TransferContext> _settingsConfigurator;
-        private Func<IEnumerable<string>, IRemotePathProvider> _remotePathProviderBuilder;
+        private Action<TransferSettings, DownloadContext> _settingsConfigurator;
+        private Func<HashSet<string>, IRemotePathProvider> _remotePathProviderBuilder;
         private Func<long, IEnumerable<(long offset, long length)>> _blockIntervalGenerator;
         private Func<HttpWebRequest, HttpWebRequest> _requestInterceptor;
         private Func<string, string> _localPathInterceptor;
@@ -32,7 +31,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private void ApplyDefaultConfigure()
         {
             _settingsConfigurator = (settings, context) => { };
-            _remotePathProviderBuilder = remotePaths => new RemotePathProvider(remotePaths.ToList());
+            _remotePathProviderBuilder = remotePaths => new RemotePathProvider(remotePaths);
             _blockIntervalGenerator = size => new[] { (0L, size) };
             _requestInterceptor = _ => _;
             _localPathInterceptor = _ => _;
@@ -41,7 +40,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         #region Configure methods
 
-        public IDownloaderBuilder Configure(Action<TransferSettings, TransferContext> settingsConfigurator)
+        public IDownloaderBuilder Configure(Action<TransferSettings, DownloadContext> settingsConfigurator)
         {
             ThrowIfNullReference(settingsConfigurator);
 
@@ -49,7 +48,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return this;
         }
 
-        public IDownloaderBuilder Configure(Func<IEnumerable<string>, IRemotePathProvider> remotePathProviderBuilder)
+        public IDownloaderBuilder Configure(Func<HashSet<string>, IRemotePathProvider> remotePathProviderBuilder)
         {
             ThrowIfNullReference(remotePathProviderBuilder);
 
@@ -118,7 +117,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             });
         }
 
-        private Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>> GetBlockTransferContextGenerator(TransferContext context)
+        private Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>> GetBlockTransferContextGenerator(DownloadContext context)
         {
             return cancellationToken => new Func<IRemotePathProvider, string>(provider => provider.GetRemotePath())
                 .Then(PrimitiveMethods.ToRequest)
@@ -148,7 +147,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .Then(settings.DownloadPolicy.ToInterceptor());
         }
 
-        private TransferSettings GetTransferSettings(TransferContext context)
+        private TransferSettings GetTransferSettings(DownloadContext context)
         {
             var setting = new TransferSettings
             {

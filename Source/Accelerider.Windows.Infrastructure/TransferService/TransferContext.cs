@@ -17,7 +17,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         public string LocalPath { get; internal set; }
     }
 
-    public class TransferContext : TransferContextBase, INotifyPropertyChanged
+    public class DownloadContext : TransferContextBase, INotifyPropertyChanged
     {
         private long _totalSize;
 
