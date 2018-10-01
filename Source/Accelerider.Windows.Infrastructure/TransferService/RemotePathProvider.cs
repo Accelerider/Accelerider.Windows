@@ -6,15 +6,6 @@ using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public interface IRemotePathProvider
-    {
-        IDictionary<string, double> RemotePaths { get; }
-
-        void Vote(string remotePath, double score, bool isAccumulate = true);
-
-        string GetRemotePath();
-    }
-
     internal class RemotePathProvider : IRemotePathProvider
     {
         [JsonProperty]

@@ -132,7 +132,10 @@
     <Compile Include="Enumerations\ShareStatus.cs" />
     <Compile Include="Enumerations\SizeUnit.cs" />
     <Compile Include="Interfaces\IJsonable.cs" />
+    <Compile Include="TransferService\BlockDownloadItemPolicy.cs" />
+    <Compile Include="TransferService\DownloaderManager.cs" />
     <Compile Include="TransferService\Extensions.cs" />
+    <Compile Include="TransferService\IRemotePathProvider.cs" />
     <Compile Include="TransferService\TransferStatus.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileLocator.cs" />

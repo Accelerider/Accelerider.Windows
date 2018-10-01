@@ -144,7 +144,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>> GetBlockDownloadItemFactory(TransferSettings settings)
         {
             return new Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>>(CreateBlockDownloadItem)
-                .Then(settings.DownloadPolicy.ToInterceptor());
+                .Then(settings.DownloadPolicy.ExceptionInterceptor);
         }
 
         private TransferSettings GetTransferSettings(DownloadContext context)
