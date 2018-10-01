@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    internal class FileDownloader : ObservableBase<BlockTransferContext>, IDownloader
+    internal class FileDownloader : ObservableBase<(Guid Id, int Bytes)>, IDownloader
     {
         internal class Builders
         {
             public Func<DownloadContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> BlockTransferContextGeneratorBuilder { get; set; }
 
-            public Func<TransferSettings, Func<BlockTransferContext, IObservable<BlockTransferContext>>> BlockDownloadItemFactoryBuilder { get; set; }
+            public Func<TransferSettings, Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>>> BlockDownloadItemFactoryBuilder { get; set; }
 
             public Func<HashSet<string>, IRemotePathProvider> RemotePathProviderBuilder { get; set; }
 
@@ -28,7 +28,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         }
 
 
-        private readonly ObserverList<BlockTransferContext> _observerList = new ObserverList<BlockTransferContext>();
+        private readonly ObserverList<(Guid Id, int Bytes)> _observerList = new ObserverList<(Guid Id, int Bytes)>();
         private readonly Builders _builders;
 
         private readonly HashSet<string> _remotePaths = new HashSet<string>();
@@ -50,10 +50,16 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         public DownloadContext Context
         {
             get => _context;
-            private set => SetProperty(ref _context, value);
+            private set
+            {
+                if (SetProperty(ref _context, value))
+                {
+                    _settings = value != null ? _builders.TransferSettingsBuilder(value) : null;
+                }
+            }
         }
 
-        public IReadOnlyCollection<BlockTransferContext> BlockContexts => _blockTransferContextCache.Values.ToList().AsReadOnly();
+        public IReadOnlyDictionary<Guid, BlockTransferContext> BlockContexts => _blockTransferContextCache;
 
         public FileDownloader(Builders builders)
         {
@@ -64,8 +70,11 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             Guards.ThrowIfNullReference(path);
 
-            _remotePaths.Add(path);
-            Context = null;
+            if (_remotePaths.Add(path))
+            {
+                Context = null;
+            }
+
             return this;
         }
 
@@ -82,13 +91,17 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             Guards.ThrowIfNullReference(path);
 
-            _localPath = path;
-            Context = null;
+            if (!path.Equals(_localPath, StringComparison.InvariantCultureIgnoreCase))
+            {
+                _localPath = path;
+                Context = null;
+            }
+
             return this;
         }
 
 
-        protected override IDisposable SubscribeCore(IObserver<BlockTransferContext> observer)
+        protected override IDisposable SubscribeCore(IObserver<(Guid Id, int Bytes)> observer)
         {
             ThrowIfDisposed();
 
@@ -141,7 +154,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     RemotePathProvider = _builders.RemotePathProviderBuilder(_remotePaths),
                     LocalPath = _builders.LocalPathInterceptor(_localPath)
                 };
-                _settings = _builders.TransferSettingsBuilder(Context);
             }
         }
 
@@ -152,7 +164,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return (Context, _blockTransferContextCache.Values.ToList()).ToJson();
         }
 
-        public void FromJson(string json)
+        public IDownloader FromJson(string json)
         {
             ThrowIfTransferring();
 
@@ -162,6 +174,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             _blockTransferContextCache = new ConcurrentDictionary<Guid, BlockTransferContext>(
                 blockContexts.ToDictionary(item => item.Id));
             Status = TransferStatus.Suspended;
+
+            return this;
         }
 
         private async Task<IDisposable> Start(CancellationToken cancellationToken)
@@ -186,7 +200,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return blockContexts
                 .Select(item => _builders.BlockDownloadItemFactoryBuilder(_settings).Invoke(item))
                 .Merge(_settings.MaxConcurrent)
-                .Do(context => _blockTransferContextCache[context.Id] = context)
+                .Do(notification => _blockTransferContextCache[notification.Id].CompletedSize += notification.Bytes)
                 .Subscribe(
                     value => _observerList.OnNext(value),
                     error =>

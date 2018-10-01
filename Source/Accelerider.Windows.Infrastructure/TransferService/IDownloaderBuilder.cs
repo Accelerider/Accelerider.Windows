@@ -19,7 +19,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         IDownloaderBuilder Configure(Func<long, IEnumerable<(long offset, long length)>> blockIntervalGenerator);
 
-        IDownloaderBuilder Configure(Func<IObservable<BlockTransferContext>, IObservable<BlockTransferContext>> blockTransferItemInterceptor);
+        IDownloaderBuilder Configure(Func<IObservable<(Guid Id, int Bytes)>, IObservable<(Guid Id, int Bytes)>> blockTransferItemInterceptor);
 
         /// <summary>
         /// Get a snapshot copy of the current instance. 

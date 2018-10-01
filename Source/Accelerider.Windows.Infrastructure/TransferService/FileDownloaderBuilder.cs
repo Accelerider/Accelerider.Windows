@@ -19,7 +19,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private Func<long, IEnumerable<(long offset, long length)>> _blockIntervalGenerator;
         private Func<HttpWebRequest, HttpWebRequest> _requestInterceptor;
         private Func<string, string> _localPathInterceptor;
-        private Func<IObservable<BlockTransferContext>, IObservable<BlockTransferContext>> _blockTransferItemInterceptor;
+        private Func<IObservable<(Guid Id, int Bytes)>, IObservable<(Guid Id, int Bytes)>> _blockTransferItemInterceptor;
 
         #endregion
 
@@ -80,7 +80,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return this;
         }
 
-        public IDownloaderBuilder Configure(Func<IObservable<BlockTransferContext>, IObservable<BlockTransferContext>> blockTransferItemInterceptor)
+        public IDownloaderBuilder Configure(Func<IObservable<(Guid Id, int Bytes)>, IObservable<(Guid Id, int Bytes)>> blockTransferItemInterceptor)
         {
             ThrowIfNullReference(blockTransferItemInterceptor);
 
@@ -141,9 +141,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .Invoke(context.RemotePathProvider);
         }
 
-        private Func<BlockTransferContext, IObservable<BlockTransferContext>> GetBlockDownloadItemFactory(TransferSettings settings)
+        private Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>> GetBlockDownloadItemFactory(TransferSettings settings)
         {
-            return new Func<BlockTransferContext, IObservable<BlockTransferContext>>(CreateBlockDownloadItem)
+            return new Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>>(CreateBlockDownloadItem)
                 .Then(settings.DownloadPolicy.ToInterceptor());
         }
 
@@ -174,14 +174,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             };
         }
 
-        private IObservable<BlockTransferContext> CreateBlockDownloadItem(BlockTransferContext context)
+        private IObservable<(Guid Id, int Bytes)> CreateBlockDownloadItem(BlockTransferContext context)
         {
             return context.CompletedSize < context.TotalSize
-                ? new Func<BlockTransferContext, IObservable<BlockTransferContext>>(
+                ? new Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>>(
                         blockContext => PrimitiveMethods.CreateBlockDownloadItem(BuildStreamPairFatory(blockContext), blockContext))
                     .Then(_blockTransferItemInterceptor)
                     .Invoke(context)
-                : Observable.Empty<BlockTransferContext>();
+                : Observable.Empty<(Guid Id, int Bytes)>();
         }
     }
 }

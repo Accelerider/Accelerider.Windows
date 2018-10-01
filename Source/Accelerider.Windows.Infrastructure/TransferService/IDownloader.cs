@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public interface IDownloader : IObservable<BlockTransferContext>, IDisposable, INotifyPropertyChanged, IJsonable
+    public interface IDownloader : IObservable<(Guid Id, int Bytes)>, IDisposable, INotifyPropertyChanged, IJsonable<IDownloader>
     {
         TransferStatus Status { get; }
 
         DownloadContext Context { get; }
 
-        IReadOnlyCollection<BlockTransferContext> BlockContexts { get; }
+        IReadOnlyDictionary<Guid, BlockTransferContext> BlockContexts { get; }
 
         /// <summary>
         /// Sets a uri that represents the file source, it can be url or local disk path.
@@ -39,13 +38,5 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         Task ActivateAsync(CancellationToken cancellationToken = default);
 
         void Suspend();
-    }
-
-    public static class DownloaderExtensions
-    {
-        public static long GetCompletedSize(this IDownloader @this)
-        {
-            return @this.BlockContexts.Sum(item => item.CompletedSize);
-        }
     }
 }

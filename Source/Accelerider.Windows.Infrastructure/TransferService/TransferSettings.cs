@@ -31,9 +31,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private readonly ConcurrentDictionary<Guid, int> _retryStatistics = new ConcurrentDictionary<Guid, int>();
         private readonly ConcurrentDictionary<Type, BlockDownloadItemExceptionHandler<Exception>> _handlers = new ConcurrentDictionary<Type, BlockDownloadItemExceptionHandler<Exception>>();
 
-        private readonly Func<BlockTransferContext, IObservable<BlockTransferContext>> _blockDownloadItemFactory;
+        private readonly Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>> _blockDownloadItemFactory;
 
-        public BlockDownloadItemPolicy(Func<BlockTransferContext, IObservable<BlockTransferContext>> blockDownloadItemFactory)
+        public BlockDownloadItemPolicy(Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>> blockDownloadItemFactory)
         {
             _blockDownloadItemFactory = blockDownloadItemFactory;
         }
@@ -49,14 +49,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return this;
         }
 
-        internal Func<IObservable<BlockTransferContext>, IObservable<BlockTransferContext>> ToInterceptor()
+        internal Func<IObservable<(Guid Id, int Bytes)>, IObservable<(Guid Id, int Bytes)>> ToInterceptor()
         {
             return ExceptionInterceptor;
         }
 
-        private IObservable<BlockTransferContext> ExceptionInterceptor(IObservable<BlockTransferContext> observable)
+        private IObservable<(Guid Id, int Bytes)> ExceptionInterceptor(IObservable<(Guid Id, int Bytes)> observable)
         {
-            return observable.Catch<BlockTransferContext, BlockTransferException>(e =>
+            return observable.Catch<(Guid Id, int Bytes), BlockTransferException>(e =>
             {
                 var handler = _handlers.FirstOrDefault(item => item.Key.IsInstanceOfType(e.InnerException)).Value;
                 if (handler != null)
@@ -64,16 +64,16 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     switch (handler(e.InnerException, GetRetryCount(e.Context.Id), e.Context))
                     {
                         case HandleCommand.Throw:
-                            return Observable.Throw<BlockTransferContext>(e.InnerException ?? e);
+                            return Observable.Throw<(Guid Id, int Bytes)>(e.InnerException ?? e);
                         case HandleCommand.Retry:
                             SetRetryCount(e.Context.Id);
                             return _blockDownloadItemFactory.Then(ExceptionInterceptor)(e.Context);
                         case HandleCommand.Break:
-                            return Observable.Empty<BlockTransferContext>();
+                            return Observable.Empty<(Guid Id, int Bytes)>();
                     }
                 }
 
-                return Observable.Throw<BlockTransferContext>(e.InnerException ?? e);
+                return Observable.Throw<(Guid Id, int Bytes)>(e.InnerException ?? e);
             });
         }
 

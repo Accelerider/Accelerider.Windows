@@ -42,7 +42,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return stream;
         }
 
-        public static IObservable<BlockTransferContext> CreateBlockDownloadItem(Func<Task<(HttpWebResponse response, Stream inputStream)>> streamPairFactory, BlockTransferContext context) => Observable.Create<BlockTransferContext>(o =>
+        public static IObservable<(Guid Id, int Bytes)> CreateBlockDownloadItem(Func<Task<(HttpWebResponse response, Stream inputStream)>> streamPairFactory, BlockTransferContext context) => Observable.Create<(Guid Id, int Bytes)>(o =>
         {
             var cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = cancellationTokenSource.Token;
@@ -64,8 +64,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                         {
                             cancellationToken.ThrowIfCancellationRequested();
                             await inputStream.WriteAsync(buffer, 0, count, cancellationToken);
-                            context.CompletedSize += count;
-                            o.OnNext(context);
+                            o.OnNext((context.Id, count));
                         }
                     }
 

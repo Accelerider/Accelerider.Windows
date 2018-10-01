@@ -1,9 +1,9 @@
 ﻿namespace Accelerider.Windows.Infrastructure
 {
-    public interface IJsonable
+    public interface IJsonable<out T>
     {
         string ToJson();
 
-        void FromJson(string json);
+        T FromJson(string json);
     }
 }
