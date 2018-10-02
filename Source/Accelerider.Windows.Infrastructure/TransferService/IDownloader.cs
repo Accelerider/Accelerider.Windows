@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public interface IDownloader : IObservable<(Guid Id, int Bytes)>, IDisposable, INotifyPropertyChanged, IJsonable<IDownloader>
+    public interface IDownloader : IObservable<DownloaderNotification>, IDisposable, IJsonable<IDownloader>
     {
         TransferStatus Status { get; }
 

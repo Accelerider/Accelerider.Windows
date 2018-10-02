@@ -6,7 +6,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     {
         public static long GetCompletedSize(this IDownloader @this)
         {
-            return @this.BlockContexts.Values.Sum(item => item.CompletedSize);
+            return @this.BlockContexts?.Values.Sum(item => item.CompletedSize) ?? 0;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public IDownloaderBuilder Configure(Action<TransferSettings, DownloadContext> settingsConfigurator)
         {
-            ThrowIfNullReference(settingsConfigurator);
+            ThrowIfNull(settingsConfigurator);
 
             _settingsConfigurator = settingsConfigurator;
             return this;
@@ -50,7 +50,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public IDownloaderBuilder Configure(Func<HashSet<string>, IRemotePathProvider> remotePathProviderBuilder)
         {
-            ThrowIfNullReference(remotePathProviderBuilder);
+            ThrowIfNull(remotePathProviderBuilder);
 
             _remotePathProviderBuilder = remotePathProviderBuilder;
             return this;
@@ -58,7 +58,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public IDownloaderBuilder Configure(Func<HttpWebRequest, HttpWebRequest> requestInterceptor)
         {
-            ThrowIfNullReference(requestInterceptor);
+            ThrowIfNull(requestInterceptor);
 
             _requestInterceptor = _requestInterceptor.Then(requestInterceptor);
             return this;
@@ -66,7 +66,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public IDownloaderBuilder Configure(Func<string, string> localPathInterceptor)
         {
-            ThrowIfNullReference(localPathInterceptor);
+            ThrowIfNull(localPathInterceptor);
 
             _localPathInterceptor = _localPathInterceptor.Then(localPathInterceptor);
             return this;
@@ -74,7 +74,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public IDownloaderBuilder Configure(Func<long, IEnumerable<(long offset, long length)>> blockIntervalGenerator)
         {
-            ThrowIfNullReference(blockIntervalGenerator);
+            ThrowIfNull(blockIntervalGenerator);
 
             _blockIntervalGenerator = blockIntervalGenerator;
             return this;
@@ -82,7 +82,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public IDownloaderBuilder Configure(Func<IObservable<(Guid Id, int Bytes)>, IObservable<(Guid Id, int Bytes)>> blockTransferItemInterceptor)
         {
-            ThrowIfNullReference(blockTransferItemInterceptor);
+            ThrowIfNull(blockTransferItemInterceptor);
 
             _blockTransferItemInterceptor = _blockTransferItemInterceptor.Then(blockTransferItemInterceptor);
             return this;

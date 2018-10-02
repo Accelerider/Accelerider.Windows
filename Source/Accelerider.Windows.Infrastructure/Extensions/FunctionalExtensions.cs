@@ -13,7 +13,7 @@ namespace System
             this Func<TInput, IEnumerable<TOutput>> @this,
             Func<TOutput, T> function)
         {
-            ThrowIfNullReference(function);
+            ThrowIfNull(function);
 
             return input => @this(input).Select(function);
         }
@@ -22,7 +22,7 @@ namespace System
             this Func<TInput, TOutput> @this,
             Func<TOutput, T> function)
         {
-            ThrowIfNullReference(function);
+            ThrowIfNull(function);
 
             return input => function(@this(input));
         }
@@ -32,7 +32,7 @@ namespace System
             Func<TOutput, T> function,
             CancellationToken cancellationToken = default)
         {
-            ThrowIfNullReference(function);
+            ThrowIfNull(function);
 
             return async input =>
             {
@@ -46,7 +46,7 @@ namespace System
             Func<TOutput, T> function,
             CancellationToken cancellationToken = default)
         {
-            ThrowIfNullReference(function);
+            ThrowIfNull(function);
 
             return async input =>
             {
