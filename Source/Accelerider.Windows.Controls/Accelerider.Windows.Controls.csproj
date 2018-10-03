@@ -70,6 +70,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="ControlHelper.cs" />
     <Compile Include="HighlightTextBlock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -99,6 +99,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="AcceleriderPaths.cs" />
     <Compile Include="AsyncLocker.cs" />
     <Compile Include="Commands\CommandExtensions.cs" />

@@ -90,6 +90,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="ApiExceptionResolverExtension.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Constants\ConfigureKeys.cs" />
