@@ -29,6 +29,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private class SerializedData
         {
             [JsonProperty]
+            public object Tag { get; internal set; }
+
+            [JsonProperty]
             public DownloadContext Context { get; internal set; }
 
             [JsonProperty]
@@ -115,6 +118,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             return new SerializedData
             {
+                Tag = Tag,
                 Context = Context,
                 BlockContexts = _blockTransferContextCache.Values.ToList()
             }.ToJson();
@@ -129,10 +133,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             if (serializedData?.Context != null && serializedData.BlockContexts != null)
             {
+                Tag = serializedData.Tag;
+
                 Context = serializedData.Context;
+
                 serializedData.BlockContexts.ForEach(item => item.LocalPath = Context.LocalPath);
                 _blockTransferContextCache = new ConcurrentDictionary<Guid, BlockTransferContext>(
                     serializedData.BlockContexts.ToDictionary(item => item.Id));
+
                 Status = TransferStatus.Suspended;
             }
 

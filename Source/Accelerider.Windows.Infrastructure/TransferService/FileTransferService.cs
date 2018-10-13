@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -10,8 +11,11 @@ using Prism.Mvvm;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public static class FileTransferService
+    public static partial class FileTransferService
     {
+        private const string DefaultManagerName = "default";
+        private static readonly ConcurrentDictionary<string, FileDownloaderManager> Managers = new ConcurrentDictionary<string, FileDownloaderManager>();
+
         static FileTransferService()
         {
             ServicePointManager.DefaultConnectionLimit = 10000;
@@ -19,87 +23,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public static IDownloaderBuilder GetFileDownloaderBuilder() => new FileDownloaderBuilder();
 
-        #region Configure methods
-
-        public static IDownloaderBuilder UseDefaultConfigure(this IDownloaderBuilder @this)
+        public static FileDownloaderManager GetFileDownloaderManager(string name = DefaultManagerName)
         {
-            return @this
-                .Configure(request =>
-                {
-                    request.Headers.SetHeaders(new WebHeaderCollection { ["User-Agent"] = "Accelerider.Windows.DownloadEngine" });
-                    request.Method = "GET";
-                    request.Timeout = 1000 * 30;
-                    request.ReadWriteTimeout = 1000 * 30;
-                    return request;
-                })
-                .Configure(localPath =>
-                {
-                    var directoryName = Path.GetDirectoryName(localPath) ?? throw new InvalidOperationException();
-                    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(localPath) ?? throw new InvalidOperationException();
-                    var extension = Path.GetExtension(localPath);
-                    for (int i = 1; File.Exists(localPath); i++)
-                    {
-                        localPath = $"{Path.Combine(directoryName, fileNameWithoutExtension)} ({i}){extension}";
-                    }
-
-                    return localPath;
-                })
-                .Configure(DefaultBlockIntervalGenerator)
-                .Configure((settings, context) =>
-                {
-                    settings.MaxConcurrent = 16;
-
-                    settings.BuildPolicy = Policy
-                        .Handle<WebException>()
-                        .RetryAsync(context.RemotePathProvider.RemotePaths.Count, (e, retryCount, policyContext) =>
-                        {
-                            var remotePath = ((WebException)e).Response.ResponseUri.OriginalString;
-                            context.RemotePathProvider.Vote(remotePath, -3);
-                        });
-
-                    settings.DownloadPolicy
-                        .Catch<OperationCanceledException>((e, retryCount, blockContext) => HandleCommand.Break)
-                        .Catch<WebException>((e, retryCount, blockContext) => retryCount < 3 ? HandleCommand.Retry : HandleCommand.Throw)
-                        .Catch<RemotePathExhaustedException>((e, retryCount, blockContext) => HandleCommand.Throw);
-                });
-        }
-
-        private static IEnumerable<(long Offset, long Length)> DefaultBlockIntervalGenerator(long totalLength)
-        {
-            const long defaultBlockLength = 1024 * 1024 * 20;
-
-            var preCount = totalLength / defaultBlockLength;
-
-            var blockLength = preCount > 100 ? (totalLength / 99) : defaultBlockLength;
-
-            long offset = 0;
-            while (offset + blockLength < totalLength)
+            if (!Managers.ContainsKey(name))
             {
-                yield return (offset, blockLength);
-                offset += blockLength;
+                Managers[name] = new FileDownloaderManager();
             }
 
-            yield return (offset, totalLength - offset);
+            return Managers[name];
         }
-
-        #endregion
-
-        #region Extenion methods
-
-        public static long GetCompletedSize(this IDownloader @this)
-        {
-            Guards.ThrowIfNull(@this);
-
-            return @this.BlockContexts?.Values.Sum(item => item.CompletedSize) ?? 0;
-        }
-
-        public static long GetTotalSize(this IDownloader @this)
-        {
-            Guards.ThrowIfNull(@this);
-
-            return @this.Context?.TotalSize ?? 0;
-        }
-
-        #endregion
     }
 }

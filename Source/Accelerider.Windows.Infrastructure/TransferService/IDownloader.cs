@@ -13,6 +13,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         IReadOnlyDictionary<Guid, BlockTransferContext> BlockContexts { get; }
 
+        object Tag { get; set; }
+
         /// <summary>
         /// Sets a uri that represents the file source, it can be url or local disk path.
         /// </summary>

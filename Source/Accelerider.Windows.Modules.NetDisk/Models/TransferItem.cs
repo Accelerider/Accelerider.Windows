@@ -1,5 +1,4 @@
-﻿using Accelerider.Windows.Infrastructure.FileTransferService;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
+﻿using Accelerider.Windows.Modules.NetDisk.Interfaces;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {

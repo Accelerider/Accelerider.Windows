@@ -20,6 +20,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private Func<HttpWebRequest, HttpWebRequest> _requestInterceptor;
         private Func<string, string> _localPathInterceptor;
         private Func<IObservable<(Guid Id, int Bytes)>, IObservable<(Guid Id, int Bytes)>> _blockTransferItemInterceptor;
+        private Func<IDownloader, IDownloader> _postProcessInterceptor;
 
         #endregion
 
@@ -36,6 +37,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             _requestInterceptor = _ => _;
             _localPathInterceptor = _ => _;
             _blockTransferItemInterceptor = _ => _;
+            _postProcessInterceptor = _ => _;
         }
 
         #region Configure methods
@@ -88,6 +90,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return this;
         }
 
+        public IDownloaderBuilder Configure(Func<IDownloader, IDownloader> postProcessInterceptor)
+        {
+            ThrowIfNull(postProcessInterceptor);
+
+            _postProcessInterceptor = _postProcessInterceptor.Then(postProcessInterceptor);
+            return this;
+        }
+
         #endregion
 
         public IDownloaderBuilder Clone()
@@ -107,7 +117,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public IDownloader Build()
         {
-            return new FileDownloader(new FileDownloader.Builders
+            var result = new FileDownloader(new FileDownloader.Builders
             {
                 BlockTransferContextGeneratorBuilder = GetBlockTransferContextGenerator,
                 BlockDownloadItemFactoryBuilder = GetBlockDownloadItemFactory,
@@ -115,6 +125,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 LocalPathInterceptor = _localPathInterceptor,
                 TransferSettingsBuilder = GetTransferSettings
             });
+
+            return _postProcessInterceptor(result);
         }
 
         private Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>> GetBlockTransferContextGenerator(DownloadContext context)

@@ -11,6 +11,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 {
     public class FileDownloaderManager : IJsonable<FileDownloaderManager>
     {
+        public const string AcceleriderDownloadFileExtension = ".ard";
+
         private readonly ConcurrentList<IDownloader> _executingList = new ConcurrentList<IDownloader>();
         private readonly ConcurrentList<IDownloader> _pendingList = new ConcurrentList<IDownloader>();
         private readonly ConcurrentList<IDownloader> _suspendedList = new ConcurrentList<IDownloader>();
@@ -37,7 +39,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             _allLists = new[] { _executingList, _pendingList, _suspendedList, _completedList };
         }
 
-        public void Add(IDownloader downloader)
+        public bool Add(IDownloader downloader)
         {
             switch (downloader.Status)
             {
@@ -63,7 +65,11 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 case TransferStatus.Completed:
                     _completedList.Add(downloader);
                     break;
+                default:
+                    return false;
             }
+
+            return true;
         }
 
         public void AsNext(Guid id)
@@ -104,9 +110,10 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             if (_executingList.Any()) throw new InvalidOperationException();
 
             return _allLists.SelectMany(item => item)
+                .Where(item => !string.IsNullOrEmpty(item.Context?.LocalPath))
                 .Select(item =>
                 {
-                    var path = item.Context.LocalPath + ".ard";
+                    var path = item.Context.LocalPath + AcceleriderDownloadFileExtension;
                     File.WriteAllText(path, item.ToJson());
                     return path;
                 })
@@ -119,7 +126,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             json.ToObject<List<string>>()?
                 .Where(item => File.Exists(item))
                 .Select(item => File.ReadAllText(item))
-                .Select(item => FileTransferService.GetFileDownloaderBuilder().UseDefaultConfigure().Build().FromJson(item))
+                .Select(item =>
+                {
+                    var configureTag = item.GetJsonValue(nameof(IDownloader.Tag));
+                    return !string.IsNullOrEmpty(configureTag)
+                        ? FileTransferService.GetFileDownloaderBuilder().UseConfigure(configureTag).Build().FromJson(item)
+                        : null;
+                })
+                .Where(item => item != null)
                 .ForEach(item => Add(item));
 
             return this;

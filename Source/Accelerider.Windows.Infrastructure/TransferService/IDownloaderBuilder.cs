@@ -21,6 +21,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         IDownloaderBuilder Configure(Func<IObservable<(Guid Id, int Bytes)>, IObservable<(Guid Id, int Bytes)>> blockTransferItemInterceptor);
 
+        IDownloaderBuilder Configure(Func<IDownloader, IDownloader> postProcessInterceptor);
+
         /// <summary>
         /// Get a snapshot copy of the current instance. 
         /// </summary>
