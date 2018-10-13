@@ -3,15 +3,17 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure.ViewModels;
+using Accelerider.Windows.Modules.NetDisk.Extensions;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
+using Autofac;
 using MaterialDesignThemes.Wpf;
-using Microsoft.Practices.Unity;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FileBrowserComponentViewModel : ViewModelBase
+    public class FileBrowserComponentViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
     {
         private bool _canSwitchUser;
         private IEnumerable<ILazyTreeNode<INetDiskFile>> _searchResults;
@@ -20,15 +22,22 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         private ICommand _addNetDiskCommand;
 
 
-        public FileBrowserComponentViewModel(IUnityContainer container) : base(container)
+        public FileBrowserComponentViewModel(IContainer container) : base(container)
         {
-            NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.NetDiskUsers);
-
-            SubscrubeEvents();
+            SubscribeEvents();
 
             AddNetDiskCommand = new RelayCommand(AddNetDiskCommandExecute);
         }
 
+        public async void OnLoaded()
+        {
+            await AcceleriderUser.RefreshAsyncEx();
+            NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
+        }
+
+        public void OnUnloaded()
+        {
+        }
 
         public bool CanSwitchUser
         {
@@ -52,7 +61,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 EventAggregator.GetEvent<SelectedSearchResultChangedEvent>().Publish(value);
 
 #if DEBUG
-                Debug.WriteLine($"SelectedSearchResult {value.Content.FilePath.FileName}");
+                Debug.WriteLine($"SelectedSearchResult {value.Content.Path.FileName}");
 #endif
             }
         }
@@ -75,7 +84,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             await DialogHost.Show(new SelectNetDiskTypeDialog(), "RootDialog");
         }
 
-        private void SubscrubeEvents()
+        private void SubscribeEvents()
         {
             EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Subscribe(isLoadingFiles => CanSwitchUser = !isLoadingFiles);
             EventAggregator.GetEvent<SearchResultsChangedEvent>().Subscribe(searchResults => SearchResults = searchResults);

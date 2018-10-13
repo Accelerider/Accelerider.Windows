@@ -2,35 +2,37 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Enumerations;
+using Accelerider.Windows.Modules.NetDisk.Models;
 
 namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 {
     public interface INetDiskUser
     {
-        // User Information ---------------------------------------------------------------
+        // The user info ----------------------------------------------------------------------
+        long Id { get; }
+
         string Username { get; }
 
         DataSize TotalCapacity { get; }
 
         DataSize UsedCapacity { get; }
 
-        Task<bool> RefreshUserInfoAsync();
+        IReadOnlyCollection<FileCategory> AvailableFileCategories { get; }
 
-        // Operates net-disk file ---------------------------------------------------------
-        ITransferTaskToken UploadAsync(FileLocation from, FileLocation to);
+        Task RefreshUserInfoAsync();
 
-        //Task<IReadOnlyCollection<ITransferTaskToken>> DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder = null);
+        // Gets files info from server --------------------------------------------------------
 
-        Task DownloadAsync(ILazyTreeNode<INetDiskFile> fileNode, FileLocation downloadFolder, Action<ITransferTaskToken> action); // TODO: Changes it to IAsyncEnumerable<T> when the C# 8.0 is released.
+        Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
 
-        Task<(ShareStateCode, ISharedFile)> ShareAsync(IEnumerable<INetDiskFile> files, string password = null);
+        Task<IList<T>> GetFilesAsync<T>(FileCategory category) where T : IFile;
 
-        // Gets net-disk files ------------------------------------------------------------
-        Task<ILazyTreeNode<INetDiskFile>> GetNetDiskFileRootAsync();
+        // Transfer operations ----------------------------------------------------------------
 
-        Task<IEnumerable<ISharedFile>> GetSharedFilesAsync();
+        Task DownloadAsync(ILazyTreeNode<INetDiskFile> from, FileLocator to, Action<TransferItem> callback);
 
-        Task<IEnumerable<IDeletedFile>> GetDeletedFilesAsync();
+        // It will be throw an exception if the to.FileType is not folder type.
+        Task UploadAsync(FileLocator from, INetDiskFile to, Action<TransferItem> callback);
     }
 }

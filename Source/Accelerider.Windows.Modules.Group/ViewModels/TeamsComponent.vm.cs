@@ -1,11 +1,11 @@
-﻿using Accelerider.Windows.Infrastructure;
-using Microsoft.Practices.Unity;
+﻿using Accelerider.Windows.Infrastructure.ViewModels;
+using Autofac;
 
 namespace Accelerider.Windows.Modules.Group.ViewModels
 {
     public class TeamsComponentViewModel : ViewModelBase
     {
-        public TeamsComponentViewModel(IUnityContainer container) : base(container)
+        public TeamsComponentViewModel(IContainer container) : base(container)
         {
         }
     }

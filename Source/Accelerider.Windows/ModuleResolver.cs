@@ -6,7 +6,7 @@ using Accelerider.Windows.Models;
 using System.Security.Cryptography;
 using System.IO;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows
 {
@@ -29,6 +29,8 @@ namespace Accelerider.Windows
 
         public async Task LoadAsync()
         {
+
+
             var tasks = _user.Apps?.Select(id => _acceleriderApi.GetAppInfoByIdAsync(id).RunApi());
 
             if (tasks == null) return;
@@ -89,14 +91,12 @@ namespace Accelerider.Windows
         }
 
 
-        private string GetFileMd5(string filePath)
+        private static string GetFileMd5(string filePath)
         {
-            string result;
             using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                result = BitConverter.ToString(Md5Algorithm.ComputeHash(fileStream)).ToLower().Replace("-", string.Empty);
+                return BitConverter.ToString(Md5Algorithm.ComputeHash(fileStream)).ToLower().Replace("-", string.Empty);
             }
-            return result;
         }
 
         private ModuleInfo ConvertModuleMetadataToModuleInfo(ModuleMetadata module)

@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Extensions;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Authentication;
-using Microsoft.Practices.Unity;
+using Autofac;
 using Refit;
-using SignInView = Accelerider.Windows.Views.Authentication.SignInView;
 
 namespace Accelerider.Windows.ViewModels.Authentication
 {
-    public class SignInViewModel : ViewModelBase
+    public class SignInViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded<SignInView>
     {
         private readonly INonAuthenticationApi _nonAuthenticationApi;
 
@@ -28,7 +24,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
         private ICommand _signInCommand;
 
 
-        public SignInViewModel(IUnityContainer container) : base(container)
+        public SignInViewModel(IContainer container) : base(container)
         {
             _nonAuthenticationApi = Container.Resolve<INonAuthenticationApi>();
             ConfigureFile = Container.Resolve<IConfigureFile>();
@@ -65,9 +61,9 @@ namespace Accelerider.Windows.ViewModels.Authentication
         }
 
 
-        public override void OnLoaded(object view)
+        public void OnLoaded(SignInView view)
         {
-            var passwordBox = ((SignInView)view).PasswordBox;
+            var passwordBox = view.PasswordBox;
 
             // 1. Login info from SignUpView
             if (_signUpInfo != null)
@@ -100,6 +96,10 @@ namespace Accelerider.Windows.ViewModels.Authentication
             }
         }
 
+        public void OnUnloaded(SignInView view)
+        {
+        }
+
         private async void SignInCommandExecute(PasswordBox password)
         {
             var passwordMd5 = password.Password == ConfigureFile.GetValue<string>(ConfigureKeys.Password).DecryptByRijndael()
@@ -120,7 +120,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
                 return;
             }
 
-            await Container.Resolve<ModuleResolver>().LoadAsync();
+            //await Container.Resolve<ModuleResolver>().LoadAsync();
 
             // Saves data.
             ConfigureFile.SetValue(ConfigureKeys.Username, IsRememberPassword ? username : string.Empty);
@@ -136,27 +136,35 @@ namespace Accelerider.Windows.ViewModels.Authentication
             var token = await _nonAuthenticationApi.LoginAsync(new LoginInfoBody
             {
                 Email = username,
-                Password = passwordMd5.EncryptByRsa()
+                Password = passwordMd5
             }).RunApi();
 
             token = token?.GetJsonValue("accessToken");
             if (token == null) return false;
 
-            var acceleriderApi = RestService.For<IAcceleriderApi>(new HttpClient(new ConfigureHeadersHttpClientHandler(token))
+            var acceleriderApi = RestService.For<IAcceleriderApi>(Hyperlinks.ApiBaseAddress, new RefitSettings
             {
-                BaseAddress = new Uri(Hyperlinks.ApiBaseAddress)
+                AuthorizationHeaderValueGetter = () => Task.FromResult(token)
             });
 
             var user = await acceleriderApi.GetCurrentUserAsync().RunApi();
 
             if (user == null) return false;
 
-            Container.RegisterInstance<IAcceleriderUser>(user);
-            Container.RegisterInstance(acceleriderApi);
+            RegisterInstance(user, acceleriderApi);
 
             return true;
         }
 
-        private bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);
+        private void RegisterInstance(AcceleriderUser user, IAcceleriderApi acceleriderApi)
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterInstance(user).As<IAcceleriderUser>();
+            builder.RegisterInstance(acceleriderApi).As<IAcceleriderApi>();
+            builder.Update(Container);
+        }
+
+
+        private static bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);
     }
 }

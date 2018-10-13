@@ -1,92 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Interfaces;
 
 namespace Accelerider.Windows.Infrastructure.Extensions
 {
     public static class LazyTreeNodeExtensions
     {
-        //public static async Task ForEachAsync<T>(this ILazyTreeNode<T> self, Action<T> action)
-        //{
-        //    await new Soil<T>(self).ForEachAsync(action);
-        //}
-
-        public static async Task<IEnumerable<ILazyTreeNode<T>>> FlattenAsync<T>(this ILazyTreeNode<T> self)
+        public static ILazyTreeNode<TTo> Convert<TFrom, TTo>(this ILazyTreeNode<TFrom> @this, Func<TFrom, TTo> converter = null)
         {
-            return await new Soil<T>(self).FlattenAsync();
-        }
-
-        public static async Task<IReadOnlyList<ILazyTreeNode<T>>> GetChildrenAsync<T>(this ILazyTreeNode<T> self, bool force = false)
-        {
-            return await new Soil<T>(self).GetChildrenAsync(force);
-        }
-
-        public static int Count<T>(this ILazyTreeNode<T> self)
-        {
-            return new Soil<T>(self).Count();
-        }
-
-        private class Soil<T>
-        {
-            private readonly ILazyTreeNode<T> _seed;
-            private Action<T> _action;
-
-
-            public Soil(ILazyTreeNode<T> seed)
+            if (@this is ILazyTreeNodeConverter<TTo, TFrom> lazyTreeNodeConverter)
             {
-                _seed = seed;
+                return lazyTreeNodeConverter.Source;
             }
 
-            public async Task<IEnumerable<ILazyTreeNode<T>>> FlattenAsync()
-            {
-                _action = null;
-                await FlourishAsync(_seed);
-                return Flatten(_seed);
-            }
+            return new LazyTreeNodeConverter<TFrom, TTo>(@this, converter);
+        }
 
-            public async Task<IReadOnlyList<ILazyTreeNode<T>>> GetChildrenAsync(bool force = false)
+        private interface ILazyTreeNodeConverter<out TFrom, out TTo> : ILazyTreeNode<TTo>
+        {
+            ILazyTreeNode<TFrom> Source { get; }
+        }
+
+        private class LazyTreeNodeConverter<TFrom, TTo> : ILazyTreeNodeConverter<TFrom, TTo>, INotifyPropertyChanged
+        {
+            private readonly Func<TFrom, TTo> _converter;
+
+            public ILazyTreeNode<TFrom> Source { get; }
+
+            public LazyTreeNodeConverter(ILazyTreeNode<TFrom> source, Func<TFrom, TTo> converter)
             {
-                if (force || _seed.ChildrenCache == null)
+                Source = source ?? throw new ArgumentNullException(nameof(source));
+                _converter = converter ?? throw new ArgumentNullException(nameof(converter));
+
+                if (source is INotifyPropertyChanged notifyPropertyChanged)
                 {
-                    await _seed.RefreshChildrenCacheAsync();
-                }
-                return _seed.ChildrenCache;
-            }
-
-            internal async Task ForEachAsync(Action<T> action)
-            {
-                _action = action;
-                await FlourishAsync(_seed);
-            }
-
-            public int Count()
-            {
-                return Flatten(_seed).Count();
-            }
-
-
-            private async Task FlourishAsync(ILazyTreeNode<T> seed) // TODO: Tail recursion / CPS
-            {
-                _action?.Invoke(seed.Content);
-                if (await seed.RefreshChildrenCacheAsync() && seed.ChildrenCache != null)
-                {
-                    foreach (var item in seed.ChildrenCache)
-                    {
-                        await FlourishAsync(item);
-                    }
+                    notifyPropertyChanged.PropertyChanged += (sender, args) => PropertyChanged?.Invoke(this, args);
                 }
             }
 
-            private IEnumerable<ILazyTreeNode<T>> Flatten(ILazyTreeNode<T> node)
+            public TTo Content => _converter(Source.Content);
+
+            public ILazyTreeNode<TTo> Root => Source.Root != null
+                ? new LazyTreeNodeConverter<TFrom, TTo>(Source.Root, _converter)
+                : null;
+
+            public ILazyTreeNode<TTo> Parent => Source.Parent != null
+                ? new LazyTreeNodeConverter<TFrom, TTo>(Source.Parent, _converter)
+                : null;
+
+            public IReadOnlyList<ILazyTreeNode<TTo>> Ancestors => Source
+                .Ancestors?
+                .Select(item => new LazyTreeNodeConverter<TFrom, TTo>(item, _converter))
+                .ToList()
+                .AsReadOnly();
+
+            public IReadOnlyList<ILazyTreeNode<TTo>> ChildrenCache => Source
+                .ChildrenCache?
+                .Select(item => new LazyTreeNodeConverter<TFrom, TTo>(item, _converter))
+                .ToList()
+                .AsReadOnly();
+
+            public async Task ForEachAsync(Action<TTo> callback, CancellationToken cancellationToken)
             {
-                yield return node;
-                if (node.ChildrenCache == null) yield break;
-                foreach (var child in node.ChildrenCache)
-                    foreach (var item in Flatten(child))
-                        yield return item;
+                await Source.ForEachAsync(item => callback?.Invoke(_converter(item)), cancellationToken);
             }
+
+            public async Task<bool> RefreshAsync() => await Source.RefreshAsync();
+
+            public event PropertyChangedEventHandler PropertyChanged;
         }
     }
 }
