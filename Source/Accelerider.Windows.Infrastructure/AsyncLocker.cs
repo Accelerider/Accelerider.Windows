@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure
 {
@@ -8,7 +9,7 @@ namespace Accelerider.Windows.Infrastructure
 
         private bool _isLocked;
 
-        private bool IsLocked
+        public bool IsLocked
         {
             get => _isLocked;
             set
@@ -19,23 +20,57 @@ namespace Accelerider.Windows.Infrastructure
             }
         }
 
-        public void Await(Action action)
+        public void Await(Action action, bool executeAfterUnlocked = true)
         {
-            if (IsLocked)
+            if (!IsLocked)
+            {
+                try
+                {
+                    IsLocked = true;
+                    action?.Invoke();
+                }
+                finally
+                {
+                    IsLocked = false;
+                }
+            }
+            else if (executeAfterUnlocked)
             {
                 Unlocked += OnUnlocked;
-            }
-            else
-            {
-                IsLocked = true;
-                action?.Invoke();
-                IsLocked = false;
             }
 
             void OnUnlocked()
             {
                 Unlocked -= OnUnlocked;
-                action?.Invoke();
+                Await(action, executeAfterUnlocked);
+            }
+        }
+
+        public async void Await(Func<Task> task, bool executeAfterUnlocked = true)
+        {
+            if (task == null) throw new ArgumentNullException(nameof(task));
+
+            if (!IsLocked)
+            {
+                try
+                {
+                    IsLocked = true;
+                    await task();
+                }
+                finally
+                {
+                    IsLocked = false;
+                }
+            }
+            else if (executeAfterUnlocked)
+            {
+                Unlocked += OnUnlocked;
+            }
+
+            void OnUnlocked()
+            {
+                Unlocked -= OnUnlocked;
+                Await(task, executeAfterUnlocked);
             }
         }
     }

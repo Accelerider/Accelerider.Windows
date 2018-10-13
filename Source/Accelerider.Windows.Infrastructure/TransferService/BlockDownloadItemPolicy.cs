@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 
@@ -17,7 +18,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     public class BlockDownloadItemPolicy
     {
         private readonly ConcurrentDictionary<Guid, int> _retryStatistics = new ConcurrentDictionary<Guid, int>();
-        private readonly ConcurrentDictionary<Type, BlockDownloadItemExceptionHandler<Exception>> _handlers = new ConcurrentDictionary<Type, BlockDownloadItemExceptionHandler<Exception>>();
+        private readonly Dictionary<Type, BlockDownloadItemExceptionHandler<Exception>> _handlers = new Dictionary<Type, BlockDownloadItemExceptionHandler<Exception>>();
 
         private readonly Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>> _blockDownloadItemFactory;
 

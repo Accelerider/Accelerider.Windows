@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Accelerider.Windows.RemoteReference;
 using Prism.Modularity;
+// ReSharper disable InheritdocConsiderUsage
 
 namespace Accelerider.Windows.Infrastructure.Modularity
 {

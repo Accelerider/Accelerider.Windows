@@ -91,14 +91,12 @@ namespace Accelerider.Windows
         }
 
 
-        private string GetFileMd5(string filePath)
+        private static string GetFileMd5(string filePath)
         {
-            string result;
             using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                result = BitConverter.ToString(Md5Algorithm.ComputeHash(fileStream)).ToLower().Replace("-", string.Empty);
+                return BitConverter.ToString(Md5Algorithm.ComputeHash(fileStream)).ToLower().Replace("-", string.Empty);
             }
-            return result;
         }
 
         private ModuleInfo ConvertModuleMetadataToModuleInfo(ModuleMetadata module)

@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Reactive.Linq;
 using Polly;
+using Prism.Mvvm;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
@@ -13,10 +17,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             ServicePointManager.DefaultConnectionLimit = 10000;
         }
 
-        public static IDownloaderBuilder GetFileDownloaderBuilder()
-        {
-            return new FileDownloaderBuilder();
-        }
+        public static IDownloaderBuilder GetFileDownloaderBuilder() => new FileDownloaderBuilder();
+
+        #region Configure methods
 
         public static IDownloaderBuilder UseDefaultConfigure(this IDownloaderBuilder @this)
         {
@@ -78,5 +81,25 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             yield return (offset, totalLength - offset);
         }
+
+        #endregion
+
+        #region Extenion methods
+
+        public static long GetCompletedSize(this IDownloader @this)
+        {
+            Guards.ThrowIfNull(@this);
+
+            return @this.BlockContexts?.Values.Sum(item => item.CompletedSize) ?? 0;
+        }
+
+        public static long GetTotalSize(this IDownloader @this)
+        {
+            Guards.ThrowIfNull(@this);
+
+            return @this.Context?.TotalSize ?? 0;
+        }
+
+        #endregion
     }
 }

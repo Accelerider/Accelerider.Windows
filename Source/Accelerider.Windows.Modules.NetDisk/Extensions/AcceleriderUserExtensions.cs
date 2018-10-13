@@ -21,7 +21,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
             public INetDiskUser CurrentNetDiskUser { get; set; }
 
 
-            public void Save(string path) => File.WriteAllText(path, JsonConvert.SerializeObject(this, ConfigureFile.JsonSerializerSettings));
+            public void Save(string path) => File.WriteAllText(path, this.ToJson(Formatting.Indented));
         }
 
         private static IContainer _container;
@@ -38,7 +38,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
                 Directory.CreateDirectory(Path.GetDirectoryName(DataFile));
                 new ExtensionCache().Save(DataFile);
             }
-            _cache = JsonConvert.DeserializeObject<ExtensionCache>(File.ReadAllText(DataFile), ConfigureFile.JsonSerializerSettings);
+            _cache = File.ReadAllText(DataFile).ToObject<ExtensionCache>();
         }
 
         private static void CheckNullObject(object @object)
@@ -68,7 +68,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
         public static IEnumerable<INetDiskUser> GetNetDiskUsers(this IAcceleriderUser @this)
         {
             CheckNullObject(@this);
-            return _cache.NetDiskUsers; 
+            return _cache.NetDiskUsers;
         }
 
         public static Task<bool> AddNetDiskUserAsync(this IAcceleriderUser @this, INetDiskUser user)

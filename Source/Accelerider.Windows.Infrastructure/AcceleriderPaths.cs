@@ -5,6 +5,8 @@ namespace Accelerider.Windows.Infrastructure
 {
     public static class AcceleriderPaths
     {
+        public static readonly string MainProgramFolder = AppDomain.CurrentDomain.BaseDirectory;
+
         public static readonly string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Accelerider");
 
         public static readonly string AppsFolder = Path.Combine(AppDataFolder, "Apps");
