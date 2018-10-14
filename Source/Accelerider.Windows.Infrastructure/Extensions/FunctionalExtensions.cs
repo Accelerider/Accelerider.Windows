@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static Accelerider.Windows.Infrastructure.Guards;
 
-// ReSharper disable once CheckNamespace
+
 namespace System
 {
     public static class FunctionalExtensions

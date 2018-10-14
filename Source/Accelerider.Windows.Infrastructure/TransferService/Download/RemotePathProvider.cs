@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
+
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
     internal class RemotePathProvider : IRemotePathProvider

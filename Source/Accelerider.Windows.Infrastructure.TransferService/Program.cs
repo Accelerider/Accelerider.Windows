@@ -5,6 +5,7 @@ using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure.WpfInteractions;
 using static System.Console;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
@@ -61,6 +62,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             //await TimeSpan.FromMilliseconds(5000);
             //WriteLine("downloader has been disposed. ");
             //downloader.Dispose();
+
+            downloader2.ToBindable();
 
             ReadKey();
         }

@@ -128,13 +128,18 @@
     <Compile Include="Enumerations\ShareStatus.cs" />
     <Compile Include="Enumerations\SizeUnit.cs" />
     <Compile Include="Interfaces\IJsonable.cs" />
-    <Compile Include="TransferService\BlockDownloadItemPolicy.cs" />
+    <Compile Include="TransferService\BlockTransferContext.cs" />
+    <Compile Include="TransferService\Download\BlockDownloadItemPolicy.cs" />
     <Compile Include="TransferService\ConcurrentList.cs" />
-    <Compile Include="TransferService\FileDownloaderManager.cs" />
-    <Compile Include="TransferService\FileTransferService.Configures.cs" />
-    <Compile Include="TransferService\FileTransferService.Extensions.cs" />
-    <Compile Include="TransferService\IDownloaderManager.cs" />
-    <Compile Include="TransferService\IRemotePathProvider.cs" />
+    <Compile Include="TransferService\Download\DownloadContext.cs" />
+    <Compile Include="TransferService\Download\FileDownloaderManager.cs" />
+    <Compile Include="TransferService\Download\FileTransferService.Configures.Download.cs" />
+    <Compile Include="TransferService\Download\FileTransferService.Extensions.Download.cs" />
+    <Compile Include="TransferService\Download\IDownloaderManager.cs" />
+    <Compile Include="TransferService\Download\IRemotePathProvider.cs" />
+    <Compile Include="TransferService\IManagedTransporterToken.cs" />
+    <Compile Include="TransferService\ITransporter.cs" />
+    <Compile Include="TransferService\TransferContextBase.cs" />
     <Compile Include="TransferService\TransferStatus.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileLocator.cs" />
@@ -168,20 +173,27 @@
     <Compile Include="RemoteReference\TempDirectory.cs" />
     <Compile Include="SystemFolder.cs" />
     <Compile Include="SystemInfo.cs" />
-    <Compile Include="TransferService\BlockTransferException.cs" />
-    <Compile Include="TransferService\FileDownloader.cs" />
-    <Compile Include="TransferService\FileDownloaderBuilder.cs" />
+    <Compile Include="TransferService\Exceptions\BlockTransferException.cs" />
+    <Compile Include="TransferService\Download\FileDownloader.cs" />
+    <Compile Include="TransferService\Download\FileDownloaderBuilder.cs" />
     <Compile Include="TransferService\FileTransferService.cs" />
-    <Compile Include="TransferService\IDownloader.cs" />
-    <Compile Include="TransferService\IDownloaderBuilder.cs" />
+    <Compile Include="TransferService\Download\IDownloader.cs" />
+    <Compile Include="TransferService\Download\IDownloaderBuilder.cs" />
     <Compile Include="TransferService\ObserverList.cs" />
-    <Compile Include="TransferService\PrimitiveMethods.cs" />
-    <Compile Include="TransferService\RemotePathExhaustedException.cs" />
-    <Compile Include="TransferService\RemotePathProvider.cs" />
-    <Compile Include="TransferService\TransferContext.cs" />
-    <Compile Include="TransferService\TransferSettings.cs" />
+    <Compile Include="TransferService\Download\PrimitiveMethods.Download.cs" />
+    <Compile Include="TransferService\Exceptions\RemotePathExhaustedException.cs" />
+    <Compile Include="TransferService\Download\RemotePathProvider.cs" />
+    <Compile Include="TransferService\TransferNotification.cs" />
+    <Compile Include="TransferService\Download\DownloadSettings.cs" />
+    <Compile Include="TransferService\Upload\FileTransferService.Extensions.Upload.cs" />
+    <Compile Include="TransferService\Upload\IUploader.cs" />
+    <Compile Include="TransferService\Upload\IUploaderBuilder.cs" />
+    <Compile Include="TransferService\Upload\IUploaderManager.cs" />
+    <Compile Include="TransferService\Upload\PrimitiveMethods.Upload.cs" />
+    <Compile Include="TransferService\Upload\UploadContext.cs" />
+    <Compile Include="TransferService\Upload\UploadSettings.cs" />
     <Compile Include="WpfInteractions\BindableDownloader.cs" />
-    <Compile Include="WpfInteractions\BindableBlockDownloadItem.cs" />
+    <Compile Include="WpfInteractions\BindableBlockTransferItem.cs" />
     <Compile Include="WpfInteractions\DisplayDataSize.cs" />
     <Compile Include="WpfInteractions\Extensions.cs" />
     <Compile Include="WpfInteractions\BindableProgress.cs" />
@@ -199,6 +211,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <Compile Include="TransferService\Upload\FileTransferService.Configures.Upload.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

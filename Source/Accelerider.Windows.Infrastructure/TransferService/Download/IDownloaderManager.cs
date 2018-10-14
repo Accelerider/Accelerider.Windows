@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
     public interface IDownloaderManager : IJsonable<IDownloaderManager>

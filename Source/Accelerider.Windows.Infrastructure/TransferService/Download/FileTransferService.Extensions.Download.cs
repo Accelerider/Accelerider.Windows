@@ -1,31 +1,21 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public interface IManagedDownloaderToken
-    {
-        void Ready();
-
-        void AsNext();
-    }
-
     public static partial class FileTransferService
     {
-        private static readonly ConcurrentDictionary<Guid, IManagedDownloaderToken> ManagedDownloaderTokens = new ConcurrentDictionary<Guid, IManagedDownloaderToken>();
+        private static readonly ConcurrentDictionary<Guid, IManagedTransporterToken> ManagedDownloaderTokens = new ConcurrentDictionary<Guid, IManagedTransporterToken>();
 
-        public static IManagedDownloaderToken AsManaged(this IDownloader @this, string managerName = DefaultManagerName)
+        public static IManagedTransporterToken AsManaged(this IDownloader @this, string managerName = DefaultManagerName)
         {
             Guards.ThrowIfNull(@this);
             Guards.ThrowIfNullOrEmpty(managerName);
 
             if (@this.Context == null) throw new InvalidOperationException();
 
-            var id = @this.Context.Id;
+            var id = @this.Id;
             if (!ManagedDownloaderTokens.ContainsKey(id))
             {
                 ManagedDownloaderTokens[id] = new ManagedDownloaderTokenImpl(GetFileDownloaderManager(managerName), @this);
@@ -49,21 +39,25 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         }
 
 
-        private class ManagedDownloaderTokenImpl : IManagedDownloaderToken
+        private class ManagedDownloaderTokenImpl : IManagedTransporterToken
         {
             private readonly IDownloaderManager _manager;
-            private readonly Guid _id;
+            private readonly IDownloader _downloader;
 
             public ManagedDownloaderTokenImpl(IDownloaderManager manager, IDownloader downloader)
             {
                 _manager = manager;
                 if (!manager.Add(downloader)) throw new InvalidOperationException();
-                _id = downloader.Context.Id;
+                _downloader = downloader;
             }
 
-            public void AsNext() => _manager.AsNext(_id);
+            public void AsNext() => _manager.AsNext(_downloader.Id);
 
-            public void Ready() => _manager.Ready(_id);
+            public void Dispose() => _downloader.Dispose();
+
+            public void Ready() => _manager.Ready(_downloader.Id);
+
+            public void Suspend() => _downloader.Suspend();
         }
     }
 }

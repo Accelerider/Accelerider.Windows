@@ -1,4 +1,6 @@
-﻿using Accelerider.Windows.Modules.NetDisk.Interfaces;
+﻿using Accelerider.Windows.Infrastructure.TransferService;
+using Accelerider.Windows.Infrastructure.WpfInteractions;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
@@ -8,7 +10,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public INetDiskFile File { get; }
 
-        public TransporterReporter Reporter { get; }
+        public BindableDownloader Transporter { get; }
 
         public IManagedTransporterToken ManagedToken { get; }
     }

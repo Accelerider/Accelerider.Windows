@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;   
 
+
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
     /// <summary>
@@ -9,7 +10,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     /// </summary>
     public interface IDownloaderBuilder
     {
-        IDownloaderBuilder Configure(Action<TransferSettings, DownloadContext> settingsConfigurator);
+        IDownloaderBuilder Configure(Action<DownloadSettings, DownloadContext> settingsConfigurator);
 
         IDownloaderBuilder Configure(Func<HashSet<string>, IRemotePathProvider> remotePathProviderBuilder);
 

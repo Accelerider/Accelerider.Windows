@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
+
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
     internal class FileDownloaderManager : IDownloaderManager
@@ -184,7 +185,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         private IDisposable ObserveDownloader(IDownloader downloader)
         {
-            var id = downloader.Context.Id;
+            var id = downloader.Id;
 
             var disposable = downloader
                 .Distinct(item => item.Status)
@@ -227,7 +228,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         private bool MoveToTail(ConcurrentList<IDownloader> target, Guid id, params ConcurrentList<IDownloader>[] sources)
         {
-            return DequeueAndOperateById(id, item => target.Add(item), sources);
+            return DequeueAndOperateById(id, target.Add, sources);
         }
 
         private bool MoveToTop(ConcurrentList<IDownloader> target, Guid id, params ConcurrentList<IDownloader>[] sources)
@@ -251,7 +252,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             foreach (var list in set)
             {
-                var result = list.Dequeue(item => item.Context.Id == id);
+                var result = list.Dequeue(item => item.Id == id);
                 if (result != null) return result;
             }
 

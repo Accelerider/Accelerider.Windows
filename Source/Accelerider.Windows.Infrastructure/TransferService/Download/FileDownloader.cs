@@ -9,21 +9,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
+
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    internal class FileDownloader : ObservableBase<DownloaderNotification>, IDownloader
+    internal class FileDownloader : ObservableBase<TransferNotification>, IDownloader
     {
         internal class Builders
         {
             public Func<DownloadContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> BlockTransferContextGeneratorBuilder { get; set; }
 
-            public Func<TransferSettings, Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>>> BlockDownloadItemFactoryBuilder { get; set; }
+            public Func<DownloadSettings, Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>>> BlockDownloadItemFactoryBuilder { get; set; }
 
             public Func<HashSet<string>, IRemotePathProvider> RemotePathProviderBuilder { get; set; }
 
             public Func<string, string> LocalPathInterceptor { get; set; }
 
-            public Func<DownloadContext, TransferSettings> TransferSettingsBuilder { get; set; }
+            public Func<DownloadContext, DownloadSettings> TransferSettingsBuilder { get; set; }
         }
 
         private class SerializedData
@@ -38,22 +39,23 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             public List<BlockTransferContext> BlockContexts { get; internal set; }
         }
 
-        private readonly ObserverList<DownloaderNotification> _observerList = new ObserverList<DownloaderNotification>();
+        private readonly ObserverList<TransferNotification> _observerList = new ObserverList<TransferNotification>();
         private readonly Builders _builders;
 
         private readonly HashSet<string> _remotePaths = new HashSet<string>();
         private string _localPath;
-        private TransferSettings _settings;
+        private DownloadSettings _settings;
         private ConcurrentDictionary<Guid, BlockTransferContext> _blockTransferContextCache;
         private IDisposable _disposable;
         private TransferStatus _status;
         private DownloadContext _context;
 
+        public Guid Id { get; } = Guid.NewGuid();
 
         public TransferStatus Status
         {
             get => _status;
-            private set { if (SetProperty(ref _status, value)) _observerList.OnNext(new DownloaderNotification(Guid.Empty, value, 0)); }
+            private set { if (SetProperty(ref _status, value)) _observerList.OnNext(new TransferNotification(Guid.Empty, value, 0)); }
         }
 
         public DownloadContext Context
@@ -172,7 +174,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             Status = TransferStatus.Suspended;
         }
 
-        protected override IDisposable SubscribeCore(IObserver<DownloaderNotification> observer)
+        protected override IDisposable SubscribeCore(IObserver<TransferNotification> observer)
         {
             ThrowIfDisposed();
 
@@ -210,7 +212,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             if (Status == TransferStatus.Ready)
             {
-                Context = new DownloadContext
+                Context = new DownloadContext(Id)
                 {
                     RemotePathProvider = _builders.RemotePathProviderBuilder(_remotePaths),
                     LocalPath = _builders.LocalPathInterceptor(_localPath)
@@ -247,7 +249,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .Select(item => _builders.BlockDownloadItemFactoryBuilder(_settings).Invoke(item))
                 .Merge(_settings.MaxConcurrent)
                 .Do(item => _blockTransferContextCache[item.Id].CompletedSize += item.Bytes)
-                .Select(item => new DownloaderNotification(item.Id, Status, item.Bytes))
+                .Select(item => new TransferNotification(item.Id, Status, item.Bytes))
                 .Subscribe(
                     value => _observerList.OnNext(value),
                     error =>
@@ -292,7 +294,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             if (Status == TransferStatus.Disposed)
                 throw new ObjectDisposedException(
-                    $"{nameof(FileDownloader)}: {Context.Id:B}",
+                    $"{nameof(FileDownloader)}: {Id:B}",
                     "This transfer task has been disposed, please re-create a task by FileTransferService if it needs to be re-downloaded.");
         }
 

@@ -4,7 +4,12 @@
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
              xmlns:transportation="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.Transportation"
-             mvvm:ViewModelLocator.AutoWireViewModel="True">
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance {x:Type vm:DownloadingViewModel}}">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

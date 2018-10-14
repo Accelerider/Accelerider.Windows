@@ -1,5 +1,6 @@
 ﻿using System;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.TransferService;
 using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Autofac;
@@ -40,6 +41,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         }
 
         #region Commands
+
         public RelayCommand<TransferItem> PauseCommand
         {
             get => _pauseCommand;
@@ -69,14 +71,17 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         {
             PauseCommand = new RelayCommand<TransferItem>(
                 item => OperateTaskToken(item, token => token.Suspend(), "Pause task failed."), // TODO: [I18N]
-                item => item.Reporter.Transporter.Status == TransferStatus.Transferring ||
-                        item.Reporter.Transporter.Status == TransferStatus.Ready);
+                item => item.Transporter.Status == TransferStatus.Transferring ||
+                        item.Transporter.Status == TransferStatus.Ready);
+
             StartCommand = new RelayCommand<TransferItem>(
                 item => OperateTaskToken(item, token => token.Ready(), "Restart task failed."),
-                item => item.Reporter.Transporter.Status == TransferStatus.Suspended);
+                item => item.Transporter.Status == TransferStatus.Suspended);
+
             StartForceCommand = new RelayCommand<TransferItem>(
                 item => OperateTaskToken(item, token => token.AsNext(), "Jump queue failed."),
-                item => item.Reporter.Transporter.Status != TransferStatus.Transferring);
+                item => item.Transporter.Status != TransferStatus.Transferring);
+
             CancelCommand = new RelayCommand<TransferItem>(
                 item => OperateTaskToken(item, token => token.Dispose(), "Cancel task failed."));
         }
@@ -92,6 +97,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
                 GlobalMessageQueue.Enqueue(errorMessage);
             }
         }
+
         #endregion
 
         protected abstract ObservableSortedCollection<TransferItem> GetTaskList();

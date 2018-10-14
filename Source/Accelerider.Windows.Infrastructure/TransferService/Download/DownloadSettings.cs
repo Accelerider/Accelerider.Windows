@@ -1,10 +1,11 @@
 ﻿using Polly;
 
+
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public class TransferSettings
+    public class DownloadSettings
     {
-        internal TransferSettings() { }
+        internal DownloadSettings() { }
 
         public IAsyncPolicy BuildPolicy { get; set; }
 

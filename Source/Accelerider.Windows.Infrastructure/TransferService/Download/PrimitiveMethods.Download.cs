@@ -6,9 +6,10 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public static class PrimitiveMethods
+    public static class DownloadPrimitiveMethods
     {
         public static HttpWebRequest ToRequest(this string remotePath)
         {
@@ -60,7 +61,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     {
                         byte[] buffer = new byte[128 * 1024];
                         int count;
-                        while ((count = await outputStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
+                        while (outputStream != null && (count = await outputStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
                         {
                             cancellationToken.ThrowIfCancellationRequested();
                             await inputStream.WriteAsync(buffer, 0, count, cancellationToken);

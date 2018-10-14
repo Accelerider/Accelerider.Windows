@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 
+
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
     public enum HandleCommand
@@ -34,7 +35,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             if (_handlers.ContainsKey(type))
                 throw new ArgumentException($"A handler that handles {typeof(TException)} exceptions already exists. ");
 
-            _handlers[type] = (e, rertyCount, context) => handler((TException)e, rertyCount, context);
+            _handlers[type] = (e, retryCount, context) => handler((TException)e, retryCount, context);
             return this;
         }
 

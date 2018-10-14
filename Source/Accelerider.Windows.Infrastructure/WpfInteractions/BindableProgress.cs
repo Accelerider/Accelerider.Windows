@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using System;
+using Prism.Mvvm;
 
 namespace Accelerider.Windows.Infrastructure.WpfInteractions
 {
@@ -11,6 +12,7 @@ namespace Accelerider.Windows.Infrastructure.WpfInteractions
         private DisplayDataSize _completedSize;
         private DisplayDataSize _speed;
         private DisplayDataSize _totalSize;
+        private TimeSpan _remainingTime;
 
         public DisplayDataSize CompletedSize
         {
@@ -30,6 +32,12 @@ namespace Accelerider.Windows.Infrastructure.WpfInteractions
             internal set => SetProperty(ref _totalSize, value);
         }
 
+        public TimeSpan RemainingTime
+        {
+            get => _remainingTime;
+            set => SetProperty(ref _remainingTime, value);
+        }
+
         internal BindableProgress(long sampleIntervalBasedMilliseconds)
         {
             _sampleIntervalBasedMilliseconds = sampleIntervalBasedMilliseconds;
@@ -38,6 +46,7 @@ namespace Accelerider.Windows.Infrastructure.WpfInteractions
         private void OnCompletedSizeChanged(DisplayDataSize value)
         {
             Speed = 1000.0 * (value - _previousCompletedSize) / _sampleIntervalBasedMilliseconds;
+            RemainingTime = TimeSpan.FromSeconds(1.0 * (TotalSize - value) / Speed);
             _previousCompletedSize = value;
         }
     }

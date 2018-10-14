@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.WpfInteractions;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 
@@ -13,9 +14,9 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public string Username { get; set; }
 
-        public DataSize TotalCapacity { get; set; }
+        public DisplayDataSize TotalCapacity { get; set; }
 
-        public DataSize UsedCapacity { get; set; }
+        public DisplayDataSize UsedCapacity { get; set; }
 
         public IReadOnlyCollection<FileCategory> AvailableFileCategories { get; set; }
 
