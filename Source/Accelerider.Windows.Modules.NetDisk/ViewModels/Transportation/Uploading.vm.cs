@@ -13,6 +13,6 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         }
 
         protected override ObservableSortedCollection<TransferItem> GetTaskList() => 
-            new ObservableSortedCollection<TransferItem>(AcceleriderUser.GetDonwloadItems(), DefaultTransferItemComparer);
+            new ObservableSortedCollection<TransferItem>(AcceleriderUser.GetDownloadItems(), DefaultTransferItemComparer);
     }
 }

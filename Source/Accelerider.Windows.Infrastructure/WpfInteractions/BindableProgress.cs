@@ -1,42 +1,43 @@
 ﻿using Prism.Mvvm;
 
-namespace Accelerider.Windows.Infrastructure.TransferService.Wpf
+namespace Accelerider.Windows.Infrastructure.WpfInteractions
 {
-    public class ProgressBindable : BindableBase
+    public class BindableProgress : BindableBase
     {
         private readonly long _sampleIntervalBasedMilliseconds;
 
         private long _previousCompletedSize;
-        private DataSize _completedSize;
-        private DataSize _speed;
-        private DataSize _totalSize;
 
-        public DataSize CompletedSize
+        private DisplayDataSize _completedSize;
+        private DisplayDataSize _speed;
+        private DisplayDataSize _totalSize;
+
+        public DisplayDataSize CompletedSize
         {
             get => _completedSize;
             internal set { if (SetProperty(ref _completedSize, value)) OnCompletedSizeChanged(value); }
         }
 
-        public DataSize Speed
+        public DisplayDataSize Speed
         {
             get => _speed;
             private set => SetProperty(ref _speed, value);
         }
 
-        public DataSize TotalSize
+        public DisplayDataSize TotalSize
         {
             get => _totalSize;
             internal set => SetProperty(ref _totalSize, value);
         }
 
-        internal ProgressBindable(long sampleIntervalBasedMilliseconds)
+        internal BindableProgress(long sampleIntervalBasedMilliseconds)
         {
             _sampleIntervalBasedMilliseconds = sampleIntervalBasedMilliseconds;
         }
 
-        private void OnCompletedSizeChanged(DataSize value)
+        private void OnCompletedSizeChanged(DisplayDataSize value)
         {
-            Speed = 1000 * (value - _previousCompletedSize) / _sampleIntervalBasedMilliseconds;
+            Speed = 1000.0 * (value - _previousCompletedSize) / _sampleIntervalBasedMilliseconds;
             _previousCompletedSize = value;
         }
     }

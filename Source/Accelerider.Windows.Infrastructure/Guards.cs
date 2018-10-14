@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Accelerider.Windows.Infrastructure
 {
-    internal static class Guards
+    public static class Guards
     {
         public static void ThrowIfNull(params object[] parameters)
         {

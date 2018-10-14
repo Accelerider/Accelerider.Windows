@@ -64,31 +64,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             ReadKey();
         }
-
-        private static IObservable<(string flag, long number)> GenerateObservable(int flagNumber)
-        {
-            return Observable.Create<(string flag, long number)>(o =>
-            {
-                var source = new CancellationTokenSource();
-                var token = source.Token;
-                token.Register(() => WriteLine("Do something on cancelled. "));
-
-
-                var flag = $"FLAG - {flagNumber}";
-                Task.Run(async () =>
-                {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        await Task.Delay(TimeSpan.FromMilliseconds(1000));
-                        if (token.IsCancellationRequested) break;
-                        o.OnNext((flag, i));
-                    }
-
-                    o.OnCompleted();
-                }, token);
-                return () => source.Cancel();
-            });
-        }
     }
 
     public static class Extensions

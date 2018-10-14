@@ -124,7 +124,6 @@
     <Compile Include="I18n\I18nSource.cs" />
     <Compile Include="I18n\I18nManager.cs" />
     <Compile Include="ConfigureFile.cs" />
-    <Compile Include="DataSize.cs" />
     <Compile Include="Enumerations\Language.cs" />
     <Compile Include="Enumerations\ShareStatus.cs" />
     <Compile Include="Enumerations\SizeUnit.cs" />
@@ -181,10 +180,11 @@
     <Compile Include="TransferService\RemotePathProvider.cs" />
     <Compile Include="TransferService\TransferContext.cs" />
     <Compile Include="TransferService\TransferSettings.cs" />
-    <Compile Include="TransferService\Wpf\DownloaderBindable.cs" />
-    <Compile Include="TransferService\Wpf\DownloaderBlockItemBindable.cs" />
-    <Compile Include="TransferService\Wpf\Extensions.cs" />
-    <Compile Include="TransferService\Wpf\ProgressBindable.cs" />
+    <Compile Include="WpfInteractions\BindableDownloader.cs" />
+    <Compile Include="WpfInteractions\BindableBlockDownloadItem.cs" />
+    <Compile Include="WpfInteractions\DisplayDataSize.cs" />
+    <Compile Include="WpfInteractions\Extensions.cs" />
+    <Compile Include="WpfInteractions\BindableProgress.cs" />
     <Compile Include="UpdateService\AppMetadata.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\IAwareTabItemSelectionChanged.cs" />

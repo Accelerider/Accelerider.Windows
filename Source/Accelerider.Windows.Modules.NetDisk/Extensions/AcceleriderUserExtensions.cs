@@ -41,16 +41,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
             _cache = File.ReadAllText(DataFile).ToObject<ExtensionCache>();
         }
 
-        private static void CheckNullObject(object @object)
-        {
-            if (@object == null) throw new NullReferenceException();
-        }
-
         // -------------------------------------------------------------------------------------
 
         public static async Task<bool> RefreshAsyncEx(this IAcceleriderUser @this)
         {
-            CheckNullObject(@this);
+            Guards.ThrowIfNull(@this);
 
             var result = await @this.RefreshAsync();
             /*
@@ -67,13 +62,13 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
 
         public static IEnumerable<INetDiskUser> GetNetDiskUsers(this IAcceleriderUser @this)
         {
-            CheckNullObject(@this);
+            Guards.ThrowIfNull(@this);
             return _cache.NetDiskUsers;
         }
 
         public static Task<bool> AddNetDiskUserAsync(this IAcceleriderUser @this, INetDiskUser user)
         {
-            CheckNullObject(@this);
+            Guards.ThrowIfNull(@this);
             var list = _cache.NetDiskUsers.ToList();
             if (list.Any(v => v.Id == user.Id))
                 return Task.FromResult(false);
@@ -85,7 +80,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
 
         public static Task<bool> RemoveNetDiskUserAsync(this IAcceleriderUser @this, INetDiskUser user)
         {
-            CheckNullObject(@this);
+            Guards.ThrowIfNull(@this);
             if (_cache.NetDiskUsers.All(v => v.Id != user.Id))
                 return Task.FromResult(false);
             var list = _cache.NetDiskUsers.ToList();
@@ -97,38 +92,38 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
 
         public static INetDiskUser GetCurrentNetDiskUser(this IAcceleriderUser @this)
         {
-            CheckNullObject(@this);
+            Guards.ThrowIfNull(@this);
             return _cache.CurrentNetDiskUser;
         }
 
         public static void SetCurrentNetDiskUser(this IAcceleriderUser @this, INetDiskUser value)
         {
-            CheckNullObject(@this);
+            Guards.ThrowIfNull(@this);
             _cache.CurrentNetDiskUser = value;
         }
 
         // -------------------------------------------------------------------------------------
-        public static IList<TransferItem> GetDonwloadItems(this IAcceleriderUser @this)
+        public static IList<TransferItem> GetDownloadItems(this IAcceleriderUser @this)
         {
-            CheckNullObject(@this);
+            Guards.ThrowIfNull(@this);
             throw new NotImplementedException();
         }
 
         public static IList<TransferItem> GetUploadItems(this IAcceleriderUser @this)
         {
-            CheckNullObject(@this);
+            Guards.ThrowIfNull(@this);
             throw new NotImplementedException();
         }
 
         public static IList<ITransferredFile> GetDownloadedFiles(this IAcceleriderUser @this)
         {
-            CheckNullObject(@this);
+            Guards.ThrowIfNull(@this);
             throw new NotImplementedException();
         }
 
         public static IList<ITransferredFile> GetUploadedFiles(this IAcceleriderUser @this)
         {
-            CheckNullObject(@this);
+            Guards.ThrowIfNull(@this);
             throw new NotImplementedException();
         }
     }
