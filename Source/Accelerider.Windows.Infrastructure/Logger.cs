@@ -10,15 +10,15 @@ namespace Accelerider.Windows.Infrastructure
     {
         private readonly TextWriter _writer;
         private readonly FileStream _fileStream;
-        private readonly string _logFilePath;
+        private readonly string _savePath;
 
         private int _exceptionCount;
 
 
         public Logger()
         {
-            _logFilePath = GenerateLoggingPath();
-            _fileStream = new FileStream(_logFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            _savePath = GenerateLoggingPath();
+            _fileStream = new FileStream(_savePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
             _writer = new StreamWriter(_fileStream, Encoding.UTF8) { AutoFlush = true };
 
             WriteBasicInfo();
@@ -42,12 +42,7 @@ namespace Accelerider.Windows.Infrastructure
 
         private string GenerateLoggingPath()
         {
-            var directoryPath = $"{Environment.CurrentDirectory}/Logs";
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-            return $"{directoryPath}/Accelerider.Windows.{DateTime.Now.ToString("yyyyMMddHHmmssff")}.log";
+            return Path.Combine(AcceleriderPaths.LogsFolder, $"Accelerider.Windows.{DateTime.Now.ToString("yyyyMMddHHmmssff")}.log");
         }
 
         public void Dispose()
@@ -63,7 +58,7 @@ namespace Accelerider.Windows.Infrastructure
                 _writer?.Dispose();
                 _fileStream?.Dispose();
 
-                if (_exceptionCount == 0) File.Delete(_logFilePath);
+                if (_exceptionCount == 0) File.Delete(_savePath);
             }
         }
     }

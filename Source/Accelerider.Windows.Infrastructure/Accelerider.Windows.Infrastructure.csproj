@@ -134,6 +134,7 @@
     <Compile Include="TransferService\FileDownloaderManager.cs" />
     <Compile Include="TransferService\FileTransferService.Configures.cs" />
     <Compile Include="TransferService\FileTransferService.Extensions.cs" />
+    <Compile Include="TransferService\IDownloaderManager.cs" />
     <Compile Include="TransferService\IRemotePathProvider.cs" />
     <Compile Include="TransferService\TransferStatus.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

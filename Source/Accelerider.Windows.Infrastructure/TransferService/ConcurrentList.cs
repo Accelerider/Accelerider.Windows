@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    internal class ConcurrentList<T> : IEnumerable<T>
+    internal class ConcurrentList<T> : IEnumerable<T>, IReadOnlyCollection<T>
     {
         private readonly List<T> _storage = new List<T>();
 

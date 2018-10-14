@@ -51,10 +51,10 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         private class ManagedDownloaderTokenImpl : IManagedDownloaderToken
         {
-            private readonly FileDownloaderManager _manager;
+            private readonly IDownloaderManager _manager;
             private readonly Guid _id;
 
-            public ManagedDownloaderTokenImpl(FileDownloaderManager manager, IDownloader downloader)
+            public ManagedDownloaderTokenImpl(IDownloaderManager manager, IDownloader downloader)
             {
                 _manager = manager;
                 if (!manager.Add(downloader)) throw new InvalidOperationException();

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public class FileDownloaderManager : IJsonable<FileDownloaderManager>
+    internal class FileDownloaderManager : IDownloaderManager
     {
         public const string AcceleriderDownloadFileExtension = ".ard";
 
@@ -33,6 +33,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 Advance();
             }
         }
+
+        public IEnumerable<IDownloader> Downloaders => _allLists.SelectMany(item => item);
 
         public FileDownloaderManager()
         {
@@ -89,7 +91,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             Advance();
         }
 
-        public void Start()
+        public void StartAll()
         {
             while (_suspendedList.Any())
             {
@@ -98,7 +100,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             Advance();
         }
 
-        public void Suspend()
+        public void SuspendAll()
         {
             _observers.Values.ForEach(item => item.Dispose());
             _observers.Clear();
@@ -121,7 +123,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .ToJson(Formatting.Indented);
         }
 
-        public FileDownloaderManager FromJson(string json)
+        public IDownloaderManager FromJson(string json)
         {
             json.ToObject<List<string>>()?
                 .Where(item => File.Exists(item))

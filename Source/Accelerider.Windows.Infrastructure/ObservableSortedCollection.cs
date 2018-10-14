@@ -25,26 +25,16 @@ namespace Accelerider.Windows.Infrastructure
             CopyFrom(list);
         }
 
-        public void Update(T item)
-        {
-            if (Remove(item))
-            {
-                Add(item);
-            }
-        }
-
-        public void ForEach(Action<T> action)
-        {
-            foreach (T item in Items)
-            {
-                action?.Invoke(item);
-            }
-        }
-
         protected override void InsertItem(int index, T item)
         {
             index = GetAppropriateIndex(item);
             if (index == InvalidIndex) return;
+
+            var previousIndex = Items.IndexOf(item);
+            if (previousIndex == index)
+                return;
+            else if (previousIndex != InvalidIndex)
+                RemoveAt(previousIndex);
 
             base.InsertItem(index, item);
         }

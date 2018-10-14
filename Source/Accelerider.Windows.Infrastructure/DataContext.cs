@@ -93,8 +93,7 @@ namespace Accelerider.Windows.Infrastructure
                 if (expression == null)
                     throw new ArgumentNullException(nameof(expression));
 
-                var memberExpression = expression.Body as MemberExpression;
-                if (memberExpression == null)
+                if (!(expression.Body is MemberExpression memberExpression))
                     throw new ArgumentException(Resources.PropertySupport_NotMemberAccessExpression_Exception, nameof(expression));
 
                 var property = memberExpression.Member as PropertyInfo;
