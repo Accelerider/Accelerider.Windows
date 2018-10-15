@@ -192,11 +192,11 @@
     <Compile Include="TransferService\Upload\PrimitiveMethods.Upload.cs" />
     <Compile Include="TransferService\Upload\UploadContext.cs" />
     <Compile Include="TransferService\Upload\UploadSettings.cs" />
-    <Compile Include="WpfInteractions\BindableDownloader.cs" />
-    <Compile Include="WpfInteractions\BindableBlockTransferItem.cs" />
-    <Compile Include="WpfInteractions\DisplayDataSize.cs" />
-    <Compile Include="WpfInteractions\Extensions.cs" />
-    <Compile Include="WpfInteractions\BindableProgress.cs" />
+    <Compile Include="TransferService\WpfInteractions\BindableDownloader.cs" />
+    <Compile Include="TransferService\WpfInteractions\BindableBlockTransferItem.cs" />
+    <Compile Include="TransferService\WpfInteractions\DisplayDataSize.cs" />
+    <Compile Include="TransferService\WpfInteractions\Extensions.cs" />
+    <Compile Include="TransferService\WpfInteractions\BindableProgress.cs" />
     <Compile Include="UpdateService\AppMetadata.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\IAwareTabItemSelectionChanged.cs" />
