@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public static partial class FileTransferService
+    internal class FileUploaderBuilder : IUploaderBuilder
     {
     }
 }

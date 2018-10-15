@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-//using System.IO.Compression;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.TransferService;
 
@@ -45,7 +42,7 @@ namespace Accelerider.Windows.RemoteReference
         private static Task DownloadFilesAsync(
             IEnumerable<RemoteRef> remoteRefs)
         {
-            var tasks = remoteRefs.Select(remoteRef => FileTransferService.GetFileDownloaderBuilder()
+            var tasks = remoteRefs.Select(remoteRef => FileTransferService.GetDownloaderBuilder()
                     .UseDefaultConfigure()
                     .Build()
                     .From(remoteRef.RemotePath)

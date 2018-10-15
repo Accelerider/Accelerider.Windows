@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public interface IDownloaderManager : IJsonable<IDownloaderManager>
+    public interface ITransporterManager<T> : IJsonable<ITransporterManager<T>> where T : ITransporter
     {
-        IEnumerable<IDownloader> Downloaders { get; }
+        IEnumerable<T> Transporters { get; }
 
         int MaxConcurrent { get; set; }
 
-        bool Add(IDownloader downloader);
+        bool Add(T downloader);
 
         void AsNext(Guid id);
 

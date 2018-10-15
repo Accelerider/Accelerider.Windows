@@ -71,7 +71,7 @@ namespace Accelerider.Windows.Infrastructure.UpdateService
         public static IEnumerable<IDownloader> ToDownloaders(this IEnumerable<RemoteRef> @this)
         {
             return @this.Select(item => TransferService.FileTransferService
-                .GetFileDownloaderBuilder()
+                .GetDownloaderBuilder()
                 .UseDefaultConfigure()
                 .Build()
                 .From(item.RemotePath)

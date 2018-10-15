@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public static partial class FileTransferService
+    public static class DownloaderBuilderExtensions
     {
         public const string DefaultConfigureTag = "DefaultConfigure";
         public const string BaiduCloudConfigureTag = "BaiduCloudConfigure";

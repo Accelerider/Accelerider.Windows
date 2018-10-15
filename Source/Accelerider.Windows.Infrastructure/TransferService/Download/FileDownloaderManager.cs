@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    internal class FileDownloaderManager : IDownloaderManager
+    internal class FileDownloaderManager : ITransporterManager<IDownloader>
     {
         public const string AcceleriderDownloadFileExtension = ".ard";
 
@@ -35,7 +35,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             }
         }
 
-        public IEnumerable<IDownloader> Downloaders => _allLists.SelectMany(item => item);
+        public IEnumerable<IDownloader> Transporters => _allLists.SelectMany(item => item);
 
         public FileDownloaderManager()
         {
@@ -124,16 +124,16 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .ToJson(Formatting.Indented);
         }
 
-        public IDownloaderManager FromJson(string json)
+        public ITransporterManager<IDownloader> FromJson(string json)
         {
             json.ToObject<List<string>>()?
-                .Where(item => File.Exists(item))
-                .Select(item => File.ReadAllText(item))
+                .Where(File.Exists)
+                .Select(File.ReadAllText)
                 .Select(item =>
                 {
                     var configureTag = item.GetJsonValue(nameof(IDownloader.Tag));
                     return !string.IsNullOrEmpty(configureTag)
-                        ? FileTransferService.GetFileDownloaderBuilder().UseConfigure(configureTag).Build().FromJson(item)
+                        ? FileTransferService.GetDownloaderBuilder().UseConfigure(configureTag).Build().FromJson(item)
                         : null;
                 })
                 .Where(item => item != null)

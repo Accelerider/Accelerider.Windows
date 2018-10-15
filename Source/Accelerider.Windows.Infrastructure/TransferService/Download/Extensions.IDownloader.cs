@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public static partial class FileTransferService
+    public static class DownloaderExtensions
     {
         private static readonly ConcurrentDictionary<Guid, IManagedTransporterToken> ManagedDownloaderTokens = new ConcurrentDictionary<Guid, IManagedTransporterToken>();
 
-        public static IManagedTransporterToken AsManaged(this IDownloader @this, string managerName = DefaultManagerName)
+        public static IManagedTransporterToken AsManaged(this IDownloader @this, string managerName = FileTransferService.DefaultManagerName)
         {
             Guards.ThrowIfNull(@this);
             Guards.ThrowIfNullOrEmpty(managerName);
@@ -18,7 +18,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             var id = @this.Id;
             if (!ManagedDownloaderTokens.ContainsKey(id))
             {
-                ManagedDownloaderTokens[id] = new ManagedDownloaderTokenImpl(GetFileDownloaderManager(managerName), @this);
+                ManagedDownloaderTokens[id] = new ManagedDownloaderTokenImpl(FileTransferService.GetDownloaderManager(managerName), @this);
             }
 
             return ManagedDownloaderTokens[id];
@@ -41,10 +41,10 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         private class ManagedDownloaderTokenImpl : IManagedTransporterToken
         {
-            private readonly IDownloaderManager _manager;
+            private readonly ITransporterManager<IDownloader> _manager;
             private readonly IDownloader _downloader;
 
-            public ManagedDownloaderTokenImpl(IDownloaderManager manager, IDownloader downloader)
+            public ManagedDownloaderTokenImpl(ITransporterManager<IDownloader> manager, IDownloader downloader)
             {
                 _manager = manager;
                 if (!manager.Add(downloader)) throw new InvalidOperationException();

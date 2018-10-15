@@ -13,7 +13,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
     {
         public static async Task Main()
         {
-            var downloader = FileTransferService.GetFileDownloaderBuilder()
+            var downloader = FileTransferService.GetDownloaderBuilder()
                 .UseDefaultConfigure()
                 .Build();
             var disposable1 = downloader.SubscribeReport();
@@ -39,7 +39,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             await TimeSpan.FromSeconds(5);
 
-            var downloader2 = FileTransferService.GetFileDownloaderBuilder()
+            var downloader2 = FileTransferService.GetDownloaderBuilder()
                 .UseDefaultConfigure()
                 .Build();
 

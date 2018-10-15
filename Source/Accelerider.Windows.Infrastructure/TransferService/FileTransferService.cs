@@ -1,29 +1,37 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Net;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public static partial class FileTransferService
+    public static class FileTransferService
     {
-        private const string DefaultManagerName = "default";
+        internal const string DefaultManagerName = "default";
 
-        private static readonly ConcurrentDictionary<string, FileDownloaderManager> Managers = new ConcurrentDictionary<string, FileDownloaderManager>();
+        private static readonly ConcurrentDictionary<string, FileDownloaderManager> FileDownloaderManagers = new ConcurrentDictionary<string, FileDownloaderManager>();
+        private static readonly ConcurrentDictionary<string, FileUploaderManager> FileUploaderManagers = new ConcurrentDictionary<string, FileUploaderManager>();
 
         static FileTransferService()
         {
             ServicePointManager.DefaultConnectionLimit = 10000;
         }
 
-        public static IDownloaderBuilder GetFileDownloaderBuilder() => new FileDownloaderBuilder();
+        public static IDownloaderBuilder GetDownloaderBuilder() => new FileDownloaderBuilder();
 
-        public static IDownloaderManager GetFileDownloaderManager(string name = DefaultManagerName)
+        public static ITransporterManager<IDownloader> GetDownloaderManager(string name = DefaultManagerName) => FileDownloaderManagers.Get(name);
+
+        public static IUploaderBuilder GetUploaderBuilder() => new FileUploaderBuilder();
+
+        public static ITransporterManager<IUploader> GetUploaderManager(string name = DefaultManagerName) => FileUploaderManagers.Get(name);
+
+        internal static TValue Get<TKey, TValue>(this IDictionary<TKey, TValue> @this, TKey key) where TValue : new()
         {
-            if (!Managers.ContainsKey(name))
+            if (!@this.ContainsKey(key))
             {
-                Managers[name] = new FileDownloaderManager();
+                @this[key] = new TValue();
             }
 
-            return Managers[name];
+            return @this[key];
         }
     }
 }

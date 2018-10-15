@@ -132,10 +132,10 @@
     <Compile Include="TransferService\Download\BlockDownloadItemPolicy.cs" />
     <Compile Include="TransferService\ConcurrentList.cs" />
     <Compile Include="TransferService\Download\DownloadContext.cs" />
+    <Compile Include="TransferService\Download\Extensions.IDownloader.cs" />
     <Compile Include="TransferService\Download\FileDownloaderManager.cs" />
-    <Compile Include="TransferService\Download\FileTransferService.Configures.Download.cs" />
-    <Compile Include="TransferService\Download\FileTransferService.Extensions.Download.cs" />
-    <Compile Include="TransferService\Download\IDownloaderManager.cs" />
+    <Compile Include="TransferService\Download\Extensions.IDownloaderBuilder.cs" />
+    <Compile Include="TransferService\ITransporterManager.cs" />
     <Compile Include="TransferService\Download\IRemotePathProvider.cs" />
     <Compile Include="TransferService\IManagedTransporterToken.cs" />
     <Compile Include="TransferService\ITransporter.cs" />
@@ -185,10 +185,10 @@
     <Compile Include="TransferService\Download\RemotePathProvider.cs" />
     <Compile Include="TransferService\TransferNotification.cs" />
     <Compile Include="TransferService\Download\DownloadSettings.cs" />
-    <Compile Include="TransferService\Upload\FileTransferService.Extensions.Upload.cs" />
+    <Compile Include="TransferService\Upload\FileUploaderBuilder.cs" />
+    <Compile Include="TransferService\Upload\FileUploaderManager.cs" />
     <Compile Include="TransferService\Upload\IUploader.cs" />
     <Compile Include="TransferService\Upload\IUploaderBuilder.cs" />
-    <Compile Include="TransferService\Upload\IUploaderManager.cs" />
     <Compile Include="TransferService\Upload\PrimitiveMethods.Upload.cs" />
     <Compile Include="TransferService\Upload\UploadContext.cs" />
     <Compile Include="TransferService\Upload\UploadSettings.cs" />
@@ -211,7 +211,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Compile Include="TransferService\Upload\FileTransferService.Configures.Upload.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
