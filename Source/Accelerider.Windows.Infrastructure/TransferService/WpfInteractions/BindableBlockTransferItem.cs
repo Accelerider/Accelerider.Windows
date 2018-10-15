@@ -8,10 +8,10 @@ namespace Accelerider.Windows.Infrastructure.WpfInteractions
 
         public BindableProgress Progress { get; }
 
-        public BindableBlockTransferItem(Guid id, long sampleIntervalBasedMilliseconds)
+        public BindableBlockTransferItem(Guid id)
         {
             Id = id;
-            Progress = new BindableProgress(sampleIntervalBasedMilliseconds);
+            Progress = new BindableProgress();
         }
     }
 }

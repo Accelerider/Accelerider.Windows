@@ -5,9 +5,8 @@ namespace Accelerider.Windows.Infrastructure.WpfInteractions
 {
     public class BindableProgress : BindableBase
     {
-        private readonly long _sampleIntervalBasedMilliseconds;
-
         private long _previousCompletedSize;
+        private DateTimeOffset _previousTimestamp;
 
         private DisplayDataSize _completedSize;
         private DisplayDataSize _speed;
@@ -35,18 +34,19 @@ namespace Accelerider.Windows.Infrastructure.WpfInteractions
         public TimeSpan RemainingTime
         {
             get => _remainingTime;
-            set => SetProperty(ref _remainingTime, value);
+            private set => SetProperty(ref _remainingTime, value);
         }
 
-        internal BindableProgress(long sampleIntervalBasedMilliseconds)
-        {
-            _sampleIntervalBasedMilliseconds = sampleIntervalBasedMilliseconds;
-        }
+        internal BindableProgress() { }
 
         private void OnCompletedSizeChanged(DisplayDataSize value)
         {
-            Speed = 1000.0 * (value - _previousCompletedSize) / _sampleIntervalBasedMilliseconds;
+            var timestamp = DateTimeOffset.Now;
+
+            Speed = 1000.0 * (value - _previousCompletedSize) / (timestamp - _previousTimestamp).TotalSeconds;
             RemainingTime = TimeSpan.FromSeconds(1.0 * (TotalSize - value) / Speed);
+
+            _previousTimestamp = timestamp;
             _previousCompletedSize = value;
         }
     }

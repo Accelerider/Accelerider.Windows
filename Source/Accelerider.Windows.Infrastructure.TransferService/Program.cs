@@ -63,8 +63,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             //WriteLine("downloader has been disposed. ");
             //downloader.Dispose();
 
-            downloader2.ToBindable();
-
             ReadKey();
         }
     }
