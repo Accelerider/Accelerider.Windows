@@ -18,8 +18,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             switch (configureTag)
             {
-                case DefaultConfigureTag:
-                    return @this.UseDefaultConfigure();
                 case BaiduCloudConfigureTag:
                     return @this.UseBaiduCloudConfigure();
                 case OneDriveConfigureTag:
@@ -29,7 +27,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 case SixCloudConfigureTag:
                     return @this.UseSixCloudConfigure();
                 default:
-                    return @this;
+                    return @this.UseDefaultConfigure();
             }
         }
 

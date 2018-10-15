@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Accelerider.Windows.Infrastructure.WpfInteractions
+namespace Accelerider.Windows.Infrastructure.TransferService.WpfInteractions
 {
     public enum DataSizeUnit { B, KB, MB, GB, TB, PB, EB }
 

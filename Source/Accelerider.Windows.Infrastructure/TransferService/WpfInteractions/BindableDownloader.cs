@@ -3,10 +3,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Threading;
-using Accelerider.Windows.Infrastructure.TransferService;
 using Prism.Mvvm;
 
-namespace Accelerider.Windows.Infrastructure.WpfInteractions
+namespace Accelerider.Windows.Infrastructure.TransferService.WpfInteractions
 {
     public class BindableDownloader : BindableBase
     {

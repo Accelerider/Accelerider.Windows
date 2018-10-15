@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Extensions;
-using Accelerider.Windows.Infrastructure.WpfInteractions;
+using Accelerider.Windows.Infrastructure.TransferService.WpfInteractions;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Newtonsoft.Json;

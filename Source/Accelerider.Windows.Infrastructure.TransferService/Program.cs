@@ -5,7 +5,6 @@ using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.WpfInteractions;
 using static System.Console;
 
 namespace Accelerider.Windows.Infrastructure.TransferService

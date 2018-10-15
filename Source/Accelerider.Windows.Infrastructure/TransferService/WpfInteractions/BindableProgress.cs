@@ -1,7 +1,7 @@
 ﻿using System;
 using Prism.Mvvm;
 
-namespace Accelerider.Windows.Infrastructure.WpfInteractions
+namespace Accelerider.Windows.Infrastructure.TransferService.WpfInteractions
 {
     public class BindableProgress : BindableBase
     {

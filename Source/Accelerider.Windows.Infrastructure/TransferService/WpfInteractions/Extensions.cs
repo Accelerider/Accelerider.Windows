@@ -1,7 +1,6 @@
 ﻿using System.Windows.Threading;
-using Accelerider.Windows.Infrastructure.TransferService;
 
-namespace Accelerider.Windows.Infrastructure.WpfInteractions
+namespace Accelerider.Windows.Infrastructure.TransferService.WpfInteractions
 {
     public static class Extensions
     {

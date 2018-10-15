@@ -1,5 +1,5 @@
 ﻿using Accelerider.Windows.Infrastructure.TransferService;
-using Accelerider.Windows.Infrastructure.WpfInteractions;
+using Accelerider.Windows.Infrastructure.TransferService.WpfInteractions;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
