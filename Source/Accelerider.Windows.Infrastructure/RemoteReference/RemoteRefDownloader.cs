@@ -24,7 +24,7 @@ namespace Accelerider.Windows.RemoteReference
                     .ForEach(item => Directory.CreateDirectory(item));
 
                 // 4. Download Files and raise their progress event.
-                await DownloadFilesAsync(remoteRefs);
+                DownloadFiles(remoteRefs);
 
                 // 5. The file type must be zip, so it need to unzipped and released.
                 //uriLocalPathMap
@@ -39,17 +39,14 @@ namespace Accelerider.Windows.RemoteReference
             }
         }
 
-        private static Task DownloadFilesAsync(
-            IEnumerable<RemoteRef> remoteRefs)
+        private static void DownloadFiles(IEnumerable<RemoteRef> remoteRefs)
         {
-            var tasks = remoteRefs.Select(remoteRef => FileTransferService.GetDownloaderBuilder()
+            remoteRefs.ForEach(remoteRef => FileTransferService.GetDownloaderBuilder()
                     .UseDefaultConfigure()
                     .Build()
                     .From(remoteRef.RemotePath)
                     .To(remoteRef.LocalPath)
-                    .ActivateAsync());
-
-            return Task.WhenAll(tasks);
+                    .Run());
         }
 
         //private static void Unzip(string filePath)

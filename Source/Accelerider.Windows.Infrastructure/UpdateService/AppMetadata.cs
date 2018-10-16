@@ -63,9 +63,9 @@ namespace Accelerider.Windows.Infrastructure.UpdateService
             return missingApps.Union(nonLastestApps);
         }
 
-        public static Task ActivateAsync(this IEnumerable<IDownloader> @this)
+        public static void Activate(this IEnumerable<IDownloader> @this)
         {
-            return Task.WhenAll(@this.Select(item => item.ActivateAsync()));
+            @this.ForEach(item => item.Run());
         }
 
         public static IEnumerable<IDownloader> ToDownloaders(this IEnumerable<RemoteRef> @this)

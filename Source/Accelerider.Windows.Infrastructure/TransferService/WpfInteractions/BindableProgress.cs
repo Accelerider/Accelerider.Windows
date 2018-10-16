@@ -43,8 +43,10 @@ namespace Accelerider.Windows.Infrastructure.TransferService.WpfInteractions
         {
             var timestamp = DateTimeOffset.Now;
 
-            Speed = 1000.0 * (value - _previousCompletedSize) / (timestamp - _previousTimestamp).TotalSeconds;
-            RemainingTime = TimeSpan.FromSeconds(1.0 * (TotalSize - value) / Speed);
+            Speed = 1.0 * (value - _previousCompletedSize) / (timestamp - _previousTimestamp).TotalSeconds;
+            RemainingTime = Speed != 0
+                ? TimeSpan.FromSeconds(1.0 * (TotalSize - value) / Speed.ValueBasedB)
+                : TimeSpan.MaxValue;
 
             _previousTimestamp = timestamp;
             _previousCompletedSize = value;

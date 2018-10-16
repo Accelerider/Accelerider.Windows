@@ -57,7 +57,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     }
                     else
                     {
-                        downloader.Suspend();
+                        downloader.Stop();
                         _pendingList.Add(downloader);
                     }
                     break;
@@ -105,7 +105,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             _observers.Values.ForEach(item => item.Dispose());
             _observers.Clear();
-            _executingList.ForEach(item => item.Suspend());
+            _executingList.ForEach(item => item.Stop());
         }
 
         public string ToJson()
@@ -150,20 +150,20 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                    item.Status != TransferStatus.Disposed;
         }
 
-        private void Advance() => _advanceLocker.Await(async () =>
+        private void Advance() => _advanceLocker.Await(() =>
         {
-            if (MaxConcurrent > _executingList.Count) await IncreaseTasksAsync();
+            if (MaxConcurrent > _executingList.Count) IncreaseTasks();
             if (MaxConcurrent < _executingList.Count) DecreaseTasks();
         }, executeAfterUnlocked: false);
 
-        private async Task IncreaseTasksAsync()
+        private void IncreaseTasks()
         {
             while (MaxConcurrent > _executingList.Count && _pendingList.Any())
             {
                 var downloader = _pendingList.Dequeue();
                 if (downloader == null) break;
 
-                await downloader.ActivateAsync();
+                downloader.Run();
 
                 ObserveDownloader(downloader);
                 _executingList.Insert(0, downloader);
@@ -177,7 +177,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 var downloader = _executingList.Pop();
                 if (downloader == null) break;
 
-                downloader.Suspend();
+                downloader.Stop();
 
                 _pendingList.Insert(0, downloader);
             }

@@ -43,6 +43,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private readonly ObserverList<TransferNotification> _observerList = new ObserverList<TransferNotification>();
         private readonly Builders _builders;
 
+        private readonly AsyncLocker _runAsyncLocker = new AsyncLocker();
         private readonly HashSet<string> _remotePaths = new HashSet<string>();
         private string _localPath;
         private DownloadSettings _settings;
@@ -50,6 +51,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private IDisposable _disposable;
         private TransferStatus _status;
         private DownloadContext _context;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public Guid Id { get; } = Guid.NewGuid();
 
@@ -150,13 +152,46 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return this;
         }
 
-        public async Task ActivateAsync(CancellationToken cancellationToken = default)
+        public void Run()
         {
             ThrowIfDisposed();
 
+            _runAsyncLocker.Await(RunAsync);
+        }
+
+        public void Stop()
+        {
+            ThrowIfDisposed();
+
+            switch (Status)
+            {
+                case TransferStatus.Ready:
+                    _cancellationTokenSource?.Cancel();
+                    return;
+                case TransferStatus.Transferring:
+                    Dispose(true);
+                    Status = TransferStatus.Suspended;
+                    break;
+            }
+        }
+
+        protected override IDisposable SubscribeCore(IObserver<TransferNotification> observer)
+        {
+            ThrowIfDisposed();
+
+            _observerList.Add(observer);
+
+            return Disposable.Create(() => _observerList.Remove(observer));
+        }
+
+        private async Task RunAsync()
+        {
             try
             {
-                await ActivateAsyncInternal(cancellationToken);
+                if (_cancellationTokenSource == null || _cancellationTokenSource.IsCancellationRequested)
+                    _cancellationTokenSource = new CancellationTokenSource();
+
+                await ActivateAsync(_cancellationTokenSource.Token);
             }
             catch (OperationCanceledException)
             {
@@ -173,27 +208,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             }
         }
 
-        public void Suspend()
-        {
-            ThrowIfDisposed();
-            if (Status != TransferStatus.Transferring) return;
-
-            Dispose(true);
-
-            Status = TransferStatus.Suspended;
-        }
-
-        protected override IDisposable SubscribeCore(IObserver<TransferNotification> observer)
-        {
-            ThrowIfDisposed();
-
-            _observerList.Add(observer);
-
-            return Disposable.Create(() => _observerList.Remove(observer));
-        }
-
-
-        private async Task ActivateAsyncInternal(CancellationToken cancellationToken = default)
+        private async Task ActivateAsync(CancellationToken cancellationToken = default)
         {
             InitializeContext();
 
@@ -208,7 +223,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 case TransferStatus.Faulted: // [Retry]
                     Dispose(true);
                     Reset();
-                    await ActivateAsyncInternal(cancellationToken);
+                    await ActivateAsync(cancellationToken);
                     break;
             }
         }
@@ -288,6 +303,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             if (disposing)
             {
+                _cancellationTokenSource?.Cancel();
                 _disposable?.Dispose();
             }
         }

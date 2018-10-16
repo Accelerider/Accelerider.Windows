@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
+using Accelerider.Windows.Infrastructure.TransferService.WpfInteractions;
 using static System.Console;
 // ReSharper disable LocalizableElement
 
@@ -26,15 +29,34 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             WriteLine("Enter ant key to Start downloader: ");
             ReadKey(true);
-            var cancellationTokenSource = new CancellationTokenSource();
             WriteLine("Try to ActivateAsync... ");
-            cancellationTokenSource.Cancel();
-            downloader.ActivateAsync(cancellationTokenSource.Token);
 
-            cancellationTokenSource.Cancel();
-            //downloader.Suspend();
+            Subscribe(downloader.ToBindable());
+
+            downloader.Run();
+
+
 
             ReadKey();
+        }
+
+        public static void Subscribe(BindableDownloader bindableDownloader)
+        {
+            bindableDownloader.PropertyChanged += (sender, args) =>
+            {
+                var downloader = (BindableDownloader)sender;
+                Console.WriteLine($"[{args.PropertyName}] : {downloader.Status}");
+            };
+
+            bindableDownloader.Progress.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName != nameof(BindableProgress.CompletedSize)) return;
+
+                var progress = (BindableProgress)sender;
+                Console.WriteLine($"{progress.Speed}/s | " +
+                                  $"{progress.RemainingTime:hh\\:mm\\:ss} | " +
+                                  $"{progress.CompletedSize}/{progress.TotalSize}");
+            };
         }
     }
 

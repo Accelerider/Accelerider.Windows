@@ -6,7 +6,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService.WpfInteractions
     {
         public static BindableDownloader ToBindable(this IDownloader @this, Dispatcher uiDispatcher = null)
         {
-            return new BindableDownloader(@this, uiDispatcher ?? Dispatcher.CurrentDispatcher);
+            return new BindableDownloader(@this, uiDispatcher);
         }
 
     }

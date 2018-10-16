@@ -29,8 +29,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         /// <returns>Returns the current instance. </returns>
         IDownloader To(string path);
 
-        Task ActivateAsync(CancellationToken cancellationToken = default);
+        void Run();
 
-        void Suspend();
+        void Stop();
     }
 }

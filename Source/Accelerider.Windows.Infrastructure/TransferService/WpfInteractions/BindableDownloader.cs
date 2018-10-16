@@ -47,7 +47,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService.WpfInteractions
 
         private void SubscribesDownloader(IDownloader downloader, Dispatcher dispatcher)
         {
-            var observable = downloader.ObserveOn(dispatcher);
+            var observable = dispatcher != null ? downloader.ObserveOn(dispatcher) : downloader;
 
             var observableStatus = observable.Distinct(item => item.Status);
 
