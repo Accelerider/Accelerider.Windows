@@ -134,6 +134,11 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             return cancellationToken => new Func<IRemotePathProvider, string>(provider => provider.GetRemotePath())
                 .Then(DownloadPrimitiveMethods.ToRequest)
+                .Then(request =>
+                {
+                    cancellationToken.Register(() => request.Abort());
+                    return request;
+                })
                 .Then(_requestInterceptor)
                 .Then(DownloadPrimitiveMethods.GetResponseAsync)
                 .ThenAsync(response =>
@@ -173,7 +178,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return setting;
         }
 
-        private static Func<Task<(HttpWebResponse response, Stream inputStream)>> BuildStreamPairFatory(BlockTransferContext context)
+        private static Func<Task<(HttpWebResponse response, Stream inputStream)>> BuildStreamPairFactory(BlockTransferContext context)
         {
             return async () =>
             {
@@ -191,7 +196,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             return context.CompletedSize < context.TotalSize
                 ? new Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>>(
-                        blockContext => DownloadPrimitiveMethods.CreateBlockDownloadItem(BuildStreamPairFatory(blockContext), blockContext))
+                        blockContext => DownloadPrimitiveMethods.CreateBlockDownloadItem(BuildStreamPairFactory(blockContext), blockContext))
                     .Then(_blockTransferItemInterceptor)
                     .Invoke(context)
                 : Observable.Empty<(Guid Id, int Bytes)>();

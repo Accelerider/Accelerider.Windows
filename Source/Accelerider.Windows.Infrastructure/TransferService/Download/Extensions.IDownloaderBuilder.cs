@@ -33,13 +33,13 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public static IDownloaderBuilder UseDefaultConfigure(this IDownloaderBuilder @this) => @this
             .Configure(request =>
-                {
-                    request.Headers.SetHeaders(new WebHeaderCollection { ["User-Agent"] = "Accelerider.Windows.DownloadEngine" });
-                    request.Method = "GET";
-                    request.Timeout = 1000 * 30;
-                    request.ReadWriteTimeout = 1000 * 30;
-                    return request;
-                })
+            {
+                request.Headers.SetHeaders(new WebHeaderCollection { ["User-Agent"] = "Accelerider.Windows.DownloadEngine" });
+                request.Method = "GET";
+                request.Timeout = 1000 * 30;
+                request.ReadWriteTimeout = 1000 * 30;
+                return request;
+            })
             .Configure(localPath =>
                 {
                     var directoryName = Path.GetDirectoryName(localPath) ?? throw new InvalidOperationException();
@@ -54,22 +54,22 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 })
             .Configure(DefaultBlockIntervalGenerator)
             .Configure((settings, context) =>
-                {
-                    settings.MaxConcurrent = 16;
+            {
+                settings.MaxConcurrent = 16;
 
-                    settings.BuildPolicy = Policy
-                        .Handle<WebException>()
-                        .RetryAsync(context.RemotePathProvider.RemotePaths.Count, (e, retryCount, policyContext) =>
-                        {
-                            var remotePath = ((WebException)e).Response.ResponseUri.OriginalString;
-                            context.RemotePathProvider.Vote(remotePath, -3);
-                        });
+                settings.BuildPolicy = Policy
+                    .Handle<WebException>(e => e.Status != WebExceptionStatus.RequestCanceled)
+                    .RetryAsync(context.RemotePathProvider.RemotePaths.Count, (e, retryCount, policyContext) =>
+                    {
+                        var remotePath = ((WebException)e).Response.ResponseUri.OriginalString;
+                        context.RemotePathProvider.Vote(remotePath, -3);
+                    });
 
-                    settings.DownloadPolicy
-                        .Catch<OperationCanceledException>((e, retryCount, blockContext) => HandleCommand.Break)
-                        .Catch<WebException>((e, retryCount, blockContext) => retryCount < 3 ? HandleCommand.Retry : HandleCommand.Throw)
-                        .Catch<RemotePathExhaustedException>((e, retryCount, blockContext) => HandleCommand.Throw);
-                })
+                settings.DownloadPolicy
+                    .Catch<OperationCanceledException>((e, retryCount, blockContext) => HandleCommand.Break)
+                    .Catch<WebException>((e, retryCount, blockContext) => retryCount < 3 ? HandleCommand.Retry : HandleCommand.Throw)
+                    .Catch<RemotePathExhaustedException>((e, retryCount, blockContext) => HandleCommand.Throw);
+            })
             .Configure(downloader =>
             {
                 downloader.Tag = DefaultConfigureTag;

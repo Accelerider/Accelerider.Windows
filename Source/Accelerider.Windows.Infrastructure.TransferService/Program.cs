@@ -6,7 +6,9 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static System.Console;
+// ReSharper disable LocalizableElement
 
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
     internal class Program
@@ -16,51 +18,21 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             var downloader = FileTransferService.GetDownloaderBuilder()
                 .UseDefaultConfigure()
                 .Build();
-            var disposable1 = downloader.SubscribeReport();
+            //var disposable1 = downloader.SubscribeReport();
 
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             downloader
                 .From("https://file.mrs4s.me/file/3898c738090be65fc336577605014534")
                 .To(@"C:\Users\Dingp\Desktop\DownloadTest\download-multi-thread.rmvb");
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
             WriteLine("Enter ant key to Start downloader: ");
             ReadKey(true);
             var cancellationTokenSource = new CancellationTokenSource();
             WriteLine("Try to ActivateAsync... ");
-            await downloader.ActivateAsync(cancellationTokenSource.Token);
+            cancellationTokenSource.Cancel();
+            downloader.ActivateAsync(cancellationTokenSource.Token);
 
-            await TimeSpan.FromSeconds(10);
-            WriteLine("Try to Suspend... ");
-            downloader.Suspend();
-            var json = downloader.ToJson();
-            WriteLine("Try to Dispose... ");
-            downloader.Dispose();
-
-            await TimeSpan.FromSeconds(5);
-
-            var downloader2 = FileTransferService.GetDownloaderBuilder()
-                .UseDefaultConfigure()
-                .Build();
-
-            downloader2.SubscribeReport();
-
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            downloader2.FromJson(json);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-
-            WriteLine("Try to ActivateAsync... ");
-            await downloader2.ActivateAsync(cancellationTokenSource.Token);
-
-            //FileTransferService
-            //    .GetFileDownloaderBuilder()
-            //    .UseDefaultConfigure()
-            //    .Build()
-            //    .FromJson(json);
-
-            //await TimeSpan.FromMilliseconds(5000);
-            //WriteLine("downloader has been disposed. ");
-            //downloader.Dispose();
+            cancellationTokenSource.Cancel();
+            //downloader.Suspend();
 
             ReadKey();
         }
@@ -118,3 +90,4 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         }
     }
 }
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed

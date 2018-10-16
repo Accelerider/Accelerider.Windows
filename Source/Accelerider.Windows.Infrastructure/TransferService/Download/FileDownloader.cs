@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -157,6 +158,14 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             {
                 await ActivateAsyncInternal(cancellationToken);
             }
+            catch (OperationCanceledException)
+            {
+                Reset();
+            }
+            catch (WebException e) when (e.Status == WebExceptionStatus.RequestCanceled)
+            {
+                Reset();
+            }
             catch (Exception e)
             {
                 _status = TransferStatus.Faulted;
@@ -198,14 +207,10 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     break;
                 case TransferStatus.Faulted: // [Retry]
                     Dispose(true);
-                    Status = TransferStatus.Ready;
-                    await ActivateAsync(cancellationToken);
+                    Reset();
+                    await ActivateAsyncInternal(cancellationToken);
                     break;
-                default:
-                    return;
             }
-
-            Status = TransferStatus.Transferring;
         }
 
         private void InitializeContext()
@@ -245,7 +250,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         private IDisposable CreateAndRunBlockDownloadItems(IEnumerable<BlockTransferContext> blockContexts)
         {
-            return blockContexts
+            var disposable = blockContexts
                 .Select(item => _builders.BlockDownloadItemFactoryBuilder(_settings).Invoke(item))
                 .Merge(_settings.MaxConcurrent)
                 .Do(item => _blockTransferContextCache[item.Id].CompletedSize += item.Bytes)
@@ -262,6 +267,10 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                         _status = TransferStatus.Completed;
                         _observerList.OnCompleted();
                     });
+
+            Status = TransferStatus.Transferring;
+
+            return disposable;
         }
 
         private static bool SetProperty<T>(ref T storage, T value)
