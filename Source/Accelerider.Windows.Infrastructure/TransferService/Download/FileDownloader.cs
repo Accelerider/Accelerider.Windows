@@ -156,7 +156,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             ThrowIfDisposed();
 
-            _runAsyncLocker.Await(RunAsync);
+            _runAsyncLocker.Await(RunAsync, executeAfterUnlocked: false);
         }
 
         public void Stop()
