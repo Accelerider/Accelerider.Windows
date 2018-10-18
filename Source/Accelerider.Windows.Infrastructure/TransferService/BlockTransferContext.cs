@@ -19,7 +19,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         [JsonIgnore]
         public override string LocalPath { get; internal set; }
 
-        [JsonProperty]
-        public string RemotePath { get; internal set; }
+        [JsonIgnore]
+        public Func<string> RemotePathProvider { get; internal set; }
     }
 }

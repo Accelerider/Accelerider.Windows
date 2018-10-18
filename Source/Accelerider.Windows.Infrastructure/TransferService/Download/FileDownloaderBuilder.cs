@@ -174,15 +174,18 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             var context = serializedData.Context;
 
-            serializedData.BlockContexts.ForEach(item => item.LocalPath = context.LocalPath);
-
             Configure(downloader =>
             {
                 downloader.Tag = serializedData.Tag;
                 return downloader;
             });
 
-            return BuildInternal(context, ctx => token => Task.FromResult(serializedData.BlockContexts.AsEnumerable()));
+            return BuildInternal(context, ctx => token =>
+            {
+                serializedData.BlockContexts.ForEach(item => item.LocalPath = ctx.LocalPath);
+                serializedData.BlockContexts.ForEach(item => item.RemotePathProvider = ctx.RemotePathProvider.GetRemotePath);
+                return Task.FromResult(serializedData.BlockContexts.AsEnumerable());
+            });
         }
 
         private IDownloader BuildInternal(DownloadContext context, Func<DownloadContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> blockTransferContextGeneratorBuilder)
@@ -223,7 +226,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 {
                     Offset = interval.offset,
                     TotalSize = interval.length,
-                    RemotePath = context.RemotePathProvider.GetRemotePath(),
+                    RemotePathProvider = context.RemotePathProvider.GetRemotePath,
                     LocalPath = context.LocalPath
                 }, cancellationToken)
                 .Invoke(context.RemotePathProvider);
@@ -263,7 +266,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return async () =>
             {
                 var interval = (context.Offset + context.CompletedSize, context.TotalSize - context.CompletedSize);
-                var request = _requestInterceptor(context.RemotePath.ToRequest()).Slice(interval);
+                var request = _requestInterceptor(context.RemotePathProvider().ToRequest()).Slice(interval);
                 var response = await DownloadPrimitiveMethods.GetResponseAsync(request);
 
                 var localStream = context.LocalPath.ToStream().Slice(interval);

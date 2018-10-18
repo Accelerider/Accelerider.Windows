@@ -61,8 +61,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     .Handle<WebException>(e => e.Status != WebExceptionStatus.RequestCanceled)
                     .RetryAsync(context.RemotePathProvider.RemotePaths.Count, (e, retryCount, policyContext) =>
                     {
-                        var remotePath = ((WebException)e).Response.ResponseUri.OriginalString;
-                        context.RemotePathProvider.Vote(remotePath, -3);
+                        var remotePath = ((WebException)e).Response?.ResponseUri.OriginalString;
+                        if (!string.IsNullOrEmpty(remotePath))
+                            context.RemotePathProvider.Vote(remotePath, -3);
                     });
 
                 settings.DownloadPolicy
