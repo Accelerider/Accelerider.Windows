@@ -7,7 +7,7 @@ using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Extensions;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
-using Autofac;
+using Unity;
 using MaterialDesignThemes.Wpf;
 
 
@@ -22,7 +22,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         private ICommand _addNetDiskCommand;
 
 
-        public FileBrowserComponentViewModel(IContainer container) : base(container)
+        public FileBrowserComponentViewModel(IUnityContainer container) : base(container)
         {
             SubscribeEvents();
 

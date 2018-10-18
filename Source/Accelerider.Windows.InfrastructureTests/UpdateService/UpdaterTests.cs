@@ -2,7 +2,7 @@
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.FileTransferService;
 using Accelerider.Windows.Infrastructure.FileTransferService.Impls;
-using Autofac;
+using Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Logging;
 

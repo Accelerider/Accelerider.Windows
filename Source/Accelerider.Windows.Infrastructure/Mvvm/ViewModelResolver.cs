@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using Autofac;
+using Prism.Ioc;
 
 namespace Accelerider.Windows.Infrastructure.Mvvm
 {
     public class ViewModelResolver : IViewModelResolver
     {
+        private readonly Func<IContainerProvider> _containerFactory;
         private Action<FrameworkElement, object> _configureViewAndViewModel;
+        private IContainerProvider _container;
 
-        public IContainer Container { get; }
+        public IContainerProvider Container => _container ?? (_container = _containerFactory());
 
-        public ViewModelResolver(IContainer container)
+        public ViewModelResolver(Func<IContainerProvider> containerFactory)
         {
-            Container = container;
+            Guards.ThrowIfNull(containerFactory);
+
+            _containerFactory = containerFactory;
         }
 
-        public object Resolve(object view, Type viewModelType)
+        public object ResolveViewModelForView(object view, Type viewModelType)
         {
             var viewModel = Container.Resolve(viewModelType);
             if (view is FrameworkElement frameworkElement)
@@ -52,7 +56,7 @@ namespace Accelerider.Windows.Infrastructure.Mvvm
             _configureViewAndViewModel = (view, viewModel) =>
             {
                 previousAction?.Invoke(view, viewModel);
-                var interfaceInstance = viewModel.AsGenericInterface(typeof(IAwareViewLoadedAndUnloaded<>));
+                var interfaceInstance = viewModel.AsGenericInterface(genericInterfaceType);
                 if (interfaceInstance != null)
                 {
                     configuration?.Invoke(interfaceInstance, view, viewModel);
@@ -64,44 +68,39 @@ namespace Accelerider.Windows.Infrastructure.Mvvm
 
     public static class ViewModelResolverExtensions
     {
-        public static IViewModelResolver ApplyDefaultConfigure(this IViewModelResolver @this)
-        {
-            @this
-                .IfInheritsFrom<ViewModelBase>((view, viewModel) =>
+        public static IViewModelResolver UseDefaultConfigure(this IViewModelResolver @this) => @this
+            .IfInheritsFrom<ViewModelBase>((view, viewModel) =>
+            {
+                viewModel.Dispatcher = view.Dispatcher;
+            })
+            .IfInheritsFrom<ILocalizable>((view, viewModel) =>
+            {
+                viewModel.I18nManager = I18nManager.Instance;
+                view.Loaded += (sender, args) => I18nManager.Instance.CurrentUICultureChanged += viewModel.OnCurrentUICultureChanged;
+                view.Unloaded += (sender, args) => I18nManager.Instance.CurrentUICultureChanged -= viewModel.OnCurrentUICultureChanged;
+            })
+            .IfInheritsFrom<IAwareViewLoadedAndUnloaded>((view, viewModel) =>
+            {
+                view.Loaded += (sender, e) => viewModel.OnLoaded();
+                view.Unloaded += (sender, e) => viewModel.OnUnloaded();
+            })
+            .IfInheritsFrom(typeof(IAwareViewLoadedAndUnloaded<>), (interfaceInstance, view, viewModel) =>
+            {
+                var viewType = view.GetType();
+                if (interfaceInstance.GenericArguments.Single() != viewType)
                 {
-                    viewModel.Dispatcher = view.Dispatcher;
-                })
-                .IfInheritsFrom<IAwareViewLoadedAndUnloaded>((view, viewModel) =>
-                {
-                    view.Loaded += (sender, e) => viewModel.OnLoaded();
-                    view.Unloaded += (sender, e) => viewModel.OnUnloaded();
-                })
-                .IfInheritsFrom(typeof(IAwareViewLoadedAndUnloaded<>), (interfaceInstance, view, viewModel) =>
-                {
-                    var viewType = view.GetType();
-                    if (interfaceInstance.GenericArguments.Single() != viewType)
-                    {
-                        throw new InvalidOperationException();
-                    }
+                    throw new InvalidOperationException();
+                }
 
-                    var onLoadedMethod = interfaceInstance.GetMethod<Action<object>>("OnLoaded", viewType);
-                    var onUnloadedMethod = interfaceInstance.GetMethod<Action<object>>("OnUnloaded", viewType);
+                var onLoadedMethod = interfaceInstance.GetMethod<Action<object>>("OnLoaded", viewType);
+                var onUnloadedMethod = interfaceInstance.GetMethod<Action<object>>("OnUnloaded", viewType);
 
-                    view.Loaded += (sender, args) => onLoadedMethod(sender);
-                    view.Unloaded += (sender, args) => onUnloadedMethod(sender);
-                })
-                .IfInheritsFrom<ILocalizable>((view, viewModel) =>
-                {
-                    viewModel.I18nManager = I18nManager.Instance;
-                    view.Loaded += (sender, args) => I18nManager.Instance.CurrentUICultureChanged += viewModel.OnCurrentUICultureChanged;
-                    view.Unloaded += (sender, args) => I18nManager.Instance.CurrentUICultureChanged -= viewModel.OnCurrentUICultureChanged;
-                });
-                //.IfInheritsFrom<IAwareTabItemSelectionChanged>((view, viewModel) =>
-                //{
-                //    TabControlHelper.SetAwareSelectionChanged(view, true);
-                //});
-
-            return @this;
-        }
+                view.Loaded += (sender, args) => onLoadedMethod(sender);
+                view.Unloaded += (sender, args) => onUnloadedMethod(sender);
+            });
+        //.IfInheritsFrom<IAwareTabItemSelectionChanged>((view, viewModel) =>
+        //{
+        //    TabControlHelper.SetAwareSelectionChanged(view, true);
+        //});
     }
 }

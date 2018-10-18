@@ -4,7 +4,7 @@ using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
-using Autofac;
+using Unity;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
@@ -15,7 +15,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         private ICommand _refreshFilesCommand;
         private IList<T> _files;
 
-        protected LoadingFilesBaseViewModel(IContainer container) : base(container)
+        protected LoadingFilesBaseViewModel(IUnityContainer container) : base(container)
         {
             RefreshFilesCommand = new RelayCommand(async () => await LoadingFilesAsync());
         }

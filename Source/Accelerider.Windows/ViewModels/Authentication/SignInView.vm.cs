@@ -8,7 +8,7 @@ using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Authentication;
-using Autofac;
+using Unity;
 using Refit;
 
 namespace Accelerider.Windows.ViewModels.Authentication
@@ -24,7 +24,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
         private ICommand _signInCommand;
 
 
-        public SignInViewModel(IContainer container) : base(container)
+        public SignInViewModel(IUnityContainer container) : base(container)
         {
             _nonAuthenticationApi = Container.Resolve<INonAuthenticationApi>();
             ConfigureFile = Container.Resolve<IConfigureFile>();
@@ -156,12 +156,10 @@ namespace Accelerider.Windows.ViewModels.Authentication
             return true;
         }
 
-        private void RegisterInstance(AcceleriderUser user, IAcceleriderApi acceleriderApi)
+        private void RegisterInstance(IAcceleriderUser user, IAcceleriderApi acceleriderApi)
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterInstance(user).As<IAcceleriderUser>();
-            builder.RegisterInstance(acceleriderApi).As<IAcceleriderApi>();
-            builder.Update(Container);
+            Container.RegisterInstance(user);
+            Container.RegisterInstance(acceleriderApi);
         }
 
 

@@ -5,7 +5,7 @@ namespace Accelerider.Windows.Infrastructure.Mvvm
 {
     public interface IViewModelResolver
     {
-        object Resolve(object view, Type viewModelType);
+        object ResolveViewModelForView(object view, Type viewModelType);
 
         IViewModelResolver IfInheritsFrom<TViewModel>(Action<FrameworkElement, TViewModel> configuration);
 

@@ -5,7 +5,7 @@ using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Models;
-using Autofac;
+using Unity;
 using SignUpView = Accelerider.Windows.Views.Authentication.SignUpView;
 
 namespace Accelerider.Windows.ViewModels.Authentication
@@ -15,7 +15,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
         private string _emailAddress;
         private string _username;
 
-        public SignUpViewModel(IContainer container) : base(container)
+        public SignUpViewModel(IUnityContainer container) : base(container)
         {
             SignUpCommand = new RelayCommand<SignUpView>(SignUpCommandExecute, SignUpCommandCanExecute);
             SendVerificationCodeCommand = new RelayCommand(() => { /*TODO: api*/ }, () => EmailAddress.IsEmailAddress());

@@ -2,14 +2,14 @@
 using System.Threading.Tasks;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
-using Autofac;
+using Unity;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
     public class RecycleBinViewModel : LoadingFilesBaseViewModel<IDeletedFile>
     {
-        public RecycleBinViewModel(IContainer container) : base(container)
+        public RecycleBinViewModel(IUnityContainer container) : base(container)
         {
         }
 

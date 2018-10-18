@@ -1,5 +1,5 @@
 ﻿using Accelerider.Windows.Infrastructure.Mvvm;
-using Autofac;
+using Unity;
 
 namespace Accelerider.Windows.ViewModels.Dialogs
 {
@@ -7,7 +7,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
     {
 
 
-        public ProfileDialogViewModel(IContainer container) : base(container) { }
+        public ProfileDialogViewModel(IUnityContainer container) : base(container) { }
 
 
     }

@@ -1,12 +1,12 @@
 ﻿using Accelerider.Windows.Infrastructure.Mvvm;
-using Autofac;
 using Prism.Regions;
+using Unity;
 
 namespace Accelerider.Windows.ViewModels.Dialogs
 {
     public class SettingsDialogViewModel : ViewModelBase
     {
-        public SettingsDialogViewModel(IContainer container, IRegionManager regionManager) : base(container)
+        public SettingsDialogViewModel(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
             RegionManager = regionManager;
         }

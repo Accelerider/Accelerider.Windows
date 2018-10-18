@@ -2,7 +2,7 @@
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Models;
-using Autofac;
+using Unity;
 
 
 namespace Accelerider.Windows.ViewModels.AppStore
@@ -11,7 +11,7 @@ namespace Accelerider.Windows.ViewModels.AppStore
     {
         private IEnumerable<ModuleMetadata> _modules;
 
-        public AppStoreComponentViewModel(IContainer container) : base(container)
+        public AppStoreComponentViewModel(IUnityContainer container) : base(container)
         {
             Modules = Container.Resolve<IConfigureFile>().GetValue<IEnumerable<ModuleMetadata>>("AcceleriderModules");
         }
@@ -21,7 +21,5 @@ namespace Accelerider.Windows.ViewModels.AppStore
             get => _modules;
             set => SetProperty(ref _modules, value);
         }
-
-
     }
 }
