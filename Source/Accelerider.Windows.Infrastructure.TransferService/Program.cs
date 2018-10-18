@@ -1,12 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Net.NetworkInformation;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 using Accelerider.Windows.Infrastructure.TransferService.WpfInteractions;
 using static System.Console;
 // ReSharper disable LocalizableElement
@@ -20,27 +14,37 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         {
             var downloader = FileTransferService.GetDownloaderBuilder()
                 .UseDefaultConfigure()
-                .Build();
-            //var disposable1 = downloader.SubscribeReport();
-
-            downloader
                 .From("https://file.mrs4s.me/file/3898c738090be65fc336577605014534")
-                .To(@"C:\Users\Dingp\Desktop\DownloadTest\download-multi-thread.rmvb");
+                //.From("https://accelerider-my.sharepoint.com/personal/cs02_onedrive_accelerider_com/_layouts/15/download.aspx?UniqueId=b8a04e28-cbe7-46b6-a7e9-ff1dc364539e&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvYWNjZWxlcmlkZXItbXkuc2hhcmVwb2ludC5jb21AMjZmYTQ2ZDYtNDA3YS00YjMwLWJmMjYtOTEwZmFhMjZiZGQ2IiwiaXNzIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwIiwibmJmIjoiMTUzOTg4NDEyMSIsImV4cCI6IjE1Mzk4ODc3MjEiLCJlbmRwb2ludHVybCI6ImZPVjloMFdhOFlLT3hNVVhOM0w4RDhySXBnVWVvYkt0ZTI1TVg2UUgrWkU9IiwiZW5kcG9pbnR1cmxMZW5ndGgiOiIxNjQiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImNpZCI6IlpEVmhOemxqT0RZdFpXSmxNUzAwWm1GaExUbGxNRGd0TTJVeE9EZGtaREExTVRNMiIsInZlciI6Imhhc2hlZHByb29mdG9rZW4iLCJzaXRlaWQiOiJaVGxpWXpsaVltSXROVFkyTWkwMFlqazNMVGd6TVdNdFl6ZzFNMkk1TkRobU0yTmkiLCJhcHBfZGlzcGxheW5hbWUiOiJBY2NlbGVyaWRlciIsInNpZ25pbl9zdGF0ZSI6IltcImttc2lcIl0iLCJhcHBpZCI6ImIyZjY2NTg0LTBhZGMtNDEzNS1hOTMwLTdiZjQ2YmM3YzdkNCIsInRpZCI6IjI2ZmE0NmQ2LTQwN2EtNGIzMC1iZjI2LTkxMGZhYTI2YmRkNiIsInVwbiI6ImNzMDJAb25lZHJpdmUuYWNjZWxlcmlkZXIuY29tIiwicHVpZCI6IjEwMDMwMDAwQTQyRUM5QjEiLCJzY3AiOiJhbGxmaWxlcy53cml0ZSBhbGxwcm9maWxlcy5yZWFkIiwidHQiOiIyIiwidXNlUGVyc2lzdGVudENvb2tpZSI6bnVsbH0.SDl1TTZwMzFPalRwRHBJMVRMUEJnNkhxZDg0a3kzcENSTG90TDUxbFZpST0&ApiVersion=2.0")
+                .To(@"C:\Users\Dingp\Desktop\DownloadTest\download-multi-thread.rmvb")
+                .Build();
 
             WriteLine("Enter ant key to Start downloader: ");
             ReadKey(true);
-            WriteLine("Try to ActivateAsync... ");
-
-            Subscribe(downloader.ToBindable());
-
+            WriteLine("Try to Run... ");
+            Subscribes(downloader.ToBindable());
             downloader.Run();
 
+            await TimeSpan.FromSeconds(30);
+            WriteLine("Try to Stop... ");
+            downloader.Stop();
 
+            var json = downloader.ToJson();
+
+            var downloaderFromJson = FileTransferService.GetDownloaderBuilder()
+                .UseDefaultConfigure()
+                .FromJson(json);
+
+            WriteLine("Enter ant key to Start downloader: ");
+            ReadKey(true);
+            WriteLine("Try to Run... ");
+            Subscribes(downloaderFromJson.ToBindable());
+            downloaderFromJson.Run();
 
             ReadKey();
         }
 
-        public static void Subscribe(BindableDownloader bindableDownloader)
+        public static void Subscribes(BindableDownloader bindableDownloader)
         {
             bindableDownloader.PropertyChanged += (sender, args) =>
             {

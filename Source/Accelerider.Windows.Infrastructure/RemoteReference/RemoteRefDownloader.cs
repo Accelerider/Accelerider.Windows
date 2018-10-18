@@ -42,11 +42,11 @@ namespace Accelerider.Windows.RemoteReference
         private static void DownloadFiles(IEnumerable<RemoteRef> remoteRefs)
         {
             remoteRefs.ForEach(remoteRef => FileTransferService.GetDownloaderBuilder()
-                    .UseDefaultConfigure()
-                    .Build()
-                    .From(remoteRef.RemotePath)
-                    .To(remoteRef.LocalPath)
-                    .Run());
+                .UseDefaultConfigure()
+                .From(remoteRef.RemotePath)
+                .To(remoteRef.LocalPath)
+                .Build()
+                .Run());
         }
 
         //private static void Unzip(string filePath)

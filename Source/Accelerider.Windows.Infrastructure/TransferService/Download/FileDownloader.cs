@@ -15,45 +15,27 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 {
     internal class FileDownloader : ObservableBase<TransferNotification>, IDownloader
     {
-        internal class Builders
+        internal class BuildInfo
         {
+            public DownloadContext Context { get; set; }
+
+            public DownloadSettings Settings { get; set; }
+
             public Func<DownloadContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> BlockTransferContextGeneratorBuilder { get; set; }
 
             public Func<DownloadSettings, Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>>> BlockDownloadItemFactoryBuilder { get; set; }
-
-            public Func<HashSet<string>, IRemotePathProvider> RemotePathProviderBuilder { get; set; }
-
-            public Func<string, string> LocalPathInterceptor { get; set; }
-
-            public Func<DownloadContext, DownloadSettings> TransferSettingsBuilder { get; set; }
-        }
-
-        private class SerializedData
-        {
-            [JsonProperty]
-            public object Tag { get; internal set; }
-
-            [JsonProperty]
-            public DownloadContext Context { get; internal set; }
-
-            [JsonProperty]
-            public List<BlockTransferContext> BlockContexts { get; internal set; }
         }
 
         private readonly ObserverList<TransferNotification> _observerList = new ObserverList<TransferNotification>();
-        private readonly Builders _builders;
+        private readonly BuildInfo _buildInfo;
 
         private readonly AsyncLocker _runAsyncLocker = new AsyncLocker();
-        private readonly HashSet<string> _remotePaths = new HashSet<string>();
-        private string _localPath;
-        private DownloadSettings _settings;
         private ConcurrentDictionary<Guid, BlockTransferContext> _blockTransferContextCache;
         private IDisposable _disposable;
         private TransferStatus _status;
-        private DownloadContext _context;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id => Context.Id;
 
         public TransferStatus Status
         {
@@ -61,95 +43,20 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             private set { if (SetProperty(ref _status, value)) _observerList.OnNext(new TransferNotification(Guid.Empty, value, 0)); }
         }
 
-        public DownloadContext Context
-        {
-            get => _context;
-            private set { if (SetProperty(ref _context, value)) _settings = value != null ? _builders.TransferSettingsBuilder(value) : null; }
-        }
+        public DownloadContext Context => _buildInfo.Context;
+        //{
+        //    get => _context;
+        //    private set { if (SetProperty(ref _context, value)) _settings = value != null ? _buildInfo.TransferSettingsBuilder(value) : null; }
+        //}
 
         public IReadOnlyDictionary<Guid, BlockTransferContext> BlockContexts => _blockTransferContextCache;
 
         public object Tag { get; set; }
 
 
-        public FileDownloader(Builders builders)
+        public FileDownloader(BuildInfo builders)
         {
-            _builders = builders;
-        }
-
-
-        public IDownloader From(string path)
-        {
-            ThrowIfTransferring();
-            Guards.ThrowIfNullOrEmpty(path);
-
-            if (_remotePaths.Add(path))
-            {
-                Reset();
-            }
-
-            return this;
-        }
-
-        public IDownloader From(IEnumerable<string> paths)
-        {
-            ThrowIfTransferring();
-            Guards.ThrowIfNull(paths);
-            var pathArray = paths.ToArray();
-            Guards.ThrowIfNullOrEmpty(pathArray);
-
-            _remotePaths.UnionWith(pathArray);
-            Reset();
-            return this;
-        }
-
-        public IDownloader To(string path)
-        {
-            ThrowIfTransferring();
-            Guards.ThrowIfNullOrEmpty(path);
-
-            if (!path.Equals(_localPath, StringComparison.InvariantCultureIgnoreCase))
-            {
-                _localPath = path;
-                Reset();
-            }
-
-            return this;
-        }
-
-        public string ToJson()
-        {
-            ThrowIfTransferring();
-
-            return new SerializedData
-            {
-                Tag = Tag,
-                Context = Context,
-                BlockContexts = _blockTransferContextCache.Values.ToList()
-            }.ToJson();
-        }
-
-        public IDownloader FromJson(string json)
-        {
-            ThrowIfTransferring();
-            Guards.ThrowIfNull(json);
-
-            var serializedData = json.ToObject<SerializedData>();
-
-            if (serializedData?.Context != null && serializedData.BlockContexts != null)
-            {
-                Tag = serializedData.Tag;
-
-                Context = serializedData.Context;
-
-                serializedData.BlockContexts.ForEach(item => item.LocalPath = Context.LocalPath);
-                _blockTransferContextCache = new ConcurrentDictionary<Guid, BlockTransferContext>(
-                    serializedData.BlockContexts.ToDictionary(item => item.Id));
-
-                Status = TransferStatus.Suspended;
-            }
-
-            return this;
+            _buildInfo = builders;
         }
 
         public void Run()
@@ -195,11 +102,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             }
             catch (OperationCanceledException)
             {
-                Reset();
             }
             catch (WebException e) when (e.Status == WebExceptionStatus.RequestCanceled)
             {
-                Reset();
             }
             catch (Exception e)
             {
@@ -210,45 +115,24 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         private async Task ActivateAsync(CancellationToken cancellationToken = default)
         {
-            InitializeContext();
-
             switch (Status)
             {
                 case TransferStatus.Ready: // [Start]
-                    await _settings.BuildPolicy.ExecuteAsync(async () => _disposable = await Start(cancellationToken));
+                    await _buildInfo.Settings.BuildPolicy.ExecuteAsync(async () => _disposable = await Start(cancellationToken));
                     break;
                 case TransferStatus.Suspended: // [Restart]
                     _disposable = Resume();
                     break;
                 case TransferStatus.Faulted: // [Retry]
                     Dispose(true);
-                    Reset();
                     await ActivateAsync(cancellationToken);
                     break;
             }
         }
 
-        private void InitializeContext()
-        {
-            if (Status == TransferStatus.Ready)
-            {
-                Context = new DownloadContext(Id)
-                {
-                    RemotePathProvider = _builders.RemotePathProviderBuilder(_remotePaths),
-                    LocalPath = _builders.LocalPathInterceptor(_localPath)
-                };
-            }
-        }
-
-        private void Reset()
-        {
-            Status = TransferStatus.Ready;
-            Context = null;
-        }
-
         private async Task<IDisposable> Start(CancellationToken cancellationToken)
         {
-            var blockContexts = (await _builders.BlockTransferContextGeneratorBuilder(Context).Invoke(cancellationToken)).ToArray();
+            var blockContexts = (await _buildInfo.BlockTransferContextGeneratorBuilder(Context).Invoke(cancellationToken)).ToArray();
 
             _blockTransferContextCache = new ConcurrentDictionary<Guid, BlockTransferContext>(
                 blockContexts.ToDictionary(item => item.Id));
@@ -266,8 +150,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private IDisposable CreateAndRunBlockDownloadItems(IEnumerable<BlockTransferContext> blockContexts)
         {
             var disposable = blockContexts
-                .Select(item => _builders.BlockDownloadItemFactoryBuilder(_settings).Invoke(item))
-                .Merge(_settings.MaxConcurrent)
+                .Select(item => _buildInfo.BlockDownloadItemFactoryBuilder(_buildInfo.Settings).Invoke(item))
+                .Merge(_buildInfo.Settings.MaxConcurrent)
                 .Do(item => _blockTransferContextCache[item.Id].CompletedSize += item.Bytes)
                 .Select(item => new TransferNotification(item.Id, Status, item.Bytes))
                 .Subscribe(
@@ -321,12 +205,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 throw new ObjectDisposedException(
                     $"{nameof(FileDownloader)}: {Id:B}",
                     "This transfer task has been disposed, please re-create a task by FileTransferService if it needs to be re-downloaded.");
-        }
-
-        private void ThrowIfTransferring()
-        {
-            if (Status == TransferStatus.Transferring)
-                throw new InvalidOperationException("This operation cannot be executed during transferring. ");
         }
 
         #endregion

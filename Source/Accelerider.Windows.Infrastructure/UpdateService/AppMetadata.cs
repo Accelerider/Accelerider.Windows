@@ -70,12 +70,12 @@ namespace Accelerider.Windows.Infrastructure.UpdateService
 
         public static IEnumerable<IDownloader> ToDownloaders(this IEnumerable<RemoteRef> @this)
         {
-            return @this.Select(item => TransferService.FileTransferService
+            return @this.Select(item => FileTransferService
                 .GetDownloaderBuilder()
                 .UseDefaultConfigure()
-                .Build()
                 .From(item.RemotePath)
-                .To(item.LocalPath));
+                .To(item.LocalPath)
+                .Build());
         }
 
         private static string GetFileMd5(this string filePath)

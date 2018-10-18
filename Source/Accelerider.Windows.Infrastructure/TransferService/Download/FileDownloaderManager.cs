@@ -5,12 +5,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    internal class FileDownloaderManager : ITransporterManager<IDownloader>
+    internal class FileDownloaderManager : IDownloaderManager
     {
         public const string AcceleriderDownloadFileExtension = ".ard";
 
@@ -134,7 +133,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .ToJson(Formatting.Indented);
         }
 
-        public ITransporterManager<IDownloader> FromJson(string json)
+        public IDownloaderManager FromJson(string json)
         {
             json.ToObject<List<string>>()?
                 .Where(File.Exists)
@@ -143,7 +142,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 {
                     var configureTag = item.GetJsonValue(nameof(IDownloader.Tag));
                     return !string.IsNullOrEmpty(configureTag)
-                        ? FileTransferService.GetDownloaderBuilder().UseConfigure(configureTag).Build().FromJson(item)
+                        ? FileTransferService.GetDownloaderBuilder().UseConfigure(configureTag).FromJson(item)
                         : null;
                 })
                 .Where(item => item != null)
@@ -193,7 +192,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             }
         }
 
-        private IDisposable ObserveDownloader(ITransporter downloader)
+        private IDisposable ObserveDownloader(IDownloader downloader)
         {
             var id = downloader.Id;
 

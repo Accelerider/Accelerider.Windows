@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
 using System.Threading;
@@ -22,6 +23,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         private Func<string, string> _localPathInterceptor;
         private Func<IObservable<(Guid Id, int Bytes)>, IObservable<(Guid Id, int Bytes)>> _blockTransferItemInterceptor;
         private Func<IDownloader, IDownloader> _postProcessInterceptor;
+
+        private readonly HashSet<string> _remotePaths = new HashSet<string>();
+        private string _localPath;
 
         #endregion
 
@@ -99,6 +103,38 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return this;
         }
 
+        public IDownloaderBuilder From(string path)
+        {
+            ThrowIfNullOrEmpty(path);
+
+            _remotePaths.Add(path);
+
+            return this;
+        }
+
+        public IDownloaderBuilder From(IEnumerable<string> paths)
+        {
+            ThrowIfNull(paths);
+            var pathArray = paths.ToArray();
+            ThrowIfNullOrEmpty(pathArray);
+
+            _remotePaths.UnionWith(pathArray);
+
+            return this;
+        }
+
+        public IDownloaderBuilder To(string path)
+        {
+            ThrowIfNullOrEmpty(path);
+
+            if (!path.Equals(_localPath, StringComparison.InvariantCultureIgnoreCase))
+            {
+                _localPath = path;
+            }
+
+            return this;
+        }
+
         #endregion
 
         public IDownloaderBuilder Clone()
@@ -118,13 +154,47 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         public IDownloader Build()
         {
-            var result = new FileDownloader(new FileDownloader.Builders
+            var context = new DownloadContext(Guid.NewGuid())
             {
-                BlockTransferContextGeneratorBuilder = GetBlockTransferContextGenerator,
-                BlockDownloadItemFactoryBuilder = GetBlockDownloadItemFactory,
-                RemotePathProviderBuilder = _remotePathProviderBuilder,
-                LocalPathInterceptor = _localPathInterceptor,
-                TransferSettingsBuilder = GetTransferSettings
+                RemotePathProvider = _remotePathProviderBuilder(_remotePaths),
+                LocalPath = _localPathInterceptor(_localPath)
+            };
+
+            return BuildInternal(context, GetBlockTransferContextGenerator);
+        }
+
+        public IDownloader FromJson(string json)
+        {
+            ThrowIfNullOrEmpty(json);
+
+            var serializedData = json.ToObject<DownloaderSerializedData>();
+
+            if (serializedData?.Context == null || serializedData.BlockContexts == null)
+                throw new InvalidOperationException();
+
+            var context = serializedData.Context;
+
+            serializedData.BlockContexts.ForEach(item => item.LocalPath = context.LocalPath);
+
+            Configure(downloader =>
+            {
+                downloader.Tag = serializedData.Tag;
+                return downloader;
+            });
+
+            return BuildInternal(context, ctx => token => Task.FromResult(serializedData.BlockContexts.AsEnumerable()));
+        }
+
+        private IDownloader BuildInternal(DownloadContext context, Func<DownloadContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> blockTransferContextGeneratorBuilder)
+        {
+            var settings = GetTransferSettings(context);
+
+            var result = new FileDownloader(new FileDownloader.BuildInfo
+            {
+                Context = context,
+                Settings = settings,
+                BlockTransferContextGeneratorBuilder = blockTransferContextGeneratorBuilder,
+                BlockDownloadItemFactoryBuilder = GetBlockDownloadItemFactory
             });
 
             return _postProcessInterceptor(result);
@@ -136,7 +206,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .Then(DownloadPrimitiveMethods.ToRequest)
                 .Then(request =>
                 {
-                    cancellationToken.Register(() => request.Abort());
+                    cancellationToken.Register(request.Abort);
                     return request;
                 })
                 .Then(_requestInterceptor)
@@ -178,20 +248,6 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return setting;
         }
 
-        private static Func<Task<(HttpWebResponse response, Stream inputStream)>> BuildStreamPairFactory(BlockTransferContext context)
-        {
-            return async () =>
-            {
-                var interval = (context.Offset + context.CompletedSize, context.TotalSize - context.CompletedSize);
-                var request = context.RemotePath.ToRequest().Slice(interval);
-                var response = await DownloadPrimitiveMethods.GetResponseAsync(request);
-
-                var localStream = context.LocalPath.ToStream().Slice(interval);
-
-                return (response, localStream);
-            };
-        }
-
         private IObservable<(Guid Id, int Bytes)> CreateBlockDownloadItem(BlockTransferContext context)
         {
             return context.CompletedSize < context.TotalSize
@@ -200,6 +256,20 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     .Then(_blockTransferItemInterceptor)
                     .Invoke(context)
                 : Observable.Empty<(Guid Id, int Bytes)>();
+        }
+
+        private Func<Task<(HttpWebResponse response, Stream inputStream)>> BuildStreamPairFactory(BlockTransferContext context)
+        {
+            return async () =>
+            {
+                var interval = (context.Offset + context.CompletedSize, context.TotalSize - context.CompletedSize);
+                var request = _requestInterceptor(context.RemotePath.ToRequest()).Slice(interval);
+                var response = await DownloadPrimitiveMethods.GetResponseAsync(request);
+
+                var localStream = context.LocalPath.ToStream().Slice(interval);
+
+                return (response, localStream);
+            };
         }
     }
 }

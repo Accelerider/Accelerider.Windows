@@ -38,13 +38,25 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             return @this.Context?.TotalSize ?? 0;
         }
 
+        public static string ToJson(this IDownloader @this)
+        {
+            if (@this.Status == TransferStatus.Transferring)
+                throw new InvalidOperationException();
+
+            return new DownloaderSerializedData
+            {
+                Tag = @this.Tag,
+                Context = @this.Context,
+                BlockContexts = @this.BlockContexts.Values.ToList()
+            }.ToJson();
+        }
 
         private class ManagedDownloaderTokenImpl : IManagedTransporterToken
         {
-            private readonly ITransporterManager<IDownloader> _manager;
+            private readonly IDownloaderManager _manager;
             private readonly IDownloader _downloader;
 
-            public ManagedDownloaderTokenImpl(ITransporterManager<IDownloader> manager, IDownloader downloader)
+            public ManagedDownloaderTokenImpl(IDownloaderManager manager, IDownloader downloader)
             {
                 _manager = manager;
                 if (!manager.Add(downloader)) throw new InvalidOperationException();

@@ -4,13 +4,15 @@ using System.Collections.Generic;
 
 namespace Accelerider.Windows.Infrastructure.TransferService
 {
-    public interface ITransporterManager<T> : IJsonable<ITransporterManager<T>> where T : ITransporter
+    public interface ITransporterManager<TTransporter, TContext>
+        where TContext : TransferContextBase
+        where TTransporter : ITransporter<TContext>
     {
-        IEnumerable<T> Transporters { get; }
+        IEnumerable<TTransporter> Transporters { get; }
 
         int MaxConcurrent { get; set; }
 
-        bool Add(T downloader);
+        bool Add(TTransporter transporter);
 
         void AsNext(Guid id);
 
@@ -21,5 +23,9 @@ namespace Accelerider.Windows.Infrastructure.TransferService
         void StartAll();
 
         void SuspendAll();
+    }
+
+    public interface IDownloaderManager : ITransporterManager<IDownloader, DownloadContext>, IJsonable<IDownloaderManager>
+    {
     }
 }

@@ -136,6 +136,7 @@
     <Compile Include="TransferService\Download\BlockDownloadItemPolicy.cs" />
     <Compile Include="TransferService\ConcurrentList.cs" />
     <Compile Include="TransferService\Download\DownloadContext.cs" />
+    <Compile Include="TransferService\Download\DownloaderSerializedData.cs" />
     <Compile Include="TransferService\Download\Extensions.IDownloader.cs" />
     <Compile Include="TransferService\Download\FileDownloaderManager.cs" />
     <Compile Include="TransferService\Download\Extensions.IDownloaderBuilder.cs" />
@@ -181,7 +182,6 @@
     <Compile Include="TransferService\Download\FileDownloader.cs" />
     <Compile Include="TransferService\Download\FileDownloaderBuilder.cs" />
     <Compile Include="TransferService\FileTransferService.cs" />
-    <Compile Include="TransferService\Download\IDownloader.cs" />
     <Compile Include="TransferService\Download\IDownloaderBuilder.cs" />
     <Compile Include="TransferService\ObserverList.cs" />
     <Compile Include="TransferService\Download\PrimitiveMethods.Download.cs" />
@@ -189,13 +189,6 @@
     <Compile Include="TransferService\Download\RemotePathProvider.cs" />
     <Compile Include="TransferService\TransferNotification.cs" />
     <Compile Include="TransferService\Download\DownloadSettings.cs" />
-    <Compile Include="TransferService\Upload\FileUploaderBuilder.cs" />
-    <Compile Include="TransferService\Upload\FileUploaderManager.cs" />
-    <Compile Include="TransferService\Upload\IUploader.cs" />
-    <Compile Include="TransferService\Upload\IUploaderBuilder.cs" />
-    <Compile Include="TransferService\Upload\PrimitiveMethods.Upload.cs" />
-    <Compile Include="TransferService\Upload\UploadContext.cs" />
-    <Compile Include="TransferService\Upload\UploadSettings.cs" />
     <Compile Include="TransferService\WpfInteractions\BindableDownloader.cs" />
     <Compile Include="TransferService\WpfInteractions\BindableBlockTransferItem.cs" />
     <Compile Include="TransferService\WpfInteractions\DisplayDataSize.cs" />
