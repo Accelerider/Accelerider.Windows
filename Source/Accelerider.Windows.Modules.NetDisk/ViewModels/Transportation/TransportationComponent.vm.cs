@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
-using Autofac;
+using Unity;
 using MaterialDesignThemes.Wpf;
 
 
@@ -11,7 +11,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
     {
         private ICommand _addOfflineTaskCommand;
 
-        public TransportationComponentViewModel(IContainer container) : base(container)
+        public TransportationComponentViewModel(IUnityContainer container) : base(container)
         {
             AddOfflineTaskCommand = new RelayCommand(AddOfflineTaskCommandExecute);
 

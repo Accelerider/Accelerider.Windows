@@ -23,7 +23,7 @@ namespace Accelerider.Windows.Infrastructure.Modularity
         /// </summary>
         public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged;
 
-        private void RaiseModuleDownloadProgressChanged(ModuleInfo moduleInfo, long bytesReceived, long totalBytesToReceive) => RaiseModuleDownloadProgressChanged(new ModuleDownloadProgressChangedEventArgs(moduleInfo, bytesReceived, totalBytesToReceive));
+        private void RaiseModuleDownloadProgressChanged(IModuleInfo moduleInfo, long bytesReceived, long totalBytesToReceive) => RaiseModuleDownloadProgressChanged(new ModuleDownloadProgressChangedEventArgs(moduleInfo, bytesReceived, totalBytesToReceive));
 
         private void RaiseModuleDownloadProgressChanged(ModuleDownloadProgressChangedEventArgs e) => ModuleDownloadProgressChanged?.Invoke(this, e);
 
@@ -32,7 +32,7 @@ namespace Accelerider.Windows.Infrastructure.Modularity
         /// </summary>
         public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
 
-        private void RaiseLoadModuleCompleted(ModuleInfo moduleInfo, Exception error) => RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, error));
+        private void RaiseLoadModuleCompleted(IModuleInfo moduleInfo, Exception error) => RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, error));
 
         private void RaiseLoadModuleCompleted(LoadModuleCompletedEventArgs e) => LoadModuleCompleted?.Invoke(this, e);
 
@@ -48,7 +48,7 @@ namespace Accelerider.Windows.Infrastructure.Modularity
         /// 	<see langword="true"/> if the current typeloader is able to retrieve the module, otherwise <see langword="false"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException">An <see cref="ArgumentNullException"/> is thrown if <paramref name="moduleInfo"/> is null.</exception>
-        public bool CanLoadModuleType(ModuleInfo moduleInfo)
+        public bool CanLoadModuleType(IModuleInfo moduleInfo)
         {
             if (moduleInfo == null) throw new ArgumentNullException(nameof(moduleInfo));
 
@@ -60,7 +60,7 @@ namespace Accelerider.Windows.Infrastructure.Modularity
         /// </summary>
         /// <param name="moduleInfo">Module that should have it's type loaded.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exception is rethrown as part of a completion event")]
-        public async void LoadModuleType(ModuleInfo moduleInfo)
+        public async void LoadModuleType(IModuleInfo moduleInfo)
         {
             if (moduleInfo == null)
                 throw new ArgumentNullException(nameof(moduleInfo));

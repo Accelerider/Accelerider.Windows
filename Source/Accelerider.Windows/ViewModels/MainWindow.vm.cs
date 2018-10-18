@@ -6,8 +6,8 @@ using Accelerider.Windows.Resources.I18N;
 using Prism.Regions;
 using System.Linq;
 using Accelerider.Windows.Constants;
-using Accelerider.Windows.Infrastructure.ViewModels;
-using Autofac;
+using Accelerider.Windows.Infrastructure.Mvvm;
+using Unity;
 
 
 namespace Accelerider.Windows.ViewModels
@@ -18,7 +18,7 @@ namespace Accelerider.Windows.ViewModels
         private bool _appStoreIsDisplayed;
 
 
-        public MainWindowViewModel(IContainer container, IRegionManager regionManager) : base(container)
+        public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
             RegionManager = regionManager;
             FeedbackCommand = new RelayCommand(() => Process.Start(Hyperlinks.Issue));

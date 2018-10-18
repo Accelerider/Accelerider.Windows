@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Accelerider.Windows.Infrastructure.ViewModels;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
-using Autofac;
+using Unity;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
@@ -15,7 +15,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         private IEnumerable<ITransferredFile> _transferredFiles;
 
 
-        protected TransferredBaseViewModel(IContainer container) : base(container)
+        protected TransferredBaseViewModel(IUnityContainer container) : base(container)
         {
         }
 

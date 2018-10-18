@@ -13,7 +13,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         static FileTransferService()
         {
-            ServicePointManager.DefaultConnectionLimit = 10000;
+            ServicePointManager.DefaultConnectionLimit = int.MaxValue;
         }
 
         public static IDownloaderBuilder GetDownloaderBuilder() => new FileDownloaderBuilder();

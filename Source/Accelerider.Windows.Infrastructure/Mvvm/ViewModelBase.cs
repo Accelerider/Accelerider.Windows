@@ -1,18 +1,19 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Threading;
-using Autofac;
 using MaterialDesignThemes.Wpf;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Mvvm;
+using Unity;
 
-namespace Accelerider.Windows.Infrastructure.ViewModels
+namespace Accelerider.Windows.Infrastructure.Mvvm
 {
     public abstract class ViewModelBase : BindableBase
     {
         private IAcceleriderUser _acceleriderUser;
 
-        protected ViewModelBase(IContainer container)
+        protected ViewModelBase(IUnityContainer container)
         {
             Container = container;
             EventAggregator = container.Resolve<IEventAggregator>();
@@ -24,7 +25,7 @@ namespace Accelerider.Windows.Infrastructure.ViewModels
 
         public Dispatcher Dispatcher { get; set; }
 
-        protected IContainer Container { get; }
+        protected IUnityContainer Container { get; }
 
         protected IEventAggregator EventAggregator { get; }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
-using Autofac;
+using Unity;
 using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Modules.NetDisk.Extensions
@@ -24,12 +24,12 @@ namespace Accelerider.Windows.Modules.NetDisk.Extensions
             public void Save(string path) => File.WriteAllText(path, this.ToJson(Formatting.Indented));
         }
 
-        private static IContainer _container;
+        private static IUnityContainer _container;
         private static INetDiskApi _netDiskApi;
         private static ExtensionCache _cache;
         private static string DataFile => Path.Combine(Directory.GetCurrentDirectory(), "apps", "NetDisk", "Users.json");
 
-        public static void Initialize(IContainer container)
+        public static void Initialize(IUnityContainer container)
         {
             _container = container;
             _netDiskApi = container.Resolve<INetDiskApi>();
