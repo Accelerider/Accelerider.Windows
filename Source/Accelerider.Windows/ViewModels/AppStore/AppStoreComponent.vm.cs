@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.ViewModels;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Models;
 using Autofac;
 

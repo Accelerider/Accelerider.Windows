@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Windows.Input;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.ViewModels;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Dialogs;
 using Autofac;

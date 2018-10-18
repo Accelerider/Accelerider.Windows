@@ -4,7 +4,7 @@ using MaterialDesignThemes.Wpf;
 using System.Net;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.ViewModels;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views.Authentication;
 using Autofac;

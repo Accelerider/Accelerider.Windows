@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace Accelerider.Windows.Infrastructure.ViewModels
+namespace Accelerider.Windows.Infrastructure.Mvvm
 {
     public interface IViewModelResolver
     {

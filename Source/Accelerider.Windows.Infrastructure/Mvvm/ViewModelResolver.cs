@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using Autofac;
 
-namespace Accelerider.Windows.Infrastructure.ViewModels
+namespace Accelerider.Windows.Infrastructure.Mvvm
 {
     public class ViewModelResolver : IViewModelResolver
     {

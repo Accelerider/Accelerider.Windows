@@ -6,7 +6,7 @@ using Accelerider.Windows.Resources.I18N;
 using Prism.Regions;
 using System.Linq;
 using Accelerider.Windows.Constants;
-using Accelerider.Windows.Infrastructure.ViewModels;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Autofac;
 
 

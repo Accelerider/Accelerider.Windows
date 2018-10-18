@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using Accelerider.Windows.Infrastructure.ViewModels;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Views.Authentication;
 using Autofac;
 

@@ -1,4 +1,4 @@
-﻿namespace Accelerider.Windows.Infrastructure.ViewModels
+﻿namespace Accelerider.Windows.Infrastructure.Mvvm
 {
     public interface ILocalizable
     {

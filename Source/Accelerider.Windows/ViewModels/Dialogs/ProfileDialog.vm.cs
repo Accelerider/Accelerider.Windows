@@ -1,4 +1,4 @@
-﻿using Accelerider.Windows.Infrastructure.ViewModels;
+﻿using Accelerider.Windows.Infrastructure.Mvvm;
 using Autofac;
 
 namespace Accelerider.Windows.ViewModels.Dialogs

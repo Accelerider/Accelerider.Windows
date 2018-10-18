@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace Accelerider.Windows.Infrastructure.ViewModels
+namespace Accelerider.Windows.Infrastructure.Mvvm
 {
     public class DialogViewModel
     {

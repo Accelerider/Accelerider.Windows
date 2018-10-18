@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.ViewModels;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Models;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Authentication;

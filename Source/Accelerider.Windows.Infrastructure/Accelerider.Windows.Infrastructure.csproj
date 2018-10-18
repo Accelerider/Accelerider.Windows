@@ -198,13 +198,13 @@
     <Compile Include="TransferService\WpfInteractions\Extensions.cs" />
     <Compile Include="TransferService\WpfInteractions\BindableProgress.cs" />
     <Compile Include="UpdateService\AppMetadata.cs" />
-    <Compile Include="ViewModels\DialogViewModel.cs" />
-    <Compile Include="ViewModels\IAwareTabItemSelectionChanged.cs" />
-    <Compile Include="ViewModels\IAwareViewLoadedAndUnloaded.cs" />
-    <Compile Include="ViewModels\ILocalizable.cs" />
-    <Compile Include="ViewModels\IViewModelResolver.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="ViewModels\ViewModelResolver.cs" />
+    <Compile Include="Mvvm\DialogViewModel.cs" />
+    <Compile Include="Mvvm\IAwareTabItemSelectionChanged.cs" />
+    <Compile Include="Mvvm\IAwareViewLoadedAndUnloaded.cs" />
+    <Compile Include="Mvvm\ILocalizable.cs" />
+    <Compile Include="Mvvm\IViewModelResolver.cs" />
+    <Compile Include="Mvvm\ViewModelBase.cs" />
+    <Compile Include="Mvvm\ViewModelResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
