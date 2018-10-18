@@ -57,7 +57,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             public void Ready() => _manager.Ready(_downloader.Id);
 
-            public void Suspend() => _downloader.Stop();
+            public void Suspend() => _manager.Suspend(_downloader.Id);
         }
     }
 }

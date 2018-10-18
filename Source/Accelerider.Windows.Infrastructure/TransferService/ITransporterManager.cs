@@ -16,6 +16,8 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
         void Ready(Guid id);
 
+        void Suspend(Guid id);
+
         void StartAll();
 
         void SuspendAll();

@@ -92,6 +92,16 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             Advance();
         }
 
+        public void Suspend(Guid id)
+        {
+            var downloader = DequeueById(id);
+            if(downloader == null) return;
+
+            downloader.Stop();
+            MoveToTop(_suspendedList, id, _executingList, _pendingList);
+            Advance();
+        }
+
         public void StartAll()
         {
             while (_suspendedList.Any())
@@ -183,7 +193,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             }
         }
 
-        private IDisposable ObserveDownloader(IDownloader downloader)
+        private IDisposable ObserveDownloader(ITransporter downloader)
         {
             var id = downloader.Id;
 
@@ -200,7 +210,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                             MoveToTop(_executingList, id, _pendingList, _suspendedList);
                             break;
                         case TransferStatus.Suspended:
-                            MoveToTail(_suspendedList, id, _executingList);
+                            MoveToTop(_suspendedList, id, _executingList);
                             break;
                         case TransferStatus.Disposed:
                             DequeueById(id);
