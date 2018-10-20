@@ -11,15 +11,11 @@ namespace Accelerider.Windows.Infrastructure.TransferService.WpfInteractions
     {
         private const long SampleIntervalBasedMilliseconds = 1000;
 
-        private Guid _id;
-        private TransferStatus _status;
-        private ObservableCollection<BindableBlockTransferItem> _blockDownloadItems;
+        private readonly object _lockObject = new object();
 
-        public Guid Id
-        {
-            get => _id;
-            private set => SetProperty(ref _id, value);
-        }
+        private TransferStatus _status;
+
+        public Guid Id { get; }
 
         public TransferStatus Status
         {
@@ -29,11 +25,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService.WpfInteractions
 
         public BindableProgress Progress { get; }
 
-        public ObservableCollection<BindableBlockTransferItem> BlockDownloadItems
-        {
-            get => _blockDownloadItems;
-            private set => SetProperty(ref _blockDownloadItems, value);
-        }
+        public ObservableCollection<BindableBlockTransferItem> BlockDownloadItems { get; }
 
         internal BindableDownloader(IDownloader downloader, Dispatcher dispatcher)
         {
@@ -65,7 +57,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService.WpfInteractions
                         return block;
                     });
 
-                    lock (_blockDownloadItems)
+                    lock (_lockObject)
                     {
                         BlockDownloadItems.Clear();
                         BlockDownloadItems.AddRange(notifiers);
@@ -82,7 +74,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService.WpfInteractions
                 {
                     Progress.CompletedSize = downloader.GetCompletedSize();
 
-                    lock (_blockDownloadItems)
+                    lock (_lockObject)
                     {
                         var block = BlockDownloadItems.FirstOrDefault(blockItem => blockItem.Id == item.CurrentBlockId);
                         if (block != null)
