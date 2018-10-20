@@ -20,29 +20,29 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .To(@"C:\Users\Dingp\Desktop\DownloadTest\download-multi-thread.rmvb")
                 .Build();
 
+            ReadyToRun(downloader);
+
+            await TimeSpan.FromSeconds(30);
+            WriteLine("Try to Stop... ");
+            downloader.Stop();
+            downloader.Dispose();
+
+            var json = downloader.ToJson();
+
+            var downloaderFromJson = FileTransferService.GetDownloaderBuilder().BuildFromJson(json);
+
+            ReadyToRun(downloaderFromJson);
+
+            ReadKey();
+        }
+
+        public static void ReadyToRun(IDownloader downloader)
+        {
             WriteLine("Enter ant key to Start downloader: ");
             ReadKey(true);
             WriteLine("Try to Run... ");
             Subscribes(downloader.ToBindable());
             downloader.Run();
-
-            await TimeSpan.FromSeconds(30);
-            WriteLine("Try to Stop... ");
-            downloader.Stop();
-
-            var json = downloader.ToJson();
-
-            var downloaderFromJson = FileTransferService.GetDownloaderBuilder()
-                .UseDefaultConfigure()
-                .Build(json);
-
-            WriteLine("Enter ant key to Start downloader: ");
-            ReadKey(true);
-            WriteLine("Try to Run... ");
-            Subscribes(downloaderFromJson.ToBindable());
-            downloaderFromJson.Run();
-
-            ReadKey();
         }
 
         public static void Subscribes(BindableDownloader bindableDownloader)

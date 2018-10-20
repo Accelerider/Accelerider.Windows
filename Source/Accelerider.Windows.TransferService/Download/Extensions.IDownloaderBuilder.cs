@@ -14,6 +14,15 @@ namespace Accelerider.Windows.TransferService
         public const string OneOneFiveCloudConfigureTag = "OneOneFiveCloudConfigure";
         public const string SixCloudConfigureTag = "SixCloudConfigure";
 
+        public static IDownloader BuildFromJson(this IDownloaderBuilder @this, string json)
+        {
+            var configureTag = json.GetJsonValue(nameof(DownloaderSerializedData.Tag));
+
+            return !string.IsNullOrEmpty(configureTag)
+                ? @this.UseConfigure(configureTag).Build(json)
+                : null;
+        }
+
         public static IDownloaderBuilder UseConfigure(this IDownloaderBuilder @this, string configureTag)
         {
             switch (configureTag)

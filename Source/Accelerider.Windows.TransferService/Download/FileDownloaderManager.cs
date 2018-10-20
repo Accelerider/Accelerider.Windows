@@ -94,7 +94,7 @@ namespace Accelerider.Windows.TransferService
         public void Suspend(Guid id)
         {
             var downloader = DequeueById(id);
-            if(downloader == null) return;
+            if (downloader == null) return;
 
             downloader.Stop();
             MoveToTop(_suspendedList, id, _executingList, _pendingList);
@@ -138,13 +138,7 @@ namespace Accelerider.Windows.TransferService
             json.ToObject<List<string>>()?
                 .Where(File.Exists)
                 .Select(File.ReadAllText)
-                .Select(item =>
-                {
-                    var configureTag = item.GetJsonValue(nameof(IDownloader.Tag));
-                    return !string.IsNullOrEmpty(configureTag)
-                        ? FileTransferService.GetDownloaderBuilder().UseConfigure(configureTag).Build(item)
-                        : null;
-                })
+                .Select(FileTransferService.GetDownloaderBuilder().BuildFromJson)
                 .Where(item => item != null)
                 .ForEach(item => Add(item));
 
