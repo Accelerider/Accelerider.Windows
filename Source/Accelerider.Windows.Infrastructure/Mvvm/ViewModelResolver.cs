@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using Accelerider.Windows.Infrastructure.I18n;
 using Prism.Ioc;
 
 namespace Accelerider.Windows.Infrastructure.Mvvm

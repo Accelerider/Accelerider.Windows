@@ -2,12 +2,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
 using System.Resources;
 using System.Threading;
 using System.Windows;
 
-namespace Accelerider.Windows.Infrastructure
+namespace Accelerider.Windows.Infrastructure.I18n
 {
     public class I18nManager
     {
@@ -38,25 +37,25 @@ namespace Accelerider.Windows.Infrastructure
             new CultureInfo("en-US")
         };
 
-        public void AddResoureManager(ResourceManager resourceManager)
+        public void AddResourceManager(ResourceManager resourceManager)
         {
-            if (_resourceManagerStorage.ContainsKey(Assembly.GetCallingAssembly().FullName))
+            if (_resourceManagerStorage.ContainsKey(resourceManager.BaseName))
                 throw new ArgumentException("", nameof(resourceManager));
 
-            _resourceManagerStorage[Assembly.GetCallingAssembly().FullName] = resourceManager;
+            _resourceManagerStorage[resourceManager.BaseName] = resourceManager;
         }
 
         private void OnCurrentUICultureChanged() => CurrentUICultureChanged?.Invoke();
 
         public object Get(ComponentResourceKey key)
         {
-            return GetCurrentResoureManager(key.Assembly)?.GetString(key.ResourceId.ToString(), CurrentUICulture)
+            return GetCurrentResourceManager(key.TypeInTargetAssembly.FullName)?.GetString(key.ResourceId.ToString(), CurrentUICulture)
                    ?? $"<MISSING: {key}>";
         }
 
-        private ResourceManager GetCurrentResoureManager(Assembly assembly)
+        private ResourceManager GetCurrentResourceManager(string key)
         {
-            return _resourceManagerStorage.TryGetValue(assembly.FullName, out var value) ? value : null;
+            return _resourceManagerStorage.TryGetValue(key, out var value) ? value : null;
         }
     }
 }

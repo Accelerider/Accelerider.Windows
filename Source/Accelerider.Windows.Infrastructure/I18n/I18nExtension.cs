@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Accelerider.Windows.Infrastructure
+namespace Accelerider.Windows.Infrastructure.I18n
 {
     [MarkupExtensionReturnType(typeof(object))]
     public class I18nExtension : MarkupExtension

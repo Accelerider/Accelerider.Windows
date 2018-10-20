@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 
-namespace Accelerider.Windows.Infrastructure
+namespace Accelerider.Windows.Infrastructure.I18n
 {
     public class I18nSource : INotifyPropertyChanged
     {

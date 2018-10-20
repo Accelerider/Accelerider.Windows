@@ -1,4 +1,6 @@
-﻿namespace Accelerider.Windows.Infrastructure.Mvvm
+﻿using Accelerider.Windows.Infrastructure.I18n;
+
+namespace Accelerider.Windows.Infrastructure.Mvvm
 {
     public interface ILocalizable
     {
