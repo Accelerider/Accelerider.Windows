@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="Accelerider.Windows.Views.Dialogs.SettingsDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:infrastructure="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:views="clr-namespace:Accelerider.Windows.Views"
+             xmlns:ui="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure.UI"
              prism:ViewModelLocator.AutoWireViewModel="True"
              prism:RegionManager.RegionManager="{Binding RegionManager}"
              Tag="Settings"
@@ -11,7 +11,7 @@
     <Grid Margin="10 0 10 10">
         <TabControl Style="{StaticResource {x:Type TabControl}}" 
                     ItemContainerStyle="{StaticResource {x:Type TabItem}}"
-                    prism:RegionManager.RegionName="{x:Static infrastructure:RegionNames.SettingsTabRegion}">
+                    prism:RegionManager.RegionName="{x:Static ui:RegionNames.SettingsTabRegion}">
             <views:ShellSettingsTabItem/>
         </TabControl>
     </Grid>

@@ -240,6 +240,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Accelerider.Windows.Infrastructure.UI\Accelerider.Windows.Infrastructure.UI.csproj">
+      <Project>{329F2033-303A-4369-B1DD-C97BD743D964}</Project>
+      <Name>Accelerider.Windows.Infrastructure.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{F61839D1-6C54-4E70-B5CB-7EA02F54A664}</Project>
       <Name>Accelerider.Windows.Infrastructure</Name>

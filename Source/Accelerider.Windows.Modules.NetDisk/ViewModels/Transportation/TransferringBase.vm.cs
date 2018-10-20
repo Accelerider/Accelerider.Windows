@@ -1,8 +1,8 @@
 ﻿using System;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
-using Accelerider.Windows.Infrastructure.TransferService;
 using Accelerider.Windows.Modules.NetDisk.Models;
+using Accelerider.Windows.TransferService;
 using Unity;
 
 

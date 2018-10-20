@@ -225,6 +225,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Accelerider.Windows.Infrastructure.UI\Accelerider.Windows.Infrastructure.UI.csproj">
+      <Project>{329f2033-303a-4369-b1dd-c97bd743d964}</Project>
+      <Name>Accelerider.Windows.Infrastructure.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{F61839D1-6C54-4E70-B5CB-7EA02F54A664}</Project>
       <Name>Accelerider.Windows.Infrastructure</Name>
@@ -232,6 +236,10 @@
     <ProjectReference Include="..\Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj">
       <Project>{c4dbd55d-6c99-4a67-96ff-8b76baea2037}</Project>
       <Name>Accelerider.Windows.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.TransferService\Accelerider.Windows.TransferService.csproj">
+      <Project>{b36e1c9c-909b-42e0-a6a9-f74204573bf3}</Project>
+      <Name>Accelerider.Windows.TransferService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -117,19 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PropertySupport_ExpressionNotProperty_Exception" xml:space="preserve">
-    <value>The member access expression does not access a property.</value>
-  </data>
-  <data name="PropertySupport_NotMemberAccessExpression_Exception" xml:space="preserve">
-    <value>The expression is not a member access expression.</value>
-  </data>
-  <data name="PropertySupport_StaticExpression_Exception" xml:space="preserve">
-    <value>The referenced property is a static property.</value>
-  </data>
-  <data name="DataContext_ExpresionIsAlreadyBeingObserved_Exception" xml:space="preserve">
-    <value>{0} is already being observed.</value>
-  </data>
-  <data name="DataContext_ExportHasBeenExported_Exception" xml:space="preserve">
-    <value>{0} has been exported.</value>
-  </data>
 </root>

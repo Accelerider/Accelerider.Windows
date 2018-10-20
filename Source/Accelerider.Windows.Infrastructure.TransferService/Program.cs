@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Accelerider.Windows.TransferService;
+using Accelerider.Windows.TransferService.WpfInteractions;
+using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.TransferService.WpfInteractions;
 using static System.Console;
 // ReSharper disable LocalizableElement
 
@@ -33,7 +34,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             var downloaderFromJson = FileTransferService.GetDownloaderBuilder()
                 .UseDefaultConfigure()
-                .FromJson(json);
+                .Build(json);
 
             WriteLine("Enter ant key to Start downloader: ");
             ReadKey(true);

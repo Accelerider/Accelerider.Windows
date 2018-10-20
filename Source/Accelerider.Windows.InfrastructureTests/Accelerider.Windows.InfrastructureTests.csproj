@@ -61,7 +61,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DataContextTests.cs" />
-    <Compile Include="MockTransportTask.cs" />
     <Compile Include="ObservableSortedCollectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -69,17 +68,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TransportImpls\ConcurrentTaskQueueTests.cs" />
-    <Compile Include="TransportImpls\ITransferServiceTests.cs" />
-    <Compile Include="TransportImpls\NetdiskAppTests.cs" />
-    <Compile Include="TransportImpls\TransportSchedulerTests.cs" />
-    <Compile Include="UpdateService\UpdaterTests.cs" />
+    <Compile Include="NetdiskAppTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Accelerider.Windows.Infrastructure.UI\Accelerider.Windows.Infrastructure.UI.csproj">
+      <Project>{329F2033-303A-4369-B1DD-C97BD743D964}</Project>
+      <Name>Accelerider.Windows.Infrastructure.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{F61839D1-6C54-4E70-B5CB-7EA02F54A664}</Project>
       <Name>Accelerider.Windows.Infrastructure</Name>
