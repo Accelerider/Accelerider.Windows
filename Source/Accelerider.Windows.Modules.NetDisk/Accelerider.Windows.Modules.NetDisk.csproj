@@ -114,6 +114,9 @@
     <Compile Include="Models\LazyTreeNode.cs" />
     <Compile Include="Models\NetDiskUser.cs" />
     <Compile Include="Models\Onedrive\IMicrosoftGraphApi.cs" />
+    <Compile Include="Models\SixCloud\ISixCloudApi.cs" />
+    <Compile Include="Models\SixCloud\SixCloudFile.cs" />
+    <Compile Include="Models\SixCloud\SixCloudUser.cs" />
     <Compile Include="Models\TransferItem.cs" />
     <Compile Include="Models\Datas.cs" />
     <Compile Include="Interfaces\INetDiskApi.cs" />

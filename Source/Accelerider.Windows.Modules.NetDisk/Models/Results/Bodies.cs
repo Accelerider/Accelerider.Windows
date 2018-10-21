@@ -33,4 +33,5 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Results
 		[JsonProperty("quota")]
 		public JToken Quota { get; set; }
 	}
+
 }

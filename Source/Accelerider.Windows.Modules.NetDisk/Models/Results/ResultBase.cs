@@ -16,6 +16,12 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Results
 		[JsonProperty("error")]
 		public JToken Error { get; set; }
 
+		[JsonProperty("success")]
+		public bool Success { get; set; }
+
+		[JsonProperty("result")]
+		public JToken Result { get; set; }
+
 		[JsonProperty("request_id")]
 		public long RequestId { get; set; }
 	}

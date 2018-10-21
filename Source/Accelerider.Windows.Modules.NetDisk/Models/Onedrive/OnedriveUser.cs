@@ -17,13 +17,13 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
 	public class OnedriveUser : NetDiskUser
 	{
 
-		public string RefeshToken { get; }
+		public string RefreshToken { get; }
 		public string AccessToken { get; private set; }
 		public IMicrosoftGraphApi Api { get; }
 
 		public OnedriveUser(string token)
 		{
-			RefeshToken = token;
+			RefreshToken = token;
 			Api = RestService.For<IMicrosoftGraphApi>(
 				new HttpClient(new AuthenticatedHttpClientHandler(() => AccessToken))
 				{
@@ -45,7 +45,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
 			using (var client = new HttpClient())
 			{
 				var json = JObject.Parse(
-					await client.GetStringAsync("https://api.accelerider.com/v2/graph/accessToken?refeshToken=" + RefeshToken));
+					await client.GetStringAsync("https://api.accelerider.com/v2/graph/accessToken?refeshToken=" + RefreshToken));
 				AccessToken = json.Value<string>("accessToken");
 			}
 		}
