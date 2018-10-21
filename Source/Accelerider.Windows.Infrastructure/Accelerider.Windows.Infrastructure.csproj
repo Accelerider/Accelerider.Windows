@@ -63,6 +63,7 @@
     <Compile Include="AsyncLocker.cs" />
     <Compile Include="Extensions\AwaitExtensions.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\JsonExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
@@ -95,6 +96,9 @@
     <Compile Include="TempDirectory.cs" />
     <Compile Include="SystemFolder.cs" />
     <Compile Include="SystemInfo.cs" />
+    <Compile Include="JsonObjects\AppFileMetadata.cs" />
+    <Compile Include="JsonObjects\AppMetadata.cs" />
+    <Compile Include="JsonObjects\AppVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

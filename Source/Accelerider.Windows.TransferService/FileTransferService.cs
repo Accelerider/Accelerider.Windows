@@ -18,15 +18,5 @@ namespace Accelerider.Windows.TransferService
         public static IDownloaderBuilder GetDownloaderBuilder() => new FileDownloaderBuilder();
 
         public static IDownloaderManager GetDownloaderManager(string name = DefaultManagerName) => FileDownloaderManagers.Get(name);
-
-        internal static TValue Get<TKey, TValue>(this IDictionary<TKey, TValue> @this, TKey key) where TValue : new()
-        {
-            if (!@this.ContainsKey(key))
-            {
-                @this[key] = new TValue();
-            }
-
-            return @this[key];
-        }
     }
 }

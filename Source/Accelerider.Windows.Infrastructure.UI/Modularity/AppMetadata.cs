@@ -43,11 +43,11 @@ namespace Accelerider.Windows.Infrastructure.Modularity
 
 
 
-        public static IEnumerable<AppMetadata> GetMissingOrNonLastestApps(this IReadOnlyCollection<AppMetadata> requiredApps, IReadOnlyCollection<AppMetadata> complementarySet)
+        public static IEnumerable<AppMetadata> GetMissingOrNonLatestApps(this IReadOnlyCollection<AppMetadata> requiredApps, IReadOnlyCollection<AppMetadata> complementarySet)
         {
             var missingApps = requiredApps.Where(item => !Directory.Exists(item.GetDirectoryPath()));
 
-            var nonLastestApps = (
+            var nonLatestApps = (
                 from app in requiredApps
                 let directory = app.GetDirectoryPath()
                 where Directory.Exists(directory)
@@ -55,7 +55,7 @@ namespace Accelerider.Windows.Infrastructure.Modularity
                 select app
             );
 
-            return missingApps.Union(nonLastestApps);
+            return missingApps.Union(nonLatestApps);
         }
 
         public static void Activate(this IEnumerable<IDownloader> @this)
