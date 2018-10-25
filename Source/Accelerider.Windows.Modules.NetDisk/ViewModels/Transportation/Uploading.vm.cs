@@ -1,14 +1,18 @@
-﻿using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
-using Microsoft.Practices.Unity;
+﻿using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Extensions;
+using Accelerider.Windows.Modules.NetDisk.Models;
+using Autofac;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
-    public class UploadingViewModel : TransportingBaseViewModel
+    public class UploadingViewModel : TransferringBaseViewModel
     {
-        public UploadingViewModel(IUnityContainer container) : base(container)
+        public UploadingViewModel(IContainer container) : base(container)
         {
         }
 
-        protected override TransferringTaskList GetTaskList() => Container.Resolve<TransferringTaskList>(TransferringTaskList.UploadKey);
+        protected override ObservableSortedCollection<TransferItem> GetTaskList() => 
+            new ObservableSortedCollection<TransferItem>(AcceleriderUser.GetDonwloadItems(), DefaultTransferItemComparer);
     }
 }

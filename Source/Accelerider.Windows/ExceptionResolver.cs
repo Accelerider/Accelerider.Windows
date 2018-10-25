@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
-using Microsoft.Practices.Unity;
+using Autofac;
 using Prism.Logging;
 
 namespace Accelerider.Windows
 {
     public class ExceptionResolver
     {
-        private readonly IUnityContainer _container;
+        private readonly IContainer _container;
         private readonly ILoggerFacade _logger;
 
 
-        public ExceptionResolver(IUnityContainer container, ILoggerFacade logger)
+        public ExceptionResolver(IContainer container, ILoggerFacade logger)
         {
             _container = container;
             _logger = logger;

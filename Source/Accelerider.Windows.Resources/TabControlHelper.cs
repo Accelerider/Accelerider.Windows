@@ -6,11 +6,74 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Accelerider.Windows.Infrastructure.Extensions;
+using Accelerider.Windows.Infrastructure.ViewModels;
 
 namespace Accelerider.Windows.Resources
 {
     public class TabControlHelper
     {
+        #region Switch Aware
+
+        public static readonly DependencyProperty AwareSelectionChangedProperty = DependencyProperty.RegisterAttached(
+            "AwareSelectionChanged", typeof(bool), typeof(TabControlHelper), new PropertyMetadata(default(bool), OnAwareSelectionChangedChanged));
+
+        public static void SetAwareSelectionChanged(DependencyObject element, bool value)
+        {
+            element.SetValue(AwareSelectionChangedProperty, value);
+        }
+
+        public static bool GetAwareSelectionChanged(DependencyObject element)
+        {
+            return (bool)element.GetValue(AwareSelectionChangedProperty);
+        }
+
+        private static void OnAwareSelectionChangedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var frameworkElement = (FrameworkElement)d;
+
+            if ((bool)e.NewValue)
+                frameworkElement.Loaded += OnLoaded;
+            else
+                frameworkElement.Loaded -= OnLoaded;
+        }
+
+        private static void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var contentControl = (ContentControl)sender;
+            var tab = contentControl.TryFindParent<TabControl>();
+
+            if (tab == null) return;
+
+            tab.SelectionChanged -= OnSelectionChanged;
+            tab.SelectionChanged += OnSelectionChanged;
+        }
+
+        private static void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.OriginalSource != sender) return;
+
+            var toTabItem = e.AddedItems.Cast<FrameworkElement>().SingleOrDefault();
+            var fromTabItem = e.RemovedItems.Cast<FrameworkElement>().SingleOrDefault();
+
+            if (toTabItem == null || fromTabItem == null) return;
+
+            if (GetAwareSelectionChanged(fromTabItem))
+                (fromTabItem.DataContext as IAwareTabItemSelectionChanged)?.OnUnselected();
+
+            if (GetAwareSelectionChanged(toTabItem))
+                (toTabItem.DataContext as IAwareTabItemSelectionChanged)?.OnSelected();
+        }
+
+        #endregion
+
+        #region Switch Animation
+
+        private const string LeftToRightMovedEventTriggerResourceKey = "LeftToRightMovedEventTrigger";
+        private const string RightToLeftMovedEventTriggerResourceKey = "RightToLeftMovedEventTrigger";
+
+        private static readonly Uri TabControlResourceDictionaryUri = new Uri("pack://application:,,,/Accelerider.Windows.Resources;component/THemes/Accelerider.Styles.TabControl.xaml");
+
         public static readonly DependencyProperty LeftToRightAnimationProperty = DependencyProperty.RegisterAttached("LeftToRightAnimation", typeof(Storyboard), typeof(TabControlHelper), new PropertyMetadata(null, OnLeftToRightAnimationChanged));
         public static Storyboard GetLeftToRightAnimation(DependencyObject obj)
         {
@@ -87,13 +150,13 @@ namespace Accelerider.Windows.Resources
 
         private static void ModifyTabControl(Selector tabControl)
         {
-            tabControl.SelectionChanged += OnSelectionChanged;
-            tabControl.Loaded += OnLoaded;
+            tabControl.SelectionChanged += OnSelectionChangedForSwitchAnimation;
+            tabControl.Loaded += OnLoadedForSwitchAnimation;
 
             _initializedTabControlSet.Add(tabControl.GetHashCode());
         }
 
-        private static void OnLoaded(object sender, RoutedEventArgs e)
+        private static void OnLoadedForSwitchAnimation(object sender, RoutedEventArgs e)
         {
             if (!(sender is TabControl tabControl)) return;
 
@@ -118,19 +181,16 @@ namespace Accelerider.Windows.Resources
                 }
 
                 // 2. Add animation to EventTrigger property.
-                var resourceDictionary = new ResourceDictionary
-                {
-                    Source = new Uri("pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.TabControl.xaml")
-                };
-                content.Triggers.Add(resourceDictionary["LeftToRightMovedEventTrigger"] as TriggerBase);
-                content.Triggers.Add(resourceDictionary["RightToLeftMovedEventTrigger"] as TriggerBase);
+                var resourceDictionary = new ResourceDictionary { Source = TabControlResourceDictionaryUri };
+                content.Triggers.Add(resourceDictionary[LeftToRightMovedEventTriggerResourceKey] as TriggerBase);
+                content.Triggers.Add(resourceDictionary[RightToLeftMovedEventTriggerResourceKey] as TriggerBase);
             }
             tabControl.Loaded -= OnLoaded;
         }
 
-        private static void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private static void OnSelectionChangedForSwitchAnimation(object sender, SelectionChangedEventArgs e)
         {
-            if (e.RemovedItems.Count == 0 || e.AddedItems.Count == 0) return;
+            if (sender != e.OriginalSource || e.RemovedItems.Count == 0 || e.AddedItems.Count == 0) return;
 
             var fromTabItem = e.RemovedItems.Cast<TabItem>().Single();
             var toTabItem = e.AddedItems.Cast<TabItem>().Single();
@@ -143,5 +203,7 @@ namespace Accelerider.Windows.Resources
                     : new RoutedEventArgs(LeftToRightMovedEvent, content));
             }
         }
+
+        #endregion
     }
 }

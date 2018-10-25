@@ -7,133 +7,78 @@ namespace Accelerider.Windows.Infrastructure
     /// </summary>
     public struct DataSize : IEquatable<DataSize>
     {
-        public const double ConversionFactor = 1024;
+        public const int OneB = 1;
+        public const int OneKB = 1024 * OneB;
+        public const int OneMB = 1024 * OneKB;
+        public const long OneGB = 1024 * OneMB;
+        public const long OneTB = 1024 * OneGB;
+        public const long OnePB = 1024 * OneTB;
+        public const long OneEB = 1024 * OnePB;
 
-        private SizeUnitEnum _unit;
+        private SizeUnit _unit;
 
         public long BaseBValue { get; }
+
         public double Value { get; private set; }
-        public SizeUnitEnum Unit
+
+        public SizeUnit Unit
         {
-            get { return _unit; }
+            get => _unit;
             set
             {
                 if (value == _unit) return;
-                var loopNumber = value - _unit;
-                if (loopNumber > 0)
-                {
-                    for (int i = 0; i < loopNumber; i++) Value /= ConversionFactor;
-                }
-                else
-                {
-                    loopNumber = -loopNumber;
-                    for (int i = 0; i < loopNumber; i++) Value *= ConversionFactor;
-                }
+
+                Value *= Math.Pow(OneKB, _unit - value);
                 _unit = value;
             }
         }
 
-        public DataSize(long size)
+        private DataSize(long size)
         {
             BaseBValue = size;
             Value = size;
-            _unit = SizeUnitEnum.B;
-            while (Value >= ConversionFactor)
+            _unit = SizeUnit.B;
+            while (Value >= OneKB) // long.MaxValue = 8 EB. 
             {
-                Value /= ConversionFactor;
+                Value /= OneKB;
                 _unit++;
             }
         }
-        public DataSize(double size, SizeUnitEnum sizeUnit = SizeUnitEnum.B)
-        {
-            var temp = size;
-            for (int i = 0; i < sizeUnit - SizeUnitEnum.B; i++)
-            {
-                temp *= ConversionFactor;
-            }
-            BaseBValue = (long)temp;
-            while (size >= ConversionFactor && sizeUnit < SizeUnitEnum.P)
-            {
-                size /= ConversionFactor;
-                sizeUnit++;
-            }
-            Value = size;
-            _unit = sizeUnit;
-        }
 
 
-        public bool Equals(DataSize other)
-        {
-            return this == other;
-        }
-        public override string ToString()
-        {
-            return (Unit < SizeUnitEnum.M ? $"{Value:N0} " : $"{Value:N2} ") + (Unit == SizeUnitEnum.B ? $"{Unit}" : $"{Unit}B");
-        }
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is DataSize && Equals((DataSize)obj);
-        }
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ((int)_unit * 397) ^ Value.GetHashCode();
-            }
-        }
+        public override string ToString() => (Unit < SizeUnit.M ? $"{Value:N0} " : $"{Value:N2} ") + (Unit == SizeUnit.B ? $"{Unit}" : $"{Unit}B");
 
         #region Operators
-        public static DataSize operator +(DataSize left, DataSize right)
-        {
-            return new DataSize(left.BaseBValue + right.BaseBValue);
-        }
-        public static DataSize operator +(DataSize left, long right)
-        {
-            return new DataSize(left.BaseBValue + right);
-        }
-        public static DataSize operator -(DataSize value)
-        {
-            return new DataSize(-value.BaseBValue);
-        }
-        public static DataSize operator -(DataSize left, DataSize right)
-        {
-            return left + -right;
-        }
-        public static DataSize operator -(DataSize left, long right)
-        {
-            return left + -right;
-        }
-        public static DataSize operator *(DataSize left, double right)
-        {
-            return new DataSize(left.BaseBValue * right);
-        }
-        public static DataSize operator /(DataSize left, double right)
-        {
-            return new DataSize(left.BaseBValue / right);
-        }
-        public static double operator /(DataSize left, DataSize right)
-        {
-            return 1.0 * left.BaseBValue / right.BaseBValue;
-        }
-        public static bool operator ==(DataSize left, DataSize right)
-        {
-            return left.BaseBValue == right.BaseBValue;
-        }
-        public static bool operator !=(DataSize left, DataSize right)
-        {
-            return !(left == right);
-        }
 
-        public static bool operator >(DataSize left, DataSize right)
-        {
-            return left.BaseBValue > right.BaseBValue;
-        }
+        public static DataSize operator +(DataSize left, DataSize right) => new DataSize(left.BaseBValue + right.BaseBValue);
 
-        public static bool operator <(DataSize left, DataSize right)
-        {
-            return left.BaseBValue < right.BaseBValue;
-        }
+        public static DataSize operator -(DataSize value) => new DataSize(-value.BaseBValue);
+
+        public static DataSize operator -(DataSize left, DataSize right) => left + -right;
+
+        public static double operator /(DataSize left, DataSize right) => 1.0 * left.BaseBValue / right.BaseBValue;
+
+        public static bool operator >(DataSize left, DataSize right) => left.BaseBValue > right.BaseBValue;
+
+        public static bool operator <(DataSize left, DataSize right) => left.BaseBValue < right.BaseBValue;
+
+        public static implicit operator long(DataSize dataSize) => dataSize.BaseBValue;
+
+        public static implicit operator DataSize(long @long) => new DataSize(@long);
+
+        #endregion
+
+        #region Implements Equals 
+
+        public bool Equals(DataSize other) => BaseBValue.Equals(other.BaseBValue);
+
+        public override bool Equals(object obj) => obj != null && obj is DataSize size && Equals(size);
+
+        public override int GetHashCode() => BaseBValue.GetHashCode();
+
+        public static bool operator ==(DataSize left, DataSize right) => left.Equals(right);
+
+        public static bool operator !=(DataSize left, DataSize right) => !(left == right);
 
         #endregion
     }

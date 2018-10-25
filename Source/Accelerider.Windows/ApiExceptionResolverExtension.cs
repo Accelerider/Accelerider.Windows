@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Autofac;
 using MaterialDesignThemes.Wpf;
-using Microsoft.Practices.Unity;
 using Newtonsoft.Json.Linq;
 using Refit;
 
@@ -55,9 +55,9 @@ namespace Accelerider.Windows
             }
         }
 
-        private static IUnityContainer _container;
+        private static IContainer _container;
 
-        public static void SetUnityContainer(IUnityContainer container) => _container = container;
+        public static void SetUnityContainer(IContainer container) => _container = container;
 
         public static Task RunApi(this Task task, Action onSuccessCallback) => _container.Resolve<ApiExceptionResolver>().RunApiInternal(task, onSuccessCallback);
 

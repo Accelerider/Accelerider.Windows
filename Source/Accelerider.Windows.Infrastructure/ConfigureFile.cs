@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Accelerider.Windows.Infrastructure.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -10,21 +10,21 @@ namespace Accelerider.Windows.Infrastructure
     public class ConfigureFile : IConfigureFile
     {
         private JObject _storage;
-        private string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "Accelerider.conf");
+        private string _filePath = AcceleriderPaths.ConfigureFile;
 
-        public event ValueChangedEventHandler ValueChanged;
+        public event EventHandler<ValueChangedEventArgs> ValueChanged;
 
         public bool Contains(string key) => _storage.Values().Any(token => token.Path == key);
 
-        public T GetValue<T>(string key) => JsonConvert.DeserializeObject<T>(_storage[key]?.ToString() ?? string.Empty);
+        public T GetValue<T>(string key) => (_storage[key]?.ToString() ?? string.Empty).ToObject<T>();
 
         public IConfigureFile SetValue<T>(string key, T value)
         {
-            if (EqualityComparer<object>.Default.Equals(_storage[key], value)) return this;
+            if (EqualityComparer<T>.Default.Equals(GetValue<T>(key), value)) return this;
 
-            _storage[key] = JsonConvert.SerializeObject(value, Formatting.Indented);
+            _storage[key] = value.ToJson(Formatting.Indented);
             Save();
-            ValueChanged?.Invoke(this, key);
+            ValueChanged?.Invoke(this, new ValueChangedEventArgs(key));
 
             return this;
         }

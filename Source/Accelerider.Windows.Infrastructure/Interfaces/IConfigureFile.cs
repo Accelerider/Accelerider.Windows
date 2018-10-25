@@ -1,12 +1,17 @@
 ﻿using System;
 
-namespace Accelerider.Windows.Infrastructure.Interfaces
+namespace Accelerider.Windows.Infrastructure
 {
-    public delegate void ValueChangedEventHandler(IConfigureFile sender, string keyName);
+    public class ValueChangedEventArgs : EventArgs
+    {
+        public string KeyName { get; }
+
+        public ValueChangedEventArgs(string keyName) => KeyName = keyName;
+    }
 
     public interface IConfigureFile
     {
-        event ValueChangedEventHandler ValueChanged;
+        event EventHandler<ValueChangedEventArgs> ValueChanged;
 
         bool Contains(string key);
 

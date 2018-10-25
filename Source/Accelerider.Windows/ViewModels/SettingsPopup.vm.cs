@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
 using Accelerider.Windows.Constants;
-using Accelerider.Windows.Infrastructure.Commands;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Dialogs;
-
+using Autofac;
 using MaterialDesignThemes.Wpf;
 
-using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class SettingsPopupViewModel : ViewModelBase
+    public class SettingsPopupViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded<SettingsPopup>
     {
         private readonly Dictionary<Type, object> _dialogDictionary = new Dictionary<Type, object>();
 
@@ -28,7 +26,7 @@ namespace Accelerider.Windows.ViewModels
 
         private SettingsPopup _view;
 
-        public SettingsPopupViewModel(IUnityContainer container) : base(container)
+        public SettingsPopupViewModel(IContainer container) : base(container)
         {
             ChangeProfileCommand = new RelayCommand(OpenDialog<ProfileDialog>);
 
@@ -84,10 +82,13 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _signOutCommand, value);
         }
 
-        public override void OnLoaded(object view)
+        public void OnLoaded(SettingsPopup view)
         {
-            base.OnLoaded(view);
-            _view = view as SettingsPopup;
+            _view = view;
+        }
+
+        public void OnUnloaded(SettingsPopup view)
+        {
         }
 
         private async void OpenDialog<T>() where T : new()

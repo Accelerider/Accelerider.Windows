@@ -1,8 +1,7 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Security;
 
-namespace Accelerider.Windows.Infrastructure.Extensions
+namespace System
 {
     [SuppressUnmanagedCodeSecurity]
     public static class SecureStringExtensions

@@ -3,8 +3,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Commands;
+using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Modules.Group.MockData;
-using Microsoft.Practices.Unity;
+using Autofac;
 
 namespace Accelerider.Windows.Modules.Group.ViewModels
 {
@@ -14,7 +15,7 @@ namespace Accelerider.Windows.Modules.Group.ViewModels
         private string _draft;
         private ICommand _sendCommand;
 
-        public ConversationsTabViewModel(IUnityContainer container) : base(container)
+        public ConversationsTabViewModel(IContainer container) : base(container)
         {
             SendCommand = new RelayCommand(
                 () =>

@@ -3,10 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Extensions;
+using Accelerider.Windows.Infrastructure.ViewModels;
 using Accelerider.Windows.Models;
-using Microsoft.Practices.Unity;
+using Autofac;
 using SignUpView = Accelerider.Windows.Views.Authentication.SignUpView;
 
 namespace Accelerider.Windows.ViewModels.Authentication
@@ -16,12 +15,10 @@ namespace Accelerider.Windows.ViewModels.Authentication
         private string _emailAddress;
         private string _username;
 
-        private ICommand _signUpCommand;
-
-
-        public SignUpViewModel(IUnityContainer container) : base(container)
+        public SignUpViewModel(IContainer container) : base(container)
         {
             SignUpCommand = new RelayCommand<SignUpView>(SignUpCommandExecute, SignUpCommandCanExecute);
+            SendVerificationCodeCommand = new RelayCommand(() => { /*TODO: api*/ }, () => EmailAddress.IsEmailAddress());
         }
 
         public string EmailAddress
@@ -36,11 +33,9 @@ namespace Accelerider.Windows.ViewModels.Authentication
             set => SetProperty(ref _username, value);
         }
 
-        public ICommand SignUpCommand
-        {
-            get => _signUpCommand;
-            set => SetProperty(ref _signUpCommand, value);
-        }
+        public ICommand SignUpCommand { get; }
+
+        public ICommand SendVerificationCodeCommand { get; }
 
 
         private bool SignUpCommandCanExecute(SignUpView view) => new[]
@@ -48,16 +43,16 @@ namespace Accelerider.Windows.ViewModels.Authentication
             EmailAddress,
             Username,
             view.PasswordBox.Password,
-            view.PasswordBoxRepeat.Password,
+            //view.PasswordBoxRepeat.Password,
         }.All(field => !string.IsNullOrEmpty(field));
 
         private async void SignUpCommandExecute(SignUpView view)
         {
-            if (view.PasswordBox.Password != view.PasswordBoxRepeat.Password)
-            {
-                GlobalMessageQueue.Enqueue("Password does not match the confirm password.");
-                return;
-            }
+            //if (view.PasswordBox.Password != view.PasswordBoxRepeat.Password)
+            //{
+            //    GlobalMessageQueue.Enqueue("Password does not match the confirm password.");
+            //    return;
+            //}
 
             await SignUpAsync(new SignUpInfoBody
             {
@@ -69,7 +64,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
                 EmailAddress = string.Empty;
                 Username = string.Empty;
                 view.PasswordBox.Password = string.Empty;
-                view.PasswordBoxRepeat.Password = string.Empty;
+                //view.PasswordBoxRepeat.Password = string.Empty;
             });
         }
 

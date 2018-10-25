@@ -1,25 +1,24 @@
 ﻿using System.Linq;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using MaterialDesignThemes.Wpf;
-using Microsoft.Practices.Unity;
-using Prism.Events;
-using Prism.Mvvm;
+using Accelerider.Windows.Modules.NetDisk.Extensions;
+using Accelerider.Windows.Modules.NetDisk.Interfaces;
+using Autofac;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels
 {
-    public abstract class ViewModelBase : Infrastructure.ViewModelBase
+    public abstract class ViewModelBase : Infrastructure.ViewModels.ViewModelBase
     {
-        protected ViewModelBase(IUnityContainer container) : base(container) { }
+        protected ViewModelBase(IContainer container) : base(container) { }
 
-        public INetDiskUser NetDiskUser
+        public INetDiskUser CurrentNetDiskUser
         {
-            get => AcceleriderUser.CurrentNetDiskUser ?? AcceleriderUser.NetDiskUsers.FirstOrDefault();
+            get => AcceleriderUser.GetCurrentNetDiskUser() ?? AcceleriderUser.GetNetDiskUsers().FirstOrDefault();
             set
             {
-                var temp = AcceleriderUser.CurrentNetDiskUser;
+                var temp = AcceleriderUser.GetCurrentNetDiskUser();
                 if (!SetProperty(ref temp, value)) return;
-                AcceleriderUser.CurrentNetDiskUser = temp;
-                EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Publish(temp);
+                AcceleriderUser.SetCurrentNetDiskUser(value);
+                EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Publish(value);
             }
         }
     }
