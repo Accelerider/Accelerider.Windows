@@ -7,6 +7,7 @@ using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Extensions;
 using Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk;
 using Accelerider.Windows.Modules.NetDisk.Models.Onedrive;
+using Accelerider.Windows.Modules.NetDisk.Models.SixCloud;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Accelerider.Windows.InfrastructureTests.TransportImpls
@@ -35,6 +36,15 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
 			var root = files.Root.GetChildrenAsync().GetAwaiter().GetResult();
 			var sub=root.First(v => v.Content.FileType == FileType.FolderType).GetChildrenAsync().GetAwaiter().GetResult();
 			Console.WriteLine(user.Username);
+		}
+
+		[TestMethod]
+		public void SixCloudTest()
+		{
+			var user = new SixCloudUser("token");
+			user.RefreshUserInfoAsync().GetAwaiter().GetResult();
+			var files = user.GetFileRootAsync().GetAwaiter().GetResult();
+			Console.WriteLine(user.Phone);
 		}
 	}
 }

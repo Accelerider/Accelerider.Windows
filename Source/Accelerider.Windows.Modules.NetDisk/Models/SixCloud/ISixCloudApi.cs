@@ -25,7 +25,14 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 		[Post("/v1/files/remove")]
 		Task<ResultBase> RemoveFileByPathAsync([Body(BodySerializationMethod.Json)] string path);
 
+		[Post("/v1/user/sendRegisterMessage")]
+		Task<ResultBase> SendRegisterMessageAsync([Body(BodySerializationMethod.Json)] string phone);
 
+		[Post("/v1/user/register")]
+		Task<ResultBase> RegisterAsync([Body(BodySerializationMethod.Json)] RegisterData data);
+
+		[Post("/v1/user/login")]
+		Task<SixCloudLoginResult> LoginAsync([Body(BodySerializationMethod.Json)]string value, [Body(BodySerializationMethod.Json)][AliasAs("password")]string passwordMd5);
 
 
 	}
