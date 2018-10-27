@@ -14,6 +14,9 @@ namespace Accelerider.Windows.Infrastructure.JsonObjects
         [JsonProperty("displayName")]
         public string DisplayName { get; private set; }
 
+        [JsonProperty("targetPlatform")]
+        public string TargetPlatform { get; private set; }
+
         [JsonProperty("authors")]
         public List<string> Authors { get; private set; }
 
@@ -29,16 +32,10 @@ namespace Accelerider.Windows.Infrastructure.JsonObjects
         [JsonProperty("downloadCount")]
         public long DownloadCount { get; private set; }
 
-        [JsonProperty("releaseTime")]
-        public long ReleaseTime { get; private set; }
+        [JsonProperty("moduleType")]
+        public string ModuleType { get; private set; }
 
-        [JsonProperty("version")]
-        public AppVersion Version { get; private set; }
-
-        [JsonProperty("privateFiles")]
-        public List<AppFileMetadata> PrivateFiles { get; private set; }
-
-        [JsonProperty("publicFiles")]
-        public List<AppFileMetadata> PublicFiles { get; private set; }
+        [JsonProperty("latestVersion")]
+        public AppVersion LatestVersion { get; private set; }
     }
 }

@@ -86,6 +86,11 @@ namespace Accelerider.Windows.TransferService
                 return downloader;
             });
 
+        public static IDownloaderBuilder UseAcceleriderConfigure(this IDownloaderBuilder @this)
+        {
+            throw new NotImplementedException();
+        }
+
         public static IDownloaderBuilder UseBaiduCloudConfigure(this IDownloaderBuilder @this) => @this
             .Configure(downloader =>
             {

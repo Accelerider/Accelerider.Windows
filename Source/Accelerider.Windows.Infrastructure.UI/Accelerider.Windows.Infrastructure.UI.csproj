@@ -124,7 +124,9 @@
     <Compile Include="TransferService.WpfInteractions\BindableProgress.cs" />
     <Compile Include="TransferService.WpfInteractions\DisplayDataSize.cs" />
     <Compile Include="TransferService.WpfInteractions\Extensions.cs" />
+    <Compile Include="Upgrade\AppUpgradeTask.cs" />
     <Compile Include="Upgrade\IUpgradeTask.cs" />
+    <Compile Include="Upgrade\UpgradeInfo.cs" />
     <Compile Include="Upgrade\UpgradeTaskBase.cs" />
     <Compile Include="Upgrade\UpgradeTaskManager.cs" />
   </ItemGroup>

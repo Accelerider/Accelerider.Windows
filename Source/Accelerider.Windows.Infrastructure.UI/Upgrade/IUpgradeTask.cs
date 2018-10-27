@@ -11,8 +11,6 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
         string Name { get; }
 
-        IDownloader Downloader { get; }
-
-        Task UpdateAsync(AppMetadata metadata);
+        Task<bool> UpdateAsync(AppMetadata metadata);
     }
 }

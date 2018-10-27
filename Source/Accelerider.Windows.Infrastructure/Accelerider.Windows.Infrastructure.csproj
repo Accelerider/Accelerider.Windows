@@ -82,6 +82,7 @@
     <Compile Include="Interfaces\IAcceleriderUser.cs" />
     <Compile Include="Interfaces\IConfigureFile.cs" />
     <Compile Include="Interfaces\ILazyTreeNode{T}.cs" />
+    <Compile Include="JsonObjects\AppFileList.cs" />
     <Compile Include="LazyTreeNode.cs" />
     <Compile Include="Interfaces\IRefreshable.cs" />
     <Compile Include="Logger.cs" />

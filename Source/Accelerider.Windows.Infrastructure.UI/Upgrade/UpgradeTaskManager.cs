@@ -3,8 +3,10 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Accelerider.Windows.TransferService;
 
 namespace Accelerider.Windows.Infrastructure.Upgrade
 {
@@ -24,21 +26,15 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
         public IUpgradeTask Find(string name) => _tasks.GetValueOrDefault(name);
 
-        public Task ExecuteAsync(IUpgradeTask task)
+        public Task<IDownloader> ExecuteAsync(IUpgradeTask task)
         {
             Add(task);
             return ExecuteAsync(task.Name);
         }
 
-        public async Task ExecuteAsync(string name)
+        public async Task<IDownloader> ExecuteAsync(string name)
         {
-            var appMetadatas = await GetAppMetadatasAsync();
-
-            var task = _tasks.GetValueOrDefault(name);
-            if (task != null)
-            {
-                await InternalExecuteAsync(task, appMetadatas);
-            }
+            return InternalExecuteAsync(_tasks.GetValueOrDefault(name), await GetAppMetadatasAsync());
         }
 
         public async void Run()
@@ -72,14 +68,11 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
         public void Stop() => _cancellationTokenSource?.Cancel();
 
-        private static async Task InternalExecuteAsync(IUpgradeTask task, IEnumerable<AppMetadata> appMetadatas)
+        private static IDownloader InternalExecuteAsync(IUpgradeTask task, IEnumerable<AppMetadata> appMetadatas)
         {
             var appMetadata = appMetadatas.FirstOrDefault(item => item.Name == task.Name);
 
-            if (appMetadata != null && task != null)
-            {
-                await task.UpdateAsync(appMetadata);
-            }
+            return appMetadata != null && task != null ? task.UpdateAsync(appMetadata) : null;
         }
 
         private Task<List<AppMetadata>> GetAppMetadatasAsync()
