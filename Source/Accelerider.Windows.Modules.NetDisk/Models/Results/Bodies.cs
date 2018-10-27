@@ -34,4 +34,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Results
 		public JToken Quota { get; set; }
 	}
 
+	public class SixCloudLoginResult : ResultBase
+	{
+		[JsonProperty("token")]
+		public string Token { get; set; }
+	}
+
+
 }
