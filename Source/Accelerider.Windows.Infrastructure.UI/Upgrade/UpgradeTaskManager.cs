@@ -72,7 +72,8 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
         {
             var appMetadata = appMetadatas.FirstOrDefault(item => item.Name == task.Name);
 
-            return appMetadata != null && task != null ? task.UpdateAsync(appMetadata) : null;
+            throw new NotImplementedException();
+            //return appMetadata != null && task != null ? task.UpdateAsync(appMetadata) : null;
         }
 
         private Task<List<AppMetadata>> GetAppMetadatasAsync()

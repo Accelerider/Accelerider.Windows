@@ -121,6 +121,8 @@
     <Compile Include="Models\Datas.cs" />
     <Compile Include="Interfaces\INetDiskApi.cs" />
     <Compile Include="Models\Infos.cs" />
+    <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignIn.vm.cs" />
+    <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignUp.vm.cs" />
     <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>
@@ -146,7 +148,7 @@
     <Compile Include="ViewModels\FileBrowser\FileBrowserComponent.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\RecycleBin.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\Share.vm.cs" />
-    <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
+    <Compile Include="ViewModels\Others\NetDiskType.cs" />
     <Compile Include="ViewModels\Transportation\Downloaded.vm.cs" />
     <Compile Include="ViewModels\Transportation\Downloading.vm.cs" />
     <Compile Include="ViewModels\Transportation\TransferredBase.vm.cs" />
@@ -184,6 +186,15 @@
     </Compile>
     <Compile Include="Views\FileBrowser\Share.xaml.cs">
       <DependentUpon>Share.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NetDiskAuthentications\SixCloud.xaml.cs">
+      <DependentUpon>SixCloud.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NetDiskAuthentications\SixCloudSignIn.xaml.cs">
+      <DependentUpon>SixCloudSignIn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NetDiskAuthentications\SixCloudSignUp.xaml.cs">
+      <DependentUpon>SixCloudSignUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TaskSettingsTabItem.xaml.cs">
       <DependentUpon>TaskSettingsTabItem.xaml</DependentUpon>
@@ -295,6 +306,18 @@
     <Page Include="Views\FileBrowser\Share.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NetDiskAuthentications\SixCloud.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NetDiskAuthentications\SixCloudSignIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NetDiskAuthentications\SixCloudSignUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TaskSettingsTabItem.xaml">
       <SubType>Designer</SubType>

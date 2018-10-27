@@ -13,6 +13,7 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
         protected override Task<bool> UpgradeCoreAsync(UpgradeInfo metadata)
         {
+            throw new NotImplementedException();
         }
     }
 }

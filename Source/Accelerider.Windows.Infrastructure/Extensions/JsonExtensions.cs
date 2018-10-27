@@ -17,7 +17,9 @@ namespace System
 
         public static T ToObject<T>(this string json)
         {
-            return JsonConvert.DeserializeObject<T>(json, JsonSerializerSettings);
+            return !string.IsNullOrWhiteSpace(json)
+                ? JsonConvert.DeserializeObject<T>(json, JsonSerializerSettings)
+                : default;
         }
     }
 }

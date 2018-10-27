@@ -1,9 +1,10 @@
-﻿using System.Windows.Media.Imaging;
+﻿using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Prism.Mvvm;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
 {
-    public class NetDiskTypeViewModel : BindableBase
+    public class NetDiskType : BindableBase
     {
         private BitmapImage _logo;
         private string _name;
@@ -26,5 +27,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
             get => _description;
             set => SetProperty(ref _description, value);
         }
+
+        public ICommand OpenCommand { get; set; }
     }
 }

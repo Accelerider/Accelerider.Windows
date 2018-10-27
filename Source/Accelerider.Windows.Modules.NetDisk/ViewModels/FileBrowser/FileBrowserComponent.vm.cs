@@ -7,6 +7,7 @@ using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Extensions;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
+using Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications;
 using Unity;
 using MaterialDesignThemes.Wpf;
 
@@ -81,7 +82,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         private async void AddNetDiskCommandExecute()
         {
-            await DialogHost.Show(new SelectNetDiskTypeDialog(), "RootDialog");
+            await DialogHost.Show(new SixCloud(), "RootDialog");
         }
 
         private void SubscribeEvents()

@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
+using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
+using Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications;
+using MaterialDesignThemes.Wpf;
 using Unity;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
 {
-    public class SelectNetDiskTypeDialogViewModel : ViewModelBase
+    public class SelectNetDiskTypeDialogViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded<SelectNetDiskTypeDialog>
     {
-        private IEnumerable<NetDiskTypeViewModel> _netDiskTypes;
+        private IEnumerable<NetDiskType> _netDiskTypes;
         private ICommand _selectNetDiskCommand;
 
 
         public SelectNetDiskTypeDialogViewModel(IUnityContainer container) : base(container)
         {
             NetDiskTypes = InitializeNetDiskTypes();
-            SelectNetDiskCommand = new RelayCommand<NetDiskTypeViewModel>(SelectNetDiskCommandExecute);
+            SelectNetDiskCommand = new RelayCommand<NetDiskType>(SelectNetDiskCommandExecute);
         }
 
-        public IEnumerable<NetDiskTypeViewModel> NetDiskTypes
+        public IEnumerable<NetDiskType> NetDiskTypes
         {
             get => _netDiskTypes;
             set => SetProperty(ref _netDiskTypes, value);
@@ -34,28 +38,48 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
         }
 
 
-        private void SelectNetDiskCommandExecute(NetDiskTypeViewModel netDiskType)
+        private void SelectNetDiskCommandExecute(NetDiskType netDiskType)
         {
         }
 
         // HACK: Mock data.
-        private IEnumerable<NetDiskTypeViewModel> InitializeNetDiskTypes()
+        private IEnumerable<NetDiskType> InitializeNetDiskTypes()
         {
             return new[]
             {
-                new NetDiskTypeViewModel
+                new NetDiskType
                 {
                     Logo = new BitmapImage(new Uri(@"..\..\Images\BaiduCloudLogo.png", UriKind.Relative)),
                     Name = "Baidu Cloud",
-                    Description = "It is a stupid net-disk."
+                    Description = "XXXXXXXXXXXXXXXXXXXXXXXXXXX"
                 },
-                new NetDiskTypeViewModel
+                new NetDiskType
                 {
                     Logo = new BitmapImage(new Uri(@"..\..\Images\OneDriveLogo.jpg", UriKind.Relative)),
                     Name = "OneDrive",
-                    Description = "It is a stupid net-disk."
+                    Description = "XXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                },
+                new NetDiskType
+                {
+                    Logo = new BitmapImage(new Uri(@"..\..\Images\OneDriveLogo.jpg", UriKind.Relative)),
+                    Name = "Six Cloud",
+                    Description = "XXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                    OpenCommand = new RelayCommand(async() =>
+                    {
+                        await TimeSpan.FromMilliseconds(1000);
+                        await DialogHost.Show(new SixCloud(), "RootDialog");
+                    })
                 },
             };
+        }
+
+        void IAwareViewLoadedAndUnloaded<SelectNetDiskTypeDialog>.OnLoaded(SelectNetDiskTypeDialog view)
+        {
+            DialogHost.SetDialogClosingAttached(view, (sender, args) => {});
+        }
+
+        void IAwareViewLoadedAndUnloaded<SelectNetDiskTypeDialog>.OnUnloaded(SelectNetDiskTypeDialog view)
+        {
         }
     }
 }
