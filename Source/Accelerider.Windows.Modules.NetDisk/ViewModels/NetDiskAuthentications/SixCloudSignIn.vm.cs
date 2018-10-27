@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Extensions;
+using Accelerider.Windows.Modules.NetDisk.Models.SixCloud;
 using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.NetDiskAuthentications
@@ -21,16 +23,17 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.NetDiskAuthentications
             set => SetProperty(ref _username, value);
         }
 
-
         public ICommand SignInCommand { get; }
-
 
         public SixCloudSignInViewModel(IUnityContainer container) : base(container)
         {
-            SignInCommand = new RelayCommand<PasswordBox>(
-                passwordBox =>
-                {
+            var user = new SixCloudUser();
 
+            SignInCommand = new RelayCommand<PasswordBox>(
+                async passwordBox =>
+                {
+                    await user.LoginAsync(Username, passwordBox.Password);
+                    await AcceleriderUser.AddNetDiskUserAsync(user);
                 },
                 passwordBox => !string.IsNullOrWhiteSpace(passwordBox.Password) &&
                                !string.IsNullOrWhiteSpace(Username));

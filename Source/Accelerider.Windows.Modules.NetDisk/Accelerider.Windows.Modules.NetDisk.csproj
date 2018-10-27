@@ -112,7 +112,7 @@
     <Compile Include="Models\Results\Bodies.cs" />
     <Compile Include="Models\Results\ResultBase.cs" />
     <Compile Include="Models\LazyTreeNode.cs" />
-    <Compile Include="Models\NetDiskUser.cs" />
+    <Compile Include="Models\NetDiskUserBase.cs" />
     <Compile Include="Models\Onedrive\IMicrosoftGraphApi.cs" />
     <Compile Include="Models\SixCloud\ISixCloudApi.cs" />
     <Compile Include="Models\SixCloud\SixCloudFile.cs" />

@@ -41,7 +41,7 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
 		[TestMethod]
 		public void SixCloudTest()
 		{
-			var user = new SixCloudUser("token");
+			var user = new SixCloudUser();
 			user.RefreshUserInfoAsync().GetAwaiter().GetResult();
 			var files = user.GetFileRootAsync().GetAwaiter().GetResult();
 			Console.WriteLine(user.Phone);
