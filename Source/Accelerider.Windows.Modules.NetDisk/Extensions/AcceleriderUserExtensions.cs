@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
-using Unity;
 using Newtonsoft.Json;
+using Unity;
 
-namespace Accelerider.Windows.Modules.NetDisk.Extensions
+// ReSharper disable once CheckNamespace
+namespace Accelerider.Windows.Infrastructure
 {
     public static class AcceleriderUserExtensions
     {

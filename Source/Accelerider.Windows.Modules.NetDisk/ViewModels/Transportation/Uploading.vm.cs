@@ -1,5 +1,4 @@
 ﻿using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Modules.NetDisk.Extensions;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Unity;
 

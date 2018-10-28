@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Accelerider.Windows.Modules.NetDisk.Extensions;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Unity;
 

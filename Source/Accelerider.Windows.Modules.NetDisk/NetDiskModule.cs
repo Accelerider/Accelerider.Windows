@@ -2,7 +2,6 @@
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Modularity;
 using Accelerider.Windows.Modules.NetDisk.Constants;
-using Accelerider.Windows.Modules.NetDisk.Extensions;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Views;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
