@@ -59,8 +59,8 @@
             <Grid >
                 <ProgressBar x:Name="ProgressBar" Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"
                              IsIndeterminate="{Binding IsBusy}"
-                             Maximum="{Binding Transporter.Progress.TotalSize.ValueBasedB, Mode=OneWay}"
-                             Value="{Binding Transporter.Progress.CompletedSize.ValueBasedB, Mode=OneWay}"/>
+                             Maximum="{Binding Transporter.Progress.TotalSize.Value, Mode=OneWay}"
+                             Value="{Binding Transporter.Progress.CompletedSize.Value, Mode=OneWay}"/>
                 <Border Padding="20 8">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -70,7 +70,7 @@
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
 
-                        <Image Tag="{Binding File.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
+                        <Image Tag="{Binding File.Type}" Style="{StaticResource FileImageSelectorStyle}" />
 
                         <Grid Grid.Column="2" >
                             <Grid.ColumnDefinitions>

@@ -13,7 +13,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         Task<ResultBase> GetUserInfoAsync();
 
         [Post("/v1/files/page")]
-        Task<ResultBase> GetFilesByPathAsync([Body(BodySerializationMethod.Json)] (string path, int pageSize) body);
+        Task<ResultBase> GetFilesByPathAsync([Body(BodySerializationMethod.Json)] GetFilesByPathArgs args);
 
         [Post("/v1/files/get")]
         Task<ResultBase> GetFileInfoByPathAsync([Body(BodySerializationMethod.Json)] string path);
@@ -38,5 +38,14 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         [JsonProperty("password")]
         public string Password { get; set; }
+    }
+
+    public class GetFilesByPathArgs
+    {
+        [JsonProperty("path")]
+        public string Path { get; set; }
+
+        [JsonProperty("pageSize")]
+        public int PageSize { get; set; }
     }
 }

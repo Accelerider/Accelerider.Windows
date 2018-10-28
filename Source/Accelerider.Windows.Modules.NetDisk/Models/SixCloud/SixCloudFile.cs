@@ -34,14 +34,16 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
 
 
-		public FileType FileType => _type == 1 ? FileType.FolderType : FileType.OtherType;
+		public FileType Type => _type == 1 ? FileType.FolderType : Path.GetFileType();
+
 		public FileLocator Path => string.IsNullOrEmpty(_path) ? "/" : _path;
+
 		public DisplayDataSize Size => _size;
 
 		public async Task<bool> DeleteAsync() => (await Owner.Api.RemoveFileByPathAsync(Path)).Success;
 
 		public SixCloudUser Owner { get; set; }
 
-		public DateTime ModifiedTime => new DateTime(1970, 1, 1) + TimeSpan.FromSeconds(_ctime);
+		public DateTime ModifiedTime => new DateTime(1970, 1, 1) + TimeSpan.FromMilliseconds(_ctime);
 	}
 }

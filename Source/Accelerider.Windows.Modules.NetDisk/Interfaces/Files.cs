@@ -13,7 +13,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
     public interface IFile
     {
-        FileType FileType { get; }
+        FileType Type { get; }
     }
 
     public interface ISharedFile : IFile, IDeletable

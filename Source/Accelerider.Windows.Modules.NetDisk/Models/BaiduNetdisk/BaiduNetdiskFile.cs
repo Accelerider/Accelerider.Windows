@@ -12,7 +12,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk
     public class BaiduNetdiskFile : INetDiskFile
     {
 
-        public FileType FileType => _isDir == 1 ? FileType.FolderType : FileType.OtherType;
+        public FileType Type => _isDir == 1 ? FileType.FolderType : FileType.OtherType;
 
         [JsonProperty("path")]
         public FileLocator Path { get; set; }

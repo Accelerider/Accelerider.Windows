@@ -85,7 +85,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         private void InitializeCommands()
         {
-            EnterFolderCommand = new RelayCommand<ILazyTreeNode<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.FileType == FileType.FolderType);
+            EnterFolderCommand = new RelayCommand<ILazyTreeNode<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.Type == FileType.FolderType);
             DownloadCommand = new RelayCommand<IList>(DownloadCommandExecute, files => files != null && files.Count > 0);
             UploadCommand = new RelayCommand(UploadCommandExecute);
             ShareCommand = new RelayCommand<IList>(ShareCommandExecute, files => files != null && files.Count > 0);

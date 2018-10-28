@@ -46,7 +46,7 @@ namespace Accelerider.Windows.TransferService.WpfInteractions
 
             Speed = 1.0 * (value - _previousCompletedSize) / (timestamp - _previousTimestamp).TotalSeconds;
             RemainingTime = Speed != 0
-                ? TimeSpan.FromSeconds(1.0 * (TotalSize - value) / Speed.ValueBasedB)
+                ? TimeSpan.FromSeconds(1.0 * (TotalSize - value) / Speed.Value)
                 : TimeSpan.MaxValue;
 
             _previousTimestamp = timestamp;

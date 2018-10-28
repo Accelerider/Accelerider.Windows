@@ -15,7 +15,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 {
     public class SixCloudUser : NetDiskUserBase
     {
-
+        [JsonProperty]
         public string AccessToken { get; private set; }
 
         public ISixCloudApi Api { get; }
@@ -60,7 +60,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 ChildrenProvider = async parent =>
                 {
                     var result = new List<SixCloudFile>();
-                    var json = await Api.GetFilesByPathAsync((parent.Path, 999));
+                    var json = await Api.GetFilesByPathAsync(new GetFilesByPathArgs { Path = parent.Path, PageSize = 999 });
                     if (!json.Success) return result;
                     result = json.Result["list"].Select(v => v.ToObject<SixCloudFile>()).ToList();
                     result.ForEach(v => v.Owner = this);

@@ -17,9 +17,9 @@ namespace Accelerider.Windows.TransferService.WpfInteractions
 
         private DataSizeUnit _unit;
 
-        public long ValueBasedB { get; }
+        public long Value { get; }
 
-        public double Value { get; private set; }
+        public double DisplayValue { get; private set; }
 
         public DataSizeUnit Unit
         {
@@ -28,40 +28,40 @@ namespace Accelerider.Windows.TransferService.WpfInteractions
             {
                 if (value == _unit) return;
 
-                Value *= Math.Pow(OneKB, _unit - value);
+                DisplayValue *= Math.Pow(OneKB, _unit - value);
                 _unit = value;
             }
         }
 
         public DisplayDataSize(double valueBasedB)
         {
-            ValueBasedB = (long)valueBasedB;
-            Value = valueBasedB;
+            Value = (long)valueBasedB;
+            DisplayValue = valueBasedB;
             _unit = DataSizeUnit.B;
-            while (Value >= OneKB) // long.MaxValue = 8 EB. 
+            while (DisplayValue >= OneKB) // long.MaxValue = 8 EB. 
             {
-                Value /= OneKB;
+                DisplayValue /= OneKB;
                 _unit++;
             }
         }
 
-        public override string ToString() => (Unit == DataSizeUnit.B ? $"{Value:N0} " : $"{Value:N2} ") + $"{Unit}";
+        public override string ToString() => (Unit == DataSizeUnit.B ? $"{DisplayValue:N0} " : $"{DisplayValue:N2} ") + $"{Unit}";
 
-        public static implicit operator long(DisplayDataSize dataSize) => dataSize.ValueBasedB;
+        public static implicit operator long(DisplayDataSize dataSize) => dataSize.Value;
 
-        public static implicit operator double(DisplayDataSize dataSize) => dataSize.Value;
+        public static implicit operator double(DisplayDataSize dataSize) => dataSize.DisplayValue;
 
         public static implicit operator string(DisplayDataSize dataSize) => dataSize.ToString();
 
-        public static implicit operator DisplayDataSize(double @long) => new DisplayDataSize(@long);
+        public static implicit operator DisplayDataSize(double value) => new DisplayDataSize(value);
 
         #region Implements Equals 
 
-        public bool Equals(DisplayDataSize other) => ValueBasedB.Equals(other.ValueBasedB);
+        public bool Equals(DisplayDataSize other) => Value.Equals(other.Value);
 
         public override bool Equals(object obj) => obj != null && obj is DisplayDataSize size && Equals(size);
 
-        public override int GetHashCode() => ValueBasedB.GetHashCode();
+        public override int GetHashCode() => Value.GetHashCode();
 
         public static bool operator ==(DisplayDataSize left, DisplayDataSize right) => left.Equals(right);
 

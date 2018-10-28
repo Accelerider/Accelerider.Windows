@@ -3,6 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Style="{StaticResource ToolBarButtonStyle}">
+
+    <Button.Resources>
+        <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.Button.xaml"/>
+    </Button.Resources>
+
     <Grid>
         <StackPanel Orientation="Horizontal">
             <materialDesign:PackIcon Kind="{Binding IconKind, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" 

@@ -15,7 +15,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
     [JsonObject(MemberSerialization.OptIn)]
     public class OnedriveFile : INetDiskFile
     {
-        public FileType FileType => _folder != null ? FileType.FolderType : FileType.OtherType;
+        public FileType Type => _folder != null ? FileType.FolderType : FileType.OtherType;
 
         public FileLocator Path => _pathInfo?.Value<string>("path").Replace("/drive/root:", string.Empty) ?? "/";
 
