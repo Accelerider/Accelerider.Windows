@@ -9,17 +9,18 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
 
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Brushes.Navy.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Converters.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Animations.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.Button.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.Window.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.TabControl.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.ListBox.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.Others.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.UserControl.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.Badged.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.ProgressBar.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Infrastructure.UI;component/Converters/Accelerider.Converters.xaml"/>
+
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Brushes.Navy.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Animations.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Button.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Window.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.TabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.ListBox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Others.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.UserControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Badged.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.ProgressBar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

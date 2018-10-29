@@ -14,7 +14,7 @@
         Width="{Binding Path=MainWindowWidth, Source={x:Static settings:Settings.Default}, Mode=TwoWay}" 
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource MainWindowStyle}"
-        Icon="pack://application:,,,/Images/logoIcon.ico"
+        Icon="pack://application:,,,/Accelerider.Windows.Resources;component/Images/logo-icon.ico"
         Title="Accelerider" >
 
     <materialDesign:DialogHost Identifier="RootDialog">

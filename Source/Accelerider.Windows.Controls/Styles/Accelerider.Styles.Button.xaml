@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
-                    xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls">
+                    xmlns:controls="clr-namespace:Accelerider.Windows.Controls">
 
     <ControlTemplate x:Key="FlatButtonTemplate" TargetType="Button">
         <Grid>

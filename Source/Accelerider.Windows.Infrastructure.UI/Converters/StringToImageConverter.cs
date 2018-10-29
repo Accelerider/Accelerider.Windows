@@ -1,12 +1,12 @@
-﻿namespace Accelerider.Windows.Resources.Converters
-{
-    using System;
-    using System.Globalization;
-    using System.Linq;
-    using System.Windows;
-    using System.Windows.Data;
-    using System.Windows.Media;
+﻿using System;
+using System.Globalization;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Media;
 
+namespace Accelerider.Windows.Infrastructure.Converters
+{
     public class StringToImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

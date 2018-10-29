@@ -7,7 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser"
-             xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
+             xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
              xmlns:local="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.FileBrowser"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 

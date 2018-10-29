@@ -1,10 +1,10 @@
-﻿namespace Accelerider.Windows.Resources.Converters
-{
-    using System;
-    using System.Globalization;
-    using System.Windows.Data;
-    using System.Windows.Media.Imaging;
+﻿using System;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Media.Imaging;
 
+namespace Accelerider.Windows.Infrastructure.Converters
+{
     public class UriToImageSourceConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

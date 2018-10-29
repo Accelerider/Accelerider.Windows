@@ -240,6 +240,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Accelerider.Windows.Controls\Accelerider.Windows.Controls.csproj">
+      <Project>{bdeb2dc9-f12b-45f4-b5a8-46fbd590b205}</Project>
+      <Name>Accelerider.Windows.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure.UI\Accelerider.Windows.Infrastructure.UI.csproj">
       <Project>{329f2033-303a-4369-b1dd-c97bd743d964}</Project>
       <Name>Accelerider.Windows.Infrastructure.UI</Name>
@@ -257,9 +261,6 @@
     <Resource Include="Images\logoIcon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MockData\qiegewala.png" />
@@ -293,6 +294,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ResKeys.cs</LastGenOutput>
     </Content>
+    <Resource Include="logo-icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

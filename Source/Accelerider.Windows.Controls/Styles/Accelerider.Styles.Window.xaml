@@ -3,7 +3,7 @@
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls">
+                    xmlns:controls="clr-namespace:Accelerider.Windows.Controls">
 
     <Style x:Key="MainWindowStyle" TargetType="Window">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
@@ -135,7 +135,7 @@
                     <Border BorderBrush="{TemplateBinding BorderBrush}" >
                         <AdornerDecorator>
                             <Grid Background="White">
-                                <Image Source="../Images/LogoSmall.png" Height="24" Width="24" Margin="8 5 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <Image Source="pack://application:,,,/Accelerider.Windows.Resources;component/Images/logo-small.png" Height="24" Width="24" Margin="8 5 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                 <ContentPresenter />
                                 <Button HorizontalAlignment="Right" VerticalAlignment="Top" Focusable="False"
                                         Style="{StaticResource MaterialDesignToolButton}"

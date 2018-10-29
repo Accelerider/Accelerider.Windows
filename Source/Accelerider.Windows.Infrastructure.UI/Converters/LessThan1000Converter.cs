@@ -1,9 +1,9 @@
-﻿namespace Accelerider.Windows.Resources.Converters
-{
-    using System;
-    using System.Globalization;
-    using System.Windows.Data;
+﻿using System;
+using System.Globalization;
+using System.Windows.Data;
 
+namespace Accelerider.Windows.Infrastructure.Converters
+{
     public class LessThan1000Converter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

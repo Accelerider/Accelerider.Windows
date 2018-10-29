@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:Accelerider.Windows.Resources.Converters">
+                    xmlns:converters="clr-namespace:Accelerider.Windows.Infrastructure.Converters">
     
     <converters:IsLessThanConverter x:Key="IsLessThanConverter"/>
     <converters:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>

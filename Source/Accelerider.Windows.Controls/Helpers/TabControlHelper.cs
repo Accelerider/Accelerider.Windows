@@ -71,7 +71,7 @@ namespace Accelerider.Windows.Controls
         private const string LeftToRightMovedEventTriggerResourceKey = "LeftToRightMovedEventTrigger";
         private const string RightToLeftMovedEventTriggerResourceKey = "RightToLeftMovedEventTrigger";
 
-        private static readonly Uri TabControlResourceDictionaryUri = new Uri("pack://application:,,,/Accelerider.Windows.Resources;component/THemes/Accelerider.Styles.TabControl.xaml");
+        private static readonly Uri TabControlResourceDictionaryUri = new Uri("pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.TabControl.xaml");
 
         public static readonly DependencyProperty LeftToRightAnimationProperty = DependencyProperty.RegisterAttached("LeftToRightAnimation", typeof(Storyboard), typeof(TabControlHelper), new PropertyMetadata(null, OnLeftToRightAnimationChanged));
         public static Storyboard GetLeftToRightAnimation(DependencyObject obj)

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Accelerider.Windows.Resources.Converters
+namespace Accelerider.Windows.Infrastructure.Converters
 {
     /*
      * e.g.: Visibility={Binding BooleanValue, Converter={converters:Pipeline {StaticResource NotConverter}, {StaticResource BooleanToVisibilityConverter}}}
