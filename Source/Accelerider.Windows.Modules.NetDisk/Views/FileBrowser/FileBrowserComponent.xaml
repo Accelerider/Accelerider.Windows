@@ -5,7 +5,12 @@
          xmlns:mvvm="http://prismlibrary.com/"
          xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
          xmlns:fileBrowser="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.FileBrowser"
-         mvvm:ViewModelLocator.AutoWireViewModel="True">
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser"
+         mvvm:ViewModelLocator.AutoWireViewModel="True"
+         mc:Ignorable="d"
+         d:DataContext="{d:DesignInstance {x:Type vm:FileBrowserComponentViewModel}}">
     <TabItem.Header>
         <Grid >
             <Grid.RowDefinitions>
@@ -102,7 +107,7 @@
             <TextBlock Grid.Row="5" Text="Cloud Storage" Margin="10 0 0 0" FontSize="14"/>
             <ListBox Grid.Row="7" ItemsSource="{Binding NetDiskUsers}" IsEnabled="{Binding CanSwitchUser}"
                      ItemContainerStyle="{StaticResource ListBoxItemStyle}"
-                     SelectedItem="{Binding NetDiskUser}" SelectionMode="Single"
+                     SelectedItem="{Binding CurrentNetDiskUser}" SelectionMode="Single"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      HorizontalContentAlignment="Stretch" >
@@ -118,7 +123,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Height="30" Width="30">
                                     <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding HeadImageUri, Converter={StaticResource UriToImageSourceConverter}}" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                        <ImageBrush ImageSource="{Binding Avatar, Converter={StaticResource UriToImageSourceConverter}}" RenderOptions.BitmapScalingMode="HighQuality"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
                                 <TextBlock Grid.Column="2" Text="{Binding Username}" VerticalAlignment="Center"/>

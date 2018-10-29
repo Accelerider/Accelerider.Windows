@@ -14,6 +14,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public string Username { get; set; }
 
+        public Uri Avatar { get; protected set; }
+
         public DisplayDataSize TotalCapacity { get; set; }
 
         public DisplayDataSize UsedCapacity { get; set; }

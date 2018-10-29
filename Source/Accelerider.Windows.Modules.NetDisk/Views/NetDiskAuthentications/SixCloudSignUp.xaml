@@ -42,7 +42,7 @@
             </Grid.ColumnDefinitions>
 
             <materialDesign:PackIcon Kind="Email" VerticalAlignment="Bottom" Margin="6"/>
-            <TextBox Grid.Column="1" Grid.Row="0" materialDesign:HintAssist.Hint="Email Address"
+            <TextBox Grid.Column="1" Grid.Row="0" materialDesign:HintAssist.Hint="Phone Number"
                      Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
 

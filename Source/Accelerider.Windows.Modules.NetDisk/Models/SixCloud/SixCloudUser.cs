@@ -24,8 +24,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         public long Uuid { get; private set; }
 
-        public string Name { get; private set; }
-
         public string Email { get; private set; }
 
         public string Phone { get; private set; }
@@ -38,6 +36,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         public SixCloudUser()
         {
+            Avatar = new Uri("https://6pan.cn/favicon.ico");
             Api = RestService.For<ISixCloudApi>(
                 new HttpClient(new AuthenticatedHttpClientHandler(() => AccessToken)) { BaseAddress = new Uri("https://api.6pan.cn") },
                 new RefitSettings { JsonSerializerSettings = new JsonSerializerSettings() }
@@ -121,7 +120,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             var result = await Api.GetUserInfoAsync();
             if (!result.Success) return;
             Uuid = result.Result["uuid"].ToObject<long>();
-            Name = result.Result["name"].ToObject<string>();
+            Username = result.Result["name"].ToObject<string>();
             Email = result.Result["email"].ToObject<string>();
             Phone = result.Result["phone"].ToObject<string>();
             TotalSpace = result.Result["spaceCapacity"].ToObject<long>();
