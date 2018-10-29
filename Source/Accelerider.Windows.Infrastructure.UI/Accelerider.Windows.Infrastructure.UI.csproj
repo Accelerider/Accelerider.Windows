@@ -90,6 +90,13 @@
     <Compile Include="Commands\RelayCommandAsync{T}.cs" />
     <Compile Include="Commands\RelayCommandBase.cs" />
     <Compile Include="Commands\RelayCommand{T}.cs" />
+    <Compile Include="Converters\CompareConverters.cs" />
+    <Compile Include="Converters\LessThan1000Converter.cs" />
+    <Compile Include="Converters\MinusConverter.cs" />
+    <Compile Include="Converters\PipelineExtension.cs" />
+    <Compile Include="Converters\PlusConverter.cs" />
+    <Compile Include="Converters\StringToImageConverter.cs" />
+    <Compile Include="Converters\UriToImageSourceConverter.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="I18n\I18nExtension.cs" />
     <Compile Include="I18n\I18nManager.cs" />
@@ -105,6 +112,7 @@
     <Compile Include="Mvvm\IAwareTabItemSelectionChanged.cs" />
     <Compile Include="Mvvm\IAwareViewLoadedAndUnloaded.cs" />
     <Compile Include="Mvvm\ILocalizable.cs" />
+    <Compile Include="Mvvm\INotificable.cs" />
     <Compile Include="Mvvm\IViewModelResolver.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="Mvvm\ViewModelResolver.cs" />
@@ -149,6 +157,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Converters\Accelerider.Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

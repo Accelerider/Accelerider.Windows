@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
 
         <Ellipse Grid.Row="0" Height="100" Width="100" Fill="#5458AF"/>
-        <Image Grid.Row="0" Source="../../Images/logo.png" Height="80" Width="80"/>
+        <Image Grid.Row="0" Source="pack://application:,,,/Accelerider.Windows.Resources;component/Images/logo-background.png" Height="80" Width="80"/>
 
         <TextBlock Grid.Row="2" Text="Accelerider for Windows" HorizontalAlignment="Center"
                    FontWeight="Bold" Foreground="#5458AF" FontSize="16"/>

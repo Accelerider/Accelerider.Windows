@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Threading;
-using MaterialDesignThemes.Wpf;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Mvvm;
@@ -18,10 +16,7 @@ namespace Accelerider.Windows.Infrastructure.Mvvm
             Container = container;
             EventAggregator = container.Resolve<IEventAggregator>();
             Logger = container.Resolve<ILoggerFacade>();
-            GlobalMessageQueue = container.Resolve<ISnackbarMessageQueue>();
         }
-
-        public ISnackbarMessageQueue GlobalMessageQueue { get; }
 
         public Dispatcher Dispatcher { get; set; }
 

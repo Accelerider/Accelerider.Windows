@@ -7,16 +7,18 @@ using Prism.Regions;
 using System.Linq;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure.Mvvm;
+using MaterialDesignThemes.Wpf;
 using Unity;
 
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
+    public class MainWindowViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded, INotificable
     {
         private ICommand _feedbackCommand;
         private bool _appStoreIsDisplayed;
 
+        public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
 
         public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
