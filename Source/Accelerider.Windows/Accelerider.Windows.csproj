@@ -39,7 +39,7 @@
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Images\logoIcon.ico</ApplicationIcon>
+    <ApplicationIcon>logo-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
@@ -256,11 +256,6 @@
       <Project>{c4dbd55d-6c99-4a67-96ff-8b76baea2037}</Project>
       <Name>Accelerider.Windows.Resources</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\logoIcon.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MockData\qiegewala.png" />
