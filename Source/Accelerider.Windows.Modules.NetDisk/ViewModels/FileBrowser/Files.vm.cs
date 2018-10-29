@@ -21,7 +21,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>, IAwareViewLoadedAndUnloaded<Files>
+    public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>, IAwareViewLoadedAndUnloaded<Files>, INotificable
     {
         private ILazyTreeNode<INetDiskFile> _selectedSearchResult;
         private ILazyTreeNode<INetDiskFile> _currentFolder;
@@ -31,6 +31,8 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         private ICommand _uploadCommand;
         private ICommand _shareCommand;
         private ICommand _deleteCommand;
+
+        public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
 
         public FilesViewModel(IUnityContainer container) : base(container)
         {

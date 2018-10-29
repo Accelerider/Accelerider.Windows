@@ -105,6 +105,7 @@
     <Compile Include="Mvvm\IAwareTabItemSelectionChanged.cs" />
     <Compile Include="Mvvm\IAwareViewLoadedAndUnloaded.cs" />
     <Compile Include="Mvvm\ILocalizable.cs" />
+    <Compile Include="Mvvm\INotificable.cs" />
     <Compile Include="Mvvm\IViewModelResolver.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="Mvvm\ViewModelResolver.cs" />

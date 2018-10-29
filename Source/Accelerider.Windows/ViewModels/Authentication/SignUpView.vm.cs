@@ -5,15 +5,18 @@ using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Models;
+using MaterialDesignThemes.Wpf;
 using Unity;
 using SignUpView = Accelerider.Windows.Views.Authentication.SignUpView;
 
 namespace Accelerider.Windows.ViewModels.Authentication
 {
-    public class SignUpViewModel : ViewModelBase
+    public class SignUpViewModel : ViewModelBase, INotificable
     {
         private string _emailAddress;
         private string _username;
+
+        public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
 
         public SignUpViewModel(IUnityContainer container) : base(container)
         {

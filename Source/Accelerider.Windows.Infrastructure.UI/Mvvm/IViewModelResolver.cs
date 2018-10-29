@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows;
+using Prism.Ioc;
 
 namespace Accelerider.Windows.Infrastructure.Mvvm
 {
@@ -7,10 +7,8 @@ namespace Accelerider.Windows.Infrastructure.Mvvm
     {
         object ResolveViewModelForView(object view, Type viewModelType);
 
-        IViewModelResolver IfInheritsFrom<TViewModel>(Action<FrameworkElement, TViewModel> configuration);
+        IViewModelResolver IfInheritsFrom<TView, TViewModel>(Action<TView, TViewModel, IContainerProvider> configuration);
 
-        IViewModelResolver IfInheritsFrom<TView, TViewModel>(Action<TView, TViewModel> configuration) where TView : FrameworkElement;
-
-        IViewModelResolver IfInheritsFrom(Type genericInterfaceType, Action<IGenericInterface, FrameworkElement, object> configuration);
+        IViewModelResolver IfInheritsFrom<TView>(Type genericInterfaceType, Action<TView, object, IGenericInterface, IContainerProvider> configuration);
     }
 }

@@ -3,12 +3,13 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.TransferService;
+using MaterialDesignThemes.Wpf;
 using Unity;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
-    public abstract class TransferringBaseViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
+    public abstract class TransferringBaseViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded, INotificable
     {
         private ObservableSortedCollection<TransferItem> _transferTasks;
         private RelayCommand<TransferItem> _pauseCommand;
@@ -16,6 +17,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         private RelayCommand<TransferItem> _startForceCommand;
         private RelayCommand<TransferItem> _cancelCommand;
 
+        public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
 
         protected TransferringBaseViewModel(IUnityContainer container) : base(container)
         {
