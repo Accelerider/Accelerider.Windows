@@ -36,7 +36,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         public SixCloudUser()
         {
-            Avatar = new Uri("https://6pan.cn/favicon.ico");
+            Avatar = new Uri("pack://application:,,,/Accelerider.Windows.Modules.NetDisk;component/Images/logo-six-cloud.png");
             Api = RestService.For<ISixCloudApi>(
                 new HttpClient(new AuthenticatedHttpClientHandler(() => AccessToken)) { BaseAddress = new Uri("https://api.6pan.cn") },
                 new RefitSettings { JsonSerializerSettings = new JsonSerializerSettings() }
