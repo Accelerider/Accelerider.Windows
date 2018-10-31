@@ -21,7 +21,10 @@ namespace Accelerider.Windows.ViewModels.Authentication
         public SignUpViewModel(IUnityContainer container) : base(container)
         {
             SignUpCommand = new RelayCommand<SignUpView>(SignUpCommandExecute, SignUpCommandCanExecute);
-            SendVerificationCodeCommand = new RelayCommand(() => { /*TODO: api*/ }, () => EmailAddress.IsEmailAddress());
+            SendVerificationCodeCommand = new RelayCommand(
+                () => { /*TODO: api*/ },
+                () => EmailAddress.IsEmailAddress() &&
+                      !string.IsNullOrWhiteSpace(PassCode) && PassCode.Length == 6);
         }
 
         public string EmailAddress
@@ -34,6 +37,15 @@ namespace Accelerider.Windows.ViewModels.Authentication
         {
             get => _username;
             set => SetProperty(ref _username, value);
+        }
+
+
+        private string _passCode;
+
+        public string PassCode
+        {
+            get => _passCode;
+            set => SetProperty(ref _passCode, value);
         }
 
         public ICommand SignUpCommand { get; }
