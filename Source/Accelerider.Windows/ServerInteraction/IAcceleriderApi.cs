@@ -14,20 +14,10 @@ namespace Accelerider.Windows.Models
         [Get("/users/current")]
         Task<AcceleriderUser> GetCurrentUserAsync();
 
-        [Patch("/users/current")]
-        Task UpdateUserInfoAsync([Body] UserUpdateInfoBody updateInfo);
+        //[Patch("/users/current")]
+        //Task UpdateUserInfoAsync([Body] UserUpdateInfoBody updateInfo);
 
         [Delete("/tokens/{id}")]
         Task SignOutAsync(long id);
-
-        // App store functions ----------------------------------------------------------
-        [Get("/apps/children")]
-        Task<IList<ModuleMetadata>> GetAllAppInfoAsync();
-
-        [Get("/apps/{id}")]
-        Task<ModuleMetadata> GetAppInfoByIdAsync(string id);
-
-        [Get("/apps/{id}/content")]
-        Task<Stream> GetAppByIdAsync(string id);
     }
 }

@@ -1,30 +1,38 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
-using Accelerider.Windows.Models;
+using Accelerider.Windows.ServerInteraction;
 using MaterialDesignThemes.Wpf;
 using Unity;
-using SignUpView = Accelerider.Windows.Views.Authentication.SignUpView;
 
 namespace Accelerider.Windows.ViewModels.Authentication
 {
     public class SignUpViewModel : ViewModelBase, INotificable
     {
         private string _emailAddress;
-        private string _username;
+        private SignUpArgs _signUpArgs;
 
         public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
 
-        public SignUpViewModel(IUnityContainer container) : base(container)
+        public SignUpViewModel(IUnityContainer container, INonAuthenticationApi nonAuthenticationApi) : base(container)
         {
-            SignUpCommand = new RelayCommand<SignUpView>(SignUpCommandExecute, SignUpCommandCanExecute);
+            ConfigureSignUpArgs();
+
+            SignUpCommand = new RelayCommand<PasswordBox>(SignUpCommandExecute, SignUpCommandCanExecute);
             SendVerificationCodeCommand = new RelayCommand(
-                () => { /*TODO: api*/ },
-                () => EmailAddress.IsEmailAddress() &&
-                      !string.IsNullOrWhiteSpace(PassCode) && PassCode.Length == 6);
+                async () =>
+                {
+                    var result = await nonAuthenticationApi.SendVerificationCodeAsync(EmailAddress);
+                    if (result.Success)
+                    {
+                        ConfigureSignUpArgs(args => args.SessionId = result.SessionId);
+                    }
+                },
+                () => EmailAddress.IsEmailAddress());
         }
 
         public string EmailAddress
@@ -35,65 +43,63 @@ namespace Accelerider.Windows.ViewModels.Authentication
 
         public string Username
         {
-            get => _username;
-            set => SetProperty(ref _username, value);
+            get => _signUpArgs.Username;
+            set
+            {
+                var temp = _signUpArgs.Username;
+                if (SetProperty(ref temp, value))
+                {
+                    _signUpArgs.Username = temp;
+                }
+            }
         }
 
-
-        private string _passCode;
-
-        public string PassCode
+        public string VerificationCode
         {
-            get => _passCode;
-            set => SetProperty(ref _passCode, value);
+            get => _signUpArgs.VerificationCode;
+            set
+            {
+                var temp = _signUpArgs.VerificationCode;
+                if (SetProperty(ref temp, value))
+                {
+                    _signUpArgs.VerificationCode = temp;
+                }
+            }
         }
 
         public ICommand SignUpCommand { get; }
 
         public ICommand SendVerificationCodeCommand { get; }
 
-
-        private bool SignUpCommandCanExecute(SignUpView view) => new[]
+        private bool SignUpCommandCanExecute(PasswordBox passwordBox) => new[]
         {
             EmailAddress,
             Username,
-            view.PasswordBox.Password,
-            //view.PasswordBoxRepeat.Password,
+            passwordBox.Password,
         }.All(field => !string.IsNullOrEmpty(field));
 
-        private async void SignUpCommandExecute(SignUpView view)
-        {
-            //if (view.PasswordBox.Password != view.PasswordBoxRepeat.Password)
-            //{
-            //    GlobalMessageQueue.Enqueue("Password does not match the confirm password.");
-            //    return;
-            //}
-
-            await SignUpAsync(new SignUpInfoBody
-            {
-                Email = EmailAddress,
-                Username = Username,
-                Password = view.PasswordBox.Password.ToMd5().EncryptByRsa()
-            }, () =>
-            {
-                EmailAddress = string.Empty;
-                Username = string.Empty;
-                view.PasswordBox.Password = string.Empty;
-                //view.PasswordBoxRepeat.Password = string.Empty;
-            });
-        }
-
-        private async Task SignUpAsync(SignUpInfoBody signUpInfo, Action successAction)
+        private async void SignUpCommandExecute(PasswordBox passwordBox)
         {
             EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(true);
             var nonAuthApi = Container.Resolve<INonAuthenticationApi>();
-            await nonAuthApi.SignUpAsync(signUpInfo).RunApi(() =>
+
+            ConfigureSignUpArgs(configure: args => args.Password = passwordBox.Password);
+            await nonAuthApi.SignUpAsync(_signUpArgs).RunApi(() =>
             {
-                successAction?.Invoke();
+                ConfigureSignUpArgs(force: true);
+                passwordBox.Password = string.Empty;
+
                 GlobalMessageQueue.Enqueue("Registered successfully!");
-                EventAggregator.GetEvent<SignUpSuccessEvent>().Publish(signUpInfo);
+                EventAggregator.GetEvent<SignUpSuccessEvent>().Publish(_signUpArgs);
             });
             EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(false);
+        }
+
+        private void ConfigureSignUpArgs(Action<SignUpArgs> configure = null, bool force = false)
+        {
+            if (_signUpArgs == null || force) _signUpArgs = new SignUpArgs();
+
+            configure?.Invoke(_signUpArgs);
         }
     }
 }

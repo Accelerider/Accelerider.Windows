@@ -8,7 +8,6 @@
              xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels.Authentication"
              mc:Ignorable="d"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
-             x:Name="SignUpUserControl" 
              d:DataContext="{d:DesignInstance {x:Type vm:SignUpViewModel}}">
     <Grid>
         <Grid.RowDefinitions>
@@ -51,7 +50,7 @@
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="6" Kind="Check" VerticalAlignment="Bottom" Margin="6"/>
             <TextBox Grid.Column="1" Grid.Row="6"
                      materialDesign:HintAssist.Hint="Verification Code" 
-                     Text="{Binding PassCode, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
 
         </Grid>
@@ -64,11 +63,11 @@
             </Grid.ColumnDefinitions>
 
             <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                Command="{Binding SendVerificationCodeCommand}">SEND</Button>
+                    Command="{Binding SendVerificationCodeCommand}">SEND</Button>
 
             <Button Grid.Column="2" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
-                Command="{Binding SignUpCommand}" 
-                CommandParameter="{Binding ElementName=SignUpUserControl}">REGISTER</Button>
+                    Command="{Binding SignUpCommand}" 
+                    CommandParameter="{Binding ElementName=PasswordBox}">REGISTER</Button>
         </Grid>
     </Grid>
 </UserControl>

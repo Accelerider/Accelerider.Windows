@@ -1,9 +1,9 @@
-﻿using Accelerider.Windows.Models;
+﻿using Accelerider.Windows.ServerInteraction;
 using Prism.Events;
 
 namespace Accelerider.Windows
 {
     internal class MainWindowLoadingEvent : PubSubEvent<bool> { }
 
-    internal class SignUpSuccessEvent : PubSubEvent<SignUpInfoBody> { }
+    internal class SignUpSuccessEvent : PubSubEvent<SignUpArgs> { }
 }

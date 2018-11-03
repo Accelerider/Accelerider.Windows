@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 
-namespace Accelerider.Windows.Models
+namespace Accelerider.Windows
 {
     internal class AcceleriderUser : IAcceleriderUser
     {

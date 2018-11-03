@@ -5,7 +5,7 @@
         Style="{StaticResource ToolBarButtonStyle}">
 
     <Button.Resources>
-        <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.Button.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Button.xaml"/>
     </Button.Resources>
 
     <Grid>

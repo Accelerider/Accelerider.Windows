@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Extensions\SecureStringExtensions.cs" />
     <Compile Include="Extensions\IOExtensions.cs" />
+    <Compile Include="StatusCodes.cs" />
     <Compile Include="TempDirectory.cs" />
     <Compile Include="SystemFolder.cs" />
     <Compile Include="SystemInfo.cs" />
