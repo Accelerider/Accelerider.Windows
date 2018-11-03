@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
@@ -93,10 +95,12 @@
     <Compile Include="Converters\CompareConverters.cs" />
     <Compile Include="Converters\LessThan1000Converter.cs" />
     <Compile Include="Converters\MinusConverter.cs" />
+    <Compile Include="Converters\Operators.cs" />
     <Compile Include="Converters\PipelineExtension.cs" />
     <Compile Include="Converters\PlusConverter.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="Converters\UriToImageSourceConverter.cs" />
+    <Compile Include="Converters\ValueConverterBase.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="I18n\I18nExtension.cs" />
     <Compile Include="I18n\I18nManager.cs" />

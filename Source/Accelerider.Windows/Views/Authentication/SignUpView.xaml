@@ -36,7 +36,8 @@
             <materialDesign:PackIcon Kind="Email" VerticalAlignment="Bottom" Margin="6"/>
             <TextBox Grid.Column="1" Grid.Row="0" materialDesign:HintAssist.Hint="Email Address"
                      Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
+                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                     IsEnabled="{Binding IsLocked, Converter={StaticResource NotOperator}}"/>
 
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
             <TextBox Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Username"
@@ -62,12 +63,26 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                    Command="{Binding SendVerificationCodeCommand}">SEND</Button>
+            <Button Command="{Binding SendVerificationCodeCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                        <Setter Property="Content" Value="Send Code" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLocked}" Value="True">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <TextBlock Text="{Binding RemainingTimeBasedSecond, StringFormat='{}{0} Seconds'}" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
 
             <Button Grid.Column="2" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{Binding SignUpCommand}" 
-                    CommandParameter="{Binding ElementName=PasswordBox}">REGISTER</Button>
+                    CommandParameter="{Binding ElementName=PasswordBox}">Register</Button>
         </Grid>
     </Grid>
 </UserControl>

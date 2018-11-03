@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -7,32 +8,30 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.ServerInteraction;
 using MaterialDesignThemes.Wpf;
+using Refit;
 using Unity;
 
 namespace Accelerider.Windows.ViewModels.Authentication
 {
     public class SignUpViewModel : ViewModelBase, INotificable
     {
+        private const int IntervalBasedSecond = 60;
+
         private string _emailAddress;
         private SignUpArgs _signUpArgs;
+        private int _remainingTimeBasedSecond;
+        private bool _isLocked;
 
-        public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
-
-        public SignUpViewModel(IUnityContainer container, INonAuthenticationApi nonAuthenticationApi) : base(container)
+        public bool IsLocked
         {
-            ConfigureSignUpArgs();
+            get => _isLocked;
+            set => SetProperty(ref _isLocked, value);
+        }
 
-            SignUpCommand = new RelayCommand<PasswordBox>(SignUpCommandExecute, SignUpCommandCanExecute);
-            SendVerificationCodeCommand = new RelayCommand(
-                async () =>
-                {
-                    var result = await nonAuthenticationApi.SendVerificationCodeAsync(EmailAddress);
-                    if (result.Success)
-                    {
-                        ConfigureSignUpArgs(args => args.SessionId = result.SessionId);
-                    }
-                },
-                () => EmailAddress.IsEmailAddress());
+        public int RemainingTimeBasedSecond
+        {
+            get => _remainingTimeBasedSecond;
+            set => SetProperty(ref _remainingTimeBasedSecond, value);
         }
 
         public string EmailAddress
@@ -71,6 +70,34 @@ namespace Accelerider.Windows.ViewModels.Authentication
 
         public ICommand SendVerificationCodeCommand { get; }
 
+        public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
+
+        public SignUpViewModel(IUnityContainer container, INonAuthenticationApi nonAuthenticationApi) : base(container)
+        {
+            ConfigureSignUpArgs();
+
+            SignUpCommand = new RelayCommand<PasswordBox>(SignUpCommandExecute, SignUpCommandCanExecute);
+            SendVerificationCodeCommand = new RelayCommandAsync(
+                async () =>
+                {
+                    try
+                    {
+                        var result = await nonAuthenticationApi.SendVerificationCodeAsync(EmailAddress);
+                        if (result.Success)
+                        {
+                            ConfigureSignUpArgs(args => args.SessionId = result.SessionId);
+                            await StartVerificationCodeTimer();
+                        }
+                    }
+                    catch (ApiException e)
+                    {
+                        GlobalMessageQueue.Enqueue(e.Content.ToObject<ResponseBase>()?.Status);
+                    }
+                },
+                () => EmailAddress.IsEmailAddress() &&
+                      !IsLocked);
+        }
+
         private bool SignUpCommandCanExecute(PasswordBox passwordBox) => new[]
         {
             EmailAddress,
@@ -100,6 +127,16 @@ namespace Accelerider.Windows.ViewModels.Authentication
             if (_signUpArgs == null || force) _signUpArgs = new SignUpArgs();
 
             configure?.Invoke(_signUpArgs);
+        }
+
+        private async Task StartVerificationCodeTimer()
+        {
+            IsLocked = true;
+            for (RemainingTimeBasedSecond = IntervalBasedSecond; RemainingTimeBasedSecond > 0; RemainingTimeBasedSecond--)
+            {
+                await TimeSpan.FromSeconds(1);
+            }
+            IsLocked = false;
         }
     }
 }
