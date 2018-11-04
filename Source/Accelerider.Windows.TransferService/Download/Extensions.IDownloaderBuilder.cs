@@ -117,7 +117,6 @@ namespace Accelerider.Windows.TransferService
 		    .Configure(downloader =>
 		    {
 			    downloader.Tag = SixCloudConfigureTag;
-				
 			    return downloader;
 		    });
 

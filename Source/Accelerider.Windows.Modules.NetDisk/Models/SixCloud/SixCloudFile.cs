@@ -42,6 +42,10 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
 		public async Task<bool> DeleteAsync() => (await Owner.Api.RemoveFileByPathAsync(new PathArg(){Path = Path})).Success;
 
+		public async Task<string> GetDownloadAddressAsync() =>
+			(await Owner.Api.GetFileInfoByPathAsync(new PathArg() {Path = Path})).Result["downloadAddress"]
+			.ToObject<string>();
+
 		public SixCloudUser Owner { get; set; }
 
 		public DateTime ModifiedTime => new DateTime(1970, 1, 1) + TimeSpan.FromMilliseconds(_ctime);
