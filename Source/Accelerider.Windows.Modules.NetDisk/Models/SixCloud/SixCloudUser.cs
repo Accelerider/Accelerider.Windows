@@ -100,7 +100,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
 		public async Task<string> SendSmsAsync(string phoneNumber)
 		{
-			var result = await Api.SendRegisterMessageAsync(new PhoneArg() { PhoneNumber = phoneNumber });
+			var result = await Api.SendRegisterMessageAsync(new PhoneArgs() { PhoneNumber = phoneNumber });
 			return result.Success ? result.Result.ToObject<string>() : null;
 		}
 
