@@ -27,6 +27,16 @@ namespace Accelerider.Windows
 
         private void Log(Exception exception)
         {
+            switch (exception)
+            {
+                case NotImplementedException _:
+                    MessageBox.Show("Sorry, The feature has not been implemented, please wait for the next version. ", "Tips");
+                    return;
+                case NotSupportedException _:
+                    MessageBox.Show("Sorry, The feature has not been supported, please wait for the next version. ", "Tips");
+                    return;
+            }
+
             var message = $"{exception.GetType().Name}, " +
                           $"Message: {exception.Message}, " +
                           $"StackTrace: {Environment.NewLine}{exception.StackTrace}{Environment.NewLine}";

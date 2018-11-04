@@ -41,11 +41,11 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
         [TestMethod]
         public async void SixCloudTest()
         {
-            var user = new SixCloudUser();
+            //var user = new SixCloudUser();
 
-            user.RefreshUserInfoAsync().GetAwaiter().GetResult();
-            var files = user.GetFileRootAsync().GetAwaiter().GetResult();
-            Console.WriteLine(user.Phone);
+            //user.RefreshUserInfoAsync().GetAwaiter().GetResult();
+            //var files = user.GetFileRootAsync().GetAwaiter().GetResult();
+            //Console.WriteLine(user.Phone);
         }
     }
 }

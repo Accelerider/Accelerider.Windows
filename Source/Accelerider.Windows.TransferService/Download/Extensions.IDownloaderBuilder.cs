@@ -113,6 +113,7 @@ namespace Accelerider.Windows.TransferService
             });
 
         public static IDownloaderBuilder UseSixCloudConfigure(this IDownloaderBuilder @this) => @this
+            .UseDefaultConfigure()
             .Configure(downloader =>
             {
                 downloader.Tag = SixCloudConfigureTag;

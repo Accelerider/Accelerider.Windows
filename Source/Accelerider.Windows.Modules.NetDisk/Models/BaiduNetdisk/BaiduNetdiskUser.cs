@@ -77,7 +77,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk
             throw new NotImplementedException();
         }
 
-        public override Task DownloadAsync(ILazyTreeNode<INetDiskFile> @from, FileLocator to, Action<TransferItem> callback)
+        public override TransferItem Download(ILazyTreeNode<INetDiskFile> @from, FileLocator to)
         {
             throw new NotImplementedException();
         }

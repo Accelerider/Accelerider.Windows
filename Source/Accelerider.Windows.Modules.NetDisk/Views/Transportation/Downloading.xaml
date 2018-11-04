@@ -30,6 +30,6 @@
             </StackPanel>
         </Grid>
 
-        <transportation:TaskProgressList Grid.Row="2" ItemsSource="{Binding TransferTasks}"/>
+        <transportation:TaskProgressList Grid.Row="2" ItemsSource="{Binding TransferTasks}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
     </Grid>
 </UserControl>

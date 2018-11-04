@@ -92,8 +92,8 @@
                             <TextBlock Grid.Column="0" Grid.Row="2" Foreground="Gray">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0}/{1}">
-                                        <Binding Path="Progress"/>
-                                        <Binding Path="FileSummary.FileSize"/>
+                                        <Binding Path="Transporter.Progress.CompletedSize"/>
+                                        <Binding Path="File.Size"/>
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>

@@ -8,8 +8,11 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models.Onedrive;
+using Accelerider.Windows.TransferService;
+using Accelerider.Windows.TransferService.WpfInteractions;
 using Newtonsoft.Json;
 using Refit;
+using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 {
@@ -34,8 +37,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         #endregion
 
-        public SixCloudUser()
+        protected IUnityContainer Container { get; }
+
+        public SixCloudUser(IUnityContainer container)
         {
+            Container = container;
             Avatar = new Uri("pack://application:,,,/Accelerider.Windows.Modules.NetDisk;component/Images/logo-six-cloud.png");
             Api = RestService.For<ISixCloudApi>(
                 new HttpClient(new AuthenticatedHttpClientHandler(() => AccessToken)) { BaseAddress = new Uri("https://api.6pan.cn") },
@@ -44,9 +50,9 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         }
 
 
-        public override Task DownloadAsync(ILazyTreeNode<INetDiskFile> from, FileLocator to, Action<TransferItem> callback)
+        public override TransferItem Download(ILazyTreeNode<INetDiskFile> @from, FileLocator to)
         {
-            throw new NotImplementedException();
+            return MockDownload(from?.Content, to);
         }
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
@@ -131,6 +137,23 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         public override Task UploadAsync(FileLocator from, INetDiskFile to, Action<TransferItem> callback)
         {
             throw new NotImplementedException();
+        }
+
+
+        private TransferItem MockDownload(INetDiskFile file, FileLocator to)
+        {
+            var downloader = FileTransferService
+                .GetDownloaderBuilder()
+                .UseSixCloudConfigure()
+                .From(file.Path)
+                .To(to)
+                .Build();
+
+            return new TransferItem(downloader)
+            {
+                File = file,
+                Owner = this
+            };
         }
     }
 }

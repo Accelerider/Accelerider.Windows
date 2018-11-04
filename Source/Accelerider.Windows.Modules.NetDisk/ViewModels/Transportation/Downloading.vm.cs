@@ -5,13 +5,13 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Unity;
 
-
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
     public class DownloadingViewModel : TransferringBaseViewModel
     {
-        private ICommand _pauseAllCommand;
-        private ICommand _cancelAllCommand;
+        public ICommand PauseAllCommand { get; }
+
+        public ICommand CancelAllCommand { get; }
 
         public DownloadingViewModel(IUnityContainer container) : base(container)
         {
@@ -28,19 +28,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             () => TransferTasks?.Any() ?? false);
         }
 
-        public ICommand PauseAllCommand
-        {
-            get => _pauseAllCommand;
-            set => SetProperty(ref _pauseAllCommand, value);
-        }
-
-        public ICommand CancelAllCommand
-        {
-            get => _cancelAllCommand;
-            set => SetProperty(ref _cancelAllCommand, value);
-        }
-
         protected override ObservableSortedCollection<TransferItem> GetTaskList() =>
-            new ObservableSortedCollection<TransferItem>(AcceleriderUser.GetDownloadItems(), DefaultTransferItemComparer);
+            new ObservableSortedCollection<TransferItem>(AcceleriderUser.GetDownloadItems(), (x, y) => x.Transporter.Status - y.Transporter.Status);
     }
 }

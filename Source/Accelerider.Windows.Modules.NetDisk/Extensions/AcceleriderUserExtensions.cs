@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
+using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
 using Unity;
 
@@ -103,10 +104,16 @@ namespace Accelerider.Windows.Infrastructure
         }
 
         // -------------------------------------------------------------------------------------
-        public static IList<TransferItem> GetDownloadItems(this IAcceleriderUser @this)
+        public static IReadOnlyList<TransferItem> GetDownloadItems(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
-            throw new NotImplementedException();
+
+            return FileTransferService
+                .GetDownloaderManager()
+                .Transporters
+                .OfType<TransferItem>()
+                .ToList()
+                .AsReadOnly();
         }
 
         public static IList<TransferItem> GetUploadItems(this IAcceleriderUser @this)
