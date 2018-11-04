@@ -11,7 +11,7 @@
              Width="400">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Themes/Accelerider.Styles.TabControl.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.TabControl.xaml"/>
     </UserControl.Resources>
 
     <TabControl  Margin="60 0 60 30" >

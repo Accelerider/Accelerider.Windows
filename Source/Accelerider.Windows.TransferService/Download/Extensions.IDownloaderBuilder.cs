@@ -112,13 +112,14 @@ namespace Accelerider.Windows.TransferService
                 return downloader;
             });
 
-        public static IDownloaderBuilder UseSixCloudConfigure(this IDownloaderBuilder @this) => @this
-            .UseDefaultConfigure()
-            .Configure(downloader =>
-            {
-                downloader.Tag = SixCloudConfigureTag;
-                return downloader;
-            });
+	    public static IDownloaderBuilder UseSixCloudConfigure(this IDownloaderBuilder @this) => @this
+		    .UseDefaultConfigure()
+		    .Configure(downloader =>
+		    {
+			    downloader.Tag = SixCloudConfigureTag;
+				
+			    return downloader;
+		    });
 
         private static IEnumerable<(long Offset, long Length)> DefaultBlockIntervalGenerator(long totalLength)
         {

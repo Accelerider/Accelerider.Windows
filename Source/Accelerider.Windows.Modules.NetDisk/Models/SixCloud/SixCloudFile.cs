@@ -40,10 +40,12 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
 		public DisplayDataSize Size => _size;
 
-		public async Task<bool> DeleteAsync() => (await Owner.Api.RemoveFileByPathAsync(Path)).Success;
+		public async Task<bool> DeleteAsync() => (await Owner.Api.RemoveFileByPathAsync(new PathArg(){Path = Path})).Success;
 
 		public SixCloudUser Owner { get; set; }
 
 		public DateTime ModifiedTime => new DateTime(1970, 1, 1) + TimeSpan.FromMilliseconds(_ctime);
+
+
 	}
 }

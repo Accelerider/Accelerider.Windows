@@ -16,13 +16,13 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         Task<ResultBase> GetFilesByPathAsync([Body(BodySerializationMethod.Json)] GetFilesByPathArgs args);
 
         [Post("/v1/files/get")]
-        Task<ResultBase> GetFileInfoByPathAsync([Body(BodySerializationMethod.Json)] string path);
+        Task<ResultBase> GetFileInfoByPathAsync([Body(BodySerializationMethod.Json)] PathArg path);
 
         [Post("/v1/files/remove")]
-        Task<ResultBase> RemoveFileByPathAsync([Body(BodySerializationMethod.Json)] string path);
+        Task<ResultBase> RemoveFileByPathAsync([Body(BodySerializationMethod.Json)] PathArg data);
 
         [Post("/v1/user/sendRegisterMessage")]
-        Task<ResultBase> SendRegisterMessageAsync([Body(BodySerializationMethod.Json)] string phone);
+        Task<ResultBase> SendRegisterMessageAsync([Body(BodySerializationMethod.Json)] PhoneArg phone);
 
         [Post("/v1/user/register")]
         Task<ResultBase> RegisterAsync([Body(BodySerializationMethod.Json)] RegisterData data);
@@ -48,4 +48,16 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         [JsonProperty("pageSize")]
         public int PageSize { get; set; }
     }
+
+	public class PathArg
+	{
+		[JsonProperty("path")]
+		public string Path { get; set; }
+	}
+
+	public class PhoneArg
+	{
+		[JsonProperty("phone")]
+		public string PhoneNumber { get; set; }
+	}
 }
