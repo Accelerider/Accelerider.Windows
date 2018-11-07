@@ -68,11 +68,11 @@ namespace Accelerider.Windows.TransferService
 
                 settings.BuildPolicy = Policy
                     .Handle<WebException>(e => e.Status != WebExceptionStatus.RequestCanceled)
-                    .RetryAsync(context.RemotePathProvider.RemotePaths.Count, (e, retryCount, policyContext) =>
+                    .RetryAsync(20, (e, retryCount, policyContext) =>
                     {
                         var remotePath = ((WebException)e).Response?.ResponseUri.OriginalString;
                         if (!string.IsNullOrEmpty(remotePath))
-                            context.RemotePathProvider.Vote(remotePath, -3);
+                            context.RemotePathProvider.Score(remotePath, -3);
                     });
 
                 settings.DownloadPolicy
@@ -112,13 +112,13 @@ namespace Accelerider.Windows.TransferService
                 return downloader;
             });
 
-	    public static IDownloaderBuilder UseSixCloudConfigure(this IDownloaderBuilder @this) => @this
-		    .UseDefaultConfigure()
-		    .Configure(downloader =>
-		    {
-			    downloader.Tag = SixCloudConfigureTag;
-			    return downloader;
-		    });
+        public static IDownloaderBuilder UseSixCloudConfigure(this IDownloaderBuilder @this) => @this
+            .UseDefaultConfigure()
+            .Configure(downloader =>
+            {
+                downloader.Tag = SixCloudConfigureTag;
+                return downloader;
+            });
 
         private static IEnumerable<(long Offset, long Length)> DefaultBlockIntervalGenerator(long totalLength)
         {
@@ -136,6 +136,16 @@ namespace Accelerider.Windows.TransferService
             }
 
             yield return (offset, totalLength - offset);
+        }
+
+        public static IDownloaderBuilder From(this IDownloaderBuilder @this, string path)
+        {
+            return @this.From(new ConstantRemotePathProvider(new HashSet<string>(new[] { path })));
+        }
+
+        public static IDownloaderBuilder From(this IDownloaderBuilder @this, IEnumerable<string> paths)
+        {
+            return @this.From(new ConstantRemotePathProvider(new HashSet<string>(paths)));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Accelerider.Windows.TransferService
@@ -20,6 +21,6 @@ namespace Accelerider.Windows.TransferService
         public override string LocalPath { get; internal set; }
 
         [JsonIgnore]
-        public Func<string> RemotePathProvider { get; internal set; }
+        public Func<Task<string>> RemotePathGetter { get; internal set; }
     }
 }

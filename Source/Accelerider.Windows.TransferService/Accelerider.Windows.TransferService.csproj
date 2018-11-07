@@ -70,7 +70,7 @@
     <Compile Include="Download\IDownloaderBuilder.cs" />
     <Compile Include="Download\IRemotePathProvider.cs" />
     <Compile Include="Download\PrimitiveMethods.Download.cs" />
-    <Compile Include="Download\RemotePathProvider.cs" />
+    <Compile Include="Download\ConstantRemotePathProvider.cs" />
     <Compile Include="Exceptions\BlockTransferException.cs" />
     <Compile Include="Exceptions\RemotePathExhaustedException.cs" />
     <Compile Include="FileTransferService.cs" />

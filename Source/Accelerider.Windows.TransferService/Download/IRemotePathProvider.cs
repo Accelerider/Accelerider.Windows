@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 
 namespace Accelerider.Windows.TransferService
 {
     public interface IRemotePathProvider
     {
-        IDictionary<string, double> RemotePaths { get; }
+        void Score(string remotePath, double score);
 
-        void Vote(string remotePath, double score, bool isAccumulate = true);
-
-        string GetRemotePath();
+        Task<string> GetRemotePathAsync();
     }
 }
