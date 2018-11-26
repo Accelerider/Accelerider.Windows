@@ -17,7 +17,7 @@ namespace Accelerider.Windows.TransferService
 
     public class BlockDownloadItemPolicy
     {
-        private readonly ConcurrentDictionary<Guid, int> _retryStatistics = new ConcurrentDictionary<Guid, int>();
+        private readonly IDictionary<Guid, int> _retryStatistics = new ConcurrentDictionary<Guid, int>();
         private readonly Dictionary<Type, BlockDownloadItemExceptionHandler<Exception>> _handlers = new Dictionary<Type, BlockDownloadItemExceptionHandler<Exception>>();
 
         private readonly Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>> _blockDownloadItemFactory;
