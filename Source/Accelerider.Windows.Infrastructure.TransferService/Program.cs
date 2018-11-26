@@ -93,11 +93,11 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                     var notification = item.Value;
                     var completedSize = @this.GetCompletedSize();
 
-                    var message = $"{notification.CurrentBlockId:B}: " +
+                    var message = $"{notification.Offset:B}: " +
                                   $"{notification.Status} " +
-                                  (notification.CurrentBlockId == Guid.Empty
+                                  (notification.Offset < 0
                                       ? string.Empty
-                                      : $"{@this.BlockContexts[notification.CurrentBlockId].Offset / blockSize:D3} --> {@this.BlockContexts[notification.CurrentBlockId].TotalSize / blockSize} "
+                                      : $"{@this.BlockContexts[notification.Offset].Offset / blockSize:D3} --> {@this.BlockContexts[notification.Offset].TotalSize / blockSize} "
                                   ) +
                                   $"{1.0 * (completedSize - previousCompletedSize) / (timestamp - previousDateTimeOffset).TotalSeconds / oneM:00.00} MB/s " +
                                   $"{100.0 * completedSize / @this.Context.TotalSize: 00.00}% " +

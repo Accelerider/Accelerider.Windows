@@ -20,7 +20,7 @@ namespace Accelerider.Windows.TransferService
         private Func<long, IEnumerable<(long offset, long length)>> _blockIntervalGenerator;
         private Func<HttpWebRequest, HttpWebRequest> _requestInterceptor;
         private Func<string, string> _localPathInterceptor;
-        private Func<IObservable<(Guid Id, int Bytes)>, IObservable<(Guid Id, int Bytes)>> _blockTransferItemInterceptor;
+        private Func<IObservable<(long Offset, int Bytes)>, IObservable<(long Offset, int Bytes)>> _blockTransferItemInterceptor;
         private Func<IDownloader, IDownloader> _postProcessInterceptor;
 
         private IRemotePathProvider _remotePathProvider;
@@ -69,7 +69,7 @@ namespace Accelerider.Windows.TransferService
             return this;
         }
 
-        public IDownloaderBuilder Configure(Func<long, IEnumerable<(long offset, long length)>> blockIntervalGenerator)
+        public IDownloaderBuilder Configure(Func<long, IEnumerable<(long Offset, long Length)>> blockIntervalGenerator)
         {
             Guards.ThrowIfNull(blockIntervalGenerator);
 
@@ -77,7 +77,7 @@ namespace Accelerider.Windows.TransferService
             return this;
         }
 
-        public IDownloaderBuilder Configure(Func<IObservable<(Guid Id, int Bytes)>, IObservable<(Guid Id, int Bytes)>> blockTransferItemInterceptor)
+        public IDownloaderBuilder Configure(Func<IObservable<(long Offset, int Bytes)>, IObservable<(long Offset, int Bytes)>> blockTransferItemInterceptor)
         {
             Guards.ThrowIfNull(blockTransferItemInterceptor);
 
@@ -210,9 +210,9 @@ namespace Accelerider.Windows.TransferService
                 .Invoke(context.RemotePathProvider);
         }
 
-        private Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>> GetBlockDownloadItemFactory(DownloadSettings settings)
+        private Func<BlockTransferContext, IObservable<(long Offset, int Bytes)>> GetBlockDownloadItemFactory(DownloadSettings settings)
         {
-            return new Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>>(CreateBlockDownloadItem)
+            return new Func<BlockTransferContext, IObservable<(long Offset, int Bytes)>>(CreateBlockDownloadItem)
                 .Then(settings.DownloadPolicy.ExceptionInterceptor);
         }
 
@@ -229,14 +229,14 @@ namespace Accelerider.Windows.TransferService
             return setting;
         }
 
-        private IObservable<(Guid Id, int Bytes)> CreateBlockDownloadItem(BlockTransferContext context)
+        private IObservable<(long Offset, int Bytes)> CreateBlockDownloadItem(BlockTransferContext context)
         {
             return context.CompletedSize < context.TotalSize
-                ? new Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>>(
+                ? new Func<BlockTransferContext, IObservable<(long Offset, int Bytes)>>(
                         blockContext => DownloadPrimitiveMethods.CreateBlockDownloadItem(BuildStreamPairFactory(blockContext), blockContext))
                     .Then(_blockTransferItemInterceptor)
                     .Invoke(context)
-                : Observable.Empty<(Guid Id, int Bytes)>();
+                : Observable.Empty<(long Offset, int Bytes)>();
         }
 
         private Func<Task<(HttpWebResponse response, Stream inputStream)>> BuildStreamPairFactory(BlockTransferContext context)

@@ -5,7 +5,6 @@ using Accelerider.Windows.Infrastructure;
 namespace Accelerider.Windows.TransferService
 {
     public interface ITransporterManager<TTransporter, TContext>
-        where TContext : TransferContextBase
         where TTransporter : ITransporter<TContext>
     {
         IEnumerable<TTransporter> Transporters { get; }

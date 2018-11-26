@@ -52,7 +52,7 @@ namespace Accelerider.Windows.TransferService.WpfInteractions
 
                     var notifiers = downloader.BlockContexts.Values.Select(blockItem =>
                     {
-                        var block = new BindableBlockTransferItem(blockItem.Id);
+                        var block = new BindableBlockTransferItem(blockItem.Offset);
                         block.Progress.CompletedSize = blockItem.CompletedSize;
                         block.Progress.TotalSize = blockItem.TotalSize;
                         return block;
@@ -77,7 +77,7 @@ namespace Accelerider.Windows.TransferService.WpfInteractions
 
                     lock (_lockObject)
                     {
-                        var block = BlockDownloadItems.FirstOrDefault(blockItem => blockItem.Id == item.CurrentBlockId);
+                        var block = BlockDownloadItems.FirstOrDefault(blockItem => blockItem.Offset == item.Offset);
                         if (block != null)
                         {
                             block.Progress.CompletedSize += item.Bytes;

@@ -35,7 +35,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public TransferStatus Status => _downloader.Status;
 
-        public IReadOnlyDictionary<Guid, BlockTransferContext> BlockContexts => _downloader.BlockContexts;
+        public IReadOnlyDictionary<long, BlockTransferContext> BlockContexts => _downloader.BlockContexts;
 
         public object Tag
         {

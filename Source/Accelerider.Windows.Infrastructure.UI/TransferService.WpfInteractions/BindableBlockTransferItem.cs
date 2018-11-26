@@ -1,17 +1,15 @@
-﻿using System;
-
-// ReSharper disable once CheckNamespace
+﻿// ReSharper disable once CheckNamespace
 namespace Accelerider.Windows.TransferService.WpfInteractions
 {
     public class BindableBlockTransferItem
     {
-        public Guid Id { get; }
+        public long Offset { get; }
 
         public BindableProgress Progress { get; }
 
-        public BindableBlockTransferItem(Guid id)
+        public BindableBlockTransferItem(long offset)
         {
-            Id = id;
+            Offset = offset;
             Progress = new BindableProgress();
         }
     }
