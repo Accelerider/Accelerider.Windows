@@ -24,7 +24,7 @@ namespace Accelerider.Windows.TransferService
         void SuspendAll();
     }
 
-    public interface IDownloaderManager : ITransporterManager<IDownloader, DownloadContext>, IJsonable<IDownloaderManager>
+    public interface IDownloaderManager : ITransporterManager<IDownloader, DownloadContext>/*, IJsonable<IDownloaderManager>*/
     {
     }
 }

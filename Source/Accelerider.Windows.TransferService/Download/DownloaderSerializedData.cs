@@ -6,9 +6,6 @@ namespace Accelerider.Windows.TransferService
     internal class DownloaderSerializedData
     {
         [JsonProperty]
-        public object Tag { get; internal set; }
-
-        [JsonProperty]
         public DownloadContext Context { get; internal set; }
 
         [JsonProperty]

@@ -29,7 +29,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
 
             var json = downloader.ToJson();
 
-            var downloaderFromJson = FileTransferService.GetDownloaderBuilder().BuildFromJson(json);
+            var downloaderFromJson = FileTransferService.GetDownloaderBuilder().UseDefaultConfigure().Build(json);
 
             ReadyToRun(downloaderFromJson);
 

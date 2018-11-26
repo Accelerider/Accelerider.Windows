@@ -93,6 +93,7 @@
     <Compile Include="Enumerations\FileType.cs" />
     <Compile Include="Enumerations\TransportedFileStatus.cs" />
     <Compile Include="Extensions\AcceleriderUserExtensions.cs" />
+    <Compile Include="Extensions\DownloaderBuilderExtensions.cs" />
     <Compile Include="Extensions\FileLocatorExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
     <Compile Include="I18nResources\ResKeys.cs">

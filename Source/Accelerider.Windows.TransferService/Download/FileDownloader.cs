@@ -50,9 +50,6 @@ namespace Accelerider.Windows.TransferService
 
         public IReadOnlyDictionary<long, BlockTransferContext> BlockContexts => _blockTransferContextCache;
 
-        public object Tag { get; set; }
-
-
         public FileDownloader(BuildInfo builders)
         {
             _buildInfo = builders;

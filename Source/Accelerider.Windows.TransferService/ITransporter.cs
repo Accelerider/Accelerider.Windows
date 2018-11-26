@@ -13,8 +13,6 @@ namespace Accelerider.Windows.TransferService
 
         IReadOnlyDictionary<long, BlockTransferContext> BlockContexts { get; }
 
-        object Tag { get; set; }
-
         void Run();
 
         void Stop();

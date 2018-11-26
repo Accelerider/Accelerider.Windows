@@ -37,12 +37,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public IReadOnlyDictionary<long, BlockTransferContext> BlockContexts => _downloader.BlockContexts;
 
-        public object Tag
-        {
-            get => _downloader.Tag;
-            set => _downloader.Tag = value;
-        }
-
         public void Run() => _downloader.Run();
 
         public void Stop() => _downloader.Stop();

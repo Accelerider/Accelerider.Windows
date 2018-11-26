@@ -85,14 +85,6 @@ namespace Accelerider.Windows.TransferService
             return this;
         }
 
-        public IDownloaderBuilder Configure(Func<IDownloader, IDownloader> postProcessInterceptor)
-        {
-            Guards.ThrowIfNull(postProcessInterceptor);
-
-            _postProcessInterceptor = _postProcessInterceptor.Then(postProcessInterceptor);
-            return this;
-        }
-
         public IDownloaderBuilder From(IRemotePathProvider provider)
         {
             Guards.ThrowIfNull(provider);
@@ -151,12 +143,6 @@ namespace Accelerider.Windows.TransferService
                 throw new InvalidOperationException();
 
             var context = serializedData.Context;
-
-            Configure(downloader =>
-            {
-                downloader.Tag = serializedData.Tag;
-                return downloader;
-            });
 
             return InternalBuild(context, ctx => token =>
             {
