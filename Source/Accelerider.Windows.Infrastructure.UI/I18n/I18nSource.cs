@@ -36,5 +36,7 @@ namespace Accelerider.Windows.Infrastructure.I18n
         {
             I18nManager.Instance.CurrentUICultureChanged -= OnCurrentUICultureChanged;
         }
+
+        public static implicit operator I18nSource(ComponentResourceKey resourceKey) => new I18nSource(resourceKey);
     }
 }
