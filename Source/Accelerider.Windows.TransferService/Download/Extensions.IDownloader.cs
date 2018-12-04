@@ -46,7 +46,6 @@ namespace Accelerider.Windows.TransferService
 
             return new DownloaderSerializedData
             {
-                Tag = @this.Tag,
                 Context = @this.Context,
                 BlockContexts = @this.BlockContexts.Values.ToList()
             }.ToJson();

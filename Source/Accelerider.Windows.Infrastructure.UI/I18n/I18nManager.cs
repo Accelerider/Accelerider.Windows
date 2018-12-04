@@ -20,13 +20,13 @@ namespace Accelerider.Windows.Infrastructure.I18n
 
         public CultureInfo CurrentUICulture
         {
-            get => Thread.CurrentThread.CurrentUICulture;
+            get => Application.Current.Dispatcher.Thread.CurrentUICulture;
             set
             {
                 if (EqualityComparer<CultureInfo>.Default.Equals(value, Thread.CurrentThread.CurrentUICulture)) return;
 
-                Thread.CurrentThread.CurrentUICulture = value;
-                Thread.CurrentThread.CurrentCulture = value;
+                Application.Current.Dispatcher.Thread.CurrentCulture = value;
+                Application.Current.Dispatcher.Thread.CurrentUICulture = value;
                 OnCurrentUICultureChanged();
             }
         }
@@ -49,7 +49,7 @@ namespace Accelerider.Windows.Infrastructure.I18n
 
         public object Get(ComponentResourceKey key)
         {
-            return GetCurrentResourceManager(key.TypeInTargetAssembly.FullName)?.GetString(key.ResourceId.ToString(), CurrentUICulture)
+            return GetCurrentResourceManager(key.TypeInTargetAssembly.FullName)?.GetObject(key.ResourceId.ToString(), CurrentUICulture)
                    ?? $"<MISSING: {key}>";
         }
 

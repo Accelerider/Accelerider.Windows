@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.TransferService
 {
     public interface ITransporterManager<TTransporter, TContext>
-        where TContext : TransferContextBase
         where TTransporter : ITransporter<TContext>
     {
         IEnumerable<TTransporter> Transporters { get; }
@@ -25,7 +23,7 @@ namespace Accelerider.Windows.TransferService
         void SuspendAll();
     }
 
-    public interface IDownloaderManager : ITransporterManager<IDownloader, DownloadContext>, IJsonable<IDownloaderManager>
+    public interface IDownloaderManager : ITransporterManager<IDownloader, DownloadContext>
     {
     }
 }

@@ -8,37 +8,31 @@ namespace Accelerider.Windows.TransferService
 {
     public static class DownloaderBuilderExtensions
     {
-        public const string DefaultConfigureTag = "DefaultConfigure";
-        public const string BaiduCloudConfigureTag = "BaiduCloudConfigure";
-        public const string OneDriveConfigureTag = "OneDriveConfigure";
-        public const string OneOneFiveCloudConfigureTag = "OneOneFiveCloudConfigure";
-        public const string SixCloudConfigureTag = "SixCloudConfigure";
+        //public static IDownloader BuildFromJson(this IDownloaderBuilder @this, string json)
+        //{
+        //    var configureTag = json.GetJsonValue(nameof(DownloaderSerializedData.Tag));
 
-        public static IDownloader BuildFromJson(this IDownloaderBuilder @this, string json)
-        {
-            var configureTag = json.GetJsonValue(nameof(DownloaderSerializedData.Tag));
+        //    return !string.IsNullOrEmpty(configureTag)
+        //        ? @this.UseConfigure(configureTag).Build(json)
+        //        : null;
+        //}
 
-            return !string.IsNullOrEmpty(configureTag)
-                ? @this.UseConfigure(configureTag).Build(json)
-                : null;
-        }
-
-        public static IDownloaderBuilder UseConfigure(this IDownloaderBuilder @this, string configureTag)
-        {
-            switch (configureTag)
-            {
-                case BaiduCloudConfigureTag:
-                    return @this.UseBaiduCloudConfigure();
-                case OneDriveConfigureTag:
-                    return @this.UseOneDriveConfigure();
-                case OneOneFiveCloudConfigureTag:
-                    return @this.UseOneOneFiveCloudConfigure();
-                case SixCloudConfigureTag:
-                    return @this.UseSixCloudConfigure();
-                default:
-                    return @this.UseDefaultConfigure();
-            }
-        }
+        //public static IDownloaderBuilder UseConfigure(this IDownloaderBuilder @this, string configureTag)
+        //{
+        //    switch (configureTag)
+        //    {
+        //        case BaiduCloudConfigureTag:
+        //            return @this.UseBaiduCloudConfigure();
+        //        case OneDriveConfigureTag:
+        //            return @this.UseOneDriveConfigure();
+        //        case OneOneFiveCloudConfigureTag:
+        //            return @this.UseOneOneFiveCloudConfigure();
+        //        case SixCloudConfigureTag:
+        //            return @this.UseSixCloudConfigure();
+        //        default:
+        //            return @this.UseDefaultConfigure();
+        //    }
+        //}
 
         public static IDownloaderBuilder UseDefaultConfigure(this IDownloaderBuilder @this) => @this
             .Configure(request =>
@@ -79,45 +73,6 @@ namespace Accelerider.Windows.TransferService
                     .Catch<OperationCanceledException>((e, retryCount, blockContext) => HandleCommand.Break)
                     .Catch<WebException>((e, retryCount, blockContext) => retryCount < 3 ? HandleCommand.Retry : HandleCommand.Throw)
                     .Catch<RemotePathExhaustedException>((e, retryCount, blockContext) => HandleCommand.Throw);
-            })
-            .Configure(downloader =>
-            {
-                downloader.Tag = DefaultConfigureTag;
-                return downloader;
-            });
-
-        public static IDownloaderBuilder UseAcceleriderConfigure(this IDownloaderBuilder @this)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static IDownloaderBuilder UseBaiduCloudConfigure(this IDownloaderBuilder @this) => @this
-            .Configure(downloader =>
-            {
-                downloader.Tag = BaiduCloudConfigureTag;
-                return downloader;
-            });
-
-        public static IDownloaderBuilder UseOneDriveConfigure(this IDownloaderBuilder @this) => @this
-            .Configure(downloader =>
-            {
-                downloader.Tag = OneDriveConfigureTag;
-                return downloader;
-            });
-
-        public static IDownloaderBuilder UseOneOneFiveCloudConfigure(this IDownloaderBuilder @this) => @this
-            .Configure(downloader =>
-            {
-                downloader.Tag = OneOneFiveCloudConfigureTag;
-                return downloader;
-            });
-
-        public static IDownloaderBuilder UseSixCloudConfigure(this IDownloaderBuilder @this) => @this
-            .UseDefaultConfigure()
-            .Configure(downloader =>
-            {
-                downloader.Tag = SixCloudConfigureTag;
-                return downloader;
             });
 
         private static IEnumerable<(long Offset, long Length)> DefaultBlockIntervalGenerator(long totalLength)

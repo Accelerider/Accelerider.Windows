@@ -1,17 +1,15 @@
-﻿using System;
-
-namespace Accelerider.Windows.TransferService
+﻿namespace Accelerider.Windows.TransferService
 {
     public struct TransferNotification
     {
-        public TransferNotification(Guid currentBlockId, TransferStatus status, long bytes)
+        public TransferNotification(long offset, TransferStatus status, long bytes)
         {
-            CurrentBlockId = currentBlockId;
+            Offset = offset;
             Status = status;
             Bytes = bytes;
         }
 
-        public Guid CurrentBlockId { get; }
+        public long Offset { get; }
 
         public TransferStatus Status { get; }
 

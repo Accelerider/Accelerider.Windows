@@ -33,12 +33,12 @@ namespace <#=System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("Names
         .Select(item => item.Attribute("name")?.Value)
         .Where(item => item != null);
 
-	var typeInTargetAssemblyName = Path.GetFileNameWithoutExtension(ResourceFileName);
+	var resourceDesignerName = Path.GetFileNameWithoutExtension(ResourceFileName);
 
     foreach (string resourceKey in resourceKeys)
     {
 #>
-		public static ComponentResourceKey <#= resourceKey #> = new ComponentResourceKey(typeof(<#= typeInTargetAssemblyName #>), nameof(<#= resourceKey #>));
+		public static readonly ComponentResourceKey <#= resourceKey #> = new ComponentResourceKey(typeof(<#= resourceDesignerName #>), nameof(<#= resourceKey #>));
 <#
     }
 #>

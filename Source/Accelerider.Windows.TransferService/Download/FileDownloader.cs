@@ -22,14 +22,14 @@ namespace Accelerider.Windows.TransferService
 
             public Func<DownloadContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> BlockTransferContextGeneratorBuilder { get; set; }
 
-            public Func<DownloadSettings, Func<BlockTransferContext, IObservable<(Guid Id, int Bytes)>>> BlockDownloadItemFactoryBuilder { get; set; }
+            public Func<DownloadSettings, Func<BlockTransferContext, IObservable<(long Offset, int Bytes)>>> BlockDownloadItemFactoryBuilder { get; set; }
         }
 
         private readonly ObserverList<TransferNotification> _observerList = new ObserverList<TransferNotification>();
         private readonly BuildInfo _buildInfo;
 
         private readonly AsyncLocker _runAsyncLocker = new AsyncLocker();
-        private ConcurrentDictionary<Guid, BlockTransferContext> _blockTransferContextCache;
+        private ConcurrentDictionary<long, BlockTransferContext> _blockTransferContextCache;
         private IDisposable _disposable;
         private TransferStatus _status;
         private CancellationTokenSource _cancellationTokenSource;
@@ -39,7 +39,7 @@ namespace Accelerider.Windows.TransferService
         public TransferStatus Status
         {
             get => _status;
-            private set { if (SetProperty(ref _status, value)) _observerList.OnNext(new TransferNotification(Guid.Empty, value, 0)); }
+            private set { if (SetProperty(ref _status, value)) _observerList.OnNext(new TransferNotification(BlockTransferContext.InvalidOffset, value, 0)); }
         }
 
         public DownloadContext Context => _buildInfo.Context;
@@ -48,10 +48,7 @@ namespace Accelerider.Windows.TransferService
         //    private set { if (SetProperty(ref _context, value)) _settings = value != null ? _buildInfo.TransferSettingsBuilder(value) : null; }
         //}
 
-        public IReadOnlyDictionary<Guid, BlockTransferContext> BlockContexts => _blockTransferContextCache;
-
-        public object Tag { get; set; }
-
+        public IReadOnlyDictionary<long, BlockTransferContext> BlockContexts => _blockTransferContextCache;
 
         public FileDownloader(BuildInfo builders)
         {
@@ -133,8 +130,8 @@ namespace Accelerider.Windows.TransferService
         {
             var blockContexts = (await _buildInfo.BlockTransferContextGeneratorBuilder(Context).Invoke(cancellationToken)).ToArray();
 
-            _blockTransferContextCache = new ConcurrentDictionary<Guid, BlockTransferContext>(
-                blockContexts.ToDictionary(item => item.Id));
+            _blockTransferContextCache = new ConcurrentDictionary<long, BlockTransferContext>(
+                blockContexts.ToDictionary(item => item.Offset));
 
             return CreateAndRunBlockDownloadItems(blockContexts);
         }
@@ -151,8 +148,8 @@ namespace Accelerider.Windows.TransferService
             var disposable = blockContexts
                 .Select(item => _buildInfo.BlockDownloadItemFactoryBuilder(_buildInfo.Settings).Invoke(item))
                 .Merge(_buildInfo.Settings.MaxConcurrent)
-                .Do(item => _blockTransferContextCache[item.Id].CompletedSize += item.Bytes)
-                .Select(item => new TransferNotification(item.Id, Status, item.Bytes))
+                .Do(item => _blockTransferContextCache[item.Offset].CompletedSize += item.Bytes)
+                .Select(item => new TransferNotification(item.Offset, Status, item.Bytes))
                 .Subscribe(
                     value => _observerList.OnNext(value),
                     error =>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Accelerider.Windows.TransferService
 {
-    public interface ITransporter<out T> : IObservable<TransferNotification>, IDisposable where T : TransferContextBase
+    public interface ITransporter<out T> : IObservable<TransferNotification>, IDisposable
     {
         Guid Id { get; }
 
@@ -11,9 +11,7 @@ namespace Accelerider.Windows.TransferService
 
         TransferStatus Status { get; }
 
-        IReadOnlyDictionary<Guid, BlockTransferContext> BlockContexts { get; }
-
-        object Tag { get; set; }
+        IReadOnlyDictionary<long, BlockTransferContext> BlockContexts { get; }
 
         void Run();
 

@@ -14,7 +14,5 @@ namespace Accelerider.Windows.Modules.NetDisk.I18nResources
 {
 	public static class ResKeys
 	{
-		private class TypeInTargetAssembly { }
-
 	}
 }
