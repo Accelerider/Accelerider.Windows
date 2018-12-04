@@ -22,7 +22,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.NetDiskAuthentications
         public SixCloudSignInViewModel(IUnityContainer container) : base(container)
         {
             var user = Container.Resolve<SixCloudUser>();
-
+ 
             SignInCommand = new RelayCommand<PasswordBox>(
                 async passwordBox =>
                 {

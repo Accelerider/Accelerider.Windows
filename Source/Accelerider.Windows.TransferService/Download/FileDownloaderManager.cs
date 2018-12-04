@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using Accelerider.Windows.Infrastructure;
-using Newtonsoft.Json;
 
 namespace Accelerider.Windows.TransferService
 {
@@ -117,35 +115,7 @@ namespace Accelerider.Windows.TransferService
             _executingList.ForEach(item => item.Stop());
         }
 
-        //public string ToJson()
-        //{
-        //    if (_executingList.Any()) throw new InvalidOperationException();
-
-        //    return _allLists.SelectMany(item => item)
-        //        .Where(item => !string.IsNullOrEmpty(item.Context?.LocalPath))
-        //        .Select(item =>
-        //        {
-        //            var path = item.Context.LocalPath + AcceleriderDownloadFileExtension;
-        //            File.WriteAllText(path, item.ToJson());
-        //            return path;
-        //        })
-        //        .ToList()
-        //        .ToJson();
-        //}
-
-        //public IDownloaderManager FromJson(string json)
-        //{
-        //    json.ToObject<List<string>>()?
-        //        .Where(File.Exists)
-        //        .Select(File.ReadAllText)
-        //        .Select(FileTransferService.GetDownloaderBuilder().BuildFromJson)
-        //        .Where(item => item != null)
-        //        .ForEach(item => Add(item));
-
-        //    return this;
-        //}
-
-        private bool CanAsNext(IDownloader item)
+        private static bool CanAsNext(IDownloader item)
         {
             return item != null &&
                    item.Status != TransferStatus.Transferring &&

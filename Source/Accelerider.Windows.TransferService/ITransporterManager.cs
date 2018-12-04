@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.TransferService
 {
@@ -24,7 +23,7 @@ namespace Accelerider.Windows.TransferService
         void SuspendAll();
     }
 
-    public interface IDownloaderManager : ITransporterManager<IDownloader, DownloadContext>/*, IJsonable<IDownloaderManager>*/
+    public interface IDownloaderManager : ITransporterManager<IDownloader, DownloadContext>
     {
     }
 }

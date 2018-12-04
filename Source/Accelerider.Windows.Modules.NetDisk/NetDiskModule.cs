@@ -6,6 +6,7 @@ using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Views;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
 using Accelerider.Windows.Modules.NetDisk.Views.Transportation;
+using Accelerider.Windows.TransferService;
 using Prism.Ioc;
 using Unity;
 using Prism.Regions;
@@ -27,6 +28,7 @@ namespace Accelerider.Windows.Modules.NetDisk
         {
             // Register for container
             containerRegistry.RegisterInstance(GetNetDiskApi());
+            containerRegistry.RegisterInstance(FileTransferService.GetDownloaderManager("net-disk"));
 
             // Register for region
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComponent));
@@ -37,7 +39,6 @@ namespace Accelerider.Windows.Modules.NetDisk
         public override void OnInitialized(IContainerProvider containerProvider)
         {
             AcceleriderUserExtensions.Initialize(Container);
-            containerProvider.GetContainer();
         }
 
         private INetDiskApi GetNetDiskApi()
