@@ -20,7 +20,6 @@ namespace Accelerider.Windows.TransferService
         private Func<long, IEnumerable<(long offset, long length)>> _blockIntervalGenerator;
         private Func<HttpWebRequest, HttpWebRequest> _requestInterceptor;
         private Func<string, string> _localPathInterceptor;
-        private Func<IObservable<(long Offset, int Bytes)>, IObservable<(long Offset, int Bytes)>> _blockTransferItemInterceptor;
         private Func<IDownloader, IDownloader> _postProcessInterceptor;
 
         private IRemotePathProvider _remotePathProvider;
@@ -39,7 +38,6 @@ namespace Accelerider.Windows.TransferService
             _blockIntervalGenerator = size => new[] { (0L, size) };
             _requestInterceptor = _ => _;
             _localPathInterceptor = _ => _;
-            _blockTransferItemInterceptor = _ => _;
             _postProcessInterceptor = _ => _;
         }
 
@@ -77,14 +75,6 @@ namespace Accelerider.Windows.TransferService
             return this;
         }
 
-        public IDownloaderBuilder Configure(Func<IObservable<(long Offset, int Bytes)>, IObservable<(long Offset, int Bytes)>> blockTransferItemInterceptor)
-        {
-            Guards.ThrowIfNull(blockTransferItemInterceptor);
-
-            _blockTransferItemInterceptor = _blockTransferItemInterceptor.Then(blockTransferItemInterceptor);
-            return this;
-        }
-
         public IDownloaderBuilder From(IRemotePathProvider provider)
         {
             Guards.ThrowIfNull(provider);
@@ -113,7 +103,6 @@ namespace Accelerider.Windows.TransferService
             {
                 _settingsConfigurator = _settingsConfigurator,
                 _remotePathProviderBuilder = _remotePathProviderBuilder,
-                _blockTransferItemInterceptor = _blockTransferItemInterceptor,
                 _blockIntervalGenerator = _blockIntervalGenerator,
                 _requestInterceptor = _requestInterceptor,
                 _localPathInterceptor = _localPathInterceptor
@@ -220,7 +209,6 @@ namespace Accelerider.Windows.TransferService
             return context.CompletedSize < context.TotalSize
                 ? new Func<BlockTransferContext, IObservable<(long Offset, int Bytes)>>(
                         blockContext => DownloadPrimitiveMethods.CreateBlockDownloadItem(BuildStreamPairFactory(blockContext), blockContext))
-                    .Then(_blockTransferItemInterceptor)
                     .Invoke(context)
                 : Observable.Empty<(long Offset, int Bytes)>();
         }

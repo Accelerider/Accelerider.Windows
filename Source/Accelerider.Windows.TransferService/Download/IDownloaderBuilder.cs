@@ -17,8 +17,6 @@ namespace Accelerider.Windows.TransferService
 
         IDownloaderBuilder Configure(Func<long, IEnumerable<(long Offset, long Length)>> blockIntervalGenerator);
 
-        IDownloaderBuilder Configure(Func<IObservable<(long Offset, int Bytes)>, IObservable<(long Offset, int Bytes)>> blockTransferItemInterceptor);
-
         /// <summary>
         /// Sets a <see cref="IRemotePathProvider"/> instance to provide the remote path.
         /// </summary>
