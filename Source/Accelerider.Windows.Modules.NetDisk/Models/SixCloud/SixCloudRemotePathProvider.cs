@@ -12,7 +12,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         public SixCloudRemotePathProvider(SixCloudFile file) => _file = file;
 
-        public void Score(string remotePath, double score) => throw new NotSupportedException();
+        public void Rate(string remotePath, double score) => throw new NotSupportedException();
 
         public async Task<string> GetRemotePathAsync() => await _file.GetDownloadAddressAsync();
     }

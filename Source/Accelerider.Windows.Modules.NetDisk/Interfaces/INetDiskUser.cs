@@ -21,8 +21,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
         DisplayDataSize UsedCapacity { get; }
 
-        IReadOnlyCollection<FileCategory> AvailableFileCategories { get; }
-
         Task RefreshUserInfoAsync();
 
         // Gets files info from server --------------------------------------------------------

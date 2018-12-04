@@ -4,7 +4,7 @@ namespace Accelerider.Windows.TransferService
 {
     public interface IRemotePathProvider
     {
-        void Score(string remotePath, double score);
+        void Rate(string remotePath, double score);
 
         Task<string> GetRemotePathAsync();
     }

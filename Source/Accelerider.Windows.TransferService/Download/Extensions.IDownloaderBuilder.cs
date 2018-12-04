@@ -8,31 +8,8 @@ namespace Accelerider.Windows.TransferService
 {
     public static class DownloaderBuilderExtensions
     {
-        //public static IDownloader BuildFromJson(this IDownloaderBuilder @this, string json)
-        //{
-        //    var configureTag = json.GetJsonValue(nameof(DownloaderSerializedData.Tag));
-
-        //    return !string.IsNullOrEmpty(configureTag)
-        //        ? @this.UseConfigure(configureTag).Build(json)
-        //        : null;
-        //}
-
-        //public static IDownloaderBuilder UseConfigure(this IDownloaderBuilder @this, string configureTag)
-        //{
-        //    switch (configureTag)
-        //    {
-        //        case BaiduCloudConfigureTag:
-        //            return @this.UseBaiduCloudConfigure();
-        //        case OneDriveConfigureTag:
-        //            return @this.UseOneDriveConfigure();
-        //        case OneOneFiveCloudConfigureTag:
-        //            return @this.UseOneOneFiveCloudConfigure();
-        //        case SixCloudConfigureTag:
-        //            return @this.UseSixCloudConfigure();
-        //        default:
-        //            return @this.UseDefaultConfigure();
-        //    }
-        //}
+        private const int WebExceptionRetryCount = 5;
+        private const int BuildExceptionRetryCount = 20;
 
         public static IDownloaderBuilder UseDefaultConfigure(this IDownloaderBuilder @this) => @this
             .Configure(request =>
@@ -62,16 +39,16 @@ namespace Accelerider.Windows.TransferService
 
                 settings.BuildPolicy = Policy
                     .Handle<WebException>(e => e.Status != WebExceptionStatus.RequestCanceled)
-                    .RetryAsync(20, (e, retryCount, policyContext) =>
+                    .RetryAsync(BuildExceptionRetryCount, (e, retryCount, policyContext) =>
                     {
                         var remotePath = ((WebException)e).Response?.ResponseUri.OriginalString;
                         if (!string.IsNullOrEmpty(remotePath))
-                            context.RemotePathProvider.Score(remotePath, -3);
+                            context.RemotePathProvider.Rate(remotePath, -1);
                     });
 
                 settings.DownloadPolicy
                     .Catch<OperationCanceledException>((e, retryCount, blockContext) => HandleCommand.Break)
-                    .Catch<WebException>((e, retryCount, blockContext) => retryCount < 3 ? HandleCommand.Retry : HandleCommand.Throw)
+                    .Catch<WebException>((e, retryCount, blockContext) => retryCount < WebExceptionRetryCount ? HandleCommand.Retry : HandleCommand.Throw)
                     .Catch<RemotePathExhaustedException>((e, retryCount, blockContext) => HandleCommand.Throw);
             });
 
@@ -93,10 +70,7 @@ namespace Accelerider.Windows.TransferService
             yield return (offset, totalLength - offset);
         }
 
-        public static IDownloaderBuilder From(this IDownloaderBuilder @this, string path)
-        {
-            return @this.From(new ConstantRemotePathProvider(new HashSet<string>(new[] { path })));
-        }
+        public static IDownloaderBuilder From(this IDownloaderBuilder @this, string path) => @this.From(new[] { path });
 
         public static IDownloaderBuilder From(this IDownloaderBuilder @this, IEnumerable<string> paths)
         {

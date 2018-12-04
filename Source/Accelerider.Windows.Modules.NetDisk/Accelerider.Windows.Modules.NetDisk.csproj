@@ -111,13 +111,13 @@
     <Compile Include="Models\BaiduNetdisk\BaiduNetdiskFile.cs" />
     <Compile Include="Models\BaiduNetdisk\BaiduNetdiskUser.cs" />
     <Compile Include="Models\BaiduNetdisk\IBaiduNetdiskApi.cs" />
-    <Compile Include="Models\Onedrive\OnedriveFile.cs" />
-    <Compile Include="Models\Onedrive\OnedriveUser.cs" />
+    <Compile Include="Models\OneDrive\OneDriveFile.cs" />
+    <Compile Include="Models\OneDrive\OneDriveUser.cs" />
     <Compile Include="Models\Results\Bodies.cs" />
     <Compile Include="Models\Results\ResultBase.cs" />
     <Compile Include="Models\LazyTreeNode.cs" />
     <Compile Include="Models\NetDiskUserBase.cs" />
-    <Compile Include="Models\Onedrive\IMicrosoftGraphApi.cs" />
+    <Compile Include="Models\OneDrive\IMicrosoftGraphApi.cs" />
     <Compile Include="Models\SixCloud\ISixCloudApi.cs" />
     <Compile Include="Models\SixCloud\SixCloudFile.cs" />
     <Compile Include="Models\SixCloud\SixCloudRemotePathProvider.cs" />

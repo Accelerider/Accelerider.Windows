@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk;
-using Accelerider.Windows.Modules.NetDisk.Models.Onedrive;
+using Accelerider.Windows.Modules.NetDisk.Models.OneDrive;
 using Accelerider.Windows.Modules.NetDisk.Models.SixCloud;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -29,7 +29,7 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
         [TestMethod]
         public void OnedriveTest()
         {
-            var user = new OnedriveUser(
+            var user = new OneDriveUser(
                 "token");
             user.RefreshUserInfoAsync().GetAwaiter().GetResult();
             var files = user.GetFileRootAsync().GetAwaiter().GetResult();

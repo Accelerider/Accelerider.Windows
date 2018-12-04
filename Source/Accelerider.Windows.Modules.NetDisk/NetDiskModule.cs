@@ -10,7 +10,6 @@ using Accelerider.Windows.TransferService;
 using Prism.Ioc;
 using Unity;
 using Prism.Regions;
-using Prism.Unity;
 using Refit;
 
 namespace Accelerider.Windows.Modules.NetDisk

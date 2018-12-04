@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Extensions;
 using Accelerider.Windows.Modules.NetDisk.Models.Results;
 using Refit;
 

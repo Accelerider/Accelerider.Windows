@@ -23,7 +23,7 @@ namespace Accelerider.Windows.TransferService
             _remotePaths = new ConcurrentDictionary<string, double>(remotePaths.ToDictionary(item => item, item => 0.0));
         }
 
-        public void Score(string remotePath, double score)
+        public void Rate(string remotePath, double score)
         {
             if (_remotePaths.ContainsKey(remotePath))
                 _remotePaths[remotePath] = _remotePaths[remotePath] + score;

@@ -20,8 +20,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public DisplayDataSize UsedCapacity { get; set; }
 
-        public IReadOnlyCollection<FileCategory> AvailableFileCategories { get; set; }
-
         public abstract Task RefreshUserInfoAsync();
 
 	    public abstract Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();

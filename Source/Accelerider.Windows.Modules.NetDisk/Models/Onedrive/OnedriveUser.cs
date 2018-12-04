@@ -12,16 +12,16 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Refit;
 
-namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
+namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
 {
-    public class OnedriveUser : NetDiskUserBase
+    public class OneDriveUser : NetDiskUserBase
     {
 
         public string RefreshToken { get; }
         public string AccessToken { get; private set; }
         public IMicrosoftGraphApi Api { get; }
 
-        public OnedriveUser(string token)
+        public OneDriveUser(string token)
         {
             RefreshToken = token;
             Api = RestService.For<IMicrosoftGraphApi>(
@@ -52,14 +52,14 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
         {
-            var tree = new LazyTreeNode<INetDiskFile>(new OnedriveFile()
+            var tree = new LazyTreeNode<INetDiskFile>(new OneDriveFile()
             {
                 Owner = this
             })
             {
                 ChildrenProvider = async parent =>
                 {
-                    var result = new List<OnedriveFile>();
+                    var result = new List<OneDriveFile>();
                     if (parent.Path == "/")
                     {
                         result.AddRange((await Api.GetRootFilesAsync()).FileList);
