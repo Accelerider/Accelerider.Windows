@@ -6,19 +6,21 @@ using Accelerider.Windows.Resources.I18N;
 using Prism.Regions;
 using System.Linq;
 using Accelerider.Windows.Constants;
-using Accelerider.Windows.Infrastructure.ViewModels;
-using Autofac;
+using Accelerider.Windows.Infrastructure.Mvvm;
+using MaterialDesignThemes.Wpf;
+using Unity;
 
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
+    public class MainWindowViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded, INotificable
     {
         private ICommand _feedbackCommand;
         private bool _appStoreIsDisplayed;
 
+        public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
 
-        public MainWindowViewModel(IContainer container, IRegionManager regionManager) : base(container)
+        public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
             RegionManager = regionManager;
             FeedbackCommand = new RelayCommand(() => Process.Start(Hyperlinks.Issue));

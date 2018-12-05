@@ -20,22 +20,24 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\Debug\Modules\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Build\Release\Modules\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
@@ -43,25 +45,23 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.4.1.1101, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.2.4.1.1101\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
+    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
     </Reference>
-    <Reference Include="Prism.Autofac.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Autofac.6.3.0\lib\net45\Prism.Autofac.Wpf.dll</HintPath>
+    <Reference Include="Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.7.1.0.431\lib\net45\Prism.Unity.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
+    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Refit, Version=4.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Refit.4.6.30\lib\net461\Refit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
@@ -69,12 +69,18 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.3.3.1\lib\net46\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.8.11\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -87,6 +93,8 @@
     <Compile Include="Enumerations\FileType.cs" />
     <Compile Include="Enumerations\TransportedFileStatus.cs" />
     <Compile Include="Extensions\AcceleriderUserExtensions.cs" />
+    <Compile Include="Extensions\DownloaderBuilderExtensions.cs" />
+    <Compile Include="Extensions\FileLocatorExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
     <Compile Include="I18nResources\ResKeys.cs">
       <DependentUpon>ResKeys.tt</DependentUpon>
@@ -108,12 +116,18 @@
     <Compile Include="Models\Results\Bodies.cs" />
     <Compile Include="Models\Results\ResultBase.cs" />
     <Compile Include="Models\LazyTreeNode.cs" />
-    <Compile Include="Models\NetDiskUser.cs" />
+    <Compile Include="Models\NetDiskUserBase.cs" />
     <Compile Include="Models\Onedrive\IMicrosoftGraphApi.cs" />
+    <Compile Include="Models\SixCloud\ISixCloudApi.cs" />
+    <Compile Include="Models\SixCloud\SixCloudFile.cs" />
+    <Compile Include="Models\SixCloud\SixCloudRemotePathProvider.cs" />
+    <Compile Include="Models\SixCloud\SixCloudUser.cs" />
     <Compile Include="Models\TransferItem.cs" />
     <Compile Include="Models\Datas.cs" />
     <Compile Include="Interfaces\INetDiskApi.cs" />
     <Compile Include="Models\Infos.cs" />
+    <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignIn.vm.cs" />
+    <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignUp.vm.cs" />
     <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">
       <DependentUpon>FolderLocationBar.xaml</DependentUpon>
     </Compile>
@@ -139,7 +153,7 @@
     <Compile Include="ViewModels\FileBrowser\FileBrowserComponent.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\RecycleBin.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\Share.vm.cs" />
-    <Compile Include="ViewModels\Others\NetDiskType.vm.cs" />
+    <Compile Include="ViewModels\Others\NetDiskType.cs" />
     <Compile Include="ViewModels\Transportation\Downloaded.vm.cs" />
     <Compile Include="ViewModels\Transportation\Downloading.vm.cs" />
     <Compile Include="ViewModels\Transportation\TransferredBase.vm.cs" />
@@ -177,6 +191,15 @@
     </Compile>
     <Compile Include="Views\FileBrowser\Share.xaml.cs">
       <DependentUpon>Share.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NetDiskAuthentications\SixCloud.xaml.cs">
+      <DependentUpon>SixCloud.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NetDiskAuthentications\SixCloudSignIn.xaml.cs">
+      <DependentUpon>SixCloudSignIn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NetDiskAuthentications\SixCloudSignUp.xaml.cs">
+      <DependentUpon>SixCloudSignUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TaskSettingsTabItem.xaml.cs">
       <DependentUpon>TaskSettingsTabItem.xaml</DependentUpon>
@@ -221,6 +244,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Accelerider.Windows.Controls\Accelerider.Windows.Controls.csproj">
+      <Project>{bdeb2dc9-f12b-45f4-b5a8-46fbd590b205}</Project>
+      <Name>Accelerider.Windows.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.Infrastructure.UI\Accelerider.Windows.Infrastructure.UI.csproj">
+      <Project>{329f2033-303a-4369-b1dd-c97bd743d964}</Project>
+      <Name>Accelerider.Windows.Infrastructure.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
       <Project>{F61839D1-6C54-4E70-B5CB-7EA02F54A664}</Project>
       <Name>Accelerider.Windows.Infrastructure</Name>
@@ -228,6 +259,10 @@
     <ProjectReference Include="..\Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj">
       <Project>{c4dbd55d-6c99-4a67-96ff-8b76baea2037}</Project>
       <Name>Accelerider.Windows.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.TransferService\Accelerider.Windows.TransferService.csproj">
+      <Project>{b36e1c9c-909b-42e0-a6a9-f74204573bf3}</Project>
+      <Name>Accelerider.Windows.TransferService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +316,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\NetDiskAuthentications\SixCloud.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NetDiskAuthentications\SixCloudSignIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NetDiskAuthentications\SixCloudSignUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TaskSettingsTabItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -322,6 +369,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ResKeys.cs</LastGenOutput>
     </Content>
+    <Resource Include="Images\logo-six-cloud.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -335,8 +383,7 @@
     <Error Condition="!Exists('..\packages\Refit.4.6.30\build\net461\refit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Refit.4.6.30\build\net461\refit.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>mkdir $(SolutionDir)Build\Modules\$(ProjectName)\zh-CHS
-
-copy $(TargetPath) $(SolutionDir)Build\Modules\</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

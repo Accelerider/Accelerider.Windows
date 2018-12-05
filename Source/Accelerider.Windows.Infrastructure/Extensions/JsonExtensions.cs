@@ -4,16 +4,22 @@ namespace System
 {
     public static class JsonExtensions
     {
-        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects };
+        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
-        public static string ToJson(this object @object, Formatting formatting = Formatting.None)
+        public static string ToJson<T>(this T @object, Formatting formatting = Formatting.None)
         {
-            return JsonConvert.SerializeObject(@object, formatting, JsonSerializerSettings);
+            var type = @object.GetType();
+
+            return typeof(T) != type
+                ? JsonConvert.SerializeObject(@object, type, formatting, JsonSerializerSettings)
+                : JsonConvert.SerializeObject(@object, formatting, JsonSerializerSettings);
         }
 
         public static T ToObject<T>(this string json)
         {
-            return JsonConvert.DeserializeObject<T>(json, JsonSerializerSettings);
+            return !string.IsNullOrWhiteSpace(json)
+                ? JsonConvert.DeserializeObject<T>(json, JsonSerializerSettings)
+                : default;
         }
     }
 }

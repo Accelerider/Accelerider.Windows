@@ -4,9 +4,15 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mvvm="http://prismlibrary.com/"
-             xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser"
+             xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
              xmlns:local="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.FileBrowser"
-             mvvm:ViewModelLocator.AutoWireViewModel="True">
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance {x:Type vm:FilesViewModel}}">
+
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -69,7 +75,7 @@
                         <i:InvokeCommandAction Command="{Binding EnterFolderCommand}" CommandParameter="{Binding SelectedItem, ElementName=ListboxFileList}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                
+
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="20 10">
@@ -87,25 +93,12 @@
                                     <ColumnDefinition Width="110"/>
                                     <ColumnDefinition Width="16"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Tag="{Binding Content.FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="4" Text="{Binding Content.FileSize}" VerticalAlignment="Center" />
+                                <Image Grid.Column="0" Tag="{Binding Content.Type}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Content.Path.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="{Binding Content.Size}" VerticalAlignment="Center" />
                                 <TextBlock Grid.Column="6" Text="{Binding Content.ModifiedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
-                        <!--<DataTemplate.Triggers>
-                            <EventTrigger RoutedEvent="Loaded">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:01.000" Storyboard.TargetProperty="Opacity" From="0" To="1">
-                                            <DoubleAnimation.EasingFunction>
-                                                <CubicEase  EasingMode="EaseIn"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </DataTemplate.Triggers>-->
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

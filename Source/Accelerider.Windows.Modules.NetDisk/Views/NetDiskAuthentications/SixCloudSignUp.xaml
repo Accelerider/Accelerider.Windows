@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications.SixCloudSignUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.NetDiskAuthentications"
+             xmlns:local="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications"
+             xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400"
+             d:DataContext="{d:DesignInstance {x:Type vm:SixCloudSignUpViewModel}}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="16"/>
+                <RowDefinition />
+                <RowDefinition Height="16"/>
+                <RowDefinition />
+                <RowDefinition Height="16"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:PackIcon Kind="Email" VerticalAlignment="Bottom" Margin="6"/>
+            <TextBox Grid.Column="1" Grid.Row="0" materialDesign:HintAssist.Hint="Phone Number"
+                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
+
+            <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
+            <TextBox Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Username"
+                     Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
+
+            <materialDesign:PackIcon Grid.Column="0" Grid.Row="4" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
+            <PasswordBox x:Name="PasswordBox" Grid.Column="1" Grid.Row="4" materialDesign:HintAssist.Hint="Password" 
+                         Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+
+            <materialDesign:PackIcon Grid.Column="0" Grid.Row="6" Kind="Check" VerticalAlignment="Bottom" Margin="6"/>
+            <TextBox Grid.Column="1" Grid.Row="6"
+                     materialDesign:HintAssist.Hint="Verification Code" 
+                     Text="{Binding PassCode, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding SendPassCodeCommand}">SEND CODE</Button>
+            <Button Grid.Column="2" Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding SignUpCommand}"
+                    CommandParameter="{Binding ElementName=PasswordBox}">SIGN UP</Button>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,14 +1,14 @@
 ﻿using System.Linq;
-using Accelerider.Windows.Modules.NetDisk.Extensions;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
-using Autofac;
+using Unity;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels
 {
-    public abstract class ViewModelBase : Infrastructure.ViewModels.ViewModelBase
+    public abstract class ViewModelBase : Infrastructure.Mvvm.ViewModelBase
     {
-        protected ViewModelBase(IContainer container) : base(container) { }
+        protected ViewModelBase(IUnityContainer container) : base(container) { }
 
         public INetDiskUser CurrentNetDiskUser
         {

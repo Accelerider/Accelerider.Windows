@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.TransferService.WpfInteractions;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Models;
 
@@ -14,9 +15,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
         string Username { get; }
 
-        DataSize TotalCapacity { get; }
+        Uri Avatar { get; }
 
-        DataSize UsedCapacity { get; }
+        DisplayDataSize TotalCapacity { get; }
+
+        DisplayDataSize UsedCapacity { get; }
 
         IReadOnlyCollection<FileCategory> AvailableFileCategories { get; }
 
@@ -30,7 +33,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
         // Transfer operations ----------------------------------------------------------------
 
-        Task DownloadAsync(ILazyTreeNode<INetDiskFile> from, FileLocator to, Action<TransferItem> callback);
+        TransferItem Download(ILazyTreeNode<INetDiskFile> @from, FileLocator to);
 
         // It will be throw an exception if the to.FileType is not folder type.
         Task UploadAsync(FileLocator from, INetDiskFile to, Action<TransferItem> callback);

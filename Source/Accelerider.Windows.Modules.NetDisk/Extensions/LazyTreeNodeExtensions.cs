@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure;
 
-namespace Accelerider.Windows.Modules.NetDisk.Extensions
+// ReSharper disable once CheckNamespace
+namespace Accelerider.Windows.Infrastructure
 {
     public static class LazyTreeNodeExtensions
     {

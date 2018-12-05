@@ -3,11 +3,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.ViewModels;
-using Accelerider.Windows.Modules.NetDisk.Extensions;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
-using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
-using Autofac;
+using Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications;
+using Unity;
 using MaterialDesignThemes.Wpf;
 
 
@@ -22,7 +21,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         private ICommand _addNetDiskCommand;
 
 
-        public FileBrowserComponentViewModel(IContainer container) : base(container)
+        public FileBrowserComponentViewModel(IUnityContainer container) : base(container)
         {
             SubscribeEvents();
 
@@ -81,7 +80,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         private async void AddNetDiskCommandExecute()
         {
-            await DialogHost.Show(new SelectNetDiskTypeDialog(), "RootDialog");
+            await DialogHost.Show(new SixCloud(), "RootDialog");
         }
 
         private void SubscribeEvents()

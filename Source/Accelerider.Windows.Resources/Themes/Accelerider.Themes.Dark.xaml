@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="AcceleriderTitleBrush" Color="{DynamicResource Neutral1Color}"/>
+    <SolidColorBrush x:Key="AcceleriderPrimaryTextBrush" Color="{DynamicResource Neutral2Color}"/>
+    <SolidColorBrush x:Key="AcceleriderSecondaryTextBrush" Color="{DynamicResource Neutral3Color}"/>
+    <SolidColorBrush x:Key="AcceleriderDisableBrush" Color="{DynamicResource Neutral4Color}"/>
+    <SolidColorBrush x:Key="AcceleriderBorderBrush" Color="{DynamicResource Neutral5Color}"/>
+    <SolidColorBrush x:Key="AcceleriderDividerBrush" Color="{DynamicResource Neutral6Color}"/>
+    <SolidColorBrush x:Key="AcceleriderBackgroundBrush" Color="{DynamicResource Neutral7Color}"/>
+    <SolidColorBrush x:Key="AcceleriderTableHeaderBrush" Color="{DynamicResource Neutral8Color}"/>
+
+</ResourceDictionary>

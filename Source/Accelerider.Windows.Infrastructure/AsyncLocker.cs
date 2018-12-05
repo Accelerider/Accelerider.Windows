@@ -73,5 +73,33 @@ namespace Accelerider.Windows.Infrastructure
                 Await(task, executeAfterUnlocked);
             }
         }
+
+        public async Task AwaitAsync(Func<Task> task, bool executeAfterUnlocked = true)
+        {
+            if (task == null) throw new ArgumentNullException(nameof(task));
+
+            if (!IsLocked)
+            {
+                try
+                {
+                    IsLocked = true;
+                    await task();
+                }
+                finally
+                {
+                    IsLocked = false;
+                }
+            }
+            else if (executeAfterUnlocked)
+            {
+                Unlocked += OnUnlocked;
+            }
+
+            async void OnUnlocked()
+            {
+                Unlocked -= OnUnlocked;
+                await AwaitAsync(task, executeAfterUnlocked);
+            }
+        }
     }
 }

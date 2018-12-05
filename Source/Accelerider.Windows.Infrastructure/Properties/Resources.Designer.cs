@@ -59,50 +59,5 @@ namespace Accelerider.Windows.Infrastructure.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} has been exported..
-        /// </summary>
-        internal static string DataContext_ExportHasBeenExported_Exception {
-            get {
-                return ResourceManager.GetString("DataContext_ExportHasBeenExported_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} is already being observed..
-        /// </summary>
-        internal static string DataContext_ExpresionIsAlreadyBeingObserved_Exception {
-            get {
-                return ResourceManager.GetString("DataContext_ExpresionIsAlreadyBeingObserved_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The member access expression does not access a property..
-        /// </summary>
-        internal static string PropertySupport_ExpressionNotProperty_Exception {
-            get {
-                return ResourceManager.GetString("PropertySupport_ExpressionNotProperty_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The expression is not a member access expression..
-        /// </summary>
-        internal static string PropertySupport_NotMemberAccessExpression_Exception {
-            get {
-                return ResourceManager.GetString("PropertySupport_NotMemberAccessExpression_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The referenced property is a static property..
-        /// </summary>
-        internal static string PropertySupport_StaticExpression_Exception {
-            get {
-                return ResourceManager.GetString("PropertySupport_StaticExpression_Exception", resourceCulture);
-            }
-        }
     }
 }

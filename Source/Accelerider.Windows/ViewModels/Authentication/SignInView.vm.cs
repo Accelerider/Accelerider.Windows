@@ -4,11 +4,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.ViewModels;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Models;
+using Accelerider.Windows.ServerInteraction;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Authentication;
-using Autofac;
+using Unity;
 using Refit;
 
 namespace Accelerider.Windows.ViewModels.Authentication
@@ -17,20 +18,20 @@ namespace Accelerider.Windows.ViewModels.Authentication
     {
         private readonly INonAuthenticationApi _nonAuthenticationApi;
 
-        private SignUpInfoBody _signUpInfo;
+        private SignUpArgs _signUpArgs;
         private string _email;
         private bool _isRememberPassword;
         private bool _isAutoSignIn;
         private ICommand _signInCommand;
 
 
-        public SignInViewModel(IContainer container) : base(container)
+        public SignInViewModel(IUnityContainer container) : base(container)
         {
             _nonAuthenticationApi = Container.Resolve<INonAuthenticationApi>();
             ConfigureFile = Container.Resolve<IConfigureFile>();
             SignInCommand = new RelayCommand<PasswordBox>(SignInCommandExecute, passwordBox => CanSignIn(Email, passwordBox.Password));
 
-            EventAggregator.GetEvent<SignUpSuccessEvent>().Subscribe(signUpInfo => _signUpInfo = signUpInfo);
+            EventAggregator.GetEvent<SignUpSuccessEvent>().Subscribe(signUpArgs => _signUpArgs = signUpArgs);
         }
 
 
@@ -66,15 +67,15 @@ namespace Accelerider.Windows.ViewModels.Authentication
             var passwordBox = view.PasswordBox;
 
             // 1. Login info from SignUpView
-            if (_signUpInfo != null)
+            if (_signUpArgs != null)
             {
                 IsRememberPassword = false;
                 IsAutoSignIn = false;
-                Email = _signUpInfo.Username;
-                passwordBox.Password = _signUpInfo.Password;
+                Email = _signUpArgs.Username;
+                passwordBox.Password = _signUpArgs.Password;
 
                 SignInCommand.Execute(passwordBox);
-                _signUpInfo = null;
+                _signUpArgs = null;
                 return;
             }
 
@@ -133,18 +134,17 @@ namespace Accelerider.Windows.ViewModels.Authentication
 
         private async Task<bool> AuthenticateAsync(string username, string passwordMd5)
         {
-            var token = await _nonAuthenticationApi.LoginAsync(new LoginInfoBody
+            var result = await _nonAuthenticationApi.LoginAsync(new LoginArgs
             {
                 Email = username,
                 Password = passwordMd5
             }).RunApi();
 
-            token = token?.GetJsonValue("accessToken");
-            if (token == null) return false;
+            if (!result.Success) return false;
 
             var acceleriderApi = RestService.For<IAcceleriderApi>(Hyperlinks.ApiBaseAddress, new RefitSettings
             {
-                AuthorizationHeaderValueGetter = () => Task.FromResult(token)
+                AuthorizationHeaderValueGetter = () => Task.FromResult(result.AccessToken)
             });
 
             var user = await acceleriderApi.GetCurrentUserAsync().RunApi();
@@ -156,12 +156,10 @@ namespace Accelerider.Windows.ViewModels.Authentication
             return true;
         }
 
-        private void RegisterInstance(AcceleriderUser user, IAcceleriderApi acceleriderApi)
+        private void RegisterInstance(IAcceleriderUser user, IAcceleriderApi acceleriderApi)
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterInstance(user).As<IAcceleriderUser>();
-            builder.RegisterInstance(acceleriderApi).As<IAcceleriderApi>();
-            builder.Update(Container);
+            Container.RegisterInstance(user);
+            Container.RegisterInstance(acceleriderApi);
         }
 
 

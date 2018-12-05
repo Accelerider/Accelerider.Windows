@@ -2,14 +2,14 @@
 using System.Threading.Tasks;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
-using Autofac;
+using Unity;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
     public class ShareViewModel : LoadingFilesBaseViewModel<ISharedFile>
     {
-        public ShareViewModel(IContainer container) : base(container)
+        public ShareViewModel(IUnityContainer container) : base(container)
         {
         }
 

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
+using Accelerider.Windows.TransferService.WpfInteractions;
 
 namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 {
@@ -12,7 +13,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
     public interface IFile
     {
-        FileType FileType { get; }
+        FileType Type { get; }
     }
 
     public interface ISharedFile : IFile, IDeletable
@@ -30,7 +31,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
     {
         FileLocator Path { get; }
 
-        DataSize Size { get; }
+        DisplayDataSize Size { get; }
     }
 
     public interface IDiskFile : IFileSummary, IDeletable

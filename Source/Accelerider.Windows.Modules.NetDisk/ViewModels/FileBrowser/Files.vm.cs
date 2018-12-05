@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.ViewModels;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Constants;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
@@ -15,24 +15,20 @@ using Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
 using Accelerider.Windows.Resources.I18N;
-using Autofac;
+using Unity;
 using MaterialDesignThemes.Wpf;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>, IAwareViewLoadedAndUnloaded<Files>
+    public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>, IAwareViewLoadedAndUnloaded<Files>, INotificable
     {
         private ILazyTreeNode<INetDiskFile> _selectedSearchResult;
         private ILazyTreeNode<INetDiskFile> _currentFolder;
 
-        private ICommand _enterFolderCommand;
-        private ICommand _downloadCommand;
-        private ICommand _uploadCommand;
-        private ICommand _shareCommand;
-        private ICommand _deleteCommand;
+        public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
 
-        public FilesViewModel(IContainer container) : base(container)
+        public FilesViewModel(IUnityContainer container) : base(container)
         {
             InitializeCommands();
 
@@ -52,40 +48,21 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         }
 
         #region Commands
-        public ICommand EnterFolderCommand
-        {
-            get => _enterFolderCommand;
-            set => SetProperty(ref _enterFolderCommand, value);
-        }
 
-        public ICommand DownloadCommand
-        {
-            get => _downloadCommand;
-            set => SetProperty(ref _downloadCommand, value);
-        }
+        public ICommand EnterFolderCommand { get; private set; }
 
-        public ICommand UploadCommand
-        {
-            get => _uploadCommand;
-            set => SetProperty(ref _uploadCommand, value);
-        }
+        public ICommand DownloadCommand { get; private set; }
 
-        public ICommand ShareCommand
-        {
-            get => _shareCommand;
-            set => SetProperty(ref _shareCommand, value);
-        }
+        public ICommand UploadCommand { get; private set; }
 
-        public ICommand DeleteCommand
-        {
-            get => _deleteCommand;
-            set => SetProperty(ref _deleteCommand, value);
-        }
+        public ICommand ShareCommand { get; private set; }
+
+        public ICommand DeleteCommand { get; private set; }
 
 
         private void InitializeCommands()
         {
-            EnterFolderCommand = new RelayCommand<ILazyTreeNode<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.FileType == FileType.FolderType);
+            EnterFolderCommand = new RelayCommand<ILazyTreeNode<INetDiskFile>>(file => CurrentFolder = file, file => file?.Content?.Type == FileType.FolderType);
             DownloadCommand = new RelayCommand<IList>(DownloadCommandExecute, files => files != null && files.Count > 0);
             UploadCommand = new RelayCommand(UploadCommandExecute);
             ShareCommand = new RelayCommand<IList>(ShareCommandExecute, files => files != null && files.Count > 0);
@@ -96,21 +73,11 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         {
             var fileArray = files.Cast<ILazyTreeNode<INetDiskFile>>().ToArray();
 
-            var (to, isDownload) = await DisplayDownloadDialogAsync(fileArray.Select(item => item.Content.Path.FileName));
+            (string to, bool isDownload) = await DisplayDownloadDialogAsync(fileArray.Select(item => item.Content.Path.FileName));
 
             if (!isDownload) return;
 
-            var downloadItemList = new List<TransferItem>();
-            foreach (var from in fileArray)
-            {
-                await CurrentNetDiskUser.DownloadAsync(from, to, item =>
-                {
-                    // Add new task to download list. ??
-
-                    // Records tokens
-                    downloadItemList.Add(item);
-                });
-            }
+            var downloadItemList = fileArray.Select(file => CurrentNetDiskUser.Download(file, to)).ToList();
 
             var fileName = TrimFileName(downloadItemList.First().File.Path.FileName, 40);
             var message = downloadItemList.Count == 1

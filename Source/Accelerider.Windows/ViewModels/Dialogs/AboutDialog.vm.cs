@@ -5,8 +5,8 @@ using System.Windows;
 using System.Windows.Input;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.ViewModels;
-using Autofac;
+using Accelerider.Windows.Infrastructure.Mvvm;
+using Unity;
 
 
 namespace Accelerider.Windows.ViewModels.Dialogs
@@ -22,7 +22,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
         private ICommand _checkForUpdateCommand;
 
 
-        public AboutDialogViewModel(IContainer container) : base(container)
+        public AboutDialogViewModel(IUnityContainer container) : base(container)
         {
             OpenReleaseNotesCommand = new RelayCommand(() => Process.Start(Hyperlinks.Release));
             OpenProjectHomeCommand = new RelayCommand(() => Process.Start(Hyperlinks.ProjectGithubHome));
