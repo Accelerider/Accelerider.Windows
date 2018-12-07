@@ -43,6 +43,6 @@ namespace Accelerider.Windows.TransferService
         /// <returns>An instance of the <see cref="IDownloader"/> derived class.</returns>
         IDownloader Build();
 
-        IDownloader Build(string json);
+        IDownloader Build(string json, Func<string, IRemotePathProvider> remotePathProviderParser = null);
     }
 }

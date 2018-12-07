@@ -41,8 +41,7 @@ namespace Accelerider.Windows.TransferService
 
         public static string ToJson(this IDownloader @this)
         {
-            if (@this.Status == TransferStatus.Transferring)
-                throw new InvalidOperationException();
+            Guards.ThrowIfNot(@this.Status != TransferStatus.Transferring);
 
             return new DownloaderSerializedData
             {

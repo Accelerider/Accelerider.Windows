@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -55,10 +56,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
         {
-            var tree = new LazyTreeNode<INetDiskFile>(new SixCloudFile()
-            {
-                Owner = this
-            })
+            var tree = new LazyTreeNode<INetDiskFile>(new SixCloudFile { Owner = this })
             {
                 ChildrenProvider = async parent =>
                 {
@@ -78,6 +76,21 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             throw new NotSupportedException("SixCloud not supported this method.");
         }
 
+        public IReadOnlyCollection<TransferItem> GetDownloadItems()
+        {
+            var ardownloadingFilePaths = new List<string>();
+
+            return ardownloadingFilePaths
+                .Where(File.Exists)
+                .Select(File.ReadAllText)
+                .Select(item => FileTransferService
+                    .GetDownloaderBuilder()
+                    .UseSixCloudConfigure()
+                    .Build(item, text => new SixCloudRemotePathProvider(text, this)))
+                .Select(item => new TransferItem(item))
+                .ToList()
+                .AsReadOnly();
+        }
 
         public async Task LoginAsync(string value, string password)
         {

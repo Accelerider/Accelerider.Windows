@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
 
+// ReSharper disable once CheckNamespace
 namespace System
 {
     public static class JsonExtensions
     {
-        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+        public static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
         public static string ToJson<T>(this T @object, Formatting formatting = Formatting.None)
         {

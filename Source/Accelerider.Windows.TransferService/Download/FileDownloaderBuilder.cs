@@ -7,6 +7,8 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Polly;
 
 namespace Accelerider.Windows.TransferService
@@ -122,23 +124,44 @@ namespace Accelerider.Windows.TransferService
             return InternalBuild(context, GetBlockTransferContextGenerator);
         }
 
-        public IDownloader Build(string json)
+        public IDownloader Build(string json, Func<string, IRemotePathProvider> remotePathProviderParser = null)
+        {
+            var serializedData = ParseJson(json, remotePathProviderParser);
+
+            return InternalBuild(serializedData.Context, context => token =>
+            {
+                serializedData.BlockContexts.ForEach(item => item.LocalPath = context.LocalPath);
+                serializedData.BlockContexts.ForEach(item => item.RemotePathGetter = context.RemotePathProvider.GetRemotePathAsync);
+                return Task.FromResult(serializedData.BlockContexts.AsEnumerable());
+            });
+        }
+
+        private static DownloaderSerializedData ParseJson(string json, Func<string, IRemotePathProvider> remotePathProviderParser)
         {
             Guards.ThrowIfNullOrEmpty(json);
 
-            var serializedData = json.ToObject<DownloaderSerializedData>();
-
-            if (serializedData?.Context == null || serializedData.BlockContexts == null)
-                throw new InvalidOperationException();
-
-            var context = serializedData.Context;
-
-            return InternalBuild(context, ctx => token =>
+            var jObject = JObject.Parse(json);
+            IRemotePathProvider remotePathProvider = null;
+            if (remotePathProviderParser != null)
             {
-                serializedData.BlockContexts.ForEach(item => item.LocalPath = ctx.LocalPath);
-                serializedData.BlockContexts.ForEach(item => item.RemotePathGetter = ctx.RemotePathProvider.GetRemotePathAsync);
-                return Task.FromResult(serializedData.BlockContexts.AsEnumerable());
-            });
+                var contextJObject = (JObject)jObject[nameof(DownloaderSerializedData.Context)];
+                var remotePathProviderJToken = contextJObject[nameof(DownloadContext.RemotePathProvider)];
+                contextJObject.Remove(nameof(DownloadContext.RemotePathProvider));
+                remotePathProvider = remotePathProviderParser(remotePathProviderJToken.ToString(Formatting.None));
+            }
+
+            var serializedData = jObject.ToString(Formatting.None).ToObject<DownloaderSerializedData>();
+
+            Guards.ThrowIfNull(serializedData?.Context, serializedData?.BlockContexts);
+
+            // ReSharper disable once PossibleNullReferenceException
+            var context = serializedData.Context;
+            if (remotePathProvider != null && context.RemotePathProvider == null)
+            {
+                context.RemotePathProvider = remotePathProvider;
+            }
+
+            return serializedData;
         }
 
         private IDownloader InternalBuild(DownloadContext context, Func<DownloadContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> blockTransferContextGeneratorBuilder)
