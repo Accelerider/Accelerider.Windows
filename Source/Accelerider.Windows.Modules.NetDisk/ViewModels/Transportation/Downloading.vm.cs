@@ -15,20 +15,20 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 
         public DownloadingViewModel(IUnityContainer container) : base(container)
         {
-            PauseAllCommand = new RelayCommand(() => TransferTasks.ForEach(item =>
-            {
-                if (PauseCommand.CanExecute(item)) PauseCommand.Execute(item);
-            }),
-            () => TransferTasks?.Any() ?? false);
+            PauseAllCommand = new RelayCommand(
+                () => TransferTasks.ForEach(item => PauseCommand.Invoke(item)),
+                () => TransferTasks?.Any() ?? false);
 
-            CancelAllCommand = new RelayCommand(() => TransferTasks.ForEach(item =>
-            {
-                if (CancelCommand.CanExecute(item)) CancelCommand.Execute(item);
-            }),
-            () => TransferTasks?.Any() ?? false);
+            CancelAllCommand = new RelayCommand(
+                () => TransferTasks.ForEach(item => CancelCommand.Invoke(item)),
+                () => TransferTasks?.Any() ?? false);
         }
 
-        protected override ObservableSortedCollection<TransferItem> GetTaskList() =>
-            new ObservableSortedCollection<TransferItem>(AcceleriderUser.GetDownloadItems(), (x, y) => x.Transporter.Status - y.Transporter.Status);
+        protected override ObservableSortedCollection<TransferItem> GetTaskList()
+        {
+            return new ObservableSortedCollection<TransferItem>(
+                AcceleriderUser.GetDownloadItems(),
+                (x, y) => x.Transporter.Status - y.Transporter.Status);
+        }
     }
 }

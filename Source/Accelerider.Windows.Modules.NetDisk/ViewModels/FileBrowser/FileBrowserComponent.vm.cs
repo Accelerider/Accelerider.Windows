@@ -30,7 +30,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         public async void OnLoaded()
         {
-            await AcceleriderUser.RefreshAsyncEx();
+            await AcceleriderUser.UpdateAsync();
             NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
         }
 

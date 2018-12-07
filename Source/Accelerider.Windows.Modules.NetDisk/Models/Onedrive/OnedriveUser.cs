@@ -8,6 +8,7 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models.Results;
+using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Refit;
@@ -78,7 +79,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
                                 }
                             })
                             {
-                                tmp = JsonConvert.DeserializeObject<OnedriveListFileResult>(await client.GetStringAsync(tmp.NextPage));
+                                tmp = JsonConvert.DeserializeObject<OneDriveListFileResult>(await client.GetStringAsync(tmp.NextPage));
                                 result.AddRange(tmp.FileList);
                             }
                         }
@@ -91,17 +92,22 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
             return Task.FromResult((ILazyTreeNode<INetDiskFile>)tree);
         }
 
-        public override Task<IList<T>> GetFilesAsync<T>(FileCategory category)
-        {
-            throw new NotSupportedException("Onedrive not supported this method.");
-        }
-
         public override TransferItem Download(ILazyTreeNode<INetDiskFile> @from, FileLocator to)
         {
             throw new NotImplementedException();
         }
 
         public override Task UploadAsync(FileLocator @from, INetDiskFile to, Action<TransferItem> callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IDownloaderBuilder ConfigureDownloaderBuilder(IDownloaderBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IRemotePathProvider GetRemotePathProvider(string jsonText)
         {
             throw new NotImplementedException();
         }

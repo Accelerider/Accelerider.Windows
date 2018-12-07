@@ -5,17 +5,17 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
+using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
 using Refit;
 
-namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk
+namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
 {
-    public class BaiduNetdiskUser : NetDiskUserBase
+    public class BaiduCloudUser : NetDiskUserBase
     {
 
-        public IBaiduNetdiskApi Api { get; }
+        public IBaiduCloudApi Api { get; }
 
         public string Cookie { get; }
 
@@ -23,9 +23,9 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk
 
         public long UserId { get; set; }
 
-        public BaiduNetdiskUser(string cookie)
+        public BaiduCloudUser(string cookie)
         {
-            Api = RestService.For<IBaiduNetdiskApi>(new HttpClient(new HttpClientHandler()
+            Api = RestService.For<IBaiduCloudApi>(new HttpClient(new HttpClientHandler()
             {
                 UseCookies = true,
                 CookieContainer = cookie.ToCookieContainer(".baidu.com")
@@ -46,7 +46,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
         {
-            var tree = new LazyTreeNode<INetDiskFile>(new BaiduNetdiskFile()
+            var tree = new LazyTreeNode<INetDiskFile>(new BaiduCloudFile()
             {
                 Owner = this,
                 Path = "/"
@@ -54,7 +54,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk
             {
                 ChildrenProvider = async parent =>
                 {
-                    var result = new List<BaiduNetdiskFile>();
+                    var result = new List<BaiduCloudFile>();
                     var page = 1;
                     do
                     {
@@ -71,17 +71,22 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk
             return Task.FromResult((ILazyTreeNode<INetDiskFile>)tree);
         }
 
-        public override Task<IList<T>> GetFilesAsync<T>(FileCategory category)
-        {
-            throw new NotImplementedException();
-        }
-
         public override TransferItem Download(ILazyTreeNode<INetDiskFile> @from, FileLocator to)
         {
             throw new NotImplementedException();
         }
 
         public override Task UploadAsync(FileLocator @from, INetDiskFile to, Action<TransferItem> callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IDownloaderBuilder ConfigureDownloaderBuilder(IDownloaderBuilder builder)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IRemotePathProvider GetRemotePathProvider(string jsonText)
         {
             throw new NotImplementedException();
         }

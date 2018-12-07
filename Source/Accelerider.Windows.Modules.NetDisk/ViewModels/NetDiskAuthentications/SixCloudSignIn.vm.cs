@@ -27,7 +27,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.NetDiskAuthentications
                 async passwordBox =>
                 {
                     await user.LoginAsync(Username, passwordBox.Password);
-                    await AcceleriderUser.AddNetDiskUserAsync(user);
+                    AcceleriderUser.AddNetDiskUser(user);
                 },
                 passwordBox => !string.IsNullOrWhiteSpace(passwordBox.Password) &&
                                !string.IsNullOrWhiteSpace(Username));

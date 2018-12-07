@@ -7,9 +7,9 @@ using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.TransferService.WpfInteractions;
 using Newtonsoft.Json;
 
-namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk
+namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
 {
-    public class BaiduNetdiskFile : INetDiskFile
+    public class BaiduCloudFile : INetDiskFile
     {
 
         public FileType Type => _isDir == 1 ? FileType.FolderType : FileType.OtherType;
@@ -35,7 +35,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk
         [JsonProperty("isdir")]
         private int _isDir = 1;
 
-        public BaiduNetdiskUser Owner { get; set; }
+        public BaiduCloudUser Owner { get; set; }
 
         [JsonProperty("server_mtime")]
         private long _mtime;

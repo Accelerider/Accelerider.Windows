@@ -108,9 +108,9 @@
     </Compile>
     <Compile Include="Interfaces\Files.cs" />
     <Compile Include="Interfaces\INetDiskUser.cs" />
-    <Compile Include="Models\BaiduNetdisk\BaiduNetdiskFile.cs" />
-    <Compile Include="Models\BaiduNetdisk\BaiduNetdiskUser.cs" />
-    <Compile Include="Models\BaiduNetdisk\IBaiduNetdiskApi.cs" />
+    <Compile Include="Models\BaiduCloud\BaiduCloudFile.cs" />
+    <Compile Include="Models\BaiduCloud\BaiduCloudUser.cs" />
+    <Compile Include="Models\BaiduCloud\IBaiduCloudApi.cs" />
     <Compile Include="Models\OneDrive\OneDriveFile.cs" />
     <Compile Include="Models\OneDrive\OneDriveUser.cs" />
     <Compile Include="Models\Results\Bodies.cs" />

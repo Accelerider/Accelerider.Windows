@@ -71,25 +71,14 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             return Task.FromResult((ILazyTreeNode<INetDiskFile>)tree);
         }
 
-        public override Task<IList<T>> GetFilesAsync<T>(FileCategory category)
+        protected override IDownloaderBuilder ConfigureDownloaderBuilder(IDownloaderBuilder builder)
         {
-            throw new NotSupportedException("SixCloud not supported this method.");
+            return builder.UseSixCloudConfigure();
         }
 
-        public IReadOnlyCollection<TransferItem> GetDownloadItems()
+        protected override IRemotePathProvider GetRemotePathProvider(string jsonText)
         {
-            var ardownloadingFilePaths = new List<string>();
-
-            return ardownloadingFilePaths
-                .Where(File.Exists)
-                .Select(File.ReadAllText)
-                .Select(item => FileTransferService
-                    .GetDownloaderBuilder()
-                    .UseSixCloudConfigure()
-                    .Build(item, text => new SixCloudRemotePathProvider(text, this)))
-                .Select(item => new TransferItem(item))
-                .ToList()
-                .AsReadOnly();
+            return new SixCloudRemotePathProvider(jsonText, this);
         }
 
         public async Task LoginAsync(string value, string password)

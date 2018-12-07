@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.TransferService.WpfInteractions;
-using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Models.SixCloud;
+using Accelerider.Windows.TransferService;
+using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
@@ -20,14 +24,31 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public DisplayDataSize UsedCapacity { get; set; }
 
+        [JsonProperty]
+        protected List<string> DownloadingFilePaths { get; private set; } = new List<string>();
+
         public abstract Task RefreshUserInfoAsync();
 
-	    public abstract Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
+        public abstract Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
 
-	    public abstract Task<IList<T>> GetFilesAsync<T>(FileCategory category) where T : IFile;
+        public abstract TransferItem Download(ILazyTreeNode<INetDiskFile> from, FileLocator to);
 
-	    public abstract TransferItem Download(ILazyTreeNode<INetDiskFile> @from, FileLocator to);
+        public abstract Task UploadAsync(FileLocator from, INetDiskFile to, Action<TransferItem> callback);
 
-	    public abstract Task UploadAsync(FileLocator @from, INetDiskFile to, Action<TransferItem> callback);
+        public IReadOnlyCollection<TransferItem> GetDownloadItems()
+        {
+            return DownloadingFilePaths
+                .Where(File.Exists)
+                .Select(File.ReadAllText)
+                .Select(item => ConfigureDownloaderBuilder(FileTransferService.GetDownloaderBuilder())
+                    .Build(item, GetRemotePathProvider))
+                .Select(item => new TransferItem(item))
+                .ToList()
+                .AsReadOnly();
+        }
+
+        protected abstract IDownloaderBuilder ConfigureDownloaderBuilder(IDownloaderBuilder builder);
+
+        protected abstract IRemotePathProvider GetRemotePathProvider(string jsonText);
     }
 }

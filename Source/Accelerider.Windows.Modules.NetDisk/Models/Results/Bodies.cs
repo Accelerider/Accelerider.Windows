@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk;
+using Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud;
 using Accelerider.Windows.Modules.NetDisk.Models.OneDrive;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -9,10 +9,10 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Results
     public class BaiduListFileResult : ResultBase
     {
         [JsonProperty("list")]
-        public List<BaiduNetdiskFile> FileList { get; set; }
+        public List<BaiduCloudFile> FileList { get; set; }
     }
 
-    public class OnedriveListFileResult : ResultBase
+    public class OneDriveListFileResult : ResultBase
     {
         [JsonProperty("value")]
         public List<OneDriveFile> FileList { get; set; }

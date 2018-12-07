@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
-using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
 using Unity;
 
@@ -14,112 +14,132 @@ namespace Accelerider.Windows.Infrastructure
 {
     public static class AcceleriderUserExtensions
     {
-        private class ExtensionCache
+        private class AcceleriderUserExtendedMembers
         {
-            public IEnumerable<INetDiskUser> NetDiskUsers { get; set; } = Enumerable.Empty<INetDiskUser>();
+            public string Id { get; set; }
+
+            public List<INetDiskUser> NetDiskUsers { get; } = new List<INetDiskUser>();
 
             [JsonIgnore]
             public INetDiskUser CurrentNetDiskUser { get; set; }
 
 
-            public void Save(string path) => File.WriteAllText(path, this.ToJson(Formatting.Indented));
+            public void Save(string path) => File.WriteAllText(path, this.ToJson());
         }
+
+        private static readonly string UsersFilePathFormat = Path.Combine(Directory.GetCurrentDirectory(), "apps", "NetDisk", "{0}.users");
 
         private static IUnityContainer _container;
         private static INetDiskApi _netDiskApi;
-        private static ExtensionCache _cache;
-        private static string DataFile => Path.Combine(Directory.GetCurrentDirectory(), "apps", "NetDisk", "Users.json");
+
+        private static readonly IDictionary<string, AcceleriderUserExtendedMembers> ExtendedMembers =
+            new ConcurrentDictionary<string, AcceleriderUserExtendedMembers>();
 
         public static void Initialize(IUnityContainer container)
         {
             _container = container;
             _netDiskApi = container.Resolve<INetDiskApi>();
-            if (!File.Exists(DataFile))
+
+            var usersDirectory = Path.GetDirectoryName(UsersFilePathFormat);
+
+            if (!Directory.Exists(usersDirectory))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(DataFile));
-                new ExtensionCache().Save(DataFile);
+                // ReSharper disable once AssignNullToNotNullAttribute
+                Directory.CreateDirectory(usersDirectory);
             }
-            _cache = File.ReadAllText(DataFile).ToObject<ExtensionCache>();
+
+            // ReSharper disable once AssignNullToNotNullAttribute
+            Directory.GetFiles(usersDirectory)
+                .Where(item => item.EndsWith(Path.GetExtension(UsersFilePathFormat)))
+                .Select(item => File.ReadAllText(item).ToObject<AcceleriderUserExtendedMembers>())
+                .ForEach(item => ExtendedMembers[item.Id] = item);
+        }
+
+        private static AcceleriderUserExtendedMembers GetExtendedMembers(this IAcceleriderUser user)
+        {
+            var result = ExtendedMembers.Get(user.Email);
+            result.Id = user.Email;
+            return result;
+        }
+
+        private static string GetUsersFilePath(this IAcceleriderUser user)
+        {
+            return string.Format(UsersFilePathFormat, user.Email);
         }
 
         // -------------------------------------------------------------------------------------
 
-        public static async Task<bool> RefreshAsyncEx(this IAcceleriderUser @this)
+        public static async Task<bool> UpdateAsync(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
 
             var result = await @this.RefreshAsync();
-            /*
-            var netDiskInfos = await _netDiskApi.GetAllNetDisksAsync();
-            _cache.NetDiskUsers = netDiskInfos?.Select(item => _container.Resolve<NetDiskUser>(new TypedParameter(typeof(NetDiskInfo), item)));
-            _cache.CurrentNetDiskUser = _cache.NetDiskUsers?.FirstOrDefault();
-			*/
-            if (_cache.NetDiskUsers != null)
-                foreach (var user in _cache.NetDiskUsers)
+            var extendedMembers = @this.GetExtendedMembers();
+            if (extendedMembers.NetDiskUsers != null)
+            {
+                foreach (var user in extendedMembers.NetDiskUsers)
+                {
                     await user.RefreshUserInfoAsync();
-            _cache.CurrentNetDiskUser = _cache.NetDiskUsers?.FirstOrDefault();
+                }
+            }
+
+            extendedMembers.CurrentNetDiskUser = extendedMembers.NetDiskUsers?.FirstOrDefault();
+
             return result;
         }
 
         public static IEnumerable<INetDiskUser> GetNetDiskUsers(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
-            return _cache.NetDiskUsers;
+
+            return @this.GetExtendedMembers().NetDiskUsers;
         }
 
-        public static Task<bool> AddNetDiskUserAsync(this IAcceleriderUser @this, INetDiskUser user)
+        public static bool AddNetDiskUser(this IAcceleriderUser @this, INetDiskUser user)
         {
             Guards.ThrowIfNull(@this);
-            var list = _cache.NetDiskUsers.ToList();
-            if (list.Any(v => v.Id == user.Id))
-                return Task.FromResult(false);
-            list.Add(user);
-            _cache.NetDiskUsers = list;
-            _cache.Save(DataFile);
-            return Task.FromResult(true);
+
+            var extendedMembers = @this.GetExtendedMembers();
+
+            if (extendedMembers.NetDiskUsers.Any(v => v.Id == user.Id)) return false;
+
+            extendedMembers.NetDiskUsers.Add(user);
+            extendedMembers.Save(@this.GetUsersFilePath());
+
+            return true;
         }
 
-        public static Task<bool> RemoveNetDiskUserAsync(this IAcceleriderUser @this, INetDiskUser user)
+        public static bool RemoveNetDiskUser(this IAcceleriderUser @this, INetDiskUser user)
         {
             Guards.ThrowIfNull(@this);
-            if (_cache.NetDiskUsers.All(v => v.Id != user.Id))
-                return Task.FromResult(false);
-            var list = _cache.NetDiskUsers.ToList();
-            list.RemoveAll(v => v.Id == user.Id);
-            _cache.NetDiskUsers = list;
-            _cache.Save(DataFile);
-            return Task.FromResult(true);
+
+            return @this.GetExtendedMembers().NetDiskUsers.RemoveAll(item => item.Id == user.Id) > 0;
         }
 
         public static INetDiskUser GetCurrentNetDiskUser(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
-            return _cache.CurrentNetDiskUser;
+
+            return @this.GetExtendedMembers().CurrentNetDiskUser;
         }
 
         public static void SetCurrentNetDiskUser(this IAcceleriderUser @this, INetDiskUser value)
         {
             Guards.ThrowIfNull(@this);
-            _cache.CurrentNetDiskUser = value;
+
+            @this.GetExtendedMembers().CurrentNetDiskUser = value;
         }
 
         // -------------------------------------------------------------------------------------
-        public static IReadOnlyList<TransferItem> GetDownloadItems(this IAcceleriderUser @this)
+
+        public static IReadOnlyCollection<TransferItem> GetDownloadItems(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
 
-            return FileTransferService
-                .GetDownloaderManager()
-                .Transporters
-                .OfType<TransferItem>()
+            return @this.GetNetDiskUsers()
+                .SelectMany(item => item.GetDownloadItems())
                 .ToList()
                 .AsReadOnly();
-        }
-
-        public static IList<TransferItem> GetUploadItems(this IAcceleriderUser @this)
-        {
-            Guards.ThrowIfNull(@this);
-            throw new NotImplementedException();
         }
 
         public static IList<ITransferredFile> GetDownloadedFiles(this IAcceleriderUser @this)

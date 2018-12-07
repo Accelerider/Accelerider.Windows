@@ -1,4 +1,5 @@
-﻿using Accelerider.Windows.Infrastructure;
+﻿using System;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Unity;
 
@@ -11,7 +12,9 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         {
         }
 
-        protected override ObservableSortedCollection<TransferItem> GetTaskList() => 
-            new ObservableSortedCollection<TransferItem>(AcceleriderUser.GetDownloadItems(), (x, y) => x.Transporter.Status - y.Transporter.Status);
+        protected override ObservableSortedCollection<TransferItem> GetTaskList()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
