@@ -49,7 +49,7 @@ namespace Accelerider.Windows
         {
             containerRegistry.RegisterInstance<ISnackbarMessageQueue>(new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
             containerRegistry.RegisterInstance(new ConfigureFile().Load());
-            containerRegistry.RegisterInstance(RestService.For<INonAuthenticationApi>(Hyperlinks.ApiBaseAddress));
+            containerRegistry.RegisterInstance(RestService.For<INonAuthenticationApi>(AcceleriderUrls.ApiBaseAddress));
         }
 
         protected override Window CreateShell() => new AuthenticationWindow();

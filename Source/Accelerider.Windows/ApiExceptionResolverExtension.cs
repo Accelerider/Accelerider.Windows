@@ -36,7 +36,7 @@ namespace Accelerider.Windows
                 }
             }
 
-            public async Task<T> RunApiInternal<T>(Task<T> task)
+            public async Task<T> RunApiInternal<T>(Task<T> task) where T : new()
             {
                 try
                 {
@@ -51,7 +51,7 @@ namespace Accelerider.Windows
                     _snackbarMessageQueue.Enqueue(httpRequestException.InnerException?.Message);
                 }
 
-                return default(T);
+                return new T();
             }
         }
 
@@ -61,7 +61,7 @@ namespace Accelerider.Windows
 
         public static Task RunApi(this Task task, Action onSuccessCallback) => _container.Resolve<ApiExceptionResolver>().RunApiInternal(task, onSuccessCallback);
 
-        public static Task<T> RunApi<T>(this Task<T> task) => _container.Resolve<ApiExceptionResolver>().RunApiInternal(task);
+        public static Task<T> RunApi<T>(this Task<T> task) where T : new() => _container.Resolve<ApiExceptionResolver>().RunApiInternal(task);
     }
 
 }

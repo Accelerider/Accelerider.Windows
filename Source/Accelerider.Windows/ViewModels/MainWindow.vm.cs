@@ -23,7 +23,7 @@ namespace Accelerider.Windows.ViewModels
         public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
             RegionManager = regionManager;
-            FeedbackCommand = new RelayCommand(() => Process.Start(Hyperlinks.Issue));
+            FeedbackCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Issue));
         }
 
         public IRegionManager RegionManager { get; }

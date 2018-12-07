@@ -142,7 +142,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
 
             if (!result.Success) return false;
 
-            var acceleriderApi = RestService.For<IAcceleriderApi>(Hyperlinks.ApiBaseAddress, new RefitSettings
+            var acceleriderApi = RestService.For<IAcceleriderApi>(AcceleriderUrls.ApiBaseAddress, new RefitSettings
             {
                 AuthorizationHeaderValueGetter = () => Task.FromResult(result.AccessToken)
             });

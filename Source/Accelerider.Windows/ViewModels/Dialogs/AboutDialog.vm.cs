@@ -24,12 +24,12 @@ namespace Accelerider.Windows.ViewModels.Dialogs
 
         public AboutDialogViewModel(IUnityContainer container) : base(container)
         {
-            OpenReleaseNotesCommand = new RelayCommand(() => Process.Start(Hyperlinks.Release));
-            OpenProjectHomeCommand = new RelayCommand(() => Process.Start(Hyperlinks.ProjectGithubHome));
-            OpenMrs4sEmailCommand = new RelayCommand(() => Process.Start(Hyperlinks.Mrs4sEmail));
-            OpenLd50EmailCommand = new RelayCommand(() => Process.Start(Hyperlinks.ZdpEmail));
-            OpenMrs4SHomeCommand = new RelayCommand(() => Process.Start(Hyperlinks.Mrs4sGithubHome));
-            OpenLd50HomeCommand = new RelayCommand(() => Process.Start(Hyperlinks.ZdpGithubHome));
+            OpenReleaseNotesCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Release));
+            OpenProjectHomeCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.ProjectGithubHome));
+            OpenMrs4sEmailCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Mrs4sEmail));
+            OpenLd50EmailCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.ZdpEmail));
+            OpenMrs4SHomeCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Mrs4sGithubHome));
+            OpenLd50HomeCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.ZdpGithubHome));
             CheckForUpdateCommand = new RelayCommand(CheckForUpdateCommandExecute);
         }
 

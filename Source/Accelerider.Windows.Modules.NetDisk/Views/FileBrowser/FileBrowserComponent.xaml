@@ -145,8 +145,8 @@
                                        Selector="{Binding ElementName=SelectViewListBox}">
             <controls:SwitchableViewContainer.Resources>
                 <fileBrowser:Files x:Key="0" Style="{StaticResource FloatInUpStyle}"/>
-                <fileBrowser:Share x:Key="1" Style="{StaticResource FloatInUpStyle}" />
-                <fileBrowser:RecycleBin x:Key="2" Style="{StaticResource FloatInUpStyle}" />
+                <!--<fileBrowser:Share x:Key="1" Style="{StaticResource FloatInUpStyle}" />
+                <fileBrowser:RecycleBin x:Key="2" Style="{StaticResource FloatInUpStyle}" />-->
             </controls:SwitchableViewContainer.Resources>
         </controls:SwitchableViewContainer>
         <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>

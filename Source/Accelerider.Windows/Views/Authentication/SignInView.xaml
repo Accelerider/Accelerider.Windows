@@ -25,7 +25,7 @@
             </Grid.ColumnDefinitions>
 
             <materialDesign:PackIcon Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
-            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Email"
+            <TextBox Grid.Row="0" Grid.Column="1" materialDesign:HintAssist.Hint="Email"
                      Text="{Binding Email}"
                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>

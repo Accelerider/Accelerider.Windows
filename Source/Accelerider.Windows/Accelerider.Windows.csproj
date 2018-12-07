@@ -99,7 +99,7 @@
     </Compile>
     <Compile Include="ApiExceptionResolverExtension.cs" />
     <Compile Include="Constants\ConfigureKeys.cs" />
-    <Compile Include="Constants\Hyperlinks.cs" />
+    <Compile Include="Constants\AcceleriderUrls.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="ExceptionHandler.cs" />
     <Compile Include="I18nResources\ResKeys.cs">

@@ -32,8 +32,8 @@ namespace Accelerider.Windows.ViewModels
 
             OpenSettingsPanelCommand = new RelayCommand(OpenDialog<SettingsDialog>);
 
-            HelpCommand = new RelayCommand(() => Process.Start(Hyperlinks.Help));
-            OpenOfficialSiteCommand = new RelayCommand(() => Process.Start(Hyperlinks.WebSite));
+            HelpCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Help));
+            OpenOfficialSiteCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.WebSite));
             AboutCommand = new RelayCommand(OpenDialog<AboutDialog>);
 
             SignOutCommand = new RelayCommand(() =>
