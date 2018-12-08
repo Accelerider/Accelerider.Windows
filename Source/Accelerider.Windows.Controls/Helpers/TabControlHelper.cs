@@ -58,10 +58,10 @@ namespace Accelerider.Windows.Controls
             if (toTabItem == null || fromTabItem == null) return;
 
             if (GetAwareSelectionChanged(fromTabItem))
-                (fromTabItem.DataContext as IAwareTabItemSelectionChanged)?.OnUnselected();
+                (fromTabItem.DataContext as ITabItemSelectionChangedAware)?.OnUnselected();
 
             if (GetAwareSelectionChanged(toTabItem))
-                (toTabItem.DataContext as IAwareTabItemSelectionChanged)?.OnSelected();
+                (toTabItem.DataContext as ITabItemSelectionChangedAware)?.OnSelected();
         }
 
         #endregion

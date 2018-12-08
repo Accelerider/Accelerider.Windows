@@ -7,7 +7,7 @@ using Unity;
 
 namespace Accelerider.Windows.ViewModels.Authentication
 {
-    public class AuthenticationWindowViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded<AuthenticationWindow>, INotificable
+    public class AuthenticationWindowViewModel : ViewModelBase, IViewLoadedAndUnloadedAware<AuthenticationWindow>, INotificable
     {
         private bool _isLoading;
         private TabItem _signInTabItem;

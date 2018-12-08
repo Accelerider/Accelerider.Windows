@@ -13,7 +13,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class SettingsPopupViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded<SettingsPopup>
+    public class SettingsPopupViewModel : ViewModelBase, IViewLoadedAndUnloadedAware<SettingsPopup>
     {
         private readonly Dictionary<Type, object> _dialogDictionary = new Dictionary<Type, object>();
 

@@ -13,7 +13,7 @@ using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
 {
-    public class SelectNetDiskTypeDialogViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded<SelectNetDiskTypeDialog>
+    public class SelectNetDiskTypeDialogViewModel : ViewModelBase, IViewLoadedAndUnloadedAware<SelectNetDiskTypeDialog>
     {
         private IEnumerable<NetDiskType> _netDiskTypes;
         private ICommand _selectNetDiskCommand;
@@ -73,12 +73,12 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
             };
         }
 
-        void IAwareViewLoadedAndUnloaded<SelectNetDiskTypeDialog>.OnLoaded(SelectNetDiskTypeDialog view)
+        void IViewLoadedAndUnloadedAware<SelectNetDiskTypeDialog>.OnLoaded(SelectNetDiskTypeDialog view)
         {
             DialogHost.SetDialogClosingAttached(view, (sender, args) => {});
         }
 
-        void IAwareViewLoadedAndUnloaded<SelectNetDiskTypeDialog>.OnUnloaded(SelectNetDiskTypeDialog view)
+        void IViewLoadedAndUnloadedAware<SelectNetDiskTypeDialog>.OnUnloaded(SelectNetDiskTypeDialog view)
         {
         }
     }

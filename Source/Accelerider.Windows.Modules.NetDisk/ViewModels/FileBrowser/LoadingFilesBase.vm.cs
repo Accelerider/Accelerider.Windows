@@ -9,7 +9,7 @@ using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public abstract class LoadingFilesBaseViewModel<T> : ViewModelBase, IAwareViewLoadedAndUnloaded
+    public abstract class LoadingFilesBaseViewModel<T> : ViewModelBase, IViewLoadedAndUnloadedAware
     {
         private bool _isLoadingFiles;
         private ICommand _refreshFilesCommand;

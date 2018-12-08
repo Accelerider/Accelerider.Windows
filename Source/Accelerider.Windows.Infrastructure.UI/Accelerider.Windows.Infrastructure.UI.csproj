@@ -113,8 +113,8 @@
     <Compile Include="Modularity\RemoteRef.cs" />
     <Compile Include="Modularity\RemoteRefDownloader.cs" />
     <Compile Include="Mvvm\DialogViewModel.cs" />
-    <Compile Include="Mvvm\IAwareTabItemSelectionChanged.cs" />
-    <Compile Include="Mvvm\IAwareViewLoadedAndUnloaded.cs" />
+    <Compile Include="Mvvm\ITabItemSelectionChangedAware.cs" />
+    <Compile Include="Mvvm\IViewLoadedAndUnloadedAware.cs" />
     <Compile Include="Mvvm\ILocalizable.cs" />
     <Compile Include="Mvvm\INotificable.cs" />
     <Compile Include="Mvvm\IViewModelResolver.cs" />

@@ -12,7 +12,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FileBrowserComponentViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
+    public class FileBrowserComponentViewModel : ViewModelBase, IViewLoadedAndUnloadedAware
     {
         private bool _canSwitchUser;
         private IEnumerable<ILazyTreeNode<INetDiskFile>> _searchResults;

@@ -7,7 +7,7 @@ using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
-    public abstract class TransferredBaseViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
+    public abstract class TransferredBaseViewModel : ViewModelBase, IViewLoadedAndUnloadedAware
     {
         protected Comparison<ITransferredFile> DefaultTransferredFileComparer { get; } =
             (x, y) => Comparer<DateTime>.Default.Compare(x.CompletedTime, y.CompletedTime);

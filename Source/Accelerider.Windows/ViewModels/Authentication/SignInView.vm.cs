@@ -14,7 +14,7 @@ using Refit;
 
 namespace Accelerider.Windows.ViewModels.Authentication
 {
-    public class SignInViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded<SignInView>
+    public class SignInViewModel : ViewModelBase, IViewLoadedAndUnloadedAware<SignInView>
     {
         private readonly INonAuthenticationApi _nonAuthenticationApi;
 

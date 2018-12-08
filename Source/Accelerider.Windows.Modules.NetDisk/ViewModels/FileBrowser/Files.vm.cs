@@ -21,7 +21,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>, IAwareViewLoadedAndUnloaded<Files>, INotificable
+    public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>, IViewLoadedAndUnloadedAware<Files>, INotificable
     {
         private ILazyTreeNode<INetDiskFile> _selectedSearchResult;
         private ILazyTreeNode<INetDiskFile> _currentFolder;

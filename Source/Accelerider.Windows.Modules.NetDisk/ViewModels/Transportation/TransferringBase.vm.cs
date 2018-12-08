@@ -9,7 +9,7 @@ using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
-    public abstract class TransferringBaseViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded, INotificable
+    public abstract class TransferringBaseViewModel : ViewModelBase, IViewLoadedAndUnloadedAware, INotificable
     {
         private ObservableSortedCollection<TransferItem> _transferTasks;
 
