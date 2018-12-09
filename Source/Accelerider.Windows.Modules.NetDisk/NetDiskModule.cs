@@ -35,11 +35,6 @@ namespace Accelerider.Windows.Modules.NetDisk
             _regionManager.RegisterViewWithRegion(RegionNames.SettingsTabRegion, typeof(TaskSettingsTabItem));
         }
 
-        public override void OnInitialized(IContainerProvider containerProvider)
-        {
-            AcceleriderUserExtensions.Initialize(Container);
-        }
-
         private INetDiskApi GetNetDiskApi()
         {
             return RestService.For<INetDiskApi>(Hyperlinks.ApiBaseAddress, new RefitSettings

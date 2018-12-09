@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Newtonsoft.Json;
-using Unity;
 
 // ReSharper disable once CheckNamespace
 namespace Accelerider.Windows.Infrastructure
@@ -28,17 +27,11 @@ namespace Accelerider.Windows.Infrastructure
 
         private static readonly string UsersFilePathFormat = Path.Combine(Directory.GetCurrentDirectory(), "apps", "NetDisk", "{0}.users");
 
-        private static IUnityContainer _container;
-        private static INetDiskApi _netDiskApi;
-
         private static readonly IDictionary<string, AcceleriderUserExtendedMembers> ExtendedMembers =
             new ConcurrentDictionary<string, AcceleriderUserExtendedMembers>();
 
-        public static void Initialize(IUnityContainer container)
+        static AcceleriderUserExtensions()
         {
-            _container = container;
-            _netDiskApi = container.Resolve<INetDiskApi>();
-
             var usersDirectory = Path.GetDirectoryName(UsersFilePathFormat);
 
             if (!Directory.Exists(usersDirectory))
