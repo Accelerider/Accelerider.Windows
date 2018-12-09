@@ -5,13 +5,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models.OneDrive;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
 using Refit;
-using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 {
@@ -20,27 +18,30 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         [JsonProperty]
         public string AccessToken { get; private set; }
 
-        public ISixCloudApi Api { get; }
+        [JsonProperty]
+        public ISixCloudApi Api { get; private set; }
 
         #region Userinfo
 
+        [JsonProperty]
         public long Uuid { get; private set; }
 
+        [JsonProperty]
         public string Email { get; private set; }
 
+        [JsonProperty]
         public string Phone { get; private set; }
 
+        [JsonProperty]
         public long TotalSpace { get; private set; }
 
+        [JsonProperty]
         public long UsedSpace { get; private set; }
 
         #endregion
 
-        protected IUnityContainer Container { get; }
-
-        public SixCloudUser(IUnityContainer container)
+        public SixCloudUser()
         {
-            Container = container;
             Avatar = new Uri("pack://application:,,,/Accelerider.Windows.Modules.NetDisk;component/Images/logo-six-cloud.png");
             Api = RestService.For<ISixCloudApi>(
                 new HttpClient(new AuthenticatedHttpClientHandler(() => AccessToken)) { BaseAddress = new Uri("https://api.6pan.cn") },
@@ -81,7 +82,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             return new SixCloudRemotePathProvider(jsonText, this);
         }
 
-        public async Task LoginAsync(string value, string password)
+        public async Task<bool> LoginAsync(string value, string password)
         {
             if (!string.IsNullOrWhiteSpace(value) &&
                 !string.IsNullOrWhiteSpace(password))
@@ -90,12 +91,14 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 {
                     Value = value,
                     Password = password.ToMd5()
-                });
-                if (result.Success)
-                {
-                    AccessToken = result.Token;
-                }
+                }).RunApi();
+
+                if (result.Success) AccessToken = result.Token;
+
+                return result.Success;
             }
+
+            return false;
         }
 
         public async Task<string> SendSmsAsync(string phoneNumber)
@@ -123,7 +126,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         public override async Task RefreshUserInfoAsync()
         {
-            var result = await Api.GetUserInfoAsync();
+            var result = await Api.GetUserInfoAsync().RunApi();
             if (!result.Success) return;
             Uuid = result.Result["uuid"].ToObject<long>();
             Username = result.Result["name"].ToObject<string>();
@@ -145,8 +148,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             var downloader = FileTransferService
                 .GetDownloaderBuilder()
                 .UseSixCloudConfigure()
-                .From(file.Path)
-                .To(to)
+                .From(new SixCloudRemotePathProvider((SixCloudFile)file))
+                .To(Path.Combine(to, file.Path.FileName))
                 .Build();
 
             return new TransferItem(downloader)

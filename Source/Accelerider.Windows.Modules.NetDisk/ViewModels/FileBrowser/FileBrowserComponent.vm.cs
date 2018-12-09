@@ -71,16 +71,15 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             set => SetProperty(ref _netDiskUsers, value);
         }
 
-        public ICommand AddNetDiskCommand
-        {
-            get => _addNetDiskCommand;
-            set => SetProperty(ref _addNetDiskCommand, value);
-        }
+        public ICommand AddNetDiskCommand { get; }
 
 
         private async void AddNetDiskCommandExecute()
         {
-            await DialogHost.Show(new SixCloud(), "RootDialog");
+            if ((bool)await DialogHost.Show(new SixCloud(), "RootDialog"))
+            {
+                NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
+            }
         }
 
         private void SubscribeEvents()

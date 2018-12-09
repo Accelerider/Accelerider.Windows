@@ -19,7 +19,8 @@
             <local:SixCloudSignIn Margin="0 24"/>
         </TabItem>
         <TabItem Header="SIGN UP">
-            <local:SixCloudSignUp Margin="0 24"/>
+            <!--TODO: The logic of the Sign up operation. -->
+            <local:SixCloudSignUp Margin="0 24" IsEnabled="False"/>
         </TabItem>
     </TabControl>
 </UserControl>

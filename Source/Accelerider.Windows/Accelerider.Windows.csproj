@@ -97,7 +97,6 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="ApiExceptionResolverExtension.cs" />
     <Compile Include="Constants\ConfigureKeys.cs" />
     <Compile Include="Constants\AcceleriderUrls.cs" />
     <Compile Include="Events.cs" />

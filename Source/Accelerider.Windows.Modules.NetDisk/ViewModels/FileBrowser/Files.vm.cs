@@ -78,7 +78,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             if (!isDownload) return;
 
             var downloadItemList = fileArray.Select(file => CurrentNetDiskUser.Download(file, to)).ToList();
-
+            downloadItemList.First().Run();
             var fileName = TrimFileName(downloadItemList.First().File.Path.FileName, 40);
             var message = downloadItemList.Count == 1
                 ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)
@@ -138,7 +138,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 await currentFolder.RefreshAsync();
                 if (currentFolder == CurrentFolder)
                 {
-                    OnPropertyChanged(nameof(CurrentFolder));
+                    RaisePropertyChanged(nameof(CurrentFolder));
                 }
             }
             GlobalMessageQueue.Enqueue($"({fileArray.Length - errorFileCount}/{fileArray.Length}) files have been deleted.");

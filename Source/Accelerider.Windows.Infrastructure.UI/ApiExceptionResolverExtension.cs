@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using Prism.Ioc;
 using Refit;
 
-namespace Accelerider.Windows
+namespace Accelerider.Windows.Infrastructure
 {
     public static class ApiExceptionResolverExtension
     {
@@ -44,7 +44,8 @@ namespace Accelerider.Windows
                 }
                 catch (ApiException apiException)
                 {
-                    _snackbarMessageQueue.Enqueue(apiException.StatusCode);
+                    var message = JObject.Parse(apiException.Content)["status"].ToString();
+                    _snackbarMessageQueue.Enqueue(message);
                 }
                 catch (HttpRequestException httpRequestException)
                 {
@@ -59,9 +60,11 @@ namespace Accelerider.Windows
 
         public static void SetUnityContainer(IContainerProvider container) => _container = container;
 
-        public static Task RunApi(this Task task, Action onSuccessCallback) => _container.Resolve<ApiExceptionResolver>().RunApiInternal(task, onSuccessCallback);
+        public static Task RunApi(this Task task, Action onSuccessCallback = null) => 
+            _container.Resolve<ApiExceptionResolver>().RunApiInternal(task, onSuccessCallback);
 
-        public static Task<T> RunApi<T>(this Task<T> task) where T : new() => _container.Resolve<ApiExceptionResolver>().RunApiInternal(task);
+        public static Task<T> RunApi<T>(this Task<T> task) where T : new() => 
+            _container.Resolve<ApiExceptionResolver>().RunApiInternal(task);
     }
 
 }

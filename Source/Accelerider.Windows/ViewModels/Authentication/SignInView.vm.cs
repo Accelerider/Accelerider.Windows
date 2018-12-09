@@ -22,18 +22,6 @@ namespace Accelerider.Windows.ViewModels.Authentication
         private string _email;
         private bool _isRememberPassword;
         private bool _isAutoSignIn;
-        private ICommand _signInCommand;
-
-
-        public SignInViewModel(IUnityContainer container) : base(container)
-        {
-            _nonAuthenticationApi = Container.Resolve<INonAuthenticationApi>();
-            ConfigureFile = Container.Resolve<IConfigureFile>();
-            SignInCommand = new RelayCommand<PasswordBox>(SignInCommandExecute, passwordBox => CanSignIn(Email, passwordBox.Password));
-
-            EventAggregator.GetEvent<SignUpSuccessEvent>().Subscribe(signUpArgs => _signUpArgs = signUpArgs);
-        }
-
 
         protected IConfigureFile ConfigureFile { get; }
 
@@ -55,12 +43,16 @@ namespace Accelerider.Windows.ViewModels.Authentication
             set { if (SetProperty(ref _isAutoSignIn, value) && value) IsRememberPassword = true; }
         }
 
-        public ICommand SignInCommand
-        {
-            get => _signInCommand;
-            set => SetProperty(ref _signInCommand, value);
-        }
+        public ICommand SignInCommand { get; set; }
 
+        public SignInViewModel(IUnityContainer container) : base(container)
+        {
+            _nonAuthenticationApi = Container.Resolve<INonAuthenticationApi>();
+            ConfigureFile = Container.Resolve<IConfigureFile>();
+            SignInCommand = new RelayCommand<PasswordBox>(SignInCommandExecute, passwordBox => CanSignIn(Email, passwordBox.Password));
+
+            EventAggregator.GetEvent<SignUpSuccessEvent>().Subscribe(signUpArgs => _signUpArgs = signUpArgs);
+        }
 
         public void OnLoaded(SignInView view)
         {
@@ -161,7 +153,6 @@ namespace Accelerider.Windows.ViewModels.Authentication
             Container.RegisterInstance(user);
             Container.RegisterInstance(acceleriderApi);
         }
-
 
         private static bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);
     }

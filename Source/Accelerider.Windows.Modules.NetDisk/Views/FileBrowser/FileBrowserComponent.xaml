@@ -78,7 +78,7 @@
                         <TextBlock Grid.Column="3" Text="Files" VerticalAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
-                <ListBoxItem Height="45">
+                <!--<ListBoxItem Height="45">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="15"/>
@@ -101,7 +101,7 @@
                         <materialDesign:PackIcon Grid.Column="1" Kind="Delete" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Column="3" Text="Recycle Bin" VerticalAlignment="Center"/>
                     </Grid>
-                </ListBoxItem>
+                </ListBoxItem>-->
             </ListBox>
 
             <TextBlock Grid.Row="5" Text="Cloud Storage" Margin="10 0 0 0" FontSize="14"/>

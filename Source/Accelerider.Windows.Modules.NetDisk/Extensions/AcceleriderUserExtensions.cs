@@ -23,7 +23,6 @@ namespace Accelerider.Windows.Infrastructure
             [JsonIgnore]
             public INetDiskUser CurrentNetDiskUser { get; set; }
 
-
             public void Save(string path) => File.WriteAllText(path, this.ToJson());
         }
 
@@ -58,7 +57,7 @@ namespace Accelerider.Windows.Infrastructure
         private static AcceleriderUserExtendedMembers GetExtendedMembers(this IAcceleriderUser user)
         {
             var result = ExtendedMembers.Get(user.Email);
-            result.Id = user.Email;
+            if (string.IsNullOrEmpty(result.Id)) result.Id = user.Email;
             return result;
         }
 
