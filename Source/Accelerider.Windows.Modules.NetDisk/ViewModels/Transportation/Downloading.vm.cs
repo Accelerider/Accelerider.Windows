@@ -22,6 +22,21 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             CancelAllCommand = new RelayCommand(
                 () => TransferTasks.ForEach(item => CancelCommand.Invoke(item)),
                 () => TransferTasks?.Any() ?? false);
+
+            EventAggregator.GetEvent<DownloadItemsAddedEvent>().Subscribe(
+                items =>
+                {
+                    if (TransferTasks == null)
+                    {
+                        TransferTasks = GetTaskList();
+                    }
+
+                    items.ForEach(item =>
+                    {
+                        if (!TransferTasks.Contains(item)) TransferTasks.Add(item);
+                    });
+                },
+                Prism.Events.ThreadOption.UIThread);
         }
 
         protected override ObservableSortedCollection<TransferItem> GetTaskList()

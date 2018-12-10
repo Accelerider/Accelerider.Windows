@@ -24,8 +24,12 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public DisplayDataSize UsedCapacity { get; set; }
 
+        [JsonIgnore]
+        protected List<TransferItem> DownloadItems { get; private set; }
+
         [JsonProperty]
         protected List<string> DownloadingFilePaths { get; private set; } = new List<string>();
+
 
         public abstract Task RefreshUserInfoAsync();
 
@@ -37,18 +41,32 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public IReadOnlyCollection<TransferItem> GetDownloadItems()
         {
-            return DownloadingFilePaths
-                .Where(File.Exists)
-                .Select(File.ReadAllText)
-                .Select(item => ConfigureDownloaderBuilder(FileTransferService.GetDownloaderBuilder())
-                    .Build(item, GetRemotePathProvider))
-                .Select(item => new TransferItem(item))
-                .ToList()
-                .AsReadOnly();
+            return GetDownloadItemsInternal().AsReadOnly();
+        }
+
+        protected void SaveDownloadItem(TransferItem downloadItem)
+        {
+            var downloadItems = GetDownloadItemsInternal();
+            downloadItems.Add(downloadItem);
         }
 
         protected abstract IDownloaderBuilder ConfigureDownloaderBuilder(IDownloaderBuilder builder);
 
         protected abstract IRemotePathProvider GetRemotePathProvider(string jsonText);
+
+        private List<TransferItem> GetDownloadItemsInternal()
+        {
+            return DownloadItems ?? (DownloadItems = GetDownloadItemsFromLocalDisk().ToList());
+        }
+
+        private IEnumerable<TransferItem> GetDownloadItemsFromLocalDisk()
+        {
+            return DownloadingFilePaths
+                .Where(File.Exists)
+                .Select(File.ReadAllText)
+                .Select(item => ConfigureDownloaderBuilder(FileTransferService.GetDownloaderBuilder())
+                    .Build(item, GetRemotePathProvider))
+                .Select(item => new TransferItem(item));
+        }
     }
 }

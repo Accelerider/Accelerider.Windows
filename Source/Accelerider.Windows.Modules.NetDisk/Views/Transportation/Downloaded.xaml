@@ -4,7 +4,12 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
-             mvvm:ViewModelLocator.AutoWireViewModel="True">
+             xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance {x:Type vm:DownloadedViewModel}}">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -55,8 +60,8 @@
                                     </materialDesign:Badged.Badge>-->
                                     <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
                                 </materialDesign:Badged>
-                                <TextBlock Grid.Column="2" Text="{Binding FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="4" Text="{Binding FileSize}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="2" Text="{Binding Path.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="{Binding Size}" VerticalAlignment="Center" />
                                 <TextBlock Grid.Column="6" Text="{Binding CompletedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
                             </Grid>
                         </Border>

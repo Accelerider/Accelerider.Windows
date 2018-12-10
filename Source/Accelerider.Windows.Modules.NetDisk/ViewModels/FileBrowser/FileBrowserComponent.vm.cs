@@ -12,7 +12,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FileBrowserComponentViewModel : ViewModelBase, IViewLoadedAndUnloadedAware
+    public class FileBrowserComponentViewModel : ViewModelBase, IViewLoadedAndUnloadedAware, INotificable
     {
         private bool _canSwitchUser;
         private IEnumerable<ILazyTreeNode<INetDiskFile>> _searchResults;
@@ -87,5 +87,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Subscribe(isLoadingFiles => CanSwitchUser = !isLoadingFiles);
             EventAggregator.GetEvent<SearchResultsChangedEvent>().Subscribe(searchResults => SearchResults = searchResults);
         }
+
+        public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
     }
 }

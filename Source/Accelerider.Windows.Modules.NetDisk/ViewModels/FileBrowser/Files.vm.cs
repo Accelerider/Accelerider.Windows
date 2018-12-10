@@ -73,12 +73,15 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         {
             var fileArray = files.Cast<ILazyTreeNode<INetDiskFile>>().ToArray();
 
-            (string to, bool isDownload) = await DisplayDownloadDialogAsync(fileArray.Select(item => item.Content.Path.FileName));
+            var (to, isDownload) = await DisplayDownloadDialogAsync(fileArray.Select(item => item.Content.Path.FileName));
 
             if (!isDownload) return;
 
             var downloadItemList = fileArray.Select(file => CurrentNetDiskUser.Download(file, to)).ToList();
-            downloadItemList.First().Run();
+            downloadItemList.ForEach(item => item.Run());
+
+            EventAggregator.GetEvent<DownloadItemsAddedEvent>().Publish(downloadItemList);
+
             var fileName = TrimFileName(downloadItemList.First().File.Path.FileName, 40);
             var message = downloadItemList.Count == 1
                 ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)

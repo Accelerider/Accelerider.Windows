@@ -52,7 +52,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         public override TransferItem Download(ILazyTreeNode<INetDiskFile> from, FileLocator to)
         {
-            return MockDownload(from?.Content, to);
+            return InternalDownload(from?.Content, to);
         }
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
@@ -143,7 +143,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         }
 
 
-        private TransferItem MockDownload(INetDiskFile file, FileLocator to)
+        private TransferItem InternalDownload(INetDiskFile file, FileLocator to)
         {
             var downloader = FileTransferService
                 .GetDownloaderBuilder()
@@ -152,11 +152,15 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 .To(Path.Combine(to, file.Path.FileName))
                 .Build();
 
-            return new TransferItem(downloader)
+            var result = new TransferItem(downloader)
             {
                 File = file,
                 Owner = this
             };
+
+            SaveDownloadItem(result);
+
+            return result;
         }
     }
 }
