@@ -1,8 +1,9 @@
 ﻿using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Modularity;
 using Accelerider.Windows.Modules.Group.Views;
-using Autofac;
+using Prism.Ioc;
 using Prism.Regions;
+using Unity;
 
 namespace Accelerider.Windows.Modules.Group
 {
@@ -10,16 +11,14 @@ namespace Accelerider.Windows.Modules.Group
     {
         private readonly IRegionManager _regionManager;
 
-        public GroupModule(IContainer container, IRegionManager regionManager) : base(container)
+        public GroupModule(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
             _regionManager = regionManager;
         }
 
-
-        public override void Initialize()
+        public override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(GroupComponent));
-
             _regionManager.RegisterViewWithRegion(RegionNames.SettingsTabRegion, typeof(GroupSettingsTabItem));
         }
     }

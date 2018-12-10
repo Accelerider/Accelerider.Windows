@@ -5,7 +5,7 @@
          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          xmlns:views="clr-namespace:Accelerider.Windows.Modules.Group.Views"
-         xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
+         xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
          mc:Ignorable="d" 
          d:DesignHeight="600" d:DesignWidth="800">
     <TabItem.Header>
