@@ -28,7 +28,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
 
         // Transfer operations ----------------------------------------------------------------
 
-        TransferItem Download(ILazyTreeNode<INetDiskFile> from, FileLocator to);
+        TransferItem Download(INetDiskFile from, FileLocator to);
 
         // It will be throw an exception if the to.FileType is not folder type.
         Task UploadAsync(FileLocator from, INetDiskFile to, Action<TransferItem> callback);

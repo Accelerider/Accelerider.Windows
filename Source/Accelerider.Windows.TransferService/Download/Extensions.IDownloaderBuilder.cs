@@ -21,17 +21,18 @@ namespace Accelerider.Windows.TransferService
                 return request;
             })
             .Configure(localPath =>
+            {
+                var directoryName = Path.GetDirectoryName(localPath) ?? throw new InvalidOperationException();
+                // TODO: Check the current disk space is sufficient.
+                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(localPath) ?? throw new InvalidOperationException();
+                var extension = Path.GetExtension(localPath);
+                for (int i = 1; File.Exists(localPath); i++)
                 {
-                    var directoryName = Path.GetDirectoryName(localPath) ?? throw new InvalidOperationException();
-                    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(localPath) ?? throw new InvalidOperationException();
-                    var extension = Path.GetExtension(localPath);
-                    for (int i = 1; File.Exists(localPath); i++)
-                    {
-                        localPath = $"{Path.Combine(directoryName, fileNameWithoutExtension)} ({i}){extension}";
-                    }
+                    localPath = $"{Path.Combine(directoryName, fileNameWithoutExtension)} ({i}){extension}";
+                }
 
-                    return localPath;
-                })
+                return localPath;
+            })
             .Configure(DefaultBlockIntervalGenerator)
             .Configure((settings, context) =>
             {

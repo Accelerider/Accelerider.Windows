@@ -35,7 +35,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public abstract Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
 
-        public abstract TransferItem Download(ILazyTreeNode<INetDiskFile> from, FileLocator to);
+        public abstract TransferItem Download(INetDiskFile @from, FileLocator to);
 
         public abstract Task UploadAsync(FileLocator from, INetDiskFile to, Action<TransferItem> callback);
 

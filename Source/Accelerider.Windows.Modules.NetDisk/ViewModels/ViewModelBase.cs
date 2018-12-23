@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Unity;
 
@@ -8,18 +12,33 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels
 {
     public abstract class ViewModelBase : Infrastructure.Mvvm.ViewModelBase
     {
-        protected ViewModelBase(IUnityContainer container) : base(container) { }
+        protected ViewModelBase(IUnityContainer container) : base(container)
+        {
+            AcceleriderUserExtensions.Register(this);
+        }
 
         public INetDiskUser CurrentNetDiskUser
         {
-            get => AcceleriderUser.GetCurrentNetDiskUser() ?? AcceleriderUser.GetNetDiskUsers().FirstOrDefault();
-            set
+            get
             {
-                var temp = AcceleriderUser.GetCurrentNetDiskUser();
-                if (!SetProperty(ref temp, value)) return;
-                AcceleriderUser.SetCurrentNetDiskUser(value);
-                EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Publish(value);
+                if (AcceleriderUser.GetCurrentNetDiskUser() == null)
+                {
+                    CurrentNetDiskUser = AcceleriderUser.GetNetDiskUsers().FirstOrDefault();
+                }
+
+                return AcceleriderUser.GetCurrentNetDiskUser();
             }
+            set { if (AcceleriderUser.SetCurrentNetDiskUser(value)) OnCurrentNetDiskUserChanged(value); }
         }
+
+        public virtual void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CurrentNetDiskUser))
+                OnCurrentNetDiskUserChanged(CurrentNetDiskUser);
+
+            RaisePropertyChanged(e.PropertyName);
+        }
+
+        protected virtual void OnCurrentNetDiskUserChanged(INetDiskUser value) { }
     }
 }

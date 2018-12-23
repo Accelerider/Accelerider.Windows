@@ -113,6 +113,7 @@
     <Compile Include="I18n\I18nExtension.cs" />
     <Compile Include="I18n\I18nManager.cs" />
     <Compile Include="I18n\I18nSource.cs" />
+    <Compile Include="MergedStyles.cs" />
     <Compile Include="Modularity\AppMetadata.cs" />
     <Compile Include="Modularity\ModuleBase.cs" />
     <Compile Include="Modularity\ModuleCatalogHelper.cs" />

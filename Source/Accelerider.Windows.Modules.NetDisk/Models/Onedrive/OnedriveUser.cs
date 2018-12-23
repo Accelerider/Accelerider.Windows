@@ -92,7 +92,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
             return Task.FromResult((ILazyTreeNode<INetDiskFile>)tree);
         }
 
-        public override TransferItem Download(ILazyTreeNode<INetDiskFile> @from, FileLocator to)
+        public override TransferItem Download(INetDiskFile @from, FileLocator to)
         {
             throw new NotImplementedException();
         }

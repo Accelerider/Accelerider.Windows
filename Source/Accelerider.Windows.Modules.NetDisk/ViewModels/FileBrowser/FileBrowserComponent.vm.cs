@@ -17,9 +17,6 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         private bool _canSwitchUser;
         private IEnumerable<ILazyTreeNode<INetDiskFile>> _searchResults;
         private ILazyTreeNode<INetDiskFile> _selectedSearchResult;
-        private ObservableCollection<INetDiskUser> _netDiskUsers;
-        private ICommand _addNetDiskCommand;
-
 
         public FileBrowserComponentViewModel(IUnityContainer container) : base(container)
         {
@@ -31,7 +28,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         public async void OnLoaded()
         {
             await AcceleriderUser.UpdateAsync();
-            NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
+            RaisePropertyChanged(nameof(NetDiskUsers));
         }
 
         public void OnUnloaded()
@@ -65,21 +62,15 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             }
         }
 
-        public ObservableCollection<INetDiskUser> NetDiskUsers
-        {
-            get => _netDiskUsers;
-            set => SetProperty(ref _netDiskUsers, value);
-        }
+        public ObservableCollection<INetDiskUser> NetDiskUsers =>
+            new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
 
         public ICommand AddNetDiskCommand { get; }
 
 
         private async void AddNetDiskCommandExecute()
         {
-            if ((bool)await DialogHost.Show(new SixCloud(), "RootDialog"))
-            {
-                NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
-            }
+            await DialogHost.Show(new SixCloud(), "RootDialog");
         }
 
         private void SubscribeEvents()

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
+using Accelerider.Windows.Modules.NetDisk.ViewModels;
 using Newtonsoft.Json;
 
 // ReSharper disable once CheckNamespace
@@ -61,6 +64,18 @@ namespace Accelerider.Windows.Infrastructure
 
         // -------------------------------------------------------------------------------------
 
+        public static event PropertyChangedEventHandler PropertyChanged;
+
+        public static void Register(ViewModelBase viewModel)
+        {
+            PropertyChanged += viewModel.PropertyChangedHandler;
+        }
+
+        public static void Unregister(ViewModelBase viewModel)
+        {
+            PropertyChanged -= viewModel.PropertyChangedHandler;
+        }
+
         public static async Task<bool> UpdateAsync(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
@@ -87,25 +102,33 @@ namespace Accelerider.Windows.Infrastructure
             return @this.GetExtendedMembers().NetDiskUsers;
         }
 
-        public static bool AddNetDiskUser(this IAcceleriderUser @this, INetDiskUser user)
+        public static bool AddNetDiskUser(this IAcceleriderUser @this, INetDiskUser value)
         {
             Guards.ThrowIfNull(@this);
 
             var extendedMembers = @this.GetExtendedMembers();
 
-            if (extendedMembers.NetDiskUsers.Any(v => v.Id == user.Id)) return false;
+            if (extendedMembers.NetDiskUsers.Any(v => v.Id == value.Id)) return false;
 
-            extendedMembers.NetDiskUsers.Add(user);
+            extendedMembers.NetDiskUsers.Add(value);
             extendedMembers.Save(@this.GetUsersFilePath());
 
+            if (@this.GetCurrentNetDiskUser() == null)
+            {
+                @this.SetCurrentNetDiskUser(value);
+            }
+
+            RaisePropertyChanged();
             return true;
         }
 
-        public static bool RemoveNetDiskUser(this IAcceleriderUser @this, INetDiskUser user)
+        public static bool RemoveNetDiskUser(this IAcceleriderUser @this, INetDiskUser value)
         {
             Guards.ThrowIfNull(@this);
 
-            return @this.GetExtendedMembers().NetDiskUsers.RemoveAll(item => item.Id == user.Id) > 0;
+            var result = @this.GetExtendedMembers().NetDiskUsers.RemoveAll(item => item.Id == value.Id) > 0;
+            if (result) RaisePropertyChanged();
+            return result;
         }
 
         public static INetDiskUser GetCurrentNetDiskUser(this IAcceleriderUser @this)
@@ -115,11 +138,16 @@ namespace Accelerider.Windows.Infrastructure
             return @this.GetExtendedMembers().CurrentNetDiskUser;
         }
 
-        public static void SetCurrentNetDiskUser(this IAcceleriderUser @this, INetDiskUser value)
+        public static bool SetCurrentNetDiskUser(this IAcceleriderUser @this, INetDiskUser value)
         {
             Guards.ThrowIfNull(@this);
 
+            if (EqualityComparer<INetDiskUser>.Default.Equals(@this.GetExtendedMembers().CurrentNetDiskUser, value))
+                return false;
+
             @this.GetExtendedMembers().CurrentNetDiskUser = value;
+            RaisePropertyChanged();
+            return true;
         }
 
         // -------------------------------------------------------------------------------------
@@ -138,12 +166,33 @@ namespace Accelerider.Windows.Infrastructure
         {
             Guards.ThrowIfNull(@this);
             throw new NotImplementedException();
+
+            RaisePropertyChanged();
         }
 
         public static IList<ITransferredFile> GetUploadedFiles(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
             throw new NotImplementedException();
+
+            RaisePropertyChanged();
+        }
+
+        private static void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            Guards.ThrowIfNull(propertyName);
+
+            if (propertyName.StartsWith("Remove") || propertyName.StartsWith("Add"))
+            {
+                propertyName += "s";
+            }
+
+            propertyName = propertyName
+                .Replace("Set", string.Empty)
+                .Replace("Add", string.Empty)
+                .Replace("Remove", string.Empty);
+
+            PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

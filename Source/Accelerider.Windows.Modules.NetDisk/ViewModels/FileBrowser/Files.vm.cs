@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -77,8 +78,18 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
             if (!isDownload) return;
 
-            var downloadItemList = fileArray.Select(file => CurrentNetDiskUser.Download(file, to)).ToList();
-            downloadItemList.ForEach(item => item.Run());
+            var downloadItemList = new List<TransferItem>(fileArray.Length);
+            foreach (var fileNode in fileArray)
+            {
+                await fileNode.ForEachAsync(file =>
+                {
+                    if (file.Type == FileType.FolderType) return;
+
+                    var downloadItem = CurrentNetDiskUser.Download(file, to);
+                    downloadItem.Run();
+                    downloadItemList.Add(downloadItem);
+                }, CancellationToken.None);
+            }
 
             EventAggregator.GetEvent<DownloadItemsAddedEvent>().Publish(downloadItemList);
 

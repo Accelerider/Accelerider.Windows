@@ -24,19 +24,10 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
                 () => TransferTasks?.Any() ?? false);
 
             EventAggregator.GetEvent<DownloadItemsAddedEvent>().Subscribe(
-                items =>
-                {
-                    if (TransferTasks == null)
-                    {
-                        TransferTasks = GetTaskList();
-                    }
-
-                    items.ForEach(item =>
-                    {
-                        if (!TransferTasks.Contains(item)) TransferTasks.Add(item);
-                    });
-                },
-                Prism.Events.ThreadOption.UIThread);
+                items => items.ForEach(item => TransferTasks.Add(item)),
+                Prism.Events.ThreadOption.UIThread,
+                keepSubscriberReferenceAlive: true,
+                filter: _ => TransferTasks != null);
         }
 
         protected override ObservableSortedCollection<TransferItem> GetTaskList()

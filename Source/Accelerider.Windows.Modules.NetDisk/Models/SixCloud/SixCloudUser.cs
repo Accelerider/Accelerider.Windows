@@ -50,9 +50,9 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         }
 
 
-        public override TransferItem Download(ILazyTreeNode<INetDiskFile> from, FileLocator to)
+        public override TransferItem Download(INetDiskFile from, FileLocator to)
         {
-            return InternalDownload(from?.Content, to);
+            return InternalDownload(from, to);
         }
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
