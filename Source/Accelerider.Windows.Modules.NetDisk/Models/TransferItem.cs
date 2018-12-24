@@ -8,7 +8,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 {
     public class TransferItem : IDownloader
     {
-        private readonly IDownloader _downloader;
+        public IDownloader Downloader { get; }
 
         public INetDiskUser Owner { get; set; }
 
@@ -18,32 +18,31 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public IManagedTransporterToken ManagedToken { get; }
 
-
         public TransferItem(IDownloader downloader, string managerName = FileTransferService.DefaultManagerName)
         {
-            _downloader = downloader;
+            Downloader = downloader;
             ManagedToken = this.AsManaged(managerName);
-            Transporter = _downloader.ToBindable();
+            Transporter = Downloader.ToBindable();
         }
 
 
         #region Proxy IDownloader interface
 
-        public Guid Id => _downloader.Id;
+        public Guid Id => Downloader.Id;
 
-        public DownloadContext Context => _downloader.Context;
+        public DownloadContext Context => Downloader.Context;
 
-        public TransferStatus Status => _downloader.Status;
+        public TransferStatus Status => Downloader.Status;
 
-        public IReadOnlyDictionary<long, BlockTransferContext> BlockContexts => _downloader.BlockContexts;
+        public IReadOnlyDictionary<long, BlockTransferContext> BlockContexts => Downloader.BlockContexts;
 
-        public void Run() => _downloader.Run();
+        public void Run() => Downloader.Run();
 
-        public void Stop() => _downloader.Stop();
+        public void Stop() => Downloader.Stop();
 
-        public IDisposable Subscribe(IObserver<TransferNotification> observer) => _downloader.Subscribe(observer);
+        public IDisposable Subscribe(IObserver<TransferNotification> observer) => Downloader.Subscribe(observer);
 
-        public void Dispose() => _downloader.Dispose();
+        public void Dispose() => Downloader.Dispose();
 
         #endregion
     }

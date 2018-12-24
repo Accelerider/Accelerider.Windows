@@ -42,9 +42,14 @@ namespace Accelerider.Windows.TransferService.WpfInteractions
         {
             var observable = dispatcher != null ? downloader.ObserveOn(dispatcher) : downloader;
 
-            var observableStatus = observable.Distinct(item => item.Status);
+            // Updates the Status.
+            observable
+                .Where(item => Status != item.Status)
+                .Subscribe(item => Status = item.Status);
 
-            observableStatus
+            // Initializes this BindableDownloader.
+            observable
+                .Distinct(item => item.Status)
                 .Where(item => item.Status == TransferStatus.Transferring)
                 .Subscribe(item =>
                 {
@@ -65,9 +70,7 @@ namespace Accelerider.Windows.TransferService.WpfInteractions
                     }
                 });
 
-            observableStatus
-                .Subscribe(item => Status = item.Status);
-
+            // Updates the progress.
             observable
                 .Where(item => item.Status == TransferStatus.Transferring)
                 .Sample(TimeSpan.FromMilliseconds(SampleIntervalBasedMilliseconds))

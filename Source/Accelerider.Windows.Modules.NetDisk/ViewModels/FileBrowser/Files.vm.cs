@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -97,7 +98,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             // Post this message to the downloading view model.
             EventAggregator.GetEvent<DownloadItemsAddedEvent>().Publish(downloadItemList);
 
-            var fileName = TrimFileName(downloadItemList.First().File.Path.FileName, 40);
+            var fileName = downloadItemList.First().File.Path.FileName.TrimMiddle(10);
             var message = downloadItemList.Count == 1
                 ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)
                 : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, downloadItemList.Count);
@@ -202,7 +203,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             return (vm.DownloadFolder, true);
         }
 
-        private string TrimFileName(string fileName, int length)
+        private static string TrimFileName(string fileName, int length)
         {
             FileLocator fileLocation = fileName;
             var folderNameLength = length - fileLocation.FileName.Length - 5;

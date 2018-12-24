@@ -97,7 +97,8 @@
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
-                            <TextBlock x:Name="ProgressTextBox" Grid.Column="2" Grid.Row="2" Foreground="Gray" Text="{Binding Transporter.Progress.Speed, StringFormat='{}{0}/s'}" />
+                            <TextBlock x:Name="ProgressTextBox" Grid.Column="2" Grid.Row="2" Foreground="Gray"
+                                       Text="{Binding Transporter.Progress.Speed, StringFormat='{}{0}/s'}" />
                             <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray" Text="{Binding Transporter.Progress.RemainingTime, StringFormat='hh\\:mm\\:ss', TargetNullValue='∞'}"/>
                             <TextBlock Grid.Column="6" Grid.Row="2" TextTrimming="CharacterEllipsis">
                                 <Run Text="Related User: " Foreground="Gray"/>

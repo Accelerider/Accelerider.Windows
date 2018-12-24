@@ -24,7 +24,11 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
                 () => TransferTasks?.Any() ?? false);
 
             EventAggregator.GetEvent<DownloadItemsAddedEvent>().Subscribe(
-                items => items.ForEach(item => TransferTasks.Add(item)),
+                items => items.ForEach(item =>
+                {
+                    item.Downloader.Subscribe(notification => { });
+                    TransferTasks.Add(item);
+                }),
                 Prism.Events.ThreadOption.UIThread,
                 keepSubscriberReferenceAlive: true,
                 filter: _ => TransferTasks != null);

@@ -32,9 +32,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
                 TransferTasks = GetTaskList();
         }
 
-        public void OnUnloaded()
-        {
-        }
+        public void OnUnloaded() { }
 
         #region Commands
 
