@@ -152,7 +152,9 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 .To(Path.Combine(to, file.Path.FileName))
                 .Build();
 
-            var result = new TransferItem(downloader)
+            //DownloadingFilePaths.Add(to + ".ardd"); // TODO: acdd = [A]ccele[R]ider [D]ownload [D]ata file.
+
+            var result = new TransferItem(downloader, "net-disk")
             {
                 File = file,
                 Owner = this

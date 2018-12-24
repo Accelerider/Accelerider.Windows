@@ -19,10 +19,10 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
         public IManagedTransporterToken ManagedToken { get; }
 
 
-        public TransferItem(IDownloader downloader)
+        public TransferItem(IDownloader downloader, string managerName = FileTransferService.DefaultManagerName)
         {
             _downloader = downloader;
-            ManagedToken = this.AsManaged();
+            ManagedToken = this.AsManaged(managerName);
             Transporter = _downloader.ToBindable();
         }
 

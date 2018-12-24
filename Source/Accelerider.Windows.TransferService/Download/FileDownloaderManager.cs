@@ -9,7 +9,8 @@ namespace Accelerider.Windows.TransferService
 {
     internal class FileDownloaderManager : IDownloaderManager
     {
-        public const string AcceleriderDownloadFileExtension = ".ard";
+        public const string AcceleriderDownloadDataFileExtension = ".ardd";
+        public const int DefaultMaxConcurrent = 4;
 
         private readonly ConcurrentList<IDownloader> _executingList = new ConcurrentList<IDownloader>();
         private readonly ConcurrentList<IDownloader> _pendingList = new ConcurrentList<IDownloader>();
@@ -19,7 +20,7 @@ namespace Accelerider.Windows.TransferService
         private readonly AsyncLocker _advanceLocker = new AsyncLocker();
         private readonly ConcurrentDictionary<Guid, IDisposable> _observers = new ConcurrentDictionary<Guid, IDisposable>();
 
-        private int _maxConcurrent;
+        private int _maxConcurrent = DefaultMaxConcurrent;
 
         public int MaxConcurrent
         {
@@ -91,11 +92,12 @@ namespace Accelerider.Windows.TransferService
 
         public void Suspend(Guid id)
         {
-            var downloader = DequeueById(id);
-            if (downloader == null) return;
+            DequeueAndOperateById(id, item =>
+            {
+                item.Stop();
+                _suspendedList.Insert(0, item);
+            }, _executingList, _pendingList);
 
-            downloader.Stop();
-            MoveToTop(_suspendedList, id, _executingList, _pendingList);
             Advance();
         }
 

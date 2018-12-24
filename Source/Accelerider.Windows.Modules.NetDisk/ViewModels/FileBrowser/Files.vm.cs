@@ -16,6 +16,7 @@ using Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
 using Accelerider.Windows.Resources.I18N;
+using Accelerider.Windows.TransferService;
 using Unity;
 using MaterialDesignThemes.Wpf;
 
@@ -91,6 +92,9 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 }, CancellationToken.None);
             }
 
+            var manager = Container.Resolve<IDownloaderManager>();
+
+            // Post this message to the downloading view model.
             EventAggregator.GetEvent<DownloadItemsAddedEvent>().Publish(downloadItemList);
 
             var fileName = TrimFileName(downloadItemList.First().File.Path.FileName, 40);
@@ -193,7 +197,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             configure.SetValue(ConfigureKeys.NotDisplayDownloadDialog, vm.NotDisplayDownloadDialog);
             if (vm.NotDisplayDownloadDialog)
             {
-                configure.SetValue(ConfigureKeys.DownloadDirectory, vm.DownloadFolder);
+                configure.SetValue(ConfigureKeys.DownloadDirectory, vm.DownloadFolder.ToString());
             }
             return (vm.DownloadFolder, true);
         }
