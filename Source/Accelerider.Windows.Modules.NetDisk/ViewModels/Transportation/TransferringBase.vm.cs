@@ -26,13 +26,12 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             InitializeCommands();
         }
 
-        public void OnLoaded()
+        public virtual void OnLoaded()
         {
-            if (TransferTasks == null)
-                TransferTasks = GetTaskList();
+            if (TransferTasks == null) TransferTasks = GetTaskList();
         }
 
-        public void OnUnloaded() { }
+        public virtual void OnUnloaded() { }
 
         #region Commands
 
@@ -48,16 +47,16 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         {
             PauseCommand = new RelayCommand<TransferItem>(
                 item => OperateTaskToken(item, token => token.Suspend(), "Pause task failed."), // TODO: [I18N]
-                item => item.Transporter.Status == TransferStatus.Transferring ||
-                        item.Transporter.Status == TransferStatus.Ready);
+                item => item.BindableTransporter.Status == TransferStatus.Transferring ||
+                        item.BindableTransporter.Status == TransferStatus.Ready);
 
             StartCommand = new RelayCommand<TransferItem>(
                 item => OperateTaskToken(item, token => token.Ready(), "Restart task failed."),
-                item => item.Transporter.Status == TransferStatus.Suspended);
+                item => item.BindableTransporter.Status == TransferStatus.Suspended);
 
             StartForceCommand = new RelayCommand<TransferItem>(
                 item => OperateTaskToken(item, token => token.AsNext(), "Jump queue failed."),
-                item => item.Transporter.Status != TransferStatus.Transferring);
+                item => item.BindableTransporter.Status != TransferStatus.Transferring);
 
             CancelCommand = new RelayCommand<TransferItem>(
                 item => OperateTaskToken(item, token => token.Dispose(), "Cancel task failed."));

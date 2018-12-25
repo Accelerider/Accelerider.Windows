@@ -106,6 +106,7 @@
     <Compile Include="Extensions\DownloaderBuilderExtensions.cs" />
     <Compile Include="Extensions\FileLocatorExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
+    <Compile Include="Extensions\TransferredItemExtensions.cs" />
     <Compile Include="I18nResources\ResKeys.cs">
       <DependentUpon>ResKeys.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -116,6 +117,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Interfaces2\FileInterfaces.cs" />
+    <Compile Include="Interfaces2\INetDiskUser.cs" />
     <Compile Include="Interfaces\Files.cs" />
     <Compile Include="Interfaces\INetDiskUser.cs" />
     <Compile Include="Models\BaiduCloud\BaiduCloudFile.cs" />

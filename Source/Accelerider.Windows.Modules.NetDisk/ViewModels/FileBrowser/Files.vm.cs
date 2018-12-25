@@ -80,7 +80,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
             if (!isDownload) return;
 
-            var downloadItemList = new List<TransferItem>(fileArray.Length);
+            var fileNames = new List<string>(fileArray.Length);
             foreach (var fileNode in fileArray)
             {
                 await fileNode.ForEachAsync(file =>
@@ -89,19 +89,16 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
                     var downloadItem = CurrentNetDiskUser.Download(file, to);
                     downloadItem.Run();
-                    downloadItemList.Add(downloadItem);
+                    // Send this transfer item to the downloading view model.
+                    EventAggregator.GetEvent<TransferItemsAddedEvent>().Publish(downloadItem);
+                    fileNames.Add(downloadItem.File.Path.FileName);
                 }, CancellationToken.None);
             }
 
-            var manager = Container.Resolve<IDownloaderManager>();
-
-            // Post this message to the downloading view model.
-            EventAggregator.GetEvent<DownloadItemsAddedEvent>().Publish(downloadItemList);
-
-            var fileName = downloadItemList.First().File.Path.FileName.TrimMiddle(10);
-            var message = downloadItemList.Count == 1
+            var fileName = fileNames.First().TrimMiddle(40);
+            var message = fileNames.Count == 1
                 ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)
-                : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, downloadItemList.Count);
+                : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, fileNames.Count);
             GlobalMessageQueue.Enqueue(message);
         }
 

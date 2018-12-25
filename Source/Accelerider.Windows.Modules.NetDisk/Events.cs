@@ -14,5 +14,7 @@ namespace Accelerider.Windows.Modules.NetDisk
 
     public class SearchResultsChangedEvent : PubSubEvent<IEnumerable<ILazyTreeNode<INetDiskFile>>> { }
 
-    public class DownloadItemsAddedEvent : PubSubEvent<IEnumerable<TransferItem>> { }
+    public class TransferItemsAddedEvent : PubSubEvent<TransferItem> { }
+
+    public class TransferItemCompletedEvent : PubSubEvent<ILocalDiskFile> { }
 }

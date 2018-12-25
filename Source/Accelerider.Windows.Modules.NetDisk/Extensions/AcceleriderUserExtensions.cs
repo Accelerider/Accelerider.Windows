@@ -162,15 +162,18 @@ namespace Accelerider.Windows.Infrastructure
                 .AsReadOnly();
         }
 
-        public static IList<ITransferredFile> GetDownloadedFiles(this IAcceleriderUser @this)
+        public static IList<ILocalDiskFile> GetDownloadedFiles(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
-            throw new NotImplementedException();
+
+
 
             RaisePropertyChanged();
+
+            return new List<ILocalDiskFile>();
         }
 
-        public static IList<ITransferredFile> GetUploadedFiles(this IAcceleriderUser @this)
+        public static IList<ILocalDiskFile> GetUploadedFiles(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
             throw new NotImplementedException();

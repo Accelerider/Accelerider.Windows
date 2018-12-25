@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Unity;
@@ -9,31 +10,29 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
     public abstract class TransferredBaseViewModel : ViewModelBase, IViewLoadedAndUnloadedAware
     {
-        protected Comparison<ITransferredFile> DefaultTransferredFileComparer { get; } =
+        protected Comparison<ILocalDiskFile> DefaultTransferredFileComparer { get; } =
             (x, y) => Comparer<DateTime>.Default.Compare(x.CompletedTime, y.CompletedTime);
 
-        private IEnumerable<ITransferredFile> _transferredFiles;
+        private ObservableSortedCollection<ILocalDiskFile> _transferredFiles;
 
-
-        protected TransferredBaseViewModel(IUnityContainer container) : base(container)
-        {
-        }
-
-        public void OnLoaded()
-        {
-            TransferredFiles = GetTransferredFiles();
-        }
-
-        public void OnUnloaded()
-        {
-        }
-
-        public IEnumerable<ITransferredFile> TransferredFiles
+        public ObservableSortedCollection<ILocalDiskFile> TransferredFiles
         {
             get => _transferredFiles;
             set => SetProperty(ref _transferredFiles, value);
         }
 
-        protected abstract IEnumerable<ITransferredFile> GetTransferredFiles();
+        protected TransferredBaseViewModel(IUnityContainer container) : base(container)
+        {
+        }
+
+        public virtual void OnLoaded()
+        {
+        }
+
+        public virtual void OnUnloaded()
+        {
+        }
+
+        protected abstract ObservableSortedCollection<ILocalDiskFile> GetTransferredFiles();
     }
 }

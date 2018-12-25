@@ -56,7 +56,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         private List<TransferItem> GetDownloadItemsInternal()
         {
-            return DownloadItems ?? (DownloadItems = GetDownloadItemsFromLocalDisk().ToList());
+            if (DownloadItems == null) DownloadItems = new List<TransferItem>();
+
+            GetDownloadItemsFromLocalDisk().Where(item => !DownloadItems.Contains(item)).ForEach(item => DownloadItems.Add(item));
+
+            return DownloadItems;
         }
 
         private IEnumerable<TransferItem> GetDownloadItemsFromLocalDisk()

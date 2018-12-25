@@ -38,11 +38,9 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces
     {
     }
 
-    public interface ITransferredFile : IDiskFile
+    public interface ILocalDiskFile : IDiskFile
     {
-        event EventHandler<TransportedFileStatus> FileChecked;
-
-        TransportedFileStatus CheckStatus { get; }
+        bool Exists { get; }
 
         DateTime CompletedTime { get; }
     }

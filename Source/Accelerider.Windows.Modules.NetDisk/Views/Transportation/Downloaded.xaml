@@ -39,7 +39,7 @@
                 <DataTemplate>
                     <Grid>
                         <ProgressBar Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"/>
-                        <Border Padding="20 8" >
+                        <Border Padding="20 8" ToolTip="{Binding Path.FullPath}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -54,12 +54,12 @@
                                     <ColumnDefinition Width="110"/>
                                     <ColumnDefinition Width="16"/>
                                 </Grid.ColumnDefinitions>
-                                <materialDesign:Badged Badge="？" BadgeColorZoneMode="Accent" BadgeBackground="Red" BadgeForeground="White">
-                                    <!--<materialDesign:Badged.Badge>
+                                <!--<materialDesign:Badged BadgeColorZoneMode="Accent" BadgeBackground="Red" BadgeForeground="White">
+                                    <materialDesign:Badged.Badge>
                                         <materialDesign:PackIcon Kind="Exclamation" />
-                                    </materialDesign:Badged.Badge>-->
-                                    <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
-                                </materialDesign:Badged>
+                                    </materialDesign:Badged.Badge>
+                                </materialDesign:Badged>-->
+                                <Image Grid.Column="0" Tag="{Binding Type}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="2" Text="{Binding Path.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="4" Text="{Binding Size}" VerticalAlignment="Center" />
                                 <TextBlock Grid.Column="6" Text="{Binding CompletedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
