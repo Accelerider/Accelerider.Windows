@@ -135,7 +135,6 @@
     <Compile Include="Models\SixCloud\SixCloudUser.cs" />
     <Compile Include="Models\TransferItem.cs" />
     <Compile Include="Models\Datas.cs" />
-    <Compile Include="Models\INetDiskApi.cs" />
     <Compile Include="Models\Infos.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignIn.vm.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignUp.vm.cs" />
