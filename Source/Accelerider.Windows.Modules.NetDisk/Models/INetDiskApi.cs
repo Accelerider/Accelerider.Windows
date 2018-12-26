@@ -2,11 +2,9 @@
 using System.IO;
 using System.Threading.Tasks;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
-using Accelerider.Windows.Modules.NetDisk.Models;
 using Refit;
-using FileInfo = Accelerider.Windows.Modules.NetDisk.Models.FileInfo;
 
-namespace Accelerider.Windows.Modules.NetDisk.Interfaces
+namespace Accelerider.Windows.Modules.NetDisk.Models
 {
     internal interface INetDiskApi
     {

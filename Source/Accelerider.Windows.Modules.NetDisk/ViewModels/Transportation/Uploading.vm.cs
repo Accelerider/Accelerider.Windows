@@ -1,7 +1,4 @@
-﻿using System;
-using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Modules.NetDisk.Models;
-using Unity;
+﻿using Unity;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
@@ -12,9 +9,5 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         {
         }
 
-        protected override ObservableSortedCollection<TransferItem> GetTaskList()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

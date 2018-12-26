@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
-using Accelerider.Windows.TransferService.WpfInteractions;
 using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
@@ -18,7 +16,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
         public FileLocator Path { get; set; }
 
         [JsonProperty("size")]
-        public DisplayDataSize Size { get; set; }
+        public long Size { get; set; }
 
         [JsonProperty("fs_id")]
         public long FileId { get; set; }

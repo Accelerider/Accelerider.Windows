@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.TransferService;
-using Accelerider.Windows.TransferService.WpfInteractions;
 using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
@@ -39,15 +37,15 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         {
             if (TransferTasks == null)
             {
-                TransferTasks = new ObservableSortedCollection<TransferItem>((x, y) => x.BindableTransporter.Status - y.BindableTransporter.Status);
+                TransferTasks = new ObservableSortedCollection<IDownloadingFile>((x, y) => x.Downloader.Status - y.Downloader.Status);
 
                 AcceleriderUser
                     .GetDownloadItems()
                     .ForEach(item =>
                     {
-                        if (item.Status == TransferStatus.Completed)
+                        if (item.Downloader.Status == TransferStatus.Completed)
                         {
-                            EventAggregator.GetEvent<TransferItemCompletedEvent>().Publish(item.Transporter.Context.LocalPath.ToTransferredFile());
+                            EventAggregator.GetEvent<TransferItemCompletedEvent>().Publish(item.Downloader.Context.LocalPath.ToTransferredFile());
                         }
                         else
                         {
@@ -57,25 +55,18 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             }
         }
 
-        private void InitializeTransferItem(TransferItem item)
+        private void InitializeTransferItem(IDownloadingFile item)
         {
-            item.Transporter
+            item.Downloader
                 .Where(notification => notification.Status == TransferStatus.Disposed)
                 .ObserveOn(Dispatcher)
                 .Subscribe(notification => TransferTasks.Remove(item), () =>
                 {
                     TransferTasks.Remove(item);
-                    EventAggregator.GetEvent<TransferItemCompletedEvent>().Publish(item.Transporter.Context.LocalPath.ToTransferredFile());
+                    EventAggregator.GetEvent<TransferItemCompletedEvent>().Publish(item.Downloader.Context.LocalPath.ToTransferredFile());
                 });
 
             TransferTasks.Add(item);
-        }
-
-        protected override ObservableSortedCollection<TransferItem> GetTaskList()
-        {
-            return new ObservableSortedCollection<TransferItem>(
-                AcceleriderUser.GetDownloadItems(),
-                (x, y) => x.BindableTransporter.Status - y.BindableTransporter.Status);
         }
     }
 }

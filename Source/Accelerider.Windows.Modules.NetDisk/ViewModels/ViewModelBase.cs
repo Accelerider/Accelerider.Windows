@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Mvvm;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Models;
 using Unity;
 
 

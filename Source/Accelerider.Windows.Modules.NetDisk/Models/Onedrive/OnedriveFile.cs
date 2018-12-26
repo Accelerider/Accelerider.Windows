@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.TransferService.WpfInteractions;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -17,7 +15,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
         public FileLocator Path => _pathInfo?.Value<string>("path").Replace("/drive/root:", string.Empty) ?? "/";
 
         [JsonProperty("size")]
-        public DisplayDataSize Size { get; set; }
+        public long Size { get; set; }
 
         [JsonProperty("lastModifiedDateTime")]
         public DateTime ModifiedTime { get; set; }

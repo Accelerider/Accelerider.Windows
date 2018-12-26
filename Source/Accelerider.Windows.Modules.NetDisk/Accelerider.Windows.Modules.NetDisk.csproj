@@ -106,6 +106,7 @@
     <Compile Include="Extensions\DownloaderBuilderExtensions.cs" />
     <Compile Include="Extensions\FileLocatorExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
+    <Compile Include="Extensions\NetDiskFileExtensions.cs" />
     <Compile Include="Extensions\TransferredItemExtensions.cs" />
     <Compile Include="I18nResources\ResKeys.cs">
       <DependentUpon>ResKeys.tt</DependentUpon>
@@ -117,10 +118,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Interfaces2\FileInterfaces.cs" />
-    <Compile Include="Interfaces2\INetDiskUser.cs" />
-    <Compile Include="Interfaces\Files.cs" />
-    <Compile Include="Interfaces\INetDiskUser.cs" />
+    <Compile Include="Models\FileInterfaces.cs" />
+    <Compile Include="Models\INetDiskUser.cs" />
     <Compile Include="Models\BaiduCloud\BaiduCloudFile.cs" />
     <Compile Include="Models\BaiduCloud\BaiduCloudUser.cs" />
     <Compile Include="Models\BaiduCloud\IBaiduCloudApi.cs" />
@@ -136,7 +135,7 @@
     <Compile Include="Models\SixCloud\SixCloudUser.cs" />
     <Compile Include="Models\TransferItem.cs" />
     <Compile Include="Models\Datas.cs" />
-    <Compile Include="Interfaces\INetDiskApi.cs" />
+    <Compile Include="Models\INetDiskApi.cs" />
     <Compile Include="Models\Infos.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignIn.vm.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignUp.vm.cs" />

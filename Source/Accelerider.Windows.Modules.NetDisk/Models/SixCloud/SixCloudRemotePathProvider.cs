@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

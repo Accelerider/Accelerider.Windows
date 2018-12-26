@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Models;
 using Unity;
 
 
@@ -74,7 +74,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         protected override async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
         {
-            await currentNetDiskUser.RefreshUserInfoAsync();
+            await currentNetDiskUser.RefreshAsync();
             await LoadingFilesAsync();
         }
     }

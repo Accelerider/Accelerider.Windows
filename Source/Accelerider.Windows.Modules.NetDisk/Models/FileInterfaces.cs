@@ -3,7 +3,7 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.TransferService;
 
-namespace Accelerider.Windows.Modules.NetDisk.Interfaces2
+namespace Accelerider.Windows.Modules.NetDisk.Models
 {
     public interface IFileSummary
     {

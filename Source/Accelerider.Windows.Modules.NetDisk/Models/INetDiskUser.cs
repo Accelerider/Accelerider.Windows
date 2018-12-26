@@ -1,12 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 
-namespace Accelerider.Windows.Modules.NetDisk.Interfaces2
+namespace Accelerider.Windows.Modules.NetDisk.Models
 {
+    public interface INetDiskUser : IRefreshable, INetDiskFileOperations, IDownloadOperations, IUploadOperations
+    {
+        string Id { get; }
+
+        string Username { get; }
+
+        Uri Avatar { get; }
+
+        (long Used, long Total) Capacity { get; }
+    }
+
     public interface INetDiskFileOperations
     {
         Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
@@ -27,14 +36,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Interfaces2
         IReadOnlyList<ILocalDiskFile> GetDownloadedFiles();
     }
 
-    public interface INetDiskUser : INetDiskFileOperations, IDownloadOperations, IRefreshable
+    public interface IUploadOperations
     {
-        string Id { get; }
-
-        string Username { get; }
-
-        Uri Avatar { get; }
-
-        (long Used, long Total) Capacity { get; }
+        // TODO
     }
 }

@@ -11,9 +11,9 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
     public abstract class TransferringBaseViewModel : ViewModelBase, IViewLoadedAndUnloadedAware, INotificable
     {
-        private ObservableSortedCollection<TransferItem> _transferTasks;
+        private ObservableSortedCollection<IDownloadingFile> _transferTasks;
 
-        public ObservableSortedCollection<TransferItem> TransferTasks
+        public ObservableSortedCollection<IDownloadingFile> TransferTasks
         {
             get => _transferTasks;
             set => SetProperty(ref _transferTasks, value);
@@ -28,7 +28,6 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 
         public virtual void OnLoaded()
         {
-            if (TransferTasks == null) TransferTasks = GetTaskList();
         }
 
         public virtual void OnUnloaded() { }
@@ -75,7 +74,5 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         }
 
         #endregion
-
-        protected abstract ObservableSortedCollection<TransferItem> GetTaskList();
     }
 }

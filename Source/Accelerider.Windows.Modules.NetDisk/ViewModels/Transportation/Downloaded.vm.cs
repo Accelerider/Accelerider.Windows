@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
+﻿using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.TransferService;
 using Unity;
 
@@ -27,11 +25,11 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         {
             if (TransferredFiles == null)
             {
-                TransferredFiles = new ObservableSortedCollection<ILocalDiskFile>(
-                    _downloaderManager.Transporters
-                        .Where(item => item.Status == TransferStatus.Completed)
-                        .,
-                    DefaultTransferredFileComparer);
+                //TransferredFiles = new ObservableSortedCollection<ILocalDiskFile>(
+                //    _downloaderManager.Transporters
+                //        .Where(item => item.Status == TransferStatus.Completed)
+                //        .,
+                //    DefaultTransferredFileComparer);
             }
         }
 

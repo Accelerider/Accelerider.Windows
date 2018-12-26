@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Models;
 
 namespace Accelerider.Windows.Modules.Group.Views
 {

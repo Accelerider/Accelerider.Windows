@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
 using Refit;
@@ -35,13 +34,21 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
             Cookie = cookie;
         }
 
-        public override async Task RefreshUserInfoAsync()
+        public override async Task<bool> RefreshAsync()
         {
-            var homePage = await Api.GetHomePageAsync();
-            Token = homePage.GetMatch("\"bdstoken\":\"", "\",");
-            UserId = long.Parse(homePage.GetMatch("\"uk\":", ",\"t"));
-            Username = Regex.Unescape(homePage.GetMatch("\"username\":\"", "\","));
+            try
+            {
+                var homePage = await Api.GetHomePageAsync();
+                Token = homePage.GetMatch("\"bdstoken\":\"", "\",");
+                UserId = long.Parse(homePage.GetMatch("\"uk\":", ",\"t"));
+                Username = Regex.Unescape(homePage.GetMatch("\"username\":\"", "\","));
 
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
@@ -71,12 +78,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
             return Task.FromResult((ILazyTreeNode<INetDiskFile>)tree);
         }
 
-        public override TransferItem Download(INetDiskFile @from, FileLocator to)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task UploadAsync(FileLocator @from, INetDiskFile to, Action<TransferItem> callback)
+        public override IDownloadingFile Download(INetDiskFile @from, FileLocator to)
         {
             throw new NotImplementedException();
         }

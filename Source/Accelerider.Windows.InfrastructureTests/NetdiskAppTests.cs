@@ -19,7 +19,7 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
         {
             var user = new BaiduCloudUser(
                 "cookie");
-            user.RefreshUserInfoAsync().GetAwaiter().GetResult();
+            user.RefreshAsync().GetAwaiter().GetResult();
             var files = user.GetFileRootAsync().GetAwaiter().GetResult();
             var root = files.Root.GetChildrenAsync().GetAwaiter().GetResult();
             Console.WriteLine(user.UserId);
@@ -30,7 +30,7 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
         {
             var user = new OneDriveUser(
                 "token");
-            user.RefreshUserInfoAsync().GetAwaiter().GetResult();
+            user.RefreshAsync().GetAwaiter().GetResult();
             var files = user.GetFileRootAsync().GetAwaiter().GetResult();
             var root = files.Root.GetChildrenAsync().GetAwaiter().GetResult();
             var sub = root.First(v => v.Content.Type == FileType.FolderType).GetChildrenAsync().GetAwaiter().GetResult();

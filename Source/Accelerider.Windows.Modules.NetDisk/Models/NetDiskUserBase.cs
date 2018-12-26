@@ -5,8 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.TransferService.WpfInteractions;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
-using Accelerider.Windows.Modules.NetDisk.Models.SixCloud;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
 
@@ -14,13 +12,13 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 {
     public abstract class NetDiskUserBase : INetDiskUser
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         public string Username { get; set; }
 
         public Uri Avatar { get; protected set; }
 
-        public DisplayDataSize TotalCapacity { get; set; }
+        public (long Used, long Total) Capacity { get; protected set; }
 
         public DisplayDataSize UsedCapacity { get; set; }
 
@@ -31,17 +29,35 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
         protected List<string> DownloadingFilePaths { get; private set; } = new List<string>();
 
 
-        public abstract Task RefreshUserInfoAsync();
+        public abstract Task<bool> RefreshAsync();
 
         public abstract Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
 
-        public abstract TransferItem Download(INetDiskFile @from, FileLocator to);
-
-        public abstract Task UploadAsync(FileLocator from, INetDiskFile to, Action<TransferItem> callback);
-
-        public IReadOnlyCollection<TransferItem> GetDownloadItems()
+        public Task<IReadOnlyList<IDeletedFile>> GetDeletedFilesAsync()
         {
-            return GetDownloadItemsInternal().AsReadOnly();
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteFileAsync(INetDiskFile file)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RestoreFileAsync(IDeletedFile file)
+        {
+            throw new NotImplementedException();
+        }
+
+        public abstract IDownloadingFile Download(INetDiskFile from, FileLocator to);
+
+        public virtual IReadOnlyList<IDownloadingFile> GetDownloadingFiles()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual IReadOnlyList<ILocalDiskFile> GetDownloadedFiles()
+        {
+            throw new NotImplementedException();
         }
 
         protected void SaveDownloadItem(TransferItem downloadItem)

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
-using Accelerider.Windows.TransferService.WpfInteractions;
 
 namespace Accelerider.Windows.Modules.NetDisk
 {
@@ -31,7 +28,7 @@ namespace Accelerider.Windows.Modules.NetDisk
 
             public FileLocator Path { get; }
 
-            public DisplayDataSize Size { get; }
+            public long Size { get; }
 
             public bool Exists { get; }
 

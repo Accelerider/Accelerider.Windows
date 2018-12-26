@@ -5,8 +5,6 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Modules.NetDisk.Enumerations;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models.Results;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
@@ -32,13 +30,21 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
                 }, new RefitSettings() { JsonSerializerSettings = new JsonSerializerSettings() });
         }
 
-        public override async Task RefreshUserInfoAsync()
+        public override async Task<bool> RefreshAsync()
         {
-            await RefreshAccessToken();
-            var info = await Api.GetUserInfoAsync();
-            Username = info.Owner["user"].Value<string>("displayName");
-            TotalCapacity = info.Quota.Value<long>("total");
-            UsedCapacity = info.Quota.Value<long>("used");
+            try
+            {
+                await RefreshAccessToken();
+                var info = await Api.GetUserInfoAsync();
+                Username = info.Owner["user"].Value<string>("displayName");
+                Capacity = (info.Quota.Value<long>("used"), info.Quota.Value<long>("total"));
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task RefreshAccessToken()
@@ -92,12 +98,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
             return Task.FromResult((ILazyTreeNode<INetDiskFile>)tree);
         }
 
-        public override TransferItem Download(INetDiskFile @from, FileLocator to)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task UploadAsync(FileLocator @from, INetDiskFile to, Action<TransferItem> callback)
+        public override IDownloadingFile Download(INetDiskFile @from, FileLocator to)
         {
             throw new NotImplementedException();
         }

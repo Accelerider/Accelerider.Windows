@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models.OneDrive;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
@@ -32,12 +31,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         [JsonProperty]
         public string Phone { get; private set; }
 
-        [JsonProperty]
-        public long TotalSpace { get; private set; }
-
-        [JsonProperty]
-        public long UsedSpace { get; private set; }
-
         #endregion
 
         public SixCloudUser()
@@ -49,10 +42,12 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             );
         }
 
-
-        public override TransferItem Download(INetDiskFile from, FileLocator to)
+        public override IDownloadingFile Download(INetDiskFile from, FileLocator to)
         {
-            return InternalDownload(from, to);
+            return from.ToDownloadingFile(this, builder => builder
+                .UseSixCloudConfigure()
+                .From(new SixCloudRemotePathProvider((SixCloudFile)from))
+                .To(Path.Combine(to, from.Path.FileName)));
         }
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
@@ -64,11 +59,12 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                     var result = new List<SixCloudFile>();
                     var json = await Api.GetFilesByPathAsync(new GetFilesByPathArgs { Path = parent.Path, PageSize = 999 });
                     if (!json.Success) return result;
-                    result = json.Result["list"].Select(v => v.ToObject<SixCloudFile>()).ToList();
-                    result.ForEach(v => v.Owner = this);
+                    result = json.Result["list"].Select(item => item.ToObject<SixCloudFile>()).ToList();
+                    result.ForEach(item => item.Owner = this);
                     return result;
                 }
             };
+
             return Task.FromResult((ILazyTreeNode<INetDiskFile>)tree);
         }
 
@@ -124,45 +120,18 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             }
         }
 
-        public override async Task RefreshUserInfoAsync()
+        public override async Task<bool> RefreshAsync()
         {
             var result = await Api.GetUserInfoAsync().RunApi();
-            if (!result.Success) return;
+            if (!result.Success) return false;
+
             Uuid = result.Result["uuid"].ToObject<long>();
             Username = result.Result["name"].ToObject<string>();
             Email = result.Result["email"].ToObject<string>();
             Phone = result.Result["phone"].ToObject<string>();
-            TotalSpace = result.Result["spaceCapacity"].ToObject<long>();
-            UsedSpace = result.Result["spaceUsed"].ToObject<long>();
+            Capacity = (result.Result["spaceUsed"].ToObject<long>(), result.Result["spaceCapacity"].ToObject<long>());
 
-        }
-
-        public override Task UploadAsync(FileLocator from, INetDiskFile to, Action<TransferItem> callback)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        private TransferItem InternalDownload(INetDiskFile file, FileLocator to)
-        {
-            var downloader = FileTransferService
-                .GetDownloaderBuilder()
-                .UseSixCloudConfigure()
-                .From(new SixCloudRemotePathProvider((SixCloudFile)file))
-                .To(Path.Combine(to, file.Path.FileName))
-                .Build();
-
-            //DownloadingFilePaths.Add(to + ".ardd"); // TODO: acdd = [A]ccele[R]ider [D]ownload [D]ata file.
-
-            var result = new TransferItem(downloader, "net-disk")
-            {
-                File = file,
-                Owner = this
-            };
-
-            SaveDownloadItem(result);
-
-            return result;
+            return true;
         }
     }
 }

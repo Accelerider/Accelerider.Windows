@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.Modules.NetDisk.ViewModels;
 using Newtonsoft.Json;
@@ -86,7 +85,7 @@ namespace Accelerider.Windows.Infrastructure
             {
                 foreach (var user in extendedMembers.NetDiskUsers)
                 {
-                    await user.RefreshUserInfoAsync();
+                    await user.RefreshAsync();
                 }
             }
 
@@ -152,12 +151,12 @@ namespace Accelerider.Windows.Infrastructure
 
         // -------------------------------------------------------------------------------------
 
-        public static IReadOnlyCollection<TransferItem> GetDownloadItems(this IAcceleriderUser @this)
+        public static IReadOnlyList<IDownloadingFile> GetDownloadItems(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
 
             return @this.GetNetDiskUsers()
-                .SelectMany(item => item.GetDownloadItems())
+                .SelectMany(item => item.GetDownloadingFiles())
                 .ToList()
                 .AsReadOnly();
         }

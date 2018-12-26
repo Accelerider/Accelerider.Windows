@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using Accelerider.Windows.TransferService;
 using Accelerider.Windows.TransferService.WpfInteractions;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
