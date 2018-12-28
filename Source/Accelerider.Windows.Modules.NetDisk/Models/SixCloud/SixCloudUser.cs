@@ -186,6 +186,33 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
             private readonly string _filePath;
 
+
+            public RemotePathProvider(SixCloudUser owner, string filePath)
+                : base(new HashSet<string>())
+            {
+                Owner = owner;
+                _filePath = filePath;
+            }
+
+
+            public override async Task<string> GetAsync()
+            {
+                var path = (await Owner.WebApi.GetFileInfoByPathAsync(new PathArgs { Path = _filePath }))
+                    .Result["downloadAddress"]
+                    .ToObject<string>();
+
+                if (path == null) return await base.GetAsync();
+
+                RemotePaths.TryAdd(path, 0);
+
+                return path;
+            }
+
+            public override IPersister<IRemotePathProvider> GetPersister()
+            {
+                return new Persister(_filePath);
+            }
+
             private class Persister : IPersister<RemotePathProvider>
             {
                 [JsonProperty]
@@ -197,34 +224,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 {
                     return new RemotePathProvider(null, Path);
                 }
-            }
-
-            public RemotePathProvider(SixCloudUser owner, string filePath)
-                : base(new HashSet<string>())
-            {
-                Owner = owner;
-                _filePath = filePath;
-            }
-
-            public override async Task<string> GetAsync()
-            {
-                var path = (await Owner.WebApi.GetFileInfoByPathAsync(new PathArgs { Path = _filePath }))
-                    .Result["downloadAddress"]
-                    .ToObject<string>();
-
-                if (path == null) return await base.GetAsync();
-
-                if (!RemotePaths.ContainsKey(path))
-                {
-                    RemotePaths.Add(path, 0);
-                }
-
-                return path;
-            }
-
-            public override IPersister<IRemotePathProvider> GetPersister()
-            {
-                return new Persister(_filePath);
             }
         }
     }

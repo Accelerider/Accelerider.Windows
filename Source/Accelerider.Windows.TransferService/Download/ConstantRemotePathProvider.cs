@@ -19,7 +19,7 @@ namespace Accelerider.Windows.TransferService
 
     public class ConstantRemotePathProvider : IRemotePathProvider
     {
-        protected IDictionary<string, double> RemotePaths;
+        protected ConcurrentDictionary<string, double> RemotePaths;
 
         private ConstantRemotePathProvider() { }
 

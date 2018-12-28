@@ -11,8 +11,8 @@ namespace Accelerider.Windows.TransferService
 {
     public static class DownloaderBuilderExtensions
     {
-        private const int WebExceptionRetryCount = 5;
-        private const int BuildExceptionRetryCount = 20;
+        private const int WebExceptionRetryCount = 20;
+        private const int BuildExceptionRetryCount = 5;
 
         public static IDownloaderBuilder UseDefaultConfigure(this IDownloaderBuilder @this) => @this
             .Configure(request =>

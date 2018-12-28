@@ -20,10 +20,8 @@ namespace Accelerider.Windows.TransferService
             var path = await _remotePathGetter();
             if (path == null) return await base.GetAsync();
 
-            if (!RemotePaths.ContainsKey(path))
-            {
-                RemotePaths.Add(path, 0);
-            }
+            RemotePaths.TryAdd(path, 0);
+
             return path;
         }
 
