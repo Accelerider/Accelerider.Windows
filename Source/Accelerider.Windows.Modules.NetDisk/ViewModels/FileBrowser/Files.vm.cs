@@ -84,11 +84,11 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 {
                     if (file.Type == FileType.FolderType) return;
 
-                    var downloadItem = CurrentNetDiskUser.Download(file, to);
-                    downloadItem.Downloader.Run();
+                    var downloadingFile = CurrentNetDiskUser.Download(file, to);
+                    downloadingFile.Operations.Ready();
                     // Send this transfer item to the downloading view model.
-                    EventAggregator.GetEvent<TransferItemsAddedEvent>().Publish(downloadItem);
-                    fileNames.Add(downloadItem.File.Path.FileName);
+                    EventAggregator.GetEvent<TransferItemsAddedEvent>().Publish(downloadingFile);
+                    fileNames.Add(downloadingFile.File.Path.FileName);
                 }, CancellationToken.None);
             }
 

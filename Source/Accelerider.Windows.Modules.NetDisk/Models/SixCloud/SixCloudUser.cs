@@ -8,19 +8,25 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models.OneDrive;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Refit;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 {
     public class SixCloudUser : NetDiskUserBase
     {
+        private readonly List<IDownloadingFile> _downloadingFiles = new List<IDownloadingFile>();
+
+        [JsonProperty]
+        private List<string> ArddFilePaths { get; set; } = new List<string>();
+
         [JsonProperty]
         public string AccessToken { get; private set; }
 
         [JsonProperty]
-        public ISixCloudApi Api { get; private set; }
+        public ISixCloudApi WebApi { get; private set; }
 
-        #region Userinfo
+        #region User info
 
         [JsonProperty]
         public long Uuid { get; private set; }
@@ -36,7 +42,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         public SixCloudUser()
         {
             Avatar = new Uri("pack://application:,,,/Accelerider.Windows.Modules.NetDisk;component/Images/logo-six-cloud.png");
-            Api = RestService.For<ISixCloudApi>(
+            WebApi = RestService.For<ISixCloudApi>(
                 new HttpClient(new AuthenticatedHttpClientHandler(() => AccessToken)) { BaseAddress = new Uri("https://api.6pan.cn") },
                 new RefitSettings { JsonSerializerSettings = new JsonSerializerSettings() }
             );
@@ -44,38 +50,92 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         public override IDownloadingFile Download(INetDiskFile from, FileLocator to)
         {
-            return from.ToDownloadingFile(this, builder => builder
+            var downloader = FileTransferService
+                .GetDownloaderBuilder()
                 .UseSixCloudConfigure()
-                .From(new SixCloudRemotePathProvider((SixCloudFile)from))
-                .To(Path.Combine(to, from.Path.FileName)));
+                .From(new RemotePathProvider(this, from.Path))
+                .To(Path.Combine(to, from.Path.FileName))
+                .Build();
+
+            var result = DownloadingFile.Create(this, from, downloader);
+
+            // Save download info
+            _downloadingFiles.Add(result);
+            var savePath = Path.Combine($"{Path.Combine(to, downloader.Context.LocalPath)}{ArddFileExtension}");
+            ArddFilePaths.Add(savePath);
+            File.WriteAllText(savePath, result.ToJsonString());
+
+            return result;
+        }
+
+        public override IReadOnlyList<IDownloadingFile> GetDownloadingFiles()
+        {
+            return ArddFilePaths
+                .Where(item => item.EndsWith(ArddFileExtension))
+                .Where(File.Exists)
+                .Where(item => !_downloadingFiles.Any(file => item.StartsWith(file.DownloadInfo.Context.LocalPath)))
+                .Select(File.ReadAllText)
+                .Select(item => item.ToDownloadingFile(builder => builder
+                    .UseSixCloudConfigure()
+                    .Configure<RemotePathProvider>(provider =>
+                    {
+                        provider.Owner = this;
+                        return provider;
+                    }), this))
+                .Concat(_downloadingFiles)
+                .ToList()
+                .AsReadOnly();
+        }
+
+        public override IReadOnlyList<ILocalDiskFile> GetDownloadedFiles()
+        {
+            throw new NotImplementedException();
         }
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
         {
-            var tree = new LazyTreeNode<INetDiskFile>(new SixCloudFile { Owner = this })
+            var tree = new LazyTreeNode<INetDiskFile>(new SixCloudFile())
             {
                 ChildrenProvider = async parent =>
                 {
-                    var result = new List<SixCloudFile>();
-                    var json = await Api.GetFilesByPathAsync(new GetFilesByPathArgs { Path = parent.Path, PageSize = 999 });
-                    if (!json.Success) return result;
-                    result = json.Result["list"].Select(item => item.ToObject<SixCloudFile>()).ToList();
-                    result.ForEach(item => item.Owner = this);
-                    return result;
+                    var json = await WebApi.GetFilesByPathAsync(new GetFilesByPathArgs { Path = parent.Path, PageSize = 999 });
+
+                    return json.Success
+                        ? json.Result["list"].Select(item => item.ToObject<SixCloudFile>()).ToList()
+                        : Enumerable.Empty<SixCloudFile>();
                 }
             };
 
-            return Task.FromResult((ILazyTreeNode<INetDiskFile>)tree);
+            return Task.FromResult<ILazyTreeNode<INetDiskFile>>(tree);
         }
 
-        protected override IDownloaderBuilder ConfigureDownloaderBuilder(IDownloaderBuilder builder)
+        public override Task<IReadOnlyList<IDeletedFile>> GetDeletedFilesAsync()
         {
-            return builder.UseSixCloudConfigure();
+            throw new NotImplementedException();
         }
 
-        protected override IRemotePathProvider GetRemotePathProvider(string jsonText)
+        public override Task<bool> DeleteFileAsync(INetDiskFile file)
         {
-            return new SixCloudRemotePathProvider(jsonText, this);
+            throw new NotImplementedException();
+        }
+
+        public override Task<bool> RestoreFileAsync(IDeletedFile file)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override async Task<bool> RefreshAsync()
+        {
+            var result = await WebApi.GetUserInfoAsync().RunApi();
+            if (!result.Success) return false;
+
+            Uuid = result.Result["uuid"].ToObject<long>();
+            Username = result.Result["name"].ToObject<string>();
+            Email = result.Result["email"].ToObject<string>();
+            Phone = result.Result["phone"].ToObject<string>();
+            Capacity = (result.Result["spaceUsed"].ToObject<long>(), result.Result["spaceCapacity"].ToObject<long>());
+
+            return true;
         }
 
         public async Task<bool> LoginAsync(string value, string password)
@@ -83,7 +143,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             if (!string.IsNullOrWhiteSpace(value) &&
                 !string.IsNullOrWhiteSpace(password))
             {
-                var result = await Api.LoginAsync(new LoginArgs
+                var result = await WebApi.LoginAsync(new LoginArgs
                 {
                     Value = value,
                     Password = password.ToMd5()
@@ -99,7 +159,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         public async Task<string> SendSmsAsync(string phoneNumber)
         {
-            var result = await Api.SendRegisterMessageAsync(new PhoneArgs() { PhoneNumber = phoneNumber });
+            var result = await WebApi.SendRegisterMessageAsync(new PhoneArgs() { PhoneNumber = phoneNumber });
             return result.Success ? result.Result.ToObject<string>() : null;
         }
 
@@ -110,7 +170,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 !string.IsNullOrWhiteSpace(passCode) &&
                 !string.IsNullOrWhiteSpace(phoneInfo))
             {
-                await Api.RegisterAsync(new RegisterData
+                await WebApi.RegisterAsync(new RegisterData
                 {
                     NickName = username,
                     Code = passCode,
@@ -120,18 +180,52 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             }
         }
 
-        public override async Task<bool> RefreshAsync()
+        private class RemotePathProvider : ConstantRemotePathProvider
         {
-            var result = await Api.GetUserInfoAsync().RunApi();
-            if (!result.Success) return false;
+            public SixCloudUser Owner { private get; set; }
 
-            Uuid = result.Result["uuid"].ToObject<long>();
-            Username = result.Result["name"].ToObject<string>();
-            Email = result.Result["email"].ToObject<string>();
-            Phone = result.Result["phone"].ToObject<string>();
-            Capacity = (result.Result["spaceUsed"].ToObject<long>(), result.Result["spaceCapacity"].ToObject<long>());
+            private readonly string _filePath;
 
-            return true;
+            private class Persister : IPersister<RemotePathProvider>
+            {
+                [JsonProperty]
+                public string Path { get; }
+
+                public Persister(string path) => Path = path;
+
+                public RemotePathProvider Restore()
+                {
+                    return new RemotePathProvider(null, Path);
+                }
+            }
+
+            public RemotePathProvider(SixCloudUser owner, string filePath)
+                : base(new HashSet<string>())
+            {
+                Owner = owner;
+                _filePath = filePath;
+            }
+
+            public override async Task<string> GetAsync()
+            {
+                var path = (await Owner.WebApi.GetFileInfoByPathAsync(new PathArgs { Path = _filePath }))
+                    .Result["downloadAddress"]
+                    .ToObject<string>();
+
+                if (path == null) return await base.GetAsync();
+
+                if (!RemotePaths.ContainsKey(path))
+                {
+                    RemotePaths.Add(path, 0);
+                }
+
+                return path;
+            }
+
+            public override IPersister<IRemotePathProvider> GetPersister()
+            {
+                return new Persister(_filePath);
+            }
         }
     }
 }

@@ -151,23 +151,9 @@ namespace Accelerider.Windows.Infrastructure
 
         // -------------------------------------------------------------------------------------
 
-        public static IReadOnlyList<IDownloadingFile> GetDownloadItems(this IAcceleriderUser @this)
-        {
-            Guards.ThrowIfNull(@this);
-
-            return @this.GetNetDiskUsers()
-                .SelectMany(item => item.GetDownloadingFiles())
-                .ToList()
-                .AsReadOnly();
-        }
-
         public static IList<ILocalDiskFile> GetDownloadedFiles(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
-
-
-
-            RaisePropertyChanged();
 
             return new List<ILocalDiskFile>();
         }
@@ -176,8 +162,6 @@ namespace Accelerider.Windows.Infrastructure
         {
             Guards.ThrowIfNull(@this);
             throw new NotImplementedException();
-
-            RaisePropertyChanged();
         }
 
         private static void RaisePropertyChanged([CallerMemberName] string propertyName = null)

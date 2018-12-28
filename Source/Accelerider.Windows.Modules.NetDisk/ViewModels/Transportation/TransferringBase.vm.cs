@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Models;
@@ -23,55 +24,21 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 
         protected TransferringBaseViewModel(IUnityContainer container) : base(container)
         {
-            InitializeCommands();
         }
 
-        public virtual void OnLoaded()
-        {
-        }
+        public virtual void OnLoaded() { }
 
         public virtual void OnUnloaded() { }
 
         #region Commands
 
-        public RelayCommand<TransferItem> PauseCommand { get; private set; }
+        public ICommand PauseCommand { get; protected set; }
 
-        public RelayCommand<TransferItem> StartCommand { get; private set; }
+        public ICommand StartCommand { get; protected set; }
 
-        public RelayCommand<TransferItem> StartForceCommand { get; private set; }
+        public ICommand StartForceCommand { get; protected set; }
 
-        public RelayCommand<TransferItem> CancelCommand { get; private set; }
-
-        private void InitializeCommands()
-        {
-            PauseCommand = new RelayCommand<TransferItem>(
-                item => OperateTaskToken(item, token => token.Suspend(), "Pause task failed."), // TODO: [I18N]
-                item => item.BindableTransporter.Status == TransferStatus.Transferring ||
-                        item.BindableTransporter.Status == TransferStatus.Ready);
-
-            StartCommand = new RelayCommand<TransferItem>(
-                item => OperateTaskToken(item, token => token.Ready(), "Restart task failed."),
-                item => item.BindableTransporter.Status == TransferStatus.Suspended);
-
-            StartForceCommand = new RelayCommand<TransferItem>(
-                item => OperateTaskToken(item, token => token.AsNext(), "Jump queue failed."),
-                item => item.BindableTransporter.Status != TransferStatus.Transferring);
-
-            CancelCommand = new RelayCommand<TransferItem>(
-                item => OperateTaskToken(item, token => token.Dispose(), "Cancel task failed."));
-        }
-
-        private void OperateTaskToken(TransferItem item, Action<IManagedTransporterToken> operation, string errorMessage)
-        {
-            try
-            {
-                operation?.Invoke(item.ManagedToken);
-            }
-            catch
-            {
-                GlobalMessageQueue.Enqueue(errorMessage);
-            }
-        }
+        public ICommand CancelCommand { get; protected set; }
 
         #endregion
     }

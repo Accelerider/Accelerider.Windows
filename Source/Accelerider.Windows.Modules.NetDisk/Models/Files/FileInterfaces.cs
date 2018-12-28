@@ -2,6 +2,8 @@
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.TransferService;
+using Accelerider.Windows.TransferService.WpfInteractions;
+using Newtonsoft.Json.Converters;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
@@ -25,7 +27,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         INetDiskFile File { get; }
 
-        IDownloader Downloader { get; }
+        ITransferInfo<DownloadContext> DownloadInfo { get; }
+
+        BindableDownloader BindableDownloader { get; }
+
+        IManagedTransporterToken Operations { get; }
     }
 
     public interface ILocalDiskFile : IFileSummary

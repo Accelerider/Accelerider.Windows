@@ -12,19 +12,13 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
     public class DownloadingViewModel : TransferringBaseViewModel
     {
-        public ICommand PauseAllCommand { get; }
+        public ICommand PauseAllCommand { get; private set; }
 
-        public ICommand CancelAllCommand { get; }
+        public ICommand CancelAllCommand { get; private set; }
 
         public DownloadingViewModel(IUnityContainer container) : base(container)
         {
-            PauseAllCommand = new RelayCommand(
-                () => TransferTasks.ForEach(item => PauseCommand.Invoke(item)),
-                () => TransferTasks?.Any() ?? false);
-
-            CancelAllCommand = new RelayCommand(
-                () => TransferTasks.ForEach(item => CancelCommand.Invoke(item)),
-                () => TransferTasks?.Any() ?? false);
+            InitializeCommands();
 
             EventAggregator.GetEvent<TransferItemsAddedEvent>().Subscribe(
                 InitializeTransferItem,
@@ -33,19 +27,59 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
                 filter: _ => TransferTasks != null);
         }
 
+        private void InitializeCommands()
+        {
+            PauseCommand = new RelayCommand<IDownloadingFile>(
+                item => OperateTaskToken(item, token => token.Suspend(), "Pause task failed."), // TODO: [I18N]
+                item => item.DownloadInfo.Status == TransferStatus.Transferring ||
+                        item.DownloadInfo.Status == TransferStatus.Ready);
+
+            StartCommand = new RelayCommand<IDownloadingFile>(
+                item => OperateTaskToken(item, token => token.Ready(), "Restart task failed."),
+                item => item.DownloadInfo.Status == TransferStatus.Suspended);
+
+            StartForceCommand = new RelayCommand<IDownloadingFile>(
+                item => OperateTaskToken(item, token => token.AsNext(), "Jump queue failed."),
+                item => item.DownloadInfo.Status != TransferStatus.Transferring);
+
+            CancelCommand = new RelayCommand<IDownloadingFile>(
+                item => OperateTaskToken(item, token => token.Dispose(), "Cancel task failed."));
+
+            PauseAllCommand = new RelayCommand(
+                () => TransferTasks.ForEach(item => PauseCommand.Invoke(item)),
+                () => TransferTasks?.Any() ?? false);
+
+            CancelAllCommand = new RelayCommand(
+                () => TransferTasks.ForEach(item => CancelCommand.Invoke(item)),
+                () => TransferTasks?.Any() ?? false);
+        }
+
+        private void OperateTaskToken(IDownloadingFile item, Action<IManagedTransporterToken> operation, string errorMessage)
+        {
+            try
+            {
+                operation?.Invoke(item.Operations);
+            }
+            catch
+            {
+                GlobalMessageQueue.Enqueue(errorMessage);
+            }
+        }
+
         public override void OnLoaded()
         {
             if (TransferTasks == null)
             {
-                TransferTasks = new ObservableSortedCollection<IDownloadingFile>((x, y) => x.Downloader.Status - y.Downloader.Status);
+                TransferTasks = new ObservableSortedCollection<IDownloadingFile>((x, y) => x.DownloadInfo.Status - y.DownloadInfo.Status);
 
                 AcceleriderUser
-                    .GetDownloadItems()
+                    .GetNetDiskUsers()
+                    .SelectMany(item => item.GetDownloadingFiles())
                     .ForEach(item =>
                     {
-                        if (item.Downloader.Status == TransferStatus.Completed)
+                        if (item.DownloadInfo.Status == TransferStatus.Completed)
                         {
-                            EventAggregator.GetEvent<TransferItemCompletedEvent>().Publish(item.Downloader.Context.LocalPath.ToTransferredFile());
+                            EventAggregator.GetEvent<TransferItemCompletedEvent>().Publish(item.DownloadInfo.Context.LocalPath.ToTransferredFile());
                         }
                         else
                         {
@@ -57,14 +91,18 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 
         private void InitializeTransferItem(IDownloadingFile item)
         {
-            item.Downloader
+            item.DownloadInfo
                 .Where(notification => notification.Status == TransferStatus.Disposed)
                 .ObserveOn(Dispatcher)
-                .Subscribe(notification => TransferTasks.Remove(item), () =>
-                {
-                    TransferTasks.Remove(item);
-                    EventAggregator.GetEvent<TransferItemCompletedEvent>().Publish(item.Downloader.Context.LocalPath.ToTransferredFile());
-                });
+                .Subscribe(
+                    _ => TransferTasks.Remove(item),
+                    () =>
+                    {
+                        TransferTasks.Remove(item);
+                        EventAggregator
+                            .GetEvent<TransferItemCompletedEvent>()
+                            .Publish(item.DownloadInfo.Context.LocalPath.ToTransferredFile());
+                    });
 
             TransferTasks.Add(item);
         }

@@ -78,17 +78,32 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
             return Task.FromResult((ILazyTreeNode<INetDiskFile>)tree);
         }
 
+        public override Task<IReadOnlyList<IDeletedFile>> GetDeletedFilesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<bool> DeleteFileAsync(INetDiskFile file)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<bool> RestoreFileAsync(IDeletedFile file)
+        {
+            throw new NotImplementedException();
+        }
+
         public override IDownloadingFile Download(INetDiskFile @from, FileLocator to)
         {
             throw new NotImplementedException();
         }
 
-        protected override IDownloaderBuilder ConfigureDownloaderBuilder(IDownloaderBuilder builder)
+        public override IReadOnlyList<IDownloadingFile> GetDownloadingFiles()
         {
             throw new NotImplementedException();
         }
 
-        protected override IRemotePathProvider GetRemotePathProvider(string jsonText)
+        public override IReadOnlyList<ILocalDiskFile> GetDownloadedFiles()
         {
             throw new NotImplementedException();
         }
