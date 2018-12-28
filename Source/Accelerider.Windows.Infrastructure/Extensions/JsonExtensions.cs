@@ -12,7 +12,7 @@ namespace System
             var type = @object.GetType();
 
             return typeof(T) != type
-                ? JsonConvert.SerializeObject(@object, type, formatting, JsonSerializerSettings)
+                ? JsonConvert.SerializeObject(@object, typeof(T), formatting, JsonSerializerSettings)
                 : JsonConvert.SerializeObject(@object, formatting, JsonSerializerSettings);
         }
 
