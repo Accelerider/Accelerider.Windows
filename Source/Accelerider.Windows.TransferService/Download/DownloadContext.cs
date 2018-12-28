@@ -14,7 +14,7 @@ namespace Accelerider.Windows.TransferService
         [JsonProperty]
         public string LocalPath { get; internal set; }
 
-        [JsonProperty]
+        [JsonIgnore]
         public IRemotePathProvider RemotePathProvider { get; internal set; }
 
         public DownloadContext(Guid id) => Id = id;

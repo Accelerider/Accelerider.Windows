@@ -7,8 +7,6 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Polly;
 
 namespace Accelerider.Windows.TransferService
@@ -20,6 +18,7 @@ namespace Accelerider.Windows.TransferService
         private Action<DownloadSettings, DownloadContext> _settingsConfigurator;
         private Func<HashSet<string>, IRemotePathProvider> _remotePathProviderBuilder;
         private Func<long, IEnumerable<(long offset, long length)>> _blockIntervalGenerator;
+        private Func<IRemotePathProvider, IRemotePathProvider> _remotePathProviderInterceptor;
         private Func<HttpWebRequest, HttpWebRequest> _requestInterceptor;
         private Func<string, string> _localPathInterceptor;
         private Func<IDownloader, IDownloader> _postProcessInterceptor;
@@ -38,6 +37,7 @@ namespace Accelerider.Windows.TransferService
         {
             _settingsConfigurator = (settings, context) => { };
             _blockIntervalGenerator = size => new[] { (0L, size) };
+            _remotePathProviderInterceptor = _ => _;
             _requestInterceptor = _ => _;
             _localPathInterceptor = _ => _;
             _postProcessInterceptor = _ => _;
@@ -77,6 +77,15 @@ namespace Accelerider.Windows.TransferService
             return this;
         }
 
+        public IDownloaderBuilder Configure<T>(Func<T, IRemotePathProvider> remotePathProviderInterceptor) where T : IRemotePathProvider
+        {
+            Guards.ThrowIfNull(remotePathProviderInterceptor);
+
+            _remotePathProviderInterceptor = _remotePathProviderInterceptor
+                .Then(item => remotePathProviderInterceptor((T)item));
+            return this;
+        }
+
         public IDownloaderBuilder From(IRemotePathProvider provider)
         {
             Guards.ThrowIfNull(provider);
@@ -106,6 +115,7 @@ namespace Accelerider.Windows.TransferService
                 _settingsConfigurator = _settingsConfigurator,
                 _remotePathProviderBuilder = _remotePathProviderBuilder,
                 _blockIntervalGenerator = _blockIntervalGenerator,
+                _remotePathProviderInterceptor = _remotePathProviderInterceptor,
                 _requestInterceptor = _requestInterceptor,
                 _localPathInterceptor = _localPathInterceptor
             };
@@ -117,51 +127,32 @@ namespace Accelerider.Windows.TransferService
         {
             var context = new DownloadContext(Guid.NewGuid())
             {
-                RemotePathProvider = _remotePathProvider,
+                RemotePathProvider = _remotePathProviderInterceptor(_remotePathProvider),
                 LocalPath = _localPathInterceptor(_localPath)
             };
 
             return InternalBuild(context, GetBlockTransferContextGenerator);
         }
 
-        public IDownloader Build(string json, Func<string, IRemotePathProvider> remotePathProviderParser = null)
+        public IDownloader Build(DownloadContext context, IEnumerable<BlockTransferContext> blockContexts)
         {
-            var serializedData = ParseJson(json, remotePathProviderParser);
-
-            return InternalBuild(serializedData.Context, context => token =>
+            if (context.RemotePathProvider == null)
             {
-                serializedData.BlockContexts.ForEach(item => item.LocalPath = context.LocalPath);
-                serializedData.BlockContexts.ForEach(item => item.RemotePathGetter = context.RemotePathProvider.GetRemotePathAsync);
-                return Task.FromResult(serializedData.BlockContexts.AsEnumerable());
+                context.RemotePathProvider = _remotePathProvider ?? throw new ArgumentException("The Context.RemotePathProvider cannot be null");
+            }
+
+            context.RemotePathProvider = _remotePathProviderInterceptor(context.RemotePathProvider);
+
+            return InternalBuild(context, ctx => token =>
+            {
+                var blockTransferContexts = blockContexts as BlockTransferContext[] ?? blockContexts.ToArray();
+                blockTransferContexts.ForEach(item =>
+                {
+                    item.LocalPath = ctx.LocalPath;
+                    item.RemotePathGetter = ctx.RemotePathProvider.GetAsync;
+                });
+                return Task.FromResult(blockTransferContexts.AsEnumerable());
             });
-        }
-
-        private static DownloaderSerializedData ParseJson(string json, Func<string, IRemotePathProvider> remotePathProviderParser)
-        {
-            Guards.ThrowIfNullOrEmpty(json);
-
-            var jObject = JObject.Parse(json);
-            IRemotePathProvider remotePathProvider = null;
-            if (remotePathProviderParser != null)
-            {
-                var contextJObject = (JObject)jObject[nameof(DownloaderSerializedData.Context)];
-                var remotePathProviderJToken = contextJObject[nameof(DownloadContext.RemotePathProvider)];
-                contextJObject.Remove(nameof(DownloadContext.RemotePathProvider));
-                remotePathProvider = remotePathProviderParser(remotePathProviderJToken.ToString(Formatting.None));
-            }
-
-            var serializedData = jObject.ToString(Formatting.None).ToObject<DownloaderSerializedData>();
-
-            Guards.ThrowIfNull(serializedData?.Context, serializedData?.BlockContexts);
-
-            // ReSharper disable once PossibleNullReferenceException
-            var context = serializedData.Context;
-            if (remotePathProvider != null && context.RemotePathProvider == null)
-            {
-                context.RemotePathProvider = remotePathProvider;
-            }
-
-            return serializedData;
         }
 
         private IDownloader InternalBuild(DownloadContext context, Func<DownloadContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> blockTransferContextGeneratorBuilder)
@@ -181,7 +172,7 @@ namespace Accelerider.Windows.TransferService
 
         private Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>> GetBlockTransferContextGenerator(DownloadContext context)
         {
-            return cancellationToken => new Func<IRemotePathProvider, Task<string>>(provider => provider.GetRemotePathAsync())
+            return cancellationToken => new Func<IRemotePathProvider, Task<string>>(provider => provider.GetAsync())
                 .ThenAsync(DownloadPrimitiveMethods.ToRequest)
                 .ThenAsync(request =>
                 {
@@ -202,7 +193,7 @@ namespace Accelerider.Windows.TransferService
                 {
                     Offset = interval.offset,
                     TotalSize = interval.length,
-                    RemotePathGetter = context.RemotePathProvider.GetRemotePathAsync,
+                    RemotePathGetter = context.RemotePathProvider.GetAsync,
                     LocalPath = context.LocalPath
                 }, cancellationToken)
                 .Invoke(context.RemotePathProvider);

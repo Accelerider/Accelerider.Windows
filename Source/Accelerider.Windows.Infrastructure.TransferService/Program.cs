@@ -18,7 +18,7 @@ namespace Accelerider.Windows.Infrastructure.TransferService
                 .From("https://file.mrs4s.me/file/3898c738090be65fc336577605014534")
                 .To(@"C:\Users\Dingp\Desktop\download-test\download-multi-thread.rmvb")
                 .Build();
- 
+
             ReadyToRun(downloader);
 
             await TimeSpan.FromSeconds(10);
@@ -26,9 +26,13 @@ namespace Accelerider.Windows.Infrastructure.TransferService
             downloader.Stop();
             downloader.Dispose();
 
-            var json = downloader.ToJson();
-
-            var downloaderFromJson = FileTransferService.GetDownloaderBuilder().UseDefaultConfigure().Build(json);
+            var data = downloader.ToJsonString();
+            var jObject = downloader.ToJObject();
+            var json = jObject.ToString();
+            var downloaderFromJson = FileTransferService
+                .GetDownloaderBuilder()
+                .UseDefaultConfigure()
+                .Build(data);
 
             ReadyToRun(downloaderFromJson);
 

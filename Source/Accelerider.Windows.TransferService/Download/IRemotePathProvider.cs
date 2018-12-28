@@ -3,10 +3,10 @@ using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.TransferService
 {
-    public interface IRemotePathProvider
+    public interface IRemotePathProvider : IPersistable<IRemotePathProvider>
     {
         void Rate(string remotePath, double score);
 
-        Task<string> GetRemotePathAsync();
+        Task<string> GetAsync();
     }
 }

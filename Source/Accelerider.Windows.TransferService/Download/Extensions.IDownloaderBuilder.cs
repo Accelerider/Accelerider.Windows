@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure;
+using Newtonsoft.Json.Linq;
 using Polly;
 
 namespace Accelerider.Windows.TransferService
@@ -77,6 +80,20 @@ namespace Accelerider.Windows.TransferService
         public static IDownloaderBuilder From(this IDownloaderBuilder @this, IEnumerable<string> paths)
         {
             return @this.From(new ConstantRemotePathProvider(new HashSet<string>(paths)));
+        }
+
+        public static IDownloaderBuilder From(this IDownloaderBuilder @this, Func<Task<string>> remotePathGetter)
+        {
+            return @this.From(new AsyncRemotePathProvider(remotePathGetter));
+        }
+
+        public static IDownloader Build(this IDownloaderBuilder @this, string jsonText)
+        {
+            var data = jsonText.ToObject<DownloadSerializedData>();
+
+            data.Context.RemotePathProvider = data.RemotePathProviderPersister.Restore();
+
+            return @this.Build(data.Context, data.BlockContexts);
         }
     }
 }

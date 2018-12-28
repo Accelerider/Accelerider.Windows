@@ -58,9 +58,10 @@
   <ItemGroup>
     <Compile Include="BlockTransferContext.cs" />
     <Compile Include="ConcurrentList.cs" />
+    <Compile Include="Download\AsyncRemotePathProvider.cs" />
     <Compile Include="Download\BlockDownloadItemPolicy.cs" />
     <Compile Include="Download\DownloadContext.cs" />
-    <Compile Include="Download\DownloaderSerializedData.cs" />
+    <Compile Include="Download\DownloadSerializedData.cs" />
     <Compile Include="Download\DownloadSettings.cs" />
     <Compile Include="Download\Extensions.IDownloader.cs" />
     <Compile Include="Download\Extensions.IDownloaderBuilder.cs" />

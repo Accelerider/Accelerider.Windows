@@ -17,6 +17,9 @@ namespace Accelerider.Windows.TransferService
 
         IDownloaderBuilder Configure(Func<long, IEnumerable<(long Offset, long Length)>> blockIntervalGenerator);
 
+        IDownloaderBuilder Configure<T>(Func<T, IRemotePathProvider> remotePathProviderInterceptor)
+            where T : IRemotePathProvider;
+
         /// <summary>
         /// Sets a <see cref="IRemotePathProvider"/> instance to provide the remote path.
         /// </summary>
@@ -43,6 +46,6 @@ namespace Accelerider.Windows.TransferService
         /// <returns>An instance of the <see cref="IDownloader"/> derived class.</returns>
         IDownloader Build();
 
-        IDownloader Build(string json, Func<string, IRemotePathProvider> remotePathProviderParser = null);
+        IDownloader Build(DownloadContext context, IEnumerable<BlockTransferContext> blockContexts);
     }
 }

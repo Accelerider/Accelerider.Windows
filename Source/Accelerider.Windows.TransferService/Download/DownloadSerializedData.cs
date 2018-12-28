@@ -3,10 +3,13 @@ using Newtonsoft.Json;
 
 namespace Accelerider.Windows.TransferService
 {
-    internal class DownloaderSerializedData
+    internal class DownloadSerializedData
     {
         [JsonProperty]
         public DownloadContext Context { get; internal set; }
+
+        [JsonProperty]
+        public IPersister<IRemotePathProvider> RemotePathProviderPersister { get; internal set; }
 
         [JsonProperty]
         public List<BlockTransferContext> BlockContexts { get; internal set; }

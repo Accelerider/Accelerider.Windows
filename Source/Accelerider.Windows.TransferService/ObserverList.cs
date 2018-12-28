@@ -32,7 +32,7 @@ namespace Accelerider.Windows.TransferService
             ForEach(_observers, callback);
         }
 
-        private static void ForEach<TItem>(IList<TItem> list, Action<TItem> callback)
+        private static void ForEach<TItem>(ICollection<TItem> list, Action<TItem> callback)
         {
             var backup = new TItem[list.Count];
             list.CopyTo(backup, 0);

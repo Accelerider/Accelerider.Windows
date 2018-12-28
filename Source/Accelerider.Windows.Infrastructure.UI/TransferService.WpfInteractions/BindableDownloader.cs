@@ -28,7 +28,7 @@ namespace Accelerider.Windows.TransferService.WpfInteractions
 
         public ObservableCollection<BindableBlockTransferItem> BlockDownloadItems { get; }
 
-        internal BindableDownloader(IDownloader downloader, Dispatcher dispatcher)
+        internal BindableDownloader(ITransferInfo<DownloadContext> downloader, Dispatcher dispatcher)
         {
             Id = downloader.Id;
             Status = downloader.Status;
@@ -38,7 +38,7 @@ namespace Accelerider.Windows.TransferService.WpfInteractions
             SubscribesDownloader(downloader, dispatcher);
         }
 
-        private void SubscribesDownloader(IDownloader downloader, Dispatcher dispatcher)
+        private void SubscribesDownloader(ITransferInfo<DownloadContext> downloader, Dispatcher dispatcher)
         {
             var observable = dispatcher != null ? downloader.ObserveOn(dispatcher) : downloader;
 
