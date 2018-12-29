@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Accelerider.Windows.Infrastructure.Converters
+﻿namespace Accelerider.Windows.Infrastructure.Converters
 {
     public class NotOperator : ValueConverterBase<bool, bool>
     {

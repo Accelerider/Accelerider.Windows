@@ -3,7 +3,6 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Accelerider.Windows.TransferService;
 using Accelerider.Windows.TransferService.WpfInteractions;
-using Newtonsoft.Json.Converters;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {

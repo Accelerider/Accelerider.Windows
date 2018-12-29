@@ -43,10 +43,6 @@ namespace Accelerider.Windows.TransferService
         }
 
         public DownloadContext Context => _buildInfo.Context;
-        //{
-        //    get => _context;
-        //    private set { if (SetProperty(ref _context, value)) _settings = value != null ? _buildInfo.TransferSettingsBuilder(value) : null; }
-        //}
 
         public IReadOnlyDictionary<long, BlockTransferContext> BlockContexts => _blockTransferContextCache;
 

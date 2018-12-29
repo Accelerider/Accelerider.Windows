@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models.Results;
-using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Refit;

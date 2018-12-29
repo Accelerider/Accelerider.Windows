@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.TransferService
 {

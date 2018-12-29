@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.TransferService;
-using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {

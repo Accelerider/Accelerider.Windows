@@ -88,6 +88,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\Accelerider.Styles.Notification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Accelerider.Styles.Others.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -118,6 +122,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Notification.cs" />
+    <Compile Include="Controls\Notification.Helpers.cs" />
+    <Compile Include="Controls\NotificationConfigure.cs" />
+    <Compile Include="Controls\NotificationStack.cs" />
     <Compile Include="Helpers\ControlHelper.cs" />
     <Compile Include="Controls\HighlightTextBlock.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />

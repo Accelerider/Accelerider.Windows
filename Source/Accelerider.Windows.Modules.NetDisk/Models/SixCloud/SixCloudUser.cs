@@ -8,7 +8,6 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models.OneDrive;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Refit;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud

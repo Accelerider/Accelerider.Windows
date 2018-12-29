@@ -1,7 +1,6 @@
 ﻿using System;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.TransferService;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.Modules.NetDisk

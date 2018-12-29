@@ -92,11 +92,18 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 }, CancellationToken.None);
             }
 
-            var fileName = fileNames.First().TrimMiddle(40);
-            var message = fileNames.Count == 1
-                ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)
-                : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, fileNames.Count);
-            GlobalMessageQueue.Enqueue(message);
+            if(fileNames.Any())
+            {
+                var fileName = fileNames.First().TrimMiddle(40);
+                var message = fileNames.Count == 1
+                    ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)
+                    : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, fileNames.Count);
+                GlobalMessageQueue.Enqueue(message);
+            }
+            else
+            {
+                GlobalMessageQueue.Enqueue("No Files Found");
+            }
         }
 
         private async void UploadCommandExecute()

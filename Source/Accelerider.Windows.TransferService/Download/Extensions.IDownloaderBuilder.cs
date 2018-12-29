@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure;
-using Newtonsoft.Json.Linq;
 using Polly;
 
 namespace Accelerider.Windows.TransferService
