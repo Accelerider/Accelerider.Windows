@@ -42,7 +42,7 @@ namespace Accelerider.Windows.Infrastructure
 
         private string GenerateLoggingPath()
         {
-            return Path.Combine(AcceleriderPaths.LogsFolder, $"Accelerider.Windows.{DateTime.Now.ToString("yyyyMMddHHmmssff")}.log");
+            return Path.Combine(AcceleriderFolders.Logs, $"Accelerider.Windows.{DateTime.Now.ToString("yyyyMMddHHmmssff")}.log");
         }
 
         public void Dispose()

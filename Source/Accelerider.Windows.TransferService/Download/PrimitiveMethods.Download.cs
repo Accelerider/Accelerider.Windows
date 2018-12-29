@@ -43,7 +43,7 @@ namespace Accelerider.Windows.TransferService
         }
 
         public static IObservable<(long Offset, int Bytes)> CreateBlockDownloadItem(
-            Func<Task<(HttpWebResponse response, Stream inputStream)>> streamPairFactory, 
+            Func<Task<(HttpWebResponse response, Stream inputStream)>> streamPairFactory,
             BlockTransferContext context) => Observable.Create<(long Offset, int Bytes)>(o =>
         {
             var cancellationTokenSource = new CancellationTokenSource();
@@ -64,7 +64,9 @@ namespace Accelerider.Windows.TransferService
                         int count;
                         while (outputStream != null && (count = await outputStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
                         {
-                            cancellationToken.ThrowIfCancellationRequested();
+                            if (cancellationToken.IsCancellationRequested)
+                                o.OnError(new BlockTransferException(context, new OperationCanceledException()));
+
                             await inputStream.WriteAsync(buffer, 0, count, cancellationToken);
                             o.OnNext((context.Offset, count));
                         }
@@ -84,13 +86,5 @@ namespace Accelerider.Windows.TransferService
                 cancellationTokenSource.Cancel();
             };
         });
-
-        public static IObservable<BlockTransferContext> Catch<TException>(
-            this IObservable<BlockTransferContext> @this,
-            Func<TException, IObservable<BlockTransferContext>> handler)
-            where TException : Exception
-        {
-            return @this.Catch<BlockTransferContext, TException>(handler);
-        }
     }
 }

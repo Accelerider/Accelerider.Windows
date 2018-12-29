@@ -38,7 +38,7 @@ namespace System
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var output = await @this(input);
-                cancellationToken.ThrowIfCancellationRequested();
+
                 return function(output);
             };
         }
@@ -54,7 +54,7 @@ namespace System
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var output = await @this(input);
-                cancellationToken.ThrowIfCancellationRequested();
+
                 return output.Select(item =>
                 {
                     cancellationToken.ThrowIfCancellationRequested();
@@ -74,7 +74,7 @@ namespace System
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var output = await @this(input);
-                cancellationToken.ThrowIfCancellationRequested();
+
                 return await function(output);
             };
         }
@@ -90,7 +90,7 @@ namespace System
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var output = await @this(input);
-                cancellationToken.ThrowIfCancellationRequested();
+
                 var result = new List<T>();
                 foreach (var item in output)
                 {

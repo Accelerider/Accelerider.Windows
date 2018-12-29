@@ -79,7 +79,6 @@ namespace Accelerider.Windows.Infrastructure
         private static async Task ForEachAsync(ILazyTreeNode<T> node, Action<T> callback, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested) return;
-
             if (node == null) return;
 
             callback?.Invoke(node.Content);
@@ -89,7 +88,6 @@ namespace Accelerider.Windows.Infrastructure
             foreach (var child in node.ChildrenCache)
             {
                 if (cancellationToken.IsCancellationRequested) return;
-
                 await ForEachAsync(child, callback, cancellationToken);
             }
         }

@@ -12,7 +12,7 @@ namespace Accelerider.Windows.Infrastructure.Modularity
         public const string AcceleriderModulesPlaceholder = "{AcceleriderModules}";
         public const string AcceleriderCommonDllsPlaceholder = "{AcceleriderCommonDlls}";
 
-        public static readonly string AcceleriderCommonDlls = Path.Combine(AcceleriderPaths.AppsFolder, "Common");
+        public static readonly string AcceleriderCommonDlls = Path.Combine(AcceleriderFolders.Apps, "Common");
 
         public static ModuleCatalog CreateFromJson(string jsonText)
         {
@@ -38,7 +38,7 @@ namespace Accelerider.Windows.Infrastructure.Modularity
         }
 
         private static string ReplacePlaceholder(string filePath) => filePath
-            .Replace(AcceleriderModulesPlaceholder, AcceleriderPaths.AppsFolder)
+            .Replace(AcceleriderModulesPlaceholder, AcceleriderFolders.Apps)
             .Replace(AcceleriderCommonDllsPlaceholder, AcceleriderCommonDlls);
     }
 }

@@ -10,7 +10,7 @@ namespace Accelerider.Windows.Infrastructure
     public class ConfigureFile : IConfigureFile
     {
         private JObject _storage;
-        private string _filePath = AcceleriderPaths.ConfigureFile;
+        private string _filePath = AcceleriderFiles.Configure;
 
         public event EventHandler<ValueChangedEventArgs> ValueChanged;
 

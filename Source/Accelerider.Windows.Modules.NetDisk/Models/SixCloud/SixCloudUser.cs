@@ -58,13 +58,16 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
             var result = DownloadingFile.Create(this, from, downloader);
 
-            // Save download info
-            _downloadingFiles.Add(result);
-            var savePath = Path.Combine($"{Path.Combine(to, downloader.Context.LocalPath)}{ArddFileExtension}");
-            ArddFilePaths.Add(savePath);
-            File.WriteAllText(savePath, result.ToJsonString());
+            SaveDownloadingFile(result, Path.Combine($"{Path.Combine(to, downloader.Context.LocalPath)}{ArddFileExtension}"));
 
             return result;
+        }
+
+        private void SaveDownloadingFile(IDownloadingFile result, string savePath)
+        {
+            _downloadingFiles.Add(result);
+            ArddFilePaths.Add(savePath);
+            File.WriteAllText(savePath, result.ToJsonString());
         }
 
         public override IReadOnlyList<IDownloadingFile> GetDownloadingFiles()

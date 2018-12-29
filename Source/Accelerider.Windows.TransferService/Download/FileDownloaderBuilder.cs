@@ -16,12 +16,10 @@ namespace Accelerider.Windows.TransferService
         #region Configure parameters
 
         private Action<DownloadSettings, DownloadContext> _settingsConfigurator;
-        private Func<HashSet<string>, IRemotePathProvider> _remotePathProviderBuilder;
         private Func<long, IEnumerable<(long offset, long length)>> _blockIntervalGenerator;
         private Func<IRemotePathProvider, IRemotePathProvider> _remotePathProviderInterceptor;
         private Func<HttpWebRequest, HttpWebRequest> _requestInterceptor;
         private Func<string, string> _localPathInterceptor;
-        private Func<IDownloader, IDownloader> _postProcessInterceptor;
 
         private IRemotePathProvider _remotePathProvider;
         private string _localPath;
@@ -40,7 +38,6 @@ namespace Accelerider.Windows.TransferService
             _remotePathProviderInterceptor = _ => _;
             _requestInterceptor = _ => _;
             _localPathInterceptor = _ => _;
-            _postProcessInterceptor = _ => _;
         }
 
         #region Configure methods
@@ -113,7 +110,6 @@ namespace Accelerider.Windows.TransferService
             var result = new FileDownloaderBuilder
             {
                 _settingsConfigurator = _settingsConfigurator,
-                _remotePathProviderBuilder = _remotePathProviderBuilder,
                 _blockIntervalGenerator = _blockIntervalGenerator,
                 _remotePathProviderInterceptor = _remotePathProviderInterceptor,
                 _requestInterceptor = _requestInterceptor,
@@ -167,7 +163,7 @@ namespace Accelerider.Windows.TransferService
                 BlockDownloadItemFactoryBuilder = GetBlockDownloadItemFactory
             });
 
-            return _postProcessInterceptor(result);
+            return result;
         }
 
         private Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>> GetBlockTransferContextGenerator(DownloadContext context)

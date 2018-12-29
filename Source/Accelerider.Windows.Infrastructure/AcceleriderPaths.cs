@@ -3,25 +3,46 @@ using System.IO;
 
 namespace Accelerider.Windows.Infrastructure
 {
-    public static class AcceleriderPaths
+    public static class AcceleriderFolders
     {
-        static AcceleriderPaths()
+        static AcceleriderFolders()
         {
-            Directory.CreateDirectory(AppsFolder);
-            Directory.CreateDirectory(LogsFolder);
-            Directory.CreateDirectory(UsersFolder);
+            Directory.CreateDirectory(Apps);
+            Directory.CreateDirectory(Logs);
+            Directory.CreateDirectory(Users);
         }
 
-        public static readonly string MainProgramFolder = AppDomain.CurrentDomain.BaseDirectory;
+        /// <summary>
+        /// It represents the path where the "Accelerider.Windows.exe" is located.
+        /// </summary>
+        public static readonly string MainProgram = AppDomain.CurrentDomain.BaseDirectory;
 
-        public static readonly string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Accelerider");
+        /// <summary>
+        /// %AppData%\Accelerider
+        /// </summary>
+        public static readonly string AppData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Accelerider");
 
-        public static readonly string AppsFolder = Path.Combine(AppDataFolder, "Apps");
+        /// <summary>
+        /// %AppData%\Accelerider\Apps
+        /// </summary>
+        public static readonly string Apps = Path.Combine(AppData, nameof(Apps));
 
-        public static readonly string LogsFolder = Path.Combine(AppDataFolder, "Logs");
+        /// <summary>
+        /// %AppData%\Accelerider\Logs
+        /// </summary>
+        public static readonly string Logs = Path.Combine(AppData, nameof(Logs));
 
-        public static readonly string UsersFolder = Path.Combine(AppDataFolder, "Users");
+        /// <summary>
+        /// %AppData%\Accelerider\Users
+        /// </summary>
+        public static readonly string Users = Path.Combine(AppData, nameof(Users));
+    }
 
-        public static readonly string ConfigureFile = Path.Combine(AppDataFolder, "accelerider.config");
+    public static class AcceleriderFiles
+    {
+        /// <summary>
+        /// %AppData%\Accelerider\accelerider.config
+        /// </summary>
+        public static readonly string Configure = Path.Combine(AcceleriderFolders.AppData, "accelerider.config");
     }
 }

@@ -29,5 +29,26 @@ namespace System.IO
 
             throw new FileNotFoundException();
         }
+
+
+        public static string GetUniqueLocalPath(this string @this, Func<string, bool> predicate = null)
+        {
+            if (predicate == null) predicate = File.Exists;
+
+            var directoryName = Path.GetDirectoryName(@this) ?? throw new InvalidOperationException();
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(@this) ?? throw new InvalidOperationException();
+            var extension = Path.GetExtension(@this);
+            for (int i = 1; predicate(@this); i++)
+            {
+                @this = $"{Path.Combine(directoryName, fileNameWithoutExtension)} ({i}){extension}";
+            }
+
+            return @this;
+        }
+
+        public static long GetDiskFreeSpace(this string path)
+        {
+
+        }
     }
 }

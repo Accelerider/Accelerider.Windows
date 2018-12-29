@@ -39,7 +39,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
         private long _mtime;
 
 
-        public async Task<bool> DeleteAsync() => (await Owner.Api.DeleteFileAsync(Owner.Token, StringExtensions.Logid,
+        public async Task<bool> DeleteAsync() => (await Owner.Api.DeleteFileAsync(Owner.Token, StringExtensions.LogId,
                                                      new Dictionary<string, string> { ["filelist"] = $"[\"{Path}\"]" }))
                                                  .ErrorCode == 0;
 
