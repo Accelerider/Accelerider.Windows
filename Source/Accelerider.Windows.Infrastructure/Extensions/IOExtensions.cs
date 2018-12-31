@@ -32,7 +32,7 @@ namespace System.IO
         }
 
 
-        private static readonly Regex FileNameCountRegex = new Regex(@"[\(（]\d[\)）]", RegexOptions.Compiled);
+        private static readonly Regex FileNameCountRegex = new Regex(@"[\(（]\d+?[\)）]", RegexOptions.Compiled);
 
         public static string GetUniqueLocalPath(this string @this, Func<string, bool> predicate = null)
         {

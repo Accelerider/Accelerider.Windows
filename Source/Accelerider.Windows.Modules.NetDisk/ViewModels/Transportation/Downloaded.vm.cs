@@ -1,4 +1,5 @@
-﻿using Accelerider.Windows.Infrastructure;
+﻿using System.Linq;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.TransferService;
 using Unity;
@@ -17,23 +18,20 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             EventAggregator.GetEvent<TransferItemCompletedEvent>().Subscribe(
                 item => TransferredFiles.Add(item),
                 Prism.Events.ThreadOption.UIThread,
-                keepSubscriberReferenceAlive: true,
-                filter: _ => TransferredFiles != null);
+                true,
+                _ => TransferredFiles != null);
         }
 
         public override void OnLoaded()
         {
             if (TransferredFiles == null)
             {
-                //TransferredFiles = new ObservableSortedCollection<ILocalDiskFile>(
-                //    _downloaderManager.Transporters
-                //        .Where(item => item.Status == TransferStatus.Completed)
-                //        .,
-                //    DefaultTransferredFileComparer);
+                TransferredFiles = new ObservableSortedCollection<ILocalDiskFile>(
+                    AcceleriderUser
+                        .GetNetDiskUsers()
+                        .SelectMany(item => item.GetDownloadedFiles()),
+                    DefaultTransferredFileComparer);
             }
         }
-
-        protected override ObservableSortedCollection<ILocalDiskFile> GetTransferredFiles() =>
-            new ObservableSortedCollection<ILocalDiskFile>(AcceleriderUser.GetDownloadedFiles(), DefaultTransferredFileComparer);
     }
 }

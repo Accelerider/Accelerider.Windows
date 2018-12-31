@@ -11,7 +11,5 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         {
         }
 
-        protected override ObservableSortedCollection<ILocalDiskFile> GetTransferredFiles() => 
-            new ObservableSortedCollection<ILocalDiskFile>(AcceleriderUser.GetUploadedFiles(), DefaultTransferredFileComparer);
     }
 }

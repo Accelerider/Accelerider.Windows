@@ -11,7 +11,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
     public abstract class TransferredBaseViewModel : ViewModelBase, IViewLoadedAndUnloadedAware
     {
         protected Comparison<ILocalDiskFile> DefaultTransferredFileComparer { get; } =
-            (x, y) => Comparer<DateTime>.Default.Compare(x.CompletedTime, y.CompletedTime);
+            (x, y) => Comparer<DateTime>.Default.Compare(y.CompletedTime, x.CompletedTime);
 
         private ObservableSortedCollection<ILocalDiskFile> _transferredFiles;
 
@@ -32,7 +32,5 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         public virtual void OnUnloaded()
         {
         }
-
-        protected abstract ObservableSortedCollection<ILocalDiskFile> GetTransferredFiles();
     }
 }

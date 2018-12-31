@@ -107,7 +107,6 @@
     <Compile Include="Extensions\FileLocatorExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
     <Compile Include="Extensions\DownloadingFileExtensions.cs" />
-    <Compile Include="Extensions\TransferredItemExtensions.cs" />
     <Compile Include="I18nResources\ResKeys.cs">
       <DependentUpon>ResKeys.tt</DependentUpon>
       <AutoGen>True</AutoGen>

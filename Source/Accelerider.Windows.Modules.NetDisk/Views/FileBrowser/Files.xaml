@@ -95,7 +95,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Tag="{Binding Content.Type}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="2" Text="{Binding Content.Path.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="4" Text="{Binding Content.Size}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="4" Text="{Binding Content.Size, Converter={StaticResource NumberToDisplayDataSizeConverter}}" VerticalAlignment="Center" />
                                 <TextBlock Grid.Column="6" Text="{Binding Content.ModifiedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
                             </Grid>
                         </Border>

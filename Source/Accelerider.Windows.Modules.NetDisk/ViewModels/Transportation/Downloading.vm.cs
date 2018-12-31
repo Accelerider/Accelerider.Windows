@@ -12,6 +12,14 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
     public class DownloadingViewModel : TransferringBaseViewModel
     {
+        private readonly Dictionary<TransferStatus, int> DisplayStatusOrder = new Dictionary<TransferStatus, int>
+        {
+            [TransferStatus.Transferring] = 0,
+            [TransferStatus.Ready] = 1,
+            [TransferStatus.Suspended] = 2,
+            [TransferStatus.Faulted] = 3
+        };
+
         public ICommand PauseAllCommand { get; private set; }
 
         public ICommand CancelAllCommand { get; private set; }
@@ -23,8 +31,8 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             EventAggregator.GetEvent<TransferItemsAddedEvent>().Subscribe(
                 InitializeTransferItem,
                 Prism.Events.ThreadOption.UIThread,
-                keepSubscriberReferenceAlive: true,
-                filter: _ => TransferTasks != null);
+                true,
+                _ => TransferTasks != null);
         }
 
         private void InitializeCommands()
@@ -70,18 +78,14 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
         {
             if (TransferTasks == null)
             {
-                TransferTasks = new ObservableSortedCollection<IDownloadingFile>((x, y) => x.DownloadInfo.Status - y.DownloadInfo.Status);
+                TransferTasks = new ObservableSortedCollection<IDownloadingFile>(DownloadingFileComparer);
 
                 AcceleriderUser
                     .GetNetDiskUsers()
                     .SelectMany(item => item.GetDownloadingFiles())
                     .ForEach(item =>
                     {
-                        if (item.DownloadInfo.Status == TransferStatus.Completed)
-                        {
-                            EventAggregator.GetEvent<TransferItemCompletedEvent>().Publish(item.DownloadInfo.Context.LocalPath.ToTransferredFile());
-                        }
-                        else
+                        if (item.DownloadInfo.Status != TransferStatus.Completed)
                         {
                             InitializeTransferItem(item);
                         }
@@ -89,8 +93,32 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             }
         }
 
+        private int DownloadingFileComparer(IDownloadingFile x, IDownloadingFile y)
+        {
+            return DisplayStatusOrder.ContainsKey(x.DownloadInfo.Status) &&
+                   DisplayStatusOrder.ContainsKey(y.DownloadInfo.Status)
+                ? DisplayStatusOrder[x.DownloadInfo.Status] - DisplayStatusOrder[y.DownloadInfo.Status]
+                : x.DownloadInfo.Status - y.DownloadInfo.Status;
+        }
+
         private void InitializeTransferItem(IDownloadingFile item)
         {
+            var previousStatus = item.DownloadInfo.Status;
+
+            item.DownloadInfo
+                .Where(notification =>
+                {
+                    var result = notification.Status != previousStatus;
+                    previousStatus = notification.Status;
+                    return result;
+                })
+                .ObserveOn(Dispatcher)
+                .Subscribe(_ =>
+                {
+                    TransferTasks.Remove(item);
+                    TransferTasks.Add(item);
+                });
+
             item.DownloadInfo
                 .Where(notification => notification.Status == TransferStatus.Disposed)
                 .ObserveOn(Dispatcher)
@@ -101,7 +129,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
                         TransferTasks.Remove(item);
                         EventAggregator
                             .GetEvent<TransferItemCompletedEvent>()
-                            .Publish(item.DownloadInfo.Context.LocalPath.ToTransferredFile());
+                            .Publish(LocalDiskFile.Create(item));
                     });
 
             TransferTasks.Add(item);

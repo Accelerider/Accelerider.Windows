@@ -60,9 +60,9 @@
                                     </materialDesign:Badged.Badge>
                                 </materialDesign:Badged>-->
                                 <Image Grid.Column="0" Tag="{Binding Type}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="2" Text="{Binding Path.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="4" Text="{Binding Size}" VerticalAlignment="Center" />
-                                <TextBlock Grid.Column="6" Text="{Binding CompletedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Path.FileName, Mode=OneWay}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="{Binding Size, Mode=OneWay, Converter={StaticResource NumberToDisplayDataSizeConverter}}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="6" Text="{Binding CompletedTime, Mode=OneWay, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
                     </Grid>
