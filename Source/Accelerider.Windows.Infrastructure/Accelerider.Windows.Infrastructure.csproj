@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="AcceleriderPaths.cs" />
     <Compile Include="AsyncLocker.cs" />
+    <Compile Include="Events.cs" />
     <Compile Include="Extensions\AwaitExtensions.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />

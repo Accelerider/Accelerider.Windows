@@ -2,20 +2,29 @@
 using System.IO;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
+using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
     internal class LocalDiskFile : ILocalDiskFile
     {
-        public FileType Type { get; }
+        [JsonProperty]
+        public FileType Type { get; private set; }
 
-        public FileLocator Path { get; }
+        [JsonProperty]
+        public FileLocator Path { get; private set; }
 
-        public long Size { get; }
+        [JsonProperty]
+        public long Size { get; private set; }
 
+        [JsonProperty]
         public bool Exists => File.Exists(Path);
 
-        public DateTime CompletedTime { get; }
+        [JsonProperty]
+        public DateTime CompletedTime { get; private set; }
+
+        [JsonConstructor]
+        private LocalDiskFile() { }
 
         private LocalDiskFile(IDownloadingFile downloadingFile)
         {

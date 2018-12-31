@@ -2,18 +2,26 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
+using Prism.Mvvm;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
-    public abstract class NetDiskUserBase : INetDiskUser, IDisposable
+    public abstract class NetDiskUserBase : BindableBase, INetDiskUser, IDisposable
     {
         protected const string ArddFileExtension = ".ardd";
 
         #region Implements INetDiskUser interface
 
+        private string _username;
+
+
         public string Id { get; set; }
 
-        public string Username { get; set; }
+        public string Username
+        {
+            get => _username;
+            set => SetProperty(ref _username, value);
+        }
 
         public Uri Avatar { get; protected set; }
 

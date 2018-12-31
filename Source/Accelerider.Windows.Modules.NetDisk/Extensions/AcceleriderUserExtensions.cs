@@ -27,7 +27,7 @@ namespace Accelerider.Windows.Infrastructure
             public void Save(string path) => File.WriteAllText(path, this.ToJson());
         }
 
-        private static readonly string UsersFilePathFormat = Path.Combine(Directory.GetCurrentDirectory(), "apps", "NetDisk", "{0}.users");
+        private static readonly string UsersFilePathFormat = Path.Combine(AcceleriderFolders.Apps, "NetDisk", "{0}.users");
 
         private static readonly IDictionary<string, AcceleriderUserExtendedMembers> ExtendedMembers =
             new ConcurrentDictionary<string, AcceleriderUserExtendedMembers>();
@@ -54,11 +54,6 @@ namespace Accelerider.Windows.Infrastructure
             var result = ExtendedMembers.Get(user.Email);
             if (string.IsNullOrEmpty(result.Id)) result.Id = user.Email;
             return result;
-        }
-
-        private static string GetUsersFilePath(this IAcceleriderUser user)
-        {
-            return string.Format(UsersFilePathFormat, user.Email);
         }
 
         // -------------------------------------------------------------------------------------
@@ -94,6 +89,11 @@ namespace Accelerider.Windows.Infrastructure
             return result;
         }
 
+        public static void SaveToLocalDisk(this IAcceleriderUser @this)
+        {
+            @this.GetExtendedMembers().Save(string.Format(UsersFilePathFormat, @this.Email));
+        }
+
         public static IEnumerable<INetDiskUser> GetNetDiskUsers(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
@@ -110,7 +110,7 @@ namespace Accelerider.Windows.Infrastructure
             if (extendedMembers.NetDiskUsers.Any(v => v.Id == value.Id)) return false;
 
             extendedMembers.NetDiskUsers.Add(value);
-            extendedMembers.Save(@this.GetUsersFilePath());
+            @this.SaveToLocalDisk();
 
             if (@this.GetCurrentNetDiskUser() == null)
             {
@@ -126,7 +126,11 @@ namespace Accelerider.Windows.Infrastructure
             Guards.ThrowIfNull(@this);
 
             var result = @this.GetExtendedMembers().NetDiskUsers.RemoveAll(item => item.Id == value.Id) > 0;
-            if (result) RaisePropertyChanged();
+            if (result)
+            {
+                @this.SaveToLocalDisk();
+                RaisePropertyChanged();
+            }
             return result;
         }
 
@@ -150,19 +154,6 @@ namespace Accelerider.Windows.Infrastructure
         }
 
         // -------------------------------------------------------------------------------------
-
-        public static IList<ILocalDiskFile> GetDownloadedFiles(this IAcceleriderUser @this)
-        {
-            Guards.ThrowIfNull(@this);
-
-            return new List<ILocalDiskFile>();
-        }
-
-        public static IList<ILocalDiskFile> GetUploadedFiles(this IAcceleriderUser @this)
-        {
-            Guards.ThrowIfNull(@this);
-            throw new NotImplementedException();
-        }
 
         private static void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {

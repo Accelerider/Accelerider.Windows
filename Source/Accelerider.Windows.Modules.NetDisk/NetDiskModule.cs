@@ -4,6 +4,7 @@ using Accelerider.Windows.Modules.NetDisk.Views;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
 using Accelerider.Windows.Modules.NetDisk.Views.Transportation;
 using Accelerider.Windows.TransferService;
+using Prism.Events;
 using Prism.Ioc;
 using Unity;
 using Prism.Regions;
@@ -28,6 +29,16 @@ namespace Accelerider.Windows.Modules.NetDisk
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComponent));
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransportationComponent));
             _regionManager.RegisterViewWithRegion(RegionNames.SettingsTabRegion, typeof(TaskSettingsTabItem));
+        }
+
+        public override void OnInitialized(IContainerProvider containerProvider)
+        {
+            containerProvider
+                .Resolve<IEventAggregator>()
+                .GetEvent<ApplicationExiting>()
+                .Subscribe(
+                    () => containerProvider.Resolve<IAcceleriderUser>().SaveToLocalDisk(),
+                    true);
         }
     }
 }

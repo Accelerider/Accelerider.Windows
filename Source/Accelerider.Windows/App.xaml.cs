@@ -7,6 +7,7 @@ using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.ServerInteraction;
 using Accelerider.Windows.Views.Authentication;
 using MaterialDesignThemes.Wpf;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
@@ -75,6 +76,8 @@ namespace Accelerider.Windows
 
         protected override void OnExit(ExitEventArgs e)
         {
+            Container.Resolve<IEventAggregator>().GetEvent<ApplicationExiting>().Publish();
+
             (Container.Resolve<ILoggerFacade>() as IDisposable)?.Dispose();
             base.OnExit(e);
         }

@@ -98,7 +98,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         public override IReadOnlyList<IDownloadingFile> GetDownloadingFiles()
         {
-            return ArddFilePaths
+            var _ = ArddFilePaths
                 .Where(item => item.EndsWith(ArddFileExtension))
                 .Where(File.Exists)
                 .Where(item => !_downloadingFiles.Any(file => item.StartsWith(file.DownloadInfo.Context.LocalPath)))
@@ -110,9 +110,14 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                         provider.Owner = this;
                         return provider;
                     }), this))
-                .Concat(_downloadingFiles)
-                .ToList()
-                .AsReadOnly();
+                .Select(item =>
+                {
+                    SaveDownloadingFile(item);
+                    return item;
+                })
+                .ToList();
+
+            return _downloadingFiles;
         }
 
         public override IReadOnlyList<ILocalDiskFile> GetDownloadedFiles()
