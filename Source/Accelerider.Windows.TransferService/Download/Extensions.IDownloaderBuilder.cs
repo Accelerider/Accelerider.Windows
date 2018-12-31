@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure;
 using Polly;
 
 namespace Accelerider.Windows.TransferService
@@ -39,7 +40,8 @@ namespace Accelerider.Windows.TransferService
                 settings.DownloadPolicy
                     .Catch<OperationCanceledException>((e, retryCount, blockContext) => HandleCommand.Break)
                     .Catch<WebException>((e, retryCount, blockContext) => retryCount < WebExceptionRetryCount ? HandleCommand.Retry : HandleCommand.Throw)
-                    .Catch<RemotePathExhaustedException>((e, retryCount, blockContext) => HandleCommand.Throw);
+                    .Catch<RemotePathExhaustedException>((e, retryCount, blockContext) => HandleCommand.Throw)
+                    .Catch<IOException>((e, retryCount, blockContext) => e.IsNotEnoughDiskSpace() ? HandleCommand.Throw : HandleCommand.Retry);
             });
 
         private static IEnumerable<(long Offset, long Length)> DefaultBlockIntervalGenerator(long totalLength)

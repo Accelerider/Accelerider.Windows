@@ -16,6 +16,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public IManagedTransporterToken Operations { get; }
 
+        public string ArddFilePath { get; }
+
         private DownloadingFile(INetDiskUser owner, INetDiskFile file, IDownloader downloader)
         {
             Owner = owner;
@@ -23,6 +25,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
             DownloadInfo = downloader;
             BindableDownloader = downloader.ToBindable(Application.Current.Dispatcher);
             Operations = downloader.AsManaged("net-disk"); // TODO: To const.
+            ArddFilePath = $"{downloader.Context.LocalPath}.ardd";
         }
 
         public static IDownloadingFile Create(INetDiskUser owner, INetDiskFile file, IDownloader downloader)

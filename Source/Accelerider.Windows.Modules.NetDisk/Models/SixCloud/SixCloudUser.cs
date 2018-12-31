@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Web.Management;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models.OneDrive;
 using Accelerider.Windows.TransferService;
@@ -15,6 +17,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
     public class SixCloudUser : NetDiskUserBase
     {
         private readonly List<IDownloadingFile> _downloadingFiles = new List<IDownloadingFile>();
+        private readonly List<ILocalDiskFile> _localDiskFiles = new List<ILocalDiskFile>();
 
         [JsonProperty]
         private List<string> ArddFilePaths { get; set; } = new List<string>();
@@ -52,22 +55,40 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             var downloader = FileTransferService
                 .GetDownloaderBuilder()
                 .UseSixCloudConfigure()
+                .Configure(localPath => localPath.GetUniqueLocalPath(path => File.Exists(path) || File.Exists($"{path}{ArddFileExtension}")))
                 .From(new RemotePathProvider(this, from.Path))
                 .To(Path.Combine(to, from.Path.FileName))
                 .Build();
 
             var result = DownloadingFile.Create(this, from, downloader);
 
-            SaveDownloadingFile(result, Path.Combine($"{Path.Combine(to, downloader.Context.LocalPath)}{ArddFileExtension}"));
+            SaveDownloadingFile(result);
 
             return result;
         }
 
-        private void SaveDownloadingFile(IDownloadingFile result, string savePath)
+        private void SaveDownloadingFile(IDownloadingFile result)
         {
             _downloadingFiles.Add(result);
-            ArddFilePaths.Add(savePath);
-            File.WriteAllText(savePath, result.ToJsonString());
+            ArddFilePaths.Add(result.ArddFilePath);
+
+            Subscribe(result.DownloadInfo.Where(item => item.Status == TransferStatus.Suspended || item.Status == TransferStatus.Faulted));
+            Subscribe(result.DownloadInfo.Sample(TimeSpan.FromMilliseconds(5000)));
+
+            File.WriteAllText(result.ArddFilePath, result.ToJsonString());
+
+            void Subscribe(IObservable<TransferNotification> observable)
+            {
+                observable
+                    .Subscribe(
+                        _ => File.WriteAllText(result.ArddFilePath, result.ToJsonString()),
+                        () =>
+                        {
+                            if (File.Exists(result.ArddFilePath)) File.Delete(result.ArddFilePath);
+
+                            
+                        });
+            }
         }
 
         public override IReadOnlyList<IDownloadingFile> GetDownloadingFiles()

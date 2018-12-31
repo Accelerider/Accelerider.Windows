@@ -31,6 +31,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
         BindableDownloader BindableDownloader { get; }
 
         IManagedTransporterToken Operations { get; }
+
+        string ArddFilePath { get; }
     }
 
     public interface ILocalDiskFile : IFileSummary

@@ -44,7 +44,7 @@ namespace Accelerider.Windows.TransferService
         public static string ToJsonString(this ITransferInfo<DownloadContext> @this)
         {
             Guards.ThrowIfNull(@this);
-            Guards.ThrowIfNot(@this.Status != TransferStatus.Transferring);
+            //Guards.ThrowIfNot(@this.Status != TransferStatus.Transferring);
 
             return @this.ToJObject().ToString(Formatting.None);
         }
@@ -52,7 +52,7 @@ namespace Accelerider.Windows.TransferService
         public static JObject ToJObject(this ITransferInfo<DownloadContext> @this)
         {
             Guards.ThrowIfNull(@this);
-            Guards.ThrowIfNot(@this.Status != TransferStatus.Transferring);
+            //Guards.ThrowIfNot(@this.Status != TransferStatus.Transferring);
 
             return JObject.FromObject(new DownloadSerializedData
             {

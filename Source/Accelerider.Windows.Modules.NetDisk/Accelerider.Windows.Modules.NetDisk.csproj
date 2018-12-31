@@ -120,6 +120,7 @@
     </Compile>
     <Compile Include="Models\Files\DownloadingFile.cs" />
     <Compile Include="Models\Files\FileInterfaces.cs" />
+    <Compile Include="Models\Files\LocalDiskFile.cs" />
     <Compile Include="Models\INetDiskUser.cs" />
     <Compile Include="Models\BaiduCloud\BaiduCloudFile.cs" />
     <Compile Include="Models\BaiduCloud\BaiduCloudUser.cs" />
