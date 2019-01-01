@@ -132,6 +132,8 @@ namespace Accelerider.Windows.TransferService
 
         public IDownloader Build(DownloadContext context, IEnumerable<BlockTransferContext> blockContexts)
         {
+            Guards.ThrowIfNull(context);
+
             if (context.RemotePathProvider == null)
             {
                 context.RemotePathProvider = _remotePathProvider ?? throw new ArgumentException("The Context.RemotePathProvider cannot be null");
@@ -139,16 +141,19 @@ namespace Accelerider.Windows.TransferService
 
             context.RemotePathProvider = _remotePathProviderInterceptor(context.RemotePathProvider);
 
-            return InternalBuild(context, ctx => token =>
-            {
-                var blockTransferContexts = blockContexts as BlockTransferContext[] ?? blockContexts.ToArray();
-                blockTransferContexts.ForEach(item =>
+            var blockContextsArray = blockContexts?.ToArray();
+            return blockContextsArray != null && blockContextsArray.Any()
+                ? InternalBuild(context, ctx => token =>
                 {
-                    item.LocalPath = ctx.LocalPath;
-                    item.RemotePathGetter = ctx.RemotePathProvider.GetAsync;
-                });
-                return Task.FromResult(blockTransferContexts.AsEnumerable());
-            });
+                    var blockTransferContexts = blockContexts as BlockTransferContext[] ?? blockContextsArray.ToArray();
+                    blockTransferContexts.ForEach(item =>
+                    {
+                        item.LocalPath = ctx.LocalPath;
+                        item.RemotePathGetter = ctx.RemotePathProvider.GetAsync;
+                    });
+                    return Task.FromResult(blockTransferContexts.AsEnumerable());
+                })
+                : InternalBuild(context, GetBlockTransferContextGenerator);
         }
 
         private IDownloader InternalBuild(DownloadContext context, Func<DownloadContext, Func<CancellationToken, Task<IEnumerable<BlockTransferContext>>>> blockTransferContextGeneratorBuilder)

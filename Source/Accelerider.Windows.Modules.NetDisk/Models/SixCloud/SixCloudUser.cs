@@ -70,6 +70,29 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             return result;
         }
 
+        public override IReadOnlyList<IDownloadingFile> GetDownloadingFiles()
+        {
+            var downloadingFiles = ArddFilePaths
+                .Where(item => item.EndsWith(ArddFileExtension))
+                .Where(File.Exists)
+                .Where(item => !_downloadingFiles.Any(file => item.StartsWith(file.DownloadInfo.Context.LocalPath)))
+                .Select(File.ReadAllText)
+                .Select(item => item.ToDownloadingFile(builder => builder
+                    .UseSixCloudConfigure()
+                    .Configure<RemotePathProvider>(provider =>
+                    {
+                        provider.Owner = this;
+                        return provider;
+                    }), this))
+                .ToArray();
+
+            ArddFilePaths.Clear();
+
+            downloadingFiles.ForEach(SaveDownloadingFile);
+
+            return _downloadingFiles;
+        }
+
         private void SaveDownloadingFile(IDownloadingFile result)
         {
             _downloadingFiles.Add(result);
@@ -94,30 +117,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             {
                 observable.Subscribe(_ => File.WriteAllText(result.ArddFilePath, result.ToJsonString()));
             }
-        }
-
-        public override IReadOnlyList<IDownloadingFile> GetDownloadingFiles()
-        {
-            var _ = ArddFilePaths
-                .Where(item => item.EndsWith(ArddFileExtension))
-                .Where(File.Exists)
-                .Where(item => !_downloadingFiles.Any(file => item.StartsWith(file.DownloadInfo.Context.LocalPath)))
-                .Select(File.ReadAllText)
-                .Select(item => item.ToDownloadingFile(builder => builder
-                    .UseSixCloudConfigure()
-                    .Configure<RemotePathProvider>(provider =>
-                    {
-                        provider.Owner = this;
-                        return provider;
-                    }), this))
-                .Select(item =>
-                {
-                    SaveDownloadingFile(item);
-                    return item;
-                })
-                .ToList();
-
-            return _downloadingFiles;
         }
 
         public override IReadOnlyList<ILocalDiskFile> GetDownloadedFiles()
