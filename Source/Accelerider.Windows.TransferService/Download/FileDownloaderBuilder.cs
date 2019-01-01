@@ -145,13 +145,12 @@ namespace Accelerider.Windows.TransferService
             return blockContextsArray != null && blockContextsArray.Any()
                 ? InternalBuild(context, ctx => token =>
                 {
-                    var blockTransferContexts = blockContexts as BlockTransferContext[] ?? blockContextsArray.ToArray();
-                    blockTransferContexts.ForEach(item =>
+                    blockContextsArray.ForEach(item =>
                     {
                         item.LocalPath = ctx.LocalPath;
                         item.RemotePathGetter = ctx.RemotePathProvider.GetAsync;
                     });
-                    return Task.FromResult(blockTransferContexts.AsEnumerable());
+                    return Task.FromResult(blockContextsArray.AsEnumerable());
                 })
                 : InternalBuild(context, GetBlockTransferContextGenerator);
         }

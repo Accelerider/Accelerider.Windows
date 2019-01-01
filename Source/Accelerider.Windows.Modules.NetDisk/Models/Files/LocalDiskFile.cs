@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Newtonsoft.Json;
@@ -34,9 +37,25 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
             CompletedTime = DateTime.Now;
         }
 
+        private static readonly ConcurrentDictionary<long, ILocalDiskFile> _cache = new ConcurrentDictionary<long, ILocalDiskFile>();
+
         public static ILocalDiskFile Create(IDownloadingFile file)
         {
-            return new LocalDiskFile(file);
+            var hash = file.GetHashCode();
+
+            if (_cache.TryGetValue(hash, out ILocalDiskFile result))
+            {
+                return result;
+            }
+              
+            result = new LocalDiskFile(file);
+            if (_cache.TryAdd(hash, result) && _cache.Count > 50)
+            {
+                var firstKey = _cache.FirstOrDefault().Key;
+                _cache.TryRemove(firstKey, out _);
+            }
+
+            return result;
         }
     }
 }
