@@ -25,12 +25,13 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
-                <controls:ToolBarButton IconKind="DeleteForever" Label="Empty All Records"/>
+                <controls:ToolBarButton IconKind="DeleteForever" Label="Empty All Records"
+                                        Command="{Binding EmptyAllRecordCommand}"/>
             </StackPanel>
-            <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
+            <!--<Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
                     Margin="0 0 8 0" Width="20" Height="20" Padding="0">
                 <materialDesign:PackIcon Kind="Folder" Width="20" Height="20" Name="PackIcon"/>
-            </Button>
+            </Button>-->
         </Grid>
         <ListBox x:Name="ListboxFileList" Grid.Row="2" SelectionMode="Extended" ItemsSource="{Binding TransferredFiles}"
                  ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}">

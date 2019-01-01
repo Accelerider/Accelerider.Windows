@@ -124,6 +124,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             return _localDiskFiles;
         }
 
+        public override void ClearDownloadFiles()
+        {
+            _localDiskFiles.Clear();
+        }
+
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
         {
             var tree = new LazyTreeNode<INetDiskFile>(new SixCloudFile())

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.TransferService;
@@ -11,9 +12,19 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
     {
         private readonly IDownloaderManager _downloaderManager;
 
+        public ICommand EmptyAllRecordCommand { get; }
+
         public DownloadedViewModel(IUnityContainer container, IDownloaderManager downloaderManager) : base(container)
         {
             _downloaderManager = downloaderManager;
+
+            EmptyAllRecordCommand = new RelayCommand(
+                () =>
+                {
+                    AcceleriderUser.GetCurrentNetDiskUser().ClearDownloadFiles();
+                    TransferredFiles.Clear();
+                },
+                () => TransferredFiles?.Any() ?? false);
 
             EventAggregator.GetEvent<TransferItemCompletedEvent>().Subscribe(
                 item => TransferredFiles.Add(item),

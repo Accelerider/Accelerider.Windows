@@ -34,6 +34,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
         IReadOnlyList<IDownloadingFile> GetDownloadingFiles();
 
         IReadOnlyList<ILocalDiskFile> GetDownloadedFiles();
+
+        void ClearDownloadFiles();
     }
 
     public interface IUploadOperations

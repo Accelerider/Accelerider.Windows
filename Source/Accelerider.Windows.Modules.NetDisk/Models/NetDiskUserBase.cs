@@ -43,6 +43,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         public abstract IReadOnlyList<ILocalDiskFile> GetDownloadedFiles();
 
+        public virtual void ClearDownloadFiles()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Implements IDisposable interface
