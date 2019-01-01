@@ -28,7 +28,7 @@ namespace Accelerider.Windows.Infrastructure
                 }
                 catch (ApiException e)
                 {
-                    _snackbarMessageQueue.Enqueue(JObject.Parse(e.Content).Value<string>("message"));
+                    _snackbarMessageQueue.Enqueue(JObject.Parse(e.Content).Value<string>("status"));
                 }
                 catch (HttpRequestException httpRequestException)
                 {

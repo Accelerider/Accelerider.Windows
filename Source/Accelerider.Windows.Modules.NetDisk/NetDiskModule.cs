@@ -8,6 +8,7 @@ using Prism.Events;
 using Prism.Ioc;
 using Unity;
 using Prism.Regions;
+using Prism.Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk
 {
@@ -37,8 +38,15 @@ namespace Accelerider.Windows.Modules.NetDisk
                 .Resolve<IEventAggregator>()
                 .GetEvent<ApplicationExiting>()
                 .Subscribe(
-                    () => containerProvider.Resolve<IAcceleriderUser>().SaveToLocalDisk(),
+                    () =>
+                    {
+                        if (containerProvider.GetContainer().IsRegistered<IAcceleriderUser>())
+                        {
+                            containerProvider.Resolve<IAcceleriderUser>().SaveToLocalDisk();
+                        }
+                    },
                     true);
         }
     }
 }
+   
