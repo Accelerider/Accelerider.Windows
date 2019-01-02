@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
-    public interface INetDiskUser : IRefreshable, INetDiskFileOperations, IDownloadOperations, IUploadOperations
+    public interface INetDiskUser : INetDiskInfo, INetDiskFileOperations, IDownloadOperations, IUploadOperations
+    {
+    }
+
+    public interface INetDiskInfo : INotifyPropertyChanged, IRefreshable
     {
         string Id { get; }
 
@@ -13,7 +18,9 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 
         Uri Avatar { get; }
 
-        (long Used, long Total) Capacity { get; }
+        long UsedCapacity { get; }
+
+        long TotalCapacity { get; }
     }
 
     public interface INetDiskFileOperations

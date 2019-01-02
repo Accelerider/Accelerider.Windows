@@ -30,9 +30,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         #region User info
 
         [JsonProperty]
-        public long Uuid { get; private set; }
-
-        [JsonProperty]
         public string Email { get; private set; }
 
         [JsonProperty]
@@ -161,23 +158,24 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             var result = await WebApi.GetUserInfoAsync().RunApi();
             if (!result.Success) return false;
 
-            Uuid = result.Result["uuid"].ToObject<long>();
+            Id = result.Result["uuid"].ToObject<long>().ToString();
             Username = result.Result["name"].ToObject<string>();
             Email = result.Result["email"].ToObject<string>();
             Phone = result.Result["phone"].ToObject<string>();
-            Capacity = (result.Result["spaceUsed"].ToObject<long>(), result.Result["spaceCapacity"].ToObject<long>());
+            UsedCapacity = result.Result["spaceUsed"].ToObject<long>();
+            TotalCapacity = result.Result["spaceCapacity"].ToObject<long>();
 
             return true;
         }
 
-        public async Task<bool> LoginAsync(string value, string password)
+        public async Task<bool> LoginAsync(string account, string password)
         {
-            if (!string.IsNullOrWhiteSpace(value) &&
+            if (!string.IsNullOrWhiteSpace(account) &&
                 !string.IsNullOrWhiteSpace(password))
             {
                 var result = await WebApi.LoginAsync(new LoginArgs
                 {
-                    Value = value,
+                    Value = account,
                     Password = password.ToMd5()
                 }).RunApi();
 

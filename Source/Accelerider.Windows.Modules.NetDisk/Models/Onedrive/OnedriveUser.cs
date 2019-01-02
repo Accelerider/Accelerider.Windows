@@ -38,7 +38,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
                 await RefreshAccessToken();
                 var info = await Api.GetUserInfoAsync();
                 Username = info.Owner["user"].Value<string>("displayName");
-                Capacity = (info.Quota.Value<long>("used"), info.Quota.Value<long>("total"));
+                UsedCapacity = info.Quota.Value<long>("used");
+                TotalCapacity = info.Quota.Value<long>("total");
 
                 return true;
             }

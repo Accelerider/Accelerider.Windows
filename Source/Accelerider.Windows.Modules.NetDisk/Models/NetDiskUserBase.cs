@@ -7,37 +7,11 @@ using Prism.Mvvm;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
-    public abstract class NetDiskUserBase : BindableBase, INetDiskUser, IDisposable
+    public abstract class NetDiskUserBase : NetDiskInfo, INetDiskUser, IDisposable
     {
         protected const string ArddFileExtension = ".ardd";
 
         #region Implements INetDiskUser interface
-
-        private string _username;
-        private Uri _avatar;
-        private (long Used, long Total) _capacity;
-
-        public string Id { get; protected set; }
-
-        public string Username
-        {
-            get => _username;
-            set => SetProperty(ref _username, value);
-        }
-
-        public Uri Avatar
-        {
-            get => _avatar;
-            protected set => SetProperty(ref _avatar, value);
-        }
-
-        public (long Used, long Total) Capacity
-        {
-            get => _capacity;
-            protected set => SetProperty(ref _capacity, value);
-        }
-
-        public abstract Task<bool> RefreshAsync();
 
         public abstract Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
 

@@ -124,6 +124,7 @@
     <Compile Include="Models\BaiduCloud\BaiduCloudFile.cs" />
     <Compile Include="Models\BaiduCloud\BaiduCloudUser.cs" />
     <Compile Include="Models\BaiduCloud\IBaiduCloudApi.cs" />
+    <Compile Include="Models\NetDiskInfo.cs" />
     <Compile Include="Models\OneDrive\OneDriveFile.cs" />
     <Compile Include="Models\OneDrive\OneDriveUser.cs" />
     <Compile Include="Models\Results\Bodies.cs" />
@@ -134,7 +135,6 @@
     <Compile Include="Models\SixCloud\SixCloudFile.cs" />
     <Compile Include="Models\SixCloud\SixCloudUser.cs" />
     <Compile Include="Models\Datas.cs" />
-    <Compile Include="Models\Infos.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignIn.vm.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignUp.vm.cs" />
     <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">
