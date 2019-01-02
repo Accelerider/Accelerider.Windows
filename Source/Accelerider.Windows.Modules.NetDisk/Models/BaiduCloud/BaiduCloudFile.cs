@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
 using Newtonsoft.Json;
@@ -9,11 +7,12 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
 {
     public class BaiduCloudFile : INetDiskFile
     {
+        [JsonProperty("path")]
+        private string _path;
 
         public FileType Type => _isDir == 1 ? FileType.FolderType : FileType.OtherType;
 
-        [JsonProperty("path")]
-        public FileLocator Path { get; set; }
+        public FileLocator Path => string.IsNullOrEmpty(_path) ? "/" : _path;
 
         [JsonProperty("size")]
         public long Size { get; set; }
@@ -33,15 +32,15 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
         [JsonProperty("isdir")]
         private int _isDir = 1;
 
-        public BaiduCloudUser Owner { get; set; }
+        //public BaiduCloudUser Owner { get; set; }
 
         [JsonProperty("server_mtime")]
         private long _mtime;
 
 
-        public async Task<bool> DeleteAsync() => (await Owner.Api.DeleteFileAsync(Owner.Token, StringExtensions.LogId,
-                                                     new Dictionary<string, string> { ["filelist"] = $"[\"{Path}\"]" }))
-                                                 .ErrorCode == 0;
+        //public async Task<bool> DeleteAsync() => (await Owner.Api.DeleteFileAsync(Owner.Token, StringExtensions.LogId,
+        //                                             new Dictionary<string, string> { ["filelist"] = $"[\"{Path}\"]" }))
+        //                                         .ErrorCode == 0;
 
     }
 }

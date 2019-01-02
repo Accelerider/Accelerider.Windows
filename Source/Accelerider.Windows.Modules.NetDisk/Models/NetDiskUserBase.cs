@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud;
 using Prism.Mvvm;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
@@ -13,9 +14,10 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
         #region Implements INetDiskUser interface
 
         private string _username;
+        private Uri _avatar;
+        private (long Used, long Total) _capacity;
 
-
-        public string Id { get; set; }
+        public string Id { get; protected set; }
 
         public string Username
         {
@@ -23,9 +25,17 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
             set => SetProperty(ref _username, value);
         }
 
-        public Uri Avatar { get; protected set; }
+        public Uri Avatar
+        {
+            get => _avatar;
+            protected set => SetProperty(ref _avatar, value);
+        }
 
-        public (long Used, long Total) Capacity { get; protected set; }
+        public (long Used, long Total) Capacity
+        {
+            get => _capacity;
+            protected set => SetProperty(ref _capacity, value);
+        }
 
         public abstract Task<bool> RefreshAsync();
 

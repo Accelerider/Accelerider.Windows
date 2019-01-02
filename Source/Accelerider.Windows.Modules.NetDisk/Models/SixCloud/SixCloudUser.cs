@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using System.Web.Management;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Modules.NetDisk.Models.OneDrive;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
-using Prism.Events;
 using Refit;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
@@ -48,8 +44,12 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         {
             Avatar = new Uri("pack://application:,,,/Accelerider.Windows.Modules.NetDisk;component/Images/logo-six-cloud.png");
             WebApi = RestService.For<ISixCloudApi>(
-                new HttpClient(new AuthenticatedHttpClientHandler(() => AccessToken)) { BaseAddress = new Uri("https://api.6pan.cn") },
-                new RefitSettings { JsonSerializerSettings = new JsonSerializerSettings() }
+                "https://api.6pan.cn",
+                new RefitSettings
+                {
+                    JsonSerializerSettings = new JsonSerializerSettings(),
+                    AuthorizationHeaderValueGetter = () => Task.FromResult(AccessToken)
+                }
             );
         }
 
@@ -212,51 +212,35 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             }
         }
 
-        private class RemotePathProvider : ConstantRemotePathProvider
+        private class RemotePathProvider : IRemotePathProvider
         {
+            [JsonIgnore]
             public SixCloudUser Owner { private get; set; }
 
+            [JsonProperty("Path")]
             private readonly string _filePath;
 
+            [JsonConstructor]
+            public RemotePathProvider() { }
 
             public RemotePathProvider(SixCloudUser owner, string filePath)
-                : base(new HashSet<string>())
             {
                 Owner = owner;
                 _filePath = filePath;
             }
 
-
-            public override async Task<string> GetAsync()
+            public async Task<string> GetAsync()
             {
                 var path = (await Owner.WebApi.GetFileInfoByPathAsync(new PathArgs { Path = _filePath }))
                     .Result["downloadAddress"]
                     .ToObject<string>();
 
-                if (path == null) return await base.GetAsync();
-
-                RemotePaths.TryAdd(path, 0);
+                if (path == null) throw new RemotePathExhaustedException(this);
 
                 return path;
             }
 
-            public override IPersister<IRemotePathProvider> GetPersister()
-            {
-                return new Persister(_filePath);
-            }
-
-            private class Persister : IPersister<RemotePathProvider>
-            {
-                [JsonProperty]
-                public string Path { get; }
-
-                public Persister(string path) => Path = path;
-
-                public RemotePathProvider Restore()
-                {
-                    return new RemotePathProvider(null, Path);
-                }
-            }
+            public void Rate(string remotePath, double score) { }
         }
     }
 }

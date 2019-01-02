@@ -29,13 +29,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
         [JsonProperty("parentReference")]
         private JToken _pathInfo;
 
+        //public OneDriveUser Owner { get; set; }
 
-
-        public OneDriveUser Owner { get; set; }
-
-        public async Task<bool> DeleteAsync()
-        {
-            return (await Owner.Api.DeleteFileAsync(Path)).Error == null;
-        }
+        //public async Task<bool> DeleteAsync()
+        //{
+        //    return (await Owner.Api.DeleteFileAsync(Path)).Error == null;
+        //}
     }
 }
