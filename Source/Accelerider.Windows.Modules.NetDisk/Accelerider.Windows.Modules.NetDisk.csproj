@@ -275,10 +275,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\OneDriveLogo.jpg" />
+    <Resource Include="Images\logo-onedrive.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\BaiduCloudLogo.png" />
+    <Resource Include="Images\logo-baiducloud.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\FileBrowser\FolderLocationBar.xaml">
@@ -371,14 +371,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\DefaultAvatar.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="I18nResources\ResKeys.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ResKeys.cs</LastGenOutput>
     </Content>
-    <Resource Include="Images\logo-six-cloud.png" />
+    <Resource Include="Images\logo-sixcloud.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -80,9 +80,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\avatar-default.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\FileTypes\ApkType.png" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +162,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo-accelerider.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\avatar-default.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

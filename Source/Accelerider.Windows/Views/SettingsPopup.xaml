@@ -25,10 +25,13 @@
                 </Grid.ColumnDefinitions>
                 <Ellipse Grid.Column="0" Height="50" Width="50">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="{Binding AcceleriderUser.AvatarUrl, Converter={StaticResource UriToImageSourceConverter}}" />
+                        <ImageBrush ImageSource="{Binding AcceleriderUser.AvatarUrl, 
+                                                          Converter={StaticResource UriToImageSourceConverter},
+                                                          TargetNullValue='pack://application:,,,/Accelerider.Windows.Assets;component/Images/avatar-default.png'}" />
                     </Ellipse.Fill>
                 </Ellipse>
-                <TextBlock Grid.Column="2" Text="{Binding AcceleriderUser.Username}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="{Binding AcceleriderUser.Username}"
+                           VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
             </Grid>
             <StackPanel Margin="0 0 0 8" >
                 <!-- open dialog -->

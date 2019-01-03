@@ -39,7 +39,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
         public SixCloudUser()
         {
-            Avatar = new Uri("pack://application:,,,/Accelerider.Windows.Modules.NetDisk;component/Images/logo-six-cloud.png");
+            Avatar = new Uri("pack://application:,,,/Accelerider.Windows.Modules.NetDisk;component/Images/logo-sixcloud.png");
             WebApi = RestService.For<ISixCloudApi>(
                 "https://api.6pan.cn",
                 new RefitSettings
