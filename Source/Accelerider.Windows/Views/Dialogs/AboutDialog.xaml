@@ -3,9 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
+             xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
+             xmlns:constants="clr-namespace:Accelerider.Windows.Constants"
+             xmlns:dialogs="clr-namespace:Accelerider.Windows.Views.Dialogs"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Tag="About"
+             Tag="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Title}}"
              Style="{StaticResource AcceleriderDialogStyle}">
+
     <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -24,78 +29,52 @@
         </Grid.RowDefinitions>
 
         <Ellipse Grid.Row="0" Height="100" Width="100" Fill="#5458AF"/>
-        <Image Grid.Row="0" Source="pack://application:,,,/Accelerider.Windows.Resources;component/Images/logo-background.png" Height="80" Width="80"/>
+        <Image Grid.Row="0" Source="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-background.png" Height="80" Width="80"/>
 
-        <TextBlock Grid.Row="2" Text="Accelerider for Windows" HorizontalAlignment="Center"
+        <TextBlock Grid.Row="2" HorizontalAlignment="Center"
+                   Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_SoftwareName}}"
                    FontWeight="Bold" Foreground="#5458AF" FontSize="16"/>
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="Version 1.0.0-pre1 (" VerticalAlignment="Center"/>
-            <Button Content="release notes" Command="{Binding OpenReleaseNotesCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
-            <TextBlock Text=")" VerticalAlignment="Center"/>
+            <TextBlock VerticalAlignment="Center">
+                <Run Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Version}}" />
+                <Run Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_VersionNumber}}" />
+                <Run Text="{i18N:I18n {x:Static i18NResources:ResKeys.Punctuation_LeftParenthesis}}" />
+            </TextBlock>
+            <Button Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ReleaseNotes}}" 
+                    Command="{Binding OpenReleaseNotesCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
+            <TextBlock Text="{i18N:I18n {x:Static i18NResources:ResKeys.Punctuation_RightParenthesis}}" 
+                       VerticalAlignment="Center"/>
         </StackPanel>
 
         <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
             <materialDesign:PackIcon Kind="GithubCircle" VerticalAlignment="Center" Margin="0 0 8 0"/>
-            <Button Content="Github Project Home" ToolTip="https://github.com/Accelerider/Accelerider.Windows" Command="{Binding OpenProjectHomeCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
+            <Button Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_GithubProjectHome}}" 
+                    ToolTip="https://github.com/Accelerider/Accelerider.Windows" 
+                    Command="{Binding OpenProjectHomeCommand}" Foreground="#5458AF" 
+                    Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
         </StackPanel>
 
         <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Grid Margin="8" Width="220">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Ellipse Width="50" Height="50">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="https://avatars.githubusercontent.com/u/12137562"/>
-                    </Ellipse.Fill>
-                </Ellipse>
-
-                <StackPanel Grid.Column="2">
-                    <TextBlock Text="Mrs4s" FontWeight="Bold"  VerticalAlignment="Center"/>
-                    <TextBlock Text="Server Support &amp; Maintain" Foreground="Gray" VerticalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="GithubCircle" VerticalAlignment="Center" Margin="0 0 8 0"/>
-                        <Button Content="Github Home" ToolTip="https://github.com/Mrs4s" Command="{Binding OpenMrs4SHomeCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Email" VerticalAlignment="Center" Margin="0 0 8 0"/>
-                        <Button Content="Email" ToolTip="Send to: mrs4sxiaoshi@gmail.com" Command="{Binding OpenMrs4sEmailCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
-
-            <Grid Margin="8" Width="220">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Ellipse Width="50" Height="50">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="https://avatars.githubusercontent.com/u/8541016"/>
-                    </Ellipse.Fill>
-                </Ellipse>
-
-                <StackPanel Grid.Column="2">
-                    <TextBlock Text="ZDP" FontWeight="Bold"  VerticalAlignment="Center"/>
-                    <TextBlock Text="Windows Desktop Client" Foreground="Gray" VerticalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="GithubCircle" VerticalAlignment="Center" Margin="0 0 8 0"/>
-                        <Button Content="Github Home" ToolTip="https://github.com/DingpingZhang" Command="{Binding OpenLd50HomeCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Email" VerticalAlignment="Center" Margin="0 0 8 0"/>
-                        <Button Content="Email" ToolTip="Send to: ld50.zhang@gmail.com" Command="{Binding OpenLd50EmailCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
+            <dialogs:AuthorCard Margin="8" Width="240"
+                                Avatar="https://avatars.githubusercontent.com/u/12137562"
+                                AuthorName="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Mrs4s}}"
+                                Description="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Mrs4sDescription}}"
+                                GithubHome="{x:Static constants:AcceleriderUrls.Mrs4sGithubHome}"
+                                Email="{x:Static constants:AcceleriderUrls.Mrs4sEmail}"/>
+            <dialogs:AuthorCard Margin="8" Width="240"
+                                Avatar="https://avatars.githubusercontent.com/u/8541016"
+                                AuthorName="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ZDP}}"
+                                Description="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ZDPDescription}}"
+                                GithubHome="{x:Static constants:AcceleriderUrls.ZdpGithubHome}"
+                                Email="{x:Static constants:AcceleriderUrls.ZdpEmail}"/>
         </StackPanel>
 
-        <TextBlock Grid.Row="10" Text="You have the last version (last checked just now)" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="10" Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_CheckUpdateResultLatest}}" 
+                   HorizontalAlignment="Center"/>
 
-        <Button Grid.Row="12" Content="Check for Update" Command="{Binding CheckForUpdateCommand}" Width="200" Style="{StaticResource MaterialDesignFlatButton}"/>
+        <Button Grid.Row="12" Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_CheckForUpdate}}"
+                Command="{Binding CheckForUpdateCommand}"
+                Style="{StaticResource MaterialDesignFlatButton}" Width="200" />
 
     </Grid>
 </UserControl>

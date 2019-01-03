@@ -22,19 +22,21 @@ namespace Accelerider.Windows.Infrastructure.I18n
 
         public object Value => I18nManager.Instance.Get(_key);
 
-        private void OnCurrentUICultureChanged()
+        private void RaiseValue()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            I18nManager.Instance.CurrentUICultureChanged += OnCurrentUICultureChanged;
+            RaiseValue();
+            I18nManager.Instance.CurrentUICultureChanged += RaiseValue;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            I18nManager.Instance.CurrentUICultureChanged -= OnCurrentUICultureChanged;
+            RaiseValue();
+            I18nManager.Instance.CurrentUICultureChanged -= RaiseValue;
         }
 
         public static implicit operator I18nSource(ComponentResourceKey resourceKey) => new I18nSource(resourceKey);

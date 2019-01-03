@@ -2,32 +2,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud;
+using Newtonsoft.Json;
 using Prism.Mvvm;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
-    public abstract class NetDiskUserBase : BindableBase, INetDiskUser, IDisposable
+    public abstract class NetDiskUserBase : NetDiskInfo, INetDiskUser, IDisposable
     {
         protected const string ArddFileExtension = ".ardd";
 
         #region Implements INetDiskUser interface
-
-        private string _username;
-
-
-        public string Id { get; set; }
-
-        public string Username
-        {
-            get => _username;
-            set => SetProperty(ref _username, value);
-        }
-
-        public Uri Avatar { get; protected set; }
-
-        public (long Used, long Total) Capacity { get; protected set; }
-
-        public abstract Task<bool> RefreshAsync();
 
         public abstract Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
 

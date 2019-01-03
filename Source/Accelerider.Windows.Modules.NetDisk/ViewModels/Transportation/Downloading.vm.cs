@@ -89,6 +89,12 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
                         {
                             InitializeTransferItem(item);
                         }
+                        else
+                        {
+                            EventAggregator
+                                .GetEvent<TransferItemCompletedEvent>()
+                                .Publish(LocalDiskFile.Create(item));
+                        }
                     });
             }
         }

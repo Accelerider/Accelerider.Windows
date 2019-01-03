@@ -9,5 +9,7 @@
         public const string Password = "password";
 
         public const string AutoSignIn = "autoSignIn";
+
+        public const string Language = "language";
     }
 }

@@ -23,10 +23,12 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
         {
             RefreshToken = token;
             Api = RestService.For<IMicrosoftGraphApi>(
-                new HttpClient(new AuthenticatedHttpClientHandler(() => AccessToken))
+                "https://graph.microsoft.com",
+                new RefitSettings
                 {
-                    BaseAddress = new Uri("https://graph.microsoft.com")
-                }, new RefitSettings() { JsonSerializerSettings = new JsonSerializerSettings() });
+                    JsonSerializerSettings = new JsonSerializerSettings(),
+                    AuthorizationHeaderValueGetter = () => Task.FromResult(AccessToken)
+                });
         }
 
         public override async Task<bool> RefreshAsync()
@@ -36,7 +38,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
                 await RefreshAccessToken();
                 var info = await Api.GetUserInfoAsync();
                 Username = info.Owner["user"].Value<string>("displayName");
-                Capacity = (info.Quota.Value<long>("used"), info.Quota.Value<long>("total"));
+                UsedCapacity = info.Quota.Value<long>("used");
+                TotalCapacity = info.Quota.Value<long>("total");
 
                 return true;
             }
@@ -58,10 +61,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
         {
-            var tree = new LazyTreeNode<INetDiskFile>(new OneDriveFile()
-            {
-                Owner = this
-            })
+            var tree = new LazyTreeNode<INetDiskFile>(new OneDriveFile() /*{ Owner = this }*/)
             {
                 ChildrenProvider = async parent =>
                 {
@@ -90,7 +90,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
                         }
                     }
 
-                    result.ForEach(v => v.Owner = this);
+                    //result.ForEach(v => v.Owner = this);
                     return result;
                 }
             };

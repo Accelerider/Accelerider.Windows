@@ -7,20 +7,12 @@ using Newtonsoft.Json;
 
 namespace Accelerider.Windows.TransferService
 {
-    public interface IPersistable<out T>
-    {
-        IPersister<T> GetPersister();
-    }
-
-    public interface IPersister<out T>
-    {
-        T Restore();
-    }
-
     public class ConstantRemotePathProvider : IRemotePathProvider
     {
+        [JsonProperty]
         protected ConcurrentDictionary<string, double> RemotePaths;
 
+        [JsonConstructor]
         private ConstantRemotePathProvider() { }
 
         public ConstantRemotePathProvider(HashSet<string> remotePaths)
@@ -44,30 +36,6 @@ namespace Accelerider.Windows.TransferService
 
             return Task.FromResult(
                 RemotePaths.Aggregate((acc, item) => acc.Value < item.Value ? item : acc).Key);
-        }
-
-        public virtual IPersister<IRemotePathProvider> GetPersister()
-        {
-            return new Persister(this);
-        }
-
-        private class Persister : IPersister<IRemotePathProvider>
-        {
-            [JsonProperty]
-            public ConcurrentDictionary<string, double> Data { get; private set; }
-
-            [JsonConstructor]
-            public Persister() { }
-
-            public Persister(ConstantRemotePathProvider remotePathProvider)
-            {
-                Data = (ConcurrentDictionary<string, double>)remotePathProvider.RemotePaths;
-            }
-
-            IRemotePathProvider IPersister<IRemotePathProvider>.Restore()
-            {
-                return new ConstantRemotePathProvider { RemotePaths = Data };
-            }
         }
     }
 }

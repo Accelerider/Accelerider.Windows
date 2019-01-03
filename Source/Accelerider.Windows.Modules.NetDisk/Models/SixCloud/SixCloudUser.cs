@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using System.Web.Management;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Modules.NetDisk.Models.OneDrive;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
-using Prism.Events;
+using Newtonsoft.Json.Serialization;
 using Refit;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class SixCloudUser : NetDiskUserBase
     {
         private readonly List<IDownloadingFile> _downloadingFiles = new List<IDownloadingFile>();
@@ -28,28 +26,26 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         [JsonProperty]
         public string AccessToken { get; private set; }
 
-        [JsonProperty]
         public ISixCloudApi WebApi { get; private set; }
 
         #region User info
 
-        [JsonProperty]
-        public long Uuid { get; private set; }
-
-        [JsonProperty]
         public string Email { get; private set; }
 
-        [JsonProperty]
         public string Phone { get; private set; }
 
         #endregion
 
         public SixCloudUser()
         {
-            Avatar = new Uri("pack://application:,,,/Accelerider.Windows.Modules.NetDisk;component/Images/logo-six-cloud.png");
+            Avatar = new Uri("pack://application:,,,/Accelerider.Windows.Modules.NetDisk;component/Images/logo-sixcloud.png");
             WebApi = RestService.For<ISixCloudApi>(
-                new HttpClient(new AuthenticatedHttpClientHandler(() => AccessToken)) { BaseAddress = new Uri("https://api.6pan.cn") },
-                new RefitSettings { JsonSerializerSettings = new JsonSerializerSettings() }
+                "https://api.6pan.cn",
+                new RefitSettings
+                {
+                    JsonSerializerSettings = new JsonSerializerSettings(),
+                    AuthorizationHeaderValueGetter = () => Task.FromResult(AccessToken)
+                }
             );
         }
 
@@ -98,7 +94,23 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             _downloadingFiles.Add(result);
             ArddFilePaths.Add(result.ArddFilePath);
 
-            result.DownloadInfo.Subscribe(_ => { }, () =>
+            result.DownloadInfo.Subscribe(_ => { }, OnCompleted);
+            Subscribe(result.DownloadInfo.Where(item => item.Status == TransferStatus.Suspended || item.Status == TransferStatus.Faulted));
+            Subscribe(result.DownloadInfo.Sample(TimeSpan.FromMilliseconds(5000)));
+
+            File.WriteAllText(result.ArddFilePath, result.ToJsonString());
+
+            if (result.DownloadInfo.Status == TransferStatus.Completed)
+            {
+                OnCompleted();
+            }
+
+            void Subscribe(IObservable<TransferNotification> observable)
+            {
+                observable.Subscribe(_ => File.WriteAllText(result.ArddFilePath, result.ToJsonString()));
+            }
+
+            void OnCompleted()
             {
                 if (File.Exists(result.ArddFilePath)) File.Delete(result.ArddFilePath);
                 ArddFilePaths.Remove(result.ArddFilePath);
@@ -106,16 +118,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 var localDiskFile = LocalDiskFile.Create(result);
                 _downloadingFiles.Remove(result);
                 _localDiskFiles.Add(localDiskFile);
-                //_eventAggregator.GetEvent<TransferItemCompletedEvent>().Publish(localDiskFile);
-            });
-            Subscribe(result.DownloadInfo.Where(item => item.Status == TransferStatus.Suspended || item.Status == TransferStatus.Faulted));
-            Subscribe(result.DownloadInfo.Sample(TimeSpan.FromMilliseconds(5000)));
-
-            File.WriteAllText(result.ArddFilePath, result.ToJsonString());
-
-            void Subscribe(IObservable<TransferNotification> observable)
-            {
-                observable.Subscribe(_ => File.WriteAllText(result.ArddFilePath, result.ToJsonString()));
             }
         }
 
@@ -166,23 +168,24 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             var result = await WebApi.GetUserInfoAsync().RunApi();
             if (!result.Success) return false;
 
-            Uuid = result.Result["uuid"].ToObject<long>();
+            Id = result.Result["uuid"].ToObject<long>().ToString();
             Username = result.Result["name"].ToObject<string>();
             Email = result.Result["email"].ToObject<string>();
             Phone = result.Result["phone"].ToObject<string>();
-            Capacity = (result.Result["spaceUsed"].ToObject<long>(), result.Result["spaceCapacity"].ToObject<long>());
+            UsedCapacity = result.Result["spaceUsed"].ToObject<long>();
+            TotalCapacity = result.Result["spaceCapacity"].ToObject<long>();
 
             return true;
         }
 
-        public async Task<bool> LoginAsync(string value, string password)
+        public async Task<bool> LoginAsync(string account, string password)
         {
-            if (!string.IsNullOrWhiteSpace(value) &&
+            if (!string.IsNullOrWhiteSpace(account) &&
                 !string.IsNullOrWhiteSpace(password))
             {
                 var result = await WebApi.LoginAsync(new LoginArgs
                 {
-                    Value = value,
+                    Value = account,
                     Password = password.ToMd5()
                 }).RunApi();
 
@@ -207,61 +210,45 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 !string.IsNullOrWhiteSpace(passCode) &&
                 !string.IsNullOrWhiteSpace(phoneInfo))
             {
-                await WebApi.RegisterAsync(new RegisterData
+                await WebApi.RegisterAsync(new RegisterArgs
                 {
                     NickName = username,
-                    Code = passCode,
+                    PhoneCode = passCode,
                     PasswordMd5 = password.ToMd5(),
                     PhoneInfo = phoneInfo
                 });
             }
         }
 
-        private class RemotePathProvider : ConstantRemotePathProvider
+        private class RemotePathProvider : IRemotePathProvider
         {
+            [JsonIgnore]
             public SixCloudUser Owner { private get; set; }
 
+            [JsonProperty("Path")]
             private readonly string _filePath;
 
+            [JsonConstructor]
+            public RemotePathProvider() { }
 
             public RemotePathProvider(SixCloudUser owner, string filePath)
-                : base(new HashSet<string>())
             {
                 Owner = owner;
                 _filePath = filePath;
             }
 
-
-            public override async Task<string> GetAsync()
+            public async Task<string> GetAsync()
             {
                 var path = (await Owner.WebApi.GetFileInfoByPathAsync(new PathArgs { Path = _filePath }))
                     .Result["downloadAddress"]
                     .ToObject<string>();
 
-                if (path == null) return await base.GetAsync();
-
-                RemotePaths.TryAdd(path, 0);
+                if (path == null) throw new RemotePathExhaustedException(this);
 
                 return path;
             }
 
-            public override IPersister<IRemotePathProvider> GetPersister()
-            {
-                return new Persister(_filePath);
-            }
-
-            private class Persister : IPersister<RemotePathProvider>
-            {
-                [JsonProperty]
-                public string Path { get; }
-
-                public Persister(string path) => Path = path;
-
-                public RemotePathProvider Restore()
-                {
-                    return new RemotePathProvider(null, Path);
-                }
-            }
+            public void Rate(string remotePath, double score) { }
         }
     }
 }

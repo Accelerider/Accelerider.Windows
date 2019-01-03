@@ -2,7 +2,7 @@
 
 namespace Accelerider.Windows.TransferService
 {
-    public interface IRemotePathProvider : IPersistable<IRemotePathProvider>
+    public interface IRemotePathProvider /*: IPersistable<IRemotePathProvider>*/
     {
         void Rate(string remotePath, double score);
 

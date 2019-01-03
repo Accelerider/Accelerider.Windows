@@ -24,7 +24,5 @@ namespace Accelerider.Windows.TransferService
 
             return path;
         }
-
-        public override IPersister<IRemotePathProvider> GetPersister() => null;
     }
 }

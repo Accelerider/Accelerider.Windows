@@ -12,7 +12,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
 {
     public class BaiduCloudUser : NetDiskUserBase
     {
-
         public IBaiduCloudApi Api { get; }
 
         public string Cookie { get; }
@@ -23,13 +22,20 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
 
         public BaiduCloudUser(string cookie)
         {
-            Api = RestService.For<IBaiduCloudApi>(new HttpClient(new HttpClientHandler()
-            {
-                UseCookies = true,
-                CookieContainer = cookie.ToCookieContainer(".baidu.com")
-            })
-            { BaseAddress = new Uri("https://pan.baidu.com") },
-                new RefitSettings() { JsonSerializerSettings = new JsonSerializerSettings() });
+            Api = RestService.For<IBaiduCloudApi>(
+                new HttpClient(new HttpClientHandler
+                {
+                    UseCookies = true,
+                    CookieContainer = cookie.ToCookieContainer(".baidu.com")
+                })
+                {
+                    BaseAddress = new Uri("https://pan.baidu.com")
+                },
+                new RefitSettings
+                {
+                    JsonSerializerSettings = new JsonSerializerSettings()
+                });
+
             Cookie = cookie;
         }
 
@@ -52,11 +58,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
         {
-            var tree = new LazyTreeNode<INetDiskFile>(new BaiduCloudFile()
-            {
-                Owner = this,
-                Path = "/"
-            })
+            var tree = new LazyTreeNode<INetDiskFile>(new BaiduCloudFile())
             {
                 ChildrenProvider = async parent =>
                 {
@@ -70,7 +72,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud
                         result.AddRange(files.FileList);
                         page++;
                     } while (true);
-                    result.ForEach(v => v.Owner = this);
+                    //result.ForEach(v => v.Owner = this);
                     return result;
                 }
             };

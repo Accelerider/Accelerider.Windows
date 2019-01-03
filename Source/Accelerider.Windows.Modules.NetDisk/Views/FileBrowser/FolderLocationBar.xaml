@@ -82,7 +82,7 @@
                                             <ColumnDefinition Width="10" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <Image Width="20" Height="20" Source="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/FolderType.png" />
+                                        <Image Width="20" Height="20" Source="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/FolderType.png" />
                                         <TextBlock Grid.Column="2" VerticalAlignment="Center">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">

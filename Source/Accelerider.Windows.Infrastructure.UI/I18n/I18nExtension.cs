@@ -27,12 +27,14 @@ namespace Accelerider.Windows.Infrastructure.I18n
         private object ProvideValueFromKey(IServiceProvider serviceProvider, ComponentResourceKey key)
         {
             if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget provideValueTarget))
-                throw new ArgumentException($"The {nameof(serviceProvider)} must implement {nameof(IProvideValueTarget)} interface.");
+                throw new ArgumentException(
+                    $"The {nameof(serviceProvider)} must implement {nameof(IProvideValueTarget)} interface.");
 
             if (provideValueTarget.TargetObject.GetType().FullName == "System.Windows.SharedDp") return this;
 
-            if (!(provideValueTarget.TargetObject is FrameworkElement frameworkElement))
-                throw new ArgumentException($"The {nameof(frameworkElement)} must be a derived class from {nameof(FrameworkElement)}.");
+            var frameworkElement = provideValueTarget.TargetObject is DependencyObject dependencyObject
+                ? dependencyObject as FrameworkElement ?? dependencyObject.TryFindParent<FrameworkElement>()
+                : null;
 
             return new Binding(nameof(I18nSource.Value))
             {

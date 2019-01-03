@@ -57,7 +57,6 @@ namespace Accelerider.Windows.TransferService
             return JObject.FromObject(new DownloadSerializedData
             {
                 Context = @this.Context,
-                RemotePathProviderPersister = @this.Context.RemotePathProvider.GetPersister(),
                 BlockContexts = @this.BlockContexts?.Values.ToList()
             }, JsonSerializer.CreateDefault(JsonExtensions.JsonSerializerSettings));
         }

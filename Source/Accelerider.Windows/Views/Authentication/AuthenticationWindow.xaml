@@ -4,16 +4,19 @@
         xmlns:mvvm="http://prismlibrary.com/"
         xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
         xmlns:local="clr-namespace:Accelerider.Windows.Views.Authentication"
+        xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
+        xmlns:i18nResources="clr-namespace:Accelerider.Windows.I18nResources"
         mvvm:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
         Topmost="True"
-        Icon="pack://application:,,,/Accelerider.Windows.Resources;component/Images/logo-icon.ico"
+        Icon="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-icon.ico"
         Title="AuthenticationWindow" Height="321" Width="430"
         x:Name="OwnerWindow" Style="{StaticResource AcceleriderWindowStyle}">
 
     <controls:SwitchLoadingViewContainer IsLoading="{Binding IsLoading}">
         <TabControl Margin="60 40 60 30" WindowChrome.IsHitTestVisibleInChrome="True">
-            <TabItem x:Name="SignInTabItem" Header="LOGIN" IsSelected="True">
+            <TabItem x:Name="SignInTabItem" IsSelected="True"
+                     Header="{i18N:I18n {x:Static i18nResources:ResKeys.AuthenticationWindow_LogIn}}">
                 <local:SignInView Margin="0 16 0 0" />
                 <TabItem.Triggers>
                     <EventTrigger RoutedEvent="Selector.Selected">
@@ -29,7 +32,7 @@
                     </EventTrigger>
                 </TabItem.Triggers>
             </TabItem>
-            <TabItem Header="REGISTER" >
+            <TabItem Header="{i18N:I18n {x:Static i18nResources:ResKeys.AuthenticationWindow_SignUp}}" >
                 <local:SignUpView Margin="0 16 0 0" />
                 <TabItem.Triggers>
                     <EventTrigger RoutedEvent="Selector.Selected">
@@ -55,7 +58,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Image Grid.Row="1" Source="pack://application:,,,/Accelerider.Windows.Resources;component/Images/logo-background.png" Height="180" Width="180" Style="{StaticResource ZoomDelayStyle}"/>
+                <Image Grid.Row="1" Source="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-background.png" Height="180" Width="180" Style="{StaticResource ZoomDelayStyle}"/>
 
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" >
                     <TextBlock Text="Loading Accelerider for Windows" FontSize="14" Foreground="White" Style="{StaticResource FadeInStyle}"/>

@@ -103,6 +103,7 @@
     <Compile Include="Enumerations\FileType.cs" />
     <Compile Include="Enumerations\TransportedFileStatus.cs" />
     <Compile Include="Extensions\AcceleriderUserExtensions.cs" />
+    <Compile Include="Extensions\ApiExtensions.cs" />
     <Compile Include="Extensions\DownloaderBuilderExtensions.cs" />
     <Compile Include="Extensions\FileLocatorExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Models\BaiduCloud\BaiduCloudFile.cs" />
     <Compile Include="Models\BaiduCloud\BaiduCloudUser.cs" />
     <Compile Include="Models\BaiduCloud\IBaiduCloudApi.cs" />
+    <Compile Include="Models\NetDiskInfo.cs" />
     <Compile Include="Models\OneDrive\OneDriveFile.cs" />
     <Compile Include="Models\OneDrive\OneDriveUser.cs" />
     <Compile Include="Models\Results\Bodies.cs" />
@@ -133,8 +135,6 @@
     <Compile Include="Models\SixCloud\ISixCloudApi.cs" />
     <Compile Include="Models\SixCloud\SixCloudFile.cs" />
     <Compile Include="Models\SixCloud\SixCloudUser.cs" />
-    <Compile Include="Models\Datas.cs" />
-    <Compile Include="Models\Infos.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignIn.vm.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignUp.vm.cs" />
     <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">
@@ -275,10 +275,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\OneDriveLogo.jpg" />
+    <Resource Include="Images\logo-onedrive.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\BaiduCloudLogo.png" />
+    <Resource Include="Images\logo-baiducloud.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\FileBrowser\FolderLocationBar.xaml">
@@ -371,17 +371,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\DefaultAvatar.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="I18nResources\ResKeys.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ResKeys.cs</LastGenOutput>
     </Content>
-    <Resource Include="Images\logo-six-cloud.png" />
+    <Resource Include="Images\logo-sixcloud.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Refit.4.6.30\build\net461\refit.targets" Condition="Exists('..\packages\Refit.4.6.30\build\net461\refit.targets')" />

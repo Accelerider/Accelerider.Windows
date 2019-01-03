@@ -11,6 +11,14 @@
          mvvm:ViewModelLocator.AutoWireViewModel="True"
          mc:Ignorable="d"
          d:DataContext="{d:DesignInstance {x:Type vm:FileBrowserComponentViewModel}}">
+<TabItem.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Infrastructure.UI;component/Converters/Accelerider.Converters.xaml" />
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+</TabItem.Resources>
+
     <TabItem.Header>
         <Grid >
             <Grid.RowDefinitions>
@@ -126,7 +134,24 @@
                                         <ImageBrush ImageSource="{Binding Avatar, Converter={StaticResource UriToImageSourceConverter}}" RenderOptions.BitmapScalingMode="HighQuality"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
-                                <TextBlock Grid.Column="2" Text="{Binding Username}" VerticalAlignment="Center"/>
+                                <Grid Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="12"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="{Binding Username}" VerticalAlignment="Center"/>
+                                    <ProgressBar Grid.Row="2" Height="12" Foreground="#405458AF" Background="#E0E0E0" BorderThickness="0"
+                                                 Value="{Binding UsedCapacity, Mode=OneWay}" 
+                                                 Maximum="{Binding TotalCapacity, Mode=OneWay}" 
+                                                 Style="{x:Null}"/>
+                                    <TextBlock Grid.Row="2" Foreground="#555555" FontSize="10" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Run Text="{Binding UsedCapacity, Mode=OneWay, Converter={StaticResource NumberToDisplayDataSizeConverter}}" />
+                                        <Run Text="/" />
+                                        <Run Text="{Binding TotalCapacity, Mode=OneWay, Converter={StaticResource NumberToDisplayDataSizeConverter}}" />
+                                    </TextBlock>
+                                </Grid>
                             </Grid>
                         </Border>
                     </DataTemplate>

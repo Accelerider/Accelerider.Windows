@@ -10,23 +10,32 @@ namespace Accelerider.Windows.Infrastructure.I18n
 {
     public class I18nManager
     {
+        private readonly IConfigureFile _configure;
         private readonly ConcurrentDictionary<string, ResourceManager> _resourceManagerStorage = new ConcurrentDictionary<string, ResourceManager>();
 
         public event Action CurrentUICultureChanged;
 
-        public static I18nManager Instance { get; } = new I18nManager();
+        public static I18nManager Instance { get; private set; }
 
-        private I18nManager() { }
+        public static void Initialize(IConfigureFile configure)
+        {
+            Instance = new I18nManager(configure);
+        }
+
+        private I18nManager(IConfigureFile configure)
+        {
+            _configure = configure;
+        }
 
         public CultureInfo CurrentUICulture
         {
-            get => Application.Current.Dispatcher.Thread.CurrentUICulture;
+            get => CultureInfo.DefaultThreadCurrentUICulture;
             set
             {
-                if (EqualityComparer<CultureInfo>.Default.Equals(value, Thread.CurrentThread.CurrentUICulture)) return;
+                if (EqualityComparer<CultureInfo>.Default.Equals(value, CultureInfo.DefaultThreadCurrentUICulture)) return;
 
-                Application.Current.Dispatcher.Thread.CurrentCulture = value;
-                Application.Current.Dispatcher.Thread.CurrentUICulture = value;
+                CultureInfo.DefaultThreadCurrentUICulture = value;
+                _configure.SetValue("language", value);
                 OnCurrentUICultureChanged();
             }
         }
@@ -34,7 +43,8 @@ namespace Accelerider.Windows.Infrastructure.I18n
         public IEnumerable<CultureInfo> AvailableCultureInfos => new[]
         {
             new CultureInfo("zh-CN"),
-            new CultureInfo("en-US")
+            new CultureInfo("en-US"),
+            new CultureInfo("ja"),
         };
 
         public void AddResourceManager(ResourceManager resourceManager)

@@ -79,8 +79,6 @@ namespace Accelerider.Windows.TransferService
         {
             var data = jsonText.ToObject<DownloadSerializedData>();
 
-            data.Context.RemotePathProvider = data.RemotePathProviderPersister.Restore();
-
             return @this.Build(data.Context, data.BlockContexts);
         }
     }
