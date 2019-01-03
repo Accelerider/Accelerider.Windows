@@ -38,6 +38,4 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Results
         [JsonProperty("code")]
         public string Code { get; set; }
     }
-
-
 }

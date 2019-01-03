@@ -3,8 +3,9 @@ using Refit;
 
 namespace Accelerider.Windows.ServerInteraction
 {
-    [Headers("User-Agent: Accelerider.Windows.Wpf: v1.0.0-pre", 
-             "Accept-Language: en-US")]
+    [Headers(
+        "User-Agent: Accelerider.Windows.Wpf: v1.0.0-pre", 
+        "Accept-Language: en-US")]
     public interface INonAuthenticationApi
     {
         [Get("/verification")]

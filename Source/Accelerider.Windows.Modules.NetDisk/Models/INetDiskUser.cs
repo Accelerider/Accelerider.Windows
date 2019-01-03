@@ -6,11 +6,11 @@ using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
-    public interface INetDiskUser : INetDiskInfo, INetDiskFileOperations, IDownloadOperations, IUploadOperations
+    public interface INetDiskUser : INetDiskInfo, IRefreshable, INetDiskFileOperations, IDownloadOperations, IUploadOperations
     {
     }
 
-    public interface INetDiskInfo : INotifyPropertyChanged, IRefreshable
+    public interface INetDiskInfo : INotifyPropertyChanged
     {
         string Id { get; }
 

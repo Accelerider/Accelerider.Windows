@@ -5,6 +5,8 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
              xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
+             xmlns:constants="clr-namespace:Accelerider.Windows.Constants"
+             xmlns:dialogs="clr-namespace:Accelerider.Windows.Views.Dialogs"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Tag="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Title}}"
              Style="{StaticResource AcceleriderDialogStyle}">
@@ -53,73 +55,18 @@
         </StackPanel>
 
         <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Grid Margin="8" Width="220">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Ellipse Width="50" Height="50">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="https://avatars.githubusercontent.com/u/12137562"/>
-                    </Ellipse.Fill>
-                </Ellipse>
-
-                <StackPanel Grid.Column="2">
-                    <TextBlock Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Mrs4s}}" 
-                               FontWeight="Bold" VerticalAlignment="Center"/>
-                    <TextBlock Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Mrs4sDescription}}" 
-                               Foreground="Gray" VerticalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="GithubCircle" VerticalAlignment="Center" Margin="0 0 8 0"/>
-                        <Button Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_GithubHome}}" 
-                                ToolTip="https://github.com/Mrs4s" 
-                                Command="{Binding OpenMrs4SHomeCommand}" Foreground="#5458AF" 
-                                Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Email" VerticalAlignment="Center" Margin="0 0 8 0"/>
-                        <Button Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Email}}" 
-                                ToolTip="mrs4sxiaoshi@gmail.com" 
-                                Command="{Binding OpenMrs4sEmailCommand}" Foreground="#5458AF"
-                                Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
-
-            <Grid Margin="8" Width="220">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Ellipse Width="50" Height="50">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="https://avatars.githubusercontent.com/u/8541016"/>
-                    </Ellipse.Fill>
-                </Ellipse>
-
-                <StackPanel Grid.Column="2">
-                    <TextBlock Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ZDP}}" 
-                               FontWeight="Bold"  VerticalAlignment="Center"/>
-                    <TextBlock Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ZDPDescription}}" 
-                               Foreground="Gray" VerticalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="GithubCircle" VerticalAlignment="Center" Margin="0 0 8 0"/>
-                        <Button Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_GithubHome}}"
-                                ToolTip="https://github.com/DingpingZhang" 
-                                Command="{Binding OpenLd50HomeCommand}" Foreground="#5458AF" 
-                                Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Email" VerticalAlignment="Center" Margin="0 0 8 0"/>
-                        <Button Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Email}}" 
-                                ToolTip="ld50.zhang@gmail.com" 
-                                Command="{Binding OpenLd50EmailCommand}" Foreground="#5458AF" 
-                                Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
+            <dialogs:AuthorCard Margin="8" Width="240"
+                                Avatar="https://avatars.githubusercontent.com/u/12137562"
+                                AuthorName="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Mrs4s}}"
+                                Description="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Mrs4sDescription}}"
+                                GithubHome="{x:Static constants:AcceleriderUrls.Mrs4sGithubHome}"
+                                Email="{x:Static constants:AcceleriderUrls.Mrs4sEmail}"/>
+            <dialogs:AuthorCard Margin="8" Width="240"
+                                Avatar="https://avatars.githubusercontent.com/u/8541016"
+                                AuthorName="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ZDP}}"
+                                Description="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ZDPDescription}}"
+                                GithubHome="{x:Static constants:AcceleriderUrls.ZdpGithubHome}"
+                                Email="{x:Static constants:AcceleriderUrls.ZdpEmail}"/>
         </StackPanel>
 
         <TextBlock Grid.Row="10" Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_CheckUpdateResultLatest}}" 

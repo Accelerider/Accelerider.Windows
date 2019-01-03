@@ -130,6 +130,9 @@
     <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\AuthorCard.xaml.cs">
+      <DependentUpon>AuthorCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\ProfileDialog.xaml.cs">
       <DependentUpon>ProfileDialog.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\AuthorCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

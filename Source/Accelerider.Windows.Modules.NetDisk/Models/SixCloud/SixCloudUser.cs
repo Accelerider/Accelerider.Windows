@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Refit;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
@@ -200,10 +201,10 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 !string.IsNullOrWhiteSpace(passCode) &&
                 !string.IsNullOrWhiteSpace(phoneInfo))
             {
-                await WebApi.RegisterAsync(new RegisterData
+                await WebApi.RegisterAsync(new RegisterArgs
                 {
                     NickName = username,
-                    Code = passCode,
+                    PhoneCode = passCode,
                     PasswordMd5 = password.ToMd5(),
                     PhoneInfo = phoneInfo
                 });
