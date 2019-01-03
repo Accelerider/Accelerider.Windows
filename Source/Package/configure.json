@@ -1,0 +1,7 @@
+{
+  "SourcePath": "",
+  "TargetPath": "",
+  "PackageNameFormat": "Accelerider.Windows-{Version}-{Tag}",
+  "ItemNames": [
+  ]
+}
