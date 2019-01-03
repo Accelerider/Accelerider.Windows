@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Accelerider.Windows.TransferService
 {
-    public interface ITransporterManager<TTransporter, TContext>
-        where TTransporter : ITransporter<TContext>
+    public interface ITransporterManager<TTransferInfo, TContext>
+        where TTransferInfo : ITransferInfo<TContext>
     {
-        IEnumerable<TTransporter> Transporters { get; }
+        IEnumerable<TTransferInfo> Transporters { get; }
 
         int MaxConcurrent { get; set; }
 
-        bool Add(TTransporter transporter);
+        bool Add(TTransferInfo transporter);
 
         void AsNext(Guid id);
 

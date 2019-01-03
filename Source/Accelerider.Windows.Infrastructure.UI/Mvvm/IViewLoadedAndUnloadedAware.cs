@@ -1,13 +1,13 @@
 ﻿namespace Accelerider.Windows.Infrastructure.Mvvm
 {
-    public interface IAwareViewLoadedAndUnloaded
+    public interface IViewLoadedAndUnloadedAware
     {
         void OnLoaded();
 
         void OnUnloaded();
     }
 
-    public interface IAwareViewLoadedAndUnloaded<in TView>
+    public interface IViewLoadedAndUnloadedAware<in TView>
     {
         void OnLoaded(TView view);
 

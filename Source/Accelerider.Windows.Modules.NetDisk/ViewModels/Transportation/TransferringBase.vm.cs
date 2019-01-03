@@ -1,19 +1,18 @@
-﻿using System;
+﻿using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Models;
-using Accelerider.Windows.TransferService;
 using MaterialDesignThemes.Wpf;
 using Unity;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
-    public abstract class TransferringBaseViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded, INotificable
+    public abstract class TransferringBaseViewModel : ViewModelBase, IViewLoadedAndUnloadedAware, INotificable
     {
-        private ObservableSortedCollection<TransferItem> _transferTasks;
+        private ObservableSortedCollection<IDownloadingFile> _transferTasks;
 
-        public ObservableSortedCollection<TransferItem> TransferTasks
+        public ObservableSortedCollection<IDownloadingFile> TransferTasks
         {
             get => _transferTasks;
             set => SetProperty(ref _transferTasks, value);
@@ -23,62 +22,22 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 
         protected TransferringBaseViewModel(IUnityContainer container) : base(container)
         {
-            InitializeCommands();
         }
 
-        public void OnLoaded()
-        {
-            if (TransferTasks == null)
-                TransferTasks = GetTaskList();
-        }
+        public virtual void OnLoaded() { }
 
-        public void OnUnloaded()
-        {
-        }
+        public virtual void OnUnloaded() { }
 
         #region Commands
 
-        public RelayCommand<TransferItem> PauseCommand { get; private set; }
+        public ICommand PauseCommand { get; protected set; }
 
-        public RelayCommand<TransferItem> StartCommand { get; private set; }
+        public ICommand StartCommand { get; protected set; }
 
-        public RelayCommand<TransferItem> StartForceCommand { get; private set; }
+        public ICommand StartForceCommand { get; protected set; }
 
-        public RelayCommand<TransferItem> CancelCommand { get; private set; }
-
-        private void InitializeCommands()
-        {
-            PauseCommand = new RelayCommand<TransferItem>(
-                item => OperateTaskToken(item, token => token.Suspend(), "Pause task failed."), // TODO: [I18N]
-                item => item.Transporter.Status == TransferStatus.Transferring ||
-                        item.Transporter.Status == TransferStatus.Ready);
-
-            StartCommand = new RelayCommand<TransferItem>(
-                item => OperateTaskToken(item, token => token.Ready(), "Restart task failed."),
-                item => item.Transporter.Status == TransferStatus.Suspended);
-
-            StartForceCommand = new RelayCommand<TransferItem>(
-                item => OperateTaskToken(item, token => token.AsNext(), "Jump queue failed."),
-                item => item.Transporter.Status != TransferStatus.Transferring);
-
-            CancelCommand = new RelayCommand<TransferItem>(
-                item => OperateTaskToken(item, token => token.Dispose(), "Cancel task failed."));
-        }
-
-        private void OperateTaskToken(TransferItem item, Action<IManagedTransporterToken> operation, string errorMessage)
-        {
-            try
-            {
-                operation?.Invoke(item.ManagedToken);
-            }
-            catch
-            {
-                GlobalMessageQueue.Enqueue(errorMessage);
-            }
-        }
+        public ICommand CancelCommand { get; protected set; }
 
         #endregion
-
-        protected abstract ObservableSortedCollection<TransferItem> GetTaskList();
     }
 }

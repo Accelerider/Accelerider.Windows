@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Accelerider.Windows.TransferService
 {
+    [DebuggerDisplay("Count")]
     internal class ConcurrentList<T> : IReadOnlyCollection<T>
     {
         private readonly List<T> _storage = new List<T>();
@@ -40,7 +42,7 @@ namespace Accelerider.Windows.TransferService
         {
             lock (_storage)
             {
-                if (!_storage.Contains(item)) return;
+                if (_storage.Contains(item)) return;
                 _storage.Insert(index, item);
             }
         }

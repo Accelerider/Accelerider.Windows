@@ -11,17 +11,17 @@ namespace Accelerider.Windows.Infrastructure
 
         private readonly Comparison<T> _comparer;
 
-        public ObservableSortedCollection(Comparison<T> comparer)
+        public ObservableSortedCollection(Comparison<T> comparer = null)
         {
             _comparer = comparer ?? Comparer<T>.Default.Compare;
         }
 
-        public ObservableSortedCollection(IEnumerable<T> collection, Comparison<T> comparer) : this(comparer)
+        public ObservableSortedCollection(IEnumerable<T> collection, Comparison<T> comparer = null) : this(comparer)
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));
 
             var list = collection.ToList();
-            list.Sort(comparer);
+            list.Sort(_comparer);
             CopyFrom(list);
         }
 
@@ -31,9 +31,9 @@ namespace Accelerider.Windows.Infrastructure
             if (index == InvalidIndex) return;
 
             var previousIndex = Items.IndexOf(item);
-            if (previousIndex == index)
-                return;
-            else if (previousIndex != InvalidIndex)
+            if (previousIndex == index) return;
+
+            if (previousIndex != InvalidIndex)
                 RemoveAt(previousIndex);
 
             base.InsertItem(index, item);

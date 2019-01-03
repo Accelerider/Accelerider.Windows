@@ -7,10 +7,10 @@ using Newtonsoft.Json;
 
 namespace Accelerider.Windows.TransferService
 {
-    internal class ConstantRemotePathProvider : IRemotePathProvider
+    public class ConstantRemotePathProvider : IRemotePathProvider
     {
-        [JsonProperty("remotePaths")]
-        private readonly IDictionary<string, double> _remotePaths;
+        [JsonProperty]
+        protected ConcurrentDictionary<string, double> RemotePaths;
 
         [JsonConstructor]
         private ConstantRemotePathProvider() { }
@@ -18,29 +18,24 @@ namespace Accelerider.Windows.TransferService
         public ConstantRemotePathProvider(HashSet<string> remotePaths)
         {
             if (remotePaths == null) throw new ArgumentNullException(nameof(remotePaths));
-            if (!remotePaths.Any()) throw new ArgumentException();
 
-            _remotePaths = new ConcurrentDictionary<string, double>(remotePaths.ToDictionary(item => item, item => 0.0));
+            RemotePaths = new ConcurrentDictionary<string, double>(
+                remotePaths.ToDictionary(item => item, item => 0D));
         }
 
-        public void Score(string remotePath, double score)
+        public void Rate(string remotePath, double score)
         {
-            if (_remotePaths.ContainsKey(remotePath))
-                _remotePaths[remotePath] = _remotePaths[remotePath] + score;
+            if (RemotePaths.ContainsKey(remotePath))
+                RemotePaths[remotePath] = RemotePaths[remotePath] + score;
         }
 
-        public Task<string> GetRemotePathAsync()
+        public virtual Task<string> GetAsync()
         {
-            if (_remotePaths.Values.All(item => item < 0))
+            if (RemotePaths.Values.All(item => item < 0))
                 throw new RemotePathExhaustedException(this);
 
-            var theBestItem = _remotePaths.FirstOrDefault();
-            foreach (var item in _remotePaths)
-            {
-                if (item.Value > theBestItem.Value) theBestItem = item;
-            }
-
-            return Task.FromResult(theBestItem.Key);
+            return Task.FromResult(
+                RemotePaths.Aggregate((acc, item) => acc.Value < item.Value ? item : acc).Key);
         }
     }
 }

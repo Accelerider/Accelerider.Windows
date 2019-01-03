@@ -79,16 +79,15 @@ namespace Accelerider.Windows.Infrastructure
         private static async Task ForEachAsync(ILazyTreeNode<T> node, Action<T> callback, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested) return;
-
             if (node == null) return;
+
+            callback?.Invoke(node.Content);
             await node.RefreshAsync();
 
             if (node.ChildrenCache == null) return;
             foreach (var child in node.ChildrenCache)
             {
                 if (cancellationToken.IsCancellationRequested) return;
-
-                callback?.Invoke(child.Content);
                 await ForEachAsync(child, callback, cancellationToken);
             }
         }
@@ -100,7 +99,7 @@ namespace Accelerider.Windows.Infrastructure
             return false;
         }
 
-        public override string ToString() => Content?.ToString() ?? string.Empty;
+        public override string ToString() => Content.ToString();
 
         public virtual void Release()
         {

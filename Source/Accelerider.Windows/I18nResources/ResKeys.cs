@@ -14,5 +14,63 @@ namespace Accelerider.Windows.I18nResources
 {
 	public static class ResKeys
 	{
+		public static readonly ComponentResourceKey AboutDialog_CheckForUpdate = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_CheckForUpdate));
+		public static readonly ComponentResourceKey AboutDialog_CheckUpdateResultAvailable = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_CheckUpdateResultAvailable));
+		public static readonly ComponentResourceKey AboutDialog_CheckUpdateResultLatest = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_CheckUpdateResultLatest));
+		public static readonly ComponentResourceKey AboutDialog_Email = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_Email));
+		public static readonly ComponentResourceKey AboutDialog_GithubHome = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_GithubHome));
+		public static readonly ComponentResourceKey AboutDialog_GithubProjectHome = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_GithubProjectHome));
+		public static readonly ComponentResourceKey AboutDialog_Mrs4s = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_Mrs4s));
+		public static readonly ComponentResourceKey AboutDialog_Mrs4sDescription = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_Mrs4sDescription));
+		public static readonly ComponentResourceKey AboutDialog_ReleaseNotes = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_ReleaseNotes));
+		public static readonly ComponentResourceKey AboutDialog_SoftwareName = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_SoftwareName));
+		public static readonly ComponentResourceKey AboutDialog_Title = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_Title));
+		public static readonly ComponentResourceKey AboutDialog_Version = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_Version));
+		public static readonly ComponentResourceKey AboutDialog_VersionNumber = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_VersionNumber));
+		public static readonly ComponentResourceKey AboutDialog_ZDP = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_ZDP));
+		public static readonly ComponentResourceKey AboutDialog_ZDPDescription = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_ZDPDescription));
+		public static readonly ComponentResourceKey AuthenticationWindow_LogIn = new ComponentResourceKey(typeof(UiResources), nameof(AuthenticationWindow_LogIn));
+		public static readonly ComponentResourceKey AuthenticationWindow_SignUp = new ComponentResourceKey(typeof(UiResources), nameof(AuthenticationWindow_SignUp));
+		public static readonly ComponentResourceKey Buttons_Confirm = new ComponentResourceKey(typeof(UiResources), nameof(Buttons_Confirm));
+		public static readonly ComponentResourceKey Buttons_Submit = new ComponentResourceKey(typeof(UiResources), nameof(Buttons_Submit));
+		public static readonly ComponentResourceKey MainWindow_AppStore = new ComponentResourceKey(typeof(UiResources), nameof(MainWindow_AppStore));
+		public static readonly ComponentResourceKey MainWindow_Menu = new ComponentResourceKey(typeof(UiResources), nameof(MainWindow_Menu));
+		public static readonly ComponentResourceKey ProfileDialog_ChangePassword = new ComponentResourceKey(typeof(UiResources), nameof(ProfileDialog_ChangePassword));
+		public static readonly ComponentResourceKey ProfileDialog_ConfirmPassword = new ComponentResourceKey(typeof(UiResources), nameof(ProfileDialog_ConfirmPassword));
+		public static readonly ComponentResourceKey ProfileDialog_Email = new ComponentResourceKey(typeof(UiResources), nameof(ProfileDialog_Email));
+		public static readonly ComponentResourceKey ProfileDialog_EmailVisibility = new ComponentResourceKey(typeof(UiResources), nameof(ProfileDialog_EmailVisibility));
+		public static readonly ComponentResourceKey ProfileDialog_MultipleOnline = new ComponentResourceKey(typeof(UiResources), nameof(ProfileDialog_MultipleOnline));
+		public static readonly ComponentResourceKey ProfileDialog_NewPassword = new ComponentResourceKey(typeof(UiResources), nameof(ProfileDialog_NewPassword));
+		public static readonly ComponentResourceKey ProfileDialog_OldPassword = new ComponentResourceKey(typeof(UiResources), nameof(ProfileDialog_OldPassword));
+		public static readonly ComponentResourceKey ProfileDialog_Title = new ComponentResourceKey(typeof(UiResources), nameof(ProfileDialog_Title));
+		public static readonly ComponentResourceKey ProfileDialog_Username = new ComponentResourceKey(typeof(UiResources), nameof(ProfileDialog_Username));
+		public static readonly ComponentResourceKey Punctuation_LeftParenthesis = new ComponentResourceKey(typeof(UiResources), nameof(Punctuation_LeftParenthesis));
+		public static readonly ComponentResourceKey Punctuation_RightParenthesis = new ComponentResourceKey(typeof(UiResources), nameof(Punctuation_RightParenthesis));
+		public static readonly ComponentResourceKey SettingsPopup_About = new ComponentResourceKey(typeof(UiResources), nameof(SettingsPopup_About));
+		public static readonly ComponentResourceKey SettingsPopup_AcceleriderForWeb = new ComponentResourceKey(typeof(UiResources), nameof(SettingsPopup_AcceleriderForWeb));
+		public static readonly ComponentResourceKey SettingsPopup_ChangeProfile = new ComponentResourceKey(typeof(UiResources), nameof(SettingsPopup_ChangeProfile));
+		public static readonly ComponentResourceKey SettingsPopup_Help = new ComponentResourceKey(typeof(UiResources), nameof(SettingsPopup_Help));
+		public static readonly ComponentResourceKey SettingsPopup_LogOut = new ComponentResourceKey(typeof(UiResources), nameof(SettingsPopup_LogOut));
+		public static readonly ComponentResourceKey SettingsPopup_Settings = new ComponentResourceKey(typeof(UiResources), nameof(SettingsPopup_Settings));
+		public static readonly ComponentResourceKey ShellSettingsTabItem_Application = new ComponentResourceKey(typeof(UiResources), nameof(ShellSettingsTabItem_Application));
+		public static readonly ComponentResourceKey ShellSettingsTabItem_AutoShutdown = new ComponentResourceKey(typeof(UiResources), nameof(ShellSettingsTabItem_AutoShutdown));
+		public static readonly ComponentResourceKey ShellSettingsTabItem_AutoStart = new ComponentResourceKey(typeof(UiResources), nameof(ShellSettingsTabItem_AutoStart));
+		public static readonly ComponentResourceKey ShellSettingsTabItem_Header = new ComponentResourceKey(typeof(UiResources), nameof(ShellSettingsTabItem_Header));
+		public static readonly ComponentResourceKey ShellSettingsTabItem_KeepRunning = new ComponentResourceKey(typeof(UiResources), nameof(ShellSettingsTabItem_KeepRunning));
+		public static readonly ComponentResourceKey ShellSettingsTabItem_Language = new ComponentResourceKey(typeof(UiResources), nameof(ShellSettingsTabItem_Language));
+		public static readonly ComponentResourceKey ShellSettingsTabItem_Theme = new ComponentResourceKey(typeof(UiResources), nameof(ShellSettingsTabItem_Theme));
+		public static readonly ComponentResourceKey ShellSettingsTabItem_ThemeOptions_Dark = new ComponentResourceKey(typeof(UiResources), nameof(ShellSettingsTabItem_ThemeOptions_Dark));
+		public static readonly ComponentResourceKey ShellSettingsTabItem_ThemeOptions_Light = new ComponentResourceKey(typeof(UiResources), nameof(ShellSettingsTabItem_ThemeOptions_Light));
+		public static readonly ComponentResourceKey SignInView_AutomaticLogin = new ComponentResourceKey(typeof(UiResources), nameof(SignInView_AutomaticLogin));
+		public static readonly ComponentResourceKey SignInView_Email = new ComponentResourceKey(typeof(UiResources), nameof(SignInView_Email));
+		public static readonly ComponentResourceKey SignInView_Login = new ComponentResourceKey(typeof(UiResources), nameof(SignInView_Login));
+		public static readonly ComponentResourceKey SignInView_Password = new ComponentResourceKey(typeof(UiResources), nameof(SignInView_Password));
+		public static readonly ComponentResourceKey SignInView_RememberMe = new ComponentResourceKey(typeof(UiResources), nameof(SignInView_RememberMe));
+		public static readonly ComponentResourceKey SignUpView_EmailAddress = new ComponentResourceKey(typeof(UiResources), nameof(SignUpView_EmailAddress));
+		public static readonly ComponentResourceKey SignUpView_Password = new ComponentResourceKey(typeof(UiResources), nameof(SignUpView_Password));
+		public static readonly ComponentResourceKey SignUpView_RetrySeconds = new ComponentResourceKey(typeof(UiResources), nameof(SignUpView_RetrySeconds));
+		public static readonly ComponentResourceKey SignUpView_SendCode = new ComponentResourceKey(typeof(UiResources), nameof(SignUpView_SendCode));
+		public static readonly ComponentResourceKey SignUpView_Username = new ComponentResourceKey(typeof(UiResources), nameof(SignUpView_Username));
+		public static readonly ComponentResourceKey SignUpView_VerificationCode = new ComponentResourceKey(typeof(UiResources), nameof(SignUpView_VerificationCode));
 	}
 }

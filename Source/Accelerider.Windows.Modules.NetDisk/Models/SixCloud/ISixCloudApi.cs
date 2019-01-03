@@ -5,7 +5,8 @@ using Refit;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 {
-    [Headers("User-Agent: Accelerider.Windows.Wpf: v1.0.0-pre",
+    [Headers(
+        "User-Agent: Accelerider.Windows.Wpf: v1.0.0-pre",
         "Authorization: Bearer")]
     public interface ISixCloudApi
     {
@@ -25,19 +26,10 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         Task<ResultBase> SendRegisterMessageAsync([Body(BodySerializationMethod.Json)] PhoneArgs phone);
 
         [Post("/v1/user/register")]
-        Task<ResultBase> RegisterAsync([Body(BodySerializationMethod.Json)] RegisterData data);
+        Task<ResultBase> RegisterAsync([Body(BodySerializationMethod.Json)] RegisterArgs data);
 
         [Post("/v1/user/login")]
         Task<SixCloudLoginResult> LoginAsync([Body(BodySerializationMethod.Json)] LoginArgs args);
-    }
-
-    public class LoginArgs
-    {
-        [JsonProperty("value")]
-        public string Value { get; set; }
-
-        [JsonProperty("password")]
-        public string Password { get; set; }
     }
 
     public class GetFilesByPathArgs
@@ -60,4 +52,28 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 		[JsonProperty("phone")]
 		public string PhoneNumber { get; set; }
 	}
+
+    public class RegisterArgs
+    {
+        [JsonProperty("name")]
+        public string NickName { get; set; }
+
+        [JsonProperty("password")]
+        public string PasswordMd5 { get; set; }
+
+        [JsonProperty("code")]
+        public string PhoneCode { get; set; }
+
+        [JsonProperty("phoneInfo")]
+        public string PhoneInfo { get; set; }
+    }
+
+    public class LoginArgs
+    {
+        [JsonProperty("value")]
+        public string Value { get; set; }
+
+        [JsonProperty("password")]
+        public string Password { get; set; }
+    }
 }

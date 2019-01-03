@@ -42,5 +42,17 @@ namespace Accelerider.Windows.Infrastructure
             if (!File.Exists(path) && !Directory.Exists(path))
                 throw new DirectoryNotFoundException($"The specified path is not a valid file or directory.  ({path})");
         }
+
+        public static void ThrowIfNot(bool condition)
+        {
+            if (!condition)
+                throw new InvalidOperationException();
+        }
+
+        public static void ThrowIfNot(Func<bool> condition)
+        {
+            ThrowIfNull(condition);
+            ThrowIfNot(condition());
+        }
     }
 }

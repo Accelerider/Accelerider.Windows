@@ -2,6 +2,8 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using Accelerider.Windows.Infrastructure;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Accelerider.Windows.TransferService
 {
@@ -25,30 +27,38 @@ namespace Accelerider.Windows.TransferService
             return ManagedDownloaderTokens[id];
         }
 
-        public static long GetCompletedSize(this IDownloader @this)
+        public static long GetCompletedSize(this ITransferInfo<DownloadContext> @this)
         {
             Guards.ThrowIfNull(@this);
 
             return @this.BlockContexts?.Values.Sum(item => item.CompletedSize) ?? 0;
         }
 
-        public static long GetTotalSize(this IDownloader @this)
+        public static long GetTotalSize(this ITransferInfo<DownloadContext> @this)
         {
             Guards.ThrowIfNull(@this);
 
             return @this.Context?.TotalSize ?? 0;
         }
 
-        public static string ToJson(this IDownloader @this)
+        public static string ToJsonString(this ITransferInfo<DownloadContext> @this)
         {
-            if (@this.Status == TransferStatus.Transferring)
-                throw new InvalidOperationException();
+            Guards.ThrowIfNull(@this);
+            //Guards.ThrowIfNot(@this.Status != TransferStatus.Transferring);
 
-            return new DownloaderSerializedData
+            return @this.ToJObject().ToString(Formatting.None);
+        }
+
+        public static JObject ToJObject(this ITransferInfo<DownloadContext> @this)
+        {
+            Guards.ThrowIfNull(@this);
+            //Guards.ThrowIfNot(@this.Status != TransferStatus.Transferring);
+
+            return JObject.FromObject(new DownloadSerializedData
             {
                 Context = @this.Context,
-                BlockContexts = @this.BlockContexts.Values.ToList()
-            }.ToJson();
+                BlockContexts = @this.BlockContexts?.Values.ToList()
+            }, JsonSerializer.CreateDefault(JsonExtensions.JsonSerializerSettings));
         }
 
         private class ManagedDownloaderTokenImpl : IManagedTransporterToken

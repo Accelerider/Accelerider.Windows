@@ -8,6 +8,7 @@
     <converters:UriToImageSourceConverter x:Key="UriToImageSourceConverter"/>
     <converters:StringToImageConverter x:Key="StringToImageConverter"/>
     <converters:PlusConverter x:Key="PlusConverter"/>
+    <converters:NumberToDisplayDataSizeConverter x:Key="NumberToDisplayDataSizeConverter" />
 
     <converters:NotOperator x:Key="NotOperator" />
 </ResourceDictionary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure
 {

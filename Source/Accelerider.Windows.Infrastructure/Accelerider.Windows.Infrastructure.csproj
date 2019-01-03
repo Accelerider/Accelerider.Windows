@@ -61,12 +61,16 @@
     </Compile>
     <Compile Include="AcceleriderPaths.cs" />
     <Compile Include="AsyncLocker.cs" />
+    <Compile Include="Events.cs" />
     <Compile Include="Extensions\AwaitExtensions.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\JsonExtensions.cs" />
     <Compile Include="Extensions\LazyTreeNodeExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\SecureExtensions.cs" />
     <Compile Include="Extensions\WebRequestExtensions.cs" />
     <Compile Include="Extensions\FunctionalExtensions.cs" />
     <Compile Include="GenericInterface.cs" />
@@ -75,7 +79,6 @@
     <Compile Include="Enumerations\Language.cs" />
     <Compile Include="Enumerations\ShareStatus.cs" />
     <Compile Include="Enumerations\SizeUnit.cs" />
-    <Compile Include="Interfaces\IJsonable.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileLocator.cs" />
     <Compile Include="Interfaces\ICloneable{T}.cs" />

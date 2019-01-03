@@ -2,34 +2,56 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.TransferService.WpfInteractions;
-using Accelerider.Windows.Modules.NetDisk.Enumerations;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud;
+using Newtonsoft.Json;
+using Prism.Mvvm;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models
 {
-    public abstract class NetDiskUserBase : INetDiskUser
+    public abstract class NetDiskUserBase : NetDiskInfo, INetDiskUser, IDisposable
     {
-        public long Id { get; set; }
+        protected const string ArddFileExtension = ".ardd";
 
-        public string Username { get; set; }
+        #region Implements INetDiskUser interface
 
-        public Uri Avatar { get; protected set; }
+        public abstract Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
 
-        public DisplayDataSize TotalCapacity { get; set; }
+        public abstract Task<IReadOnlyList<IDeletedFile>> GetDeletedFilesAsync();
 
-        public DisplayDataSize UsedCapacity { get; set; }
+        public abstract Task<bool> DeleteFileAsync(INetDiskFile file);
 
-        public IReadOnlyCollection<FileCategory> AvailableFileCategories { get; set; }
+        public abstract Task<bool> RestoreFileAsync(IDeletedFile file);
 
-        public abstract Task RefreshUserInfoAsync();
+        public abstract IDownloadingFile Download(INetDiskFile from, FileLocator to);
 
-	    public abstract Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();
+        public abstract IReadOnlyList<IDownloadingFile> GetDownloadingFiles();
 
-	    public abstract Task<IList<T>> GetFilesAsync<T>(FileCategory category) where T : IFile;
+        public abstract IReadOnlyList<ILocalDiskFile> GetDownloadedFiles();
 
-	    public abstract TransferItem Download(ILazyTreeNode<INetDiskFile> @from, FileLocator to);
+        public virtual void ClearDownloadFiles()
+        {
+            throw new NotImplementedException();
+        }
 
-	    public abstract Task UploadAsync(FileLocator @from, INetDiskFile to, Action<TransferItem> callback);
+        #endregion
+
+        #region Implements IDisposable interface
+
+        protected virtual void Dispose(bool disposing)
+        {
+            // TODO: Suspend all downloading task, and persist them.
+
+            if (disposing)
+            {
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }

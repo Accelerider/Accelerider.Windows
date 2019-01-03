@@ -8,25 +8,20 @@ namespace Accelerider.Windows.Infrastructure.Converters
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value == null && default(TSource) == null
-                // ReSharper disable once ExpressionIsAlwaysNull
-                ? Convert((TSource)value, (TParameter)parameter)
-                : value is TSource sourceValue
-                    ? Convert(sourceValue, (TParameter)parameter)
-                    : default;
+            return Convert(value.CastTo<TSource>(), parameter.CastTo<TParameter>());
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value == null && default(TTarget) == null
-                // ReSharper disable once ExpressionIsAlwaysNull
-                ? ConvertBack((TTarget)value, (TParameter)parameter)
-                : value is TTarget sourceValue
-                    ? ConvertBack(sourceValue, (TParameter)parameter)
-                    : default;
+            return ConvertBack(value.CastTo<TTarget>(), parameter.CastTo<TParameter>());
         }
 
-        protected abstract TTarget Convert(TSource value, TParameter parameter);
+        protected virtual TTarget ConvertNonNullValue(TSource value, TParameter parameter) => throw new NotSupportedException();
+
+        protected virtual TTarget Convert(TSource value, TParameter parameter)
+        {
+            return value != null ? ConvertNonNullValue(value, parameter) : default;
+        }
 
         protected virtual TSource ConvertBack(TTarget value, TParameter parameter) => throw new NotSupportedException();
     }
@@ -35,10 +30,15 @@ namespace Accelerider.Windows.Infrastructure.Converters
     {
         protected sealed override TTarget Convert(TSource value, object parameter) => Convert(value);
 
+        protected sealed override TTarget ConvertNonNullValue(TSource value, object parameter) => throw new NotSupportedException();
+
         protected sealed override TSource ConvertBack(TTarget value, object parameter) => ConvertBack(value);
 
-        protected abstract TTarget Convert(TSource value);
+        protected virtual TTarget ConvertNonNullValue(TSource value) => throw new NotSupportedException();
+
+        protected virtual TTarget Convert(TSource value) => value != null ? ConvertNonNullValue(value) : default;
 
         protected virtual TSource ConvertBack(TTarget value) => throw new NotSupportedException();
     }
+
 }

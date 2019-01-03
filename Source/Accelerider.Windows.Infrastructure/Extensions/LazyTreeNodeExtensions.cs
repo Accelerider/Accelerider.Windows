@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Accelerider.Windows.Infrastructure.Extensions
+namespace Accelerider.Windows.Infrastructure
 {
     public static class LazyTreeNodeExtensions
     {
@@ -69,6 +69,11 @@ namespace Accelerider.Windows.Infrastructure.Extensions
             }
 
             public async Task<bool> RefreshAsync() => await Source.RefreshAsync();
+
+            public void Release()
+            {
+                throw new NotImplementedException();
+            }
 
             public event PropertyChangedEventHandler PropertyChanged;
         }

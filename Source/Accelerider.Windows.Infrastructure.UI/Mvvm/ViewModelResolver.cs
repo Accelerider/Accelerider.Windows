@@ -73,12 +73,12 @@ namespace Accelerider.Windows.Infrastructure.Mvvm
                 view.Loaded += (sender, args) => I18nManager.Instance.CurrentUICultureChanged += viewModel.OnCurrentUICultureChanged;
                 view.Unloaded += (sender, args) => I18nManager.Instance.CurrentUICultureChanged -= viewModel.OnCurrentUICultureChanged;
             })
-            .IfInheritsFrom<IAwareViewLoadedAndUnloaded>((view, viewModel) =>
+            .IfInheritsFrom<IViewLoadedAndUnloadedAware>((view, viewModel) =>
             {
                 view.Loaded += (sender, e) => viewModel.OnLoaded();
                 view.Unloaded += (sender, e) => viewModel.OnUnloaded();
             })
-            .IfInheritsFrom(typeof(IAwareViewLoadedAndUnloaded<>), (view, viewModel, interfaceInstance) =>
+            .IfInheritsFrom(typeof(IViewLoadedAndUnloadedAware<>), (view, viewModel, interfaceInstance) =>
             {
                 var viewType = view.GetType();
                 if (interfaceInstance.GenericArguments.Single() != viewType)

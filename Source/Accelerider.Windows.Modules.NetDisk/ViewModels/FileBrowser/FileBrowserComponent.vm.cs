@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications;
 using Unity;
 using MaterialDesignThemes.Wpf;
@@ -12,14 +12,11 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FileBrowserComponentViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded
+    public class FileBrowserComponentViewModel : ViewModelBase, IViewLoadedAndUnloadedAware, INotificable
     {
         private bool _canSwitchUser;
         private IEnumerable<ILazyTreeNode<INetDiskFile>> _searchResults;
         private ILazyTreeNode<INetDiskFile> _selectedSearchResult;
-        private ObservableCollection<INetDiskUser> _netDiskUsers;
-        private ICommand _addNetDiskCommand;
-
 
         public FileBrowserComponentViewModel(IUnityContainer container) : base(container)
         {
@@ -30,8 +27,8 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         public async void OnLoaded()
         {
-            await AcceleriderUser.RefreshAsyncEx();
-            NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
+            await AcceleriderUser.UpdateAsync();
+            RaisePropertyChanged(nameof(NetDiskUsers));
         }
 
         public void OnUnloaded()
@@ -65,17 +62,10 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             }
         }
 
-        public ObservableCollection<INetDiskUser> NetDiskUsers
-        {
-            get => _netDiskUsers;
-            set => SetProperty(ref _netDiskUsers, value);
-        }
+        public ObservableCollection<INetDiskUser> NetDiskUsers =>
+            new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
 
-        public ICommand AddNetDiskCommand
-        {
-            get => _addNetDiskCommand;
-            set => SetProperty(ref _addNetDiskCommand, value);
-        }
+        public ICommand AddNetDiskCommand { get; }
 
 
         private async void AddNetDiskCommandExecute()
@@ -88,5 +78,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Subscribe(isLoadingFiles => CanSwitchUser = !isLoadingFiles);
             EventAggregator.GetEvent<SearchResultsChangedEvent>().Subscribe(searchResults => SearchResults = searchResults);
         }
+
+        public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
     }
 }

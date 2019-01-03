@@ -43,8 +43,8 @@
     <Reference Include="System.Reactive, Version=4.1.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.4.1.2\lib\net46\System.Reactive.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -58,9 +58,10 @@
   <ItemGroup>
     <Compile Include="BlockTransferContext.cs" />
     <Compile Include="ConcurrentList.cs" />
+    <Compile Include="Download\AsyncRemotePathProvider.cs" />
     <Compile Include="Download\BlockDownloadItemPolicy.cs" />
     <Compile Include="Download\DownloadContext.cs" />
-    <Compile Include="Download\DownloaderSerializedData.cs" />
+    <Compile Include="Download\DownloadSerializedData.cs" />
     <Compile Include="Download\DownloadSettings.cs" />
     <Compile Include="Download\Extensions.IDownloader.cs" />
     <Compile Include="Download\Extensions.IDownloaderBuilder.cs" />

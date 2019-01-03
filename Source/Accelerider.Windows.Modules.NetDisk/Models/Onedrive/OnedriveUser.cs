@@ -5,39 +5,48 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Modules.NetDisk.Enumerations;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models.Results;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Refit;
 
-namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
+namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
 {
-    public class OnedriveUser : NetDiskUserBase
+    public class OneDriveUser : NetDiskUserBase
     {
 
         public string RefreshToken { get; }
         public string AccessToken { get; private set; }
         public IMicrosoftGraphApi Api { get; }
 
-        public OnedriveUser(string token)
+        public OneDriveUser(string token)
         {
             RefreshToken = token;
             Api = RestService.For<IMicrosoftGraphApi>(
-                new HttpClient(new AuthenticatedHttpClientHandler(() => AccessToken))
+                "https://graph.microsoft.com",
+                new RefitSettings
                 {
-                    BaseAddress = new Uri("https://graph.microsoft.com")
-                }, new RefitSettings() { JsonSerializerSettings = new JsonSerializerSettings() });
+                    JsonSerializerSettings = new JsonSerializerSettings(),
+                    AuthorizationHeaderValueGetter = () => Task.FromResult(AccessToken)
+                });
         }
 
-        public override async Task RefreshUserInfoAsync()
+        public override async Task<bool> RefreshAsync()
         {
-            await RefreshAccessToken();
-            var info = await Api.GetUserInfoAsync();
-            Username = info.Owner["user"].Value<string>("displayName");
-            TotalCapacity = info.Quota.Value<long>("total");
-            UsedCapacity = info.Quota.Value<long>("used");
+            try
+            {
+                await RefreshAccessToken();
+                var info = await Api.GetUserInfoAsync();
+                Username = info.Owner["user"].Value<string>("displayName");
+                UsedCapacity = info.Quota.Value<long>("used");
+                TotalCapacity = info.Quota.Value<long>("total");
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task RefreshAccessToken()
@@ -52,14 +61,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
         {
-            var tree = new LazyTreeNode<INetDiskFile>(new OnedriveFile()
-            {
-                Owner = this
-            })
+            var tree = new LazyTreeNode<INetDiskFile>(new OneDriveFile() /*{ Owner = this }*/)
             {
                 ChildrenProvider = async parent =>
                 {
-                    var result = new List<OnedriveFile>();
+                    var result = new List<OneDriveFile>();
                     if (parent.Path == "/")
                     {
                         result.AddRange((await Api.GetRootFilesAsync()).FileList);
@@ -78,33 +84,49 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
                                 }
                             })
                             {
-                                tmp = JsonConvert.DeserializeObject<OnedriveListFileResult>(await client.GetStringAsync(tmp.NextPage));
+                                tmp = JsonConvert.DeserializeObject<OneDriveListFileResult>(await client.GetStringAsync(tmp.NextPage));
                                 result.AddRange(tmp.FileList);
                             }
                         }
                     }
 
-                    result.ForEach(v => v.Owner = this);
+                    //result.ForEach(v => v.Owner = this);
                     return result;
                 }
             };
             return Task.FromResult((ILazyTreeNode<INetDiskFile>)tree);
         }
 
-        public override Task<IList<T>> GetFilesAsync<T>(FileCategory category)
-        {
-            throw new NotSupportedException("Onedrive not supported this method.");
-        }
-
-        public override TransferItem Download(ILazyTreeNode<INetDiskFile> @from, FileLocator to)
+        public override Task<IReadOnlyList<IDeletedFile>> GetDeletedFilesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public override Task UploadAsync(FileLocator @from, INetDiskFile to, Action<TransferItem> callback)
+        public override Task<bool> DeleteFileAsync(INetDiskFile file)
         {
             throw new NotImplementedException();
         }
+
+        public override Task<bool> RestoreFileAsync(IDeletedFile file)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IDownloadingFile Download(INetDiskFile @from, FileLocator to)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IReadOnlyList<IDownloadingFile> GetDownloadingFiles()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IReadOnlyList<ILocalDiskFile> GetDownloadedFiles()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 
     internal class AuthenticatedHttpClientHandler : HttpClientHandler

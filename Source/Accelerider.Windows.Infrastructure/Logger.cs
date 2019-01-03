@@ -27,7 +27,7 @@ namespace Accelerider.Windows.Infrastructure
 
         public void Log(string message, Category category, Priority priority)
         {
-            string messageToLog = String.Format(CultureInfo.InvariantCulture, "{1}: {2}. Priority: {3}. Timestamp:{0:u}.",
+            string messageToLog = string.Format(CultureInfo.InvariantCulture, "{1}: {2}. Priority: {3}. Timestamp:{0:u}.",
                 DateTime.Now, category.ToString().ToUpper(CultureInfo.InvariantCulture), message, priority.ToString());
 
             _writer.WriteLine(messageToLog);
@@ -40,9 +40,9 @@ namespace Accelerider.Windows.Infrastructure
             _writer.WriteLine($"{SystemInfo.Caption}: [{SystemInfo.Version}] {SystemInfo.OSArchitecture}");
         }
 
-        private string GenerateLoggingPath()
+        private static string GenerateLoggingPath()
         {
-            return Path.Combine(AcceleriderPaths.LogsFolder, $"Accelerider.Windows.{DateTime.Now.ToString("yyyyMMddHHmmssff")}.log");
+            return Path.Combine(AcceleriderFolders.Logs, $"Accelerider.Windows.{DateTime.Now:yyyyMMddHHmmssff}.log");
         }
 
         public void Dispose()

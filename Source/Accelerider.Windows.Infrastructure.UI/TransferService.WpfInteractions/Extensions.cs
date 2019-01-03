@@ -5,7 +5,7 @@ namespace Accelerider.Windows.TransferService.WpfInteractions
 {
     public static class Extensions
     {
-        public static BindableDownloader ToBindable(this IDownloader @this, Dispatcher uiDispatcher = null)
+        public static BindableDownloader ToBindable(this ITransferInfo<DownloadContext> @this, Dispatcher uiDispatcher = null)
         {
             return new BindableDownloader(@this, uiDispatcher);
         }

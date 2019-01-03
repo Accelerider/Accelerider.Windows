@@ -1,6 +1,7 @@
-﻿namespace Accelerider.Windows.Constants
+﻿// ReSharper disable InconsistentNaming
+namespace Accelerider.Windows.Constants
 {
-    public static class Hyperlinks
+    public static class AcceleriderUrls
     {
         // Emails
         public const string ZdpEmail = "mailto:dingpingzhang@outlook.com";

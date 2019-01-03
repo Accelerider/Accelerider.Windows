@@ -15,7 +15,7 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
         protected UpgradeTaskBase(string name)
         {
             Name = name;
-            InstallDirectory = Path.Combine(AcceleriderPaths.AppsFolder, name);
+            InstallDirectory = Path.Combine(AcceleriderFolders.Apps, name);
             Directory.CreateDirectory(InstallDirectory);
         }
 

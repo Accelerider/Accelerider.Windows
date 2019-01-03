@@ -1,15 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.Constants;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
@@ -21,7 +21,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>, IAwareViewLoadedAndUnloaded<Files>, INotificable
+    public class FilesViewModel : LoadingFilesBaseViewModel<ILazyTreeNode<INetDiskFile>>, IViewLoadedAndUnloadedAware<Files>, INotificable
     {
         private ILazyTreeNode<INetDiskFile> _selectedSearchResult;
         private ILazyTreeNode<INetDiskFile> _currentFolder;
@@ -73,45 +73,65 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         {
             var fileArray = files.Cast<ILazyTreeNode<INetDiskFile>>().ToArray();
 
-            (string to, bool isDownload) = await DisplayDownloadDialogAsync(fileArray.Select(item => item.Content.Path.FileName));
+            var (to, isDownload) = await DisplayDownloadDialogAsync(fileArray.Select(item => item.Content.Path.FileName));
 
             if (!isDownload) return;
 
-            var downloadItemList = fileArray.Select(file => CurrentNetDiskUser.Download(file, to)).ToList();
+            var fileNames = new List<string>(fileArray.Length);
+            foreach (var fileNode in fileArray)
+            {
+                await fileNode.ForEachAsync(file =>
+                {
+                    if (file.Type == FileType.FolderType) return;
 
-            var fileName = TrimFileName(downloadItemList.First().File.Path.FileName, 40);
-            var message = downloadItemList.Count == 1
-                ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)
-                : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, downloadItemList.Count);
-            GlobalMessageQueue.Enqueue(message);
+                    var downloadingFile = CurrentNetDiskUser.Download(file, to);
+                    downloadingFile.Operations.Ready();
+                    // Send this transfer item to the downloading view model.
+                    EventAggregator.GetEvent<TransferItemsAddedEvent>().Publish(downloadingFile);
+                    fileNames.Add(downloadingFile.File.Path.FileName);
+                }, CancellationToken.None);
+            }
+
+            if(fileNames.Any())
+            {
+                var fileName = fileNames.First().TrimMiddle(40);
+                var message = fileNames.Count == 1
+                    ? string.Format(UiStrings.Message_AddedFileToDownloadList, fileName)
+                    : string.Format(UiStrings.Message_AddedFilesToDownloadList, fileName, fileNames.Count);
+                GlobalMessageQueue.Enqueue(message);
+            }
+            else
+            {
+                GlobalMessageQueue.Enqueue("No Files Found");
+            }
         }
 
         private async void UploadCommandExecute()
         {
-            var dialog = new OpenFileDialog { Multiselect = true };
-            if (dialog.ShowDialog() != DialogResult.OK || dialog.FileNames.Length <= 0) return;
+            //var dialog = new OpenFileDialog { Multiselect = true };
+            //if (dialog.ShowDialog() != DialogResult.OK || dialog.FileNames.Length <= 0) return;
 
-            var uploadItemList = new List<TransferItem>();
-            await Task.Run(() =>
-            {
-                foreach (var from in dialog.FileNames)
-                {
-                    var to = CurrentFolder.Content;
-                    var token = CurrentNetDiskUser.UploadAsync(from, to, item =>
-                    {
-                        // Add new task to download list. ??
+            //var uploadItemList = new List<TransferItem>();
+            //await Task.Run(() =>
+            //{
+            //    foreach (var from in dialog.FileNames)
+            //    {
+            //        var to = CurrentFolder.Content;
+            //        var token = CurrentNetDiskUser.UploadAsync(from, to, item =>
+            //        {
+            //            // Add new task to download list. ??
 
-                        // Records tokens
-                        uploadItemList.Add(item);
-                    });
-                }
-            });
+            //            // Records tokens
+            //            uploadItemList.Add(item);
+            //        });
+            //    }
+            //});
 
-            var fileName = TrimFileName(dialog.FileNames[0], 40);
-            var message = dialog.FileNames.Length == 1
-                ? string.Format(UiStrings.Message_AddedFileToUploadList, fileName)
-                : string.Format(UiStrings.Message_AddedFilesToUploadList, fileName, dialog.FileNames.Length);
-            GlobalMessageQueue.Enqueue(message);
+            //var fileName = TrimFileName(dialog.FileNames[0], 40);
+            //var message = dialog.FileNames.Length == 1
+            //    ? string.Format(UiStrings.Message_AddedFileToUploadList, fileName)
+            //    : string.Format(UiStrings.Message_AddedFilesToUploadList, fileName, dialog.FileNames.Length);
+            //GlobalMessageQueue.Enqueue(message);
         }
 
         private void ShareCommandExecute(IList files)
@@ -125,23 +145,23 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         private async void DeleteCommandExecute(IList files)
         {
-            var currentFolder = CurrentFolder;
-            var fileArray = files.Cast<ILazyTreeNode<INetDiskFile>>().ToArray();
+            //var currentFolder = CurrentFolder;
+            //var fileArray = files.Cast<ILazyTreeNode<INetDiskFile>>().ToArray();
 
-            var errorFileCount = 0;
-            foreach (var file in fileArray)
-            {
-                if (!await file.Content.DeleteAsync()) errorFileCount++;
-            }
-            if (errorFileCount < fileArray.Length)
-            {
-                await currentFolder.RefreshAsync();
-                if (currentFolder == CurrentFolder)
-                {
-                    OnPropertyChanged(nameof(CurrentFolder));
-                }
-            }
-            GlobalMessageQueue.Enqueue($"({fileArray.Length - errorFileCount}/{fileArray.Length}) files have been deleted.");
+            //var errorFileCount = 0;
+            //foreach (var file in fileArray)
+            //{
+            //    if (!await file.Content.DeleteAsync()) errorFileCount++;
+            //}
+            //if (errorFileCount < fileArray.Length)
+            //{
+            //    await currentFolder.RefreshAsync();
+            //    if (currentFolder == CurrentFolder)
+            //    {
+            //        RaisePropertyChanged(nameof(CurrentFolder));
+            //    }
+            //}
+            //GlobalMessageQueue.Enqueue($"({fileArray.Length - errorFileCount}/{fileArray.Length}) files have been deleted.");
         }
         #endregion
 
@@ -179,12 +199,12 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             configure.SetValue(ConfigureKeys.NotDisplayDownloadDialog, vm.NotDisplayDownloadDialog);
             if (vm.NotDisplayDownloadDialog)
             {
-                configure.SetValue(ConfigureKeys.DownloadDirectory, vm.DownloadFolder);
+                configure.SetValue(ConfigureKeys.DownloadDirectory, vm.DownloadFolder.ToString());
             }
             return (vm.DownloadFolder, true);
         }
 
-        private string TrimFileName(string fileName, int length)
+        private static string TrimFileName(string fileName, int length)
         {
             FileLocator fileLocation = fileName;
             var folderNameLength = length - fileLocation.FileName.Length - 5;

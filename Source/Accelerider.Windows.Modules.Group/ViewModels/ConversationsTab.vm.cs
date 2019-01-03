@@ -2,10 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.ViewModels;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.Group.MockData;
-using Autofac;
+using Unity;
 
 namespace Accelerider.Windows.Modules.Group.ViewModels
 {
@@ -15,7 +14,7 @@ namespace Accelerider.Windows.Modules.Group.ViewModels
         private string _draft;
         private ICommand _sendCommand;
 
-        public ConversationsTabViewModel(IContainer container) : base(container)
+        public ConversationsTabViewModel(IUnityContainer container) : base(container)
         {
             SendCommand = new RelayCommand(
                 () =>
@@ -23,7 +22,7 @@ namespace Accelerider.Windows.Modules.Group.ViewModels
                     Messages.Add(new Message
                     {
                         Text = Draft,
-                        Author = AcceleriderUser.CurrentNetDiskUser.Username,
+                        //Author = AcceleriderUser.CurrentNetDiskUser.Username,
                         Date = DateTime.Now,
                         HeadUri = new Uri("http://tvax1.sinaimg.cn/crop.0.10.1125.1125.50/90df8663ly8ff2ts90095j20v90vtwhs.jpg")
                     });

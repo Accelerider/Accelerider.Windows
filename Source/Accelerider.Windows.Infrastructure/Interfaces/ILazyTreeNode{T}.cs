@@ -41,8 +41,14 @@ namespace Accelerider.Windows.Infrastructure
         /// <summary>
         /// Applies action to the content of this node and its children.
         /// </summary>
-        /// <param name="action">A operation to the content of nodes.</param>
+        /// <param name="callback">A operation to the content of nodes.</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>Returns a <see cref="Task"/> to wait.</returns>
-        Task ForEachAsync(Action<T> action, CancellationToken cancellationToken);
+        Task ForEachAsync(Action<T> callback, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Clear the <see cref="ChildrenCache"/> and the related data.
+        /// </summary>
+        void Release();
     }
 }

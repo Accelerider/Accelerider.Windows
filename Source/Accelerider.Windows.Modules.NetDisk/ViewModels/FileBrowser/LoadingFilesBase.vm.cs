@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Models;
 using Unity;
 
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public abstract class LoadingFilesBaseViewModel<T> : ViewModelBase, IAwareViewLoadedAndUnloaded
+    public abstract class LoadingFilesBaseViewModel<T> : ViewModelBase, IViewLoadedAndUnloadedAware
     {
         private bool _isLoadingFiles;
         private ICommand _refreshFilesCommand;
@@ -42,8 +42,6 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         public virtual void OnLoaded()
         {
-            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
-
             if (PreviousNetDiskUser != CurrentNetDiskUser)
             {
                 OnCurrentNetDiskUserChanged(CurrentNetDiskUser);
@@ -52,8 +50,6 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         public virtual void OnUnloaded()
         {
-            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Unsubscribe(OnCurrentNetDiskUserChanged);
-
             PreviousNetDiskUser = CurrentNetDiskUser;
         }
 
@@ -76,9 +72,9 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         protected abstract Task<IList<T>> GetFilesAsync();
 
-        private async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
+        protected override async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
         {
-            await currentNetDiskUser.RefreshUserInfoAsync();
+            await currentNetDiskUser.RefreshAsync();
             await LoadingFilesAsync();
         }
     }

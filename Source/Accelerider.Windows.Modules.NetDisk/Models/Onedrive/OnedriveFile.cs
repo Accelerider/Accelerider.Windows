@@ -1,26 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.TransferService.WpfInteractions;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
-using Accelerider.Windows.Modules.NetDisk.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
+namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class OnedriveFile : INetDiskFile
+    public class OneDriveFile : INetDiskFile
     {
         public FileType Type => _folder != null ? FileType.FolderType : FileType.OtherType;
 
         public FileLocator Path => _pathInfo?.Value<string>("path").Replace("/drive/root:", string.Empty) ?? "/";
 
         [JsonProperty("size")]
-        public DisplayDataSize Size { get; set; }
+        public long Size { get; set; }
 
         [JsonProperty("lastModifiedDateTime")]
         public DateTime ModifiedTime { get; set; }
@@ -34,13 +29,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
         [JsonProperty("parentReference")]
         private JToken _pathInfo;
 
+        //public OneDriveUser Owner { get; set; }
 
-
-        public OnedriveUser Owner { get; set; }
-
-        public async Task<bool> DeleteAsync()
-        {
-            return (await Owner.Api.DeleteFileAsync(Path)).Error == null;
-        }
+        //public async Task<bool> DeleteAsync()
+        //{
+        //    return (await Owner.Api.DeleteFileAsync(Path)).Error == null;
+        //}
     }
 }

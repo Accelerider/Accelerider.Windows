@@ -7,43 +7,43 @@
         <Setter Property="Height" Value="28"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="ApkType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/ApkType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/ApkType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="DocType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/DocType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/DocType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="ExeType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/ExeType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/ExeType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="FolderType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/FolderType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/FolderType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="ImgType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/ImgType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/ImgType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="MusicType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/MusicType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/MusicType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="OtherType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/OtherType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/OtherType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="PdfType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/PdfType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/PdfType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="PptType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/PptType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/PptType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="RarType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/RarType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/RarType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="TxtType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/TxtType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/TxtType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="VideoType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/VideoType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/VideoType.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="XlsType">
-                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Resources;component/Images/FileTypes/XlsType.png"/>
+                <Setter Property="Source" Value="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/XlsType.png"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

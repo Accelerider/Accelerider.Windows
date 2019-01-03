@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Enumerations;
-using Accelerider.Windows.Modules.NetDisk.Models.BaiduNetdisk;
-using Accelerider.Windows.Modules.NetDisk.Models.Onedrive;
-using Accelerider.Windows.Modules.NetDisk.Models.SixCloud;
+using Accelerider.Windows.Modules.NetDisk.Models.BaiduCloud;
+using Accelerider.Windows.Modules.NetDisk.Models.OneDrive;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Accelerider.Windows.InfrastructureTests.TransportImpls
@@ -18,9 +14,9 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
         [TestMethod]
         public void BaiduNetdiskTest()
         {
-            var user = new BaiduNetdiskUser(
+            var user = new BaiduCloudUser(
                 "cookie");
-            user.RefreshUserInfoAsync().GetAwaiter().GetResult();
+            user.RefreshAsync().GetAwaiter().GetResult();
             var files = user.GetFileRootAsync().GetAwaiter().GetResult();
             var root = files.Root.GetChildrenAsync().GetAwaiter().GetResult();
             Console.WriteLine(user.UserId);
@@ -29,9 +25,9 @@ namespace Accelerider.Windows.InfrastructureTests.TransportImpls
         [TestMethod]
         public void OnedriveTest()
         {
-            var user = new OnedriveUser(
+            var user = new OneDriveUser(
                 "token");
-            user.RefreshUserInfoAsync().GetAwaiter().GetResult();
+            user.RefreshAsync().GetAwaiter().GetResult();
             var files = user.GetFileRootAsync().GetAwaiter().GetResult();
             var root = files.Root.GetChildrenAsync().GetAwaiter().GetResult();
             var sub = root.First(v => v.Content.Type == FileType.FolderType).GetChildrenAsync().GetAwaiter().GetResult();

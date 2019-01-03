@@ -6,7 +6,7 @@ namespace Accelerider.Windows.TransferService
 {
     public static class FileTransferService
     {
-        internal const string DefaultManagerName = "default";
+        public const string DefaultManagerName = "default";
 
         private static readonly ConcurrentDictionary<string, FileDownloaderManager> FileDownloaderManagers = new ConcurrentDictionary<string, FileDownloaderManager>();
 

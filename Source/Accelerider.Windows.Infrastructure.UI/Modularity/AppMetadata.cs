@@ -86,13 +86,13 @@ namespace Accelerider.Windows.Infrastructure.Modularity
         private static AppFileMetadata InitializeLocalPath(this AppFileMetadata @this)
         {
             @this.Ref.LocalPath = @this.Ref.LocalPath
-                .Replace("{AppsFolder}", AcceleriderPaths.AppsFolder);
+                .Replace("{AppsFolder}", AcceleriderFolders.Apps);
             return @this;
         }
 
         private static string GetDirectoryPath(this AppMetadata @this)
         {
-            return Path.Combine(AcceleriderPaths.AppsFolder, @this.Name, $"bin-{@this.Version.ToString(3)}");
+            return Path.Combine(AcceleriderFolders.Apps, @this.Name, $"bin-{@this.Version.ToString(3)}");
         }
 
         private static readonly Regex GetVersionRegex = new Regex(@"bin-(\d+?\.\d+?\.\d+?)$", RegexOptions.Compiled);

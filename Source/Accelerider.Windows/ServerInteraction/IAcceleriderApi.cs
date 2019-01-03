@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Refit;
 
 namespace Accelerider.Windows.Models
 {
-    [Headers("User-Agent: Accelerider.Windows.Wpf: v1.0.0-pre",
-             "Accept-Language: en-US",
-             "Authorization: Bearer")]
+    [Headers(
+        "User-Agent: Accelerider.Windows.Wpf: v1.0.0-pre",
+        "Accept-Language: en-US",
+        "Authorization: Bearer")]
     internal interface IAcceleriderApi
     {
         // Accelerider account functions ------------------------------------------------

@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Models;
 
 namespace Accelerider.Windows.Modules.Group.Views
 {

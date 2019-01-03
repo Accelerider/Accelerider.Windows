@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Accelerider.Windows.Modules.NetDisk.Models.Results;
 using Refit;
 
-namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
+namespace Accelerider.Windows.Modules.NetDisk.Models.OneDrive
 {
-	[Headers("User-Agent: Accelerider.Windows.Wpf: v1.0.0-pre",
+    [Headers("User-Agent: Accelerider.Windows.Wpf: v1.0.0-pre",
 		     "Authorization: Bearer")]
 	public interface IMicrosoftGraphApi
 	{
@@ -16,10 +12,10 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.Onedrive
 		Task<MicrosoftUserInfoResult> GetUserInfoAsync();
 
 		[Get("/v1.0/me/drive/root/children")]
-		Task<OnedriveListFileResult> GetRootFilesAsync();
+		Task<OneDriveListFileResult> GetRootFilesAsync();
 
 		[Get("/v1.0/me/drive/root:{path}:/children")]
-		Task<OnedriveListFileResult> GetFilesAsync(string path);
+		Task<OneDriveListFileResult> GetFilesAsync(string path);
 
 		[Delete("/v1.0/me/drive/root:{path}")]
 		Task<ResultBase> DeleteFileAsync(string path);

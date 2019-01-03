@@ -3,6 +3,7 @@
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <Style x:Key="AcceleriderDialogStyle" TargetType="UserControl" BasedOn="{StaticResource {x:Type UserControl}}">
+        <Setter Property="MinWidth" Value="500" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="UserControl">
@@ -18,7 +19,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <Image Grid.Column="0" Source="pack://application:,,,/Accelerider.Windows.Resources;component/Images/logo-small.png" Height="24" Width="24" Margin="8 5 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Image Grid.Column="0" Source="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-small.png" Height="24" Width="24" Margin="8 5 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBlock Grid.Column="1" Text="{TemplateBinding Tag}" FontWeight="Bold" Foreground="{DynamicResource PrimaryHueMidBrush}"
                                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16 0 0 0" />
                             <Button Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Focusable="False"

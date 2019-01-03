@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.JsonObjects;
-using Accelerider.Windows.TransferService;
 
 namespace Accelerider.Windows.Infrastructure.Upgrade
 {

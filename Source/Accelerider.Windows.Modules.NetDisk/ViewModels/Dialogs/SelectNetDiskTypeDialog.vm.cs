@@ -13,7 +13,7 @@ using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
 {
-    public class SelectNetDiskTypeDialogViewModel : ViewModelBase, IAwareViewLoadedAndUnloaded<SelectNetDiskTypeDialog>
+    public class SelectNetDiskTypeDialogViewModel : ViewModelBase, IViewLoadedAndUnloadedAware<SelectNetDiskTypeDialog>
     {
         private IEnumerable<NetDiskType> _netDiskTypes;
         private ICommand _selectNetDiskCommand;
@@ -49,19 +49,19 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
             {
                 new NetDiskType
                 {
-                    Logo = new BitmapImage(new Uri(@"..\..\Images\BaiduCloudLogo.png", UriKind.Relative)),
+                    Logo = new BitmapImage(new Uri(@"..\..\Images\logo-baiducloud.png", UriKind.Relative)),
                     Name = "Baidu Cloud",
                     Description = "XXXXXXXXXXXXXXXXXXXXXXXXXXX"
                 },
                 new NetDiskType
                 {
-                    Logo = new BitmapImage(new Uri(@"..\..\Images\OneDriveLogo.jpg", UriKind.Relative)),
+                    Logo = new BitmapImage(new Uri(@"..\..\Images\logo-onedrive.jpg", UriKind.Relative)),
                     Name = "OneDrive",
                     Description = "XXXXXXXXXXXXXXXXXXXXXXXXXXX"
                 },
                 new NetDiskType
                 {
-                    Logo = new BitmapImage(new Uri(@"..\..\Images\OneDriveLogo.jpg", UriKind.Relative)),
+                    Logo = new BitmapImage(new Uri(@"..\..\Images\logo-sixcloud.png", UriKind.Relative)),
                     Name = "Six Cloud",
                     Description = "XXXXXXXXXXXXXXXXXXXXXXXXXXX",
                     OpenCommand = new RelayCommand(async() =>
@@ -73,12 +73,12 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
             };
         }
 
-        void IAwareViewLoadedAndUnloaded<SelectNetDiskTypeDialog>.OnLoaded(SelectNetDiskTypeDialog view)
+        void IViewLoadedAndUnloadedAware<SelectNetDiskTypeDialog>.OnLoaded(SelectNetDiskTypeDialog view)
         {
             DialogHost.SetDialogClosingAttached(view, (sender, args) => {});
         }
 
-        void IAwareViewLoadedAndUnloaded<SelectNetDiskTypeDialog>.OnUnloaded(SelectNetDiskTypeDialog view)
+        void IViewLoadedAndUnloadedAware<SelectNetDiskTypeDialog>.OnUnloaded(SelectNetDiskTypeDialog view)
         {
         }
     }

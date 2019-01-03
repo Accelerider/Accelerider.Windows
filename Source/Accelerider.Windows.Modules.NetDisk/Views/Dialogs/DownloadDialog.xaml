@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mvvm="http://prismlibrary.com/"
-             xmlns:i18N="clr-namespace:Accelerider.Windows.Resources.I18N;assembly=Accelerider.Windows.Resources"
+             xmlns:i18N="clr-namespace:Accelerider.Windows.Resources.I18N;assembly=Accelerider.Windows.Assets"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              Style="{StaticResource AcceleriderDialogStyle}"
              Height="Auto" Width="500">

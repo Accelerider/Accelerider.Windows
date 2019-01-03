@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
+             xmlns:i18nResources="clr-namespace:Accelerider.Windows.I18nResources"
              mvvm:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.RowDefinitions>
@@ -25,22 +27,27 @@
             </Grid.ColumnDefinitions>
 
             <materialDesign:PackIcon Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
-            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="Email"
+            <TextBox Grid.Row="0" Grid.Column="1" 
+                     materialDesign:HintAssist.Hint="{i18N:I18n {x:Static i18nResources:ResKeys.SignInView_Email}}"
                      Text="{Binding Email}"
-                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     FontFamily="Microsoft Yahei Regular"/>
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
-            <PasswordBox Name="PasswordBox" Grid.Column="1" Grid.Row="2" materialDesign:HintAssist.Hint="Password" 
-                         Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+            <PasswordBox Name="PasswordBox" Grid.Column="1" Grid.Row="2" 
+                         materialDesign:HintAssist.Hint="{i18N:I18n {x:Static i18nResources:ResKeys.SignInView_Password}}" 
+                         Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                         FontFamily="Microsoft Yahei Regular"/>
         </Grid>
         <StackPanel Grid.Row="2" Margin="6 0" Orientation="Horizontal">
-            <CheckBox IsChecked="{Binding IsRememberPassword}" Focusable="False">Remember me</CheckBox>
-            <CheckBox IsChecked="{Binding IsAutoSignIn}" Focusable="False" Margin="16 0 0 0">Automatic Login</CheckBox>
+            <CheckBox IsChecked="{Binding IsRememberPassword}" Focusable="False" 
+                      Content="{i18N:I18n {x:Static i18nResources:ResKeys.SignInView_RememberMe}}"/>
+            <CheckBox IsChecked="{Binding IsAutoSignIn}" Focusable="False" Margin="16 0 0 0" 
+                      Content="{i18N:I18n {x:Static i18nResources:ResKeys.SignInView_AutomaticLogin}}"/>
         </StackPanel>
         <Button Grid.Row="4" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                 Command="{Binding SignInCommand}" 
                 CommandParameter="{Binding ElementName=PasswordBox}"
-                Margin="28 0">
-            LOGIN
-        </Button>
+                Margin="28 0" 
+                Content="{i18N:I18n {x:Static i18nResources:ResKeys.SignInView_Login}}"/>
     </Grid>
 </UserControl>

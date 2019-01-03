@@ -2,13 +2,13 @@
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models.SixCloud;
+using MaterialDesignThemes.Wpf;
 using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.NetDiskAuthentications
 {
     internal class SixCloudSignInViewModel : ViewModelBase
     {
-
         private string _username;
 
         public string Username
@@ -21,13 +21,17 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.NetDiskAuthentications
 
         public SixCloudSignInViewModel(IUnityContainer container) : base(container)
         {
-            var user = Container.Resolve<SixCloudUser>();
- 
             SignInCommand = new RelayCommand<PasswordBox>(
                 async passwordBox =>
                 {
-                    await user.LoginAsync(Username, passwordBox.Password);
-                    await AcceleriderUser.AddNetDiskUserAsync(user);
+                    var user = Container.Resolve<SixCloudUser>();
+                    if (await user.LoginAsync(Username, passwordBox.Password))
+                    {
+                        AcceleriderUser.AddNetDiskUser(user);
+
+                        if (DialogHost.CloseDialogCommand.CanExecute(true, null))
+                            DialogHost.CloseDialogCommand.Execute(true, null);
+                    }
                 },
                 passwordBox => !string.IsNullOrWhiteSpace(passwordBox.Password) &&
                                !string.IsNullOrWhiteSpace(Username));

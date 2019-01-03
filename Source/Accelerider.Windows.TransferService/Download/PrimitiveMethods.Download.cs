@@ -5,6 +5,7 @@ using System.Net;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure;
 
 namespace Accelerider.Windows.TransferService
 {
@@ -33,7 +34,7 @@ namespace Accelerider.Windows.TransferService
             {
                 Directory.CreateDirectory(folderPath);
             }
-            return File.Open(localPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
+            return new FileStream(localPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write, 1024 * 1024);
         }
 
         public static FileStream Slice(this FileStream stream, (long offset, long length) block)
@@ -43,7 +44,7 @@ namespace Accelerider.Windows.TransferService
         }
 
         public static IObservable<(long Offset, int Bytes)> CreateBlockDownloadItem(
-            Func<Task<(HttpWebResponse response, Stream inputStream)>> streamPairFactory, 
+            Func<Task<(HttpWebResponse response, Stream inputStream)>> streamPairFactory,
             BlockTransferContext context) => Observable.Create<(long Offset, int Bytes)>(o =>
         {
             var cancellationTokenSource = new CancellationTokenSource();
@@ -54,18 +55,28 @@ namespace Accelerider.Windows.TransferService
             {
                 try
                 {
-                    (HttpWebResponse response, Stream inputStream) = await streamPairFactory();
+                    (HttpWebResponse response, Stream outputStream) = await streamPairFactory();
 
                     using (response)
-                    using (var outputStream = response.GetResponseStream())
-                    using (inputStream)
+                    using (var inputStream = response.GetResponseStream())
+                    using (outputStream)
                     {
                         byte[] buffer = new byte[128 * 1024];
                         int count;
-                        while (outputStream != null && (count = await outputStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
+
+                        Guards.ThrowIfNull(inputStream);
+
+                        // ReSharper disable once PossibleNullReferenceException
+                        while ((count = inputStream.Read(buffer, 0, buffer.Length)) > 0)
                         {
-                            cancellationToken.ThrowIfCancellationRequested();
-                            await inputStream.WriteAsync(buffer, 0, count, cancellationToken);
+                            if (cancellationToken.IsCancellationRequested)
+                            {
+                                Debug.WriteLine($"[CANCELLED] [{DateTime.Now}] BLOCK DOWNLOAD ITEM ({context.Offset})");
+                                o.OnError(new BlockTransferException(context, new OperationCanceledException()));
+                                return;
+                            }
+
+                            outputStream.Write(buffer, 0, count);
                             o.OnNext((context.Offset, count));
                         }
                     }
@@ -80,17 +91,9 @@ namespace Accelerider.Windows.TransferService
 
             return () =>
             {
-                Debug.WriteLine($"{context.Offset} has been disposed. ");
+                Debug.WriteLine($"[DISPOSED] [{DateTime.Now}] BLOCK DOWNLOAD ITEM ({context.Offset})");
                 cancellationTokenSource.Cancel();
             };
         });
-
-        public static IObservable<BlockTransferContext> Catch<TException>(
-            this IObservable<BlockTransferContext> @this,
-            Func<TException, IObservable<BlockTransferContext>> handler)
-            where TException : Exception
-        {
-            return @this.Catch<BlockTransferContext, TException>(handler);
-        }
     }
 }
