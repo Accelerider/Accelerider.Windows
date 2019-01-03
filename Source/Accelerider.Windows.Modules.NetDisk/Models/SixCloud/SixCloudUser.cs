@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.TransferService;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using Refit;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class SixCloudUser : NetDiskUserBase
     {
         private readonly List<IDownloadingFile> _downloadingFiles = new List<IDownloadingFile>();
@@ -25,15 +26,12 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         [JsonProperty]
         public string AccessToken { get; private set; }
 
-        [JsonProperty]
         public ISixCloudApi WebApi { get; private set; }
 
         #region User info
 
-        [JsonProperty]
         public string Email { get; private set; }
 
-        [JsonProperty]
         public string Phone { get; private set; }
 
         #endregion
@@ -96,7 +94,23 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             _downloadingFiles.Add(result);
             ArddFilePaths.Add(result.ArddFilePath);
 
-            result.DownloadInfo.Subscribe(_ => { }, () =>
+            result.DownloadInfo.Subscribe(_ => { }, OnCompleted);
+            Subscribe(result.DownloadInfo.Where(item => item.Status == TransferStatus.Suspended || item.Status == TransferStatus.Faulted));
+            Subscribe(result.DownloadInfo.Sample(TimeSpan.FromMilliseconds(5000)));
+
+            File.WriteAllText(result.ArddFilePath, result.ToJsonString());
+
+            if (result.DownloadInfo.Status == TransferStatus.Completed)
+            {
+                OnCompleted();
+            }
+
+            void Subscribe(IObservable<TransferNotification> observable)
+            {
+                observable.Subscribe(_ => File.WriteAllText(result.ArddFilePath, result.ToJsonString()));
+            }
+
+            void OnCompleted()
             {
                 if (File.Exists(result.ArddFilePath)) File.Delete(result.ArddFilePath);
                 ArddFilePaths.Remove(result.ArddFilePath);
@@ -104,16 +118,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 var localDiskFile = LocalDiskFile.Create(result);
                 _downloadingFiles.Remove(result);
                 _localDiskFiles.Add(localDiskFile);
-                //_eventAggregator.GetEvent<TransferItemCompletedEvent>().Publish(localDiskFile);
-            });
-            Subscribe(result.DownloadInfo.Where(item => item.Status == TransferStatus.Suspended || item.Status == TransferStatus.Faulted));
-            Subscribe(result.DownloadInfo.Sample(TimeSpan.FromMilliseconds(5000)));
-
-            File.WriteAllText(result.ArddFilePath, result.ToJsonString());
-
-            void Subscribe(IObservable<TransferNotification> observable)
-            {
-                observable.Subscribe(_ => File.WriteAllText(result.ArddFilePath, result.ToJsonString()));
             }
         }
 

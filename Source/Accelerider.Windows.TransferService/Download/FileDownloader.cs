@@ -141,27 +141,26 @@ namespace Accelerider.Windows.TransferService
 
         private IDisposable CreateAndRunBlockDownloadItems(IEnumerable<BlockTransferContext> blockContexts)
         {
-            var disposable = blockContexts
+            var observable = blockContexts
                 .Select(item => _buildInfo.BlockDownloadItemFactoryBuilder(_buildInfo.Settings).Invoke(item))
                 .Merge(_buildInfo.Settings.MaxConcurrent)
                 .Do(item => _blockTransferContextCache[item.Offset].CompletedSize += item.Bytes)
-                .Select(item => new TransferNotification(item.Offset, Status, item.Bytes))
-                .Subscribe(
-                    value => _observerList.OnNext(value),
-                    error =>
-                    {
-                        _status = TransferStatus.Faulted;
-                        _observerList.OnError(error);
-                    },
-                    () =>
-                    {
-                        _status = TransferStatus.Completed;
-                        _observerList.OnCompleted();
-                    });
+                .Select(item => new TransferNotification(item.Offset, Status, item.Bytes));
 
             Status = TransferStatus.Transferring;
 
-            return disposable;
+            return observable.Subscribe(
+                value => _observerList.OnNext(value),
+                error =>
+                {
+                    _status = TransferStatus.Faulted;
+                    _observerList.OnError(error);
+                },
+                () =>
+                {
+                    _status = TransferStatus.Completed;
+                    _observerList.OnCompleted();
+                });
         }
 
         private static bool SetProperty<T>(ref T storage, T value)

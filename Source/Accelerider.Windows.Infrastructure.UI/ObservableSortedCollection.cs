@@ -31,8 +31,8 @@ namespace Accelerider.Windows.Infrastructure
             if (index == InvalidIndex) return;
 
             var previousIndex = Items.IndexOf(item);
-            if (previousIndex == index)
-                return;
+            if (previousIndex == index) return;
+
             if (previousIndex != InvalidIndex)
                 RemoveAt(previousIndex);
 
