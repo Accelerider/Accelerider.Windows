@@ -135,7 +135,7 @@
                     <Border BorderBrush="{TemplateBinding BorderBrush}" >
                         <AdornerDecorator>
                             <Grid Background="White">
-                                <Image Source="pack://application:,,,/Accelerider.Windows.Resources;component/Images/logo-small.png" Height="24" Width="24" Margin="8 5 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <Image Source="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-small.png" Height="24" Width="24" Margin="8 5 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                 <ContentPresenter />
                                 <Button HorizontalAlignment="Right" VerticalAlignment="Top" Focusable="False"
                                         Style="{StaticResource MaterialDesignToolButton}"

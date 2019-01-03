@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <Style TargetType="Window">
+        <Setter Property="FontFamily" Value="Microsoft Yahei Regular"/>
+    </Style>
+
+    <Style TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Microsoft Yahei Regular"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+    </Style>
+
+</ResourceDictionary>

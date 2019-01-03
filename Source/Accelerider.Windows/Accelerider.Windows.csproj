@@ -295,6 +295,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="I18nResources\UiResources.ja.resx" />
     <EmbeddedResource Include="I18nResources\UiResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UiResources.Designer.cs</LastGenOutput>

@@ -7,6 +7,8 @@
                     xmlns:mvvm="http://prismlibrary.com/"
                     xmlns:local="clr-namespace:Accelerider.Windows.Views"
                     xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+                    xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
+                    xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
                     mvvm:ViewModelLocator.AutoWireViewModel="True"
                     AllowsTransparency="True"
                     UseLayoutRounding="True"
@@ -30,20 +32,26 @@
             </Grid>
             <StackPanel Margin="0 0 0 8" >
                 <!-- open dialog -->
-                <local:SettingItem IconKind="AccountSettings" Label="Change Profile" Command="{Binding ChangeProfileCommand}"/>
+                <local:SettingItem IconKind="AccountSettings" Command="{Binding ChangeProfileCommand}" 
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_ChangeProfile}}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open dialog -->
-                <local:SettingItem IconKind="Settings" Label="Settings" Command="{Binding OpenSettingsPanelCommand}"/>
+                <local:SettingItem IconKind="Settings" Command="{Binding OpenSettingsPanelCommand}" 
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_Settings}}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open web -->
-                <local:SettingItem IconKind="HelpCircleOutline" Label="Help" Command="{Binding HelpCommand}"/>
+                <local:SettingItem IconKind="HelpCircleOutline" Command="{Binding HelpCommand}"
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_Help}}" />
                 <!-- open web -->
-                <local:SettingItem IconKind="Web" Label="Accelerider for Web" Command="{Binding OpenOfficialSiteCommand}"/>
+                <local:SettingItem IconKind="Web" Command="{Binding OpenOfficialSiteCommand}"
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_AcceleriderForWeb}}"/>
                 <!-- open menu -->
-                <local:SettingItem IconKind="InformationVariant" Label="About" Command="{Binding AboutCommand}"/>
+                <local:SettingItem IconKind="InformationVariant" Command="{Binding AboutCommand}"
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_About}}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open AuthenticationWindow and closes MainWindow -->
-                <local:SettingItem IconKind="Logout" Label="Log out" Command="{Binding SignOutCommand}"/>
+                <local:SettingItem IconKind="Logout" Command="{Binding SignOutCommand}" 
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_LogOut}}"/>
             </StackPanel>
         </StackPanel>
     </Border>

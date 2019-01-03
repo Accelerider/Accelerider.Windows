@@ -6,8 +6,10 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels.Dialogs"
+             xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
+             xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Tag="Profile"
+             Tag="{i18N:I18n {x:Static i18NResources:ResKeys.ProfileDialog_Title}}"
              Style="{StaticResource AcceleriderDialogStyle}"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type vm:ProfileDialogViewModel}}">
@@ -61,26 +63,31 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" Text="Username: " VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="0" Grid.Row="2" FontWeight="Bold" Text="Email: " VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="0" Grid.Row="4" FontWeight="Bold" Text="Email Visibility: " VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="0" Grid.Row="6" FontWeight="Bold" Text="Multiple Online: " VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" VerticalAlignment="Center" 
+                           Text="{i18N:I18n {x:Static i18NResources:ResKeys.ProfileDialog_Username}}"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" FontWeight="Bold" VerticalAlignment="Center" 
+                           Text="{i18N:I18n {x:Static i18NResources:ResKeys.ProfileDialog_Email}}"/>
+                <TextBlock Grid.Column="0" Grid.Row="4" FontWeight="Bold" VerticalAlignment="Center" 
+                           Text="{i18N:I18n {x:Static i18NResources:ResKeys.ProfileDialog_EmailVisibility}}"/>
+                <TextBlock Grid.Column="0" Grid.Row="6" FontWeight="Bold" VerticalAlignment="Center" 
+                           Text="{i18N:I18n {x:Static i18NResources:ResKeys.ProfileDialog_MultipleOnline}}"/>
 
                 <TextBox Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Text="{Binding AcceleriderUser.Username}"/>
                 <TextBox Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Text="{Binding AcceleriderUser.Email}" IsReadOnly="True"/>
                 <ComboBox Grid.Column="2" Grid.Row="4">
-                    <ComboBoxItem IsSelected="True" Content="Public" VerticalAlignment="Center"/>
+                    <ComboBoxItem IsSelected="True" VerticalAlignment="Center" Content="Public"/>
                     <ComboBoxItem Content="Internal"/>
                     <ComboBoxItem Content="Private"/>
                 </ComboBox>
                 <ComboBox Grid.Column="2" Grid.Row="6">
-                    <ComboBoxItem IsSelected="True" Content="Single" VerticalAlignment="Center"/>
+                    <ComboBoxItem IsSelected="True" VerticalAlignment="Center" Content="Single"/>
                     <ComboBoxItem Content="Single Client"/>
                     <ComboBoxItem Content="Multiple Client"/>
                 </ComboBox>
             </Grid>
 
-            <Expander Grid.Row="2" Header="Change Password" HorizontalAlignment="Stretch"
+            <Expander Grid.Row="2" HorizontalAlignment="Stretch"
+                      Header="{i18N:I18n {x:Static i18NResources:ResKeys.ProfileDialog_ChangePassword}}"
                       Background="Transparent">
                 <Grid Margin="24 0">
                     <Grid.ColumnDefinitions>
@@ -97,13 +104,16 @@
                     </Grid.RowDefinitions>
 
                     <materialDesign:PackIcon Grid.Column="0" Grid.Row="0" Kind="Key" VerticalAlignment="Bottom" />
-                    <PasswordBox Grid.Column="2" Grid.Row="0" materialDesign:HintAssist.Hint="Old Password" 
+                    <PasswordBox Grid.Column="2" Grid.Row="0" 
+                                 materialDesign:HintAssist.Hint="{i18N:I18n {x:Static i18NResources:ResKeys.ProfileDialog_OldPassword}}" 
                                  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                     <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Key" VerticalAlignment="Bottom" />
-                    <PasswordBox Grid.Column="2" Grid.Row="2" materialDesign:HintAssist.Hint="New Password" 
+                    <PasswordBox Grid.Column="2" Grid.Row="2" 
+                                 materialDesign:HintAssist.Hint="{i18N:I18n {x:Static i18NResources:ResKeys.ProfileDialog_NewPassword}}" 
                                  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                     <materialDesign:PackIcon Grid.Column="0" Grid.Row="4" Kind="Key" VerticalAlignment="Bottom" />
-                    <PasswordBox Grid.Column="2" Grid.Row="4" materialDesign:HintAssist.Hint="Confirm Password" 
+                    <PasswordBox Grid.Column="2" Grid.Row="4" 
+                                 materialDesign:HintAssist.Hint="{i18N:I18n {x:Static i18NResources:ResKeys.ProfileDialog_ConfirmPassword}}" 
                                  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                 </Grid>
             </Expander>
@@ -111,9 +121,8 @@
             <Button Grid.Column="0" Grid.Row="4" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{Binding SignUpCommand}" 
                     CommandParameter="{Binding ElementName=SignUpUserControl}"
-                    Margin="24 0">
-                SUBMIT
-            </Button>
+                    Margin="24 0"
+                    Content="{i18N:I18n {x:Static i18NResources:ResKeys.Buttons_Submit}}"/>
         </Grid>
     </Grid>
 </UserControl>

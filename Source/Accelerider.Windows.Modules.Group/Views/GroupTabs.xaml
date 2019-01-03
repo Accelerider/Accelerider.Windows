@@ -17,7 +17,7 @@
 
             <Rectangle Height="40" Width="40" RadiusX="4" RadiusY="4">
                 <Rectangle.Fill>
-                    <ImageBrush ImageSource="pack://application:,,,/Accelerider.Windows.Resources;component/Images/head.png" />
+                    <ImageBrush ImageSource="pack://application:,,,/Accelerider.Windows.Assets;component/Images/head.png" />
                 </Rectangle.Fill>
             </Rectangle>
             <TextBlock Grid.Column="2" VerticalAlignment="Center"
