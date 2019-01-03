@@ -126,12 +126,6 @@
   <data name="AboutDialog_CheckUpdateResultLatest" xml:space="preserve">
     <value>You have the latest version. </value>
   </data>
-  <data name="AboutDialog_Email" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="AboutDialog_GithubHome" xml:space="preserve">
-    <value>Github Home</value>
-  </data>
   <data name="AboutDialog_GithubProjectHome" xml:space="preserve">
     <value>Github Project Home</value>
   </data>

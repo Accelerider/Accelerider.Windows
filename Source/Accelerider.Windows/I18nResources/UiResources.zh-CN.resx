@@ -126,12 +126,6 @@
   <data name="AboutDialog_CheckUpdateResultLatest" xml:space="preserve">
     <value>已是最新，无需更新。</value>
   </data>
-  <data name="AboutDialog_Email" xml:space="preserve">
-    <value>邮箱</value>
-  </data>
-  <data name="AboutDialog_GithubHome" xml:space="preserve">
-    <value>Github主页</value>
-  </data>
   <data name="AboutDialog_GithubProjectHome" xml:space="preserve">
     <value>Github项目主页</value>
   </data>
