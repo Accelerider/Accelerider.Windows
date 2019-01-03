@@ -4,11 +4,11 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Modules.NetDisk.Constants;
 using Accelerider.Windows.Resources.I18N;
+using Unity;
 using MaterialDesignThemes.Wpf;
-using Microsoft.Practices.Unity;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
 {
@@ -18,15 +18,15 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
         private ICommand _openFolderDialogCommand;
         private bool _notDisplayDownloadDialog;
         private List<string> _downloadItems;
-        private FileLocation _downloadFolder;
-        private ObservableCollection<FileLocation> _defaultFolders;
+        private FileLocator _downloadFolder;
+        private ObservableCollection<FileLocator> _defaultFolders;
 
 
         public DownloadDialogViewModel(IUnityContainer container) : base(container)
         {
-            var downloadDirectory = Container.Resolve<ILocalConfigureInfo>().DownloadDirectory;
+            var downloadDirectory = Container.Resolve<IConfigureFile>().GetValue<FileLocator>(ConfigureKeys.DownloadDirectory);
 
-            DefaultFolders = new ObservableCollection<FileLocation>(SystemFolder.GetAvailableFolders());
+            DefaultFolders = new ObservableCollection<FileLocator>(SystemFolder.GetAvailableFolders());
             DownloadFolder = string.IsNullOrEmpty(downloadDirectory) ? DefaultFolders.FirstOrDefault() : downloadDirectory;
 
             OpenFolderDialogCommand = new RelayCommand(OpenFolderDialogCommandExecute);
@@ -67,21 +67,20 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
             get => _downloadItems;
             set
             {
-                if (SetProperty(ref _downloadItems, value))
-                {
-                    OnPropertyChanged(nameof(DownloadItemsHint));
-                    OnPropertyChanged(nameof(DownloadItemsSummary));
-                }
+                if (!SetProperty(ref _downloadItems, value)) return;
+
+                RaisePropertyChanged(nameof(DownloadItemsHint));
+                RaisePropertyChanged(nameof(DownloadItemsSummary));
             }
         }
 
-        public FileLocation DownloadFolder
+        public FileLocator DownloadFolder
         {
             get => _downloadFolder;
             set => SetProperty(ref _downloadFolder, value);
         }
 
-        public ObservableCollection<FileLocation> DefaultFolders
+        public ObservableCollection<FileLocator> DefaultFolders
         {
             get => _defaultFolders;
             set => SetProperty(ref _defaultFolders, value);

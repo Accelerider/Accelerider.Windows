@@ -1,16 +1,15 @@
-﻿using System.Collections.ObjectModel;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
-using Microsoft.Practices.Unity;
+﻿using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Models;
+using Unity;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
-    public class UploadedViewModel : TransportedBaseViewModel
+    public class UploadedViewModel : TransferredBaseViewModel
     {
         public UploadedViewModel(IUnityContainer container) : base(container)
         {
         }
 
-        protected override ObservableCollection<ITransferredFile> GetTransferredFiles() => Container.Resolve<TransferringTaskList>(TransferringTaskList.UploadKey).TransferredFileList;
     }
 }

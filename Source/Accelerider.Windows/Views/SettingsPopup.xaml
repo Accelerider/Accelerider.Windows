@@ -1,11 +1,19 @@
 ﻿<controlzEx:PopupEx x:Class="Accelerider.Windows.Views.SettingsPopup"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                     xmlns:controlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf"
                     xmlns:mvvm="http://prismlibrary.com/"
                     xmlns:local="clr-namespace:Accelerider.Windows.Views"
+                    xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
+                    xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
+                    xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
                     mvvm:ViewModelLocator.AutoWireViewModel="True"
-                    AllowsTransparency="True">
+                    AllowsTransparency="True"
+                    UseLayoutRounding="True"
+                    mc:Ignorable="d" 
+                    d:DataContext="{d:DesignInstance {x:Type vm:SettingsPopupViewModel}}">
     <Border Margin="2" Background="White" BorderThickness="1" CornerRadius="2"
             Effect="{StaticResource MaterialDesignShadowDepth2}">
         <StackPanel>
@@ -17,27 +25,33 @@
                 </Grid.ColumnDefinitions>
                 <Ellipse Grid.Column="0" Height="50" Width="50">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="pack://application:,,,/Accelerider.Windows.Resources;component/Images/head.png" />
+                        <ImageBrush ImageSource="{Binding AcceleriderUser.AvatarUrl, Converter={StaticResource UriToImageSourceConverter}}" />
                     </Ellipse.Fill>
                 </Ellipse>
-                <TextBlock Grid.Column="2" Text="Laplace's Demon" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="{Binding AcceleriderUser.Username}" VerticalAlignment="Center"/>
             </Grid>
             <StackPanel Margin="0 0 0 8" >
                 <!-- open dialog -->
-                <local:SettingItem IconKind="AccountSettings" Label="Change profile" Command="{Binding ChangeProfileCommand}"/>
+                <local:SettingItem IconKind="AccountSettings" Command="{Binding ChangeProfileCommand}" 
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_ChangeProfile}}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open dialog -->
-                <local:SettingItem IconKind="Settings" Label="Open settings panel" Command="{Binding OpenSettingsPanelCommand}"/>
+                <local:SettingItem IconKind="Settings" Command="{Binding OpenSettingsPanelCommand}" 
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_Settings}}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
                 <!-- open web -->
-                <local:SettingItem IconKind="HelpCircleOutline" Label="Help" Command="{Binding HelpCommand}"/>
+                <local:SettingItem IconKind="HelpCircleOutline" Command="{Binding HelpCommand}"
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_Help}}" />
                 <!-- open web -->
-                <local:SettingItem IconKind="Web" Label="Accelerider for Web" Command="{Binding OpenOfficialSiteCommand}"/>
+                <local:SettingItem IconKind="Web" Command="{Binding OpenOfficialSiteCommand}"
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_AcceleriderForWeb}}"/>
                 <!-- open menu -->
-                <local:SettingItem IconKind="InformationVariant" Label="About" Command="{Binding AboutCommand}"/>
+                <local:SettingItem IconKind="InformationVariant" Command="{Binding AboutCommand}"
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_About}}"/>
                 <Rectangle Height="2" Margin="0 8" Fill="{StaticResource LightGreyBackgroundBrush}"/>
-                <!-- open EnteringWindow and closes MainWindow -->
-                <local:SettingItem IconKind="Logout" Label="Log out" Command="{Binding SignOutCommand}"/>
+                <!-- open AuthenticationWindow and closes MainWindow -->
+                <local:SettingItem IconKind="Logout" Command="{Binding SignOutCommand}" 
+                                   Label="{i18N:I18n {x:Static i18NResources:ResKeys.SettingsPopup_LogOut}}"/>
             </StackPanel>
         </StackPanel>
     </Border>

@@ -1,23 +1,29 @@
-﻿<Application x:Class="Accelerider.Windows.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<unity:PrismApplication x:Class="Accelerider.Windows.App"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:unity="clr-namespace:Prism.Unity;assembly=Prism.Unity.Wpf">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Text.xaml"/>
+
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
 
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Brushes.Navy.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Converters.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Animations.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.Buttons.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.Windows.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.TabControls.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.ListBoxes.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.Others.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Resources;component/Styles/Accelerider.Styles.UserControls.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Infrastructure.UI;component/Converters/Accelerider.Converters.xaml"/>
+
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Brushes.Navy.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Animations.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Button.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Window.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.TabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.ListBox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Others.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.UserControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Badged.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.ProgressBar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
-</Application>
+</unity:PrismApplication>

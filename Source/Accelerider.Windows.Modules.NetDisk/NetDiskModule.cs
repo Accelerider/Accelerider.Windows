@@ -1,9 +1,14 @@
 ﻿using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Modularity;
 using Accelerider.Windows.Modules.NetDisk.Views;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
 using Accelerider.Windows.Modules.NetDisk.Views.Transportation;
-using Microsoft.Practices.Unity;
+using Accelerider.Windows.TransferService;
+using Prism.Events;
+using Prism.Ioc;
+using Unity;
 using Prism.Regions;
+using Prism.Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk
 {
@@ -16,12 +21,32 @@ namespace Accelerider.Windows.Modules.NetDisk
             _regionManager = regionManager;
         }
 
-        public override void Initialize()
+        public override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Register for container
+            containerRegistry.RegisterInstance(FileTransferService.GetDownloaderManager("net-disk"));
+
+            // Register for region
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComponent));
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransportationComponent));
-
             _regionManager.RegisterViewWithRegion(RegionNames.SettingsTabRegion, typeof(TaskSettingsTabItem));
+        }
+
+        public override void OnInitialized(IContainerProvider containerProvider)
+        {
+            containerProvider
+                .Resolve<IEventAggregator>()
+                .GetEvent<ApplicationExiting>()
+                .Subscribe(
+                    () =>
+                    {
+                        if (containerProvider.GetContainer().IsRegistered<IAcceleriderUser>())
+                        {
+                            containerProvider.Resolve<IAcceleriderUser>().SaveToLocalDisk();
+                        }
+                    },
+                    true);
         }
     }
 }
+   

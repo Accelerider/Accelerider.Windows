@@ -1,26 +1,41 @@
-﻿using System.Linq;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using MaterialDesignThemes.Wpf;
-using Microsoft.Practices.Unity;
-using Prism.Events;
-using Prism.Mvvm;
+﻿using System.ComponentModel;
+using System.Linq;
+using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Models;
+using Unity;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels
 {
-    public abstract class ViewModelBase : Infrastructure.ViewModelBase
+    public abstract class ViewModelBase : Infrastructure.Mvvm.ViewModelBase
     {
-        protected ViewModelBase(IUnityContainer container) : base(container) { }
-
-        public INetDiskUser NetDiskUser
+        protected ViewModelBase(IUnityContainer container) : base(container)
         {
-            get => AcceleriderUser.CurrentNetDiskUser ?? AcceleriderUser.NetDiskUsers.FirstOrDefault();
-            set
-            {
-                var temp = AcceleriderUser.CurrentNetDiskUser;
-                if (!SetProperty(ref temp, value)) return;
-                AcceleriderUser.CurrentNetDiskUser = temp;
-                EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Publish(temp);
-            }
+            AcceleriderUserExtensions.Register(this);
         }
+
+        public INetDiskUser CurrentNetDiskUser
+        {
+            get
+            {
+                if (AcceleriderUser.GetCurrentNetDiskUser() == null)
+                {
+                    CurrentNetDiskUser = AcceleriderUser.GetNetDiskUsers().FirstOrDefault();
+                }
+
+                return AcceleriderUser.GetCurrentNetDiskUser();
+            }
+            set { if (AcceleriderUser.SetCurrentNetDiskUser(value)) OnCurrentNetDiskUserChanged(value); }
+        }
+
+        public virtual void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CurrentNetDiskUser))
+                OnCurrentNetDiskUserChanged(CurrentNetDiskUser);
+
+            RaisePropertyChanged(e.PropertyName);
+        }
+
+        protected virtual void OnCurrentNetDiskUserChanged(INetDiskUser value) { }
     }
 }

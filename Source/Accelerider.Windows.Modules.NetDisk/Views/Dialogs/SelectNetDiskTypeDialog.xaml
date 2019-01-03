@@ -7,34 +7,29 @@
              xmlns:mvvm="http://prismlibrary.com/"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              Style="{StaticResource AcceleriderDialogStyle}"
-             Width="400">
+             Width="400"> 
     <Grid Margin="0 0 0 10">
         <ListBox x:Name="NetDiskTypeListBox" ItemsSource="{Binding NetDiskTypes}" SelectionMode="Single"
                  ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}" >
-
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseUp">
-                    <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
-                        <i:InvokeCommandAction.CommandParameter>
-                            <system:Boolean>False</system:Boolean>
-                        </i:InvokeCommandAction.CommandParameter>
-                    </i:InvokeCommandAction>
-                </i:EventTrigger>
-                
-                <i:EventTrigger EventName="MouseUp">
-                    <i:InvokeCommandAction Command="{Binding SelectNetDiskCommand}" CommandParameter="{Binding SelectedItem, ElementName=NetDiskTypeListBox}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding Logo}" Width="60" Height="60" Margin="20 10"/>
-                        <StackPanel Margin="20 10">
-                            <TextBlock Text="{Binding Name}" FontSize="14"/>
-                            <TextBlock Text="{Binding Description}" Foreground="Gray" TextWrapping="Wrap" Margin="0 10 0 0"/>
+                    <Border Cursor="Hand" Background="#01FFFFFF">
+                        <Border.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" 
+                                          Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" >
+                                <MouseBinding.CommandParameter>
+                                    <system:Boolean>False</system:Boolean>
+                                </MouseBinding.CommandParameter>
+                            </MouseBinding>
+                        </Border.InputBindings>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Logo}" Width="60" Height="60" Margin="20 10"/>
+                            <StackPanel Margin="20 10">
+                                <TextBlock Text="{Binding Name}" FontSize="14"/>
+                                <TextBlock Text="{Binding Description}" Foreground="Gray" TextWrapping="Wrap" Margin="0 10 0 0"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

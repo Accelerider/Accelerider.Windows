@@ -82,13 +82,13 @@
                                             <ColumnDefinition Width="10" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <Image Width="20" Height="20" Source="../Assets/Images/FileTypes/FolderType.png" />
+                                        <Image Width="20" Height="20" Source="pack://application:,,,/Accelerider.Windows.Assets;component/Images/FileTypes/FolderType.png" />
                                         <TextBlock Grid.Column="2" VerticalAlignment="Center">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
-                                                    <Setter Property="Text" Value="{Binding Content.FilePath.FileName}"/>
+                                                    <Setter Property="Text" Value="{Binding Content.Path.FileName}"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Content.FilePath.FileName}" Value="">
+                                                        <DataTrigger Binding="{Binding Content.Path.FileName}" Value="">
                                                             <Setter Property="Text" Value="Home"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -113,7 +113,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="ChevronRight" VerticalAlignment="Center" />
-                        <Button Content="{Binding Content.FilePath.FileName}" Style="{StaticResource LinkButtonStyle}"
+                        <Button Content="{Binding Content.Path.FileName}" Style="{StaticResource LinkButtonStyle}"
                                 Command="{Binding DataContext.LocateFolderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"
                                 CommandParameter="{Binding}" />
                     </StackPanel>

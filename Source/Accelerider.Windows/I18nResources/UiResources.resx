@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutDialog_CheckForUpdate" xml:space="preserve">
+    <value>Check for Update</value>
+  </data>
+  <data name="AboutDialog_CheckUpdateResultAvailable" xml:space="preserve">
+    <value>A new version is available.</value>
+  </data>
+  <data name="AboutDialog_CheckUpdateResultLatest" xml:space="preserve">
+    <value>You have the latest version. </value>
+  </data>
+  <data name="AboutDialog_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="AboutDialog_GithubHome" xml:space="preserve">
+    <value>Github Home</value>
+  </data>
+  <data name="AboutDialog_GithubProjectHome" xml:space="preserve">
+    <value>Github Project Home</value>
+  </data>
+  <data name="AboutDialog_Mrs4s" xml:space="preserve">
+    <value>Mrs4s</value>
+  </data>
+  <data name="AboutDialog_Mrs4sDescription" xml:space="preserve">
+    <value>Server Support</value>
+  </data>
+  <data name="AboutDialog_ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="AboutDialog_SoftwareName" xml:space="preserve">
+    <value>Accelerider for Windows</value>
+  </data>
+  <data name="AboutDialog_Title" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AboutDialog_Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="AboutDialog_VersionNumber" xml:space="preserve">
+    <value>0.0.1-alpha1</value>
+  </data>
+  <data name="AboutDialog_ZDP" xml:space="preserve">
+    <value>ZDP</value>
+  </data>
+  <data name="AboutDialog_ZDPDescription" xml:space="preserve">
+    <value>Windows Desktop Client</value>
+  </data>
+  <data name="AuthenticationWindow_LogIn" xml:space="preserve">
+    <value>LOGIN</value>
+  </data>
+  <data name="AuthenticationWindow_SignUp" xml:space="preserve">
+    <value>REGISTER</value>
+  </data>
+  <data name="Buttons_Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="Buttons_Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="MainWindow_AppStore" xml:space="preserve">
+    <value>App Store</value>
+  </data>
+  <data name="MainWindow_Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="ProfileDialog_ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="ProfileDialog_ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="ProfileDialog_Email" xml:space="preserve">
+    <value>Email: </value>
+  </data>
+  <data name="ProfileDialog_EmailVisibility" xml:space="preserve">
+    <value>Email Visibility: </value>
+  </data>
+  <data name="ProfileDialog_MultipleOnline" xml:space="preserve">
+    <value>Multiple Online: </value>
+  </data>
+  <data name="ProfileDialog_NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="ProfileDialog_OldPassword" xml:space="preserve">
+    <value>Old Password</value>
+  </data>
+  <data name="ProfileDialog_Title" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="ProfileDialog_Username" xml:space="preserve">
+    <value>Username: </value>
+  </data>
+  <data name="Punctuation_LeftParenthesis" xml:space="preserve">
+    <value>(</value>
+  </data>
+  <data name="Punctuation_RightParenthesis" xml:space="preserve">
+    <value>)</value>
+  </data>
+  <data name="SettingsPopup_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="SettingsPopup_AcceleriderForWeb" xml:space="preserve">
+    <value>Accelerider for Web</value>
+  </data>
+  <data name="SettingsPopup_ChangeProfile" xml:space="preserve">
+    <value>Change Profile</value>
+  </data>
+  <data name="SettingsPopup_Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="SettingsPopup_LogOut" xml:space="preserve">
+    <value>Log Out</value>
+  </data>
+  <data name="SettingsPopup_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ShellSettingsTabItem_Application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="ShellSettingsTabItem_AutoShutdown" xml:space="preserve">
+    <value>Auto-shutdown the computer after the download is complete</value>
+  </data>
+  <data name="ShellSettingsTabItem_AutoStart" xml:space="preserve">
+    <value>Auto-start application</value>
+  </data>
+  <data name="ShellSettingsTabItem_Header" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="ShellSettingsTabItem_KeepRunning" xml:space="preserve">
+    <value>On close, keep the application running</value>
+  </data>
+  <data name="ShellSettingsTabItem_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="ShellSettingsTabItem_Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="ShellSettingsTabItem_ThemeOptions_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="ShellSettingsTabItem_ThemeOptions_Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="SignInView_AutomaticLogin" xml:space="preserve">
+    <value>Automatic Login</value>
+  </data>
+  <data name="SignInView_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="SignInView_Login" xml:space="preserve">
+    <value>LOGIN</value>
+  </data>
+  <data name="SignInView_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SignInView_RememberMe" xml:space="preserve">
+    <value>Remember Me</value>
+  </data>
+  <data name="SignUpView_EmailAddress" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="SignUpView_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SignUpView_RetrySeconds" xml:space="preserve">
+    <value>Seconds</value>
+  </data>
+  <data name="SignUpView_SendCode" xml:space="preserve">
+    <value>Send Code</value>
+  </data>
+  <data name="SignUpView_Username" xml:space="preserve">
+    <value>Username (Nick)</value>
+  </data>
+  <data name="SignUpView_VerificationCode" xml:space="preserve">
+    <value>Verification Code</value>
+  </data>
+</root>

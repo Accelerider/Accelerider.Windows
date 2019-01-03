@@ -1,16 +1,37 @@
-﻿using System.Collections.ObjectModel;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
-using Microsoft.Practices.Unity;
+﻿using System.Linq;
+using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Modules.NetDisk.Models;
+using Accelerider.Windows.TransferService;
+using Unity;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
-    public class DownloadedViewModel : TransportedBaseViewModel
+    public class DownloadedViewModel : TransferredBaseViewModel
     {
-        public DownloadedViewModel(IUnityContainer container) : base(container)
+        private readonly IDownloaderManager _downloaderManager;
+
+        public DownloadedViewModel(IUnityContainer container, IDownloaderManager downloaderManager) : base(container)
         {
+            _downloaderManager = downloaderManager;
+
+            EventAggregator.GetEvent<TransferItemCompletedEvent>().Subscribe(
+                item => TransferredFiles.Add(item),
+                Prism.Events.ThreadOption.UIThread,
+                true,
+                _ => TransferredFiles != null);
         }
 
-        protected override ObservableCollection<ITransferredFile> GetTransferredFiles() => Container.Resolve<TransferringTaskList>(TransferringTaskList.DownloadKey).TransferredFileList;
+        public override void OnLoaded()
+        {
+            if (TransferredFiles == null)
+            {
+                TransferredFiles = new ObservableSortedCollection<ILocalDiskFile>(
+                    AcceleriderUser
+                        .GetNetDiskUsers()
+                        .SelectMany(item => item.GetDownloadedFiles()),
+                    DefaultTransferredFileComparer);
+            }
+        }
     }
 }

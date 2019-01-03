@@ -3,9 +3,14 @@
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          xmlns:mvvm="http://prismlibrary.com/"
-         xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
+         xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
          xmlns:fileBrowser="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.FileBrowser"
-         mvvm:ViewModelLocator.AutoWireViewModel="True">
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser"
+         mvvm:ViewModelLocator.AutoWireViewModel="True"
+         mc:Ignorable="d"
+         d:DataContext="{d:DesignInstance {x:Type vm:FileBrowserComponentViewModel}}">
     <TabItem.Header>
         <Grid >
             <Grid.RowDefinitions>
@@ -37,7 +42,24 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <controls:SearchBar Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" ToolTip="Enter to search, ignore case"/>
+            <controls:SearchBar Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" 
+                                SearchResults="{Binding SearchResults}" SelectedSearchResult="{Binding SelectedSearchResult, Mode=OneWayToSource}">
+                <controls:SearchBar.SearchResultItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="10 0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Tag="{Binding Content.FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </controls:SearchBar.SearchResultItemTemplate>
+            </controls:SearchBar>
 
             <ListBox x:Name="SelectViewListBox" Grid.Row="3"
                      ItemContainerStyle="{StaticResource ListBoxItemStyle}"
@@ -56,7 +78,7 @@
                         <TextBlock Grid.Column="3" Text="Files" VerticalAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
-                <ListBoxItem Height="45">
+                <!--<ListBoxItem Height="45">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="15"/>
@@ -79,13 +101,13 @@
                         <materialDesign:PackIcon Grid.Column="1" Kind="Delete" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Column="3" Text="Recycle Bin" VerticalAlignment="Center"/>
                     </Grid>
-                </ListBoxItem>
+                </ListBoxItem>-->
             </ListBox>
 
             <TextBlock Grid.Row="5" Text="Cloud Storage" Margin="10 0 0 0" FontSize="14"/>
             <ListBox Grid.Row="7" ItemsSource="{Binding NetDiskUsers}" IsEnabled="{Binding CanSwitchUser}"
                      ItemContainerStyle="{StaticResource ListBoxItemStyle}"
-                     SelectedItem="{Binding NetDiskUser}" SelectionMode="Single"
+                     SelectedItem="{Binding CurrentNetDiskUser}" SelectionMode="Single"
                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      HorizontalContentAlignment="Stretch" >
@@ -101,7 +123,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Height="30" Width="30">
                                     <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding HeadImageUri, Converter={StaticResource UriToImageSourceConverter}}" />
+                                        <ImageBrush ImageSource="{Binding Avatar, Converter={StaticResource UriToImageSourceConverter}}" RenderOptions.BitmapScalingMode="HighQuality"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
                                 <TextBlock Grid.Column="2" Text="{Binding Username}" VerticalAlignment="Center"/>
@@ -123,8 +145,8 @@
                                        Selector="{Binding ElementName=SelectViewListBox}">
             <controls:SwitchableViewContainer.Resources>
                 <fileBrowser:Files x:Key="0" Style="{StaticResource FloatInUpStyle}"/>
-                <fileBrowser:Share x:Key="1" Style="{StaticResource FloatInUpStyle}" />
-                <fileBrowser:RecycleBin x:Key="2" Style="{StaticResource FloatInUpStyle}" />
+                <!--<fileBrowser:Share x:Key="1" Style="{StaticResource FloatInUpStyle}" />
+                <fileBrowser:RecycleBin x:Key="2" Style="{StaticResource FloatInUpStyle}" />-->
             </controls:SwitchableViewContainer.Resources>
         </controls:SwitchableViewContainer>
         <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>

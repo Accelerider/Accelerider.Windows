@@ -1,0 +1,96 @@
+﻿<TabItem x:Class="Accelerider.Windows.Views.ShellSettingsTabItem"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
+         xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
+         Header="{i18N:I18n {x:Static i18NResources:ResKeys.ShellSettingsTabItem_Header}}">
+    <UserControl Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
+        <Grid Margin="24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <!--<RowDefinition />-->
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" VerticalAlignment="Center" 
+                       Text="{i18N:I18n {x:Static i18NResources:ResKeys.ShellSettingsTabItem_Theme}}"/>
+            <TextBlock Grid.Column="0" Grid.Row="1" Margin="0 24" FontWeight="Bold"  
+                       Text="{i18N:I18n {x:Static i18NResources:ResKeys.ShellSettingsTabItem_Application}}"/>
+            <TextBlock Grid.Column="0" Grid.Row="2" Margin="0 22" FontWeight="Bold" 
+                       Text="{i18N:I18n {x:Static i18NResources:ResKeys.ShellSettingsTabItem_Language}}" />
+            <!--<TextBlock Grid.Column="0" Grid.Row="3" Text="Notification" FontWeight="Bold" />-->
+
+            <ComboBox Grid.Column="2" Grid.Row="0" Margin="0 16">
+                <ComboBoxItem IsSelected="True" 
+                              Content="{i18N:I18n {x:Static i18NResources:ResKeys.ShellSettingsTabItem_ThemeOptions_Light}}"/>
+                <ComboBoxItem Content="{i18N:I18n {x:Static i18NResources:ResKeys.ShellSettingsTabItem_ThemeOptions_Dark}}"/>
+            </ComboBox>
+
+            <StackPanel Grid.Column="2" Grid.Row="1" Margin="0 16">
+                <CheckBox Margin="0 8" 
+                          Content="{i18N:I18n {x:Static i18NResources:ResKeys.ShellSettingsTabItem_AutoStart}}"/>
+                <CheckBox Margin="0 8"
+                          Content="{i18N:I18n {x:Static i18NResources:ResKeys.ShellSettingsTabItem_KeepRunning}}"/>
+                <CheckBox Margin="0 8"
+                          Content="{i18N:I18n {x:Static i18NResources:ResKeys.ShellSettingsTabItem_AutoShutdown}}"/>
+            </StackPanel>
+
+            <ComboBox Grid.Column="2" Grid.Row="2" Margin="0 16" 
+                      ItemsSource="{Binding Path=AvailableCultureInfos, Source={x:Static i18N:I18nManager.Instance}}" 
+                      SelectedItem="{Binding Path=CurrentUICulture, Source={x:Static i18N:I18nManager.Instance}}"
+                      DisplayMemberPath="NativeName"/>
+
+            <!--<Grid Grid.Column="2" Grid.Row="3" Margin="0 16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="The new version is available" VerticalAlignment="Center" Margin="0 8"/>
+                <TextBlock Grid.Row="1" Text="" VerticalAlignment="Center" Margin="0 8"/>
+                <TextBlock Grid.Row="2" Text="Create download task" VerticalAlignment="Center" Margin="0 8"/>
+                <TextBlock Grid.Row="3" Text="Task completion" VerticalAlignment="Center" Margin="0 8"/>
+
+                <ComboBox Grid.Column="2" Grid.Row="0" Margin="0 8">
+                    <ComboBoxItem>Banner</ComboBoxItem>
+                    <ComboBoxItem>Banner and email</ComboBoxItem>
+                    <ComboBoxItem>Only show in feed</ComboBoxItem>
+                    <ComboBoxItem>Off</ComboBoxItem>
+                </ComboBox>
+
+                <ComboBox Grid.Column="2" Grid.Row="1" Margin="0 8">
+                    <ComboBoxItem>Banner</ComboBoxItem>
+                    <ComboBoxItem>Banner and email</ComboBoxItem>
+                    <ComboBoxItem>Only show in feed</ComboBoxItem>
+                    <ComboBoxItem>Off</ComboBoxItem>
+                </ComboBox>
+
+                <ComboBox Grid.Column="2" Grid.Row="2" Margin="0 8">
+                    <ComboBoxItem>Banner</ComboBoxItem>
+                    <ComboBoxItem>Banner and email</ComboBoxItem>
+                    <ComboBoxItem>Only show in feed</ComboBoxItem>
+                    <ComboBoxItem>Off</ComboBoxItem>
+                </ComboBox>
+
+                <ComboBox Grid.Column="2" Grid.Row="3" Margin="0 8">
+                    <ComboBoxItem>Banner</ComboBoxItem>
+                    <ComboBoxItem>Banner and email</ComboBoxItem>
+                    <ComboBoxItem>Only show in feed</ComboBoxItem>
+                    <ComboBoxItem>Off</ComboBoxItem>
+                </ComboBox>
+            </Grid>-->
+        </Grid>
+    </UserControl>
+</TabItem>

@@ -1,5 +1,5 @@
-﻿using Accelerider.Windows.Infrastructure;
-using Microsoft.Practices.Unity;
+﻿using Accelerider.Windows.Infrastructure.Mvvm;
+using Unity;
 
 namespace Accelerider.Windows.Modules.Group.ViewModels
 {

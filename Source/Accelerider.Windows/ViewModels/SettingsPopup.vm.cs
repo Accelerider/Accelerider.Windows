@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
-
-using Accelerider.Windows.Infrastructure.Commands;
+using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Interfaces;
+using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Views;
 using Accelerider.Windows.Views.Dialogs;
-using Accelerider.Windows.Views.Entering;
-
+using Unity;
 using MaterialDesignThemes.Wpf;
 
-using Microsoft.Practices.Unity;
 
 namespace Accelerider.Windows.ViewModels
 {
-    public class SettingsPopupViewModel : ViewModelBase
+    public class SettingsPopupViewModel : ViewModelBase, IViewLoadedAndUnloadedAware<SettingsPopup>
     {
         private readonly Dictionary<Type, object> _dialogDictionary = new Dictionary<Type, object>();
 
@@ -24,7 +21,6 @@ namespace Accelerider.Windows.ViewModels
         private ICommand _openSettingsPanelCommand;
         private ICommand _helpCommand;
         private ICommand _aboutCommand;
-        private ICommand _checkUpdateCommand;
         private ICommand _openOfficialSiteCommand;
         private ICommand _signOutCommand;
 
@@ -36,15 +32,14 @@ namespace Accelerider.Windows.ViewModels
 
             OpenSettingsPanelCommand = new RelayCommand(OpenDialog<SettingsDialog>);
 
-            HelpCommand = new RelayCommand(() => Process.Start(ConstStrings.HelpUrl));
-            OpenOfficialSiteCommand = new RelayCommand(() => Process.Start(ConstStrings.WebSitePanUrl));
-            CheckUpdateCommand = new RelayCommand(() => Process.Start("mailto:dingpingzhang@outlook.com"));
+            HelpCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Help));
+            OpenOfficialSiteCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.WebSite));
             AboutCommand = new RelayCommand(OpenDialog<AboutDialog>);
 
             SignOutCommand = new RelayCommand(() =>
             {
-                Container.Resolve<ILocalConfigureInfo>().IsAutoSignIn = false;
-                ShellSwitcher.Switch<MainWindow, EnteringWindow>();
+                Container.Resolve<IConfigureFile>().SetValue(ConfigureKeys.AutoSignIn, false);
+                ProcessController.Restart();
             });
         }
 
@@ -74,12 +69,6 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _openOfficialSiteCommand, value);
         }
 
-        public ICommand CheckUpdateCommand
-        {
-            get => _checkUpdateCommand;
-            set => SetProperty(ref _checkUpdateCommand, value);
-        }
-
         public ICommand AboutCommand
         {
             get => _aboutCommand;
@@ -93,10 +82,13 @@ namespace Accelerider.Windows.ViewModels
             set => SetProperty(ref _signOutCommand, value);
         }
 
-        public override void OnLoaded(object view)
+        public void OnLoaded(SettingsPopup view)
         {
-            base.OnLoaded(view);
-            _view = view as SettingsPopup;
+            _view = view;
+        }
+
+        public void OnUnloaded(SettingsPopup view)
+        {
         }
 
         private async void OpenDialog<T>() where T : new()

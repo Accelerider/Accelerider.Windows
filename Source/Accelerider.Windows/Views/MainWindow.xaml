@@ -4,10 +4,11 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:views="clr-namespace:Accelerider.Windows.Views"
         xmlns:prism="http://prismlibrary.com/"
-        xmlns:infrastructure="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure"
         xmlns:settings="clr-namespace:Accelerider.Windows.Properties"
-        xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
         xmlns:appstore="clr-namespace:Accelerider.Windows.Views.AppStore"
+        xmlns:ui="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure.UI"
+        xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
+        xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
         prism:ViewModelLocator.AutoWireViewModel="True"
         prism:RegionManager.RegionManager="{Binding RegionManager}"
         MinHeight="500" MinWidth="720" 
@@ -15,7 +16,7 @@
         Width="{Binding Path=MainWindowWidth, Source={x:Static settings:Settings.Default}, Mode=TwoWay}" 
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource MainWindowStyle}"
-        Icon="pack://application:,,,/Images/logoIcon.ico"
+        Icon="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-icon.ico"
         Title="Accelerider" >
 
     <materialDesign:DialogHost Identifier="RootDialog">
@@ -29,7 +30,7 @@
 
             <TabControl Grid.Column="0" Grid.ColumnSpan="2" SelectedIndex="0"
                         Style="{StaticResource MainTabControlStyle}" ItemContainerStyle="{StaticResource MainTabItemStyle}"
-                        prism:RegionManager.RegionName="{x:Static infrastructure:RegionNames.MainTabRegion}"/>
+                        prism:RegionManager.RegionName="{x:Static ui:RegionNames.MainTabRegion}"/>
 
             <StackPanel Grid.Column="0" VerticalAlignment="Bottom">
                 <ToggleButton x:Name="AppStoreToggleButton" Height="56" Style="{StaticResource LeftBarAndUnderlineToggleButtonStyle}"
@@ -41,7 +42,8 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <materialDesign:PackIcon Kind="Apps" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
-                        <TextBlock Grid.Row="2" Text="App Store" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
+                        <TextBlock Grid.Row="2" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"
+                                   Text="{i18N:I18n {x:Static i18NResources:ResKeys.MainWindow_AppStore}}"/>
                     </Grid>
                 </ToggleButton>
                 <ToggleButton x:Name="SettingsToggleButton" 
@@ -53,7 +55,8 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <materialDesign:PackIcon Kind="Menu" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
-                        <TextBlock Grid.Row="2" Text="Menu" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
+                        <TextBlock Grid.Row="2" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"
+                                   Text="{i18N:I18n {x:Static i18NResources:ResKeys.MainWindow_Menu}}"/>
                     </Grid>
                 </ToggleButton>
                 <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}"  StaysOpen="False"
@@ -63,7 +66,7 @@
 
             <UserControl Grid.Column="1" >
                 <UserControl.Resources>
-                    <appstore:AppStoreComponent x:Key="AppStoreComponent" Style="{StaticResource FloatInRightToLeftStyle}" />
+                    <appstore:AppStoreComponent x:Key="AppStoreComponent"/>
                 </UserControl.Resources>
                 <UserControl.Style>
                     <Style TargetType="UserControl">

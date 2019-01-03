@@ -1,25 +1,38 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
-using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
+using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Mvvm;
+using Accelerider.Windows.Modules.NetDisk.Models;
+using Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications;
+using Unity;
 using MaterialDesignThemes.Wpf;
-using Microsoft.Practices.Unity;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class FileBrowserComponentViewModel : ViewModelBase
+    public class FileBrowserComponentViewModel : ViewModelBase, IViewLoadedAndUnloadedAware, INotificable
     {
         private bool _canSwitchUser;
-        private ObservableCollection<INetDiskUser> _netDiskUsers;
-        private ICommand _addNetDiskCommand;
+        private IEnumerable<ILazyTreeNode<INetDiskFile>> _searchResults;
+        private ILazyTreeNode<INetDiskFile> _selectedSearchResult;
 
         public FileBrowserComponentViewModel(IUnityContainer container) : base(container)
         {
-            NetDiskUsers = new ObservableCollection<INetDiskUser>(AcceleriderUser.NetDiskUsers);
-            EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Subscribe(isLoadingFiles => CanSwitchUser = !isLoadingFiles);
+            SubscribeEvents();
 
             AddNetDiskCommand = new RelayCommand(AddNetDiskCommandExecute);
+        }
+
+        public async void OnLoaded()
+        {
+            await AcceleriderUser.UpdateAsync();
+            RaisePropertyChanged(nameof(NetDiskUsers));
+        }
+
+        public void OnUnloaded()
+        {
         }
 
         public bool CanSwitchUser
@@ -28,21 +41,44 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             set => SetProperty(ref _canSwitchUser, value);
         }
 
-        public ObservableCollection<INetDiskUser> NetDiskUsers
+        public IEnumerable<ILazyTreeNode<INetDiskFile>> SearchResults
         {
-            get => _netDiskUsers;
-            set => SetProperty(ref _netDiskUsers, value);
+            get => _searchResults;
+            set => SetProperty(ref _searchResults, value);
         }
 
-        public ICommand AddNetDiskCommand
+        public ILazyTreeNode<INetDiskFile> SelectedSearchResult
         {
-            get => _addNetDiskCommand;
-            set => SetProperty(ref _addNetDiskCommand, value);
+            get => _selectedSearchResult;
+            set
+            {
+                if (!SetProperty(ref _selectedSearchResult, value) || value == null) return;
+
+                EventAggregator.GetEvent<SelectedSearchResultChangedEvent>().Publish(value);
+
+#if DEBUG
+                Debug.WriteLine($"SelectedSearchResult {value.Content.Path.FileName}");
+#endif
+            }
         }
+
+        public ObservableCollection<INetDiskUser> NetDiskUsers =>
+            new ObservableCollection<INetDiskUser>(AcceleriderUser.GetNetDiskUsers());
+
+        public ICommand AddNetDiskCommand { get; }
+
 
         private async void AddNetDiskCommandExecute()
         {
-            await DialogHost.Show(new SelectNetDiskTypeDialog(), "RootDialog");
+            await DialogHost.Show(new SixCloud(), "RootDialog");
         }
+
+        private void SubscribeEvents()
+        {
+            EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Subscribe(isLoadingFiles => CanSwitchUser = !isLoadingFiles);
+            EventAggregator.GetEvent<SearchResultsChangedEvent>().Subscribe(searchResults => SearchResults = searchResults);
+        }
+
+        public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
     }
 }

@@ -3,7 +3,7 @@
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          xmlns:mvvm="http://prismlibrary.com/"
-         xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
+         xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
          xmlns:transportation="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.Transportation"
          mvvm:ViewModelLocator.AutoWireViewModel="True">
     <TabItem.Header>
@@ -28,12 +28,12 @@
                 </Grid.RowDefinitions>
                 <materialDesign:Badged BadgeColorZoneMode="Accent" Grid.Column="1" Grid.Row="1"
                                        BadgeBackground="Red" BadgeForeground="White" >
-                    <materialDesign:Badged.Badge>
+                    <!--<materialDesign:Badged.Badge>
                         <MultiBinding Converter="{StaticResource PlusConverter}">
                             <Binding Path="DownloadList.Count" />
                             <Binding Path="UploadList.Count" />
                         </MultiBinding>
-                    </materialDesign:Badged.Badge>
+                    </materialDesign:Badged.Badge>-->
                 </materialDesign:Badged>
             </Grid>
         </Grid>

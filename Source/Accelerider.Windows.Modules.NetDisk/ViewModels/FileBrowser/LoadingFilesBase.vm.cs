@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Accelerider.Windows.Infrastructure.Commands;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using Microsoft.Practices.Unity;
+using Accelerider.Windows.Infrastructure;
+using Accelerider.Windows.Infrastructure.Mvvm;
+using Accelerider.Windows.Modules.NetDisk.Models;
+using Unity;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public abstract class LoadingFilesBaseViewModel<T> : ViewModelBase
+    public abstract class LoadingFilesBaseViewModel<T> : ViewModelBase, IViewLoadedAndUnloadedAware
     {
         private bool _isLoadingFiles;
         private ICommand _refreshFilesCommand;
-        private IEnumerable<T> _files;
+        private IList<T> _files;
 
         protected LoadingFilesBaseViewModel(IUnityContainer container) : base(container)
         {
@@ -30,49 +32,49 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             set { if (SetProperty(ref _isLoadingFiles, value)) EventAggregator.GetEvent<IsLoadingFilesChangedEvent>().Publish(_isLoadingFiles); }
         }
 
-        public IEnumerable<T> Files
+        public IList<T> Files
         {
             get => _files;
-            set
-            {
-                SetProperty(ref _files, value);
-                IsLoadingFiles = false;
-            }
+            private set => SetProperty(ref _files, value);
         }
 
         protected INetDiskUser PreviousNetDiskUser { get; set; }
 
-        public override void OnLoaded(object view)
+        public virtual void OnLoaded()
         {
-            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Subscribe(OnCurrentNetDiskUserChanged);
-
-            if (PreviousNetDiskUser != NetDiskUser)
+            if (PreviousNetDiskUser != CurrentNetDiskUser)
             {
-                OnCurrentNetDiskUserChanged(NetDiskUser);
+                OnCurrentNetDiskUserChanged(CurrentNetDiskUser);
             }
         }
 
-        public override void OnUnloaded(object view)
+        public virtual void OnUnloaded()
         {
-            EventAggregator.GetEvent<CurrentNetDiskUserChangedEvent>().Unsubscribe(OnCurrentNetDiskUserChanged);
-
-            PreviousNetDiskUser = NetDiskUser;
+            PreviousNetDiskUser = CurrentNetDiskUser;
         }
 
-        protected async Task LoadingFilesAsync()
+        protected async Task LoadingFilesAsync(IList<T> files = null)
         {
             if (IsLoadingFiles) return;
 
             IsLoadingFiles = true;
-            var task = GetFilesAsync();
-            if (task != null) Files = await task;
+            if (files == null)
+            {
+                var task = GetFilesAsync();
+                if (task != null) Files = await task;
+            }
+            else
+            {
+                Files = files;
+            }
+            IsLoadingFiles = false;
         }
 
-        protected abstract Task<IEnumerable<T>> GetFilesAsync();
+        protected abstract Task<IList<T>> GetFilesAsync();
 
-        private async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
+        protected override async void OnCurrentNetDiskUserChanged(INetDiskUser currentNetDiskUser)
         {
-            await currentNetDiskUser.RefreshUserInfoAsync();
+            await currentNetDiskUser.RefreshAsync();
             await LoadingFilesAsync();
         }
     }

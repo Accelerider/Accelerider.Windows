@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.Commands;
-using Microsoft.Practices.Unity;
+using Accelerider.Windows.Infrastructure.Mvvm;
+using Unity;
+
 
 namespace Accelerider.Windows.ViewModels.Dialogs
 {
@@ -16,24 +15,22 @@ namespace Accelerider.Windows.ViewModels.Dialogs
     {
         private ICommand _openReleaseNotesCommand;
         private ICommand _openProjectHomeCommand;
-
         private ICommand _openMrs4sEmailCommand;
         private ICommand _openLd50EmailCommand;
-
         private ICommand _openMrs4SHomeCommand;
         private ICommand _openLd50HomeCommand;
-
         private ICommand _checkForUpdateCommand;
+
 
         public AboutDialogViewModel(IUnityContainer container) : base(container)
         {
-            OpenReleaseNotesCommand = new RelayCommand(() => Process.Start(ConstStrings.ReleaseUrl));
-            OpenProjectHomeCommand = new RelayCommand(() => Process.Start(ConstStrings.GithubHomeUrl));
-            OpenMrs4sEmailCommand = new RelayCommand(() => Process.Start("mailto:mrs4sxiaoshi@gmail.com"));
-            OpenLd50EmailCommand = new RelayCommand(() => Process.Start("mailto:ld50.zhang@gmail.com"));
-            OpenMrs4SHomeCommand = new RelayCommand(() => Process.Start("https://github.com/Mrs4s"));
-            OpenLd50HomeCommand = new RelayCommand(() => Process.Start("https://github.com/DingpingZhang"));
-            CheckForUpdateCommand = new RelayCommand(() => Process.Start(ConstStrings.ReleaseUrl));
+            OpenReleaseNotesCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Release));
+            OpenProjectHomeCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.ProjectGithubHome));
+            OpenMrs4sEmailCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Mrs4sEmail));
+            OpenLd50EmailCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.ZdpEmail));
+            OpenMrs4SHomeCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Mrs4sGithubHome));
+            OpenLd50HomeCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.ZdpGithubHome));
+            CheckForUpdateCommand = new RelayCommand(CheckForUpdateCommandExecute);
         }
 
 
@@ -77,6 +74,20 @@ namespace Accelerider.Windows.ViewModels.Dialogs
         {
             get => _checkForUpdateCommand;
             set => SetProperty(ref _checkForUpdateCommand, value);
+        }
+
+        private void CheckForUpdateCommandExecute()
+        {
+            var process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = Path.Combine(Environment.CurrentDirectory, "Update/Accelerider.Windows.Update.exe"),
+                    WindowStyle = ProcessWindowStyle.Hidden
+                }
+            };
+            process.Start();
+            Application.Current.Shutdown(0);
         }
     }
 }

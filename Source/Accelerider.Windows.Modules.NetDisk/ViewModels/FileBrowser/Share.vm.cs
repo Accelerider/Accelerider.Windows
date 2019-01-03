@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using Microsoft.Practices.Unity;
+﻿using Unity;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
-    public class ShareViewModel : LoadingFilesBaseViewModel<ISharedFile>
+    public class ShareViewModel : ViewModelBase
     {
         public ShareViewModel(IUnityContainer container) : base(container)
         {
         }
 
-        protected override async Task<IEnumerable<ISharedFile>> GetFilesAsync() => await NetDiskUser.GetSharedFilesAsync();
+        //protected override async Task<IList<ISharedFile>> GetFilesAsync()
+        //{
+        //    //return await CurrentNetDiskUser.GetFilesAsync<ISharedFile>(FileCategory.Shared);
+        //    throw new NotImplementedException();
+        //}
     }
 }

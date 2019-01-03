@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace Accelerider.Windows.Infrastructure.Interfaces
+namespace Accelerider.Windows.Infrastructure
 {
     /// <summary>
     /// Represents a tree structure whose <see cref="ChildrenCache"/> will be fetched or refreshed 
-    /// when the <see cref="RefreshChildrenCacheAsync"/> method is called.
+    /// when the <see cref="IRefreshable.RefreshAsync"/> method is called.
     /// </summary>
     /// <typeparam name="T">The type of <see cref="Content"/> in the tree node.</typeparam>
-    public interface ILazyTreeNode<out T>
+    public interface ILazyTreeNode<out T> : IRefreshable
     {
         /// <summary>
         /// Gets the content that stored by the node.
@@ -27,10 +28,10 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         ILazyTreeNode<T> Parent { get; }
 
         /// <summary>
-        /// Get all the parents of the node, the order of the sequence is from the root to the parent of the node.
+        /// Get ancestors of the node, the order of the sequence is from the root to the parent of the node.
         /// (<see cref="Root"/> --> <see cref="Parent"/>)
         /// </summary>
-        IReadOnlyList<ILazyTreeNode<T>> Parents { get; }
+        IReadOnlyList<ILazyTreeNode<T>> Ancestors { get; }
 
         /// <summary>
         /// Gets the cache of the child's node for the node.
@@ -38,17 +39,16 @@ namespace Accelerider.Windows.Infrastructure.Interfaces
         IReadOnlyList<ILazyTreeNode<T>> ChildrenCache { get; }
 
         /// <summary>
-        /// Try to refresh the children of the node, 
-        /// if true is returned, the data in <see cref="ChildrenCache"/> is up-to-date.
-        /// </summary>
-        /// <returns>Returns a <see cref="bool"/> type indicating whether the data was successfully fetched.</returns>
-        Task<bool> RefreshChildrenCacheAsync();
-
-        /// <summary>
         /// Applies action to the content of this node and its children.
         /// </summary>
-        /// <param name="action">A operation to the content of nodes.</param>
+        /// <param name="callback">A operation to the content of nodes.</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>Returns a <see cref="Task"/> to wait.</returns>
-        Task ForEachAsync(Action<T> action);
+        Task ForEachAsync(Action<T> callback, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Clear the <see cref="ChildrenCache"/> and the related data.
+        /// </summary>
+        void Release();
     }
 }

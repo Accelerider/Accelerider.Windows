@@ -4,7 +4,16 @@
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          SelectionMode="Single"
          Style="{StaticResource {x:Type ListBox}}"
-         ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}">
+         ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.Models"
+         mc:Ignorable="d"
+         d:DataContext="{d:DesignInstance {x:Type vm:IDownloadingFile}}">
+
+    <ListBox.Resources>
+        <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Infrastructure.UI;component/Converters/Accelerider.Converters.xaml"/>
+    </ListBox.Resources>
 
     <ListBox.ContextMenu>
         <ContextMenu x:Name="ContextMenu">
@@ -53,9 +62,8 @@
         <DataTemplate>
             <Grid >
                 <ProgressBar x:Name="ProgressBar" Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"
-                             IsIndeterminate="{Binding IsBusy}"
-                             Maximum="{Binding FileSummary.FileSize.BaseBValue, Mode=OneWay}"
-                             Value="{Binding Progress.BaseBValue, Mode=OneWay}"/>
+                             Maximum="{Binding BindableDownloader.Progress.TotalSize.Value, Mode=OneWay}"
+                             Value="{Binding BindableDownloader.Progress.CompletedSize.Value, Mode=OneWay}"/>
                 <Border Padding="20 8">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -65,7 +73,7 @@
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
 
-                        <Image Tag="{Binding FileSummary.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
+                        <Image Tag="{Binding File.Type}" Style="{StaticResource FileImageSelectorStyle}" />
 
                         <Grid Grid.Column="2" >
                             <Grid.ColumnDefinitions>
@@ -83,20 +91,16 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.ColumnSpan="7" Text="{Binding FileSummary.FilePath.FileName}" Foreground="{StaticResource PrimaryHueDarkBrush}" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Grid.ColumnSpan="7" Text="{Binding File.Path.FileName}" Foreground="{StaticResource PrimaryHueDarkBrush}" TextTrimming="CharacterEllipsis"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Foreground="Gray">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0}/{1}">
-                                        <Binding Path="Progress"/>
-                                        <Binding Path="FileSummary.FileSize"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
+                                <Run Text="{Binding BindableDownloader.Progress.CompletedSize, Mode=OneWay}" />/<Run Text="{Binding File.Size, Mode=OneWay, Converter={StaticResource NumberToDisplayDataSizeConverter}}" />
                             </TextBlock>
-                            <TextBlock x:Name="ProgressTextBox" Grid.Column="2" Grid.Row="2" Foreground="Gray" Text="{Binding Speed, StringFormat='{}{0}/s'}" />
-                            <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray" Text="{Binding RemainingTime, TargetNullValue='∞'}"/>
+                            <TextBlock x:Name="ProgressTextBox" Grid.Column="2" Grid.Row="2" Foreground="Gray"
+                                       Text="{Binding BindableDownloader.Progress.Speed, StringFormat='{}{0}/s'}" />
+                            <TextBlock Grid.Column="4" Grid.Row="2" Foreground="Gray" Text="{Binding BindableDownloader.Progress.RemainingTime, StringFormat='hh\\:mm\\:ss', TargetNullValue='∞'}"/>
                             <TextBlock Grid.Column="6" Grid.Row="2" TextTrimming="CharacterEllipsis">
                                 <Run Text="Related User: " Foreground="Gray"/>
-                                <Run Text="{Binding OwnerName}" Foreground="{StaticResource PrimaryHueMidBrush}"/>
+                                <Run Text="{Binding Owner.Username}" Foreground="{StaticResource PrimaryHueMidBrush}"/>
                             </TextBlock>
                         </Grid>
                     </Grid>
@@ -104,16 +108,13 @@
             </Grid>
 
             <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding TransferTaskStatus}" Value="Created">
+                <DataTrigger Binding="{Binding BindableDownloader.Status}" Value="Ready">
                     <Setter TargetName="ProgressTextBox" Property="Text" Value="Waiting..."/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding TransferTaskStatus}" Value="Waiting">
-                    <Setter TargetName="ProgressTextBox" Property="Text" Value="Waiting..."/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding TransferTaskStatus}" Value="Paused">
+                <DataTrigger Binding="{Binding BindableDownloader.Status}" Value="Suspended">
                     <Setter TargetName="ProgressTextBox" Property="Text" Value="Paused"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding TransferTaskStatus}" Value="Faulted">
+                <DataTrigger Binding="{Binding BindableDownloader.Status}" Value="Faulted">
                     <Setter TargetName="ProgressTextBox" Property="Text" Value="Faulted"/>
                     <Setter TargetName="ProgressTextBox" Property="Foreground" Value="Red"/>
                     <Setter TargetName="ProgressBar" Property="IsIndeterminate" Value="True"/>

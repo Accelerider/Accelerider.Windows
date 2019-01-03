@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Interfaces;
-using Microsoft.Practices.Unity;
+using Accelerider.Windows.Modules.NetDisk.Models;
+using Unity;
+
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
@@ -11,6 +13,10 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         {
         }
 
-        protected override async Task<IEnumerable<IDeletedFile>> GetFilesAsync() => await NetDiskUser.GetDeletedFilesAsync();
+        protected override async Task<IList<IDeletedFile>> GetFilesAsync()
+        {
+            //return await CurrentNetDiskUser.GetFilesAsync<IDeletedFile>(FileCategory.RecycleBin);
+            throw new NotImplementedException();
+        }
     }
 }

@@ -3,8 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mvvm="http://prismlibrary.com/"
-             xmlns:controls="clr-namespace:Accelerider.Windows.Resources.Controls;assembly=Accelerider.Windows.Resources"
-             mvvm:ViewModelLocator.AutoWireViewModel="True">
+             xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
+             xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance {x:Type vm:DownloadedViewModel}}">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -34,7 +39,7 @@
                 <DataTemplate>
                     <Grid>
                         <ProgressBar Opacity="0.4" Height="55" Foreground="#7679BE" BorderThickness="0" Background="Transparent"/>
-                        <Border Padding="20 8" >
+                        <Border Padding="20 8" ToolTip="{Binding Path.FullPath}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -49,15 +54,15 @@
                                     <ColumnDefinition Width="110"/>
                                     <ColumnDefinition Width="16"/>
                                 </Grid.ColumnDefinitions>
-                                <materialDesign:Badged Badge="？" BadgeColorZoneMode="Accent" BadgeBackground="Red" BadgeForeground="White">
-                                    <!--<materialDesign:Badged.Badge>
+                                <!--<materialDesign:Badged BadgeColorZoneMode="Accent" BadgeBackground="Red" BadgeForeground="White">
+                                    <materialDesign:Badged.Badge>
                                         <materialDesign:PackIcon Kind="Exclamation" />
-                                    </materialDesign:Badged.Badge>-->
-                                    <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
-                                </materialDesign:Badged>
-                                <TextBlock Grid.Column="2" Text="{Binding FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="4" Text="{Binding FileSize}" VerticalAlignment="Center" />
-                                <TextBlock Grid.Column="6" Text="{Binding CompletedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
+                                    </materialDesign:Badged.Badge>
+                                </materialDesign:Badged>-->
+                                <Image Grid.Column="0" Tag="{Binding Type}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Path.FileName, Mode=OneWay}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="{Binding Size, Mode=OneWay, Converter={StaticResource NumberToDisplayDataSizeConverter}}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="6" Text="{Binding CompletedTime, Mode=OneWay, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
                     </Grid>
