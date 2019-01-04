@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure.Modularity;
 using Refit;
 
 namespace Accelerider.Windows.ServerInteraction
@@ -16,5 +18,8 @@ namespace Accelerider.Windows.ServerInteraction
 
         [Post("/tokens")]
         Task<LoginResponse> LoginAsync([Body] LoginArgs args);
+
+        [Get("/apps")]
+        Task<List<AppMetadata>> GetAppMetadataList();
     }
 }

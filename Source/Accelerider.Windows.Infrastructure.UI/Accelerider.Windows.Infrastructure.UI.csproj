@@ -62,6 +62,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Reactive, Version=4.1.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.4.1.2\lib\net46\System.Reactive.dll</HintPath>
@@ -116,12 +117,10 @@
     <Compile Include="I18n\I18nSource.cs" />
     <Compile Include="MergedStyles.cs" />
     <Compile Include="Modularity\AppMetadata.cs" />
+    <Compile Include="Modularity\DirectoryModuleCatalog.cs" />
     <Compile Include="Modularity\ModuleBase.cs" />
-    <Compile Include="Modularity\ModuleCatalogHelper.cs" />
-    <Compile Include="Modularity\RemoteModuleInfo.cs" />
     <Compile Include="Modularity\RemoteModuleTypeLoader.cs" />
     <Compile Include="Modularity\RemoteRef.cs" />
-    <Compile Include="Modularity\RemoteRefDownloader.cs" />
     <Compile Include="Mvvm\DialogViewModel.cs" />
     <Compile Include="Mvvm\ITabItemSelectionChangedAware.cs" />
     <Compile Include="Mvvm\IViewLoadedAndUnloadedAware.cs" />

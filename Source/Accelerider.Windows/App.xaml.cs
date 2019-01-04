@@ -7,6 +7,7 @@ using Accelerider.Windows.Constants;
 using Accelerider.Windows.I18nResources;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.I18n;
+using Accelerider.Windows.Infrastructure.Modularity;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.ServerInteraction;
 using Accelerider.Windows.Views.Authentication;
@@ -70,15 +71,25 @@ namespace Accelerider.Windows
             containerRegistry.RegisterSingleton<ILoggerFacade, Logger>();
         }
 
-        protected override IModuleCatalog CreateModuleCatalog()
+        protected override void InitializeModules()
         {
-            var appsFolder = @".\Modules";
-            if (!Directory.Exists(appsFolder))
+            var manager = (ModuleManager)Container.Resolve<IModuleManager>();
+
+            var assemblyResolver = new AssemblyResolver();
+            manager.ModuleTypeLoaders = new IModuleTypeLoader[]
             {
-                Directory.CreateDirectory(appsFolder);
-            }
-            return new DirectoryModuleCatalog { ModulePath = appsFolder };
+                new RemoteModuleTypeLoader(assemblyResolver),
+                new FileModuleTypeLoader(assemblyResolver)
+            };
+
+            base.InitializeModules();
         }
+
+        //protected override IModuleCatalog CreateModuleCatalog()
+        //{
+        //    return base.CreateModuleCatalog();
+        //    //return new DirectoryModuleCatalog { ModulePath = AcceleriderFolders.Apps };
+        //}
 
         private void ConfigureApplicationEventHandlers()
         {
