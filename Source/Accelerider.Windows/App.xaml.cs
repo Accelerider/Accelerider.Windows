@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using Accelerider.Windows.Properties;
 using System.Windows;
 using Accelerider.Windows.Constants;
@@ -71,7 +72,12 @@ namespace Accelerider.Windows
 
         protected override IModuleCatalog CreateModuleCatalog()
         {
-            return new DirectoryModuleCatalog { ModulePath = @".\Modules" };
+            var appsFolder = @".\Modules";
+            if (!Directory.Exists(appsFolder))
+            {
+                Directory.CreateDirectory(appsFolder);
+            }
+            return new DirectoryModuleCatalog { ModulePath = appsFolder };
         }
 
         private void ConfigureApplicationEventHandlers()
