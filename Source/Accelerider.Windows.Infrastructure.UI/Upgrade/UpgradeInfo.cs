@@ -5,17 +5,14 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 {
     public class UpgradeInfo
     {
-        public Version Version { get; }
+        public string Name { get; set; }
 
-        public List<(string FileName, string Url)> PrivateFiles { get; }
+        public Version Version { get; set; }
 
-        public List<(string FileName, string Url)> PublicFiles { get; }
+        public string Url { get; set; }
 
-        public UpgradeInfo(Version version, List<(string FileName, string Url)> privateFiles, List<(string FileName, string Url)> publicFiles)
-        {
-            Version = version;
-            PrivateFiles = privateFiles;
-            PublicFiles = publicFiles;
-        }
+        public string ModuleType { get; set; }
+
+        public IEnumerable<string> DependsOn { get; set; }
     }
 }

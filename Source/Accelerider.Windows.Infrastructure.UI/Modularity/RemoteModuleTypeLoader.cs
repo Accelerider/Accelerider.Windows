@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Accelerider.Windows.Infrastructure.Upgrade;
 using Accelerider.Windows.TransferService;
 using Prism.Modularity;
 

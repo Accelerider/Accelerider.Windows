@@ -9,6 +9,7 @@ using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.I18n;
 using Accelerider.Windows.Infrastructure.Modularity;
 using Accelerider.Windows.Infrastructure.Mvvm;
+using Accelerider.Windows.Infrastructure.Upgrade;
 using Accelerider.Windows.ServerInteraction;
 using Accelerider.Windows.Views.Authentication;
 using MaterialDesignThemes.Wpf;
@@ -63,6 +64,7 @@ namespace Accelerider.Windows
             containerRegistry.RegisterInstance<ISnackbarMessageQueue>(new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
             containerRegistry.RegisterInstance(new ConfigureFile().Load());
             containerRegistry.RegisterInstance(RestService.For<INonAuthenticationApi>(AcceleriderUrls.ApiBaseAddress));
+            containerRegistry.RegisterSingleton<IUpgradeService, UpgradeService>();
         }
 
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
@@ -70,26 +72,6 @@ namespace Accelerider.Windows
             base.RegisterRequiredTypes(containerRegistry);
             containerRegistry.RegisterSingleton<ILoggerFacade, Logger>();
         }
-
-        protected override void InitializeModules()
-        {
-            var manager = (ModuleManager)Container.Resolve<IModuleManager>();
-
-            var assemblyResolver = new AssemblyResolver();
-            manager.ModuleTypeLoaders = new IModuleTypeLoader[]
-            {
-                new RemoteModuleTypeLoader(assemblyResolver),
-                new FileModuleTypeLoader(assemblyResolver)
-            };
-
-            base.InitializeModules();
-        }
-
-        //protected override IModuleCatalog CreateModuleCatalog()
-        //{
-        //    return base.CreateModuleCatalog();
-        //    //return new DirectoryModuleCatalog { ModulePath = AcceleriderFolders.Apps };
-        //}
 
         private void ConfigureApplicationEventHandlers()
         {

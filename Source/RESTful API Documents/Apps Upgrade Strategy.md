@@ -6,23 +6,21 @@
 
 - Response: `List<AppMetadata>`
 
-  ```json
-  [
-      {
-      	"id": "mongodb_id",
-      	"name": "Accelerider.Windows.Modules.NetDisk",
-      	"version": "0.0.1",
-      	"url": "https://api.accelerider.com/v2/apps/{file_name}",
-      	"moduleType": "{AssemblyQualifiedName}",
-      	"dependsOn": []
-      },
-      {
-          "id": "mongodb_id",
-          "name": "Accelerider.Windows.Modules.NetDisk",
-          "version": "0.0.1",
-          "url": "https://api.accelerider.com/v2/apps/{file_name}",
-          "moduleType": "{AssemblyQualifiedName}",
-          "dependsOn": ["Accelerider.Windows.Modules.NetDisk"]
-      }
-  ]
-  ```
+     ```json
+     [
+             {
+                     "name": "Accelerider.Windows.Modules.NetDisk",
+                     "version": "0.0.1",
+                     "url": "https://api.accelerider.com/v2/apps/{file_name}",
+                     "moduleType": "{AssemblyQualifiedName}",
+                     "dependsOn": []
+             },
+             {
+                     "name": "Accelerider.Windows.Modules.NetDisk",
+                     "version": "0.0.1",
+                     "url": "https://api.accelerider.com/v2/apps/{file_name}",
+                     "moduleType": "{AssemblyQualifiedName}",
+                     "dependsOn": ["Accelerider.Windows.Modules.NetDisk"]
+             }
+     ]
+     ```

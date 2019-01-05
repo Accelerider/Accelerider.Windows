@@ -8,9 +8,6 @@ namespace Accelerider.Windows.Infrastructure.Modularity
     [JsonObject(MemberSerialization.OptIn)]
     public class AppMetadata : IModuleInfo
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
         [JsonProperty("name")]
         public string ModuleName { get; set; }
 
@@ -26,7 +23,7 @@ namespace Accelerider.Windows.Infrastructure.Modularity
         [JsonProperty("dependsOn")]
         public Collection<string> DependsOn { get; set; }
 
-        public InitializationMode InitializationMode { get; set; } = InitializationMode.OnDemand;
+        public InitializationMode InitializationMode { get; set; } = InitializationMode.WhenAvailable;
 
         public ModuleState State { get; set; } = ModuleState.NotStarted;
     }

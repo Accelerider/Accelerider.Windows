@@ -109,10 +109,12 @@
       <DependentUpon>UiResources.resx</DependentUpon>
     </Compile>
     <Compile Include="AcceleriderUser.cs" />
+    <Compile Include="MockData\AppInfo.cs" />
     <Compile Include="ServerInteraction\IAcceleriderApi.cs" />
     <Compile Include="ServerInteraction\Args.cs" />
     <Compile Include="ServerInteraction\INonAuthenticationApi.cs" />
     <Compile Include="ServerInteraction\Responses.cs" />
+    <Compile Include="ShellUpgradeTask.cs" />
     <Compile Include="ViewModels\AppStore\AppStoreComponent.vm.cs" />
     <Compile Include="ViewModels\Dialogs\AboutDialog.vm.cs" />
     <Compile Include="ViewModels\Dialogs\ProfileDialog.vm.cs" />

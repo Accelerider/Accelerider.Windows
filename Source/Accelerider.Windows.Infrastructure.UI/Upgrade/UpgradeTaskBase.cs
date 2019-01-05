@@ -1,64 +1,65 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.JsonObjects;
+using Accelerider.Windows.TransferService;
 
 namespace Accelerider.Windows.Infrastructure.Upgrade
 {
     public abstract class UpgradeTaskBase : IUpgradeTask
     {
-        private static readonly Regex VersionRegex = new Regex(@"^bin-(\d+?-\d+?-\d+?)$", RegexOptions.Compiled);
-        private readonly string InstallDirectory;
-
-        protected UpgradeTaskBase(string name)
-        {
-            Name = name;
-            InstallDirectory = Path.Combine(AcceleriderFolders.Apps, name);
-            Directory.CreateDirectory(InstallDirectory);
-        }
-
-        public Version CurrentVersion { get; protected set; } = new Version();
+        private readonly Regex VersionRegex;
+        private readonly string _folderPrefix;
+        private Version _latestVersion;
 
         public string Name { get; }
 
-        public async Task<bool> UpdateAsync(AppMetadata metadata)
+        public string InstallDirectory { get; }
+
+        public Version LatestVersion
         {
-            PrepareUpgrade();
+            get => _latestVersion ?? (_latestVersion = GetCurrentVersion());
+            set => _latestVersion = value;
+        }
 
-            if (!RequireUpgrade(metadata, out var latestVersion)) return true;
+        protected UpgradeTaskBase(string name, string installDirectory, string folderPrefix = null)
+        {
+            Name = name;
+            InstallDirectory = installDirectory;
+            _folderPrefix = folderPrefix ?? name;
+            VersionRegex = new Regex($@"^{name}-(\d+?\.\d+?\.\d+?)$", RegexOptions.Compiled);
+        }
 
-            var upgradeInfo = GetUpgradeInfo(latestVersion);
-            var upgradeResult = await UpgradeCoreAsync(upgradeInfo);
-
-            if (upgradeResult)
+        public async Task ExecuteAsync(UpgradeInfo info)
+        {
+            if (!PrepareUpgrade(info))
             {
-                CurrentVersion = upgradeInfo.Version;
+                OnCompleted(info, false);
+                return;
             }
 
-            return upgradeResult;
+            try
+            {
+                await ResolveFileAsync(info);
+
+                LatestVersion = info.Version;
+                OnCompleted(info, true);
+            }
+            catch (Exception e)
+            {
+                OnError(e);
+            }
         }
 
-        protected virtual void PrepareUpgrade()
+        protected virtual bool PrepareUpgrade(UpgradeInfo info)
         {
-            CurrentVersion = GetMaxLocalVersion();
+            return info.Version > GetCurrentVersion();
         }
 
-        protected virtual bool RequireUpgrade(AppMetadata metadata, out Version latestVersion)
-        {
-            latestVersion = IsExperimentalEnabled(metadata.LatestVersion.ExperimentalPercentage)
-                ? metadata.LatestVersion.ExperimentalVersion
-                : metadata.LatestVersion.StableVersion;
-
-            return latestVersion > CurrentVersion;
-        }
-
-        protected virtual bool IsExperimentalEnabled(double experimentalPercentage) => false;
-
-        protected abstract Task<bool> UpgradeCoreAsync(UpgradeInfo metadata);
-
-        private Version GetMaxLocalVersion()
+        public virtual Version GetCurrentVersion()
         {
             var versions = Directory.GetDirectories(InstallDirectory)
                 .Select(Path.GetFileName)
@@ -74,24 +75,35 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
             return versions.Any() ? versions.Max() : new Version();
         }
 
-        private UpgradeInfo GetUpgradeInfo(Version version)
+        protected virtual void OnCompleted(UpgradeInfo info, bool upgraded) { }
+
+        protected virtual void OnError(Exception e) { }
+
+        private async Task ResolveFileAsync(UpgradeInfo info)
         {
-            var appFileList = GetAppFileList(version);
+            using (var tempPath = new TempDirectory(Path.Combine(Path.GetTempPath(), $"{Name}-{Path.GetRandomFileName()}")))
+            {
+                var zipFilePath = Path.Combine(tempPath.DirectoryPath, Path.GetRandomFileName());
 
-            var privateFiles = appFileList.PrivateFiles.Select(item => (item.Name, GetFileDownloadUrl(version, item.Name))).ToList();
-            var publicFiles = appFileList.PublicFiles.Select(item => (item.Name, GetFileDownloadUrl(version, item.Name))).ToList();
+                // 1. Download the module
+                var downloader = FileTransferService
+                    .GetDownloaderBuilder()
+                    .UseDefaultConfigure()
+                    .From(info.Url)
+                    .To(zipFilePath)
+                    .Build();
 
-            return new UpgradeInfo(version, privateFiles, publicFiles);
-        }
+                downloader.Run();
 
-        private AppFileList GetAppFileList(Version version)
-        {
-            throw new NotImplementedException();
-        }
+                await downloader;
 
-        private string GetFileDownloadUrl(Version version, string fileName)
-        {
-            return $"https://api.accelerider.com/v2/apps/{Name}/{version.ToString(3)}/{fileName}/content";
+                // 2. Unzip the module
+                ZipFile.ExtractToDirectory(zipFilePath, tempPath.DirectoryPath);
+
+                // 3. Move file to target path.
+                var targetPath = Path.Combine(InstallDirectory, $"{_folderPrefix}-{info.Version.ToString(3)}");
+                tempPath.MoveTo(targetPath, Directory.GetDirectories(tempPath.DirectoryPath, $"{Name}-*").FirstOrDefault());
+            }
         }
     }
 }

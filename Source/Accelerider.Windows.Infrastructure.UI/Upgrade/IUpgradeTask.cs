@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.JsonObjects;
 
 namespace Accelerider.Windows.Infrastructure.Upgrade
 {
     public interface IUpgradeTask
     {
-        Version CurrentVersion { get; }
+        Version LatestVersion { get; }
 
         string Name { get; }
 
-        Task<bool> UpdateAsync(AppMetadata metadata);
+        Version GetCurrentVersion();
+
+        Task ExecuteAsync(UpgradeInfo info);
     }
 }
