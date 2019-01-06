@@ -116,7 +116,6 @@
     <Compile Include="I18n\I18nManager.cs" />
     <Compile Include="I18n\I18nSource.cs" />
     <Compile Include="MergedStyles.cs" />
-    <Compile Include="Modularity\AppUpgradeTask.cs" />
     <Compile Include="Modularity\ModuleBase.cs" />
     <Compile Include="Modularity\RemoteModuleTypeLoader.cs" />
     <Compile Include="Mvvm\DialogViewModel.cs" />

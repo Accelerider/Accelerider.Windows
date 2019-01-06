@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -11,42 +12,41 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 {
     public abstract class UpgradeTaskBase : IUpgradeTask
     {
+        protected static readonly Version EmptyVersion = new Version();
+
         private readonly Regex VersionRegex;
         private readonly string _folderPrefix;
-        private Version _latestVersion;
 
         public string Name { get; }
 
         public string InstallDirectory { get; }
 
-        public Version LatestVersion
-        {
-            get => _latestVersion ?? (_latestVersion = GetCurrentVersion());
-            set => _latestVersion = value;
-        }
+        public Version CurrentVersion { get; private set; } = EmptyVersion;
 
         protected UpgradeTaskBase(string name, string installDirectory, string folderPrefix = null)
         {
             Name = name;
             InstallDirectory = installDirectory;
             _folderPrefix = folderPrefix ?? name;
-            VersionRegex = new Regex($@"^{name}-(\d+?\.\d+?\.\d+?)$", RegexOptions.Compiled);
+            VersionRegex = new Regex($@"^{_folderPrefix}-(\d+?\.\d+?\.\d+?)$", RegexOptions.Compiled);
         }
 
         public async Task ExecuteAsync(UpgradeInfo info)
         {
-            if (!PrepareUpgrade(info))
+            CurrentVersion = GetMaxLocalVersion();
+            if (CurrentVersion > EmptyVersion)
             {
                 OnCompleted(info, false);
-                return;
             }
+
+            if (!PrepareUpgrade(info)) return;
 
             try
             {
                 await ResolveFileAsync(info);
 
-                LatestVersion = info.Version;
                 OnCompleted(info, true);
+                CurrentVersion = GetMaxLocalVersion();
             }
             catch (Exception e)
             {
@@ -56,23 +56,26 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
         protected virtual bool PrepareUpgrade(UpgradeInfo info)
         {
-            return info.Version > GetCurrentVersion();
+            return info.Version > GetMaxLocalVersion();
         }
 
-        public virtual Version GetCurrentVersion()
+        public virtual Version GetMaxLocalVersion()
         {
-            var versions = Directory.GetDirectories(InstallDirectory)
-                .Select(Path.GetFileName)
-                .Select(item =>
-                {
-                    var match = VersionRegex.Match(item);
-                    return match.Success ? match.Groups[1].Value : null;
-                })
-                .Where(item => item != null)
-                .Select(Version.Parse)
+            var versions = GetLocalVersions()
+                .Select(item => item.Version)
                 .ToArray();
 
-            return versions.Any() ? versions.Max() : new Version();
+            return versions.Any() ? versions.Max() : EmptyVersion;
+        }
+
+        protected virtual IEnumerable<(Version Version, string Path)> GetLocalVersions()
+        {
+            return from folderPath in Directory.GetDirectories(InstallDirectory)
+                   let folderName = Path.GetFileName(folderPath)
+                   where !string.IsNullOrEmpty(folderName)
+                   let match = VersionRegex.Match(folderName)
+                   where match.Success
+                   select (Version.Parse(match.Groups[1].Value), folderPath);
         }
 
         protected virtual void OnCompleted(UpgradeInfo info, bool upgraded) { }

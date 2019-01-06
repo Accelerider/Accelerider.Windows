@@ -19,6 +19,8 @@ namespace Launcher
         {
             public int Delay { get; private set; }
 
+            public bool AutoLogin { get; set; }
+
             private LauncherArgs() { }
 
             public static LauncherArgs Create(string[] args)
@@ -26,10 +28,12 @@ namespace Launcher
                 var argDictionary = Args.Parse(args);
 
                 var delayArg = Arg<int>.Create("delay", int.Parse);
+                var autoLogin = Arg<bool>.Create("auto-login", arg => true);
 
                 return new LauncherArgs
                 {
-                    Delay = delayArg.GetValue(argDictionary)
+                    Delay = delayArg.GetValue(argDictionary),
+                    AutoLogin = autoLogin.GetValue(argDictionary)
                 };
             }
         }
@@ -54,7 +58,16 @@ namespace Launcher
                 // 2. Try to start the main program.
                 try
                 {
-                    Process.Start(Path.Combine(bin.DirectoryName, MainProgramName));
+                    var process = new Process
+                    {
+                        StartInfo =
+                        {
+                            FileName = Path.Combine(bin.DirectoryName, MainProgramName),
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            Arguments = launcherArgs.AutoLogin ? "--auto-login" : string.Empty
+                        }
+                    };
+                    process.Start();
 
                     // 3. Clear history versions.
                     foreach (var directory in bins.Where(item => !bin.Equals(item)))

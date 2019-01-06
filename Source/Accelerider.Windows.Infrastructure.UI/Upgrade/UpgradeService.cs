@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -62,10 +64,11 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
                 try
                 {
-                    await Task.Delay(TimeSpan.FromMinutes(requiredRetry
-                            ? RetryIntervalBaseMinute
-                            : UpgradeIntervalBaseMinute),
-                        token);
+                    //await Task.Delay(TimeSpan.FromMinutes(requiredRetry
+                    //        ? RetryIntervalBaseMinute
+                    //        : UpgradeIntervalBaseMinute),
+                    //    token);
+                    await TimeSpan.FromSeconds(30);
                 }
                 catch (TaskCanceledException)
                 {
@@ -77,25 +80,15 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
         #region Mock Data
 
         // TODO: Replace the Mock.
-        private static Task<HashSet<UpgradeInfo>> MockGetUpgradeInfos()
+        private static async Task<List<UpgradeInfo>> MockGetUpgradeInfos()
         {
-            return Task.FromResult(new HashSet<UpgradeInfo>
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:8000/api/apps/list.json");
+            using (var responseStream = request.GetResponse().GetResponseStream())
+            using (var reader = new StreamReader(responseStream))
             {
-                new UpgradeInfo
-                {
-                    Name = "accelerider-shell-win",
-                    Url = "https://file.mrs4s.me/file/3898c738090be65fc336577605014534",
-                    Version = Version.Parse("0.0.1"),
-                    ModuleType = "Accelerider Shell for Windows"
-                },
-                new UpgradeInfo
-                {
-                    Name = "apps-net-disk-win",
-                    Url = "https://file.mrs4s.me/file/3898c738090be65fc336577605014534",
-                    Version = Version.Parse("0.0.1"),
-                    ModuleType = "Accelerider.Windows.Modules.NetDisk.NetDiskModule, Accelerider.Windows.Modules.NetDisk, Version=0.0.1.0, Culture=neutral, PublicKeyToken=null"
-                }
-            });
+                var json = await reader.ReadToEndAsync();
+                return json.ToObject<List<UpgradeInfo>>();
+            }
         }
 
         #endregion

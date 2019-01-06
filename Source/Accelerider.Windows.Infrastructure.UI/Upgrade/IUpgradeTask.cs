@@ -5,11 +5,9 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 {
     public interface IUpgradeTask
     {
-        Version LatestVersion { get; }
+        Version CurrentVersion { get; }
 
         string Name { get; }
-
-        Version GetCurrentVersion();
 
         Task ExecuteAsync(UpgradeInfo info);
     }
