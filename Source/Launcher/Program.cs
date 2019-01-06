@@ -15,8 +15,34 @@ namespace Launcher
         private static readonly string CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
         private static readonly Regex BinDirectoryRegex = new Regex(@"^bin-(\d+?\.\d+?\.\d+?)$", RegexOptions.Compiled);
 
+        private class LauncherArgs
+        {
+            public int Delay { get; private set; }
+
+            private LauncherArgs() { }
+
+            public static LauncherArgs Create(string[] args)
+            {
+                var argDictionary = Args.Parse(args);
+
+                var delayArg = Arg<int>.Create("delay", int.Parse);
+
+                return new LauncherArgs
+                {
+                    Delay = delayArg.GetValue(argDictionary)
+                };
+            }
+        }
+
         public static async Task Main(string[] args)
         {
+            var launcherArgs = LauncherArgs.Create(args);
+
+            if (launcherArgs.Delay > 0)
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(launcherArgs.Delay));
+            }
+
             // 1. Find the latest version bin folder.
             var bins = GetBinDirectories(CurrentDirectory).ToList();
             if (!bins.Any()) return;
