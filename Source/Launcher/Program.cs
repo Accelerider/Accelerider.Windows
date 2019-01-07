@@ -17,30 +17,24 @@ namespace Launcher
 
         private class LauncherArgs
         {
-            public int Delay { get; private set; }
+            public double Delay { get; set; }
 
             public bool AutoLogin { get; set; }
 
-            private LauncherArgs() { }
+            //public string Username { get; set; }
 
-            public static LauncherArgs Create(string[] args)
-            {
-                var argDictionary = Args.Parse(args);
+            //public string Password { get; set; }
 
-                var delayArg = Arg<int>.Create("delay", int.Parse);
-                var autoLogin = Arg<bool>.Create("auto-login", arg => true);
+            //public string AddModuleName { get; set; }
 
-                return new LauncherArgs
-                {
-                    Delay = delayArg.GetValue(argDictionary),
-                    AutoLogin = autoLogin.GetValue(argDictionary)
-                };
-            }
+            //public string RemoveModuleName { get; set; }
+
+            //public Version ClearVersion { get; set; }
         }
 
         public static async Task Main(string[] args)
         {
-            var launcherArgs = LauncherArgs.Create(args);
+            var launcherArgs = ParseLauncherArgs(args);
 
             if (launcherArgs.Delay > 0)
             {
@@ -81,6 +75,22 @@ namespace Launcher
                     await DeleteDirectoryAsync(bin.DirectoryName);
                 }
             }
+        }
+
+        private static LauncherArgs ParseLauncherArgs(string[] args)
+        {
+            var argParser = new ArgParser<LauncherArgs>();
+
+            argParser
+                //.Define("username", (o, value) => o.Username = value)
+                //.Define("password", (o, value) => o.Password = value)
+                //.Define("add", (o, value) => o.AddModuleName = value)
+                //.Define("remove", (o, value) => o.RemoveModuleName = value)
+                //.Define("clear", (o, value) => o.ClearVersion = Version.Parse(value))
+                .Define<double>("delay", (o, value) => o.Delay = value)
+                .Define<bool>("auto-login", (o, value) => o.AutoLogin = value);
+
+            return argParser.Parse(args);
         }
 
         private static IEnumerable<BinDirectory> GetBinDirectories(string path)
