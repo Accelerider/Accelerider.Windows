@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure.JsonObjects
 {
-    public class AppMetadata
+    public class AppInfo
     {
         [JsonProperty("id")]
         public string Id { get; private set; }
@@ -35,7 +35,5 @@ namespace Accelerider.Windows.Infrastructure.JsonObjects
         [JsonProperty("moduleType")]
         public string ModuleType { get; private set; }
 
-        [JsonProperty("latestVersion")]
-        public AppVersion LatestVersion { get; private set; }
     }
 }

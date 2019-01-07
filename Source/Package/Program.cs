@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -10,32 +11,21 @@ namespace Package
     {
         public static void Main(string[] args)
         {
-            int count = 0;
-
-            Console.WriteLine("[Action] Start Copying");
-
             var package = PackageInfo.Parse(File.ReadAllText("package.xml"));
 
+            string zipTargetPath;
             using (var tempFolder = new TempDirectory(package.Target))
             {
+                Out.Print($"Start Copying: {package.Source} --> {package.Target}");
                 package
                     .Flatten()
                     .Where(item => !(item is FolderElement folder) ||
                                    !folder.Files.Any() && !folder.Folders.Any())
-                    .ForEach(item =>
-                    {
-                        item.Source.CopyTo(item.Target);
+                    .ForEach(item => item.Source.CopyTo(item.Target));
+                Out.Print("Completed Copying. ");
 
-                        Console.WriteLine($"[Copy] {count++,-4}: " +
-                                          $"{item.Source} " +
-                                          $"--> " +
-                                          $"{item.Target}");
-                    });
-
-                Console.WriteLine("[Action] Completed Copying");
-                Console.WriteLine("[Action] Start Compressing");
-
-                var zipTargetPath = $"{tempFolder.Path}.zip";
+                zipTargetPath = $"{tempFolder.Path}.zip";
+                Out.Print($"Start Package: {zipTargetPath}...");
                 if (File.Exists(zipTargetPath)) File.Delete(zipTargetPath);
                 ZipFile.CreateFromDirectory(
                     tempFolder.Path,
@@ -43,9 +33,13 @@ namespace Package
                     CompressionLevel.Optimal,
                     true);
 
-                Console.WriteLine("[Action] Completed Compressing");
+                Out.Print("Completed Package. ");
             }
 
+            Out.Print($"Opening the file: {zipTargetPath}...");
+            Process.Start("explorer.exe", $"/select, {zipTargetPath}");
+
+            Out.Completed();
             Console.ReadKey();
         }
     }
@@ -75,6 +69,10 @@ namespace Package
 
                 Directory.GetFileSystemEntries(source)
                     .ForEach(item => item.CopyTo(Path.Combine(target, Path.GetFileName(item))));
+            }
+            else
+            {
+                Out.Print($"Missing {source}!", OutType.Error);
             }
         }
         // ReSharper restore AssignNullToNotNullAttribute

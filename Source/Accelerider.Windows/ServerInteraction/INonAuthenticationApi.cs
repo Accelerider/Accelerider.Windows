@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Modularity;
+using Accelerider.Windows.Infrastructure.Upgrade;
 using Refit;
 
 namespace Accelerider.Windows.ServerInteraction

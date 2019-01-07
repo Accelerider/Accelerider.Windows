@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure.Upgrade
 {
     public class UpgradeInfo
     {
-        public Version Version { get; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
-        public List<(string FileName, string Url)> PrivateFiles { get; }
+        [JsonProperty("version")]
+        public Version Version { get; set; }
 
-        public List<(string FileName, string Url)> PublicFiles { get; }
+        [JsonProperty("url")]
+        public string Url { get; set; }
 
-        public UpgradeInfo(Version version, List<(string FileName, string Url)> privateFiles, List<(string FileName, string Url)> publicFiles)
-        {
-            Version = version;
-            PrivateFiles = privateFiles;
-            PublicFiles = publicFiles;
-        }
+        [JsonProperty("updateNotes")]
+        public string UpdateNotes { get; set; }
+
+        [JsonProperty("moduleType")]
+        public string ModuleType { get; set; }
+
+        [JsonProperty("DependsOn")]
+        public IEnumerable<string> DependsOn { get; set; }
     }
 }

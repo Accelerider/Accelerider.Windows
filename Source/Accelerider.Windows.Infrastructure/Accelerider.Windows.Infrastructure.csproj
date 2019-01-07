@@ -85,7 +85,6 @@
     <Compile Include="Interfaces\IAcceleriderUser.cs" />
     <Compile Include="Interfaces\IConfigureFile.cs" />
     <Compile Include="Interfaces\ILazyTreeNode{T}.cs" />
-    <Compile Include="JsonObjects\AppFileList.cs" />
     <Compile Include="LazyTreeNode.cs" />
     <Compile Include="Interfaces\IRefreshable.cs" />
     <Compile Include="Logger.cs" />
@@ -101,9 +100,6 @@
     <Compile Include="TempDirectory.cs" />
     <Compile Include="SystemFolder.cs" />
     <Compile Include="SystemInfo.cs" />
-    <Compile Include="JsonObjects\AppFileMetadata.cs" />
-    <Compile Include="JsonObjects\AppMetadata.cs" />
-    <Compile Include="JsonObjects\AppVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

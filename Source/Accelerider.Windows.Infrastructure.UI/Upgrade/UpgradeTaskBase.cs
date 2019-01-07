@@ -1,97 +1,112 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.JsonObjects;
+using Accelerider.Windows.TransferService;
 
 namespace Accelerider.Windows.Infrastructure.Upgrade
 {
     public abstract class UpgradeTaskBase : IUpgradeTask
     {
-        private static readonly Regex VersionRegex = new Regex(@"^bin-(\d+?-\d+?-\d+?)$", RegexOptions.Compiled);
-        private readonly string InstallDirectory;
+        protected static readonly Version EmptyVersion = new Version();
 
-        protected UpgradeTaskBase(string name)
-        {
-            Name = name;
-            InstallDirectory = Path.Combine(AcceleriderFolders.Apps, name);
-            Directory.CreateDirectory(InstallDirectory);
-        }
-
-        public Version CurrentVersion { get; protected set; } = new Version();
+        private readonly Regex VersionRegex;
+        private readonly string _folderPrefix;
 
         public string Name { get; }
 
-        public async Task<bool> UpdateAsync(AppMetadata metadata)
+        public string InstallDirectory { get; }
+
+        public Version CurrentVersion { get; private set; } = EmptyVersion;
+
+        protected UpgradeTaskBase(string name, string installDirectory, string folderPrefix = null)
         {
-            PrepareUpgrade();
-
-            if (!RequireUpgrade(metadata, out var latestVersion)) return true;
-
-            var upgradeInfo = GetUpgradeInfo(latestVersion);
-            var upgradeResult = await UpgradeCoreAsync(upgradeInfo);
-
-            if (upgradeResult)
-            {
-                CurrentVersion = upgradeInfo.Version;
-            }
-
-            return upgradeResult;
+            Name = name;
+            InstallDirectory = installDirectory;
+            _folderPrefix = folderPrefix ?? name;
+            VersionRegex = new Regex($@"^{_folderPrefix}-(\d+?\.\d+?\.\d+?)$", RegexOptions.Compiled);
         }
 
-        protected virtual void PrepareUpgrade()
+        public async Task ExecuteAsync(UpgradeInfo info)
         {
             CurrentVersion = GetMaxLocalVersion();
+            if (CurrentVersion > EmptyVersion)
+            {
+                OnCompleted(info, false);
+            }
+
+            if (!PrepareUpgrade(info)) return;
+
+            try
+            {
+                await ResolveFileAsync(info);
+
+                OnCompleted(info, true);
+                CurrentVersion = GetMaxLocalVersion();
+            }
+            catch (Exception e)
+            {
+                OnError(e);
+            }
         }
 
-        protected virtual bool RequireUpgrade(AppMetadata metadata, out Version latestVersion)
+        protected virtual bool PrepareUpgrade(UpgradeInfo info)
         {
-            latestVersion = IsExperimentalEnabled(metadata.LatestVersion.ExperimentalPercentage)
-                ? metadata.LatestVersion.ExperimentalVersion
-                : metadata.LatestVersion.StableVersion;
-
-            return latestVersion > CurrentVersion;
+            return info.Version > GetMaxLocalVersion();
         }
 
-        protected virtual bool IsExperimentalEnabled(double experimentalPercentage) => false;
-
-        protected abstract Task<bool> UpgradeCoreAsync(UpgradeInfo metadata);
-
-        private Version GetMaxLocalVersion()
+        public virtual Version GetMaxLocalVersion()
         {
-            var versions = Directory.GetDirectories(InstallDirectory)
-                .Select(Path.GetFileName)
-                .Select(item =>
-                {
-                    var match = VersionRegex.Match(item);
-                    return match.Success ? match.Groups[1].Value : null;
-                })
-                .Where(item => item != null)
-                .Select(Version.Parse)
+            var versions = GetLocalVersions()
+                .Select(item => item.Version)
                 .ToArray();
 
-            return versions.Any() ? versions.Max() : new Version();
+            return versions.Any() ? versions.Max() : EmptyVersion;
         }
 
-        private UpgradeInfo GetUpgradeInfo(Version version)
+        protected virtual IEnumerable<(Version Version, string Path)> GetLocalVersions()
         {
-            var appFileList = GetAppFileList(version);
-
-            var privateFiles = appFileList.PrivateFiles.Select(item => (item.Name, GetFileDownloadUrl(version, item.Name))).ToList();
-            var publicFiles = appFileList.PublicFiles.Select(item => (item.Name, GetFileDownloadUrl(version, item.Name))).ToList();
-
-            return new UpgradeInfo(version, privateFiles, publicFiles);
+            return from folderPath in Directory.GetDirectories(InstallDirectory)
+                   let folderName = Path.GetFileName(folderPath)
+                   where !string.IsNullOrEmpty(folderName)
+                   let match = VersionRegex.Match(folderName)
+                   where match.Success
+                   select (Version.Parse(match.Groups[1].Value), folderPath);
         }
 
-        private AppFileList GetAppFileList(Version version)
-        {
-            throw new NotImplementedException();
-        }
+        protected virtual void OnCompleted(UpgradeInfo info, bool upgraded) { }
 
-        private string GetFileDownloadUrl(Version version, string fileName)
+        protected virtual void OnError(Exception e) { }
+
+        private async Task ResolveFileAsync(UpgradeInfo info)
         {
-            return $"https://api.accelerider.com/v2/apps/{Name}/{version.ToString(3)}/{fileName}/content";
+            using (var tempPath = new TempDirectory(Path.Combine(Path.GetTempPath(), $"{Name}-{Path.GetRandomFileName()}")))
+            {
+                var zipFilePath = Path.Combine(tempPath.DirectoryPath, Path.GetRandomFileName());
+
+                // 1. Download the module
+                var downloader = FileTransferService
+                    .GetDownloaderBuilder()
+                    .UseDefaultConfigure()
+                    .From(info.Url)
+                    .To(zipFilePath)
+                    .Build();
+
+                downloader.Run();
+
+                await downloader;
+
+                // 2. Unzip the module
+                ZipFile.ExtractToDirectory(zipFilePath, tempPath.DirectoryPath);
+
+                // 3. Move file to target path.
+                var targetPath = Path.Combine(InstallDirectory, $"{_folderPrefix}-{info.Version.ToString(3)}");
+                tempPath.MoveTo(targetPath, Directory.GetDirectories(tempPath.DirectoryPath, $"{Name}-*").FirstOrDefault());
+            }
         }
     }
 }

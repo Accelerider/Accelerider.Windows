@@ -15,8 +15,38 @@ namespace Launcher
         private static readonly string CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
         private static readonly Regex BinDirectoryRegex = new Regex(@"^bin-(\d+?\.\d+?\.\d+?)$", RegexOptions.Compiled);
 
+        private class LauncherArgs
+        {
+            public int Delay { get; private set; }
+
+            public bool AutoLogin { get; set; }
+
+            private LauncherArgs() { }
+
+            public static LauncherArgs Create(string[] args)
+            {
+                var argDictionary = Args.Parse(args);
+
+                var delayArg = Arg<int>.Create("delay", int.Parse);
+                var autoLogin = Arg<bool>.Create("auto-login", arg => true);
+
+                return new LauncherArgs
+                {
+                    Delay = delayArg.GetValue(argDictionary),
+                    AutoLogin = autoLogin.GetValue(argDictionary)
+                };
+            }
+        }
+
         public static async Task Main(string[] args)
         {
+            var launcherArgs = LauncherArgs.Create(args);
+
+            if (launcherArgs.Delay > 0)
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(launcherArgs.Delay));
+            }
+
             // 1. Find the latest version bin folder.
             var bins = GetBinDirectories(CurrentDirectory).ToList();
             if (!bins.Any()) return;
@@ -28,7 +58,16 @@ namespace Launcher
                 // 2. Try to start the main program.
                 try
                 {
-                    Process.Start(Path.Combine(bin.DirectoryName, MainProgramName));
+                    var process = new Process
+                    {
+                        StartInfo =
+                        {
+                            FileName = Path.Combine(bin.DirectoryName, MainProgramName),
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            Arguments = launcherArgs.AutoLogin ? "--auto-login" : string.Empty
+                        }
+                    };
+                    process.Start();
 
                     // 3. Clear history versions.
                     foreach (var directory in bins.Where(item => !bin.Equals(item)))

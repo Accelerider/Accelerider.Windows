@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="Accelerider.Windows.Views.Dialogs.UpgradeNotificationDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
+             xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
+             xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:dialogs="clr-namespace:Accelerider.Windows.ViewModels.Dialogs"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="500"
+             d:DataContext="{d:DesignInstance {x:Type dialogs:UpgradeNotificationDialogViewModel}}"
+             Style="{StaticResource AcceleriderDialogStyle}">
+
+    <Grid Margin="80 20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Ellipse Grid.Row="0" Height="80" Width="80" HorizontalAlignment="Center">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-accelerider.png" />
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <TextBlock Grid.Row="2" HorizontalAlignment="Center"
+                   FontWeight="Bold" Foreground="#5458AF" FontSize="16"
+                   Text="有一个更新已准备就绪，是否现在重启应用？" />
+
+        <TextBlock Grid.Row="4" HorizontalAlignment="Center" 
+                   FontWeight="Bold" Foreground="#5458AF"
+                   Text="{Binding ModuleName}" />
+
+        <ScrollViewer Grid.Row="6" Height="150" Width="340"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" 
+                       Text="{Binding UpdateNotes}"/>
+        </ScrollViewer>
+
+        <Button Grid.Row="8" Width="150" HorizontalAlignment="Center"
+                Content="立即重启" 
+                Command="{Binding RestartCommand}"
+                Style="{StaticResource MaterialDesignFlatButton}" />
+
+    </Grid>
+</UserControl>

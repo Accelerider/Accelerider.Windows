@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.JsonObjects;
 
 namespace Accelerider.Windows.Infrastructure.Upgrade
 {
@@ -10,6 +9,6 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
         string Name { get; }
 
-        Task<bool> UpdateAsync(AppMetadata metadata);
+        Task ExecuteAsync(UpgradeInfo info);
     }
 }

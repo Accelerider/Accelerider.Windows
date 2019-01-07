@@ -9,19 +9,19 @@
   ```json
   [
       {
-      	"id": "mongodb_id",
       	"name": "Accelerider.Windows.Modules.NetDisk",
       	"version": "0.0.1",
       	"url": "https://api.accelerider.com/v2/apps/{file_name-version}.zip",
       	"moduleType": "{AssemblyQualifiedName}",
+        "updateNotes": "...",
       	"dependsOn": []
       },
       {
-          "id": "mongodb_id",
           "name": "Accelerider.Windows.Modules.Group",
           "version": "0.0.1",
           "url": "https://api.accelerider.com/v2/apps/{file_name-version}.zip",
           "moduleType": "{AssemblyQualifiedName}",
+          "updateNotes": "...",
           "dependsOn": ["Accelerider.Windows.Modules.NetDisk"]
       }
   ]
@@ -37,11 +37,11 @@
 
   ```json
       {
-          "id": null,
           "name": "Accelerider.Windows.Modules.Group",
           "version": "0.0.1",
           "url": null,
           "moduleType": "{AssemblyQualifiedName}",
+          "updateNotes": "...",
           "dependsOn": ["Accelerider.Windows.Modules.NetDisk"]
       }
   ```
