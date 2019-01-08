@@ -1,19 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Package Target="../../../release-packages/Accelerider.Windows-{Configuration}-{Version:Accelerider.Windows.exe}"
-         Source="../../../Build/{Configuration}">
+<Folder Target="../../../release-packages/Accelerider.Windows-{Version:Accelerider.Windows.exe}-{Configuration}"
+        Source="../../../Build/{Configuration}">
   <Folder Target="bin-{Version:Accelerider.Windows.exe}">
-    <Folder Target="Apps">
-      <Folder Target="net-disk-{Version:Accelerider.Windows.Modules.NetDisk.dll}"
-              Source="Modules">
-        <Folder Target="zh-CN" />
-        <File Target="Accelerider.Windows.Modules.NetDisk.dll" />
-      </Folder>
-      <!--<Folder Target="group-{Version:Accelerider.Windows.Modules.Group.dll}"
-              Source="Modules/Accelerider.Windows.Modules.Group">
-        <Folder Target="zh-CN" />
-        <File Target="Accelerider.Windows.Modules.Group.dll" />
-      </Folder>-->
-    </Folder>
     <Folder Target="ja" />
     <Folder Target="zh-CN" />
     <File Target="Accelerider.Windows.exe" />
@@ -138,4 +126,4 @@
     <File Target="System.Xml.XPath.XDocument.dll" />
   </Folder>
   <File Target="Launcher.exe" />
-</Package>
+</Folder>

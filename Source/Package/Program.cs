@@ -11,13 +11,38 @@ namespace Package
     {
         public static void Main(string[] args)
         {
-            var package = PackageInfo.Parse(File.ReadAllText("package.xml"));
+            const string packageDirectory = "package-define-files";
 
-            string zipTargetPath;
-            using (var tempFolder = new TempDirectory(package.Target))
+            var packageNames = new[]
             {
-                Out.Print($"Start Copying: {package.Source} --> {package.Target}");
-                package
+                "shell.package.xml",
+                "shell.bin.package.xml",
+                "net-disk.package.xml",
+            };
+
+            try
+            {
+                packageNames
+                    .Select(item => File.ReadAllText(Path.Combine(packageDirectory, item)))
+                    .Select(FolderElement.Create)
+                    .ForEach(item => Pack(item));
+            }
+            catch (FileNotFoundException e)
+            {
+                Out.Print($"Missing {e.FileName}!", OutType.Error);
+            }
+
+            Out.EndLine();
+            Console.ReadKey();
+        }
+
+        private static void Pack(FolderElement info, bool openFolder = true)
+        {
+            string zipTargetPath;
+            using (var tempFolder = new TempDirectory(info.Target))
+            {
+                Out.Print($"Start Copying: {info.Source} --> {info.Target}");
+                info
                     .Flatten()
                     .Where(item => !(item is FolderElement folder) ||
                                    !folder.Files.Any() && !folder.Folders.Any())
@@ -36,11 +61,13 @@ namespace Package
                 Out.Print("Completed Package. ");
             }
 
-            Out.Print($"Opening the file: {zipTargetPath}...");
-            Process.Start("explorer.exe", $"/select, {zipTargetPath}");
+            if (openFolder)
+            {
+                Out.Print($"Opening the file: {zipTargetPath}...");
+                Process.Start("explorer.exe", $"/select, {zipTargetPath}");
+            }
 
-            Out.Completed();
-            Console.ReadKey();
+            Out.Divider();
         }
     }
 

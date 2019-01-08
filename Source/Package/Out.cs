@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Package
 {
@@ -38,12 +36,17 @@ namespace Package
             Console.ForegroundColor = backupForeground;
         }
 
-        public static void Completed()
+        public static void EndLine()
         {
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("=========================================================");
+            Divider();
             Console.WriteLine("Enter any key to exit...");
+            Divider();
+        }
+
+        public static void Divider()
+        {
             Console.WriteLine("=========================================================");
         }
     }
