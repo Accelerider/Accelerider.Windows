@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using Accelerider.Windows.Infrastructure.Upgrade;
@@ -20,7 +19,9 @@ namespace Accelerider.Windows
         {
         }
 
-        protected override async void OnCompleted(UpgradeInfo info, bool upgraded)
+        public override Task<bool> TryLoadAsync() => Task.FromResult(false);
+
+        protected override async void OnDownloadCompleted(UpgradeInfo info)
         {
             // TODO: Notify the user to restart.
             if (CurrentVersion < info.Version)
@@ -29,7 +30,7 @@ namespace Accelerider.Windows
             }
         }
 
-        protected override void OnError(Exception e)
+        protected override void OnDownloadError(Exception e)
         {
             // TODO: Logging
         }

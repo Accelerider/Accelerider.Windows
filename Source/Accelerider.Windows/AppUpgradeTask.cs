@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -18,6 +17,7 @@ namespace Accelerider.Windows
 {
     public class AppUpgradeTask : UpgradeTaskBase
     {
+        private const string ModuleInfoFileName = "module-info.json";
         public const string ParameterCtorName = "name";
 
         private static readonly Regex ModuleFileRegex = new Regex(@"^Accelerider\.Windows\.Modules\.\w+?\.dll", RegexOptions.Compiled);
@@ -34,24 +34,38 @@ namespace Accelerider.Windows
             _moduleCatalog = moduleCatalog;
         }
 
-        protected override async void OnCompleted(UpgradeInfo info, bool upgraded)
+        public override async Task<bool> TryLoadAsync()
+        {
+            var moduleVersion = GetMaxLocalVersion();
+            if (TryExtractModuleInfo(moduleVersion, out var moduleInfo) &&
+                !_moduleCatalog.Exists(moduleInfo.ModuleName))
+            {
+                _moduleCatalog.AddModule(moduleInfo);
+                _moduleManager.LoadModule(moduleInfo.ModuleName);
+                Debug.WriteLine($"[LOAD] [{DateTime.Now}] {Name}-{moduleVersion}");
+
+                // Delete old versions
+                foreach (var (version, path) in GetLocalVersions())
+                {
+                    if (version < moduleVersion)
+                        await DeleteDirectoryAsync(path);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        protected override async void OnDownloadCompleted(UpgradeInfo info)
         {
             var moduleInfo = ConvertUpgradeInfoToModuleInfo(info);
 
             if (!_moduleCatalog.Exists(moduleInfo.ModuleName))
             {
-                _moduleCatalog.AddModule(moduleInfo);
-                _moduleManager.LoadModule(moduleInfo.ModuleName);
-                Debug.WriteLine($"[LOAD] [{DateTime.Now}] {info.Name}-{info.Version}");
-
-                // Delete old versions
-                foreach ((Version version, string path) in GetLocalVersions())
-                {
-                    if (version < info.Version)
-                        await DeleteDirectoryAsync(path);
-                }
+                await TryLoadAsync();
             }
-            else if (upgraded)
+            else
             {
                 // TODO: Notify the user to restart.
                 await ShowUpgradeNotificationDialogAsync(info);
@@ -61,8 +75,9 @@ namespace Accelerider.Windows
             Debug.WriteLine($"[UPGRADE] [{DateTime.Now}] {info.Name}-{info.Version}");
         }
 
-        protected override void OnError(Exception e)
+        protected override void OnDownloadError(Exception e)
         {
+            // TODO: Logging
         }
 
         private async Task ShowUpgradeNotificationDialogAsync(UpgradeInfo info)
@@ -95,19 +110,38 @@ namespace Accelerider.Windows
 
         private IModuleInfo ConvertUpgradeInfoToModuleInfo(UpgradeInfo info)
         {
-            var appDirectory = Path.Combine(InstallDirectory, $"{Name}-{GetMaxLocalVersion().ToString(3)}");
-            var appDllFilePath = Directory.GetFiles(appDirectory).FirstOrDefault(item => ModuleFileRegex.IsMatch(Path.GetFileName(item)));
-
+            var dllFilePath = Directory
+                .GetFiles(GetInstallPath(GetMaxLocalVersion()))
+                .FirstOrDefault(item => ModuleFileRegex.IsMatch(Path.GetFileName(item)));
 
             return new ModuleInfo
             {
                 ModuleName = info.Name,
-                Ref = $"file:///{appDllFilePath}",
+                Ref = $"file:///{dllFilePath}",
                 ModuleType = info.ModuleType,
                 DependsOn = info.DependsOn != null
                     ? new Collection<string>(info.DependsOn.ToList())
                     : new Collection<string>()
             };
+        }
+
+        private bool TryExtractModuleInfo(Version version, out IModuleInfo moduleInfo)
+        {
+            var installPath = GetInstallPath(version);
+            var moduleInfoFilePath = Path.Combine(installPath, ModuleInfoFileName);
+            var dllFilePath = Directory
+                .GetFiles(installPath)
+                .FirstOrDefault(item => ModuleFileRegex.IsMatch(Path.GetFileName(item)));
+
+            if (File.Exists(moduleInfoFilePath))
+            {
+                moduleInfo = File.ReadAllText(moduleInfoFilePath).ToObject<ModuleInfo>();
+                moduleInfo.Ref = $"file:///{dllFilePath}";
+                return true;
+            }
+
+            moduleInfo = null;
+            return false;
         }
 
         private static async Task DeleteDirectoryAsync(string path, int count = 0)

@@ -8,7 +8,6 @@
         xmlns:i18nResources="clr-namespace:Accelerider.Windows.I18nResources"
         mvvm:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
-        Topmost="True"
         Icon="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-icon.ico"
         Title="AuthenticationWindow" Height="321" Width="430"
         x:Name="OwnerWindow" Style="{StaticResource AcceleriderWindowStyle}">

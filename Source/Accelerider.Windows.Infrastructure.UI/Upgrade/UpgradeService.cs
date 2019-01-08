@@ -46,15 +46,20 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
                 bool requiredRetry = false;
                 try
                 {
+                    var tasks = _tasks.Values.ToArray();
+                    foreach (var task in tasks)
+                    {
+                        await task.TryLoadAsync();
+                    }
+
                     var upgradeInfos = await MockGetUpgradeInfos();
 
-                    var tasks = _tasks.Values.ToArray();
                     foreach (var task in tasks)
                     {
                         var info = upgradeInfos.FirstOrDefault(
                             item => item.Name.Equals(task.Name, StringComparison.InvariantCultureIgnoreCase));
 
-                        await task.ExecuteAsync(info);
+                        await task.DownloadAsync(info);
                     }
                 }
                 catch (Exception)
@@ -64,11 +69,10 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
                 try
                 {
-                    //await Task.Delay(TimeSpan.FromMinutes(requiredRetry
-                    //        ? RetryIntervalBaseMinute
-                    //        : UpgradeIntervalBaseMinute),
-                    //    token);
-                    await TimeSpan.FromSeconds(30);
+                    await Task.Delay(TimeSpan.FromMinutes(requiredRetry
+                            ? RetryIntervalBaseMinute
+                            : UpgradeIntervalBaseMinute),
+                        token);
                 }
                 catch (TaskCanceledException)
                 {

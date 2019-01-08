@@ -14,7 +14,7 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
     {
         protected static readonly Version EmptyVersion = new Version();
 
-        private readonly Regex VersionRegex;
+        private readonly Regex _versionRegex;
         private readonly string _folderPrefix;
 
         public string Name { get; }
@@ -28,35 +28,31 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
             Name = name;
             InstallDirectory = installDirectory;
             _folderPrefix = folderPrefix ?? name;
-            VersionRegex = new Regex($@"^{_folderPrefix}-(\d+?\.\d+?\.\d+?)$", RegexOptions.Compiled);
+            _versionRegex = new Regex($@"^{_folderPrefix}-(\d+?\.\d+?\.\d+?)$", RegexOptions.Compiled);
         }
 
-        public async Task ExecuteAsync(UpgradeInfo info)
+        public async Task DownloadAsync(UpgradeInfo info)
         {
-            CurrentVersion = GetMaxLocalVersion();
-            if (CurrentVersion > EmptyVersion)
-            {
-                OnCompleted(info, false);
-            }
-
             if (!PrepareUpgrade(info)) return;
 
             try
             {
                 await ResolveFileAsync(info);
 
-                OnCompleted(info, true);
+                OnDownloadCompleted(info);
                 CurrentVersion = GetMaxLocalVersion();
             }
             catch (Exception e)
             {
-                OnError(e);
+                OnDownloadError(e);
             }
         }
 
+        public abstract Task<bool> TryLoadAsync();
+
         protected virtual bool PrepareUpgrade(UpgradeInfo info)
         {
-            return info.Version > GetMaxLocalVersion();
+            return info.Version > (CurrentVersion = GetMaxLocalVersion());
         }
 
         public virtual Version GetMaxLocalVersion()
@@ -73,14 +69,14 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
             return from folderPath in Directory.GetDirectories(InstallDirectory)
                    let folderName = Path.GetFileName(folderPath)
                    where !string.IsNullOrEmpty(folderName)
-                   let match = VersionRegex.Match(folderName)
+                   let match = _versionRegex.Match(folderName)
                    where match.Success
                    select (Version.Parse(match.Groups[1].Value), folderPath);
         }
 
-        protected virtual void OnCompleted(UpgradeInfo info, bool upgraded) { }
+        protected virtual void OnDownloadCompleted(UpgradeInfo info) { }
 
-        protected virtual void OnError(Exception e) { }
+        protected virtual void OnDownloadError(Exception e) { }
 
         private async Task ResolveFileAsync(UpgradeInfo info)
         {
@@ -104,9 +100,12 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
                 ZipFile.ExtractToDirectory(zipFilePath, tempPath.DirectoryPath);
 
                 // 3. Move file to target path.
-                var targetPath = Path.Combine(InstallDirectory, $"{_folderPrefix}-{info.Version.ToString(3)}");
-                tempPath.MoveTo(targetPath, Directory.GetDirectories(tempPath.DirectoryPath, $"{Name}-*").FirstOrDefault());
+                tempPath.MoveTo(GetInstallPath(info.Version), 
+                    Directory.GetDirectories(tempPath.DirectoryPath, $"{Name}-*").FirstOrDefault());
             }
         }
+
+        protected string GetInstallPath(Version version) =>
+            Path.Combine(InstallDirectory, $"{_folderPrefix}-{version.ToString(3)}");
     }
 }
