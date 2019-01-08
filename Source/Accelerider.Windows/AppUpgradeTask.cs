@@ -129,12 +129,12 @@ namespace Accelerider.Windows
         {
             var installPath = GetInstallPath(version);
             var moduleInfoFilePath = Path.Combine(installPath, ModuleInfoFileName);
-            var dllFilePath = Directory
-                .GetFiles(installPath)
-                .FirstOrDefault(item => ModuleFileRegex.IsMatch(Path.GetFileName(item)));
 
             if (File.Exists(moduleInfoFilePath))
             {
+                var dllFilePath = Directory
+                    .GetFiles(installPath)
+                    .FirstOrDefault(item => ModuleFileRegex.IsMatch(Path.GetFileName(item)));
                 moduleInfo = File.ReadAllText(moduleInfoFilePath).ToObject<ModuleInfo>();
                 moduleInfo.Ref = $"file:///{dllFilePath}";
                 return true;

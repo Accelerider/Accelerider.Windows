@@ -70,38 +70,4 @@ namespace Package
             Out.Divider();
         }
     }
-
-    public static class EnumerableExtensions
-    {
-        public static void ForEach<T>(this IEnumerable<T> @this, Action<T> callback)
-        {
-            foreach (var item in @this)
-            {
-                callback?.Invoke(item);
-            }
-        }
-
-        // ReSharper disable AssignNullToNotNullAttribute
-        public static void CopyTo(this string source, string target)
-        {
-            if (File.Exists(source))
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(target));
-
-                File.Copy(source, target, true);
-            }
-            else if (Directory.Exists(source))
-            {
-                Directory.CreateDirectory(target);
-
-                Directory.GetFileSystemEntries(source)
-                    .ForEach(item => item.CopyTo(Path.Combine(target, Path.GetFileName(item))));
-            }
-            else
-            {
-                Out.Print($"Missing {source}!", OutType.Error);
-            }
-        }
-        // ReSharper restore AssignNullToNotNullAttribute
-    }
 }

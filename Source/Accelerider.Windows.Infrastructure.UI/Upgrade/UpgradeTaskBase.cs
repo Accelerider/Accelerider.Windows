@@ -12,7 +12,7 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 {
     public abstract class UpgradeTaskBase : IUpgradeTask
     {
-        protected static readonly Version EmptyVersion = new Version();
+        protected static readonly Version EmptyVersion = new Version("0.0.0.0");
 
         private readonly Regex _versionRegex;
         private readonly string _folderPrefix;
@@ -101,7 +101,7 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
                 // 3. Move file to target path.
                 tempPath.MoveTo(GetInstallPath(info.Version), 
-                    Directory.GetDirectories(tempPath.DirectoryPath, $"{Name}-*").FirstOrDefault());
+                    Directory.GetDirectories(tempPath.DirectoryPath).FirstOrDefault());
             }
         }
 

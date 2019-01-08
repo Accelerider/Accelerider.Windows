@@ -3,4 +3,5 @@
         Source="../../../Build/{Configuration}/Modules">
   <Folder Target="zh-CN" />
   <File Target="Accelerider.Windows.Modules.NetDisk.dll" />
+  <File Target="module-info.json" />
 </Folder>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Accelerider.Windows.Modules.NetDisk.Models;
@@ -27,24 +28,16 @@ namespace Accelerider.Windows.Infrastructure
             public void Save(string path) => File.WriteAllText(path, this.ToJson());
         }
 
-        private static readonly string UsersFilePathFormat = Path.Combine(AcceleriderFolders.Apps, "NetDisk", "{0}.users");
+        private static readonly string CurrentAssemblyDirectory = AcceleriderFolders.CurrentAssembly;
+        private static readonly string UsersFilePathFormat = Path.Combine(CurrentAssemblyDirectory, "{0}.users");
 
         private static readonly IDictionary<string, AcceleriderUserExtendedMembers> ExtendedMembers =
             new ConcurrentDictionary<string, AcceleriderUserExtendedMembers>();
 
         static AcceleriderUserExtensions()
         {
-            var usersDirectory = Path.GetDirectoryName(UsersFilePathFormat);
-
-            if (!Directory.Exists(usersDirectory))
-            {
-                // ReSharper disable once AssignNullToNotNullAttribute
-                Directory.CreateDirectory(usersDirectory);
-            }
-
             // ReSharper disable once AssignNullToNotNullAttribute
-            Directory.GetFiles(usersDirectory)
-                .Where(item => item.EndsWith(Path.GetExtension(UsersFilePathFormat)))
+            Directory.GetFiles(CurrentAssemblyDirectory, "*.users")
                 .Select(item => File.ReadAllText(item).ToObject<AcceleriderUserExtendedMembers>())
                 .ForEach(item => ExtendedMembers[item.Id] = item);
         }

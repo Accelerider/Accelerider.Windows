@@ -242,6 +242,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="module-info.json">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>module-info.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -372,6 +378,10 @@
     <Content Include="I18nResources\ResKeys.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ResKeys.cs</LastGenOutput>
+    </Content>
+    <Content Include="module-info.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>module-info.json</LastGenOutput>
     </Content>
     <Resource Include="Images\logo-sixcloud.png" />
   </ItemGroup>

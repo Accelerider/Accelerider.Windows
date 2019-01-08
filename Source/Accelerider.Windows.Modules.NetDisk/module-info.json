@@ -1,0 +1,6 @@
+﻿
+{
+	"moduleName": "apps-net-disk-win",
+	"moduleType": "Accelerider.Windows.Modules.NetDisk.NetDiskModule, Accelerider.Windows.Modules.NetDisk, Version=0.0.1.0, Culture=neutral, PublicKeyToken=null",
+	"dependsOn": []
+}

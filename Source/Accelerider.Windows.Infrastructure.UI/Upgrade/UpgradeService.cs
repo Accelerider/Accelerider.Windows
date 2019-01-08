@@ -86,7 +86,7 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
         // TODO: Replace the Mock.
         private static async Task<List<UpgradeInfo>> MockGetUpgradeInfos()
         {
-            var request = (HttpWebRequest)WebRequest.Create("http://localhost:8000/api/apps/list.json");
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:8000/list.json");
             using (var responseStream = request.GetResponse().GetResponseStream())
             using (var reader = new StreamReader(responseStream))
             {

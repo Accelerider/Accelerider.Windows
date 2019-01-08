@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 
 namespace Accelerider.Windows.Infrastructure
 {
@@ -16,6 +17,8 @@ namespace Accelerider.Windows.Infrastructure
         /// It represents the path where the "Accelerider.Windows.exe" is located.
         /// </summary>
         public static readonly string MainProgram = AppDomain.CurrentDomain.BaseDirectory;
+
+        public static string CurrentAssembly => Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
 
         /// <summary>
         /// %AppData%\Accelerider
