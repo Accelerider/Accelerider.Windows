@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using Accelerider.Windows.Properties;
 using System.Windows;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.I18nResources;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.I18n;
-using Accelerider.Windows.Infrastructure.Modularity;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Infrastructure.Upgrade;
 using Accelerider.Windows.ServerInteraction;
@@ -16,7 +14,6 @@ using MaterialDesignThemes.Wpf;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
-using Prism.Modularity;
 using Prism.Mvvm;
 using Refit;
 
@@ -36,7 +33,9 @@ namespace Accelerider.Windows
 
         protected override void ConfigureViewModelLocator()
         {
-            ViewModelLocationProvider.SetDefaultViewModelFactory(new ViewModelResolver(() => Container).UseDefaultConfigure().ResolveViewModelForView);
+            ViewModelLocationProvider.SetDefaultViewModelFactory(new ViewModelResolver(() => Container)
+                .UseDefaultConfigure()
+                .ResolveViewModelForView);
         }
 
         protected override Window CreateShell()
@@ -60,7 +59,6 @@ namespace Accelerider.Windows
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<ILoggerFacade, Logger>();
             containerRegistry.RegisterInstance<ISnackbarMessageQueue>(new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
             containerRegistry.RegisterInstance(new ConfigureFile().Load());
             containerRegistry.RegisterInstance(RestService.For<INonAuthenticationApi>(AcceleriderUrls.ApiBaseAddress));
@@ -70,7 +68,8 @@ namespace Accelerider.Windows
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             base.RegisterRequiredTypes(containerRegistry);
-            containerRegistry.RegisterSingleton<ILoggerFacade, Logger>();
+            //containerRegistry.RegisterSingleton<ILoggerFacade, Logger>();
+            containerRegistry.RegisterSingleton<ILoggerFacade, Log4NetLogger>();
         }
 
         private void ConfigureApplicationEventHandlers()

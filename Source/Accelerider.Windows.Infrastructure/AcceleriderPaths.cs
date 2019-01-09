@@ -44,8 +44,8 @@ namespace Accelerider.Windows.Infrastructure
     public static class AcceleriderFiles
     {
         /// <summary>
-        /// %AppData%\Accelerider\accelerider.config
+        /// %AppData%\Accelerider\settings.json
         /// </summary>
-        public static readonly string Configure = Path.Combine(AcceleriderFolders.AppData, "accelerider.config");
+        public static readonly string Configure = Path.Combine(AcceleriderFolders.AppData, "settings.json");
     }
 }
