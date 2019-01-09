@@ -46,16 +46,6 @@ namespace Accelerider.Windows.ViewModels.Dialogs
 
         private void CheckForUpdateCommandExecute()
         {
-            var process = new Process
-            {
-                StartInfo =
-                {
-                    FileName = Path.Combine(Environment.CurrentDirectory, "Update/Accelerider.Windows.Update.exe"),
-                    WindowStyle = ProcessWindowStyle.Hidden
-                }
-            };
-            process.Start();
-            Application.Current.Shutdown(0);
         }
     }
 }

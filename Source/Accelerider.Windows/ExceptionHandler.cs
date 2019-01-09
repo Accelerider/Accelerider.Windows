@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
-using Prism.Logging;
+using log4net;
 
 namespace Accelerider.Windows
 {
     public class ExceptionHandler
     {
-        private readonly ILoggerFacade _logger;
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(ExceptionHandler));
 
-
-        public ExceptionHandler(ILoggerFacade logger)
-        {
-            _logger = logger;
-        }
 
         public void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
@@ -25,24 +20,31 @@ namespace Accelerider.Windows
             Log(e.Exception);
         }
 
-        private void Log(Exception exception)
+        private static void Log(Exception exception)
         {
             switch (exception)
             {
                 case NotImplementedException _:
-                    MessageBox.Show("Sorry, The feature has not been implemented, please wait for the next version. ", "Tips");
-                    return;
+                    MessageBox.Show(
+                        "Sorry! The feature has NOT been IMPLEMENTED. Please wait for the next version. ", 
+                        "Fatal");
+                    break;
                 case NotSupportedException _:
-                    MessageBox.Show("Sorry, The feature has not been supported, please wait for the next version. ", "Tips");
-                    return;
+                    MessageBox.Show(
+                        "Sorry! The feature has NOT been SUPPORTED. Please wait for the next version. ", 
+                        "Fatal");
+                    break;
+                default:
+                    MessageBox.Show(
+                        "Sorry! An uncaught EXCEPTION occurred. " +
+                        "You can pack and send log files in %AppData%\\Accelerider\\Logs to the developer. Thank you! ", 
+                        "Fatal");
+                    break;
             }
 
-            var message = $"{exception.GetType().Name}, " +
-                          $"Message: {exception.Message}, " +
-                          $"StackTrace: {Environment.NewLine}{exception.StackTrace}{Environment.NewLine}";
-            _logger.Log(message, Category.Exception, Priority.High);
+            Logger.Fatal("An uncaught exception occurred", exception);
 
-            Application.Current.Shutdown(-1);
+            ProcessController.Restart(-1);
         }
     }
 }

@@ -7,7 +7,6 @@ using Accelerider.Windows.Resources.I18N;
 using Prism.Regions;
 using System.Linq;
 using Accelerider.Windows.Constants;
-using Accelerider.Windows.Infrastructure.Modularity;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Infrastructure.Upgrade;
 using MaterialDesignThemes.Wpf;
@@ -19,19 +18,18 @@ namespace Accelerider.Windows.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, IViewLoadedAndUnloadedAware, INotificable
     {
+        private readonly IRegionManager _regionManager;
         private bool _appStoreIsDisplayed;
+
+        public ICommand FeedbackCommand { get; }
 
         public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
 
         public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
-            RegionManager = regionManager;
+            _regionManager = regionManager;
             FeedbackCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Issue));
         }
-
-        public IRegionManager RegionManager { get; }
-
-        public ICommand FeedbackCommand { get; }
 
         public bool AppStoreIsDisplayed
         {
@@ -41,7 +39,7 @@ namespace Accelerider.Windows.ViewModels
                 if (_appStoreIsDisplayed) return;
                 if (!SetProperty(ref _appStoreIsDisplayed, value)) return;
 
-                var region = RegionManager.Regions[RegionNames.MainTabRegion];
+                var region = _regionManager.Regions[RegionNames.MainTabRegion];
                 foreach (var activeView in region.ActiveViews)
                 {
                     region.Deactivate(activeView);
@@ -53,7 +51,7 @@ namespace Accelerider.Windows.ViewModels
         {
             RunUpgradeService();
 
-            var region = RegionManager.Regions[RegionNames.MainTabRegion];
+            var region = _regionManager.Regions[RegionNames.MainTabRegion];
             region.ActiveViews.CollectionChanged += OnActiveViewsChanged;
             if (!region.Views.Any()) AppStoreIsDisplayed = true;
 

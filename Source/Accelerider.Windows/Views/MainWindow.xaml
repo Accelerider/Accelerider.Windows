@@ -10,7 +10,6 @@
         xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
         xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        prism:RegionManager.RegionManager="{Binding RegionManager}"
         MinHeight="500" MinWidth="720" 
         Height="{Binding Path=MainWindowHeight, Source={x:Static settings:Settings.Default}, Mode=TwoWay}" 
         Width="{Binding Path=MainWindowWidth, Source={x:Static settings:Settings.Default}, Mode=TwoWay}" 

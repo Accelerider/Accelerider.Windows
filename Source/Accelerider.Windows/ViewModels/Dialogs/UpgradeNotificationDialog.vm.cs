@@ -43,21 +43,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
         {
             ModuleIconUri = "pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-accelerider.png";
 
-            RestartCommand = new RelayCommand(() =>
-            {
-                var process = new Process
-                {
-                    StartInfo =
-                    {
-                        FileName = Path.Combine(Environment.CurrentDirectory, "Launcher.exe"),
-                        WindowStyle = ProcessWindowStyle.Hidden,
-                        Arguments = "--delay 2000 --auto-login"
-                    }
-                };
-                process.Start();
-                Application.Current.Shutdown(0);
-            });
-
+            RestartCommand = new RelayCommand(() => ProcessController.Restart());
         }
 
         public void Initialize(UpgradeInfo info)

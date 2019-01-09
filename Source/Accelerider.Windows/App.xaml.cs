@@ -15,6 +15,7 @@ using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Mvvm;
+using Prism.Unity;
 using Refit;
 
 namespace Accelerider.Windows
@@ -24,9 +25,12 @@ namespace Accelerider.Windows
     /// </summary>
     public partial class App
     {
+        private const string ProcessName = @"Global\Accelerider.Windows.Wpf";
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            ProcessController.CheckSingleton();
+            ProcessController.CheckSingleton(ProcessName, (IntPtr)Settings.Default.WindowHandle);
+            ConfigureApplicationEventHandlers();
 
             base.OnStartup(e);
         }
@@ -38,23 +42,17 @@ namespace Accelerider.Windows
                 .ResolveViewModelForView);
         }
 
-        protected override Window CreateShell()
-        {
-            InitializeCultureInfo();
-            return new AuthenticationWindow();
-        }
-
         public override void Initialize()
         {
             base.Initialize();
+            InitializeCultureInfo();
             Settings.Default.PropertyChanged += (sender, eventArgs) => Settings.Default.Save();
         }
 
-        protected override void OnInitialized()
+        protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            ApiExceptionResolverExtension.SetUnityContainer(Container);
-            ConfigureApplicationEventHandlers();
-            base.OnInitialized();
+            base.RegisterRequiredTypes(containerRegistry);
+            containerRegistry.RegisterSingleton<ILoggerFacade, Log4NetLogger>();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -65,16 +63,21 @@ namespace Accelerider.Windows
             containerRegistry.RegisterSingleton<IUpgradeService, UpgradeService>();
         }
 
-        protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
+        protected override Window CreateShell() => null;
+
+        protected override void OnInitialized()
         {
-            base.RegisterRequiredTypes(containerRegistry);
-            //containerRegistry.RegisterSingleton<ILoggerFacade, Logger>();
-            containerRegistry.RegisterSingleton<ILoggerFacade, Log4NetLogger>();
+            ApiExceptionResolverExtension.SetUnityContainer(Container);
+            WindowHelper.Container = Container.GetContainer();
+
+            WindowHelper.SwitchTo<AuthenticationWindow>();
         }
 
-        private void ConfigureApplicationEventHandlers()
+        // ---------------------------------------------------------------------------------------------------------------
+
+        private static void ConfigureApplicationEventHandlers()
         {
-            var handler = Container.Resolve<ExceptionHandler>();
+            var handler = new ExceptionHandler();
             AppDomain.CurrentDomain.UnhandledException += handler.UnhandledExceptionHandler;
             Current.DispatcherUnhandledException += handler.DispatcherUnhandledExceptionHandler;
         }
@@ -97,6 +100,8 @@ namespace Accelerider.Windows
 
         protected override void OnExit(ExitEventArgs e)
         {
+            ProcessController.Clear();
+
             Container.Resolve<IEventAggregator>().GetEvent<ApplicationExiting>().Publish();
 
             (Container.Resolve<ILoggerFacade>() as IDisposable)?.Dispose();

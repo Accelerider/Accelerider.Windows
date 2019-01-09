@@ -121,7 +121,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
             ConfigureFile.SetValue(ConfigureKeys.AutoSignIn, IsAutoSignIn);
 
             // Launches main window and closes itself.
-            ShellSwitcher.Switch<AuthenticationWindow, MainWindow>();
+            WindowHelper.SwitchTo<MainWindow>();
         }
 
         private async Task<bool> AuthenticateAsync(string username, string passwordMd5)

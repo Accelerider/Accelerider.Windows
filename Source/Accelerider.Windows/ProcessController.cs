@@ -1,77 +1,93 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
 using Accelerider.Windows.Properties;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
+using log4net;
 
 namespace Accelerider.Windows
 {
     public static class ProcessController
     {
-        private const int SW_SHOW_NORMAL = 1;
-        private const int SW_RESTORE = 9;
-        private const string PROCESS_NAME = "Accelerider.Windows";
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(ProcessController));
+        private static volatile EventWaitHandle _keepAliveEvent;
 
-        private static Mutex _mutex;
-
-        #region Win32 API functions
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
-
-        [DllImport("user32.dll")]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        private static extern bool IsIconic(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        private static extern bool IsZoomed(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        private static extern bool FlashWindow(IntPtr hWnd, bool bInvert);
-        #endregion
-
-        public static void OnWindowLoaded(object sender, RoutedEventArgs e)
+        public static void Restart(int exitCode = 0)
         {
-            IntPtr hwnd = ((HwndSource)PresentationSource.FromVisual((Visual)sender)).Handle;
-            Settings.Default.WindowHandle = (long)hwnd;
-        }
-
-        public static void Restart()
-        {
+            if (Settings.Default.IsRestarting) return;
             Settings.Default.IsRestarting = true;
-            Process.Start($"{Directory.GetCurrentDirectory()}/{PROCESS_NAME}.exe");
-            Application.Current.Shutdown();
+
+            var process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = Path.Combine(Environment.CurrentDirectory, "Launcher.exe"),
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    Arguments = "--delay 2000 --auto-login"
+                }
+            };
+            process.Start();
+
+            Exit(exitCode);
         }
 
-        public static void CheckSingleton()
+        /// <summary>
+        /// Check whether the GUI process has already been started.
+        /// </summary>
+        public static bool CheckSingleton(string processName, IntPtr windowHandle)
         {
-            _mutex = new Mutex(true, PROCESS_NAME, out bool isNew);
-            if (isNew || Settings.Default.IsRestarting)
+            if (IsDuplicateInstance(processName) && !Settings.Default.IsRestarting)
             {
-                Settings.Default.IsRestarting = false;
-                return;
+                windowHandle.ActivateWindow();
+
+                Exit();
+                return false;
             }
 
-            ActivateExistedWindow();
-            Application.Current.Shutdown();
+            Settings.Default.IsRestarting = false;
+            return true;
         }
 
-        private static void ActivateExistedWindow()
+        public static bool IsDuplicateInstance(string processName)
         {
-            IntPtr windowHandle = (IntPtr)Settings.Default.WindowHandle;
+            bool createdNew;
+            try
+            {
+                _keepAliveEvent = new EventWaitHandle(false, EventResetMode.ManualReset, processName, out createdNew);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                //The event should exists, ref: https://msdn.microsoft.com/en-us/library/df414y9h(v=vs.110).aspx
+                return true;
+            }
+            catch (Exception e)
+            {
+                Logger.Fatal("Can't open the communication event. ", e);
+                return false;
+            }
 
-            SetForegroundWindow(windowHandle);
-            ShowWindowAsync(windowHandle, IsIconic(windowHandle) ? SW_RESTORE : SW_SHOW_NORMAL);
-            GetForegroundWindow();
-            FlashWindow(windowHandle, true);
+            if (!createdNew)
+            {
+                Logger.Fatal("The killed event has been opened. So there is another process has been initialized. ");
+                _keepAliveEvent.Close();
+                return true;
+            }
+
+            //register the exit hook, so that we can raise the name event before 
+            return false;
+        }
+
+        public static void Exit(int exitCode = 0) => Application.Current.Shutdown(exitCode);
+
+        public static void Clear()
+        {
+            //notify the watch dog by setting the event
+            if (_keepAliveEvent != null && !_keepAliveEvent.SafeWaitHandle.IsClosed)
+            {
+                _keepAliveEvent?.Set();
+                _keepAliveEvent?.Close();
+            }
         }
     }
 }

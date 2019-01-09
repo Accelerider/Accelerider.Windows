@@ -121,6 +121,7 @@
     <Compile Include="ServerInteraction\Args.cs" />
     <Compile Include="ServerInteraction\INonAuthenticationApi.cs" />
     <Compile Include="ServerInteraction\Responses.cs" />
+    <Compile Include="SettingsFile.cs" />
     <Compile Include="ShellUpgradeTask.cs" />
     <Compile Include="ViewModels\AppStore\AppStoreComponent.vm.cs" />
     <Compile Include="ViewModels\Dialogs\AboutDialog.vm.cs" />
@@ -169,10 +170,11 @@
     <Compile Include="Views\Authentication\SignUpView.xaml.cs">
       <DependentUpon>SignUpView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShellSwitcher.cs" />
     <Compile Include="Views\ShellSettingsTabItem.xaml.cs">
       <DependentUpon>ShellSettingsTabItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowExtensions.cs" />
+    <Compile Include="WindowHelper.cs" />
     <Page Include="Views\AppStore\AppCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
