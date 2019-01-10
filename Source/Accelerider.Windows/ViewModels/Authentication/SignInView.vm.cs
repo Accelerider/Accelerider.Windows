@@ -23,7 +23,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
         private bool _isRememberPassword;
         private bool _isAutoSignIn;
 
-        protected IConfigureFile ConfigureFile { get; }
+        private readonly ShellSettings _settings;
 
         public string Email
         {
@@ -48,7 +48,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
         public SignInViewModel(IUnityContainer container) : base(container)
         {
             _nonAuthenticationApi = Container.Resolve<INonAuthenticationApi>();
-            ConfigureFile = Container.Resolve<IConfigureFile>();
+            _settings = Container.Resolve<IDataRepository>().Get<ShellSettings>(isGlobal: true);
             SignInCommand = new RelayCommand<PasswordBox>(SignInCommandExecute, passwordBox => CanSignIn(Email, passwordBox.Password));
 
             EventAggregator.GetEvent<SignUpSuccessEvent>().Subscribe(signUpArgs => _signUpArgs = signUpArgs);
@@ -75,13 +75,13 @@ namespace Accelerider.Windows.ViewModels.Authentication
             if (!string.IsNullOrEmpty(Email) || !string.IsNullOrEmpty(passwordBox.Password)) return;
 
             // 3. No login info from config file.
-            if (!CanSignIn(ConfigureFile.GetValue<string>(ConfigureKeys.Username), ConfigureFile.GetValue<string>(ConfigureKeys.Password))) return;
+            if (!CanSignIn(_settings.Username, _settings.Password)) return;
 
             // 4. Login info from config file.
             IsRememberPassword = true;
-            IsAutoSignIn = ConfigureFile.GetValue<bool>(ConfigureKeys.AutoSignIn);
-            Email = ConfigureFile.GetValue<string>(ConfigureKeys.Username);
-            passwordBox.Password = ConfigureFile.GetValue<string>(ConfigureKeys.Password).DecryptByRijndael();
+            IsAutoSignIn = _settings.AutoLogin;
+            Email = _settings.Username;
+            passwordBox.Password = _settings.Password.DecryptByRijndael();
 
             if (IsAutoSignIn)
             {
@@ -95,7 +95,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
 
         private async void SignInCommandExecute(PasswordBox password)
         {
-            var passwordMd5 = password.Password == ConfigureFile.GetValue<string>(ConfigureKeys.Password).DecryptByRijndael()
+            var passwordMd5 = password.Password == _settings.Password.DecryptByRijndael()
                             ? password.Password
                             : password.Password.ToMd5();
 
@@ -109,16 +109,16 @@ namespace Accelerider.Windows.ViewModels.Authentication
             if (!await AuthenticateAsync(username, passwordMd5))
             {
                 EventAggregator.GetEvent<MainWindowLoadingEvent>().Publish(false);
-                ConfigureFile.SetValue(ConfigureKeys.AutoSignIn, false);
+                _settings.AutoLogin = false;
                 return;
             }
 
             //await Container.Resolve<ModuleResolver>().LoadAsync();
 
             // Saves data.
-            ConfigureFile.SetValue(ConfigureKeys.Username, IsRememberPassword ? username : string.Empty);
-            ConfigureFile.SetValue(ConfigureKeys.Password, IsRememberPassword ? passwordMd5.EncryptByRijndael() : string.Empty);
-            ConfigureFile.SetValue(ConfigureKeys.AutoSignIn, IsAutoSignIn);
+            _settings.Username = IsRememberPassword ? username : string.Empty;
+            _settings.Password = IsRememberPassword ? passwordMd5.EncryptByRijndael() : string.Empty;
+            _settings.AutoLogin = IsAutoSignIn;
 
             // Launches main window and closes itself.
             WindowHelper.SwitchTo<MainWindow>();
@@ -150,8 +150,9 @@ namespace Accelerider.Windows.ViewModels.Authentication
 
         private void RegisterInstance(IAcceleriderUser user, IAcceleriderApi acceleriderApi)
         {
-            Container.RegisterInstance(user);
-            Container.RegisterInstance(acceleriderApi);
+            Container
+                .RegisterInstance(user)
+                .RegisterInstance(acceleriderApi);
         }
 
         private static bool CanSignIn(string username, string password) => !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);

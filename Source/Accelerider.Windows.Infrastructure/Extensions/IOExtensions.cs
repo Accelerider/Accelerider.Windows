@@ -1,12 +1,16 @@
 ﻿using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using log4net;
 
 // ReSharper disable once CheckNamespace
 namespace System.IO
 {
     public static class ExtensionMethods
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(ExtensionMethods));
+
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool CreateHardLink(string lpFileName, string lpExistingFileName, IntPtr lpSecurityAttributes);
 
@@ -58,6 +62,70 @@ namespace System.IO
                 .GetDrives()
                 .FirstOrDefault(item => item.Name.Equals(targetDriveName, StringComparison.InvariantCultureIgnoreCase))?
                 .AvailableFreeSpace ?? 0L;
+        }
+
+        public static bool TryDelete(this string path, int retryCount = 0)
+        {
+            if (!File.Exists(path)) return true;
+
+            try
+            {
+                File.Delete(path);
+            }
+            catch (FileNotFoundException)
+            {
+                return true;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return true;
+            }
+            catch (IOException e)
+            {
+                if (retryCount > 5) return false;
+
+                Logger.Error($"Try to delete the file ({path}) failed. Retry count = {retryCount}. ", e);
+                TryDelete(path, retryCount + 1);
+            }
+
+            return true;
+        }
+
+        public static async Task<bool> TryDeleteAsync(this string path, int retryCount = 0)
+        {
+            if (!File.Exists(path)) return true;
+
+            try
+            {
+                File.Delete(path);
+            }
+            catch (FileNotFoundException)
+            {
+                return true;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return true;
+            }
+            catch (IOException e)
+            {
+                if (retryCount > 5)
+                {
+                    Logger.Error($"Try to delete the file ({path}) failed. ", e);
+                    return false;
+                }
+
+                Logger.Error($"Retry to delete the file ({path}) failed {retryCount} times. ", e);
+                await TimeSpan.FromMilliseconds(retryCount * 500);
+
+                await TryDeleteAsync(path, retryCount + 1);
+            }
+            catch (Exception e)
+            {
+                Logger.Error($"Try to delete the file ({path}) failed", e);
+            }
+
+            return true;
         }
     }
 }

@@ -92,7 +92,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
                 }, CancellationToken.None);
             }
 
-            if(fileNames.Any())
+            if (fileNames.Any())
             {
                 var fileName = fileNames.First().TrimMiddle(40);
                 var message = fileNames.Count == 1
@@ -186,9 +186,9 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
         private async Task<(string folder, bool isDownload)> DisplayDownloadDialogAsync(IEnumerable<string> files)
         {
-            var configure = Container.Resolve<IConfigureFile>();
-            if (configure.GetValue<bool>(ConfigureKeys.NotDisplayDownloadDialog))
-                return (configure.GetValue<string>(ConfigureKeys.DownloadDirectory), true);
+            var settings = Container.Resolve<IDataRepository>().Get<NetDiskSettings>();
+            if (settings.DoNotDisplayDownloadDialog)
+                return (settings.DownloadDirectory, true);
 
             var dialog = new DownloadDialog();
             var vm = dialog.DataContext as DownloadDialogViewModel;
@@ -196,10 +196,10 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
             if (!(bool)await DialogHost.Show(dialog, "RootDialog")) return (null, false);
 
-            configure.SetValue(ConfigureKeys.NotDisplayDownloadDialog, vm.NotDisplayDownloadDialog);
+            settings.DoNotDisplayDownloadDialog = vm.NotDisplayDownloadDialog;
             if (vm.NotDisplayDownloadDialog)
             {
-                configure.SetValue(ConfigureKeys.DownloadDirectory, vm.DownloadFolder.ToString());
+                settings.DownloadDirectory = vm.DownloadFolder.ToString();
             }
             return (vm.DownloadFolder, true);
         }

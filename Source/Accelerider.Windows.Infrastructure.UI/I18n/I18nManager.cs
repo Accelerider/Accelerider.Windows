@@ -3,28 +3,27 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
-using System.Threading;
 using System.Windows;
 
 namespace Accelerider.Windows.Infrastructure.I18n
 {
     public class I18nManager
     {
-        private readonly IConfigureFile _configure;
+        private readonly ShellSettings _settings;
         private readonly ConcurrentDictionary<string, ResourceManager> _resourceManagerStorage = new ConcurrentDictionary<string, ResourceManager>();
 
         public event Action CurrentUICultureChanged;
 
         public static I18nManager Instance { get; private set; }
 
-        public static void Initialize(IConfigureFile configure)
+        public static void Initialize(ShellSettings settings)
         {
-            Instance = new I18nManager(configure);
+            Instance = new I18nManager(settings);
         }
 
-        private I18nManager(IConfigureFile configure)
+        private I18nManager(ShellSettings settings)
         {
-            _configure = configure;
+            _settings = settings;
         }
 
         public CultureInfo CurrentUICulture
@@ -35,7 +34,7 @@ namespace Accelerider.Windows.Infrastructure.I18n
                 if (EqualityComparer<CultureInfo>.Default.Equals(value, CultureInfo.DefaultThreadCurrentUICulture)) return;
 
                 CultureInfo.DefaultThreadCurrentUICulture = value;
-                _configure.SetValue("language", value);
+                _settings.Language = value;
                 OnCurrentUICultureChanged();
             }
         }

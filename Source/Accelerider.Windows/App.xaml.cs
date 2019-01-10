@@ -58,9 +58,10 @@ namespace Accelerider.Windows
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterInstance<ISnackbarMessageQueue>(new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
-            containerRegistry.RegisterInstance(new ConfigureFile().Load());
             containerRegistry.RegisterInstance(RestService.For<INonAuthenticationApi>(AcceleriderUrls.ApiBaseAddress));
             containerRegistry.RegisterSingleton<IUpgradeService, UpgradeService>();
+            containerRegistry.RegisterInstance<IDataRepository>(new DataRepository(
+                () => Container.Resolve<IAcceleriderUser>().Email));
         }
 
         protected override Window CreateShell() => null;
@@ -84,17 +85,16 @@ namespace Accelerider.Windows
 
         private void InitializeCultureInfo()
         {
-            var configure = Container.Resolve<IConfigureFile>();
+            var settings = Container.Resolve<IDataRepository>().Get<ShellSettings>(isGlobal: true);
 
-            I18nManager.Initialize(configure);
-            var language = configure.GetValue<CultureInfo>(ConfigureKeys.Language);
-            if (language == null)
+            I18nManager.Initialize(settings);
+
+            if (settings.Language == null)
             {
-                language = CultureInfo.InstalledUICulture;
-                configure.SetValue(ConfigureKeys.Language, language);
+                settings.Language = CultureInfo.InstalledUICulture;
             }
 
-            I18nManager.Instance.CurrentUICulture = language;
+            I18nManager.Instance.CurrentUICulture = settings.Language;
             I18nManager.Instance.AddResourceManager(UiResources.ResourceManager);
         }
 

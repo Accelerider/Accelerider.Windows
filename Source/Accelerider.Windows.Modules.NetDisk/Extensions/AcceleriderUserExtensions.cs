@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Accelerider.Windows.Modules.NetDisk;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.Modules.NetDisk.ViewModels;
-using Newtonsoft.Json;
+using log4net;
+using Unity;
 
 // ReSharper disable once CheckNamespace
 namespace Accelerider.Windows.Infrastructure
@@ -18,35 +18,38 @@ namespace Accelerider.Windows.Infrastructure
     {
         private class AcceleriderUserExtendedMembers
         {
-            public string Id { get; set; }
+            private static readonly ILog Logger = LogManager.GetLogger(typeof(AcceleriderUserExtendedMembers));
 
-            public List<INetDiskUser> NetDiskUsers { get; } = new List<INetDiskUser>();
+            private readonly IDataRepository _repository;
+            private readonly NetDiskUserDb _db;
 
-            [JsonIgnore]
+            public List<INetDiskUser> NetDiskUsers => _db.NetDiskUsers;
+
             public INetDiskUser CurrentNetDiskUser { get; set; }
 
-            public void Save(string path) => File.WriteAllText(path, this.ToJson());
+            public AcceleriderUserExtendedMembers(IDataRepository repository, NetDiskUserDb db)
+            {
+                if (db.NetDiskUsers == null) db.NetDiskUsers = new List<INetDiskUser>();
+                _repository = repository;
+                _db = db;
+            }
+
+            public void Save()
+            {
+                _repository.Save(_db);
+
+                _db.NetDiskUsers
+                    .ForEach(item => Logger.Info($"The user ({item.GetHashCode()}-{item.Username}) has been saved. "));
+            }
         }
 
-        private static readonly string CurrentAssemblyDirectory = AcceleriderFolders.CurrentAssembly;
-        private static readonly string UsersFilePathFormat = Path.Combine(CurrentAssemblyDirectory, "{0}.users");
+        private static AcceleriderUserExtendedMembers _extendedMembers;
 
-        private static readonly IDictionary<string, AcceleriderUserExtendedMembers> ExtendedMembers =
-            new ConcurrentDictionary<string, AcceleriderUserExtendedMembers>();
-
-        static AcceleriderUserExtensions()
+        public static void Initialize(IUnityContainer container)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
-            Directory.GetFiles(CurrentAssemblyDirectory, "*.users")
-                .Select(item => File.ReadAllText(item).ToObject<AcceleriderUserExtendedMembers>())
-                .ForEach(item => ExtendedMembers[item.Id] = item);
-        }
+            var repository = container.Resolve<IDataRepository>();
 
-        private static AcceleriderUserExtendedMembers GetExtendedMembers(this IAcceleriderUser user)
-        {
-            var result = ExtendedMembers.Get(user.Email);
-            if (string.IsNullOrEmpty(result.Id)) result.Id = user.Email;
-            return result;
+            _extendedMembers = new AcceleriderUserExtendedMembers(repository, repository.Get<NetDiskUserDb>());
         }
 
         // -------------------------------------------------------------------------------------
@@ -68,41 +71,37 @@ namespace Accelerider.Windows.Infrastructure
             Guards.ThrowIfNull(@this);
 
             var result = await @this.RefreshAsync();
-            var extendedMembers = @this.GetExtendedMembers();
-            if (extendedMembers.NetDiskUsers != null)
+            foreach (var user in _extendedMembers.NetDiskUsers)
             {
-                foreach (var user in extendedMembers.NetDiskUsers)
-                {
-                    await user.RefreshAsync();
-                }
+                await user.RefreshAsync();
             }
 
-            extendedMembers.CurrentNetDiskUser = extendedMembers.NetDiskUsers?.FirstOrDefault();
+            _extendedMembers.CurrentNetDiskUser = _extendedMembers.NetDiskUsers?.FirstOrDefault();
 
             return result;
         }
 
         public static void SaveToLocalDisk(this IAcceleriderUser @this)
         {
-            @this.GetExtendedMembers().Save(string.Format(UsersFilePathFormat, @this.Email));
+            Guards.ThrowIfNull(@this);
+
+            _extendedMembers.Save();
         }
 
         public static IEnumerable<INetDiskUser> GetNetDiskUsers(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);
 
-            return @this.GetExtendedMembers().NetDiskUsers;
+            return _extendedMembers.NetDiskUsers;
         }
 
         public static bool AddNetDiskUser(this IAcceleriderUser @this, INetDiskUser value)
         {
             Guards.ThrowIfNull(@this);
 
-            var extendedMembers = @this.GetExtendedMembers();
+            if (_extendedMembers.NetDiskUsers.Any(item => item.Id == value.Id)) return false;
 
-            if (extendedMembers.NetDiskUsers.Any(v => v.Id == value.Id)) return false;
-
-            extendedMembers.NetDiskUsers.Add(value);
+            _extendedMembers.NetDiskUsers.Add(value);
             @this.SaveToLocalDisk();
 
             if (@this.GetCurrentNetDiskUser() == null)
@@ -118,7 +117,7 @@ namespace Accelerider.Windows.Infrastructure
         {
             Guards.ThrowIfNull(@this);
 
-            var result = @this.GetExtendedMembers().NetDiskUsers.RemoveAll(item => item.Id == value.Id) > 0;
+            var result = _extendedMembers.NetDiskUsers.RemoveAll(item => item.Id == value.Id) > 0;
             if (result)
             {
                 @this.SaveToLocalDisk();
@@ -131,17 +130,17 @@ namespace Accelerider.Windows.Infrastructure
         {
             Guards.ThrowIfNull(@this);
 
-            return @this.GetExtendedMembers().CurrentNetDiskUser;
+            return _extendedMembers.CurrentNetDiskUser;
         }
 
         public static bool SetCurrentNetDiskUser(this IAcceleriderUser @this, INetDiskUser value)
         {
             Guards.ThrowIfNull(@this);
 
-            if (EqualityComparer<INetDiskUser>.Default.Equals(@this.GetExtendedMembers().CurrentNetDiskUser, value))
+            if (EqualityComparer<INetDiskUser>.Default.Equals(_extendedMembers.CurrentNetDiskUser, value))
                 return false;
 
-            @this.GetExtendedMembers().CurrentNetDiskUser = value;
+            _extendedMembers.CurrentNetDiskUser = value;
             RaisePropertyChanged();
             return true;
         }

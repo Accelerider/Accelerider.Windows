@@ -39,6 +39,9 @@
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -95,7 +98,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants\ConfigureKeys.cs" />
     <Compile Include="Constants\Hyperlinks.cs" />
     <Compile Include="Enumerations\FileCategory.cs" />
     <Compile Include="Enumerations\FileType.cs" />
@@ -133,6 +135,8 @@
     <Compile Include="Models\SixCloud\ISixCloudApi.cs" />
     <Compile Include="Models\SixCloud\SixCloudFile.cs" />
     <Compile Include="Models\SixCloud\SixCloudUser.cs" />
+    <Compile Include="NetDiskSettings.cs" />
+    <Compile Include="NetDiskUserDb.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignIn.vm.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignUp.vm.cs" />
     <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">

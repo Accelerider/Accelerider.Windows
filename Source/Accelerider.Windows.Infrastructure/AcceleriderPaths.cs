@@ -10,7 +10,7 @@ namespace Accelerider.Windows.Infrastructure
         {
             Directory.CreateDirectory(Apps);
             Directory.CreateDirectory(Logs);
-            Directory.CreateDirectory(Users);
+            Directory.CreateDirectory(Settings);
         }
 
         /// <summary>
@@ -18,6 +18,9 @@ namespace Accelerider.Windows.Infrastructure
         /// </summary>
         public static readonly string MainProgram = AppDomain.CurrentDomain.BaseDirectory;
 
+        /// <summary>
+        /// It represents the path where the current assembly (*.dll file) is located.
+        /// </summary>
         public static string CurrentAssembly => Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
 
         /// <summary>
@@ -36,9 +39,9 @@ namespace Accelerider.Windows.Infrastructure
         public static readonly string Logs = Path.Combine(AppData, nameof(Logs));
 
         /// <summary>
-        /// %AppData%\Accelerider\Users
+        /// %AppData%\Accelerider\Settings
         /// </summary>
-        public static readonly string Users = Path.Combine(AppData, nameof(Users));
+        public static readonly string Settings = Path.Combine(AppData, nameof(Settings));
     }
 
     public static class AcceleriderFiles

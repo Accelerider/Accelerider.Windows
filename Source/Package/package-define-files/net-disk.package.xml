@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Folder Target="../../../release-packages/net-disk-{Version:Accelerider.Windows.Modules.NetDisk.dll}-{Configuration}"
+<Folder Target="../../../release-packages/apps-net-disk-win-{Version:Accelerider.Windows.Modules.NetDisk.dll}-{Configuration}"
         Source="../../../Build/{Configuration}/Modules">
   <Folder Target="zh-CN" />
   <File Target="Accelerider.Windows.Modules.NetDisk.dll" />

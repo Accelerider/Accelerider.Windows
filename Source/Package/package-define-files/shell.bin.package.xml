@@ -17,6 +17,7 @@
   <File Target="Microsoft.Win32.Primitives.dll" />
   <File Target="netstandard.dll" />
   <File Target="Newtonsoft.Json.dll" />
+  <File Target="log4net.dll" />
   <File Target="Polly.dll" />
   <File Target="Prism.dll" />
   <File Target="Prism.Unity.Wpf.dll" />

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.TransferService;
+using log4net;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Refit;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
@@ -15,9 +16,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
     [JsonObject(MemberSerialization.OptIn)]
     public class SixCloudUser : NetDiskUserBase
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(SixCloudUser));
+
         private readonly List<IDownloadingFile> _downloadingFiles = new List<IDownloadingFile>();
 
-        [JsonProperty("LocalDiskFile")]
+        [JsonProperty("LocalDiskFiles")]
         private List<ILocalDiskFile> _localDiskFiles = new List<ILocalDiskFile>();
 
         [JsonProperty]
@@ -47,6 +50,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                     AuthorizationHeaderValueGetter = () => Task.FromResult(AccessToken)
                 }
             );
+
+            Logger.Info($"The user ({GetHashCode()}-{Username ?? "<Empty>"}) has been created. ");
         }
 
         public override IDownloadingFile Download(INetDiskFile from, FileLocator to)
@@ -62,6 +67,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             var result = DownloadingFile.Create(this, from, downloader);
 
             SaveDownloadingFile(result);
+
+            Logger.Info($"Download: from {from.Path.FileName} to {downloader.Context.LocalPath}. ");
 
             return result;
         }
@@ -94,7 +101,17 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             _downloadingFiles.Add(result);
             ArddFilePaths.Add(result.ArddFilePath);
 
-            result.DownloadInfo.Subscribe(_ => { }, OnCompleted);
+            result.DownloadInfo
+                .Where(item => item.Status == TransferStatus.Disposed)
+                .Subscribe(async _ =>
+                {
+                    ArddFilePaths.Remove(result.ArddFilePath);
+
+                    await result.ArddFilePath.TryDeleteAsync();
+                    await result.DownloadInfo.Context.LocalPath.TryDeleteAsync();
+
+                    Logger.Info($"Cancel Download: {result.DownloadInfo.Context.LocalPath}. ");
+                }, OnCompleted);
             Subscribe(result.DownloadInfo.Where(item => item.Status == TransferStatus.Suspended || item.Status == TransferStatus.Faulted));
             Subscribe(result.DownloadInfo.Sample(TimeSpan.FromMilliseconds(5000)));
 
@@ -110,14 +127,15 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 observable.Subscribe(_ => File.WriteAllText(result.ArddFilePath, result.ToJsonString()));
             }
 
-            void OnCompleted()
+            async void OnCompleted()
             {
-                if (File.Exists(result.ArddFilePath)) File.Delete(result.ArddFilePath);
                 ArddFilePaths.Remove(result.ArddFilePath);
 
                 var localDiskFile = LocalDiskFile.Create(result);
                 _downloadingFiles.Remove(result);
                 _localDiskFiles.Add(localDiskFile);
+
+                await result.ArddFilePath.TryDeleteAsync();
             }
         }
 

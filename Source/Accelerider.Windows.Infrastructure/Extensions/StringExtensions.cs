@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using Accelerider.Windows.Infrastructure;
 
@@ -51,6 +52,27 @@ namespace System
             var secondHalfString = @this.Substring(@this.Length - halfLength);
 
             return $"{firstHalfString}{omitPlaceholder}{secondHalfString}";
+        }
+
+        public static string UpperCamelCaseToDelimiterSeparated(this string upperCamelCase)
+        {
+            var stringBuilder = new StringBuilder(upperCamelCase.Length, upperCamelCase.Length * 2);
+
+            for (int i = 0; i < upperCamelCase.Length; i++)
+            {
+                var @char = upperCamelCase[i];
+                if (char.IsUpper(@char))
+                {
+                    if (i != 0) stringBuilder.Append('-');
+                    stringBuilder.Append(char.ToLower(@char));
+                }
+                else
+                {
+                    stringBuilder.Append(@char);
+                }
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

@@ -78,7 +78,7 @@ namespace Accelerider.Windows
             return false;
         }
 
-        public static void Exit(int exitCode = 0) => Application.Current.Shutdown(exitCode);
+        public static void Exit(int exitCode = 0) => Application.Current?.Shutdown(exitCode);
 
         public static void Clear()
         {

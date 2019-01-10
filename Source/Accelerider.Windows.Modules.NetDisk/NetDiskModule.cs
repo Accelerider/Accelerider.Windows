@@ -26,6 +26,8 @@ namespace Accelerider.Windows.Modules.NetDisk
             // Register for container
             containerRegistry.RegisterInstance(FileTransferService.GetDownloaderManager("net-disk"));
 
+            AcceleriderUserExtensions.Initialize(containerRegistry.GetContainer());
+
             // Register for region
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComponent));
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransportationComponent));

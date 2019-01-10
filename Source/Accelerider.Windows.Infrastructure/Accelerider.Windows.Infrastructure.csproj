@@ -78,7 +78,6 @@
     <Compile Include="Extensions\FunctionalExtensions.cs" />
     <Compile Include="GenericInterface.cs" />
     <Compile Include="Guards.cs" />
-    <Compile Include="ConfigureFile.cs" />
     <Compile Include="Enumerations\Language.cs" />
     <Compile Include="Enumerations\ShareStatus.cs" />
     <Compile Include="Enumerations\SizeUnit.cs" />
@@ -86,7 +85,6 @@
     <Compile Include="FileLocator.cs" />
     <Compile Include="Interfaces\ICloneable{T}.cs" />
     <Compile Include="Interfaces\IAcceleriderUser.cs" />
-    <Compile Include="Interfaces\IConfigureFile.cs" />
     <Compile Include="Interfaces\ILazyTreeNode{T}.cs" />
     <Compile Include="LazyTreeNode.cs" />
     <Compile Include="Interfaces\IRefreshable.cs" />
@@ -100,6 +98,8 @@
     </Compile>
     <Compile Include="Extensions\SecureStringExtensions.cs" />
     <Compile Include="Extensions\IOExtensions.cs" />
+    <Compile Include="DataRepository.cs" />
+    <Compile Include="ShellSettings.cs" />
     <Compile Include="StatusCodes.cs" />
     <Compile Include="TempDirectory.cs" />
     <Compile Include="SystemFolder.cs" />

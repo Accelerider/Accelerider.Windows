@@ -101,7 +101,6 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="AppUpgradeTask.cs" />
-    <Compile Include="Constants\ConfigureKeys.cs" />
     <Compile Include="Constants\AcceleriderUrls.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="ExceptionHandler.cs" />
@@ -121,7 +120,6 @@
     <Compile Include="ServerInteraction\Args.cs" />
     <Compile Include="ServerInteraction\INonAuthenticationApi.cs" />
     <Compile Include="ServerInteraction\Responses.cs" />
-    <Compile Include="SettingsFile.cs" />
     <Compile Include="ShellUpgradeTask.cs" />
     <Compile Include="ViewModels\AppStore\AppStoreComponent.vm.cs" />
     <Compile Include="ViewModels\Dialogs\AboutDialog.vm.cs" />
