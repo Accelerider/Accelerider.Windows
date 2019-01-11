@@ -21,7 +21,7 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
         [JsonProperty("moduleType")]
         public string ModuleType { get; set; }
 
-        [JsonProperty("DependsOn")]
+        [JsonProperty("dependsOn")]
         public IEnumerable<string> DependsOn { get; set; }
     }
 }
