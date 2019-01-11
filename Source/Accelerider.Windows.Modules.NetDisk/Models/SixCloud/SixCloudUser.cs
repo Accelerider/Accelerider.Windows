@@ -59,7 +59,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             var downloader = FileTransferService
                 .GetDownloaderBuilder()
                 .UseSixCloudConfigure()
-                .Configure(localPath => localPath.GetUniqueLocalPath(path => File.Exists(path) || File.Exists($"{path}{ArddFileExtension}")))
+                .Configure(localPath => localPath.GetUniqueLocalPath(path => File.Exists(path) || File.Exists($"{path}{Constants.DownloadInfoFileExtension}")))
                 .From(new RemotePathProvider(this, from.Path))
                 .To(Path.Combine(to, from.Path.FileName))
                 .Build();
@@ -76,7 +76,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
         public override IReadOnlyList<IDownloadingFile> GetDownloadingFiles()
         {
             var downloadingFiles = ArddFilePaths
-                .Where(item => item.EndsWith(ArddFileExtension))
+                .Where(item => item.EndsWith(Constants.DownloadInfoFileExtension))
                 .Where(File.Exists)
                 .Where(item => !_downloadingFiles.Any(file => item.StartsWith(file.DownloadInfo.Context.LocalPath)))
                 .Select(File.ReadAllText)

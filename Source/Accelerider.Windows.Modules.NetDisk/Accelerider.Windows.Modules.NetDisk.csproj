@@ -98,7 +98,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants\Hyperlinks.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Enumerations\FileCategory.cs" />
     <Compile Include="Enumerations\FileType.cs" />
     <Compile Include="Enumerations\TransportedFileStatus.cs" />

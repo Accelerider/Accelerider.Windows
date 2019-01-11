@@ -25,7 +25,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
             DownloadInfo = downloader;
             BindableDownloader = downloader.ToBindable(Application.Current.Dispatcher);
             Operations = downloader.AsManaged("net-disk"); // TODO: To const.
-            ArddFilePath = $"{downloader.Context.LocalPath}.ardd";
+            ArddFilePath = $"{downloader.Context.LocalPath}{Constants.DownloadInfoFileExtension}";
         }
 
         public static IDownloadingFile Create(INetDiskUser owner, INetDiskFile file, IDownloader downloader)
