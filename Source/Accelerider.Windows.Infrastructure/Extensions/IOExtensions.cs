@@ -64,7 +64,9 @@ namespace System.IO
                 .AvailableFreeSpace ?? 0L;
         }
 
-        public static bool TryDelete(this string path, int retryCount = 0)
+        public static async Task<bool> TryDeleteAsync(this string path) => await TryDeleteAsync(path, 1);
+
+        private static async Task<bool> TryDeleteAsync(string path, int retryCount)
         {
             if (!File.Exists(path)) return true;
 
@@ -72,41 +74,8 @@ namespace System.IO
             {
                 File.Delete(path);
             }
-            catch (FileNotFoundException)
-            {
-                return true;
-            }
-            catch (DirectoryNotFoundException)
-            {
-                return true;
-            }
-            catch (IOException e)
-            {
-                if (retryCount > 5) return false;
-
-                Logger.Error($"Try to delete the file ({path}) failed. Retry count = {retryCount}. ", e);
-                TryDelete(path, retryCount + 1);
-            }
-
-            return true;
-        }
-
-        public static async Task<bool> TryDeleteAsync(this string path, int retryCount = 0)
-        {
-            if (!File.Exists(path)) return true;
-
-            try
-            {
-                File.Delete(path);
-            }
-            catch (FileNotFoundException)
-            {
-                return true;
-            }
-            catch (DirectoryNotFoundException)
-            {
-                return true;
-            }
+            catch (FileNotFoundException) { }
+            catch (DirectoryNotFoundException) { }
             catch (IOException e)
             {
                 if (retryCount > 5)
@@ -123,6 +92,7 @@ namespace System.IO
             catch (Exception e)
             {
                 Logger.Error($"Try to delete the file ({path}) failed", e);
+                return false;
             }
 
             return true;

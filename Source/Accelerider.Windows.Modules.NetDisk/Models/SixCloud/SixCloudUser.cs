@@ -101,19 +101,17 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             _downloadingFiles.Add(result);
             ArddFilePaths.Add(result.ArddFilePath);
 
+            var disposable1 = Subscribe(result.DownloadInfo.Where(item => item.Status == TransferStatus.Suspended || item.Status == TransferStatus.Faulted));
+            var disposable2 = Subscribe(result.DownloadInfo.Sample(TimeSpan.FromMilliseconds(5000)));
+
             result.DownloadInfo
                 .Where(item => item.Status == TransferStatus.Disposed)
                 .Subscribe(async _ =>
                 {
-                    ArddFilePaths.Remove(result.ArddFilePath);
+                    await ClearDownloadInfo(true);
 
-                    await result.ArddFilePath.TryDeleteAsync();
-                    await result.DownloadInfo.Context.LocalPath.TryDeleteAsync();
-
-                    Logger.Info($"Cancel Download: {result.DownloadInfo.Context.LocalPath}. ");
+                    Logger.Info($"Download Cancelled: {result.DownloadInfo.Context.LocalPath}. ");
                 }, OnCompleted);
-            Subscribe(result.DownloadInfo.Where(item => item.Status == TransferStatus.Suspended || item.Status == TransferStatus.Faulted));
-            Subscribe(result.DownloadInfo.Sample(TimeSpan.FromMilliseconds(5000)));
 
             File.WriteAllText(result.ArddFilePath, result.ToJsonString());
 
@@ -122,32 +120,36 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                 OnCompleted();
             }
 
-            void Subscribe(IObservable<TransferNotification> observable)
-            {
-                observable.Subscribe(_ => File.WriteAllText(result.ArddFilePath, result.ToJsonString()));
-            }
-
             async void OnCompleted()
             {
-                ArddFilePaths.Remove(result.ArddFilePath);
-
+                await ClearDownloadInfo(false);
                 var localDiskFile = LocalDiskFile.Create(result);
-                _downloadingFiles.Remove(result);
                 _localDiskFiles.Add(localDiskFile);
 
+                Logger.Info($"Download Completed: {result.DownloadInfo.Context.LocalPath}. ");
+            }
+
+            IDisposable Subscribe(IObservable<TransferNotification> observable)
+            {
+                return observable.Subscribe(_ => File.WriteAllText(result.ArddFilePath, result.ToJsonString()));
+            }
+
+            async Task ClearDownloadInfo(bool isCancelled)
+            {
+                disposable1.Dispose();
+                disposable2.Dispose();
+
+                ArddFilePaths.Remove(result.ArddFilePath);
+                _downloadingFiles.Remove(result);
+
                 await result.ArddFilePath.TryDeleteAsync();
+                if (isCancelled) await result.DownloadInfo.Context.LocalPath.TryDeleteAsync();
             }
         }
 
-        public override IReadOnlyList<ILocalDiskFile> GetDownloadedFiles()
-        {
-            return _localDiskFiles;
-        }
+        public override IReadOnlyList<ILocalDiskFile> GetDownloadedFiles() => _localDiskFiles;
 
-        public override void ClearDownloadFiles()
-        {
-            _localDiskFiles.Clear();
-        }
+        public override void ClearDownloadFiles() => _localDiskFiles.Clear();
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
         {
