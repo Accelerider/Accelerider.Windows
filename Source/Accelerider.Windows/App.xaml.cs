@@ -100,6 +100,8 @@ namespace Accelerider.Windows
 
         protected override void OnExit(ExitEventArgs e)
         {
+            Container.Resolve<IUpgradeService>().Stop();
+
             ProcessController.Clear();
 
             Container.Resolve<IEventAggregator>().GetEvent<ApplicationExiting>().Publish();
