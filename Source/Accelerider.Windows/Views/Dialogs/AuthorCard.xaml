@@ -33,13 +33,13 @@
                 <StackPanel Orientation="Horizontal" Margin="0 2">
                     <Button ToolTip="{Binding Path=GithubHome, RelativeSource={RelativeSource AncestorType=dialogs:AuthorCard}}" 
                             Command="{Binding Path=OpenGithubHomeCommand, RelativeSource={RelativeSource AncestorType=dialogs:AuthorCard}}" 
-                            Style="{StaticResource FlatButtonStyle}" 
+                            Style="{StaticResource ButtonStyle.Flat}" 
                             Foreground="#5458AF" VerticalAlignment="Center" Margin="0 0 4 0" Height="Auto">
                         <materialDesign:PackIcon Kind="GithubCircle" VerticalAlignment="Center" />
                     </Button>
                     <Button ToolTip="{Binding Path=Email, RelativeSource={RelativeSource AncestorType=dialogs:AuthorCard}}" 
                             Command="{Binding Path=OpenEmailCommand, RelativeSource={RelativeSource AncestorType=dialogs:AuthorCard}}" 
-                            Style="{StaticResource FlatButtonStyle}" 
+                            Style="{StaticResource ButtonStyle.Flat}" 
                             Foreground="#5458AF" VerticalAlignment="Center" Margin="4 0" Height="Auto">
                         <materialDesign:PackIcon Kind="Email" VerticalAlignment="Center" />
                     </Button>

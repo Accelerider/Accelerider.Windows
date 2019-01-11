@@ -5,7 +5,7 @@
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:i18N="clr-namespace:Accelerider.Windows.Resources.I18N;assembly=Accelerider.Windows.Assets"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
-             Style="{StaticResource AcceleriderDialogStyle}"
+             Style="{StaticResource UserControlStyle.Dialog}"
              Height="Auto" Width="500">
     <Grid Margin="20">
         <Grid.RowDefinitions>

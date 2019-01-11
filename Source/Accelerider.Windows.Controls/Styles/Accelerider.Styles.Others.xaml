@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Accelerider.Windows.Controls">
     
-    <Style x:Key="FileImageSelectorStyle" TargetType="Image">
+    <Style x:Key="ImageStyle.FileIcon" TargetType="Image">
         <Setter Property="Width" Value="28"/>
         <Setter Property="Height" Value="28"/>
         <Style.Triggers>

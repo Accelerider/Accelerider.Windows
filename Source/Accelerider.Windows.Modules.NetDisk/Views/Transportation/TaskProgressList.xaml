@@ -4,7 +4,7 @@
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          SelectionMode="Single"
          Style="{StaticResource {x:Type ListBox}}"
-         ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}"
+         ItemContainerStyle="{StaticResource ListBoxItemStyle.LeftBarAndUnderline}"
          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
          xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.Models"
@@ -73,7 +73,7 @@
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
 
-                        <Image Tag="{Binding File.Type}" Style="{StaticResource FileImageSelectorStyle}" />
+                        <Image Tag="{Binding File.Type}" Style="{StaticResource ImageStyle.FileIcon}" />
 
                         <Grid Grid.Column="2" >
                             <Grid.ColumnDefinitions>

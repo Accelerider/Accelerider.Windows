@@ -12,7 +12,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="500"
              d:DataContext="{d:DesignInstance {x:Type dialogs:UpgradeNotificationDialogViewModel}}"
-             Style="{StaticResource AcceleriderDialogStyle}">
+             Style="{StaticResource UserControlStyle.Dialog}">
 
     <Grid Margin="80 20">
         <Grid.RowDefinitions>

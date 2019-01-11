@@ -7,7 +7,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              prism:RegionManager.RegionManager="{Binding RegionManager}"
              Tag="Settings"
-             Style="{StaticResource AcceleriderDialogStyle}">
+             Style="{StaticResource UserControlStyle.Dialog}">
     <Grid Margin="10 0 10 10">
         <TabControl Style="{StaticResource {x:Type TabControl}}" 
                     ItemContainerStyle="{StaticResource {x:Type TabItem}}"

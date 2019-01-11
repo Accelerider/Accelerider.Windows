@@ -9,7 +9,7 @@
              xmlns:dialogs="clr-namespace:Accelerider.Windows.Views.Dialogs"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Tag="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Title}}"
-             Style="{StaticResource AcceleriderDialogStyle}">
+             Style="{StaticResource UserControlStyle.Dialog}">
 
     <Grid Margin="16">
         <Grid.RowDefinitions>
@@ -41,7 +41,7 @@
                 <Run Text="{i18N:I18n {x:Static i18NResources:ResKeys.Punctuation_LeftParenthesis}}" />
             </TextBlock>
             <Button Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ReleaseNotes}}" 
-                    Command="{Binding OpenReleaseNotesCommand}" Foreground="#5458AF" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
+                    Command="{Binding OpenReleaseNotesCommand}" Foreground="#5458AF" Style="{StaticResource ButtonStyle.Link}" VerticalAlignment="Center"/>
             <TextBlock Text="{i18N:I18n {x:Static i18NResources:ResKeys.Punctuation_RightParenthesis}}" 
                        VerticalAlignment="Center"/>
         </StackPanel>
@@ -51,7 +51,7 @@
             <Button Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_GithubProjectHome}}" 
                     ToolTip="https://github.com/Accelerider/Accelerider.Windows" 
                     Command="{Binding OpenProjectHomeCommand}" Foreground="#5458AF" 
-                    Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Center"/>
+                    Style="{StaticResource ButtonStyle.Link}" VerticalAlignment="Center"/>
         </StackPanel>
 
         <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Center">

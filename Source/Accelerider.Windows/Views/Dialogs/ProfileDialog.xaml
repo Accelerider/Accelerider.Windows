@@ -10,7 +10,7 @@
              xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Tag="{i18N:I18n {x:Static i18NResources:ResKeys.ProfileDialog_Title}}"
-             Style="{StaticResource AcceleriderDialogStyle}"
+             Style="{StaticResource UserControlStyle.Dialog}"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type vm:ProfileDialogViewModel}}">
 

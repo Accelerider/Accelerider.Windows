@@ -5,7 +5,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Accelerider.Windows.Controls">
 
-    <Style x:Key="MainWindowStyle" TargetType="Window">
+    <Style x:Key="WindowStyle.Main" TargetType="Window">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="WindowChrome.WindowChrome">
@@ -39,7 +39,7 @@
                                     <!--Window button-->
                                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                                         <StackPanel.Resources>
-                                            <Style x:Key="WindowButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource FlatButtonStyle}">
+                                            <Style x:Key="WindowButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle.Flat}">
                                                 <Setter Property="controls:ControlHelper.MouseOverBackground" Value="{StaticResource PrimaryHueDarkBrush}" />
                                                 <Setter Property="controls:ControlHelper.MouseOverForeground" Value="White"/>
                                                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
@@ -120,7 +120,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="AcceleriderWindowStyle" TargetType="Window">
+    <Style x:Key="WindowStyle.Authentication" TargetType="Window">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="ResizeMode" Value="NoResize"/>

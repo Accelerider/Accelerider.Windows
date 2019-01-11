@@ -4,7 +4,7 @@
                     xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
                     xmlns:controls="clr-namespace:Accelerider.Windows.Controls">
 
-    <Style x:Key="MainTabItemStyle" TargetType="{x:Type TabItem}">
+    <Style x:Key="TabItemStyle.Main" TargetType="{x:Type TabItem}">
         <Setter Property="Background" Value="{StaticResource PrimaryHueMidBrush}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
@@ -90,7 +90,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="MainTabControlStyle" TargetType="{x:Type TabControl}">
+    <Style x:Key="TabControlStyle.Main" TargetType="{x:Type TabControl}">
         <Setter Property="TabStripPlacement" Value="Left"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>

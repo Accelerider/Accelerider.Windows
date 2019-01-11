@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prism="http://prismlibrary.com/"
              xmlns:local="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications"
-             Style="{StaticResource AcceleriderDialogStyle}"
+             Style="{StaticResource UserControlStyle.Dialog}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Width="400">
