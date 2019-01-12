@@ -10,7 +10,7 @@ namespace Accelerider.Windows.Infrastructure
         {
             Directory.CreateDirectory(Apps);
             Directory.CreateDirectory(Logs);
-            Directory.CreateDirectory(Settings);
+            Directory.CreateDirectory(Database);
         }
 
         /// <summary>
@@ -39,16 +39,8 @@ namespace Accelerider.Windows.Infrastructure
         public static readonly string Logs = Path.Combine(AppData, nameof(Logs));
 
         /// <summary>
-        /// %AppData%\Accelerider\Settings
+        /// %AppData%\Accelerider\Database
         /// </summary>
-        public static readonly string Settings = Path.Combine(AppData, nameof(Settings));
-    }
-
-    public static class AcceleriderFiles
-    {
-        /// <summary>
-        /// %AppData%\Accelerider\settings.json
-        /// </summary>
-        public static readonly string Configure = Path.Combine(AcceleriderFolders.AppData, "settings.json");
+        public static readonly string Database = Path.Combine(AppData, nameof(Database));
     }
 }

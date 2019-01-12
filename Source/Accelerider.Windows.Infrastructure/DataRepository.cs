@@ -87,7 +87,7 @@ namespace Accelerider.Windows.Infrastructure
             var name = type.Name.UpperCamelCaseToDelimiterSeparated();
 
             var key = isGlobal ? string.Empty : $".{Username}";
-            return Path.Combine(AcceleriderFolders.Settings, $"{name}{key}.json");
+            return Path.Combine(AcceleriderFolders.Database, $"{name}{key}.json");
         }
 
         private static void WriteToLocal(string path, string contents)
