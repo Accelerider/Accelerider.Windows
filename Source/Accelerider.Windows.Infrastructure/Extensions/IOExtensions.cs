@@ -68,11 +68,20 @@ namespace System.IO
 
         private static async Task<bool> TryDeleteAsync(string path, int retryCount)
         {
-            if (!File.Exists(path)) return true;
-
             try
             {
-                File.Delete(path);
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                else if (Directory.Exists(path))
+                {
+                    Directory.Delete(path, true);
+                }
+                else
+                {
+                    return true;
+                }
             }
             catch (FileNotFoundException) { }
             catch (DirectoryNotFoundException) { }
@@ -80,18 +89,18 @@ namespace System.IO
             {
                 if (retryCount > 5)
                 {
-                    Logger.Error($"Try to delete the file ({path}) failed. ", e);
+                    Logger.Error($"Try to delete the path ({path}) failed. ", e);
                     return false;
                 }
 
-                Logger.Error($"Retry to delete the file ({path}) failed {retryCount} times. ", e);
+                Logger.Error($"Retry to delete the path ({path}) failed {retryCount} times. ", e);
                 await TimeSpan.FromMilliseconds(retryCount * 500);
 
                 await TryDeleteAsync(path, retryCount + 1);
             }
             catch (Exception e)
             {
-                Logger.Error($"Try to delete the file ({path}) failed", e);
+                Logger.Error($"Try to delete the path ({path}) failed", e);
                 return false;
             }
 

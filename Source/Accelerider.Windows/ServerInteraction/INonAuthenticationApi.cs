@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Modularity;
 using Accelerider.Windows.Infrastructure.Upgrade;
 using Refit;
 
@@ -21,6 +20,6 @@ namespace Accelerider.Windows.ServerInteraction
         Task<LoginResponse> LoginAsync([Body] LoginArgs args);
 
         [Get("/apps")]
-        Task<List<AppMetadata>> GetAppMetadataList();
+        Task<List<UpgradeInfo>> GetAppInfoList();
     }
 }

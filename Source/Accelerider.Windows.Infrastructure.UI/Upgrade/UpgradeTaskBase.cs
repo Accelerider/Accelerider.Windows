@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Accelerider.Windows.TransferService;
+using log4net;
 
 namespace Accelerider.Windows.Infrastructure.Upgrade
 {
@@ -23,24 +24,31 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
         public Version CurrentVersion { get; private set; } = EmptyVersion;
 
+        protected ILog Logger { get; }
+
         protected UpgradeTaskBase(string name, string installDirectory, string folderPrefix = null)
         {
+            Logger = LogManager.GetLogger(GetType());
+
             Name = name;
             InstallDirectory = installDirectory;
             _folderPrefix = folderPrefix ?? name;
             _versionRegex = new Regex($@"^{_folderPrefix}-(\d+?\.\d+?\.\d+?)$", RegexOptions.Compiled);
         }
 
-        public async Task DownloadAsync(UpgradeInfo info)
+        public async Task LoadFromRemoteAsync(UpgradeInfo info)
         {
-            if (!PrepareUpgrade(info)) return;
+            // current-version, max-local-version, upgrade-info-version
+
+            // 1. upgrade-info-version > current-version --> required upgrade
+            if (!IsUpgradeRequired(info)) return;
 
             try
             {
-                await ResolveFileAsync(info);
+                // 2. upgrade-info-version > max-local-version --> required download
+                if (IsDownloadRequired(info)) await ResolveFileAsync(info);
 
                 OnDownloadCompleted(info);
-                CurrentVersion = GetMaxLocalVersion();
             }
             catch (Exception e)
             {
@@ -48,11 +56,18 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
             }
         }
 
-        public abstract Task<bool> TryLoadAsync();
+        public abstract Task LoadFromLocalAsync();
 
-        protected virtual bool PrepareUpgrade(UpgradeInfo info)
+        protected virtual bool IsUpgradeRequired(UpgradeInfo info)
         {
-            return info.Version > (CurrentVersion = GetMaxLocalVersion());
+            if (CurrentVersion == EmptyVersion) CurrentVersion = GetMaxLocalVersion();
+
+            return info.Version > CurrentVersion;
+        }
+
+        protected virtual bool IsDownloadRequired(UpgradeInfo info)
+        {
+            return info.Version > GetMaxLocalVersion();
         }
 
         public virtual Version GetMaxLocalVersion()
@@ -74,15 +89,21 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
                    select (Version.Parse(match.Groups[1].Value), folderPath);
         }
 
-        protected virtual void OnDownloadCompleted(UpgradeInfo info) { }
+        protected virtual void OnDownloadCompleted(UpgradeInfo info)
+        {
+            Logger.Info($"[Upgrade] The {info.Name}-{info.Version.ToString(3)} has been downloaded. ");
+        }
 
-        protected virtual void OnDownloadError(Exception e) { }
+        protected virtual void OnDownloadError(Exception e)
+        {
+            Logger.Error("An unexpected exception occured when downloading module. ", e);
+        }
 
         private async Task ResolveFileAsync(UpgradeInfo info)
         {
             using (var tempPath = new TempDirectory(Path.Combine(Path.GetTempPath(), $"{Name}-{Path.GetRandomFileName()}")))
             {
-                var zipFilePath = Path.Combine(tempPath.DirectoryPath, Path.GetRandomFileName());
+                var zipFilePath = Path.Combine(tempPath.Path, Path.GetRandomFileName());
 
                 // 1. Download the module
                 var downloader = FileTransferService
@@ -97,11 +118,11 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
                 await downloader;
 
                 // 2. Unzip the module
-                ZipFile.ExtractToDirectory(zipFilePath, tempPath.DirectoryPath);
+                ZipFile.ExtractToDirectory(zipFilePath, tempPath.Path);
 
                 // 3. Move file to target path.
-                tempPath.MoveTo(GetInstallPath(info.Version), 
-                    Directory.GetDirectories(tempPath.DirectoryPath).FirstOrDefault());
+                tempPath.MoveTo(GetInstallPath(info.Version),
+                    Directory.GetDirectories(tempPath.Path).FirstOrDefault());
             }
         }
 

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,18 +12,23 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
         private const double UpgradeIntervalBaseMinute = 4 * 60;
         private const double RetryIntervalBaseMinute = 4;
 
+        private readonly Func<Task<List<UpgradeInfo>>> _upgradeInfosGetter;
         private readonly ConcurrentDictionary<string, IUpgradeTask> _tasks = new ConcurrentDictionary<string, IUpgradeTask>();
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        public void Add(IUpgradeTask task)
+        public UpgradeService(Func<Task<List<UpgradeInfo>>> upgradeInfosGetter)
         {
-            _tasks.TryAdd(task.Name, task);
+            Guards.ThrowIfNull(upgradeInfosGetter);
+
+            _upgradeInfosGetter = upgradeInfosGetter;
         }
 
-        public IUpgradeTask Get(string name) => _tasks.TryGetValue(name, out var result) ? result : default;
+        void IUpgradeService.Add(IUpgradeTask task) => _tasks.TryAdd(task.Name, task);
 
-        public async void Run()
+        IUpgradeTask IUpgradeService.Get(string name) => _tasks.TryGetValue(name, out var result) ? result : default;
+
+        async void IUpgradeService.Run()
         {
             if (_cancellationTokenSource != null) return;
 
@@ -33,7 +36,7 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
             await RunInternalAsync(_cancellationTokenSource.Token);
         }
 
-        public void Stop()
+        void IUpgradeService.Stop()
         {
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = null;
@@ -49,17 +52,19 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
                     var tasks = _tasks.Values.ToArray();
                     foreach (var task in tasks)
                     {
-                        await task.TryLoadAsync();
+                        await task.LoadFromLocalAsync();
                     }
 
-                    var upgradeInfos = await MockGetUpgradeInfos();
+                    var upgradeInfos = await _upgradeInfosGetter();
 
                     foreach (var task in tasks)
                     {
                         var info = upgradeInfos.FirstOrDefault(
                             item => item.Name.Equals(task.Name, StringComparison.InvariantCultureIgnoreCase));
 
-                        await task.DownloadAsync(info);
+                        if (info == null) continue;
+
+                        await task.LoadFromRemoteAsync(info);
                     }
                 }
                 catch (Exception)
@@ -80,22 +85,6 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
                 }
             }
         }
-
-        #region Mock Data
-
-        // TODO: Replace the Mock.
-        private static async Task<List<UpgradeInfo>> MockGetUpgradeInfos()
-        {
-            var request = (HttpWebRequest)WebRequest.Create("http://localhost:8000/list.json");
-            using (var responseStream = request.GetResponse().GetResponseStream())
-            using (var reader = new StreamReader(responseStream))
-            {
-                var json = await reader.ReadToEndAsync();
-                return json.ToObject<List<UpgradeInfo>>();
-            }
-        }
-
-        #endregion
     }
 
     public static class UpgradeServiceExtensions

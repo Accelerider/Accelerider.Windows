@@ -5,23 +5,23 @@ namespace Accelerider.Windows.Infrastructure
 {
     public sealed class TempDirectory : IDisposable
     {
-        public string DirectoryPath { get; }
+        public string Path { get; }
 
         public TempDirectory(string tempDirectoryPath)
         {
-            DirectoryPath = tempDirectoryPath;
+            Path = tempDirectoryPath;
 
             // Clean up the path, in order to make sure the folder is empty.
-            DeleteFileSystemEntry(DirectoryPath);
+            DeleteFileSystemEntry(Path);
 
-            Directory.CreateDirectory(DirectoryPath);
+            Directory.CreateDirectory(Path);
         }
 
         public bool MoveTo(string targetPath, string subDirectoryName = null)
         {
             try
             {
-                var directory = Path.Combine(DirectoryPath, subDirectoryName ?? string.Empty);
+                var directory = System.IO.Path.Combine(Path, subDirectoryName ?? string.Empty);
                 if (!Directory.Exists(directory))
                     throw new DirectoryNotFoundException();
 
@@ -43,7 +43,7 @@ namespace Accelerider.Windows.Infrastructure
 
         public void Dispose()
         {
-            DeleteFileSystemEntry(DirectoryPath);
+            DeleteFileSystemEntry(Path);
         }
     }
 }

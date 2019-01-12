@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Accelerider.Windows.Infrastructure.Upgrade;
 using Accelerider.Windows.TransferService;
 using Prism.Modularity;
 
@@ -69,8 +67,8 @@ namespace Accelerider.Windows.Infrastructure.Modularity
             if (moduleInfo == null)
                 throw new ArgumentNullException(nameof(moduleInfo));
 
-            if (!(moduleInfo is AppMetadata app))
-                throw new ArgumentException($"the moduleInfo argument must be {nameof(AppMetadata)} type. ");
+            if (!(moduleInfo is AppInfo app))
+                throw new ArgumentException($"the moduleInfo argument must be {nameof(AppInfo)} type. ");
 
             try
             {

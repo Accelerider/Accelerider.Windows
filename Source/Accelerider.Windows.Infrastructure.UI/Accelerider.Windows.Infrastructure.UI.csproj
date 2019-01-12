@@ -37,6 +37,9 @@
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -116,6 +119,7 @@
     <Compile Include="I18n\I18nManager.cs" />
     <Compile Include="I18n\I18nSource.cs" />
     <Compile Include="MergedStyles.cs" />
+    <Compile Include="Modularity\AppInfo.cs" />
     <Compile Include="Modularity\ModuleBase.cs" />
     <Compile Include="Modularity\RemoteModuleTypeLoader.cs" />
     <Compile Include="Mvvm\DialogViewModel.cs" />
@@ -142,7 +146,6 @@
     <Compile Include="TransferService.WpfInteractions\BindableProgress.cs" />
     <Compile Include="TransferService.WpfInteractions\DisplayDataSize.cs" />
     <Compile Include="TransferService.WpfInteractions\Extensions.cs" />
-    <Compile Include="Modularity\AppMetadata.cs" />
     <Compile Include="Upgrade\IUpgradeService.cs" />
     <Compile Include="Upgrade\IUpgradeTask.cs" />
     <Compile Include="Upgrade\UpgradeInfo.cs" />

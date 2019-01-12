@@ -7,7 +7,7 @@
 <#@ output extension=".json" #>
 
 {
-	"moduleName": "apps-net-disk-win",
+	"moduleName": "app-any-drive",
 	"moduleType": "<#= typeof(Accelerider.Windows.Modules.NetDisk.NetDiskModule).AssemblyQualifiedName #>",
 	"dependsOn": []
 }

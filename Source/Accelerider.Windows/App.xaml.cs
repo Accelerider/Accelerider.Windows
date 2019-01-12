@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 using Accelerider.Windows.Properties;
 using System.Windows;
 using Accelerider.Windows.Constants;
@@ -17,6 +19,8 @@ using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Unity;
 using Refit;
+using Unity;
+using Unity.Injection;
 
 namespace Accelerider.Windows
 {
@@ -57,11 +61,16 @@ namespace Accelerider.Windows
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance<ISnackbarMessageQueue>(new SnackbarMessageQueue(TimeSpan.FromSeconds(2)));
-            containerRegistry.RegisterInstance(RestService.For<INonAuthenticationApi>(AcceleriderUrls.ApiBaseAddress));
-            containerRegistry.RegisterSingleton<IUpgradeService, UpgradeService>();
-            containerRegistry.RegisterInstance<IDataRepository>(new DataRepository(
-                () => Container.Resolve<IAcceleriderUser>().Email));
+            var snackbarMessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(2));
+            var nonAuthenticationApi = RestService.For<INonAuthenticationApi>(AcceleriderUrls.ApiBaseAddress);
+            var dataRepository = new DataRepository(() => Container.Resolve<IAcceleriderUser>().Email);
+            var injectionConstructor = new InjectionConstructor(
+                new Func<Task<List<UpgradeInfo>>>(() => nonAuthenticationApi.GetAppInfoList()));
+
+            containerRegistry.RegisterInstance<ISnackbarMessageQueue>(snackbarMessageQueue);
+            containerRegistry.RegisterInstance(nonAuthenticationApi);
+            containerRegistry.RegisterInstance<IDataRepository>(dataRepository);
+            containerRegistry.GetContainer().RegisterSingleton<IUpgradeService, UpgradeService>(injectionConstructor);
         }
 
         protected override Window CreateShell() => null;

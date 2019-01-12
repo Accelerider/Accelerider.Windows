@@ -6,8 +6,8 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
     {
         string Name { get; }
 
-        Task DownloadAsync(UpgradeInfo info);
+        Task LoadFromLocalAsync();
 
-        Task<bool> TryLoadAsync();
+        Task LoadFromRemoteAsync(UpgradeInfo info);
     }
 }

@@ -24,7 +24,7 @@ namespace Accelerider.Windows.Modules.NetDisk
         public override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Register for container
-            containerRegistry.RegisterInstance(FileTransferService.GetDownloaderManager("net-disk"));
+            containerRegistry.RegisterInstance(FileTransferService.GetDownloaderManager("any-drive"));
 
             AcceleriderUserExtensions.Initialize(containerRegistry.GetContainer());
 

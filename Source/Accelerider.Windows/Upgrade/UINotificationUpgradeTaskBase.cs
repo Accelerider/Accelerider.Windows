@@ -6,36 +6,15 @@ using Accelerider.Windows.ViewModels.Dialogs;
 using Accelerider.Windows.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 
-namespace Accelerider.Windows
+namespace Accelerider.Windows.Upgrade
 {
-    public class ShellUpgradeTask : UpgradeTaskBase
+    public abstract class UINotificationUpgradeTaskBase : UpgradeTaskBase
     {
-        public const string ShellName = "accelerider-shell-win";
-
         private bool _isUpgradeNotificationDialogOpened;
 
-        public ShellUpgradeTask()
-            : base(ShellName, Environment.CurrentDirectory, "bin")
-        {
-        }
+        protected UINotificationUpgradeTaskBase(string name, string installDirectory, string folderPrefix = null) : base(name, installDirectory, folderPrefix) { }
 
-        public override Task<bool> TryLoadAsync() => Task.FromResult(false);
-
-        protected override async void OnDownloadCompleted(UpgradeInfo info)
-        {
-            // TODO: Notify the user to restart.
-            if (CurrentVersion < info.Version)
-            {
-                await ShowUpgradeNotificationDialogAsync(info);
-            }
-        }
-
-        protected override void OnDownloadError(Exception e)
-        {
-            // TODO: Logging
-        }
-
-        private async Task ShowUpgradeNotificationDialogAsync(UpgradeInfo info)
+        protected async Task ShowUpgradeNotificationDialogAsync(UpgradeInfo info)
         {
             if (_isUpgradeNotificationDialogOpened) return;
 
@@ -62,6 +41,5 @@ namespace Accelerider.Windows
             });
             _isUpgradeNotificationDialogOpened = false;
         }
-
     }
 }

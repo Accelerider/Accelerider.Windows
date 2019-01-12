@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Accelerider.Windows.Infrastructure.Upgrade
@@ -17,11 +16,5 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
         [JsonProperty("updateNotes")]
         public string UpdateNotes { get; set; }
-
-        [JsonProperty("moduleType")]
-        public string ModuleType { get; set; }
-
-        [JsonProperty("dependsOn")]
-        public IEnumerable<string> DependsOn { get; set; }
     }
 }

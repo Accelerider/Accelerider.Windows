@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.JsonObjects;
 
 namespace Accelerider.Windows
 {

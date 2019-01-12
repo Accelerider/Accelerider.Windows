@@ -9,6 +9,7 @@ using System.Linq;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Infrastructure.Upgrade;
+using Accelerider.Windows.Upgrade;
 using MaterialDesignThemes.Wpf;
 using Unity;
 using Unity.Resolution;
@@ -63,13 +64,13 @@ namespace Accelerider.Windows.ViewModels
         private void RunUpgradeService()
         {
             // TODO: Delete Mock
-            AcceleriderUser.Apps = new List<string> { "apps-net-disk-win" };
+            AcceleriderUser.Apps = new List<string> { "app-any-drive" };
 
             var upgradeService = Container.Resolve<IUpgradeService>();
 
             upgradeService.Add(Container.Resolve<ShellUpgradeTask>());
             upgradeService.AddRange(AcceleriderUser.Apps.Select(item =>
-                Container.Resolve<AppUpgradeTask>(new ParameterOverride(AppUpgradeTask.ParameterCtorName, item))));
+                Container.Resolve<AppModuleUpgradeTask>(new ParameterOverride(AppModuleUpgradeTask.ParameterCtorName, item))));
 
             upgradeService.Run();
         }
