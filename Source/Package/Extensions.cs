@@ -86,7 +86,7 @@ namespace Package
             }
             else
             {
-                Out.Print($"Missing {source}!", OutType.Error);
+                Print.Error($"Missing {source}!");
             }
         }
         // ReSharper restore AssignNullToNotNullAttribute

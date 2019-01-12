@@ -28,6 +28,7 @@
   <File Target="System.ValueTuple.dll" />
   <File Target="System.Windows.Interactivity.dll" />
   <File Target="System.Reactive.dll" />
+  <File Target="Hardcodet.Wpf.TaskbarNotification.dll" />
   <!-- .Net Standard -->
   <File Target="System.AppContext.dll" />
   <File Target="System.Collections.Concurrent.dll" />

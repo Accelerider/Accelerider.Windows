@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+// ReSharper disable LocalizableElement
 
 namespace Package
 {
-    public enum OutType
+    public static class Print
     {
-        Info,
-        Warning,
-        Error
-    }
+        private enum OutType
+        {
+            Info,
+            Warning,
+            Error
+        }
 
-    public static class Out
-    {
         private static readonly IDictionary<OutType, ConsoleColor> OutColors = new Dictionary<OutType, ConsoleColor>
         {
             [OutType.Info] = ConsoleColor.DarkGreen,
@@ -20,13 +21,19 @@ namespace Package
             [OutType.Error] = ConsoleColor.DarkRed,
         };
 
-        public static void Print(string message, OutType outType = OutType.Info, ConsoleColor color = ConsoleColor.Green)
+        public static void Info(string message) => WriteToConsole(message);
+
+        public static void Warning(string message) => WriteToConsole(message, OutType.Warning);
+
+        public static void Error(string message) => WriteToConsole(message, OutType.Error);
+
+        private static void WriteToConsole(string message, OutType outType = OutType.Info)
         {
             var backupBackground = Console.BackgroundColor;
             var backupForeground = Console.ForegroundColor;
 
             Console.BackgroundColor = OutColors[outType];
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.Write($"[{outType.ToString().ToUpper()}]");
             Console.BackgroundColor = backupBackground;
 
@@ -36,6 +43,11 @@ namespace Package
             Console.ForegroundColor = backupForeground;
         }
 
+        public static void Divider()
+        {
+            Console.WriteLine("=========================================================");
+        }
+
         public static void EndLine()
         {
             Console.WriteLine();
@@ -43,11 +55,6 @@ namespace Package
             Divider();
             Console.WriteLine("Enter any key to exit...");
             Divider();
-        }
-
-        public static void Divider()
-        {
-            Console.WriteLine("=========================================================");
         }
     }
 }

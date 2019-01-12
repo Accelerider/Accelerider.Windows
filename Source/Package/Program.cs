@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using Accelerider.Windows.Infrastructure;
 
 namespace Package
 {
@@ -16,7 +17,7 @@ namespace Package
             {
                 "shell.package.xml",
                 "shell.bin.package.xml",
-                "net-disk.package.xml",
+                "any-drive.package.xml",
             };
 
             try
@@ -28,10 +29,10 @@ namespace Package
             }
             catch (FileNotFoundException e)
             {
-                Out.Print($"Missing {e.FileName}!", OutType.Error);
+                Print.Error($"Missing {e.FileName}!");
             }
 
-            Out.EndLine();
+            Print.EndLine();
             Console.ReadKey();
         }
 
@@ -40,16 +41,16 @@ namespace Package
             string zipTargetPath;
             using (var tempFolder = new TempDirectory(info.Target))
             {
-                Out.Print($"Start Copying: {info.Source} --> {info.Target}");
+                Print.Info($"Start Copying: {info.Source} --> {info.Target}");
                 info
                     .Flatten()
                     .Where(item => !(item is FolderElement folder) ||
                                    !folder.Files.Any() && !folder.Folders.Any())
                     .ForEach(item => item.Source.CopyTo(item.Target));
-                Out.Print("Completed Copying. ");
+                Print.Info("Completed Copying. ");
 
                 zipTargetPath = $"{tempFolder.Path}.zip";
-                Out.Print($"Start Package: {zipTargetPath}...");
+                Print.Info($"Start Package: {zipTargetPath}...");
                 if (File.Exists(zipTargetPath)) File.Delete(zipTargetPath);
                 ZipFile.CreateFromDirectory(
                     tempFolder.Path,
@@ -57,16 +58,16 @@ namespace Package
                     CompressionLevel.Optimal,
                     true);
 
-                Out.Print("Completed Package. ");
+                Print.Info("Completed Package. ");
             }
 
             if (openFolder)
             {
-                Out.Print($"Opening the file: {zipTargetPath}...");
+                Print.Info($"Opening the file: {zipTargetPath}...");
                 Process.Start("explorer.exe", $"/select, {zipTargetPath}");
             }
 
-            Out.Divider();
+            Print.Divider();
         }
     }
 }
