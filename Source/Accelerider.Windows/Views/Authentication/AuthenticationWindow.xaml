@@ -11,7 +11,7 @@
         Topmost="True"
         Icon="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-icon.ico"
         Title="AuthenticationWindow" Height="321" Width="430"
-        x:Name="OwnerWindow" Style="{StaticResource WindowStyle.Authentication}">
+        x:Name="OwnerWindow" Style="{StaticResource WindowStyle.Dialog}">
 
     <controls:SwitchLoadingViewContainer IsLoading="{Binding IsLoading}">
         <TabControl Margin="60 40 60 30" WindowChrome.IsHitTestVisibleInChrome="True">

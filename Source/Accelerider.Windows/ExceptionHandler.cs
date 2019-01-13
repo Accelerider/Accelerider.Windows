@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
+using Accelerider.Windows.Infrastructure;
 using log4net;
 
 namespace Accelerider.Windows
@@ -9,6 +11,7 @@ namespace Accelerider.Windows
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(ExceptionHandler));
 
+        private bool _isShowed;
 
         public void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
@@ -20,27 +23,43 @@ namespace Accelerider.Windows
             Log(e.Exception);
         }
 
-        private static void Log(Exception exception)
+        private void Log(Exception exception)
         {
             Logger.Fatal("An uncaught exception occurred", exception);
 
+            if (_isShowed) return;
+
+            _isShowed = true;
             switch (exception)
             {
                 case NotImplementedException _:
                     MessageBox.Show(
-                        "Sorry! The feature has NOT been IMPLEMENTED. Please wait for the next version. ", 
-                        "Fatal");
+                        "Sorry! The feature has NOT been IMPLEMENTED. Please wait for the next version. ",
+                        "Fatal",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                     break;
                 case NotSupportedException _:
                     MessageBox.Show(
-                        "Sorry! The feature has NOT been SUPPORTED. Please wait for the next version. ", 
-                        "Fatal");
+                        "Sorry! The feature has NOT been SUPPORTED. Please wait for the next version. ",
+                        "Fatal",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                     break;
                 default:
-                    MessageBox.Show(
-                        "Sorry! An uncaught EXCEPTION occurred. " +
-                        "You can pack and send log files in %AppData%\\Accelerider\\Logs to the developer. Thank you! ", 
-                        "Fatal");
+                    var result = MessageBox.Show(
+                        $"Sorry! An uncaught EXCEPTION occurred. {Environment.NewLine}" +
+                        $"You can pack and send log files in %AppData%\\Accelerider\\Logs to the developer. Thank you! {Environment.NewLine}{Environment.NewLine}" +
+                        $"Do you want to open the Logs folder? ",
+                        "Fatal",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Error);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        Process.Start(AcceleriderFolders.Logs);
+                    }
+
                     break;
             }
 

@@ -12,7 +12,7 @@ namespace Accelerider.Windows.Constants
         public const string Release = "https://github.com/Accelerider/Accelerider.Windows/releases";
         public const string WebSite = "http://pan.accelerider.com";
         public const string ProjectGithubHome = "https://github.com/Accelerider/Accelerider.Windows";
-        public const string Issue = "https://github.com/Accelerider/Accelerider.Windows/issues";
+        public const string Issues = "https://github.com/Accelerider/Accelerider.Windows/issues";
 
         public const string ApiBaseAddress = "https://api.accelerider.com/v2";
 

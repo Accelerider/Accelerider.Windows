@@ -91,13 +91,15 @@ namespace Accelerider.Windows
 
         protected override void OnExit(ExitEventArgs e)
         {
-            Container.Resolve<IUpgradeService>().Stop();
+            if (Container != null)
+            {
+                Container.Resolve<IUpgradeService>().Stop();
+                Container.Resolve<IEventAggregator>().GetEvent<ApplicationExiting>().Publish();
+                (Container.Resolve<ILoggerFacade>() as IDisposable)?.Dispose();
+            }
 
             ProcessController.Clear();
 
-            Container.Resolve<IEventAggregator>().GetEvent<ApplicationExiting>().Publish();
-
-            (Container.Resolve<ILoggerFacade>() as IDisposable)?.Dispose();
             base.OnExit(e);
         }
 

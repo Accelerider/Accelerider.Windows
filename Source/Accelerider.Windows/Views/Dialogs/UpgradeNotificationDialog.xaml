@@ -45,7 +45,7 @@
                    FontWeight="Bold" Foreground="#5458AF"
                    Text="{Binding ModuleName}" />
 
-        <ScrollViewer Grid.Row="6" Height="150" Width="340"
+        <ScrollViewer Grid.Row="6" Height="100" Width="340"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
             <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" 
@@ -58,4 +58,5 @@
                 Style="{StaticResource MaterialDesignFlatButton}" />
 
     </Grid>
+
 </UserControl>

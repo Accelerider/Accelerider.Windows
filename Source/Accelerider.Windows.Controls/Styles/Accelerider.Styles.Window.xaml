@@ -120,7 +120,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="WindowStyle.Authentication" TargetType="Window">
+    <Style x:Key="WindowStyle.Dialog" TargetType="Window">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="ResizeMode" Value="NoResize"/>

@@ -5,6 +5,6 @@
         WindowStartupLocation="CenterScreen" ResizeMode="CanResize"
         xmlns:mvvm="http://prismlibrary.com/"
         mvvm:ViewModelLocator.AutoWireViewModel="True"
-        Style="{StaticResource WindowStyle.Authentication}" Padding="1 35 1 1" 
+        Style="{StaticResource WindowStyle.Dialog}" Padding="1 35 1 1" 
         Content="{Binding Content}">
 </Window>
