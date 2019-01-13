@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
 using System.Threading.Tasks;
 using Accelerider.Windows.Properties;
 using System.Windows;
@@ -131,6 +130,7 @@ namespace Accelerider.Windows
         {
             Logger.Info($"Accelerider for Windows: {AcceleriderConsts.Version};{Environment.NewLine}" +
                         $"OS: {SystemInfo.Caption} ({SystemInfo.Version}) {SystemInfo.OSArchitecture};{Environment.NewLine}" +
+                        $".NET: {SystemInfo.DotNetFrameworkVersion};{Environment.NewLine}" +
                         $"CLR: {Environment.Version};{Environment.NewLine}" +
                         $"Processor: {SystemInfo.CPUName};{Environment.NewLine}" +
                         $"RAM: {(DisplayDataSize)(SystemInfo.TotalVisibleMemorySize * 1024)};");

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Management;
 using System.Text.RegularExpressions;
 using log4net;
+using Microsoft.Win32;
 
 namespace Accelerider.Windows.Infrastructure
 {
@@ -21,6 +22,7 @@ namespace Accelerider.Windows.Infrastructure
         public static readonly string Version;
         public static readonly long TotalVisibleMemorySize;
         public static readonly string CPUName;
+        public static readonly DotNetFramework DotNetFrameworkVersion;
 
         static SystemInfo()
         {
@@ -38,6 +40,8 @@ namespace Accelerider.Windows.Infrastructure
             TotalVisibleMemorySize = systemInfo.GetValue("TotalVisibleMemorySize").CastTo<long>();
 
             CPUName = processorInfo.GetValue("Name");
+
+            DotNetFrameworkVersion = Get45PlusFromRegistry();
         }
 
         private static IReadOnlyDictionary<string, string> GetManagementInfo(string query, Regex regex)
@@ -74,5 +78,64 @@ namespace Accelerider.Windows.Infrastructure
         {
             return info != null && info.TryGetValue(key, out var value) ? value : ExtractionFailed;
         }
+
+        /* Refer to: 
+         * Check Framework 45+: https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed#net_d;
+         */
+
+        private static DotNetFramework Get45PlusFromRegistry()
+        {
+            const string subKey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
+
+            using (RegistryKey ndpKey = RegistryKey
+                .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                .OpenSubKey(subKey))
+            {
+                return ndpKey?.GetValue("Release") != null
+                    ? CheckFor45PlusVersion((int)ndpKey.GetValue("Release"))
+                    : DotNetFramework.Unknown;
+            }
+        }
+
+        // Checking the version using >= will enable forward compatibility.
+        private static DotNetFramework CheckFor45PlusVersion(int releaseKey)
+        {
+            if (releaseKey >= 461808)
+                return DotNetFramework.V472OrLater;
+            if (releaseKey >= 461308)
+                return DotNetFramework.V471;
+            if (releaseKey >= 460798)
+                return DotNetFramework.V47;
+            if (releaseKey >= 394802)
+                return DotNetFramework.V462;
+            if (releaseKey >= 394254)
+                return DotNetFramework.V461;
+            if (releaseKey >= 393295)
+                return DotNetFramework.V46;
+            if (releaseKey >= 379893)
+                return DotNetFramework.V452;
+            if (releaseKey >= 378675)
+                return DotNetFramework.V451;
+            if (releaseKey >= 378389)
+                return DotNetFramework.V45;
+
+            // This code should never execute. A non-null release key should mean
+            // that 4.5 or later is installed.
+            return DotNetFramework.V472OrLater;
+        }
+    }
+
+    public enum DotNetFramework
+    {
+        Unknown,
+        V45,
+        V451,
+        V452,
+        V46,
+        V461,
+        V462,
+        V47,
+        V471,
+        V472OrLater
     }
 }
