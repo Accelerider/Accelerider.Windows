@@ -3,6 +3,7 @@
         Source="../../../Build/{Configuration}">
   <Folder Target="ja" />
   <Folder Target="zh-CN" />
+  <File Target="Launcher.exe" /> <!-- For 0.0.2 upgrade launcher -->
   <File Target="Accelerider.Windows.exe" />
   <File Target="Accelerider.Windows.exe.config" />
   <File Target="Accelerider.Windows.Assets.dll" />
