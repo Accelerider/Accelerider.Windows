@@ -117,4 +117,172 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutDialog_CheckForUpdate" xml:space="preserve">
+    <value>アップデートをチェック</value>
+  </data>
+  <data name="AboutDialog_CheckUpdateResultAvailable" xml:space="preserve">
+    <value>新しい更新プログラムを利用できます ({0})</value>
+  </data>
+  <data name="AboutDialog_CheckUpdateResultLatest" xml:space="preserve">
+    <value>最新版</value>
+  </data>
+  <data name="AboutDialog_GithubProjectHome" xml:space="preserve">
+    <value>GitHubプロジェクト公式</value>
+  </data>
+  <data name="AboutDialog_Mrs4s" xml:space="preserve">
+    <value>Mrs4s</value>
+  </data>
+  <data name="AboutDialog_Mrs4sDescription" xml:space="preserve">
+    <value>サーバーサポート</value>
+  </data>
+  <data name="AboutDialog_SoftwareName" xml:space="preserve">
+    <value>Accelerider Windows クライアント</value>
+  </data>
+  <data name="AboutDialog_Title" xml:space="preserve">
+    <value>情報について</value>
+  </data>
+  <data name="AboutDialog_Version" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="AboutDialog_VersionNumber" xml:space="preserve">
+    <value>0.0.1-alpha1</value>
+  </data>
+  <data name="AboutDialog_ZDP" xml:space="preserve">
+    <value>ZDP</value>
+  </data>
+  <data name="AboutDialog_ZDPDescription" xml:space="preserve">
+    <value>Windowsデスクトップクライアント</value>
+  </data>
+  <data name="AuthenticationWindow_LogIn" xml:space="preserve">
+    <value>ログイン</value>
+  </data>
+  <data name="AuthenticationWindow_SignUp" xml:space="preserve">
+    <value>新規取得</value>
+  </data>
+  <data name="Buttons_Confirm" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="Buttons_Submit" xml:space="preserve">
+    <value>提出</value>
+  </data>
+  <data name="MainWindow_AppStore" xml:space="preserve">
+    <value>アプリストア</value>
+  </data>
+  <data name="MainWindow_Menu" xml:space="preserve">
+    <value>メニュー</value>
+  </data>
+  <data name="ProfileDialog_ChangePassword" xml:space="preserve">
+    <value>パスワードの変更</value>
+  </data>
+  <data name="ProfileDialog_ConfirmPassword" xml:space="preserve">
+    <value>変更を保存</value>
+  </data>
+  <data name="ProfileDialog_Email" xml:space="preserve">
+    <value>メールアドレス：</value>
+  </data>
+  <data name="ProfileDialog_EmailVisibility" xml:space="preserve">
+    <value>メールプライバシー：</value>
+  </data>
+  <data name="ProfileDialog_MultipleOnline" xml:space="preserve">
+    <value>複数端末登録：</value>
+  </data>
+  <data name="ProfileDialog_NewPassword" xml:space="preserve">
+    <value>新しいパスワード</value>
+  </data>
+  <data name="ProfileDialog_OldPassword" xml:space="preserve">
+    <value>現在のパスワード</value>
+  </data>
+  <data name="ProfileDialog_Title" xml:space="preserve">
+    <value>個人情報</value>
+  </data>
+  <data name="ProfileDialog_Username" xml:space="preserve">
+    <value>ユーザー名</value>
+  </data>
+  <data name="Punctuation_LeftParenthesis" xml:space="preserve">
+    <value>（</value>
+  </data>
+  <data name="Punctuation_RightParenthesis" xml:space="preserve">
+    <value>）</value>
+  </data>
+  <data name="SettingsPopup_About" xml:space="preserve">
+    <value>情報</value>
+  </data>
+  <data name="SettingsPopup_AcceleriderForWeb" xml:space="preserve">
+    <value>ブラウザ版</value>
+  </data>
+  <data name="SettingsPopup_ChangeProfile" xml:space="preserve">
+    <value>個人情報設定</value>
+  </data>
+  <data name="SettingsPopup_Help" xml:space="preserve">
+    <value>ヘルプ</value>
+  </data>
+  <data name="SettingsPopup_LogOut" xml:space="preserve">
+    <value>ログアウト</value>
+  </data>
+  <data name="SettingsPopup_Settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="ShellSettingsTabItem_Application" xml:space="preserve">
+    <value>完了</value>
+  </data>
+  <data name="ShellSettingsTabItem_AutoShutdown" xml:space="preserve">
+    <value>ダウンロードが完了したら、自動的にシャットダウン</value>
+  </data>
+  <data name="ShellSettingsTabItem_AutoStart" xml:space="preserve">
+    <value>Windows起動時に自動起動</value>
+  </data>
+  <data name="ShellSettingsTabItem_Header" xml:space="preserve">
+    <value>基礎</value>
+  </data>
+  <data name="ShellSettingsTabItem_KeepRunning" xml:space="preserve">
+    <value>バックグラウンドアプリの処理を続行する</value>
+  </data>
+  <data name="ShellSettingsTabItem_Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="ShellSettingsTabItem_Theme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="ShellSettingsTabItem_ThemeOptions_Dark" xml:space="preserve">
+    <value>ダーク</value>
+  </data>
+  <data name="ShellSettingsTabItem_ThemeOptions_Light" xml:space="preserve">
+    <value>ライト</value>
+  </data>
+  <data name="SignInView_AutomaticLogin" xml:space="preserve">
+    <value>ログインしたままにする</value>
+  </data>
+  <data name="SignInView_Email" xml:space="preserve">
+    <value>メールアドレス</value>
+  </data>
+  <data name="SignInView_Login" xml:space="preserve">
+    <value>ログイン</value>
+  </data>
+  <data name="SignInView_Password" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
+  <data name="SignInView_RememberMe" xml:space="preserve">
+    <value>ログインしたままにする</value>
+  </data>
+  <data name="SignUpView_EmailAddress" xml:space="preserve">
+    <value>メールアドレス</value>
+  </data>
+  <data name="SignUpView_Password" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
+  <data name="SignUpView_RetrySeconds" xml:space="preserve">
+    <value>秒後、もう一度よく確認してください</value>
+  </data>
+  <data name="SignUpView_SendCode" xml:space="preserve">
+    <value>確認コードが送信</value>
+  </data>
+  <data name="SignUpView_Username" xml:space="preserve">
+    <value>ユーザー名</value>
+  </data>
+  <data name="SignUpView_VerificationCode" xml:space="preserve">
+    <value>確認コード</value>
+  </data>
+  <data name="サーバーサポート" xml:space="preserve">
+    <value>リリース ノート</value>
+  </data>
 </root>
