@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
+using log4net;
 
 namespace Accelerider.Windows.Infrastructure
 {
     public sealed class TempDirectory : IDisposable
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(TempDirectory));
+
         public string Path { get; }
 
         public TempDirectory(string tempDirectoryPath)
@@ -29,8 +32,10 @@ namespace Accelerider.Windows.Infrastructure
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Error("An unexpected exception occurred. ", e);
+
                 return false;
             }
         }

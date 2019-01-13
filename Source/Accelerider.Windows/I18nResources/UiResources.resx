@@ -148,7 +148,7 @@
     <value>Version</value>
   </data>
   <data name="AboutDialog_VersionNumber" xml:space="preserve">
-    <value>0.0.1-alpha1</value>
+    <value>0.0.1</value>
   </data>
   <data name="AboutDialog_ZDP" xml:space="preserve">
     <value>ZDP</value>

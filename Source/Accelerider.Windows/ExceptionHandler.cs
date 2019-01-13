@@ -22,6 +22,8 @@ namespace Accelerider.Windows
 
         private static void Log(Exception exception)
         {
+            Logger.Fatal("An uncaught exception occurred", exception);
+
             switch (exception)
             {
                 case NotImplementedException _:
@@ -41,8 +43,6 @@ namespace Accelerider.Windows
                         "Fatal");
                     break;
             }
-
-            Logger.Fatal("An uncaught exception occurred", exception);
 
             ProcessController.Restart(-1);
         }

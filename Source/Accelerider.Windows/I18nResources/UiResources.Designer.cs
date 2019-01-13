@@ -151,7 +151,7 @@ namespace Accelerider.Windows.I18nResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0.0.1-alpha1.
+        ///   Looks up a localized string similar to 0.0.1.
         /// </summary>
         internal static string AboutDialog_VersionNumber {
             get {

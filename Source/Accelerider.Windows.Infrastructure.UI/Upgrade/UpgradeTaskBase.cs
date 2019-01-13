@@ -65,10 +65,7 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
             return info.Version > CurrentVersion;
         }
 
-        protected virtual bool IsDownloadRequired(UpgradeInfo info)
-        {
-            return info.Version > GetMaxLocalVersion();
-        }
+        protected virtual bool IsDownloadRequired(UpgradeInfo info) => info.Version > GetMaxLocalVersion();
 
         public virtual Version GetMaxLocalVersion()
         {
@@ -91,7 +88,7 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
         protected virtual void OnDownloadCompleted(UpgradeInfo info)
         {
-            Logger.Info($"[Upgrade] The {info.Name}-{info.Version.ToString(3)} has been downloaded. ");
+            Logger.Info($"[UPGRADE] The package {info.Name}-{info.Version.ToString(3)} is ready. ");
         }
 
         protected virtual void OnDownloadError(Exception e)
@@ -120,9 +117,15 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
                 // 2. Unzip the module
                 ZipFile.ExtractToDirectory(zipFilePath, tempPath.Path);
 
+                Logger.Info($"[UNZIP] From {zipFilePath} to {tempPath.Path}");
+
                 // 3. Move file to target path.
-                tempPath.MoveTo(GetInstallPath(info.Version),
-                    Directory.GetDirectories(tempPath.Path).FirstOrDefault());
+                var targetPath = GetInstallPath(info.Version);
+                var subDirectory = Directory.GetDirectories(tempPath.Path).FirstOrDefault();
+                if (tempPath.MoveTo(targetPath, subDirectory))
+                {
+                    Logger.Info($"[MOVE FILE] From {subDirectory} to {targetPath}");
+                }
             }
         }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure.Upgrade;
 
@@ -19,10 +21,29 @@ namespace Accelerider.Windows.Upgrade
         {
             base.OnDownloadCompleted(info);
 
-            if (CurrentVersion < info.Version)
+            if (info.Version <= CurrentVersion) return;
+
+            var launcherPath = Directory
+                .GetFiles(GetInstallPath(info.Version))
+                .SingleOrDefault(item => Path.GetFileName(item) == ProcessController.LauncherName);
+
+            if (!string.IsNullOrEmpty(launcherPath))
             {
-                await ShowUpgradeNotificationDialogAsync(info);
+                try
+                {
+                    if (File.Exists(ProcessController.LauncherPath))
+                    {
+                        File.Delete(ProcessController.LauncherPath);
+                    }
+                    File.Move(launcherPath, ProcessController.LauncherPath);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error($"[MOVE FILE] Move the {ProcessController.LauncherName} file failed. ", e);
+                }
             }
+
+            await ShowUpgradeNotificationDialogAsync(info);
         }
     }
 }

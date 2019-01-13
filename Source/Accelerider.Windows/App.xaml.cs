@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using System.Threading.Tasks;
 using Accelerider.Windows.Properties;
 using System.Windows;
@@ -11,7 +12,9 @@ using Accelerider.Windows.Infrastructure.I18n;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Infrastructure.Upgrade;
 using Accelerider.Windows.ServerInteraction;
+using Accelerider.Windows.TransferService.WpfInteractions;
 using Accelerider.Windows.Views.Authentication;
+using log4net;
 using MaterialDesignThemes.Wpf;
 using Prism.Events;
 using Prism.Ioc;
@@ -29,10 +32,13 @@ namespace Accelerider.Windows
     /// </summary>
     public partial class App
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(App));
         private const string ProcessName = @"Global\Accelerider.Windows.Wpf";
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            LogBasicInfo();
+
             ProcessController.CheckSingleton(ProcessName, (IntPtr)Settings.Default.WindowHandle);
             ConfigureApplicationEventHandlers();
 
@@ -83,6 +89,18 @@ namespace Accelerider.Windows
             WindowHelper.SwitchTo<AuthenticationWindow>();
         }
 
+        protected override void OnExit(ExitEventArgs e)
+        {
+            Container.Resolve<IUpgradeService>().Stop();
+
+            ProcessController.Clear();
+
+            Container.Resolve<IEventAggregator>().GetEvent<ApplicationExiting>().Publish();
+
+            (Container.Resolve<ILoggerFacade>() as IDisposable)?.Dispose();
+            base.OnExit(e);
+        }
+
         // ---------------------------------------------------------------------------------------------------------------
 
         private static void ConfigureApplicationEventHandlers()
@@ -107,16 +125,13 @@ namespace Accelerider.Windows
             I18nManager.Instance.AddResourceManager(UiResources.ResourceManager);
         }
 
-        protected override void OnExit(ExitEventArgs e)
+        private static void LogBasicInfo()
         {
-            Container.Resolve<IUpgradeService>().Stop();
-
-            ProcessController.Clear();
-
-            Container.Resolve<IEventAggregator>().GetEvent<ApplicationExiting>().Publish();
-
-            (Container.Resolve<ILoggerFacade>() as IDisposable)?.Dispose();
-            base.OnExit(e);
+            Logger.Info($"Accelerider for Windows: {Assembly.GetExecutingAssembly().GetName().Version.ToString(3)};{Environment.NewLine}" +
+                        $"OS: {SystemInfo.Caption} ({SystemInfo.Version}) {SystemInfo.OSArchitecture};{Environment.NewLine}" +
+                        $"CLR: {Environment.Version};{Environment.NewLine}" +
+                        $"Processor: {SystemInfo.CPUName};{Environment.NewLine}" +
+                        $"RAM: {(DisplayDataSize)(SystemInfo.TotalVisibleMemorySize * 1024)};");
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Accelerider.Windows.Upgrade
             _moduleCatalog.AddModule(moduleInfo);
             _moduleManager.LoadModule(moduleInfo.ModuleName);
 
-            Logger.Info($"[LOAD] [{DateTime.Now}] {Name}-{moduleVersion}");
+            Logger.Info($"[LOAD MODULE] {Name}-{moduleVersion.ToString(3)}");
 
             // Delete old versions
             foreach ((Version version, string path) in GetLocalVersions())

@@ -13,6 +13,9 @@ namespace Accelerider.Windows
         private static readonly ILog Logger = LogManager.GetLogger(typeof(ProcessController));
         private static volatile EventWaitHandle _keepAliveEvent;
 
+        public const string LauncherName = "Launcher.exe";
+        public static readonly string LauncherPath = Path.Combine(Environment.CurrentDirectory, LauncherName);
+
         public static void Restart(int exitCode = 0)
         {
             if (Settings.Default.IsRestarting) return;
@@ -22,7 +25,7 @@ namespace Accelerider.Windows
             {
                 StartInfo =
                 {
-                    FileName = Path.Combine(Environment.CurrentDirectory, "Launcher.exe"),
+                    FileName = LauncherPath,
                     WindowStyle = ProcessWindowStyle.Hidden,
                     Arguments = "--delay 2000 --auto-login"
                 }
