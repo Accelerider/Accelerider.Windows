@@ -173,9 +173,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             throw new NotImplementedException();
         }
 
-        public override Task<bool> DeleteFileAsync(INetDiskFile file)
+        public override async Task<bool> DeleteFileAsync(INetDiskFile file)
         {
-            throw new NotImplementedException();
+            var result = await WebApi.RemoveFileByPathAsync(new PathArgs { Path = file.Path });
+
+            return true;
         }
 
         public override Task<bool> RestoreFileAsync(IDeletedFile file)

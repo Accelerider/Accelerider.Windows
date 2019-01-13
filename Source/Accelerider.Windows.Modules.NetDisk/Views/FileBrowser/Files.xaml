@@ -39,7 +39,7 @@
                 <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
             </Button>
         </Grid>
-        <controls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
+        <controls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding RefreshFilesCommand.IsExecuting}">
             <ListBox Name="ListboxFileList" SelectionMode="Extended"
                      ItemsSource="{Binding Files}"
                      SelectedItem="{Binding SelectedSearchResult}"

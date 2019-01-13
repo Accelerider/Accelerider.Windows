@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
@@ -9,7 +8,7 @@ using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications;
 using Unity;
 using MaterialDesignThemes.Wpf;
-
+using System.Diagnostics;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 {
