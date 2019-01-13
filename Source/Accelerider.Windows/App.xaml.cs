@@ -129,7 +129,7 @@ namespace Accelerider.Windows
 
         private static void LogBasicInfo()
         {
-            Logger.Info($"Accelerider for Windows: {Assembly.GetExecutingAssembly().GetName().Version.ToString(3)};{Environment.NewLine}" +
+            Logger.Info($"Accelerider for Windows: {AcceleriderConsts.Version};{Environment.NewLine}" +
                         $"OS: {SystemInfo.Caption} ({SystemInfo.Version}) {SystemInfo.OSArchitecture};{Environment.NewLine}" +
                         $"CLR: {Environment.Version};{Environment.NewLine}" +
                         $"Processor: {SystemInfo.CPUName};{Environment.NewLine}" +

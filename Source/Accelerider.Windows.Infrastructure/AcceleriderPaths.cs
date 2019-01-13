@@ -4,6 +4,11 @@ using System.Reflection;
 
 namespace Accelerider.Windows.Infrastructure
 {
+    public static class AcceleriderConsts
+    {
+        public static string Version => Assembly.GetCallingAssembly().GetName().Version.ToString(3);
+    }
+
     public static class AcceleriderFolders
     {
         static AcceleriderFolders()

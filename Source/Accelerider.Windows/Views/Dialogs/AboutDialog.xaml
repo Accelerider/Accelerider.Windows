@@ -37,7 +37,7 @@
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock VerticalAlignment="Center">
                 <Run Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Version}}" />
-                <Run Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_VersionNumber}}" />
+                <Run Text="{Binding Version, Mode=OneTime}" />
                 <Run Text="{i18N:I18n {x:Static i18NResources:ResKeys.Punctuation_LeftParenthesis}}" />
             </TextBlock>
             <Button Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ReleaseNotes}}" 

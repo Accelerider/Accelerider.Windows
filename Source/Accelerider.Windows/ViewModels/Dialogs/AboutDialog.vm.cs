@@ -25,6 +25,7 @@ namespace Accelerider.Windows.ViewModels.Dialogs
             CheckForUpdateCommand = new RelayCommand(CheckForUpdateCommandExecute);
         }
 
+        public string Version => AcceleriderConsts.Version;
 
         public ICommand OpenReleaseNotesCommand
         {
