@@ -98,7 +98,7 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
         private async Task ResolveFileAsync(UpgradeInfo info)
         {
-            using (var tempPath = new TempDirectory(Path.Combine(Path.GetTempPath(), $"{Name}-{Path.GetRandomFileName()}")))
+            using (var tempPath = new TempDirectory(Path.Combine(AcceleriderFolders.Temp, $"{Name}-{Path.GetRandomFileName()}")))
             {
                 var zipFilePath = Path.Combine(tempPath.Path, Path.GetRandomFileName());
 

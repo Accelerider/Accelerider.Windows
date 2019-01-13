@@ -11,12 +11,13 @@ namespace Accelerider.Windows.Infrastructure
             Directory.CreateDirectory(Apps);
             Directory.CreateDirectory(Logs);
             Directory.CreateDirectory(Database);
+            Directory.CreateDirectory(Temp);
         }
 
         /// <summary>
         /// It represents the path where the "Accelerider.Windows.exe" is located.
         /// </summary>
-        public static readonly string MainProgram = AppDomain.CurrentDomain.BaseDirectory;
+        public static readonly string Base = AppDomain.CurrentDomain.BaseDirectory;
 
         /// <summary>
         /// It represents the path where the current assembly (*.dll file) is located.
@@ -42,5 +43,10 @@ namespace Accelerider.Windows.Infrastructure
         /// %AppData%\Accelerider\Database
         /// </summary>
         public static readonly string Database = Path.Combine(AppData, nameof(Database));
+
+        /// <summary>
+        /// %AppData%\Accelerider\Temp
+        /// </summary>
+        public static readonly string Temp = Path.Combine(AppData, nameof(Temp));
     }
 }
