@@ -158,7 +158,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
-    <Compile Include="ViewModels\Dialogs\SelectNetDiskTypeDialog.vm.cs" />
+    <Compile Include="ViewModels\NetDiskAuthentications\SelectNetDiskTypeDialog.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\Files.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\LoadingFilesBase.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\FileBrowserComponent.vm.cs" />
@@ -179,13 +179,13 @@
     <Compile Include="Views\Dialogs\AddOfflineTaskDialog.xaml.cs">
       <DependentUpon>AddOfflineTaskDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dialogs\AuthenticatorWindow.xaml.cs">
+    <Compile Include="Views\NetDiskAuthentications\AuthenticatorWindow.xaml.cs">
       <DependentUpon>AuthenticatorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\DownloadDialog.xaml.cs">
       <DependentUpon>DownloadDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dialogs\SelectNetDiskTypeDialog.xaml.cs">
+    <Compile Include="Views\NetDiskAuthentications\SelectNetDiskTypeDialog.xaml.cs">
       <DependentUpon>SelectNetDiskTypeDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\ShareDialog.xaml.cs">
@@ -301,7 +301,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Dialogs\AuthenticatorWindow.xaml">
+    <Page Include="Views\NetDiskAuthentications\AuthenticatorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -309,7 +309,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Dialogs\SelectNetDiskTypeDialog.xaml">
+    <Page Include="Views\NetDiskAuthentications\SelectNetDiskTypeDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

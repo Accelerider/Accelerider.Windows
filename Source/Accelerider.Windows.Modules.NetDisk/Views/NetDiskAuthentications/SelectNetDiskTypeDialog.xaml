@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Accelerider.Windows.Modules.NetDisk.Views.Dialogs.SelectNetDiskTypeDialog"
+﻿<UserControl x:Class="Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications.SelectNetDiskTypeDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -7,7 +7,8 @@
              xmlns:mvvm="http://prismlibrary.com/"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              Style="{StaticResource UserControlStyle.Dialog}"
-             Width="400"> 
+             Width="400">
+     
     <Grid Margin="0 0 0 10">
         <ListBox x:Name="NetDiskTypeListBox" ItemsSource="{Binding NetDiskTypes}" SelectionMode="Single"
                  ItemContainerStyle="{StaticResource ListBoxItemStyle.LeftBarAndUnderline}" >
@@ -16,11 +17,7 @@
                     <Border Cursor="Hand" Background="#01FFFFFF">
                         <Border.InputBindings>
                             <MouseBinding MouseAction="LeftClick" 
-                                          Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" >
-                                <MouseBinding.CommandParameter>
-                                    <system:Boolean>False</system:Boolean>
-                                </MouseBinding.CommandParameter>
-                            </MouseBinding>
+                                          Command="{Binding OpenCommand}" />
                         </Border.InputBindings>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{Binding Logo}" Width="60" Height="60" Margin="20 10"/>
@@ -34,4 +31,5 @@
             </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
+
 </UserControl>

@@ -5,13 +5,11 @@ using System.Windows.Media.Imaging;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Modules.NetDisk.ViewModels.Others;
-using Accelerider.Windows.Modules.NetDisk.Views.Dialogs;
 using Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications;
 using MaterialDesignThemes.Wpf;
 using Unity;
 
-
-namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
+namespace Accelerider.Windows.Modules.NetDisk.ViewModels.NetDiskAuthentications
 {
     public class SelectNetDiskTypeDialogViewModel : ViewModelBase, IViewLoadedAndUnloadedAware<SelectNetDiskTypeDialog>
     {
@@ -43,7 +41,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
         }
 
         // HACK: Mock data.
-        private IEnumerable<NetDiskType> InitializeNetDiskTypes()
+        private static IEnumerable<NetDiskType> InitializeNetDiskTypes()
         {
             return new[]
             {
@@ -64,18 +62,14 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Dialogs
                     Logo = new BitmapImage(new Uri(@"..\..\Images\logo-sixcloud.png", UriKind.Relative)),
                     Name = "Six Cloud",
                     Description = "XXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                    OpenCommand = new RelayCommand(async() =>
-                    {
-                        await TimeSpan.FromMilliseconds(1000);
-                        await DialogHost.Show(new SixCloud(), "RootDialog");
-                    })
+                    OnClick = async () => await DialogHost.Show(new SixCloud(), "RootDialog")
                 },
             };
         }
 
         void IViewLoadedAndUnloadedAware<SelectNetDiskTypeDialog>.OnLoaded(SelectNetDiskTypeDialog view)
         {
-            DialogHost.SetDialogClosingAttached(view, (sender, args) => {});
+            DialogHost.SetDialogClosingAttached(view, (sender, args) => { });
         }
 
         void IViewLoadedAndUnloadedAware<SelectNetDiskTypeDialog>.OnUnloaded(SelectNetDiskTypeDialog view)

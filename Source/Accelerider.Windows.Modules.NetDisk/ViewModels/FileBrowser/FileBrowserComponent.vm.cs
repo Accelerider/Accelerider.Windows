@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Infrastructure.Mvvm;
@@ -22,7 +23,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         {
             SubscribeEvents();
 
-            AddNetDiskCommand = new RelayCommand(AddNetDiskCommandExecute);
+            AddNetDiskCommand = new RelayCommandAsync(AddNetDiskCommandExecute);
         }
 
         public async void OnLoaded()
@@ -68,9 +69,9 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         public ICommand AddNetDiskCommand { get; }
 
 
-        private async void AddNetDiskCommandExecute()
+        private static async Task AddNetDiskCommandExecute()
         {
-            await DialogHost.Show(new SixCloud(), "RootDialog");
+            await DialogHost.Show(new SelectNetDiskTypeDialog(), "RootDialog");
         }
 
         private void SubscribeEvents()
