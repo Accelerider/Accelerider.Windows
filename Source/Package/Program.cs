@@ -15,8 +15,8 @@ namespace Package
 
             var packageNames = new[]
             {
-                //"shell.package.xml",
-                //"shell.bin.package.xml",
+                "shell.package.xml",
+                "shell.bin.package.xml",
                 "any-drive.package.xml",
             };
 

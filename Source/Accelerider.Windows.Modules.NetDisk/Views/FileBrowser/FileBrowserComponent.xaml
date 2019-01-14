@@ -11,13 +11,16 @@
          mvvm:ViewModelLocator.AutoWireViewModel="True"
          mc:Ignorable="d"
          d:DataContext="{d:DesignInstance {x:Type vm:FileBrowserComponentViewModel}}">
-<TabItem.Resources>
-    <ResourceDictionary>
-        <ResourceDictionary.MergedDictionaries>
+
+    <TabItem.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Infrastructure.UI;component/Converters/Accelerider.Converters.xaml" />
-        </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-</TabItem.Resources>
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Others.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Animations.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </TabItem.Resources>
 
     <TabItem.Header>
         <Grid >

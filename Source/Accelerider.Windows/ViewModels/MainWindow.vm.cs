@@ -13,7 +13,9 @@ using Accelerider.Windows.Upgrade;
 using MaterialDesignThemes.Wpf;
 using Unity;
 using Unity.Resolution;
-
+#if DEBUG
+using Prism.Modularity;
+#endif
 
 namespace Accelerider.Windows.ViewModels
 {
@@ -50,7 +52,11 @@ namespace Accelerider.Windows.ViewModels
 
         public void OnLoaded()
         {
+#if DEBUG
+            Container.Resolve<IModuleManager>().Run();
+#else
             RunUpgradeService();
+#endif
 
             var region = _regionManager.Regions[RegionNames.MainTabRegion];
             region.ActiveViews.CollectionChanged += OnActiveViewsChanged;

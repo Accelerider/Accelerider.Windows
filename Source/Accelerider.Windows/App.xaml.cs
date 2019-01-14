@@ -23,6 +23,9 @@ using Prism.Unity;
 using Refit;
 using Unity;
 using Unity.Injection;
+#if DEBUG
+using Prism.Modularity;
+#endif
 
 namespace Accelerider.Windows
 {
@@ -101,6 +104,16 @@ namespace Accelerider.Windows
 
             base.OnExit(e);
         }
+
+#if DEBUG
+        protected override IModuleCatalog CreateModuleCatalog()
+        {
+            return new DirectoryModuleCatalog
+            {
+                ModulePath = "./Modules"
+            };
+        }
+#endif
 
         // ---------------------------------------------------------------------------------------------------------------
 
