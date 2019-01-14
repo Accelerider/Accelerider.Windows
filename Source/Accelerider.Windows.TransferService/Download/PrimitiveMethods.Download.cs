@@ -29,11 +29,6 @@ namespace Accelerider.Windows.TransferService
 
         public static FileStream ToStream(this string localPath)
         {
-            var folderPath = Path.GetDirectoryName(localPath) ?? throw new InvalidOperationException();
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
             return new FileStream(localPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write, 1024 * 1024);
         }
 

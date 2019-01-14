@@ -113,7 +113,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                     Logger.Info($"Download Cancelled: {result.DownloadInfo.Context.LocalPath}. ");
                 }, OnCompleted);
 
-            File.WriteAllText(result.ArddFilePath, result.ToJsonString());
+            File.WriteAllText(result.ArddFilePath.EnsureFileFolder(), result.ToJsonString());
 
             if (result.DownloadInfo.Status == TransferStatus.Completed)
             {

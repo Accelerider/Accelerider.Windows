@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -43,7 +45,9 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
         public ILazyTreeNode<INetDiskFile> CurrentFolder
         {
             get => _currentFolder;
-            set => SetProperty(ref _currentFolder, value);
+#pragma warning disable 4014
+            set { if (SetProperty(ref _currentFolder, value)) RefreshFilesCommand.Execute(); }
+#pragma warning restore 4014
         }
 
         #region Commands
@@ -76,14 +80,26 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
 
             if (!isDownload) return;
 
+            var currentFolderPathLength = CurrentFolder.Content.Path.FullPath.Length;
             var fileNames = new List<string>(fileArray.Length);
             foreach (var fileNode in fileArray)
             {
+                var targetPath = to;
+                var substringStart = currentFolderPathLength;
+                if (fileNode.Content.Type == FileType.FolderType)
+                {
+                    var rootPath = fileNode.Content.Path.FullPath.Substring(substringStart);
+                    targetPath = CombinePath(to, rootPath).GetUniqueLocalPath(Directory.Exists);
+                    substringStart += rootPath.Length;
+                }
+
                 await fileNode.ForEachAsync(file =>
                 {
                     if (file.Type == FileType.FolderType) return;
 
-                    var downloadingFile = CurrentNetDiskUser.Download(file, to);
+                    var downloadingFile = CurrentNetDiskUser.Download(
+                        file,
+                        CombinePath(targetPath, file.Path.FolderPath.Substring(substringStart)));
                     downloadingFile.Operations.Ready();
                     // Send this transfer item to the downloading view model.
                     EventAggregator.GetEvent<TransferItemsAddedEvent>().Publish(downloadingFile);
@@ -103,6 +119,14 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             {
                 GlobalMessageQueue.Enqueue("No Files Found");
             }
+        }
+
+        private string CombinePath(params string[] paths)
+        {
+            return paths.Aggregate((acc, item) =>
+                item.StartsWith("/") || item.StartsWith("\\")
+                    ? acc + item
+                    : Path.Combine(acc, item));
         }
 
         private async void UploadCommandExecute()
@@ -167,7 +191,8 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser
             if (PreviousNetDiskUser != CurrentNetDiskUser)
             {
                 PreviousNetDiskUser = CurrentNetDiskUser;
-                CurrentFolder = await CurrentNetDiskUser.GetFileRootAsync();
+                _currentFolder = await CurrentNetDiskUser.GetFileRootAsync();
+                RaisePropertyChanged(nameof(CurrentFolder));
             }
 
             await CurrentFolder.RefreshAsync();

@@ -236,7 +236,7 @@ namespace Accelerider.Windows.TransferService
                 var request = _requestInterceptor(remotePath.ToRequest()).Slice(interval);
                 var response = await DownloadPrimitiveMethods.GetResponseAsync(request);
 
-                var localStream = context.LocalPath.ToStream().Slice(interval);
+                var localStream = context.LocalPath.EnsureFileFolder().ToStream().Slice(interval);
 
                 return (response, localStream);
             };

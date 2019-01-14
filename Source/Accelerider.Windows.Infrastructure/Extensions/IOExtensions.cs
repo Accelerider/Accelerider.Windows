@@ -46,7 +46,7 @@ namespace System.IO
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(@this) ?? throw new InvalidOperationException();
             fileNameWithoutExtension = FileNameCountRegex.Replace(fileNameWithoutExtension, string.Empty).Trim();
             var extension = Path.GetExtension(@this);
-            for (int i = 1; predicate(@this); i++)
+            for (int i = 2; predicate(@this); i++)
             {
                 @this = $"{Path.Combine(directoryName, fileNameWithoutExtension)} ({i}){extension}";
             }
@@ -105,6 +105,17 @@ namespace System.IO
             }
 
             return true;
+        }
+
+        public static string EnsureFileFolder(this string path)
+        {
+            var directory = Path.GetDirectoryName(path) ?? throw new InvalidOperationException();
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            return path;
         }
     }
 }
