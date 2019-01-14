@@ -11,4 +11,5 @@
     <converters:NumberToDisplayDataSizeConverter x:Key="NumberToDisplayDataSizeConverter" />
 
     <converters:NotOperator x:Key="NotOperator" />
+    <converters:DivideOperator x:Key="DivideOperator" />
 </ResourceDictionary>

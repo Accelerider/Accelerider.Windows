@@ -118,6 +118,8 @@
     <Compile Include="I18n\I18nExtension.cs" />
     <Compile Include="I18n\I18nManager.cs" />
     <Compile Include="I18n\I18nSource.cs" />
+    <Compile Include="Markup\IfExtension.cs" />
+    <Compile Include="Markup\IIfExtension.cs" />
     <Compile Include="MergedStyles.cs" />
     <Compile Include="Modularity\AppInfo.cs" />
     <Compile Include="Modularity\ModuleBase.cs" />
@@ -138,6 +140,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="PropertyHelpers\PropertyObserver.cs" />
+    <Compile Include="PropertyHelpers\PropertyObserverNode.cs" />
+    <Compile Include="PropertyHelpers\PropertyProxy.cs" />
     <Compile Include="PropertyObserver.cs" />
     <Compile Include="PropertyObserverNode.cs" />
     <Compile Include="RegionNames.cs" />

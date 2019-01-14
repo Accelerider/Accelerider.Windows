@@ -4,7 +4,7 @@
                     xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
                     xmlns:controls="clr-namespace:Accelerider.Windows.Controls">
 
-    <ControlTemplate x:Key="ButtonTemplate.Flat" TargetType="Button">
+    <ControlTemplate x:Key="ButtonTemplate.Flat" TargetType="ButtonBase">
         <Grid>
             <AdornerDecorator>
                 <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="{TemplateBinding Background}" >
@@ -150,6 +150,13 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="ToggleButtonStyle.Flat" TargetType="ToggleButton">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth0"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template" Value="{StaticResource ButtonTemplate.Flat}" />
     </Style>
 
 </ResourceDictionary>

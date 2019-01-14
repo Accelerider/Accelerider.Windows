@@ -16,7 +16,11 @@
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowStyle.Main}"
         Icon="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-icon.ico"
-        Title="Accelerider" >
+        Title="Accelerider" 
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True">
 
     <materialDesign:DialogHost Identifier="RootDialog">
         <Grid Background="{StaticResource LightGreyBackgroundBrush}" >

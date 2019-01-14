@@ -5,9 +5,12 @@
          xmlns:mvvm="http://prismlibrary.com/"
          xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
          xmlns:fileBrowser="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.FileBrowser"
-         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
          xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser"
+         xmlns:controls1="clr-namespace:Accelerider.Windows.Modules.NetDisk.Controls"
+         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
          mvvm:ViewModelLocator.AutoWireViewModel="True"
          mc:Ignorable="d"
          d:DataContext="{d:DesignInstance {x:Type vm:FileBrowserComponentViewModel}}">
@@ -17,166 +20,191 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Infrastructure.UI;component/Converters/Accelerider.Converters.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.Others.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.ProgressBar.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.ListBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Styles.TabControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Accelerider.Windows.Controls;component/Styles/Accelerider.Animations.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </TabItem.Resources>
 
     <TabItem.Header>
-        <Grid >
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="2"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="2" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <materialDesign:PackIcon Kind="FolderMultiple" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="18" Width="18"/>
-            <TextBlock Grid.Row="2" Text="Net Disk" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"/>
+            <materialDesign:PackIcon Kind="FolderMultiple"
+                                     Foreground="{StaticResource LightGreyBackgroundBrush}"
+                                     HorizontalAlignment="Center"
+                                     Height="18"
+                                     Width="18" />
+            <TextBlock Grid.Row="2"
+                       Text="Net Disk"
+                       HorizontalAlignment="Center"
+                       Foreground="{StaticResource LightGreyBackgroundBrush}"
+                       FontSize="10" />
         </Grid>
     </TabItem.Header>
 
     <Grid Style="{StaticResource FloatInRightToLeftStyle}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Style="{StaticResource LeftTabListStyle}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="10"/>
-                <RowDefinition />
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <Grid Grid.Column="0"
+              Style="{StaticResource LeftTabListStyle}">
+            <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsExpanded, ElementName=NetDiskUserSelector}"
+                                         Value="True">
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <BlurEffect />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
 
-            <controls:SearchBar Grid.Row="1" Background="{StaticResource LightGreyBackgroundBrush}" 
-                                SearchResults="{Binding SearchResults}" SelectedSearchResult="{Binding SelectedSearchResult, Mode=OneWayToSource}">
-                <controls:SearchBar.SearchResultItemTemplate>
-                    <DataTemplate>
-                        <Border Padding="10 0">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="16"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Tag="{Binding Content.FileType}" Style="{StaticResource ImageStyle.FileIcon}" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </controls:SearchBar.SearchResultItemTemplate>
-            </controls:SearchBar>
-
-            <ListBox x:Name="SelectViewListBox" Grid.Row="3"
-                     ItemContainerStyle="{StaticResource ListBoxItemStyle}"
-                     SelectionMode="Single" SelectedIndex="0"
-                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                     HorizontalContentAlignment="Stretch">
-                <ListBoxItem Height="45">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="15"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Grid.Column="1" Kind="FileMultiple" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" Text="Files" VerticalAlignment="Center"/>
-                    </Grid>
-                </ListBoxItem>
-                <!--<ListBoxItem Height="45">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="15"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Grid.Column="1" Kind="ShareVariant" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" Text="My Share" VerticalAlignment="Center"/>
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem Height="45">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="15"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Grid.Column="1" Kind="Delete" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" Text="Recycle Bin" VerticalAlignment="Center"/>
-                    </Grid>
-                </ListBoxItem>-->
-            </ListBox>
-
-            <TextBlock Grid.Row="5" Text="Cloud Storage" Margin="10 0 0 0" FontSize="14"/>
-            <ListBox Grid.Row="7" ItemsSource="{Binding NetDiskUsers}" IsEnabled="{Binding CanSwitchUser}"
-                     ItemContainerStyle="{StaticResource ListBoxItemStyle}"
-                     SelectedItem="{Binding CurrentNetDiskUser}" SelectionMode="Single"
-                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     HorizontalContentAlignment="Stretch" >
-
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Padding="15 0">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Ellipse Height="30" Width="30">
-                                    <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding Avatar, Converter={StaticResource UriToImageSourceConverter}}" RenderOptions.BitmapScalingMode="HighQuality"/>
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                                <Grid Grid.Column="2">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="12"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Text="{Binding Username}" VerticalAlignment="Center"/>
-                                    <ProgressBar Grid.Row="2" Height="12" Foreground="#405458AF" Background="#E0E0E0" BorderThickness="0"
-                                                 Value="{Binding UsedCapacity, Mode=OneWay}" 
-                                                 Maximum="{Binding TotalCapacity, Mode=OneWay}" 
-                                                 Style="{x:Null}"/>
-                                    <TextBlock Grid.Row="2" Foreground="#555555" FontSize="10" 
-                                               VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <Run Text="{Binding UsedCapacity, Mode=OneWay, Converter={StaticResource NumberToDisplayDataSizeConverter}}" />
-                                        <Run Text="/" />
-                                        <Run Text="{Binding TotalCapacity, Mode=OneWay, Converter={StaticResource NumberToDisplayDataSizeConverter}}" />
-                                    </TextBlock>
-                                </Grid>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <Button Grid.Row="8" Height="30" Margin="35 15" materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                    Command="{Binding AddNetDiskCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" VerticalAlignment="Center" Margin="0 0 10 0"/>
-                    <TextBlock Text="Add Net-Disk" VerticalAlignment="Center" FontSize="12"/>
-                </StackPanel>
-            </Button>
+                <ListBox x:Name="SelectViewListBox"
+                         Margin="0 30 0 0"
+                         ItemContainerStyle="{StaticResource ListBoxItemStyle}"
+                         SelectionMode="Single"
+                         SelectedIndex="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                         HorizontalContentAlignment="Stretch">
+                    <ListBoxItem Height="45">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Grid.Column="1"
+                                                     Kind="FileMultiple"
+                                                     Width="20"
+                                                     Height="20"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="3"
+                                       Text="Files"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </ListBoxItem>
+                    <ListBoxItem Height="45">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Grid.Column="1"
+                                                     Kind="ShareVariant"
+                                                     Width="20"
+                                                     Height="20"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="3"
+                                       Text="My Share"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </ListBoxItem>
+                    <ListBoxItem Height="45">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Grid.Column="1"
+                                                     Kind="Delete"
+                                                     Width="20"
+                                                     Height="20"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="3"
+                                       Text="Recycle Bin"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </ListBoxItem>
+                </ListBox>
+            </Grid>
+            <controls1:NetDiskUserSelector x:Name="NetDiskUserSelector"
+                                           Grid.Row="0"
+                                           Grid.Column="0"
+                                           CurrentNetDiskUser="{Binding CurrentNetDiskUser}"
+                                           NetDiskUsers="{Binding NetDiskUsers}" />
         </Grid>
+        <Grid  Grid.Column="1">
+            <!--<Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsExpanded, ElementName=NetDiskUserSelector}"
+                                     Value="True">
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <BlurEffect />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>-->
 
-        <controls:SwitchableViewContainer Grid.Column="1" Margin="25 50 25 0" Background="White"
-                                       Selector="{Binding ElementName=SelectViewListBox}">
-            <controls:SwitchableViewContainer.Resources>
-                <fileBrowser:Files x:Key="0" Style="{StaticResource FloatInUpStyle}"/>
-                <!--<fileBrowser:Share x:Key="1" Style="{StaticResource FloatInUpStyle}" />
-                <fileBrowser:RecycleBin x:Key="2" Style="{StaticResource FloatInUpStyle}" />-->
-            </controls:SwitchableViewContainer.Resources>
-        </controls:SwitchableViewContainer>
-        <materialDesign:Snackbar Grid.Column="1" MessageQueue="{Binding GlobalMessageQueue}"/>
+            <controls:SwitchableViewContainer Margin="25 50 25 0"
+                                              Background="White"
+                                              Selector="{Binding ElementName=SelectViewListBox}">
+                <controls:SwitchableViewContainer.Resources>
+                    <fileBrowser:Files x:Key="0"
+                                       Style="{StaticResource FloatInUpStyle}" />
+                    <fileBrowser:Share x:Key="1"
+                                       Style="{StaticResource FloatInUpStyle}" />
+                    <fileBrowser:RecycleBin x:Key="2"
+                                            Style="{StaticResource FloatInUpStyle}" />
+                </controls:SwitchableViewContainer.Resources>
+            </controls:SwitchableViewContainer>
+
+            <!--<Border HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=NetDiskUserSelector}"
+                                                 PropertyName="IsExpanded"
+                                                 Value="False" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background"
+                                Value="Transparent" />
+                        <Setter Property="IsHitTestVisible"
+                                Value="False" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsExpanded, ElementName=NetDiskUserSelector}"
+                                         Value="True">
+                                <Setter Property="Background"
+                                        Value="#55FFFFFF" />
+                                <Setter Property="IsHitTestVisible"
+                                        Value="True" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>-->
+
+        </Grid>
+        <materialDesign:Snackbar Grid.Column="1"
+                                 MessageQueue="{Binding GlobalMessageQueue}" />
     </Grid>
 </TabItem>
