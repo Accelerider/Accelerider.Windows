@@ -10,61 +10,94 @@
         WindowStartupLocation="CenterScreen"
         Topmost="True"
         Icon="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-icon.ico"
-        Title="AuthenticationWindow" Height="321" Width="430"
-        x:Name="OwnerWindow" Style="{StaticResource WindowStyle.Dialog}">
+        Title="AuthenticationWindow"
+        Height="321"
+        Width="430"
+        x:Name="OwnerWindow"
+        Style="{StaticResource WindowStyle.Dialog}">
 
-    <controls:SwitchLoadingViewContainer IsLoading="{Binding IsLoading}">
-        <TabControl Margin="60 40 60 30" WindowChrome.IsHitTestVisibleInChrome="True">
-            <TabItem x:Name="SignInTabItem" IsSelected="True"
-                     Header="{markup:I18n {x:Static i18nResources:ResKeys.AuthenticationWindow_LogIn}}">
-                <local:SignInView Margin="0 16 0 0" />
-                <TabItem.Triggers>
-                    <EventTrigger RoutedEvent="Selector.Selected">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="384" To="321">
-                                    <DoubleAnimation.EasingFunction>
-                                        <BackEase  EasingMode="EaseOut"/>
-                                    </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </TabItem.Triggers>
-            </TabItem>
-            <TabItem Header="{markup:I18n {x:Static i18nResources:ResKeys.AuthenticationWindow_SignUp}}" >
-                <local:SignUpView Margin="0 16 0 0" />
-                <TabItem.Triggers>
-                    <EventTrigger RoutedEvent="Selector.Selected">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.500" Storyboard.Target="{Binding ElementName=OwnerWindow}" Storyboard.TargetProperty="Height" From="321" To="384">
-                                    <DoubleAnimation.EasingFunction>
-                                        <BackEase  EasingMode="EaseOut"/>
-                                    </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </TabItem.Triggers>
-            </TabItem>
-        </TabControl>
-        <controls:SwitchLoadingViewContainer.LoadingContent>
-            <Grid Background="#5458AF" Style="{StaticResource FadeInStyle}">
+    <markup:If Condition="{Binding IsLoading}">
+
+        <markup:If.True>
+            <Grid Background="#5458AF"
+                  Style="{StaticResource FadeInStyle}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Image Grid.Row="1" Source="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-background.png" Height="180" Width="180" Style="{StaticResource ZoomDelayStyle}"/>
+                <Image Grid.Row="1"
+                       Source="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-background.png"
+                       Height="180"
+                       Width="180"
+                       Style="{StaticResource ZoomDelayStyle}" />
 
-                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" >
-                    <TextBlock Text="Loading Accelerider for Windows" FontSize="14" Foreground="White" Style="{StaticResource FadeInStyle}"/>
-                    <TextBlock FontSize="14" Foreground="White" Width="25" Style="{StaticResource WaitingDotsStyle}"/>
+                <StackPanel Grid.Row="3"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="Loading Accelerider for Windows"
+                               FontSize="14"
+                               Foreground="White"
+                               Style="{StaticResource FadeInStyle}" />
+                    <TextBlock FontSize="14"
+                               Foreground="White"
+                               Width="25"
+                               Style="{StaticResource WaitingDotsStyle}" />
                 </StackPanel>
             </Grid>
-        </controls:SwitchLoadingViewContainer.LoadingContent>
-    </controls:SwitchLoadingViewContainer>
+        </markup:If.True>
+
+        <markup:If.False>
+            <TabControl Margin="60 40 60 30"
+                        WindowChrome.IsHitTestVisibleInChrome="True">
+                <TabItem x:Name="SignInTabItem"
+                         IsSelected="True"
+                         Header="{markup:I18n {x:Static i18nResources:ResKeys.AuthenticationWindow_LogIn}}">
+                    <local:SignInView Margin="0 16 0 0" />
+                    <TabItem.Triggers>
+                        <EventTrigger RoutedEvent="Selector.Selected">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation BeginTime="00:00:00"
+                                                     Duration="00:00:00.500"
+                                                     Storyboard.Target="{Binding ElementName=OwnerWindow}"
+                                                     Storyboard.TargetProperty="Height"
+                                                     From="384"
+                                                     To="321">
+                                        <DoubleAnimation.EasingFunction>
+                                            <BackEase  EasingMode="EaseOut" />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TabItem.Triggers>
+                </TabItem>
+                <TabItem Header="{markup:I18n {x:Static i18nResources:ResKeys.AuthenticationWindow_SignUp}}">
+                    <local:SignUpView Margin="0 16 0 0" />
+                    <TabItem.Triggers>
+                        <EventTrigger RoutedEvent="Selector.Selected">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation BeginTime="00:00:00"
+                                                     Duration="00:00:00.500"
+                                                     Storyboard.Target="{Binding ElementName=OwnerWindow}"
+                                                     Storyboard.TargetProperty="Height"
+                                                     From="321"
+                                                     To="384">
+                                        <DoubleAnimation.EasingFunction>
+                                            <BackEase  EasingMode="EaseOut" />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TabItem.Triggers>
+                </TabItem>
+            </TabControl>
+        </markup:If.False>
+
+    </markup:If>
 </Window>

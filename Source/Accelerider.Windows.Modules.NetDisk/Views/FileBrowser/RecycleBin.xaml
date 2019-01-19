@@ -4,64 +4,102 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
+             xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
+             xmlns:anyDriveControls="clr-namespace:Accelerider.Windows.Modules.NetDisk.Controls"
              mvvm:ViewModelLocator.AutoWireViewModel="True">
-    <Grid >
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid Grid.Row="1">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" Height="42" HorizontalAlignment="Stretch">
-                <controls:ToolBarButton IconKind="FileRestore" Label="Restore" />
-                <controls:ToolBarButton IconKind="DeleteForever" Label="Delete" />
+            <StackPanel Orientation="Horizontal"
+                        Height="42"
+                        HorizontalAlignment="Stretch">
+                <controls:ToolBarButton IconKind="FileRestore"
+                                        Label="Restore" />
+                <controls:ToolBarButton IconKind="DeleteForever"
+                                        Label="Delete" />
             </StackPanel>
-            <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
+            <Button Grid.Column="2"
+                    Style="{StaticResource MaterialDesignToolButton}"
                     Command="{Binding RefreshFilesCommand}"
-                    Margin="0 0 8 0" Width="20" Height="20" Padding="0">
-                <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" Name="PackIcon"/>
+                    Margin="0 0 8 0"
+                    Width="20"
+                    Height="20"
+                    Padding="0">
+                <materialDesign:PackIcon Kind="Refresh"
+                                         Width="20"
+                                         Height="20"
+                                         Name="PackIcon" />
             </Button>
         </Grid>
-        <controls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding RefreshFilesCommand.IsExecuting}">
-            <ListBox x:Name="ListboxFileList" SelectionMode="Extended" ItemsSource="{Binding Files}"
-                     ItemContainerStyle="{StaticResource ListBoxItemStyle.LeftBarAndUnderline}">
 
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Padding="20 10">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="16"/>
+        <UserControl Grid.Row="2">
+            <markup:If Condition="{Binding RefreshFilesCommand.IsExecuting}">
 
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="16"/>
+                <markup:If.True>
+                    <anyDriveControls:LoadingProgressBar />
+                </markup:If.True>
 
-                                    <ColumnDefinition Width="60"/>
-                                    <ColumnDefinition Width="16"/>
+                <markup:If.False>
+                    <ListBox x:Name="ListboxFileList"
+                             SelectionMode="Extended"
+                             ItemsSource="{Binding Files}"
+                             ItemContainerStyle="{StaticResource ListBoxItemStyle.LeftBarAndUnderline}">
 
-                                    <ColumnDefinition Width="110"/>
-                                    <ColumnDefinition Width="16"/>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="20 10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="16" />
 
-                                    <ColumnDefinition Width="45"/>
-                                    <ColumnDefinition Width="16"/>
-                                </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Tag="{Binding FileType}" Style="{StaticResource ImageStyle.FileIcon}" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="2" Text="{Binding FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="4" Text="{Binding FileSize}" VerticalAlignment="Center" />
-                                <TextBlock Grid.Column="6" Text="{Binding DeletedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="8" Text="{Binding LeftDays, StringFormat='{}{0} days'}" VerticalAlignment="Center" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </controls:SwitchLoadingViewContainer>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="16" />
+
+                                            <ColumnDefinition Width="60" />
+                                            <ColumnDefinition Width="16" />
+
+                                            <ColumnDefinition Width="110" />
+                                            <ColumnDefinition Width="16" />
+
+                                            <ColumnDefinition Width="45" />
+                                            <ColumnDefinition Width="16" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0"
+                                               Tag="{Binding FileType}"
+                                               Style="{StaticResource ImageStyle.FileIcon}"
+                                               VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="2"
+                                                   Text="{Binding FilePath.FileName}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="4"
+                                                   Text="{Binding FileSize}"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="6"
+                                                   Text="{Binding DeletedTime, StringFormat='yyyy-MM-dd HH:mm'}"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="8"
+                                                   Text="{Binding LeftDays, StringFormat='{}{0} days'}"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </markup:If.False>
+
+            </markup:If>
+        </UserControl>
     </Grid>
 </UserControl>

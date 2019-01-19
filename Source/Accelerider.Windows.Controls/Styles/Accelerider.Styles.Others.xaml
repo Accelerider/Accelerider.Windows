@@ -67,7 +67,8 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="LoadingContent">
             <Setter.Value>
-                <ProgressBar IsIndeterminate="True" Width="24" Height="24" Margin="16" Value="33"
+                <ProgressBar IsIndeterminate="True" Width="24" Height="24" Margin="16" Value="33" 
+                             HorizontalAlignment="Center" VerticalAlignment="Center"
                              Style="{DynamicResource MaterialDesignCircularProgressBar}"/>
             </Setter.Value>
         </Setter>
