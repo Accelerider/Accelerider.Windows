@@ -95,6 +95,9 @@
       <HintPath>..\packages\Unity.Container.5.8.11\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="XamlExtensions, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XamlExtensions.0.0.2\lib\net40\XamlExtensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\VersionInfo.cs">
@@ -112,17 +115,11 @@
     <Compile Include="Converters\MinusConverter.cs" />
     <Compile Include="Converters\NumberToDisplayDataSizeConverter.cs" />
     <Compile Include="Converters\Operators.cs" />
-    <Compile Include="Converters\PipelineExtension.cs" />
     <Compile Include="Converters\PlusConverter.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="Converters\UriToImageSourceConverter.cs" />
     <Compile Include="Converters\ValueConverterBase.cs" />
     <Compile Include="DataContext.cs" />
-    <Compile Include="I18n\I18nExtension.cs" />
-    <Compile Include="I18n\I18nManager.cs" />
-    <Compile Include="I18n\I18nSource.cs" />
-    <Compile Include="Markup\IfExtension.cs" />
-    <Compile Include="Markup\IIfExtension.cs" />
     <Compile Include="MergedStyles.cs" />
     <Compile Include="Modularity\AppInfo.cs" />
     <Compile Include="Modularity\ModuleBase.cs" />

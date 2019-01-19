@@ -1,4 +1,4 @@
-﻿using Accelerider.Windows.Infrastructure.I18n;
+﻿using XamlExtensions;
 
 namespace Accelerider.Windows.Infrastructure.Mvvm
 {
@@ -6,6 +6,6 @@ namespace Accelerider.Windows.Infrastructure.Mvvm
     {
         I18nManager I18nManager { get; set; }
 
-        void OnCurrentUICultureChanged();
+        void OnCurrentUICultureChanged(object sender, CurrentUICultureChangedEventArgs e);
     }
 }

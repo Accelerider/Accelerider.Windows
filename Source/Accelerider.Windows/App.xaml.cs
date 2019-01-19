@@ -4,10 +4,10 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Accelerider.Windows.Properties;
 using System.Windows;
+using XamlExtensions;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.I18nResources;
 using Accelerider.Windows.Infrastructure;
-using Accelerider.Windows.Infrastructure.I18n;
 using Accelerider.Windows.Infrastructure.Mvvm;
 using Accelerider.Windows.Infrastructure.Upgrade;
 using Accelerider.Windows.ServerInteraction;
@@ -128,7 +128,7 @@ namespace Accelerider.Windows
         {
             var settings = Container.Resolve<IDataRepository>().Get<ShellSettings>(isGlobal: true);
 
-            I18nManager.Initialize(settings);
+            I18nManager.Instance.CurrentUICultureChanged += (sender, args) => settings.Language = args.NewUICulture;
 
             if (settings.Language == null)
             {
@@ -136,7 +136,7 @@ namespace Accelerider.Windows
             }
 
             I18nManager.Instance.CurrentUICulture = settings.Language;
-            I18nManager.Instance.AddResourceManager(UiResources.ResourceManager);
+            I18nManager.Instance.Add(UiResources.ResourceManager);
         }
 
         private static void LogBasicInfo()

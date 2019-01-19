@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Accelerider.Windows.Modules.NetDisk.Controls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-             xmlns:markup="clr-namespace:System.Windows.Extensions.Markup;assembly=Accelerider.Windows.Infrastructure.UI"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
              mc:Ignorable="d"
              d:DesignHeight="500"
              d:DesignWidth="300">
@@ -69,13 +69,13 @@
                 <DropShadowEffect Direction="90"
                                   BlurRadius="10">
                     <DropShadowEffect.Opacity>
-                        <markup:If Path="IsExpanded" RelativeSource="{RelativeSource AncestorType={x:Type local:NetDiskUserSelector}}">
-                            <markup:If.TrueValue>
+                        <markup:If Condition="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type local:NetDiskUserSelector}}}">
+                            <markup:If.True>
                                 <system:Double>0.1</system:Double>
-                            </markup:If.TrueValue>
-                            <markup:If.FalseValue>
+                            </markup:If.True>
+                            <markup:If.False>
                                 <system:Double>0</system:Double>
-                            </markup:If.FalseValue>
+                            </markup:If.False>
                         </markup:If>
                     </DropShadowEffect.Opacity>
                 </DropShadowEffect>

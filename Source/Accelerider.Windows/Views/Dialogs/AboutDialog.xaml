@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
              xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
              xmlns:constants="clr-namespace:Accelerider.Windows.Constants"
              xmlns:dialogs="clr-namespace:Accelerider.Windows.Views.Dialogs"
+             xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Tag="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Title}}"
+             Tag="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_Title}}"
              Style="{StaticResource UserControlStyle.Dialog}">
 
     <Grid Margin="16">
@@ -32,23 +32,23 @@
         <Image Grid.Row="0" Source="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-background.png" Height="80" Width="80"/>
 
         <TextBlock Grid.Row="2" HorizontalAlignment="Center"
-                   Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_SoftwareName}}"
+                   Text="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_SoftwareName}}"
                    FontWeight="Bold" Foreground="#5458AF" FontSize="16"/>
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock VerticalAlignment="Center">
-                <Run Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Version}}" />
+                <Run Text="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_Version}}" />
                 <Run Text="{Binding Version, Mode=OneTime}" />
-                <Run Text="{i18N:I18n {x:Static i18NResources:ResKeys.Punctuation_LeftParenthesis}}" />
+                <Run Text="{markup:I18n {x:Static i18NResources:ResKeys.Punctuation_LeftParenthesis}}" />
             </TextBlock>
-            <Button Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ReleaseNotes}}" 
+            <Button Content="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_ReleaseNotes}}" 
                     Command="{Binding OpenReleaseNotesCommand}" Foreground="#5458AF" Style="{StaticResource ButtonStyle.Link}" VerticalAlignment="Center"/>
-            <TextBlock Text="{i18N:I18n {x:Static i18NResources:ResKeys.Punctuation_RightParenthesis}}" 
+            <TextBlock Text="{markup:I18n {x:Static i18NResources:ResKeys.Punctuation_RightParenthesis}}" 
                        VerticalAlignment="Center"/>
         </StackPanel>
 
         <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
             <materialDesign:PackIcon Kind="GithubCircle" VerticalAlignment="Center" Margin="0 0 8 0"/>
-            <Button Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_GithubProjectHome}}" 
+            <Button Content="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_GithubProjectHome}}" 
                     ToolTip="https://github.com/Accelerider/Accelerider.Windows" 
                     Command="{Binding OpenProjectHomeCommand}" Foreground="#5458AF" 
                     Style="{StaticResource ButtonStyle.Link}" VerticalAlignment="Center"/>
@@ -57,22 +57,22 @@
         <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Center">
             <dialogs:AuthorCard Margin="8" Width="240"
                                 Avatar="https://avatars.githubusercontent.com/u/12137562"
-                                AuthorName="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Mrs4s}}"
-                                Description="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_Mrs4sDescription}}"
+                                AuthorName="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_Mrs4s}}"
+                                Description="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_Mrs4sDescription}}"
                                 GithubHome="{x:Static constants:AcceleriderUrls.Mrs4sGithubHome}"
                                 Email="{x:Static constants:AcceleriderUrls.Mrs4sEmail}"/>
             <dialogs:AuthorCard Margin="8" Width="240"
                                 Avatar="https://avatars.githubusercontent.com/u/8541016"
-                                AuthorName="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ZDP}}"
-                                Description="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_ZDPDescription}}"
+                                AuthorName="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_ZDP}}"
+                                Description="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_ZDPDescription}}"
                                 GithubHome="{x:Static constants:AcceleriderUrls.ZdpGithubHome}"
                                 Email="{x:Static constants:AcceleriderUrls.ZdpEmail}"/>
         </StackPanel>
 
-        <TextBlock Grid.Row="10" Text="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_CheckUpdateResultLatest}}" 
+        <TextBlock Grid.Row="10" Text="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_CheckUpdateResultLatest}}" 
                    HorizontalAlignment="Center"/>
 
-        <Button Grid.Row="12" Content="{i18N:I18n {x:Static i18NResources:ResKeys.AboutDialog_CheckForUpdate}}"
+        <Button Grid.Row="12" Content="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_CheckForUpdate}}"
                 Command="{Binding CheckForUpdateCommand}"
                 Style="{StaticResource MaterialDesignFlatButton}" Width="200" />
 

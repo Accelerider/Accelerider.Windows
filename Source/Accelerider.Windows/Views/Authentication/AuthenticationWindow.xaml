@@ -4,8 +4,8 @@
         xmlns:mvvm="http://prismlibrary.com/"
         xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
         xmlns:local="clr-namespace:Accelerider.Windows.Views.Authentication"
-        xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
         xmlns:i18nResources="clr-namespace:Accelerider.Windows.I18nResources"
+        xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
         mvvm:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
         Topmost="True"
@@ -16,7 +16,7 @@
     <controls:SwitchLoadingViewContainer IsLoading="{Binding IsLoading}">
         <TabControl Margin="60 40 60 30" WindowChrome.IsHitTestVisibleInChrome="True">
             <TabItem x:Name="SignInTabItem" IsSelected="True"
-                     Header="{i18N:I18n {x:Static i18nResources:ResKeys.AuthenticationWindow_LogIn}}">
+                     Header="{markup:I18n {x:Static i18nResources:ResKeys.AuthenticationWindow_LogIn}}">
                 <local:SignInView Margin="0 16 0 0" />
                 <TabItem.Triggers>
                     <EventTrigger RoutedEvent="Selector.Selected">
@@ -32,7 +32,7 @@
                     </EventTrigger>
                 </TabItem.Triggers>
             </TabItem>
-            <TabItem Header="{i18N:I18n {x:Static i18nResources:ResKeys.AuthenticationWindow_SignUp}}" >
+            <TabItem Header="{markup:I18n {x:Static i18nResources:ResKeys.AuthenticationWindow_SignUp}}" >
                 <local:SignUpView Margin="0 16 0 0" />
                 <TabItem.Triggers>
                     <EventTrigger RoutedEvent="Selector.Selected">

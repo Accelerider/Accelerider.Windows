@@ -7,8 +7,8 @@
         xmlns:settings="clr-namespace:Accelerider.Windows.Properties"
         xmlns:appstore="clr-namespace:Accelerider.Windows.Views.AppStore"
         xmlns:ui="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure.UI"
-        xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
         xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
+        xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
         prism:ViewModelLocator.AutoWireViewModel="True"
         MinHeight="500" MinWidth="720" 
         Height="{Binding Path=MainWindowHeight, Source={x:Static settings:Settings.Default}, Mode=TwoWay}" 
@@ -46,7 +46,7 @@
                         </Grid.RowDefinitions>
                         <materialDesign:PackIcon Kind="Apps" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
                         <TextBlock Grid.Row="2" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"
-                                   Text="{i18N:I18n {x:Static i18NResources:ResKeys.MainWindow_AppStore}}"/>
+                                   Text="{markup:I18n {x:Static i18NResources:ResKeys.MainWindow_AppStore}}"/>
                     </Grid>
                 </ToggleButton>
                 <ToggleButton x:Name="SettingsToggleButton" 
@@ -59,7 +59,7 @@
                         </Grid.RowDefinitions>
                         <materialDesign:PackIcon Kind="Menu" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
                         <TextBlock Grid.Row="2" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"
-                                   Text="{i18N:I18n {x:Static i18NResources:ResKeys.MainWindow_Menu}}"/>
+                                   Text="{markup:I18n {x:Static i18NResources:ResKeys.MainWindow_Menu}}"/>
                     </Grid>
                 </ToggleButton>
                 <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}"  StaysOpen="False"

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using Accelerider.Windows.Infrastructure.I18n;
+using XamlExtensions;
 using MaterialDesignThemes.Wpf;
 using Prism.Ioc;
 
@@ -70,7 +70,7 @@ namespace Accelerider.Windows.Infrastructure.Mvvm
             .IfInheritsFrom<ILocalizable>((view, viewModel) =>
             {
                 viewModel.I18nManager = I18nManager.Instance;
-                view.Loaded += (sender, args) => I18nManager.Instance.CurrentUICultureChanged += viewModel.OnCurrentUICultureChanged;
+                view.Loaded += (sender, args) => I18nManager.Instance.CurrentUICultureChanged +=  viewModel.OnCurrentUICultureChanged;
                 view.Unloaded += (sender, args) => I18nManager.Instance.CurrentUICultureChanged -= viewModel.OnCurrentUICultureChanged;
             })
             .IfInheritsFrom<IViewLoadedAndUnloadedAware>((view, viewModel) =>
