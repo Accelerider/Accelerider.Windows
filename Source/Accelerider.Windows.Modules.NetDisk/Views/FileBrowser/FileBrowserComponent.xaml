@@ -8,9 +8,8 @@
          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
          xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser"
-         xmlns:controls1="clr-namespace:Accelerider.Windows.Modules.NetDisk.Controls"
-         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+         xmlns:localControls="clr-namespace:Accelerider.Windows.Modules.NetDisk.Controls"
+         xmlns:netDiskAuthentications="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications"
          mvvm:ViewModelLocator.AutoWireViewModel="True"
          mc:Ignorable="d"
          d:DataContext="{d:DesignInstance {x:Type vm:FileBrowserComponentViewModel}}">
@@ -138,13 +137,15 @@
                     </ListBoxItem>
                 </ListBox>
             </Grid>
-            <controls1:NetDiskUserSelector x:Name="NetDiskUserSelector"
-                                           Grid.Row="0"
-                                           Grid.Column="0"
-                                           CurrentNetDiskUser="{Binding CurrentNetDiskUser}"
-                                           NetDiskUsers="{Binding NetDiskUsers}" />
+            <localControls:NetDiskUserSelector x:Name="NetDiskUserSelector"
+                                               Grid.Row="0"
+                                               Grid.Column="0"
+                                               CurrentNetDiskUser="{Binding CurrentNetDiskUser}"
+                                               NetDiskUsers="{Binding NetDiskUsers}" />
         </Grid>
-        <Grid  Grid.Column="1">
+
+        <Grid  Grid.Column="1"
+               Margin="25 50 25 0">
             <!--<Grid.Style>
                 <Style TargetType="Grid">
                     <Style.Triggers>
@@ -160,8 +161,7 @@
                 </Style>
             </Grid.Style>-->
 
-            <controls:SwitchableViewContainer Margin="25 50 25 0"
-                                              Background="White"
+            <controls:SwitchableViewContainer Background="White"
                                               Selector="{Binding ElementName=SelectViewListBox}">
                 <controls:SwitchableViewContainer.Resources>
                     <fileBrowser:Files x:Key="0"
@@ -172,6 +172,33 @@
                                             Style="{StaticResource FloatInUpStyle}" />
                 </controls:SwitchableViewContainer.Resources>
             </controls:SwitchableViewContainer>
+
+            <UserControl>
+                <UserControl.Resources>
+                    <netDiskAuthentications:NetDiskSelector x:Key="NetDiskSelector"
+                                                            Style="{StaticResource FloatInUpStyle}">
+                        <netDiskAuthentications:NetDiskSelector.Effect>
+                            <DropShadowEffect Direction="90"
+                                              BlurRadius="10" 
+                                              Opacity="0.1"/>
+                        </netDiskAuthentications:NetDiskSelector.Effect>
+                    </netDiskAuthentications:NetDiskSelector>
+                </UserControl.Resources>
+
+                <UserControl.Style>
+                    <Style TargetType="UserControl">
+                        <Setter Property="Content" Value="{x:Null}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsExpanded, ElementName=NetDiskUserSelector}"
+                                         Value="True">
+                                <Setter Property="Content"
+                                        Value="{StaticResource NetDiskSelector}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </UserControl.Style>
+            </UserControl>
+
 
             <!--<Border HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">

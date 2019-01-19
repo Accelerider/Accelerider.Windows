@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Accelerider.Windows.Infrastructure.Converters">
     
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters:IsLessThanConverter x:Key="IsLessThanConverter"/>
     <converters:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>
     <converters:LessThan1000Converter x:Key="LessThan1000Converter"/>

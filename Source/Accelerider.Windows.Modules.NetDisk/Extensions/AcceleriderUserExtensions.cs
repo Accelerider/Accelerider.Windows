@@ -81,6 +81,11 @@ namespace Accelerider.Windows.Infrastructure
             return result;
         }
 
+        public static AnyDriveAttachedProperties AttachedProperties(this IAcceleriderUser @this)
+        {
+            return new AnyDriveAttachedProperties(@this);
+        }
+
         public static void SaveToLocalDisk(this IAcceleriderUser @this)
         {
             Guards.ThrowIfNull(@this);

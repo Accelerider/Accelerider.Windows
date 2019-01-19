@@ -78,9 +78,6 @@
     <Compile Include="Extensions\FunctionalExtensions.cs" />
     <Compile Include="GenericInterface.cs" />
     <Compile Include="Guards.cs" />
-    <Compile Include="Enumerations\Language.cs" />
-    <Compile Include="Enumerations\ShareStatus.cs" />
-    <Compile Include="Enumerations\SizeUnit.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileLocator.cs" />
     <Compile Include="Interfaces\ICloneable{T}.cs" />
@@ -116,8 +113,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NamedPipeService\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -79,7 +79,8 @@ namespace Accelerider.Windows.Infrastructure
             return info != null && info.TryGetValue(key, out var value) ? value : ExtractionFailed;
         }
 
-        /* Refer to: 
+        /*
+         * Refer to: 
          * Check Framework 45+: https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed#net_d;
          */
 

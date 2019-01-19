@@ -106,6 +106,7 @@
     <Compile Include="Enumerations\FileCategory.cs" />
     <Compile Include="Enumerations\FileType.cs" />
     <Compile Include="Enumerations\TransportedFileStatus.cs" />
+    <Compile Include="Extensions\AnyDriveAttachedProperties.cs" />
     <Compile Include="Extensions\AcceleriderUserExtensions.cs" />
     <Compile Include="Extensions\ApiExtensions.cs" />
     <Compile Include="Extensions\DownloaderBuilderExtensions.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Models\SixCloud\SixCloudUser.cs" />
     <Compile Include="NetDiskSettings.cs" />
     <Compile Include="NetDiskUserDb.cs" />
+    <Compile Include="ViewModels\NetDiskAuthentications\NetDiskSelector.vm.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignIn.vm.cs" />
     <Compile Include="ViewModels\NetDiskAuthentications\SixCloudSignUp.vm.cs" />
     <Compile Include="Views\FileBrowser\FolderLocationBar.xaml.cs">
@@ -188,6 +190,9 @@
     </Compile>
     <Compile Include="Views\Dialogs\DownloadDialog.xaml.cs">
       <DependentUpon>DownloadDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NetDiskAuthentications\NetDiskSelector.xaml.cs">
+      <DependentUpon>NetDiskSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NetDiskAuthentications\SelectNetDiskTypeDialog.xaml.cs">
       <DependentUpon>SelectNetDiskTypeDialog.xaml</DependentUpon>
@@ -316,6 +321,10 @@
     <Page Include="Views\Dialogs\DownloadDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NetDiskAuthentications\NetDiskSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NetDiskAuthentications\SelectNetDiskTypeDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

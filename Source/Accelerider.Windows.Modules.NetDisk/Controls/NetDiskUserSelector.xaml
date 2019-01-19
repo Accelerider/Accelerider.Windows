@@ -87,13 +87,14 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
+                <!-- Header: Current User -->
                 <ToggleButton Grid.Row="0"
                               Height="Auto"
                               Margin="0"
+                              Cursor="Hand"
                               Style="{StaticResource ToggleButtonStyle.Flat}"
                               IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type local:NetDiskUserSelector}}}"
                               HorizontalContentAlignment="Stretch">
-
                     <Border Padding="16 8"
                             Background="Transparent"
                             BorderThickness="0 0 0 1"
@@ -143,6 +144,7 @@
                     </Border>
                 </ToggleButton>
 
+                <!--Body: User List -->
                 <ListBox x:Name="ListBox"
                          Grid.Row="1"
                          Height="0"

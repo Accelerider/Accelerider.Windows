@@ -42,11 +42,11 @@
                                 <CubicEase  EasingMode="EaseOut"/>
                             </DoubleAnimation.EasingFunction>
                         </DoubleAnimation>
-                        <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.400" Storyboard.TargetProperty="Opacity" From="0" To="1">
+                        <!--<DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.400" Storyboard.TargetProperty="Opacity" From="0" To="1">
                             <DoubleAnimation.EasingFunction>
                                 <CircleEase  EasingMode="EaseIn"/>
                             </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
+                        </DoubleAnimation>-->
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
