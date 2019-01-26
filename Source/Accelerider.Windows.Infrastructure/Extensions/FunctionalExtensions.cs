@@ -102,5 +102,26 @@ namespace System
                 return result;
             };
         }
+
+        public static Func<T0, Func<T1, TR>> Curry<T0, T1, TR>(this Func<T0, T1, TR> func)
+            => a0 => a1 => func(a0, a1);
+
+        public static Func<T0, Func<T1, T2, TR>> Curry<T0, T1, T2, TR>(this Func<T0, T1, T2, TR> func)
+            => a0 => (a1, a2) => func(a0, a1, a2);
+
+        public static Func<T0, Func<T1, T2, T3, TR>> Curry<T0, T1, T2, T3, TR>(this Func<T0, T1, T2, T3, TR> func)
+            => a0 => (a1, a2, a3) => func(a0, a1, a2, a3);
+
+        public static Func<T0, Func<T1, T2, T3, T4, TR>> Curry<T0, T1, T2, T3, T4, TR>(this Func<T0, T1, T2, T3, T4, TR> func)
+            => a0 => (a1, a2, a3, a4) => func(a0, a1, a2, a3, a4);
+
+        public static Func<T0, Func<T1, T2, T3, T4, T5, TR>> Curry<T0, T1, T2, T3, T4, T5, TR>(this Func<T0, T1, T2, T3, T4, T5, TR> func)
+            => a0 => (a1, a2, a3, a4, a5) => func(a0, a1, a2, a3, a4, a5);
+
+        public static Func<T0, Func<T1, T2, T3, T4, T5, T6, TR>> Curry<T0, T1, T2, T3, T4, T5, T6, TR>(this Func<T0, T1, T2, T3, T4, T5, T6, TR> func)
+            => a0 => (a1, a2, a3, a4, a5, a6) => func(a0, a1, a2, a3, a4, a5, a6);
+
+        public static Func<T0, Func<T1, T2, T3, T4, T5, T6, T7, TR>> Curry<T0, T1, T2, T3, T4, T5, T6, T7, TR>(this Func<T0, T1, T2, T3, T4, T5, T6, T7, TR> func)
+            => a0 => (a1, a2, a3, a4, a5, a6, a7) => func(a0, a1, a2, a3, a4, a5, a6, a7);
     }
 }
