@@ -170,7 +170,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\Dialogs\DownloadDialog.vm.cs" />
-    <Compile Include="ViewModels\NetDiskAuthentications\SelectNetDiskTypeDialog.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\Files.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\LoadingFilesBase.vm.cs" />
     <Compile Include="ViewModels\FileBrowser\FileBrowserComponent.vm.cs" />
@@ -191,17 +190,17 @@
     <Compile Include="Views\Dialogs\AddOfflineTaskDialog.xaml.cs">
       <DependentUpon>AddOfflineTaskDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NetDiskAuthentications\AuthenticatorWindow.xaml.cs">
-      <DependentUpon>AuthenticatorWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Dialogs\DownloadDialog.xaml.cs">
       <DependentUpon>DownloadDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NetDiskAuthentications\BaiduCloud.xaml.cs">
+      <DependentUpon>BaiduCloud.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NetDiskAuthentications\NetDiskList.xaml.cs">
+      <DependentUpon>NetDiskList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NetDiskAuthentications\NetDiskSelector.xaml.cs">
       <DependentUpon>NetDiskSelector.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NetDiskAuthentications\SelectNetDiskTypeDialog.xaml.cs">
-      <DependentUpon>SelectNetDiskTypeDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\ShareDialog.xaml.cs">
       <DependentUpon>ShareDialog.xaml</DependentUpon>
@@ -217,6 +216,9 @@
     </Compile>
     <Compile Include="Views\FileBrowser\Share.xaml.cs">
       <DependentUpon>Share.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NetDiskAuthentications\OneDrive.xaml.cs">
+      <DependentUpon>OneDrive.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NetDiskAuthentications\SixCloud.xaml.cs">
       <DependentUpon>SixCloud.xaml</DependentUpon>
@@ -324,21 +326,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NetDiskAuthentications\AuthenticatorWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Dialogs\DownloadDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NetDiskAuthentications\NetDiskSelector.xaml">
+    <Page Include="Views\NetDiskAuthentications\BaiduCloud.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NetDiskAuthentications\SelectNetDiskTypeDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Views\NetDiskAuthentications\NetDiskList.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NetDiskAuthentications\NetDiskSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\ShareDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -359,6 +361,10 @@
     <Page Include="Views\FileBrowser\Share.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NetDiskAuthentications\OneDrive.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NetDiskAuthentications\SixCloud.xaml">
       <SubType>Designer</SubType>

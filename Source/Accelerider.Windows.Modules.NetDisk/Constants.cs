@@ -2,6 +2,8 @@
 {
     public static class Constants
     {
+        public static string NetDiskAuthenticationViewRegion = nameof(NetDiskAuthenticationViewRegion);
+
         public static string DownloadInfoFileExtension = ".ard";
     }
 }

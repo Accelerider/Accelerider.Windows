@@ -128,7 +128,7 @@
         </Style.Triggers>
     </Style>
 
-    <!--<Style x:Key="TranslateToLeftStyle" TargetType="FrameworkElement">
+    <Style x:Key="TranslateToLeftStyle" TargetType="FrameworkElement">
         <Setter Property="RenderTransform">
             <Setter.Value>
                 <TranslateTransform />
@@ -178,6 +178,6 @@
                 </BeginStoryboard>
             </EventTrigger>
         </Style.Triggers>
-    </Style>-->
+    </Style>
 
 </ResourceDictionary>

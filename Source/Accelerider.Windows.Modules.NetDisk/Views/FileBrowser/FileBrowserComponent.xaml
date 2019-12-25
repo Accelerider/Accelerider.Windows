@@ -137,6 +137,7 @@
                     </ListBoxItem>
                 </ListBox>
             </Grid>
+
             <localControls:NetDiskUserSelector x:Name="NetDiskUserSelector"
                                                Grid.Row="0"
                                                Grid.Column="0"
@@ -146,20 +147,6 @@
 
         <Grid  Grid.Column="1"
                Margin="25 50 25 0">
-            <!--<Grid.Style>
-                <Style TargetType="Grid">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=IsExpanded, ElementName=NetDiskUserSelector}"
-                                     Value="True">
-                            <Setter Property="Effect">
-                                <Setter.Value>
-                                    <BlurEffect />
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>-->
 
             <controls:SwitchableViewContainer Background="White"
                                               Selector="{Binding ElementName=SelectViewListBox}">
@@ -198,37 +185,6 @@
                     </Style>
                 </UserControl.Style>
             </UserControl>
-
-
-            <!--<Border HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch">
-
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDown">
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=NetDiskUserSelector}"
-                                                 PropertyName="IsExpanded"
-                                                 Value="False" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Setter Property="Background"
-                                Value="Transparent" />
-                        <Setter Property="IsHitTestVisible"
-                                Value="False" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=IsExpanded, ElementName=NetDiskUserSelector}"
-                                         Value="True">
-                                <Setter Property="Background"
-                                        Value="#55FFFFFF" />
-                                <Setter Property="IsHitTestVisible"
-                                        Value="True" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
-            </Border>-->
 
         </Grid>
         <materialDesign:Snackbar Grid.Column="1"

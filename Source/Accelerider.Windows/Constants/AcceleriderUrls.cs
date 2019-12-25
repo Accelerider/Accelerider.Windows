@@ -14,7 +14,7 @@ namespace Accelerider.Windows.Constants
         public const string ProjectGithubHome = "https://github.com/Accelerider/Accelerider.Windows";
         public const string Issues = "https://github.com/Accelerider/Accelerider.Windows/issues";
 
-        public const string ApiBaseAddress = "https://api.accelerider.com/v2";
+        public const string ApiBaseAddress = "http://localhost:4656/api/v2";
 
         public const string ZdpGithubHome = "https://github.com/DingpingZhang";
         public const string Mrs4sGithubHome = "https://github.com/Mrs4s";

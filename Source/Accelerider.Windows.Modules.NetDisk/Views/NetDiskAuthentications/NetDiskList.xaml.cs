@@ -1,11 +1,11 @@
 ﻿namespace Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications
 {
     /// <summary>
-    /// Interaction logic for AuthenticatorWindow.xaml
+    /// Interaction logic for NetDiskList.xaml
     /// </summary>
-    public partial class AuthenticatorWindow
+    public partial class NetDiskList
     {
-        public AuthenticatorWindow()
+        public NetDiskList()
         {
             InitializeComponent();
         }

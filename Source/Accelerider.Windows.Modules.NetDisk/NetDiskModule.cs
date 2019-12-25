@@ -2,6 +2,7 @@
 using Accelerider.Windows.Infrastructure.Modularity;
 using Accelerider.Windows.Modules.NetDisk.Views;
 using Accelerider.Windows.Modules.NetDisk.Views.FileBrowser;
+using Accelerider.Windows.Modules.NetDisk.Views.NetDiskAuthentications;
 using Accelerider.Windows.Modules.NetDisk.Views.Transportation;
 using Accelerider.Windows.TransferService;
 using Prism.Events;
@@ -32,6 +33,11 @@ namespace Accelerider.Windows.Modules.NetDisk
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(FileBrowserComponent));
             _regionManager.RegisterViewWithRegion(RegionNames.MainTabRegion, typeof(TransportationComponent));
             _regionManager.RegisterViewWithRegion(RegionNames.SettingsTabRegion, typeof(TaskSettingsTabItem));
+
+            _regionManager.RegisterViewWithRegion(Constants.NetDiskAuthenticationViewRegion, typeof(NetDiskList));
+            _regionManager.RegisterViewWithRegion(Constants.NetDiskAuthenticationViewRegion, typeof(BaiduCloud));
+            _regionManager.RegisterViewWithRegion(Constants.NetDiskAuthenticationViewRegion, typeof(OneDrive));
+            _regionManager.RegisterViewWithRegion(Constants.NetDiskAuthenticationViewRegion, typeof(SixCloud));
         }
 
         public override void OnInitialized(IContainerProvider containerProvider)

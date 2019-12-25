@@ -132,7 +132,7 @@ namespace Accelerider.Windows.ViewModels.Authentication
                 Password = passwordMd5
             }).RunApi();
 
-            if (!result.Success) return false;
+            //if (!result.Success) return false;
 
             var acceleriderApi = RestService.For<IAcceleriderApi>(AcceleriderUrls.ApiBaseAddress, new RefitSettings
             {
