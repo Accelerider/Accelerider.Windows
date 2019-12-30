@@ -209,7 +209,7 @@ namespace Accelerider.Windows.TransferService
         {
             var setting = new DownloadSettings
             {
-                BuildPolicy = Policy.NoOp(),
+                BuildPolicy = Policy.NoOpAsync(),
                 MaxConcurrent = 1,
                 DownloadPolicy = new BlockDownloadItemPolicy(CreateBlockDownloadItem)
             };

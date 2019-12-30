@@ -71,7 +71,7 @@ namespace Accelerider.Windows
         {
             var snackbarMessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(2));
             var nonAuthenticationApi = RestService.For<INonAuthenticationApi>(AcceleriderUrls.ApiBaseAddress);
-            var dataRepository = new DataRepository(() => Container.Resolve<IAcceleriderUser>().Email);
+            var dataRepository = new DataRepository(() => "test@demo.com" /*Container.Resolve<IAcceleriderUser>().Email*/);
             var injectionConstructor = new InjectionConstructor(
                 new Func<Task<List<UpgradeInfo>>>(() => nonAuthenticationApi.GetAppInfoList()));
 
