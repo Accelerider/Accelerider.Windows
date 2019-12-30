@@ -4,10 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Accelerider.Windows.Modules.NetDisk.Controls"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
              d:DesignHeight="500"
              d:DesignWidth="300">
@@ -35,13 +34,13 @@
         <Border HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
 
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDown">
-                    <ei:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:NetDiskUserSelector}}}"
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="MouseDown">
+                    <b:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:NetDiskUserSelector}}}"
                                              PropertyName="IsExpanded"
                                              Value="False" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
             <Border.Style>
                 <Style TargetType="Border">
                     <Setter Property="Background"
