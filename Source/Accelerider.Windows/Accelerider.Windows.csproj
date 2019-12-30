@@ -1,42 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BE5FC83A-43A0-41C5-9E3A-1EC4B6946F39}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Accelerider.Windows</RootNamespace>
-    <AssemblyName>Accelerider.Windows</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>net462</TargetFramework>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <AssemblyTitle>Accelerider.Windows</AssemblyTitle>
+    <Product>Accelerider.Windows</Product>
+    <OutputPath>..\Build\$(Configuration)\</OutputPath>
+    <LangVersion>7.1</LangVersion>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Build\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Build\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>logo-icon.ico</ApplicationIcon>
@@ -45,201 +23,28 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="..\VersionInfo.cs">
-      <Link>Properties\VersionInfo.cs</Link>
-    </Compile>
-    <Compile Include="I18nResources\Languages.cs" />
-    <Compile Include="Upgrade\AppModuleUpgradeTask.cs" />
-    <Compile Include="Constants\AcceleriderUrls.cs" />
-    <Compile Include="Events.cs" />
-    <Compile Include="ExceptionHandler.cs" />
-    <Compile Include="I18nResources\ResKeys.cs">
+    <Compile Include="..\VersionInfo.cs" Link="Properties\VersionInfo.cs" />
+    <Compile Update="I18nResources\ResKeys.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ResKeys.tt</DependentUpon>
     </Compile>
-    <Compile Include="I18nResources\UiResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UiResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="AcceleriderUser.cs" />
-    <Compile Include="ServerInteraction\IAcceleriderApi.cs" />
-    <Compile Include="ServerInteraction\Args.cs" />
-    <Compile Include="ServerInteraction\INonAuthenticationApi.cs" />
-    <Compile Include="ServerInteraction\Responses.cs" />
-    <Compile Include="Upgrade\ShellUpgradeTask.cs" />
-    <Compile Include="Upgrade\UINotificationUpgradeTaskBase.cs" />
-    <Compile Include="ViewModels\AppStore\AppStoreComponent.vm.cs" />
-    <Compile Include="ViewModels\Dialogs\AboutDialog.vm.cs" />
-    <Compile Include="ViewModels\Dialogs\ProfileDialog.vm.cs" />
-    <Compile Include="ViewModels\Dialogs\SettingsDialog.vm.cs" />
-    <Compile Include="ViewModels\Dialogs\UpgradeNotificationDialog.vm.cs" />
-    <Compile Include="ViewModels\SettingsPopup.vm.cs" />
-    <Compile Include="Views\AppStore\AppCard.xaml.cs">
-      <DependentUpon>AppCard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AppStore\AppStoreComponent.xaml.cs">
-      <DependentUpon>AppStoreComponent.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
-      <DependentUpon>AboutDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dialogs\AuthorCard.xaml.cs">
-      <DependentUpon>AuthorCard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dialogs\ProfileDialog.xaml.cs">
-      <DependentUpon>ProfileDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dialogs\UpgradeNotificationDialog.xaml.cs">
-      <DependentUpon>UpgradeNotificationDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SettingItem.xaml.cs">
-      <DependentUpon>SettingItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SettingsPopup.xaml.cs">
-      <DependentUpon>SettingsPopup.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Authentication\AuthenticationWindow.xaml.cs">
-      <DependentUpon>AuthenticationWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\Authentication\AuthenticationWindow.vm.cs" />
-    <Compile Include="ViewModels\MainWindow.vm.cs" />
-    <Compile Include="ProcessController.cs" />
-    <Compile Include="ViewModels\Authentication\SignInView.vm.cs" />
-    <Compile Include="ViewModels\Authentication\SignUpView.vm.cs" />
-    <Compile Include="Views\Dialogs\SettingsDialog.xaml.cs">
-      <DependentUpon>SettingsDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Authentication\SignInView.xaml.cs">
-      <DependentUpon>SignInView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Authentication\SignUpView.xaml.cs">
-      <DependentUpon>SignUpView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ShellSettingsTabItem.xaml.cs">
-      <DependentUpon>ShellSettingsTabItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WindowExtensions.cs" />
-    <Compile Include="WindowHelper.cs" />
-    <Page Include="Views\AppStore\AppCard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AppStore\AppStoreComponent.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Dialogs\AboutDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Dialogs\AuthorCard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Dialogs\ProfileDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Dialogs\UpgradeNotificationDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SettingItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\SettingsPopup.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Authentication\AuthenticationWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Views\Dialogs\SettingsDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Authentication\SignInView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Authentication\SignUpView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ShellSettingsTabItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <None Include="app.manifest" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Accelerider.Windows.Controls\Accelerider.Windows.Controls.csproj">
-      <Project>{bdeb2dc9-f12b-45f4-b5a8-46fbd590b205}</Project>
-      <Name>Accelerider.Windows.Controls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Infrastructure.UI\Accelerider.Windows.Infrastructure.UI.csproj">
-      <Project>{329f2033-303a-4369-b1dd-c97bd743d964}</Project>
-      <Name>Accelerider.Windows.Infrastructure.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
-      <Project>{f61839d1-6c54-4e70-b5cb-7ea02f54a664}</Project>
-      <Name>Accelerider.Windows.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj">
-      <Project>{c4dbd55d-6c99-4a67-96ff-8b76baea2037}</Project>
-      <Name>Accelerider.Windows.Resources</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.Controls\Accelerider.Windows.Controls.csproj" />
+    <ProjectReference Include="..\Accelerider.Windows.Infrastructure.UI\Accelerider.Windows.Infrastructure.UI.csproj" />
+    <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj" />
+    <ProjectReference Include="..\Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MockData\qiegewala.png" />
@@ -278,41 +83,13 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.0.8" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="MaterialDesignColors" Version="1.2.1" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
+    <PackageReference Include="Refit" Version="5.0.23" />
+    <PackageReference Include="XamlExtensions" Version="0.0.6" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="I18nResources\UiResources.ja.resx" />
-    <EmbeddedResource Include="I18nResources\UiResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>UiResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="I18nResources\UiResources.zh-CN.resx" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Hardcodet.NotifyIcon.Wpf">
-      <Version>1.0.8</Version>
-    </PackageReference>
-    <PackageReference Include="log4net">
-      <Version>2.0.8</Version>
-    </PackageReference>
-    <PackageReference Include="MaterialDesignColors">
-      <Version>1.2.1</Version>
-    </PackageReference>
-    <PackageReference Include="MaterialDesignThemes">
-      <Version>3.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Prism.Unity">
-      <Version>7.2.0.1422</Version>
-    </PackageReference>
-    <PackageReference Include="Refit">
-      <Version>5.0.23</Version>
-    </PackageReference>
-    <PackageReference Include="XamlExtensions">
-      <Version>0.0.6</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

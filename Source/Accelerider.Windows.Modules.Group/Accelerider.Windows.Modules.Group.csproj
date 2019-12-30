@@ -1,182 +1,37 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE}</ProjectGuid>
-    <OutputType>library</OutputType>
-    <RootNamespace>Accelerider.Windows.Modules.Group</RootNamespace>
-    <AssemblyName>Accelerider.Windows.Modules.Group</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>net462</TargetFramework>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
+    <AssemblyTitle>Accelerider.Windows.Modules.Group</AssemblyTitle>
+    <Product>Accelerider.Windows.Modules.Group</Product>
+    <Copyright>Copyright ©  2018</Copyright>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\GroupCard.xaml.cs">
-      <DependentUpon>GroupCard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MessageCard.xaml.cs">
-      <DependentUpon>MessageCard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MessageList.xaml.cs">
-      <DependentUpon>MessageList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="I18nResources\ResKeys.cs">
+    <Compile Update="I18nResources\ResKeys.cs">
       <DependentUpon>ResKeys.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="I18nResources\UiResources.Designer.cs">
-      <DependentUpon>UiResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="MockData\Message.cs" />
-    <Compile Include="MockData\SignalRTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="GroupModule.cs" />
-    <Compile Include="ViewModels\ConversationsTab.vm.cs" />
-    <Compile Include="ViewModels\TeamsComponent.vm.cs" />
-    <Compile Include="Views\ConversationsTab.xaml.cs">
-      <DependentUpon>ConversationsTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FilesTab.xaml.cs">
-      <DependentUpon>FilesTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FolderLocationBar.xaml.cs">
-      <DependentUpon>FolderLocationBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GroupExplorer.xaml.cs">
-      <DependentUpon>GroupExplorer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GroupSettingsTabItem.xaml.cs">
-      <DependentUpon>GroupSettingsTabItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GroupTabs.xaml.cs">
-      <DependentUpon>GroupTabs.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GroupComponent.xaml.cs">
-      <DependentUpon>GroupComponent.xaml</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="I18nResources\UiResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>UiResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="I18nResources\UiResources.zh-CN.resx" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\GroupCard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\MessageCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\MessageList.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ConversationsTab.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\FilesTab.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\FolderLocationBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\GroupExplorer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GroupSettingsTabItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GroupTabs.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\GroupComponent.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Accelerider.Windows.Controls\Accelerider.Windows.Controls.csproj">
-      <Project>{BDEB2DC9-F12B-45F4-B5A8-46FBD590B205}</Project>
-      <Name>Accelerider.Windows.Controls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Infrastructure.UI\Accelerider.Windows.Infrastructure.UI.csproj">
-      <Project>{329F2033-303A-4369-B1DD-C97BD743D964}</Project>
-      <Name>Accelerider.Windows.Infrastructure.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
-      <Project>{F61839D1-6C54-4E70-B5CB-7EA02F54A664}</Project>
-      <Name>Accelerider.Windows.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.Modules.NetDisk\Accelerider.Windows.Modules.NetDisk.csproj">
-      <Project>{ADE42073-D964-4D4E-A58C-1E843ABF1D31}</Project>
-      <Name>Accelerider.Windows.Modules.NetDisk</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\Accelerider.Windows.Controls\Accelerider.Windows.Controls.csproj" />
+    <ProjectReference Include="..\Accelerider.Windows.Infrastructure.UI\Accelerider.Windows.Infrastructure.UI.csproj" />
+    <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj" />
+    <ProjectReference Include="..\Accelerider.Windows.Modules.NetDisk\Accelerider.Windows.Modules.NetDisk.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\cc.jpg" />
@@ -197,24 +52,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <PackageReference Include="MaterialDesignColors" Version="1.2.1" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="MaterialDesignColors">
-      <Version>1.2.1</Version>
-    </PackageReference>
-    <PackageReference Include="MaterialDesignThemes">
-      <Version>3.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Prism.Unity">
-      <Version>7.2.0.1422</Version>
-    </PackageReference>
-    <PackageReference Include="System.ValueTuple">
-      <Version>4.5.0</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

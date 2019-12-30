@@ -1,126 +1,37 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{329F2033-303A-4369-B1DD-C97BD743D964}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Accelerider.Windows.Infrastructure</RootNamespace>
-    <AssemblyName>Accelerider.Windows.Infrastructure.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFramework>net462</TargetFramework>
+    <AssemblyTitle>Accelerider.Windows.Infrastructure.UI</AssemblyTitle>
+    <Product>Accelerider.Windows.Infrastructure.UI</Product>
+    <OutputPath>..\Build\$(Configuration)\</OutputPath>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Build\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Build\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\VersionInfo.cs">
-      <Link>Properties\VersionInfo.cs</Link>
-    </Compile>
-    <Compile Include="ApiExceptionResolverExtension.cs" />
-    <Compile Include="Commands\CommandExtensions.cs" />
-    <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Commands\RelayCommandAsync.cs" />
-    <Compile Include="Commands\RelayCommandAsync{T}.cs" />
-    <Compile Include="Commands\RelayCommandBase.cs" />
-    <Compile Include="Commands\RelayCommand{T}.cs" />
-    <Compile Include="Converters\CompareConverters.cs" />
-    <Compile Include="Converters\LessThan1000Converter.cs" />
-    <Compile Include="Converters\MinusConverter.cs" />
-    <Compile Include="Converters\NumberToDisplayDataSizeConverter.cs" />
-    <Compile Include="Converters\Operators.cs" />
-    <Compile Include="Converters\PlusConverter.cs" />
-    <Compile Include="Converters\StringToImageConverter.cs" />
-    <Compile Include="Converters\UriToImageSourceConverter.cs" />
-    <Compile Include="Converters\ValueConverterBase.cs" />
-    <Compile Include="DataContext.cs" />
-    <Compile Include="MergedStyles.cs" />
-    <Compile Include="Modularity\AppInfo.cs" />
-    <Compile Include="Modularity\ModuleBase.cs" />
-    <Compile Include="Modularity\RemoteModuleTypeLoader.cs" />
-    <Compile Include="Mvvm\DialogViewModel.cs" />
-    <Compile Include="Mvvm\ITabItemSelectionChangedAware.cs" />
-    <Compile Include="Mvvm\IViewLoadedAndUnloadedAware.cs" />
-    <Compile Include="Mvvm\ILocalizable.cs" />
-    <Compile Include="Mvvm\INotificable.cs" />
-    <Compile Include="Mvvm\IViewModelResolver.cs" />
-    <Compile Include="Mvvm\ViewModelBase.cs" />
-    <Compile Include="Mvvm\ViewModelResolver.cs" />
-    <Compile Include="ObservableLazyTreeNode.cs" />
-    <Compile Include="ObservableSortedCollection.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="..\VersionInfo.cs" Link="Properties\VersionInfo.cs" />
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="PropertyHelpers\PropertyObserver.cs" />
-    <Compile Include="PropertyHelpers\PropertyObserverNode.cs" />
-    <Compile Include="PropertyHelpers\PropertyProxy.cs" />
-    <Compile Include="PropertyObserver.cs" />
-    <Compile Include="PropertyObserverNode.cs" />
-    <Compile Include="RegionNames.cs" />
-    <Compile Include="TransferService.WpfInteractions\BindableBlockTransferItem.cs" />
-    <Compile Include="TransferService.WpfInteractions\BindableDownloader.cs" />
-    <Compile Include="TransferService.WpfInteractions\BindableProgress.cs" />
-    <Compile Include="TransferService.WpfInteractions\DisplayDataSize.cs" />
-    <Compile Include="TransferService.WpfInteractions\Extensions.cs" />
-    <Compile Include="Upgrade\IUpgradeService.cs" />
-    <Compile Include="Upgrade\IUpgradeTask.cs" />
-    <Compile Include="Upgrade\UpgradeInfo.cs" />
-    <Compile Include="Upgrade\UpgradeService.cs" />
-    <Compile Include="Upgrade\UpgradeTaskBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj">
-      <Project>{F61839D1-6C54-4E70-B5CB-7EA02F54A664}</Project>
-      <Name>Accelerider.Windows.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accelerider.Windows.TransferService\Accelerider.Windows.TransferService.csproj">
-      <Project>{b36e1c9c-909b-42e0-a6a9-f74204573bf3}</Project>
-      <Name>Accelerider.Windows.TransferService</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <ProjectReference Include="..\Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj" />
+    <ProjectReference Include="..\Accelerider.Windows.TransferService\Accelerider.Windows.TransferService.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Converters\Accelerider.Converters.xaml">
@@ -129,36 +40,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="log4net">
-      <Version>2.0.8</Version>
-    </PackageReference>
-    <PackageReference Include="MaterialDesignColors">
-      <Version>1.2.1</Version>
-    </PackageReference>
-    <PackageReference Include="MaterialDesignThemes">
-      <Version>3.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Polly">
-      <Version>7.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="Prism.Unity">
-      <Version>7.2.0.1422</Version>
-    </PackageReference>
-    <PackageReference Include="Refit">
-      <Version>5.0.23</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reactive">
-      <Version>4.3.2</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
-      <Version>4.7.0</Version>
-    </PackageReference>
-    <PackageReference Include="XamlExtensions">
-      <Version>0.0.6</Version>
-    </PackageReference>
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="MaterialDesignColors" Version="1.2.1" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Polly" Version="7.2.0" />
+    <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
+    <PackageReference Include="Refit" Version="5.0.23" />
+    <PackageReference Include="System.Reactive" Version="4.3.2" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.0" />
+    <PackageReference Include="XamlExtensions" Version="0.0.6" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
