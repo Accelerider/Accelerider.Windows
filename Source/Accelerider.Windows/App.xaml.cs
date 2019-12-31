@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Accelerider.Windows.Properties;
 using System.Windows;
-using XamlExtensions;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.I18nResources;
 using Accelerider.Windows.Infrastructure;
@@ -23,6 +22,7 @@ using Prism.Unity;
 using Refit;
 using Unity;
 using Unity.Injection;
+using WpfExtensions.Xaml;
 #if DEBUG
 using Prism.Modularity;
 #endif

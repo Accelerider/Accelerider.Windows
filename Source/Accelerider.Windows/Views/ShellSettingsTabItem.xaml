@@ -2,8 +2,8 @@
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
-         xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
-         xmlns:extensions="clr-namespace:XamlExtensions;assembly=XamlExtensions"
+         xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
+         xmlns:extensions="clr-namespace:WpfExtensions.Xaml;assembly=WpfExtensions.Xaml"
          Header="{markup:I18n {x:Static i18NResources:ResKeys.ShellSettingsTabItem_Header}}">
     <UserControl Foreground="{DynamicResource PrimaryHueLightForegroundBrush}">
         <Grid Margin="24">

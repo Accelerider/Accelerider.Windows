@@ -7,7 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels.Authentication"
              xmlns:i18nResources="clr-namespace:Accelerider.Windows.I18nResources"
-             xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
+             xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
              mc:Ignorable="d"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              d:DataContext="{d:DesignInstance {x:Type vm:SignUpViewModel}}">

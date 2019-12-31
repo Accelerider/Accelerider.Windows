@@ -9,8 +9,8 @@
              xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.FileBrowser"
              xmlns:controls="clr-namespace:Accelerider.Windows.Controls;assembly=Accelerider.Windows.Controls"
              xmlns:local="clr-namespace:Accelerider.Windows.Modules.NetDisk.Views.FileBrowser"
-             xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
              xmlns:anyDriveControls="clr-namespace:Accelerider.Windows.Modules.NetDisk.Controls"
+             xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance {x:Type vm:FilesViewModel}}">

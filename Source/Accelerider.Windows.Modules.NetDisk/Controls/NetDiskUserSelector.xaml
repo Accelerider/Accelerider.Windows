@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Accelerider.Windows.Modules.NetDisk.Controls"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
              mc:Ignorable="d"
              d:DesignHeight="500"
              d:DesignWidth="300">

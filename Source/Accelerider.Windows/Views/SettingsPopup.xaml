@@ -8,7 +8,7 @@
                     xmlns:local="clr-namespace:Accelerider.Windows.Views"
                     xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels"
                     xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
-                    xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
+                    xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
                     mvvm:ViewModelLocator.AutoWireViewModel="True"
                     AllowsTransparency="True"
                     UseLayoutRounding="True"

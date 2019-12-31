@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using XamlExtensions;
 using MaterialDesignThemes.Wpf;
 using Prism.Ioc;
+using WpfExtensions.Xaml;
 
 namespace Accelerider.Windows.Infrastructure.Mvvm
 {

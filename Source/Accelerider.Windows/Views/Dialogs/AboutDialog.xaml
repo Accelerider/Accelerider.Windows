@@ -6,7 +6,7 @@
              xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
              xmlns:constants="clr-namespace:Accelerider.Windows.Constants"
              xmlns:dialogs="clr-namespace:Accelerider.Windows.Views.Dialogs"
-             xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
+             xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Tag="{markup:I18n {x:Static i18NResources:ResKeys.AboutDialog_Title}}"
              Style="{StaticResource UserControlStyle.Dialog}">

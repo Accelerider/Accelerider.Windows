@@ -6,7 +6,7 @@
              xmlns:vm="clr-namespace:Accelerider.Windows.Modules.NetDisk.ViewModels.NetDiskAuthentications"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:netDisk="clr-namespace:Accelerider.Windows.Modules.NetDisk"
-             xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
+             xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
              d:DesignHeight="450"

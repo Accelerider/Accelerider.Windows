@@ -1,4 +1,4 @@
-﻿using XamlExtensions;
+﻿using WpfExtensions.Xaml;
 
 namespace Accelerider.Windows.Infrastructure.Mvvm
 {

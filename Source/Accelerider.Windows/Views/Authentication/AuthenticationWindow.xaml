@@ -4,7 +4,7 @@
         xmlns:mvvm="http://prismlibrary.com/"
         xmlns:local="clr-namespace:Accelerider.Windows.Views.Authentication"
         xmlns:i18nResources="clr-namespace:Accelerider.Windows.I18nResources"
-        xmlns:markup="clr-namespace:XamlExtensions.Markup;assembly=XamlExtensions"
+        xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
         mvvm:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
         Topmost="True"
