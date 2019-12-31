@@ -7,7 +7,6 @@
     <Product>Accelerider.Windows.WatchDog</Product>
     <Copyright>Copyright ©  2019</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>

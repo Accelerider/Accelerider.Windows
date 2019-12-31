@@ -7,7 +7,6 @@
     <Product>Accelerider.Windows.Infrastructure.TransferService</Product>
     <Copyright>Copyright ©  2018</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>

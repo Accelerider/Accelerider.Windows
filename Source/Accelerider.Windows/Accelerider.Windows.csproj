@@ -7,7 +7,6 @@
     <AssemblyTitle>Accelerider.Windows</AssemblyTitle>
     <Product>Accelerider.Windows</Product>
     <OutputPath>..\Build\$(Configuration)\</OutputPath>
-    <LangVersion>7.1</LangVersion>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -35,6 +34,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ResKeys.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -91,5 +95,11 @@
     <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
     <PackageReference Include="Refit" Version="5.0.23" />
     <PackageReference Include="WpfExtensions.Xaml" Version="1.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>

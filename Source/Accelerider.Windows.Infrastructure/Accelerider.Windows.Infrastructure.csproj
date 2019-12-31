@@ -4,7 +4,6 @@
     <AssemblyTitle>Accelerider.Windows.Infrastructure</AssemblyTitle>
     <Product>Accelerider.Windows.Infrastructure</Product>
     <OutputPath>..\Build\$(Configuration)\</OutputPath>
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>

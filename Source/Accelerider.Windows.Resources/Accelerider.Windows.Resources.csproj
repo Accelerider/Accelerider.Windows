@@ -6,7 +6,6 @@
     <AssemblyTitle>Accelerider.Windows.Resources</AssemblyTitle>
     <Product>Accelerider.Windows.Resources</Product>
     <OutputPath>..\Build\$(Configuration)\</OutputPath>
-    <LangVersion>7.1</LangVersion>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
