@@ -1,44 +1,44 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows", "Accelerider.Windows\Accelerider.Windows.csproj", "{BE5FC83A-43A0-41C5-9E3A-1EC4B6946F39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accelerider.Windows", "Accelerider.Windows\Accelerider.Windows.csproj", "{BE5FC83A-43A0-41C5-9E3A-1EC4B6946F39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Infrastructure", "Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj", "{F61839D1-6C54-4E70-B5CB-7EA02F54A664}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accelerider.Windows.Infrastructure", "Accelerider.Windows.Infrastructure\Accelerider.Windows.Infrastructure.csproj", "{F61839D1-6C54-4E70-B5CB-7EA02F54A664}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{591EF2DF-C0B8-4995-B4C1-2295E81F3A0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Resources", "Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj", "{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accelerider.Windows.Resources", "Accelerider.Windows.Resources\Accelerider.Windows.Resources.csproj", "{C4DBD55D-6C99-4A67-96FF-8B76BAEA2037}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Modules.NetDisk", "Accelerider.Windows.Modules.NetDisk\Accelerider.Windows.Modules.NetDisk.csproj", "{ADE42073-D964-4D4E-A58C-1E843ABF1D31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accelerider.Windows.Modules.NetDisk", "Accelerider.Windows.Modules.NetDisk\Accelerider.Windows.Modules.NetDisk.csproj", "{ADE42073-D964-4D4E-A58C-1E843ABF1D31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Modules.Group", "Accelerider.Windows.Modules.Group\Accelerider.Windows.Modules.Group.csproj", "{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accelerider.Windows.Modules.Group", "Accelerider.Windows.Modules.Group\Accelerider.Windows.Modules.Group.csproj", "{AEC0A5D6-016F-4AEB-AF23-7B207FE288EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.InfrastructureTests", "Accelerider.Windows.InfrastructureTests\Accelerider.Windows.InfrastructureTests.csproj", "{43662BDD-4965-4CA6-A210-F88AF725F921}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accelerider.Windows.InfrastructureTests", "Accelerider.Windows.InfrastructureTests\Accelerider.Windows.InfrastructureTests.csproj", "{43662BDD-4965-4CA6-A210-F88AF725F921}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{494610AD-B237-429C-9205-E0CC1C071C40}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{D4EC1750-863C-4E0E-AFC9-F0C14D1E6326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Infrastructure.TransferService", "Accelerider.Windows.Infrastructure.TransferService\Accelerider.Windows.Infrastructure.TransferService.csproj", "{ED2825A4-6E6F-4F21-A544-723FF35F9F06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accelerider.Windows.Infrastructure.TransferService", "Accelerider.Windows.Infrastructure.TransferService\Accelerider.Windows.Infrastructure.TransferService.csproj", "{ED2825A4-6E6F-4F21-A544-723FF35F9F06}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{92FADB46-3926-4361-A92A-10F375F27072}"
 	ProjectSection(SolutionItems) = preProject
 		VersionInfo.cs = VersionInfo.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Infrastructure.UI", "Accelerider.Windows.Infrastructure.UI\Accelerider.Windows.Infrastructure.UI.csproj", "{329F2033-303A-4369-B1DD-C97BD743D964}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accelerider.Windows.Infrastructure.UI", "Accelerider.Windows.Infrastructure.UI\Accelerider.Windows.Infrastructure.UI.csproj", "{329F2033-303A-4369-B1DD-C97BD743D964}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.TransferService", "Accelerider.Windows.TransferService\Accelerider.Windows.TransferService.csproj", "{B36E1C9C-909B-42E0-A6A9-F74204573BF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accelerider.Windows.TransferService", "Accelerider.Windows.TransferService\Accelerider.Windows.TransferService.csproj", "{B36E1C9C-909B-42E0-A6A9-F74204573BF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.Controls", "Accelerider.Windows.Controls\Accelerider.Windows.Controls.csproj", "{BDEB2DC9-F12B-45F4-B5A8-46FBD590B205}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accelerider.Windows.Controls", "Accelerider.Windows.Controls\Accelerider.Windows.Controls.csproj", "{BDEB2DC9-F12B-45F4-B5A8-46FBD590B205}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher\Launcher.csproj", "{A8272B3F-5312-415A-B038-3161A66576D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Launcher", "Launcher\Launcher.csproj", "{A8272B3F-5312-415A-B038-3161A66576D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Package", "Package\Package.csproj", "{C31393C7-C1B1-44C6-9CAD-A30CEEFE4885}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Package", "Package\Package.csproj", "{C31393C7-C1B1-44C6-9CAD-A30CEEFE4885}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accelerider.Windows.WatchDog", "Accelerider.Windows.WatchDog\Accelerider.Windows.WatchDog.csproj", "{2282DA34-FBB1-468B-9D6A-4024EB09CC7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accelerider.Windows.WatchDog", "Accelerider.Windows.WatchDog\Accelerider.Windows.WatchDog.csproj", "{2282DA34-FBB1-468B-9D6A-4024EB09CC7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

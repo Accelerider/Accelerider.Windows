@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AssemblyTitle>Accelerider.Windows.Modules.NetDisk</AssemblyTitle>
     <Product>Accelerider.Windows.Modules.NetDisk</Product>
@@ -22,15 +22,6 @@
   <PropertyGroup>
     <PostBuildEvent />
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Update="I18nResources\ResKeys.cs">
       <DependentUpon>ResKeys.tt</DependentUpon>
@@ -78,6 +69,11 @@
     <PackageReference Include="Refit" Version="5.0.23" />
     <PackageReference Include="System.Reactive" Version="4.3.2" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.0" />
-    <PackageReference Include="WpfExtensions.Xaml" Version="1.0.1" />
+    <!--<PackageReference Include="WpfExtensions.Xaml" Version="1.0.1" />-->
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="WpfExtensions.Xaml">
+      <HintPath>..\NonNuGetPackages\WpfExtensions.Xaml.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

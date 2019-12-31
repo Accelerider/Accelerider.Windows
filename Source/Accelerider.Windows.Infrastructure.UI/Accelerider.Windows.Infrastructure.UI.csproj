@@ -1,10 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <RootNamespace>Accelerider.Windows.Infrastructure</RootNamespace>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyTitle>Accelerider.Windows.Infrastructure.UI</AssemblyTitle>
     <Product>Accelerider.Windows.Infrastructure.UI</Product>
     <OutputPath>..\Build\$(Configuration)\</OutputPath>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -12,14 +13,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\VersionInfo.cs" Link="Properties\VersionInfo.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
@@ -33,12 +26,6 @@
     <ProjectReference Include="..\Accelerider.Windows.TransferService\Accelerider.Windows.TransferService.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Converters\Accelerider.Converters.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="MaterialDesignColors" Version="1.2.1" />
     <PackageReference Include="MaterialDesignThemes" Version="3.0.0" />
@@ -48,6 +35,11 @@
     <PackageReference Include="Refit" Version="5.0.23" />
     <PackageReference Include="System.Reactive" Version="4.3.2" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.0" />
-    <PackageReference Include="WpfExtensions.Xaml" Version="1.0.1" />
+    <!--<PackageReference Include="WpfExtensions.Xaml" Version="1.0.1" />-->
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="WpfExtensions.Xaml">
+      <HintPath>..\NonNuGetPackages\WpfExtensions.Xaml.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

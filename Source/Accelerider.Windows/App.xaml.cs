@@ -110,7 +110,7 @@ namespace Accelerider.Windows
         {
             return new DirectoryModuleCatalog
             {
-                ModulePath = "../Modules/net462"
+                ModulePath = "../Modules/netcoreapp3.1"
             };
         }
 #endif
