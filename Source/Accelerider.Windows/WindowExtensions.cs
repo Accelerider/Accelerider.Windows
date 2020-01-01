@@ -3,7 +3,8 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
-using log4net;
+using Accelerider.Windows.Infrastructure;
+
 
 // ReSharper disable once CheckNamespace
 namespace Accelerider.Windows
@@ -28,7 +29,7 @@ namespace Accelerider.Windows
         private static extern bool FlashWindow(IntPtr hWnd, bool bInvert);
         #endregion
 
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(WindowExtensions));
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(WindowExtensions));
 
         public static bool ActivateWindow(this Window @this)
         {

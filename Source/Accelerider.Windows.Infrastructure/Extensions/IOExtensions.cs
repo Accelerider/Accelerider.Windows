@@ -2,14 +2,14 @@
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using log4net;
+using Accelerider.Windows.Infrastructure;
 
 // ReSharper disable once CheckNamespace
 namespace System.IO
 {
     public static class ExtensionMethods
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(ExtensionMethods));
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(ExtensionMethods));
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool CreateHardLink(string lpFileName, string lpExistingFileName, IntPtr lpSecurityAttributes);

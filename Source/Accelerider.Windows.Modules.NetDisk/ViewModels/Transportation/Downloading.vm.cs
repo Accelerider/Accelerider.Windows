@@ -6,14 +6,14 @@ using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.TransferService;
-using log4net;
+
 using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
     public class DownloadingViewModel : TransferringBaseViewModel
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(DownloadingViewModel));
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(DownloadingViewModel));
 
         private readonly Dictionary<TransferStatus, int> DisplayStatusOrder = new Dictionary<TransferStatus, int>
         {

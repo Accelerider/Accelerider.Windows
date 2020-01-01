@@ -7,7 +7,7 @@ using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Accelerider.Windows.TransferService;
-using log4net;
+
 
 namespace Accelerider.Windows.Infrastructure.Upgrade
 {
@@ -24,11 +24,11 @@ namespace Accelerider.Windows.Infrastructure.Upgrade
 
         public Version CurrentVersion { get; private set; } = EmptyVersion;
 
-        protected ILog Logger { get; }
+        protected ILogger Logger { get; }
 
         protected UpgradeTaskBase(string name, string installDirectory, string folderPrefix = null)
         {
-            Logger = LogManager.GetLogger(GetType());
+            Logger = DefaultLogger.Get(GetType());
 
             Name = name;
             InstallDirectory = installDirectory;

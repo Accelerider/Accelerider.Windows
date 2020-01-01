@@ -3,8 +3,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Properties;
-using log4net;
+
 using Prism.Regions;
 using Unity;
 
@@ -12,7 +13,7 @@ namespace Accelerider.Windows
 {
     public static class WindowHelper
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(WindowHelper));
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(WindowHelper));
         private static bool _creatingWindow;
 
         #region Switch operation

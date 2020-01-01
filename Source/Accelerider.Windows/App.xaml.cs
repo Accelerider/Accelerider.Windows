@@ -12,7 +12,6 @@ using Accelerider.Windows.Infrastructure.Upgrade;
 using Accelerider.Windows.ServerInteraction;
 using Accelerider.Windows.TransferService.WpfInteractions;
 using Accelerider.Windows.Views.Authentication;
-using log4net;
 using MaterialDesignThemes.Wpf;
 using Prism.Events;
 using Prism.Ioc;
@@ -34,8 +33,8 @@ namespace Accelerider.Windows
     /// </summary>
     public partial class App
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(App));
         private const string ProcessName = @"Global\Accelerider.Windows.Wpf";
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(App));
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -43,7 +42,6 @@ namespace Accelerider.Windows
 
             ProcessController.CheckSingleton(ProcessName, (IntPtr)Settings.Default.WindowHandle);
             ConfigureApplicationEventHandlers();
-
             base.OnStartup(e);
         }
 
@@ -61,11 +59,11 @@ namespace Accelerider.Windows
             Settings.Default.PropertyChanged += (sender, eventArgs) => Settings.Default.Save();
         }
 
-        protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
-        {
-            base.RegisterRequiredTypes(containerRegistry);
-            containerRegistry.RegisterSingleton<ILoggerFacade, Log4NetLogger>();
-        }
+        //protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
+        //{
+        //    base.RegisterRequiredTypes(containerRegistry);
+        //    containerRegistry.RegisterSingleton<ILoggerFacade, Log4NetLogger>();
+        //}
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
@@ -141,12 +139,13 @@ namespace Accelerider.Windows
 
         private static void LogBasicInfo()
         {
-            Logger.Info($"Accelerider for Windows: {AcceleriderConsts.Version};{Environment.NewLine}" +
-                        $"OS: {SystemInfo.Caption} ({SystemInfo.Version}) {SystemInfo.OSArchitecture};{Environment.NewLine}" +
-                        $".NET: {SystemInfo.DotNetFrameworkVersion};{Environment.NewLine}" +
-                        $"CLR: {Environment.Version};{Environment.NewLine}" +
-                        $"Processor: {SystemInfo.CPUName};{Environment.NewLine}" +
-                        $"RAM: {(DisplayDataSize)(SystemInfo.TotalVisibleMemorySize * 1024)};");
+            Logger.Info(
+                $"Accelerider for Windows: {AcceleriderConsts.Version};{Environment.NewLine}" +
+                $"OS: {SystemInfo.Caption} ({SystemInfo.Version}) {SystemInfo.OSArchitecture};{Environment.NewLine}" +
+                $".NET: {SystemInfo.DotNetFrameworkVersion};{Environment.NewLine}" +
+                $"CLR: {Environment.Version};{Environment.NewLine}" +
+                $"Processor: {SystemInfo.CPUName};{Environment.NewLine}" +
+                $"RAM: {(DisplayDataSize) (SystemInfo.TotalVisibleMemorySize * 1024)};");
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.TransferService;
-using log4net;
+
 using Newtonsoft.Json;
 using Refit;
 
@@ -16,7 +16,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
     [JsonObject(MemberSerialization.OptIn)]
     public class SixCloudUser : NetDiskUserBase
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(SixCloudUser));
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(SixCloudUser));
 
         private readonly List<IDownloadingFile> _downloadingFiles = new List<IDownloadingFile>();
 

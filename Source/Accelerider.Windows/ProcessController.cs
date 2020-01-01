@@ -4,13 +4,14 @@ using System.Windows;
 using Accelerider.Windows.Properties;
 using System.Diagnostics;
 using System.IO;
-using log4net;
+using Accelerider.Windows.Infrastructure;
+
 
 namespace Accelerider.Windows
 {
     public static class ProcessController
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(ProcessController));
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(ProcessController));
         private static volatile EventWaitHandle _keepAliveEvent;
 
         public const string LauncherName = "Launcher.exe";

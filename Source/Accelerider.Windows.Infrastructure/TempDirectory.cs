@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
-using log4net;
+
 
 namespace Accelerider.Windows.Infrastructure
 {
     public sealed class TempDirectory : IDisposable
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(TempDirectory));
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(TempDirectory));
 
         public string Path { get; }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Accelerider.Windows.Modules.NetDisk;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.Modules.NetDisk.ViewModels;
-using log4net;
+
 using Unity;
 
 // ReSharper disable once CheckNamespace
@@ -18,7 +18,7 @@ namespace Accelerider.Windows.Infrastructure
     {
         private class AcceleriderUserExtendedMembers
         {
-            private static readonly ILog Logger = LogManager.GetLogger(typeof(AcceleriderUserExtendedMembers));
+            private static readonly ILogger Logger = DefaultLogger.Get(typeof(AcceleriderUserExtendedMembers));
 
             private readonly IDataRepository _repository;
             private readonly NetDiskUserDb _db;

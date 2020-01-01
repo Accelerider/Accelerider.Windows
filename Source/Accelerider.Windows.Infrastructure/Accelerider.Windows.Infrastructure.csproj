@@ -21,7 +21,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Prism.Core" Version="7.2.0.1422" />

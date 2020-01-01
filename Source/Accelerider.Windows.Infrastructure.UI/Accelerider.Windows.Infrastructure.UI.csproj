@@ -26,7 +26,6 @@
     <ProjectReference Include="..\Accelerider.Windows.TransferService\Accelerider.Windows.TransferService.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="MaterialDesignColors" Version="1.2.1" />
     <PackageReference Include="MaterialDesignThemes" Version="3.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />

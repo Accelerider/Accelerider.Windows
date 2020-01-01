@@ -3,13 +3,13 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
 using Accelerider.Windows.Infrastructure;
-using log4net;
+
 
 namespace Accelerider.Windows
 {
     public class ExceptionHandler
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(ExceptionHandler));
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(ExceptionHandler));
 
         private bool _isShowed;
 

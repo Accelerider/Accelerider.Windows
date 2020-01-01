@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management;
 using System.Text.RegularExpressions;
-using log4net;
 using Microsoft.Win32;
 
 namespace Accelerider.Windows.Infrastructure
@@ -12,7 +11,7 @@ namespace Accelerider.Windows.Infrastructure
     {
         private const string ExtractionFailed = "<Extraction Failed>";
 
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(SystemInfo));
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(SystemInfo));
 
         public static readonly string Caption;
         public static readonly string CSName;
