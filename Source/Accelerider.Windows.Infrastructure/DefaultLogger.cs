@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
+using System.Windows.Media;
 
 namespace Accelerider.Windows.Infrastructure
 {
@@ -67,6 +69,9 @@ namespace Accelerider.Windows.Infrastructure
                       $"{message}{Environment.NewLine}";
 
             System.Diagnostics.Debug.Write(message);
+            File.WriteAllText(
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "accelerider.windows.log"),
+                message);
         }
     }
 }

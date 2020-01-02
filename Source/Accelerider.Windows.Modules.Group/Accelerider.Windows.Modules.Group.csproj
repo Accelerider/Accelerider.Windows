@@ -5,7 +5,7 @@
     <AssemblyTitle>Accelerider.Windows.Modules.Group</AssemblyTitle>
     <Product>Accelerider.Windows.Modules.Group</Product>
     <Copyright>Copyright ©  2018</Copyright>
-    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <OutputPath>..\Build\$(Configuration)\Modules\</OutputPath>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
