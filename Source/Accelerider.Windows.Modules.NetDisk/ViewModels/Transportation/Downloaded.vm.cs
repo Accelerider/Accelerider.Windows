@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models;
@@ -21,7 +22,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             EmptyAllRecordCommand = new RelayCommand(
                 () =>
                 {
-                    AcceleriderUser.GetCurrentNetDiskUser().ClearDownloadFiles();
+                    AcceleriderUser.GetNetDiskUsers().ForEach(item => item.ClearDownloadFiles());
                     TransferredFiles.Clear();
                 },
                 () => TransferredFiles?.Any() ?? false);

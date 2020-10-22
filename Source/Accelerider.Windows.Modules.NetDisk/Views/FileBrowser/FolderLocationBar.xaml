@@ -113,7 +113,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="ChevronRight" VerticalAlignment="Center" />
-                        <Button Content="{Binding Content.Path.FileName}" Style="{StaticResource LinkButtonStyle}"
+                        <Button Content="{Binding Content.Path.FileName}" Style="{StaticResource ButtonStyle.Link}"
                                 Command="{Binding DataContext.LocateFolderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"
                                 CommandParameter="{Binding}" />
                     </StackPanel>

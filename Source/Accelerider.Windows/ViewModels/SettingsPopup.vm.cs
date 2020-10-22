@@ -38,7 +38,7 @@ namespace Accelerider.Windows.ViewModels
 
             SignOutCommand = new RelayCommand(() =>
             {
-                Container.Resolve<IConfigureFile>().SetValue(ConfigureKeys.AutoSignIn, false);
+                Container.Resolve<IDataRepository>().Get<ShellSettings>(isGlobal: true).AutoLogin = false;
                 ProcessController.Restart();
             });
         }

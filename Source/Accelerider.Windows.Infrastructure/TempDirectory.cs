@@ -1,39 +1,41 @@
 ﻿using System;
 using System.IO;
 
+
 namespace Accelerider.Windows.Infrastructure
 {
     public sealed class TempDirectory : IDisposable
     {
-        //private static readonly ILog Logger = LogManager.GetLogger(typeof(TempDirectory));
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(TempDirectory));
 
-        public string TempDirectoryPath { get; }
+        public string Path { get; }
 
         public TempDirectory(string tempDirectoryPath)
         {
-            TempDirectoryPath = tempDirectoryPath;
+            Path = tempDirectoryPath;
 
             // Clean up the path, in order to make sure the folder is empty.
-            DeleteFileSystemEntry(TempDirectoryPath);
+            DeleteFileSystemEntry(Path);
 
-            Directory.CreateDirectory(TempDirectoryPath);
+            Directory.CreateDirectory(Path);
         }
 
-        public bool CopyTo(string targetPath, string subdirectoryName = null)
+        public bool MoveTo(string targetPath, string subDirectoryName = null)
         {
             try
             {
-                var subdirectory = Path.Combine(TempDirectoryPath, subdirectoryName ?? string.Empty);
-                if (!Directory.Exists(subdirectory))
+                var directory = System.IO.Path.Combine(Path, subDirectoryName ?? string.Empty);
+                if (!Directory.Exists(directory))
                     throw new DirectoryNotFoundException();
 
-                Directory.Move(subdirectory, targetPath);
+                Directory.Move(directory, targetPath);
 
                 return true;
             }
             catch (Exception e)
             {
-                //Logger.Error(e);
+                Logger.Error("An unexpected exception occurred. ", e);
+
                 return false;
             }
         }
@@ -46,7 +48,7 @@ namespace Accelerider.Windows.Infrastructure
 
         public void Dispose()
         {
-            DeleteFileSystemEntry(TempDirectoryPath);
+            DeleteFileSystemEntry(Path);
         }
     }
 }

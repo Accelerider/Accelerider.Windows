@@ -4,7 +4,7 @@
                     xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
                     xmlns:controls="clr-namespace:Accelerider.Windows.Controls">
 
-    <ControlTemplate x:Key="FlatButtonTemplate" TargetType="Button">
+    <ControlTemplate x:Key="ButtonTemplate.Flat" TargetType="ButtonBase">
         <Grid>
             <AdornerDecorator>
                 <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="{TemplateBinding Background}" >
@@ -25,14 +25,14 @@
     </ControlTemplate>
 
 
-    <Style x:Key="FlatButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+    <Style x:Key="ButtonStyle.Flat" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth0"/>
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Template" Value="{StaticResource FlatButtonTemplate}" />
+        <Setter Property="Template" Value="{StaticResource ButtonTemplate.Flat}" />
     </Style>
 
-    <Style x:Key="ToolBarButtonStyle" TargetType="Button" BasedOn="{StaticResource FlatButtonStyle}">
+    <Style x:Key="ButtonStyle.ToolBar" TargetType="Button" BasedOn="{StaticResource ButtonStyle.Flat}">
         <Setter Property="Height" Value="42" />
         <Setter Property="Foreground" Value="#606060"/>
         <!--<Setter Property="controls:ControlHelper.MouseOverBackground" Value="#7679BE" />-->
@@ -40,7 +40,7 @@
         <Setter Property="controls:ControlHelper.MouseOverForeground" Value="#7679BE" />
     </Style>
 
-    <Style x:Key="LinkButtonStyle" TargetType="ButtonBase">
+    <Style x:Key="ButtonStyle.Link" TargetType="ButtonBase">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -78,7 +78,7 @@
     </Style>
 
     <!-- ToggleButton style -->
-    <Style x:Key="LeftBarAndUnderlineToggleButtonStyle" TargetType="ToggleButton">
+    <Style x:Key="ToggleButtonStyle.LeftBarAndUnderline" TargetType="ToggleButton">
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -150,6 +150,13 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="ToggleButtonStyle.Flat" TargetType="ToggleButton">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth0"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template" Value="{StaticResource ButtonTemplate.Flat}" />
     </Style>
 
 </ResourceDictionary>

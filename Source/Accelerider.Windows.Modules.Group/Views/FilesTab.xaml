@@ -38,7 +38,7 @@
         <controls:SwitchLoadingViewContainer Grid.Row="2" IsLoading="{Binding IsLoadingFiles}">
             <ListBox Name="ListBoxFileList" SelectionMode="Extended"
                      ItemsSource="{Binding Files}"
-                     ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}">
+                     ItemContainerStyle="{StaticResource ListBoxItemStyle.LeftBarAndUnderline}">
                 <ListBox.ContextMenu>
                     <ContextMenu >
                         <MenuItem Header="Download" 
@@ -88,7 +88,7 @@
                                     <ColumnDefinition Width="110"/>
                                     <ColumnDefinition Width="16"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Tag="{Binding Content.FileType}" Style="{StaticResource FileImageSelectorStyle}" VerticalAlignment="Center"/>
+                                <Image Grid.Column="0" Tag="{Binding Content.FileType}" Style="{StaticResource ImageStyle.FileIcon}" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="2" Text="{Binding Content.FilePath.FileName}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="4" Text="{Binding Content.FileSize}" VerticalAlignment="Center" />
                                 <TextBlock Grid.Column="6" Text="{Binding Content.ModifiedTime, StringFormat='yyyy-MM-dd HH:mm'}" VerticalAlignment="Center"/>

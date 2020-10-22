@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Folder Target="../../../release-packages/app-any-drive-win-{Version:Accelerider.Windows.Modules.NetDisk.dll}-{Configuration}"
+        Source="../../../Build/{Configuration}/Modules">
+  <Folder Target="zh-CN" />
+  <File Target="Accelerider.Windows.Modules.NetDisk.dll" />
+  <File Target="module-info.json" />
+</Folder>

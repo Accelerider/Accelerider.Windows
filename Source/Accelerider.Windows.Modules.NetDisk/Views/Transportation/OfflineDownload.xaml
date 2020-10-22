@@ -24,7 +24,7 @@
             </StackPanel>
         </Grid>
 
-        <ListBox  SelectionMode="Single" Style="{StaticResource {x:Type ListBox}}" ItemContainerStyle="{StaticResource LeftBarAndUnderlineListBoxItemStyle}">
+        <ListBox  SelectionMode="Single" Style="{StaticResource {x:Type ListBox}}" ItemContainerStyle="{StaticResource ListBoxItemStyle.LeftBarAndUnderline}">
             <ListBox.ContextMenu>
                 <ContextMenu x:Name="ContextMenu">
                     <MenuItem Header="Next"
@@ -56,7 +56,7 @@
                                     <ColumnDefinition Width="10"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Image Tag="{Binding FileSummary.FileType}" Style="{StaticResource FileImageSelectorStyle}" />
+                                <Image Tag="{Binding FileSummary.FileType}" Style="{StaticResource ImageStyle.FileIcon}" />
 
                                 <Grid Grid.Column="2" >
                                     <Grid.ColumnDefinitions>

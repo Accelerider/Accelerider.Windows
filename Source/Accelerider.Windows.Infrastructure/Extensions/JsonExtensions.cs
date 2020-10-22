@@ -15,11 +15,11 @@ namespace System
             JsonSerializerSettings.Converters.Add(FileLocatorConverter);
         }
 
-        public static string ToJson<T>(this T @object, Formatting formatting = Formatting.None)
+        public static string ToJson<T>(this T @object, Formatting formatting = Formatting.None, bool specifyRootType = true)
         {
             var type = @object.GetType();
 
-            return typeof(T) != type
+            return typeof(T) != type && specifyRootType
                 ? JsonConvert.SerializeObject(@object, typeof(T), formatting, JsonSerializerSettings)
                 : JsonConvert.SerializeObject(@object, formatting, JsonSerializerSettings);
         }

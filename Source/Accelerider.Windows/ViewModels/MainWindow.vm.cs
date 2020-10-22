@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
@@ -7,31 +8,30 @@ using Prism.Regions;
 using System.Linq;
 using Accelerider.Windows.Constants;
 using Accelerider.Windows.Infrastructure.Mvvm;
+using Accelerider.Windows.Infrastructure.Upgrade;
+using Accelerider.Windows.Upgrade;
 using MaterialDesignThemes.Wpf;
 using Unity;
-
+using Unity.Resolution;
+#if DEBUG
+using Prism.Modularity;
+#endif
 
 namespace Accelerider.Windows.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, IViewLoadedAndUnloadedAware, INotificable
     {
-        private ICommand _feedbackCommand;
+        private readonly IRegionManager _regionManager;
         private bool _appStoreIsDisplayed;
+
+        public ICommand FeedbackCommand { get; }
 
         public ISnackbarMessageQueue GlobalMessageQueue { get; set; }
 
         public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager) : base(container)
         {
-            RegionManager = regionManager;
-            FeedbackCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Issue));
-        }
-
-        public IRegionManager RegionManager { get; }
-
-        public ICommand FeedbackCommand
-        {
-            get => _feedbackCommand;
-            set => SetProperty(ref _feedbackCommand, value);
+            _regionManager = regionManager;
+            FeedbackCommand = new RelayCommand(() => Process.Start(AcceleriderUrls.Issues));
         }
 
         public bool AppStoreIsDisplayed
@@ -42,7 +42,7 @@ namespace Accelerider.Windows.ViewModels
                 if (_appStoreIsDisplayed) return;
                 if (!SetProperty(ref _appStoreIsDisplayed, value)) return;
 
-                var region = RegionManager.Regions[RegionNames.MainTabRegion];
+                var region = _regionManager.Regions[RegionNames.MainTabRegion];
                 foreach (var activeView in region.ActiveViews)
                 {
                     region.Deactivate(activeView);
@@ -52,15 +52,33 @@ namespace Accelerider.Windows.ViewModels
 
         public void OnLoaded()
         {
-            var region = RegionManager.Regions[RegionNames.MainTabRegion];
+#if DEBUG
+            Container.Resolve<IModuleManager>().Run();
+#else
+            RunUpgradeService();
+#endif
+
+            var region = _regionManager.Regions[RegionNames.MainTabRegion];
             region.ActiveViews.CollectionChanged += OnActiveViewsChanged;
             if (!region.Views.Any()) AppStoreIsDisplayed = true;
 
             GlobalMessageQueue.Enqueue(UiStrings.Message_Welcome);
         }
 
-        public void OnUnloaded()
+        public void OnUnloaded() { }
+
+        private void RunUpgradeService()
         {
+            // TODO: Delete Mock
+            AcceleriderUser.Apps = new List<string> { "app-any-drive" };
+
+            var upgradeService = Container.Resolve<IUpgradeService>();
+
+            upgradeService.Add(Container.Resolve<ShellUpgradeTask>());
+            upgradeService.AddRange(AcceleriderUser.Apps.Select(item =>
+                Container.Resolve<AppModuleUpgradeTask>(new ParameterOverride(AppModuleUpgradeTask.ParameterCtorName, item))));
+
+            upgradeService.Run();
         }
 
         private void OnActiveViewsChanged(object sender, NotifyCollectionChangedEventArgs e)

@@ -88,24 +88,6 @@ namespace Accelerider.Windows.I18nResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email.
-        /// </summary>
-        internal static string AboutDialog_Email {
-            get {
-                return ResourceManager.GetString("AboutDialog_Email", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Github Home.
-        /// </summary>
-        internal static string AboutDialog_GithubHome {
-            get {
-                return ResourceManager.GetString("AboutDialog_GithubHome", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Github Project Home.
         /// </summary>
         internal static string AboutDialog_GithubProjectHome {
@@ -169,7 +151,7 @@ namespace Accelerider.Windows.I18nResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0.0.1-alpha1.
+        ///   Looks up a localized string similar to 0.0.1.
         /// </summary>
         internal static string AboutDialog_VersionNumber {
             get {

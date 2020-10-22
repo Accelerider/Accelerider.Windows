@@ -17,8 +17,6 @@ namespace Accelerider.Windows.I18nResources
 		public static readonly ComponentResourceKey AboutDialog_CheckForUpdate = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_CheckForUpdate));
 		public static readonly ComponentResourceKey AboutDialog_CheckUpdateResultAvailable = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_CheckUpdateResultAvailable));
 		public static readonly ComponentResourceKey AboutDialog_CheckUpdateResultLatest = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_CheckUpdateResultLatest));
-		public static readonly ComponentResourceKey AboutDialog_Email = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_Email));
-		public static readonly ComponentResourceKey AboutDialog_GithubHome = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_GithubHome));
 		public static readonly ComponentResourceKey AboutDialog_GithubProjectHome = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_GithubProjectHome));
 		public static readonly ComponentResourceKey AboutDialog_Mrs4s = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_Mrs4s));
 		public static readonly ComponentResourceKey AboutDialog_Mrs4sDescription = new ComponentResourceKey(typeof(UiResources), nameof(AboutDialog_Mrs4sDescription));

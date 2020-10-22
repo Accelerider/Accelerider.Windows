@@ -29,8 +29,7 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.NetDiskAuthentications
                     {
                         AcceleriderUser.AddNetDiskUser(user);
 
-                        if (DialogHost.CloseDialogCommand.CanExecute(true, null))
-                            DialogHost.CloseDialogCommand.Execute(true, null);
+                        // TODO: Close the view
                     }
                 },
                 passwordBox => !string.IsNullOrWhiteSpace(passwordBox.Password) &&

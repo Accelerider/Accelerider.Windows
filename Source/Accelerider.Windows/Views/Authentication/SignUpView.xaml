@@ -6,8 +6,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Accelerider.Windows.ViewModels.Authentication"
-             xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
              xmlns:i18nResources="clr-namespace:Accelerider.Windows.I18nResources"
+             xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
              mc:Ignorable="d"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              d:DataContext="{d:DesignInstance {x:Type vm:SignUpViewModel}}">
@@ -37,25 +37,25 @@
 
             <materialDesign:PackIcon Kind="Email" VerticalAlignment="Bottom" Margin="6"/>
             <TextBox Grid.Column="1" Grid.Row="0" 
-                     materialDesign:HintAssist.Hint="{i18N:I18n {x:Static i18nResources:ResKeys.SignUpView_EmailAddress}}"
+                     materialDesign:HintAssist.Hint="{markup:I18n {x:Static i18nResources:ResKeys.SignUpView_EmailAddress}}"
                      Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                      IsEnabled="{Binding IsLocked, Converter={StaticResource NotOperator}}"/>
 
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="2" Kind="Account" VerticalAlignment="Bottom" Margin="6"/>
             <TextBox Grid.Column="1" Grid.Row="2" 
-                     materialDesign:HintAssist.Hint="{i18N:I18n {x:Static i18nResources:ResKeys.SignUpView_Username}}"
+                     materialDesign:HintAssist.Hint="{markup:I18n {x:Static i18nResources:ResKeys.SignUpView_Username}}"
                      Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"/>
 
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="4" Kind="Key" VerticalAlignment="Bottom" Margin="6"/>
             <PasswordBox Name="PasswordBox" Grid.Column="1" Grid.Row="4" 
-                         materialDesign:HintAssist.Hint="{i18N:I18n {x:Static i18nResources:ResKeys.SignUpView_Password}}" 
+                         materialDesign:HintAssist.Hint="{markup:I18n {x:Static i18nResources:ResKeys.SignUpView_Password}}" 
                          Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
 
             <materialDesign:PackIcon Grid.Column="0" Grid.Row="6" Kind="Check" VerticalAlignment="Bottom" Margin="6"/>
             <TextBox Grid.Column="1" Grid.Row="6"
-                     materialDesign:HintAssist.Hint="{i18N:I18n {x:Static i18nResources:ResKeys.SignUpView_VerificationCode}}" 
+                     materialDesign:HintAssist.Hint="{markup:I18n {x:Static i18nResources:ResKeys.SignUpView_VerificationCode}}" 
                      Text="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
 
@@ -71,14 +71,14 @@
             <Button Command="{Binding SendVerificationCodeCommand}">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
-                        <Setter Property="Content" Value="{i18N:I18n {x:Static i18nResources:ResKeys.SignUpView_SendCode}}" />
+                        <Setter Property="Content" Value="{markup:I18n {x:Static i18nResources:ResKeys.SignUpView_SendCode}}" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsLocked}" Value="True">
                                 <Setter Property="Content">
                                     <Setter.Value>
                                         <TextBlock>
                                             <Run Text="{Binding RemainingTimeBasedSecond}" />
-                                            <Run Text="{i18N:I18n {x:Static i18nResources:ResKeys.SignUpView_RetrySeconds}}" />
+                                            <Run Text="{markup:I18n {x:Static i18nResources:ResKeys.SignUpView_RetrySeconds}}" />
                                         </TextBlock>
                                     </Setter.Value>
                                 </Setter>
@@ -91,7 +91,7 @@
             <Button Grid.Column="2" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{Binding SignUpCommand}" 
                     CommandParameter="{Binding ElementName=PasswordBox}" 
-                    Content="{i18N:I18n {x:Static i18nResources:ResKeys.Buttons_Confirm}}"/>
+                    Content="{markup:I18n {x:Static i18nResources:ResKeys.Buttons_Confirm}}"/>
         </Grid>
     </Grid>
 </UserControl>

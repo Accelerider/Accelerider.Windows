@@ -7,17 +7,21 @@
         xmlns:settings="clr-namespace:Accelerider.Windows.Properties"
         xmlns:appstore="clr-namespace:Accelerider.Windows.Views.AppStore"
         xmlns:ui="clr-namespace:Accelerider.Windows.Infrastructure;assembly=Accelerider.Windows.Infrastructure.UI"
-        xmlns:i18N="clr-namespace:Accelerider.Windows.Infrastructure.I18n;assembly=Accelerider.Windows.Infrastructure.UI"
         xmlns:i18NResources="clr-namespace:Accelerider.Windows.I18nResources"
+        xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        prism:RegionManager.RegionManager="{Binding RegionManager}"
         MinHeight="500" MinWidth="720" 
         Height="{Binding Path=MainWindowHeight, Source={x:Static settings:Settings.Default}, Mode=TwoWay}" 
         Width="{Binding Path=MainWindowWidth, Source={x:Static settings:Settings.Default}, Mode=TwoWay}" 
         WindowStartupLocation="CenterScreen"
-        Style="{StaticResource MainWindowStyle}"
+        Style="{StaticResource WindowStyle.Main}"
         Icon="pack://application:,,,/Accelerider.Windows.Assets;component/Images/logo-icon.ico"
-        Title="Accelerider" >
+        Title="Accelerider" 
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
+        WindowState="Normal">
 
     <materialDesign:DialogHost Identifier="RootDialog">
         <Grid Background="{StaticResource LightGreyBackgroundBrush}" >
@@ -29,11 +33,11 @@
             <Rectangle Fill="{StaticResource PrimaryHueDarkBrush}"/>
 
             <TabControl Grid.Column="0" Grid.ColumnSpan="2" SelectedIndex="0"
-                        Style="{StaticResource MainTabControlStyle}" ItemContainerStyle="{StaticResource MainTabItemStyle}"
+                        Style="{StaticResource TabControlStyle.Main}" ItemContainerStyle="{StaticResource TabItemStyle.Main}"
                         prism:RegionManager.RegionName="{x:Static ui:RegionNames.MainTabRegion}"/>
 
             <StackPanel Grid.Column="0" VerticalAlignment="Bottom">
-                <ToggleButton x:Name="AppStoreToggleButton" Height="56" Style="{StaticResource LeftBarAndUnderlineToggleButtonStyle}"
+                <ToggleButton x:Name="AppStoreToggleButton" Height="56" Style="{StaticResource ToggleButtonStyle.LeftBarAndUnderline}"
                               IsChecked="{Binding AppStoreIsDisplayed}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -43,11 +47,11 @@
                         </Grid.RowDefinitions>
                         <materialDesign:PackIcon Kind="Apps" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
                         <TextBlock Grid.Row="2" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"
-                                   Text="{i18N:I18n {x:Static i18NResources:ResKeys.MainWindow_AppStore}}"/>
+                                   Text="{markup:I18n {x:Static i18NResources:ResKeys.MainWindow_AppStore}}"/>
                     </Grid>
                 </ToggleButton>
                 <ToggleButton x:Name="SettingsToggleButton" 
-                              Height="56" Style="{StaticResource LeftBarAndUnderlineToggleButtonStyle}">
+                              Height="56" Style="{StaticResource ToggleButtonStyle.LeftBarAndUnderline}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
@@ -56,7 +60,7 @@
                         </Grid.RowDefinitions>
                         <materialDesign:PackIcon Kind="Menu" Foreground="{StaticResource LightGreyBackgroundBrush}" HorizontalAlignment="Center" Height="22" Width="25"/>
                         <TextBlock Grid.Row="2" HorizontalAlignment="Center" Foreground="{StaticResource LightGreyBackgroundBrush}" FontSize="10"
-                                   Text="{i18N:I18n {x:Static i18NResources:ResKeys.MainWindow_Menu}}"/>
+                                   Text="{markup:I18n {x:Static i18NResources:ResKeys.MainWindow_Menu}}"/>
                     </Grid>
                 </ToggleButton>
                 <views:SettingsPopup IsOpen="{Binding IsChecked, ElementName=SettingsToggleButton}"  StaysOpen="False"

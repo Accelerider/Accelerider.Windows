@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Threading;
 using Prism.Events;
-using Prism.Logging;
 using Prism.Mvvm;
 using Unity;
 
@@ -15,7 +14,6 @@ namespace Accelerider.Windows.Infrastructure.Mvvm
         {
             Container = container;
             EventAggregator = container.Resolve<IEventAggregator>();
-            Logger = container.Resolve<ILoggerFacade>();
         }
 
         public Dispatcher Dispatcher { get; set; }
@@ -24,10 +22,9 @@ namespace Accelerider.Windows.Infrastructure.Mvvm
 
         protected IEventAggregator EventAggregator { get; }
 
-        protected ILoggerFacade Logger { get; }
-
         public IAcceleriderUser AcceleriderUser => _acceleriderUser ?? (_acceleriderUser = Container.Resolve<IAcceleriderUser>());
 
-        protected virtual void Invoke(Action action) => Dispatcher.Invoke(action);
+        // ReSharper disable once InconsistentNaming
+        protected virtual void InvokeOnUIThread(Action action) => Dispatcher.Invoke(action);
     }
 }

@@ -1,5 +1,9 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Accelerider.Windows.Infrastructure;
+using MaterialDesignThemes.Wpf;
 using Prism.Mvvm;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
@@ -9,6 +13,16 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
         private BitmapImage _logo;
         private string _name;
         private string _description;
+
+        public NetDiskType()
+        {
+            OpenCommand = new RelayCommandAsync(async () =>
+            {
+                DialogHost.CloseDialogCommand.Invoke();
+                await TimeSpan.FromMilliseconds(500);
+                if (OnClick != null) await OnClick();
+            });
+        }
 
         public BitmapImage Logo
         {
@@ -28,6 +42,8 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Others
             set => SetProperty(ref _description, value);
         }
 
-        public ICommand OpenCommand { get; set; }
+        public Func<Task> OnClick { get; set; }
+
+        public ICommand OpenCommand { get; }
     }
 }

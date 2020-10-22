@@ -10,8 +10,6 @@ namespace Accelerider.Windows.Modules.NetDisk.Models
 {
     public abstract class NetDiskUserBase : NetDiskInfo, INetDiskUser, IDisposable
     {
-        protected const string ArddFileExtension = ".ardd";
-
         #region Implements INetDiskUser interface
 
         public abstract Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync();

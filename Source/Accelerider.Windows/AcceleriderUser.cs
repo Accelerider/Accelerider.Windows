@@ -25,17 +25,6 @@ namespace Accelerider.Windows
 
         public IList<string> Apps { get; set; }
 
-        public Task<bool> SignOutAsync()
-        {
-            throw new NotImplementedException();
-            // do something
-            Exit();
-        }
-
-        public virtual void Exit()
-        {
-        }
-
         public virtual Task<bool> RefreshAsync()
         {
             return Task.FromResult(true);

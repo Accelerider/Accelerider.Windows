@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.IO.Compression;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using Accelerider.Windows.TransferService;
 using Prism.Modularity;
-// ReSharper disable InheritdocConsiderUsage
 
 namespace Accelerider.Windows.Infrastructure.Modularity
 {
@@ -51,7 +54,7 @@ namespace Accelerider.Windows.Infrastructure.Modularity
         {
             if (moduleInfo == null) throw new ArgumentNullException(nameof(moduleInfo));
 
-            return moduleInfo.Ref != null && moduleInfo.Ref.StartsWith(Uri.UriSchemeFile, StringComparison.Ordinal);
+            return moduleInfo.Ref != null && moduleInfo.Ref.StartsWith(Uri.UriSchemeHttp, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -64,29 +67,24 @@ namespace Accelerider.Windows.Infrastructure.Modularity
             if (moduleInfo == null)
                 throw new ArgumentNullException(nameof(moduleInfo));
 
-            if (!(moduleInfo is RemoteModuleInfo remoteModuleInfo))
-                throw new ArgumentException($"The type of {nameof(moduleInfo)} must be {nameof(RemoteModuleInfo)}. ", nameof(moduleInfo));
+            if (!(moduleInfo is AppInfo app))
+                throw new ArgumentException($"the moduleInfo argument must be {nameof(AppInfo)} type. ");
 
             try
             {
-                var missingRemoteRefs = remoteModuleInfo.RemoteRefs.Where(item => !File.Exists(item.LocalPath)).ToArray();
-                if (missingRemoteRefs.Any())
-                {
-                    await new RemoteRefDownloader().StartAsync(
-                        missingRemoteRefs,
-                        new Progress<(long bytesReceived, long totalBytesToReceive)>(report =>
-                            RaiseModuleDownloadProgressChanged(moduleInfo, report.bytesReceived, report.totalBytesToReceive)));
-                    
+                var targetPath = Path.Combine(AcceleriderFolders.Apps, $"{app.ModuleName}-{app.Version.ToString(3)}");
 
+                if (!Directory.Exists(targetPath))
+                {
+                    await DownloadModuleAsync(app, targetPath);
                 }
 
-                remoteModuleInfo
-                    .RemoteRefs
-                    .Where(item => File.Exists(item.LocalPath))
-                    .Select(item => item.LocalPath)
-                    .ToList()
+                // 3. Load dll
+                Directory
+                    .GetFiles(targetPath, "*.dll", SearchOption.AllDirectories)
                     .ForEach(item => _assemblyResolver.LoadAssemblyFrom(item));
 
+                // 4. Notify
                 RaiseLoadModuleCompleted(moduleInfo, null);
             }
             catch (Exception ex)
@@ -94,6 +92,32 @@ namespace Accelerider.Windows.Infrastructure.Modularity
                 RaiseLoadModuleCompleted(moduleInfo, ex);
             }
         }
+
+        private async Task DownloadModuleAsync(IModuleInfo app, string targetPath)
+        {
+            var zipPath = $"{targetPath}.zip";
+
+            // 1. Download the module
+            var downloader = FileTransferService
+                .GetDownloaderBuilder()
+                .UseDefaultConfigure()
+                .From(app.Ref)
+                .To(zipPath)
+                .Build();
+
+            downloader
+                .Sample(TimeSpan.FromMilliseconds(500))
+                .Subscribe(item =>
+                    RaiseModuleDownloadProgressChanged(app, downloader.GetCompletedSize(), downloader.GetTotalSize()));
+
+            downloader.Run();
+
+            await downloader;
+
+            // 2. Unzip the module
+            ZipFile.ExtractToDirectory(zipPath, targetPath);
+        }
+
 
         #region Implementation of IDisposable
 

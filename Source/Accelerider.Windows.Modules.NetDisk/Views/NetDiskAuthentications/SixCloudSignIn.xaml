@@ -19,17 +19,17 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="24"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid >
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="16"/>
-                <RowDefinition />
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

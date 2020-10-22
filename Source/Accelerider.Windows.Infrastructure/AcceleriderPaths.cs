@@ -1,21 +1,33 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 
 namespace Accelerider.Windows.Infrastructure
 {
+    public static class AcceleriderConsts
+    {
+        public static string Version => Assembly.GetCallingAssembly().GetName().Version.ToString(3);
+    }
+
     public static class AcceleriderFolders
     {
         static AcceleriderFolders()
         {
             Directory.CreateDirectory(Apps);
             Directory.CreateDirectory(Logs);
-            Directory.CreateDirectory(Users);
+            Directory.CreateDirectory(Database);
+            Directory.CreateDirectory(Temp);
         }
 
         /// <summary>
         /// It represents the path where the "Accelerider.Windows.exe" is located.
         /// </summary>
-        public static readonly string MainProgram = AppDomain.CurrentDomain.BaseDirectory;
+        public static readonly string Base = AppDomain.CurrentDomain.BaseDirectory;
+
+        /// <summary>
+        /// It represents the path where the current assembly (*.dll file) is located.
+        /// </summary>
+        public static string CurrentAssembly => Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
 
         /// <summary>
         /// %AppData%\Accelerider
@@ -33,16 +45,13 @@ namespace Accelerider.Windows.Infrastructure
         public static readonly string Logs = Path.Combine(AppData, nameof(Logs));
 
         /// <summary>
-        /// %AppData%\Accelerider\Users
+        /// %AppData%\Accelerider\Database
         /// </summary>
-        public static readonly string Users = Path.Combine(AppData, nameof(Users));
-    }
+        public static readonly string Database = Path.Combine(AppData, nameof(Database));
 
-    public static class AcceleriderFiles
-    {
         /// <summary>
-        /// %AppData%\Accelerider\accelerider.config
+        /// %AppData%\Accelerider\Temp
         /// </summary>
-        public static readonly string Configure = Path.Combine(AcceleriderFolders.AppData, "accelerider.config");
+        public static readonly string Temp = Path.Combine(AppData, nameof(Temp));
     }
 }

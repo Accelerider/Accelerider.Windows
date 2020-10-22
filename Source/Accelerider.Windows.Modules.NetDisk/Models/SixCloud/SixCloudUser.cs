@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.TransferService;
+
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Refit;
 
 namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
@@ -15,9 +16,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
     [JsonObject(MemberSerialization.OptIn)]
     public class SixCloudUser : NetDiskUserBase
     {
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(SixCloudUser));
+
         private readonly List<IDownloadingFile> _downloadingFiles = new List<IDownloadingFile>();
 
-        [JsonProperty("LocalDiskFile")]
+        [JsonProperty("LocalDiskFiles")]
         private List<ILocalDiskFile> _localDiskFiles = new List<ILocalDiskFile>();
 
         [JsonProperty]
@@ -47,6 +50,8 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
                     AuthorizationHeaderValueGetter = () => Task.FromResult(AccessToken)
                 }
             );
+
+            Logger.Info($"The user ({GetHashCode()}-{Username ?? "<Empty>"}) has been created. ");
         }
 
         public override IDownloadingFile Download(INetDiskFile from, FileLocator to)
@@ -54,7 +59,7 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             var downloader = FileTransferService
                 .GetDownloaderBuilder()
                 .UseSixCloudConfigure()
-                .Configure(localPath => localPath.GetUniqueLocalPath(path => File.Exists(path) || File.Exists($"{path}{ArddFileExtension}")))
+                .Configure(localPath => localPath.GetUniqueLocalPath(path => File.Exists(path) || File.Exists($"{path}{Constants.DownloadInfoFileExtension}")))
                 .From(new RemotePathProvider(this, from.Path))
                 .To(Path.Combine(to, from.Path.FileName))
                 .Build();
@@ -63,13 +68,15 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
 
             SaveDownloadingFile(result);
 
+            Logger.Info($"Download: from {from.Path.FileName} to {downloader.Context.LocalPath}. ");
+
             return result;
         }
 
         public override IReadOnlyList<IDownloadingFile> GetDownloadingFiles()
         {
             var downloadingFiles = ArddFilePaths
-                .Where(item => item.EndsWith(ArddFileExtension))
+                .Where(item => item.EndsWith(Constants.DownloadInfoFileExtension))
                 .Where(File.Exists)
                 .Where(item => !_downloadingFiles.Any(file => item.StartsWith(file.DownloadInfo.Context.LocalPath)))
                 .Select(File.ReadAllText)
@@ -94,42 +101,55 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             _downloadingFiles.Add(result);
             ArddFilePaths.Add(result.ArddFilePath);
 
-            result.DownloadInfo.Subscribe(_ => { }, OnCompleted);
-            Subscribe(result.DownloadInfo.Where(item => item.Status == TransferStatus.Suspended || item.Status == TransferStatus.Faulted));
-            Subscribe(result.DownloadInfo.Sample(TimeSpan.FromMilliseconds(5000)));
+            var disposable1 = Subscribe(result.DownloadInfo.Where(item => item.Status == TransferStatus.Suspended || item.Status == TransferStatus.Faulted));
+            var disposable2 = Subscribe(result.DownloadInfo.Sample(TimeSpan.FromMilliseconds(5000)));
 
-            File.WriteAllText(result.ArddFilePath, result.ToJsonString());
+            result.DownloadInfo
+                .Where(item => item.Status == TransferStatus.Disposed)
+                .Subscribe(async _ =>
+                {
+                    await ClearDownloadInfo(true);
+
+                    Logger.Info($"Download Cancelled: {result.DownloadInfo.Context.LocalPath}. ");
+                }, OnCompleted);
+
+            File.WriteAllText(result.ArddFilePath.EnsureFileFolder(), result.ToJsonString());
 
             if (result.DownloadInfo.Status == TransferStatus.Completed)
             {
                 OnCompleted();
             }
 
-            void Subscribe(IObservable<TransferNotification> observable)
+            async void OnCompleted()
             {
-                observable.Subscribe(_ => File.WriteAllText(result.ArddFilePath, result.ToJsonString()));
-            }
-
-            void OnCompleted()
-            {
-                if (File.Exists(result.ArddFilePath)) File.Delete(result.ArddFilePath);
-                ArddFilePaths.Remove(result.ArddFilePath);
-
+                await ClearDownloadInfo(false);
                 var localDiskFile = LocalDiskFile.Create(result);
-                _downloadingFiles.Remove(result);
                 _localDiskFiles.Add(localDiskFile);
+
+                Logger.Info($"Download Completed: {result.DownloadInfo.Context.LocalPath}. ");
+            }
+
+            IDisposable Subscribe(IObservable<TransferNotification> observable)
+            {
+                return observable.Subscribe(_ => File.WriteAllText(result.ArddFilePath, result.ToJsonString()));
+            }
+
+            async Task ClearDownloadInfo(bool isCancelled)
+            {
+                disposable1.Dispose();
+                disposable2.Dispose();
+
+                ArddFilePaths.Remove(result.ArddFilePath);
+                _downloadingFiles.Remove(result);
+
+                await result.ArddFilePath.TryDeleteAsync();
+                if (isCancelled) await result.DownloadInfo.Context.LocalPath.TryDeleteAsync();
             }
         }
 
-        public override IReadOnlyList<ILocalDiskFile> GetDownloadedFiles()
-        {
-            return _localDiskFiles;
-        }
+        public override IReadOnlyList<ILocalDiskFile> GetDownloadedFiles() => _localDiskFiles;
 
-        public override void ClearDownloadFiles()
-        {
-            _localDiskFiles.Clear();
-        }
+        public override void ClearDownloadFiles() => _localDiskFiles.Clear();
 
         public override Task<ILazyTreeNode<INetDiskFile>> GetFileRootAsync()
         {
@@ -153,9 +173,11 @@ namespace Accelerider.Windows.Modules.NetDisk.Models.SixCloud
             throw new NotImplementedException();
         }
 
-        public override Task<bool> DeleteFileAsync(INetDiskFile file)
+        public override async Task<bool> DeleteFileAsync(INetDiskFile file)
         {
-            throw new NotImplementedException();
+            var result = await WebApi.RemoveFileByPathAsync(new PathArgs { Path = file.Path });
+
+            return true;
         }
 
         public override Task<bool> RestoreFileAsync(IDeletedFile file)

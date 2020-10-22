@@ -6,12 +6,15 @@ using System.Windows.Input;
 using Accelerider.Windows.Infrastructure;
 using Accelerider.Windows.Modules.NetDisk.Models;
 using Accelerider.Windows.TransferService;
+
 using Unity;
 
 namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
 {
     public class DownloadingViewModel : TransferringBaseViewModel
     {
+        private static readonly ILogger Logger = DefaultLogger.Get(typeof(DownloadingViewModel));
+
         private readonly Dictionary<TransferStatus, int> DisplayStatusOrder = new Dictionary<TransferStatus, int>
         {
             [TransferStatus.Transferring] = 0,
@@ -68,9 +71,10 @@ namespace Accelerider.Windows.Modules.NetDisk.ViewModels.Transportation
             {
                 operation?.Invoke(item.Operations);
             }
-            catch
+            catch (Exception e)
             {
                 GlobalMessageQueue.Enqueue(errorMessage);
+                Logger.Error($"{errorMessage}: {item.DownloadInfo.Context.LocalPath}", e);
             }
         }
 
