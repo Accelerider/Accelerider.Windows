@@ -28,7 +28,7 @@
   <ItemGroup>
     <PackageReference Include="MaterialDesignColors" Version="1.2.1" />
     <PackageReference Include="MaterialDesignThemes" Version="3.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Polly" Version="7.2.0" />
     <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
     <PackageReference Include="Refit" Version="5.0.23" />
